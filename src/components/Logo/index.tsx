@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { HelpCircle } from 'react-feather'
+import { CoinLogoIcon } from '@alium-official/uikit'
+import styled from 'styled-components'
 
 const BAD_SRCS: { [tokenAddress: string]: true } = {}
 
@@ -9,6 +10,14 @@ export interface LogoProps {
   className?: string
   srcs: string[]
 }
+
+const StyledCoinLogoIcon = styled(CoinLogoIcon)`
+  background: #ffffff;
+  // box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
+  border-radius: 16px;
+  // width: 18px;
+  // height: 18px;
+`
 
 /**
  * Renders an image by sequentially trying a list of URIs, and then eventually a fallback triangle alert
@@ -32,5 +41,5 @@ export default function Logo({ srcs, alt, ...rest }: LogoProps) {
     )
   }
 
-  return <HelpCircle {...rest} />
+  return <StyledCoinLogoIcon {...rest} />
 }

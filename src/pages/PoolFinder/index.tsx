@@ -18,6 +18,7 @@ import { StyledInternalLink } from 'components/Shared'
 import { currencyId } from 'utils/currencyId'
 import AppBody from '../AppBody'
 import { Dots } from '../Pool/styleds'
+import SwapAppBody from 'pages/Swap/SwapAppBody'
 
 enum Fields {
   TOKEN0 = 0,
@@ -90,7 +91,7 @@ export default function PoolFinder() {
   return (
     <>
       <CardNav activeIndex={1} />
-      <AppBody>
+      <SwapAppBody>
         <FindPoolTabs />
         <CardBody>
           <AutoColumn gap="md">
@@ -184,7 +185,7 @@ export default function PoolFinder() {
             selectedCurrency={(activeField === Fields.TOKEN0 ? currency1 : currency0) ?? undefined}
           />
         </CardBody>
-      </AppBody>
+      </SwapAppBody>
     </>
   )
 }

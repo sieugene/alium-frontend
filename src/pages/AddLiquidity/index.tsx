@@ -20,6 +20,7 @@ import { useActiveWeb3React } from 'hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import SwapAppBody from 'pages/Swap/SwapAppBody'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
@@ -360,7 +361,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
   return (
     <CardWrapper>
       <CardNav activeIndex={1} />
-      <AppBody>
+      <SwapAppBody>
         <AddRemoveTabs adding />
         <Wrapper>
           <TransactionConfirmationModal
@@ -511,7 +512,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
             </AutoColumn>
           </CardBody>
         </Wrapper>
-      </AppBody>
+      </SwapAppBody>
       {pair && !noLiquidity && pairState !== PairState.INVALID ? (
         <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
           <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />

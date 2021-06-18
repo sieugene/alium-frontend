@@ -1,11 +1,26 @@
 import React, { useMemo } from 'react'
 import { CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Text, Modal, Button } from '@alium-official/uikit'
+import styled from 'styled-components'
 
 import { useActiveWeb3React } from 'hooks'
-import { getEtherscanLink } from 'utils'
+import { getExplorerLink } from 'utils'
 import { isTransactionRecent, useAllTransactions } from 'state/transactions/hooks'
 import { TransactionDetails } from 'state/transactions/reducer'
 import Loader from 'components/Loader'
+import { useTranslation } from 'react-i18next'
+
+const StyledWrapper = styled.div`
+  max-width: 450px;
+  width: 100%;
+  z-index: inherit;
+  > div > div:last-child {
+    max-height: 472px;
+    overflow-y: auto;
+    padding: 19px 24px 15px 24px;
+  }
+`
+
+const StyledTransactionsList = styled.div``
 
 type RecentTransactionsModalProps = {
   onDismiss?: () => void
@@ -24,15 +39,16 @@ const getRowStatus = (sortedRecentTransaction: TransactionDetails) => {
   }
 
   if (hash && receipt?.status === 1) {
-    return { icon: <CheckmarkCircleIcon color="success" />, color: 'success' }
+    return { icon: <CheckmarkCircleIcon color="primaryBright" marginRight="8px" />, color: 'primaryBright' }
   }
 
-  return { icon: <ErrorIcon color="failure" />, color: 'failure' }
+  return { icon: <ErrorIcon color="failure" marginRight="8px" />, color: 'failure' }
 }
 
 const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransactionsModalProps) => {
   const { account, chainId } = useActiveWeb3React()
   const allTransactions = useAllTransactions()
+  const { t } = useTranslation()
 
   // Logic taken from Web3Status/index.tsx line 175
   const sortedRecentTransactions = useMemo(() => {
@@ -41,45 +57,51 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
   }, [allTransactions])
 
   return (
-    <Modal title="Recent Transactions" onDismiss={onDismiss}>
-      {!account && (
-        <Flex justifyContent="center" flexDirection="column" alignItems="center">
-          <Text mb="8px" bold>
-            Please connect your wallet to view your recent transactions
-          </Text>
-          <Button variant="tertiary" size="sm" onClick={onDismiss}>
-            Close
-          </Button>
-        </Flex>
-      )}
-      {account && chainId && sortedRecentTransactions.length === 0 && (
-        <Flex justifyContent="center" flexDirection="column" alignItems="center">
-          <Text mb="8px" bold>
-            No recent transactions
-          </Text>
-          <Button variant="tertiary" size="sm" onClick={onDismiss}>
-            Close
-          </Button>
-        </Flex>
-      )}
-      {account &&
-        chainId &&
-        sortedRecentTransactions.map((sortedRecentTransaction) => {
-          const { hash, summary } = sortedRecentTransaction
-          const { icon, color } = getRowStatus(sortedRecentTransaction)
+    <StyledWrapper>
+      <Modal title={t('recentTransactions')} onDismiss={onDismiss}>
+        {!account && (
+          <Flex justifyContent="center" flexDirection="column" alignItems="center">
+            <Text mb="20px" bold mt="12px" style={{ textAlign: 'center' }}>
+              {t('pleaseConnectWallet')}
+            </Text>
+            <Button variant="secondary" size="md" onClick={onDismiss}>
+              {t('close')}
+            </Button>
+          </Flex>
+        )}
+        {account && chainId && sortedRecentTransactions.length === 0 && (
+          <Flex justifyContent="center" flexDirection="column" alignItems="center">
+            <Text mb="8px">{t('noRecentTransactions')}</Text>
+            <Button variant="secondary" size="md" onClick={onDismiss} mt="10px">
+              {t('close')}
+            </Button>
+          </Flex>
+        )}
+        <StyledTransactionsList>
+          {account &&
+            chainId &&
+            sortedRecentTransactions.map((sortedRecentTransaction) => {
+              const { hash, summary } = sortedRecentTransaction
+              const { icon } = getRowStatus(sortedRecentTransaction)
 
-          return (
-            <>
-              <Flex key={hash} alignItems="center" justifyContent="space-between" mb="4px">
-                <LinkExternal href={getEtherscanLink(chainId, hash, 'transaction')} color={color}>
-                  {summary ?? hash}
-                </LinkExternal>
-                {icon}
-              </Flex>
-            </>
-          )
-        })}
-    </Modal>
+              return (
+                <Flex key={hash} alignItems="center" justifyContent="space-between" mb="16px" style={{ width: '100%' }}>
+                  <LinkExternal
+                    href={getExplorerLink(chainId, hash, 'transaction')}
+                    color="#0B1359"
+                    style={{ width: '100%', justifyContent: 'space-between', paddingRight: '4px' }}
+                  >
+                    <Flex>
+                      {icon}
+                      {summary ?? hash}
+                    </Flex>
+                  </LinkExternal>
+                </Flex>
+              )
+            })}
+        </StyledTransactionsList>
+      </Modal>
+    </StyledWrapper>
   )
 }
 

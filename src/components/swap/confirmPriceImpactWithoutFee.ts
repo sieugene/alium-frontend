@@ -1,5 +1,5 @@
 import { Percent } from '@alium-official/sdk'
-import { ALLOWED_PRICE_IMPACT_HIGH, PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN } from '../../constants'
+import { ALLOWED_PRICE_IMPACT_HIGH, PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN } from 'config/settings'
 
 /**
  * Given the price impact, get user confirmation.
@@ -15,7 +15,8 @@ export default function confirmPriceImpactWithoutFee(priceImpactWithoutFee: Perc
         )}%. Please type the word "confirm" to continue with this swap.`
       ) === 'confirm'
     )
-  } if (!priceImpactWithoutFee.lessThan(ALLOWED_PRICE_IMPACT_HIGH)) {
+  }
+  if (!priceImpactWithoutFee.lessThan(ALLOWED_PRICE_IMPACT_HIGH)) {
     return window.confirm(
       `This swap has a price impact of at least ${ALLOWED_PRICE_IMPACT_HIGH.toFixed(
         0

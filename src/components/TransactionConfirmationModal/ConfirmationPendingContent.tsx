@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
 import { Text, Spinner } from '@alium-official/uikit'
-import { AutoColumn } from '../Column'
-import Circle from '../../assets/images/blue-loader.svg'
-import { Wrapper, Section, ConfirmedIcon, ContentHeader } from './helpers'
 
+import { AutoColumn } from '../Column'
+import Circle from '../../assets/svg/blue-loader.svg'
+import { Wrapper, Section, ConfirmedIcon, ContentHeader } from './helpers'
 
 type ConfirmationPendingContentProps = { onDismiss: () => void; pendingText: string }
 
@@ -15,11 +14,10 @@ const CustomLightSpinner = styled<any>(Spinner)<{ size: string }>`
 `
 
 const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPendingContentProps) => {
-  const {t} = useTranslation();
   return (
     <Wrapper>
       <Section>
-        <ContentHeader onDismiss={onDismiss}>{t('waitingForConfirmation')}</ContentHeader>
+        <ContentHeader onDismiss={onDismiss}>Waiting for confirmation</ContentHeader>
         <ConfirmedIcon>
           <CustomLightSpinner src={Circle} alt="loader" size="90px" />
         </ConfirmedIcon>
@@ -29,7 +27,7 @@ const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPend
               <strong>{pendingText}</strong>
             </Text>
           </AutoColumn>
-          <Text fontSize="14px">{t('confirmInWallet')}</Text>
+          <Text fontSize="14px">Confirm this transaction in your wallet</Text>
         </AutoColumn>
       </Section>
     </Wrapper>

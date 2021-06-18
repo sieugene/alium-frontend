@@ -4,7 +4,8 @@ import { Box } from 'rebass/styled-components'
 const Row = styled(Box)<{ align?: string; padding?: string; border?: string; borderRadius?: string }>`
   width: 100%;
   display: flex;
-  align-items: ${({ align }) => (align || 'center')};
+  padding: 0;
+  align-items: ${({ align }) => align || 'center'};
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
@@ -16,7 +17,7 @@ export const RowBetween = styled(Row)`
 
 export const RowFlat = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 `
 
 export const AutoRow = styled(Row)<{ gap?: string; justify?: string }>`

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import useENS from '../../hooks/useENS'
-import { getEtherscanLink } from '../../utils'
+import { getExplorerLink, getExplorerName } from '../../utils'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { ExternalLink, TYPE } from '../Shared'
@@ -41,6 +41,7 @@ const Input = styled.input<{ error?: boolean }>`
   outline: none;
   border: none;
   flex: 1 1 auto;
+  width: 0;
   background-color: ${({ theme }) => theme.colors.invertedContrast};
   transition: color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')};
   color: ${({ error, theme }) => (error ? theme.colors.failure : theme.colors.primary)};
@@ -51,7 +52,7 @@ const Input = styled.input<{ error?: boolean }>`
   ::placeholder {
     color: ${({ theme }) => theme.colors.textDisabled};
   }
-  padding: 0;
+  padding: 0px;
   -webkit-appearance: textfield;
 
   ::-webkit-search-decoration {
@@ -91,7 +92,7 @@ export default function AddressInputPanel({
       const withoutSpaces = input.replace(/\s+/g, '')
       onChange(withoutSpaces)
     },
-    [onChange]
+    [onChange],
   )
 
   const error = Boolean(value.length > 0 && !loading && !address)
@@ -106,8 +107,8 @@ export default function AddressInputPanel({
                 {t('recipient')}
               </Black>
               {address && chainId && (
-                <ExternalLink href={getEtherscanLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
-                  ({t('viewOnBscScan')})
+                <ExternalLink href={getExplorerLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
+                  (View on {getExplorerName(chainId)})
                 </ExternalLink>
               )}
             </RowBetween>

@@ -1,22 +1,23 @@
-import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@alium-official/sdk'
+import { Currency,CurrencyAmount,currencyEquals,ETHER,Token } from '@alium-official/sdk'
 import { Text } from '@alium-official/uikit'
-import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
+import React,{ CSSProperties,MutableRefObject,useCallback,useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { useIsUserAddedToken } from '../../hooks/Tokens'
-import { useSelectedTokenList, WrappedTokenInfo } from '../../state/lists/hooks'
-import { useAddUserToken, useRemoveUserAddedToken } from '../../state/user/hooks'
+import { useSelectedTokenList,WrappedTokenInfo } from '../../state/lists/hooks'
+import { useAddUserToken,useRemoveUserAddedToken } from '../../state/user/hooks'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import { isTokenOnList } from '../../utils'
 import Column from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import Loader from '../Loader'
 import { RowFixed } from '../Row'
-import { LinkStyledButton, TYPE } from '../Shared'
+import { LinkStyledButton,TYPE } from '../Shared'
 import { MouseoverTooltip } from '../Tooltip'
-import { FadedSpan, MenuItem } from './styleds'
+import { FadedSpan,MenuItem } from './styleds'
+
 
 const { main: Main } = TYPE
 
@@ -173,7 +174,7 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  const itemData = useMemo(() => (showETH ? [Currency.ETHER, ...currencies] : [...currencies]), [currencies, showETH])
+  const itemData = useMemo(() => (showETH ? [...currencies, ETHER] : [...currencies]), [currencies, showETH])
 
   const Row = useCallback(
     ({ data, index, style }) => {

@@ -19,7 +19,7 @@ export default function TradePrice({ price, showInverted, setShowInverted }: Tra
     : `${price?.baseCurrency?.symbol} per ${price?.quoteCurrency?.symbol}`
 
   return (
-    <Text fontSize="14px" style={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
+    <Text fontSize="14px" style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', color: '#6C5DD3' }}>
       {show ? (
         <>
           {formattedPrice ?? '-'} {label}

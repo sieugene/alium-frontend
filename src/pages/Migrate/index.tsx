@@ -1,31 +1,31 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { BigNumber } from '@ethersproject/bignumber'
-import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { CurrencyAmount } from '@alium-official/sdk'
-import { CardBody, Button, Heading } from '@alium-official/uikit'
-import { AutoColumn } from 'components/Column'
-import CurrencyInputPanel from 'components/CurrencyInputPanel'
-import CardNav from 'components/CardNav'
+import { Button,CardBody,Heading } from '@alium-official/uikit'
+import { TransactionResponse } from '@ethersproject/abstract-provider'
+import { BigNumber } from '@ethersproject/bignumber'
 import { GreyCard } from 'components/Card'
-import { RowBetween } from 'components/Row'
-import AdvancedSwapDetailsDropdown from 'components/swap/AdvancedSwapDetailsDropdown'
-import { BottomGrouping, Wrapper } from 'components/swap/styleds'
-import { TYPE } from 'components/Shared'
-import { useActiveWeb3React } from 'hooks'
-import { useVampireContract } from 'hooks/useContract'
-import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
-import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
-import { Field } from 'state/swap/actions'
-import { useMigrateInfo, useMigrateActionHandlers, useSwapState } from 'state/swap/hooks'
-import { maxAmountSpend } from 'utils/maxAmountSpend'
+import CardNav from 'components/CardNav'
+import { AutoColumn } from 'components/Column'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { WrappedTokenInfo } from 'state/lists/hooks'
+import CurrencyInputPanel from 'components/CurrencyInputPanel'
+import { RowBetween } from 'components/Row'
+import { TYPE } from 'components/Shared'
+import AdvancedSwapDetailsDropdown from 'components/swap/AdvancedSwapDetailsDropdown'
+import { BottomGrouping,Wrapper } from 'components/swap/styleds'
 import { VAMPIRE_ADDRESS } from 'config/contracts'
+import { useActiveWeb3React } from 'hooks'
 import { useToken } from 'hooks/Tokens'
+import { ApprovalState,useApproveCallback } from 'hooks/useApproveCallback'
+import { useVampireContract } from 'hooks/useContract'
+import useWrapCallback,{ WrapType } from 'hooks/useWrapCallback'
+import SwapAppBody from 'pages/Swap/SwapAppBody'
+import React,{ useCallback,useEffect,useState } from 'react'
+import { WrappedTokenInfo } from 'state/lists/hooks'
+import { Field } from 'state/swap/actions'
+import { useMigrateActionHandlers,useMigrateInfo,useSwapState } from 'state/swap/hooks'
+import styled from 'styled-components'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { Dots } from '../Pool/styleds'
-import AppBody from '../AppBody'
 
 const { main: Main } = TYPE
 
@@ -202,7 +202,7 @@ function Migrate() {
   return (
     <CardWrapper>
       <CardNav activeIndex={2} />
-      <AppBody>
+      <SwapAppBody>
         <StyledCardHeader>
           <Heading color="heading">Migrate</Heading>
         </StyledCardHeader>
@@ -262,7 +262,7 @@ function Migrate() {
             </ButtonWrap>
           </CardBody>
         </Wrapper>
-      </AppBody>
+      </SwapAppBody>
       <AdvancedSwapDetailsDropdown trade={trade} />
     </CardWrapper>
   )

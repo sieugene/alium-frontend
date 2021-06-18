@@ -1,7 +1,7 @@
 import React from 'react'
 import { Trade, TradeType } from '@alium-official/sdk'
 import { Card, CardBody, Text } from '@alium-official/uikit'
-import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { Field } from '../../state/swap/actions'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from '../../utils/prices'
@@ -9,23 +9,89 @@ import { AutoColumn } from '../Column'
 import QuestionHelper from '../QuestionHelper'
 import { RowBetween, RowFixed } from '../Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
-import { SectionBreak } from './styleds'
 import SwapRoute from './SwapRoute'
 
+const StyledTradeSummary = styled.div`
+  > div {
+    border-radius: 0 0 6px 6px;
+  }
+
+  > div > div {
+    padding: 15px 30px 24px 30px;
+  }
+
+  > div > div > div {
+    // margin-bottom: px;
+  }
+
+  > div > div > div {
+    height: 40px;
+    padding: 0 10px 0 10px;
+  }
+
+  > div > div > div:nth-child(2n) {
+    background: #f4f5fa;
+    border-radius: 6px;
+  }
+
+  > div > div > div > div > div {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 530px) {
+    > div > div > div > div > div {
+      font-size: 11px;
+    }
+  }
+
+  > div > div > div > div:first-child > div {
+    color: #8990a5;
+    letter-spacing: 0.3px;
+  }
+
+  > div > div > div > div > span * {
+    background: none;
+  }
+
+  @media screen and (max-width: 376px) {
+    > div > div {
+      padding: 15px 15px 24px 15px;
+    }
+    > div > div > div > div > div {
+      font-size: 11px;
+    }
+    > div * {
+      font-size: 11px;
+    }
+  }
+`
+
+const StyledRouteContainer = styled.div`
+  background-color: white;
+  border-radius: 6px;
+  border: none;
+  padding: 12px 6px;
+`
+
+const StyledText = styled(Text)`
+  font-size: 14px;
+  @media screen and (max-width: 530px) {
+    font-size: 11px;
+  }
+`
 
 function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
   const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
-  const {t} = useTranslation();
 
   return (
     <Card>
       <CardBody>
         <RowBetween>
           <RowFixed>
-            <Text fontSize="14px">{isExactIn ? t('minReceived') : t('maxSold')}</Text>
-            <QuestionHelper text={t('questionHelpers.transactionWillRevert')} />
+            <Text fontSize="14px">{isExactIn ? 'Minimum received' : 'Maximum sold'}</Text>
+            <QuestionHelper text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed." />
           </RowFixed>
           <RowFixed>
             <Text fontSize="14px">
@@ -39,20 +105,20 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
         </RowBetween>
         <RowBetween>
           <RowFixed>
-            <Text fontSize="14px">{t('priceImpact')}</Text>
-            <QuestionHelper text={t('questionHelpers.differenceBetween')} />
+            <Text fontSize="14px">Price Impact</Text>
+            <QuestionHelper text="The difference between the market price and estimated price due to trade size." />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
         </RowBetween>
 
         <RowBetween>
           <RowFixed>
-            <Text fontSize="14px">{t('liquidityProvider')}</Text>
-            <QuestionHelper text={t('questionHelpers.forEachTrade')} />
+            <Text fontSize="14px">Liquidity Provider Fee</Text>
+            <QuestionHelper text="For each trade a 0.25% fee is paid. 0.20% goes to liquidity providers and 0.05% goes to the AliumSwap treasury." />
           </RowFixed>
-          <Text fontSize="14px">
+          <StyledText fontSize="16px">
             {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
-          </Text>
+          </StyledText>
         </RowBetween>
       </CardBody>
     </Card>
@@ -67,23 +133,26 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const [allowedSlippage] = useUserSlippageTolerance()
 
   const showRoute = Boolean(trade && trade.route.path.length > 2)
-  const {t} = useTranslation();
+
   return (
     <AutoColumn gap="md">
       {trade && (
         <>
-          <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
+          <StyledTradeSummary>
+            <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
+          </StyledTradeSummary>
           {showRoute && (
-            <>
-              <SectionBreak />
+            <StyledRouteContainer>
               <AutoColumn style={{ padding: '0 24px' }}>
                 <RowFixed>
-                  <Text fontSize="14px">{t('route')}</Text>
-                  <QuestionHelper text={t('routeThrough')} />
+                  <Text fontSize="14px" bold>
+                    Route
+                  </Text>
+                  <QuestionHelper text="Routing through these tokens resulted in the best price for your trade." />
                 </RowFixed>
                 <SwapRoute trade={trade} />
               </AutoColumn>
-            </>
+            </StyledRouteContainer>
           )}
         </>
       )}

@@ -4,16 +4,13 @@ import { Heading, IconButton, CloseIcon } from '@alium-official/uikit'
 
 import { AutoColumn, ColumnCenter } from '../Column'
 
-
 export const Wrapper = styled.div`
   width: 100%;
+  overflow-y: hidden;
+  max-height: 100vh;
 `
 export const Section = styled(AutoColumn)`
   padding: 24px;
-
-  @media screen and (max-width: 480px) {
-    padding: 6px 12px;
-  }
 `
 
 export const ConfirmedIcon = styled(ColumnCenter)`
@@ -32,21 +29,25 @@ export const BottomSection = styled(Section)`
 const StyledContentHeader = styled.div`
   align-items: center;
   display: flex;
-  position: relative;
+  padding: 24px;
+  height: 72px;
+  border-bottom: 1px solid #f4f5fa;
 
   & > ${Heading} {
     flex: 1;
-    text-align: center;
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    font-weight: 500;
   }
-  & > ${IconButton} {
-    position: absolute;
-    right: -12px;
-    top: -12px;
-  }
-  @media screen and (max-width: 480px) {
-    & > ${Heading} {
-     margin-top: 32px;
-    }
+`
+
+const StyledIcon = styled.div<{ margin?: number }>`
+  border: 1px solid #d2d6e5;
+  box-sizing: border-box;
+  border-radius: 6px;
+  button {
+    width: 40px;
+    height: 40px;
   }
 `
 
@@ -58,8 +59,10 @@ type ContentHeaderProps = {
 export const ContentHeader = ({ children, onDismiss }: ContentHeaderProps) => (
   <StyledContentHeader>
     <Heading>{children}</Heading>
-    <IconButton onClick={onDismiss} variant="text">
-      <CloseIcon color="primary" />
-    </IconButton>
+    <StyledIcon>
+      <IconButton onClick={onDismiss} variant="text">
+        <CloseIcon color="primary" />
+      </IconButton>
+    </StyledIcon>
   </StyledContentHeader>
 )

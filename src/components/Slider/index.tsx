@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const StyledRangeInput = styled.input<{ size: number }>`
@@ -19,16 +19,27 @@ const StyledRangeInput = styled.input<{ size: number }>`
     -webkit-appearance: none;
     height: ${({ size }) => size}px;
     width: ${({ size }) => size}px;
-    background-color: #565a69;
+    background: #ffffff;
+    box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
+    border-radius: 16px;
     border-radius: 100%;
     border: none;
     transform: translateY(-50%);
     color: ${({ theme }) => theme.colors.invertedContrast};
 
+    &::before {
+      content: ' ';
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      background: black;
+      z-index: 2313;
+    }
+
     &:hover,
     &:focus {
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08), 0 16px 24px rgba(0, 0, 0, 0.06),
-        0 24px 32px rgba(0, 0, 0, 0.04);
+      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.08), 0px 16px 24px rgba(0, 0, 0, 0.06),
+        0px 24px 32px rgba(0, 0, 0, 0.04);
     }
   }
 
@@ -42,8 +53,8 @@ const StyledRangeInput = styled.input<{ size: number }>`
 
     &:hover,
     &:focus {
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08), 0 16px 24px rgba(0, 0, 0, 0.06),
-        0 24px 32px rgba(0, 0, 0, 0.04);
+      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.08), 0px 16px 24px rgba(0, 0, 0, 0.06),
+        0px 24px 32px rgba(0, 0, 0, 0.04);
     }
   }
 
@@ -56,26 +67,18 @@ const StyledRangeInput = styled.input<{ size: number }>`
 
     &:hover,
     &:focus {
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08), 0 16px 24px rgba(0, 0, 0, 0.06),
-        0 24px 32px rgba(0, 0, 0, 0.04);
+      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.08), 0px 16px 24px rgba(0, 0, 0, 0.06),
+        0px 24px 32px rgba(0, 0, 0, 0.04);
     }
   }
 
   &::-webkit-slider-runnable-track {
-    background: linear-gradient(
-      90deg,
-      ${({ theme }) => theme.colors.primaryDark},
-      ${({ theme }) => theme.colors.tertiary}
-    );
+    background: #24ba7b;
     height: 2px;
   }
 
   &::-moz-range-track {
-    background: linear-gradient(
-      90deg,
-      ${({ theme }) => theme.colors.primaryDark},
-      ${({ theme }) => theme.colors.tertiary}
-    );
+    background: #24ba7b;
     height: 2px;
   }
 
@@ -97,7 +100,7 @@ const StyledRangeInput = styled.input<{ size: number }>`
 
 interface InputSliderProps {
   value: number
-  onChange: (value: number) => void
+  onChange: (value: number) => void,
   step?: number
   min?: number
   max?: number
@@ -105,20 +108,25 @@ interface InputSliderProps {
 }
 
 export default function Slider({ value, onChange, min = 0, step = 1, max = 100, size = 28 }: InputSliderProps) {
-  const changeCallback = useCallback(
-    (e) => {
-      onChange(parseInt(e.target.value))
-    },
-    [onChange]
-  )
+  const [range, setRange] = useState(value)
+  const updateRange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRange(parseInt(e.target.value))
+  }
+  const changeCallback = (e) => {
+    onChange(parseInt(e.target.value))
+    updateRange(e)
+  }
 
   return (
     <StyledRangeInput
       size={size}
       type="range"
-      value={value}
-      style={{ width: '90%', marginLeft: 15, marginRight: 15, padding: '15px 0' }}
-      onChange={changeCallback}
+      value={range}
+      style={{ width: '100%', padding: '15px 0' }}
+      onChange={updateRange}
+      onMouseUp={changeCallback}
+      onPointerUp={changeCallback}
+      onTouchEnd={changeCallback}
       aria-labelledby="input slider"
       step={step}
       min={min}

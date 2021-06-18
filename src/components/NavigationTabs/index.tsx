@@ -1,14 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import { ButtonMenu, ButtonMenuItem } from '@alium-official/uikit'
-import { useTranslation } from 'react-i18next'
-import { darken } from 'polished'
-import { NavLink, Link as HistoryLink } from 'react-router-dom'
-import { ArrowLeft } from 'react-feather'
-import { RowBetween } from 'components/Row'
+import { ArrowBackIcon,ButtonMenu,ButtonMenuItem,Flex } from '@alium-official/uikit'
 import QuestionHelper from 'components/QuestionHelper'
+import { RowBetween } from 'components/Row'
 import TranslatedText from 'components/TranslatedText'
-
+import { darken } from 'polished'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link as HistoryLink,NavLink } from 'react-router-dom'
+import styled from 'styled-components'
 
 const Tabs = styled.div`
   display: flex;
@@ -46,7 +44,7 @@ const StyledAbsoluteLink = styled.a`
 `
 
 const StyledNavLink = styled(NavLink).attrs({
-  activeClassName
+  activeClassName,
 })`
   display: flex;
   flex-flow: row nowrap;
@@ -73,12 +71,17 @@ const StyledNavLink = styled(NavLink).attrs({
 `
 
 const ActiveText = styled.div`
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  margin-left: 16px;
+  letter-spacing: -0.3px;
 `
 
-const StyledArrowLeft = styled(ArrowLeft)`
-  color: ${({ theme }) => theme.colors.text};
+const StyledRowBetween = styled(RowBetween)`
+  padding: 32px 32px 22px;
+  @media screen and (max-width: 500px) {
+    padding: 24px 32px 20px;
+  }
 `
 
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
@@ -112,37 +115,40 @@ export const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => (
 )
 
 export function FindPoolTabs() {
-  const {t} = useTranslation();
+  const { t } = useTranslation()
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
-        <HistoryLink to="/pool">
-          <StyledArrowLeft />
-        </HistoryLink>
-        <ActiveText>Import Pool</ActiveText>
-        <QuestionHelper text={t('questionHelpers.useThisTool')} />
-      </RowBetween>
+      <StyledRowBetween style={{ borderBottom: '1px solid #f4f5fa' }}>
+        <Flex alignItems="center">
+          <HistoryLink to="/pool">
+            <ArrowBackIcon width="24px" height="24px" />
+          </HistoryLink>
+          <ActiveText>Import Pool</ActiveText>
+          <QuestionHelper text={t('questionHelpers.useThisTool')} />
+        </Flex>
+      </StyledRowBetween>
     </Tabs>
   )
 }
 
 export function AddRemoveTabs({ adding }: { adding: boolean }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation()
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
-        <HistoryLink to="/pool">
-          <StyledArrowLeft />
-        </HistoryLink>
-        <ActiveText>{adding ? 'Add' : 'Remove'} Liquidity</ActiveText>
+      <StyledRowBetween style={{ borderBottom: '1px solid #f4f5fa' }}>
+        <Flex alignItems="center">
+          <HistoryLink to="/pool">
+            <ArrowBackIcon width="24px" height="24px" />
+          </HistoryLink>
+          <ActiveText>
+            {adding ? 'Add' : 'Remove'} {t('mainMenu.liquidity')}
+          </ActiveText>
+        </Flex>
         <QuestionHelper
-          text={
-            adding
-              ? t('questionHelpers.addLiquidity')
-              : t('questionHelpers.removePoolTokens')
-          }
+          text={adding ? t('questionHelperMessages.addLiquidity') : t('questionHelperMessages.removeTokens')}
+          bordered
         />
-      </RowBetween>
+      </StyledRowBetween>
     </Tabs>
   )
 }

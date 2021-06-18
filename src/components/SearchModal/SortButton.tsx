@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text } from '@alium-official/uikit'
+// @ts-ignore
+import { Text, AscendingIcon } from '@alium-official/uikit'
 
 import styled from 'styled-components'
 import { RowFixed } from '../Row'
@@ -18,16 +19,36 @@ export const FilterWrapper = styled(RowFixed)`
   }
 `
 
+interface StyledAscendingButtonProps {
+  reversed?: boolean
+}
+
+const StyledAscendingButton = styled.div`
+  line-height: 0;
+  transition: transform 200ms ease-in-out;
+  ${(props: StyledAscendingButtonProps) => props.reversed && 'transform: rotate(180deg)'}
+`
+
 export default function SortButton({
   toggleSortOrder,
-  ascending
+  ascending,
 }: {
   toggleSortOrder: () => void
   ascending: boolean
 }) {
   return (
     <FilterWrapper onClick={toggleSortOrder}>
-      <Text fontSize="14px">{ascending ? '↑' : '↓'}</Text>
+      <Text fontSize="14px">
+        {ascending ? (
+          <StyledAscendingButton reversed>
+            <AscendingIcon />
+          </StyledAscendingButton>
+        ) : (
+          <StyledAscendingButton>
+            <AscendingIcon />
+          </StyledAscendingButton>
+        )}
+      </Text>
     </FilterWrapper>
   )
 }

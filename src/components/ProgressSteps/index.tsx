@@ -1,8 +1,8 @@
-import { transparentize } from 'polished'
 import React from 'react'
 import styled from 'styled-components'
-import { AutoColumn } from '../Column'
+import { CheckMarkDoneIcon } from '@alium-official/uikit'
 import { RowBetween } from '../Row'
+import { AutoColumn } from '../Column'
 
 const Wrapper = styled(AutoColumn)`
   margin-top: 1.25rem;
@@ -10,21 +10,24 @@ const Wrapper = styled(AutoColumn)`
 
 const Grouping = styled(RowBetween)`
   width: 50%;
+  @media screen and (max-width: 530px) {
+    width: 100% !important;
+  }
 `
 
 const Circle = styled.div<{ confirmed?: boolean; disabled?: boolean }>`
-  min-width: 20px;
-  min-height: 20px;
-  background-color: ${({ theme, confirmed, disabled }) =>
-    disabled ? theme.colors.backgroundDisabled : confirmed ? theme.colors.success : theme.colors.primary};
-  border-radius: 50%;
+  min-width: 24px;
+  min-height: 24px;
+  background-color: ${({ theme, confirmed }) => (confirmed ? '#1EA76D;' : theme.colors.primary)};
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 8px;
   font-size: 12px;
-  color: ${({ theme, confirmed, disabled }) =>
-    disabled ? theme.colors.text : confirmed ? theme.colors.success : '#FFFFFF'};
+  opacity: ${({ disabled }) => (disabled ? '0.4' : '1')};
+  color: #ffffff;
+  position: relative;
 `
 
 const CircleRow = styled.div`
@@ -35,13 +38,17 @@ const CircleRow = styled.div`
 
 const Connector = styled.div<{ prevConfirmed?: boolean }>`
   width: 100%;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    ${({ theme, prevConfirmed }) => transparentize(0.5, prevConfirmed ? theme.colors.success : theme.colors.primary)} 0%,
-    ${({ theme, prevConfirmed }) => (prevConfirmed ? theme.colors.primary : theme.colors.backgroundDisabled)} 80%
-  );
-  opacity: 0.6;
+  height: 1px;
+  background-color: #d2d6e5;
+  margin: 0 8px;
+`
+
+const StyledCheckMark = styled(CheckMarkDoneIcon)`
+  background-color: #ffffff;
+  position: absolute;
+  border-radius: 3px;
+  right: -5px;
+  top: -5px;
 `
 
 interface ProgressCirclesProps {
@@ -58,6 +65,7 @@ interface ProgressCirclesProps {
  *
  * @param steps  array of booleans where true means step is complete
  */
+// CheckMarkDoneIcon
 export default function ProgressCircles({ steps }: ProgressCirclesProps) {
   return (
     <Wrapper justify="center">
@@ -67,7 +75,8 @@ export default function ProgressCircles({ steps }: ProgressCirclesProps) {
             // eslint-disable-next-line react/no-array-index-key
             <CircleRow key={i}>
               <Circle confirmed={step} disabled={!steps[i - 1] && i !== 0}>
-                {step ? '✓' : i + 1}
+                {step && <StyledCheckMark width="12" height="12" />}
+                {i + 1}
               </Circle>
               <Connector prevConfirmed={step} />
             </CircleRow>

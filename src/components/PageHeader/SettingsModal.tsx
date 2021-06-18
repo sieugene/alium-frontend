@@ -1,8 +1,15 @@
 import React from 'react'
 import { Modal } from '@alium-official/uikit'
-
+import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import SlippageToleranceSetting from './SlippageToleranceSetting'
 import TransactionDeadlineSetting from './TransactionDeadlineSetting'
+
+const StyledModal = styled.div`
+  max-width: 694px;
+  width: 100%;
+  z-index: inherit;
+`
 
 type SettingsModalProps = {
   onDismiss?: () => void
@@ -12,11 +19,14 @@ type SettingsModalProps = {
 const defaultOnDismiss = () => null
 
 const SettingsModal = ({ onDismiss = defaultOnDismiss }: SettingsModalProps) => {
+  const { t } = useTranslation()
   return (
-    <Modal title="Settings" onDismiss={onDismiss}>
-      <SlippageToleranceSetting />
-      <TransactionDeadlineSetting />
-    </Modal>
+    <StyledModal>
+      <Modal title={t('settings')} onDismiss={onDismiss}>
+        <SlippageToleranceSetting />
+        <TransactionDeadlineSetting />
+      </Modal>
+    </StyledModal>
   )
 }
 

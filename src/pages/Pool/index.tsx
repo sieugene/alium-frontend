@@ -1,5 +1,5 @@
 import { Pair } from '@alium-official/sdk'
-import { Button, CardBody, Text } from '@alium-official/uikit'
+import { Button,CardBody,Text } from '@alium-official/uikit'
 import { LightCard } from 'components/Card'
 import CardNav from 'components/CardNav'
 import { AutoColumn } from 'components/Column'
@@ -7,17 +7,17 @@ import UnlockButton from 'components/ConnectWalletButton'
 import PageHeader from 'components/PageHeader'
 import FullPositionCard from 'components/PositionCard'
 import Question from 'components/QuestionHelper'
-import { StyledInternalLink, TYPE } from 'components/Shared'
+import { StyledInternalLink,TYPE } from 'components/Shared'
 import { Dots } from 'components/swap/styleds'
 import { usePairs } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
-import React, { useContext, useMemo } from 'react'
+import SwapAppBody from 'pages/Swap/SwapAppBody'
+import React,{ useContext,useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
+import { toV2LiquidityToken,useTrackedTokenPairs } from 'state/user/hooks'
 import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
-import styled, { ThemeContext } from 'styled-components'
-import AppBody from '../AppBody'
+import styled,{ ThemeContext } from 'styled-components'
 
 const { body: Body } = TYPE
 
@@ -196,7 +196,7 @@ export default function Pool() {
   return (
     <CardWrapper>
       <CardNav activeIndex={1} />
-      <AppBody>
+      <SwapAppBody>
         <PageHeader title={t('mainMenu.liquidity')} description={t('liquidityDescription')} />
         <StyledCardBody singleBlock={allV2PairsWithLiquidity?.length > 0}>
           {!account ? <UnlockButton /> : getButton()}
@@ -268,7 +268,7 @@ export default function Pool() {
             </AutoColumn>
           </CardBody>
         </AutoColumn>
-      </AppBody>
+      </SwapAppBody>
     </CardWrapper>
   )
 }

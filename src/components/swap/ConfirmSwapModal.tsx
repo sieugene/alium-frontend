@@ -1,13 +1,11 @@
 import { currencyEquals, Trade } from '@alium-official/sdk'
 import React, { useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,
-  TransactionErrorContent
+  TransactionErrorContent,
 } from '../TransactionConfirmationModal'
 import SwapModalFooter from './SwapModalFooter'
 import SwapModalHeader from './SwapModalHeader'
-
 
 /**
  * Returns true if the trade requires a confirmation of details before we can submit it
@@ -35,7 +33,7 @@ export default function ConfirmSwapModal({
   swapErrorMessage,
   isOpen,
   attemptingTxn,
-  txHash
+  txHash,
 }: {
   isOpen: boolean
   trade: Trade | undefined
@@ -53,7 +51,7 @@ export default function ConfirmSwapModal({
     () => Boolean(trade && originalTrade && tradeMeaningfullyDiffers(trade, originalTrade)),
     [originalTrade, trade]
   )
-  const {t} = useTranslation();
+
   const modalHeader = useCallback(() => {
     return trade ? (
       <SwapModalHeader
@@ -79,9 +77,9 @@ export default function ConfirmSwapModal({
   }, [allowedSlippage, onConfirm, showAcceptChanges, swapErrorMessage, trade])
 
   // text to show while loading
-  const pendingText = `${t('swapping')} ${trade?.inputAmount?.toSignificant(6)} ${
+  const pendingText = `Swapping ${trade?.inputAmount?.toSignificant(6)} ${
     trade?.inputAmount?.currency?.symbol
-  } ${t('for')} ${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`
+  } for ${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`
 
   const confirmationContent = useCallback(
     () =>
@@ -89,13 +87,13 @@ export default function ConfirmSwapModal({
         <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
       ) : (
         <ConfirmationModalContent
-          title={t('confirmSwap')}
+          title="Confirm Swap"
           onDismiss={onDismiss}
           topContent={modalHeader}
           bottomContent={modalBottom}
         />
       ),
-    [t,onDismiss, modalBottom, modalHeader, swapErrorMessage]
+    [onDismiss, modalBottom, modalHeader, swapErrorMessage]
   )
 
   return (

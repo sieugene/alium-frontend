@@ -16,7 +16,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0;
+  padding: 0px;
   -webkit-appearance: textfield;
 
   ::-webkit-search-decoration {
@@ -33,7 +33,8 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   }
 
   ::placeholder {
-    color: ${({ theme }) => theme.colors.textSubtle};
+    // color: ${({ theme }) => theme.colors.textSubtle};
+    color: #8990a5;
   }
 `
 

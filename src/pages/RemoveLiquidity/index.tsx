@@ -6,6 +6,7 @@ import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { ROUTER_ADDRESS } from 'config/contracts'
+import SwapAppBody from 'pages/Swap/SwapAppBody'
 import React,{ FC,useCallback,useMemo,useState } from 'react'
 import { ArrowDown,ChevronDown } from 'react-feather'
 import { useHistory,useParams } from 'react-router-dom'
@@ -514,7 +515,7 @@ export const RemoveLiquidity: FC = () => {
         )}
         pendingText={pendingText}
       />
-      <AppBody>
+      <SwapAppBody>
         <AddRemoveTabs adding={false} />
         <StyledWrapper>
           <AutoColumn>
@@ -792,7 +793,7 @@ export const RemoveLiquidity: FC = () => {
             </Body>
           </AutoColumn>
         </StyledWrapper>
-      </AppBody>
+      </SwapAppBody>
 
       {pair ? (
         <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>

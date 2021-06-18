@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { AlertCircle, CheckCircle } from 'react-feather'
+import { PopupCheckIcon, PopupFailIcon } from '@alium-official/uikit'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { TYPE, ExternalLink } from '../Shared'
-import { getEtherscanLink } from '../../utils'
+import { getExplorerLink, getExplorerName } from '../../utils'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
 
@@ -30,14 +30,20 @@ export default function TransactionPopup({
     <RowNoFlex>
       <div style={{ paddingRight: 16 }}>
         {success ? (
-          <CheckCircle color={theme.colors.success} size={24} />
+          <PopupCheckIcon color={theme.colors.success} width="40px" height="40px" />
         ) : (
-          <AlertCircle color={theme.colors.failure} size={24} />
+          <PopupFailIcon color={theme.colors.failure} width="40px" height="40px" />
         )}
       </div>
       <AutoColumn gap="8px">
-        <Body fontWeight={500}>{summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}</Body>
-        {chainId && <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>View on bscscan</ExternalLink>}
+        <Body fontWeight={500} style={{ fontWeight: 500 }}>
+          {summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}
+        </Body>
+        {chainId && (
+          <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
+            View on {getExplorerName(chainId)}
+          </ExternalLink>
+        )}
       </AutoColumn>
     </RowNoFlex>
   )

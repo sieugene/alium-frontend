@@ -1,8 +1,9 @@
 import { Currency } from '@alium-official/sdk'
+import { SwapModal } from 'components/Modal/SwapModal'
 import React, { useCallback, useEffect, useState } from 'react'
 import useLast from '../../hooks/useLast'
 import { useSelectedListUrl } from '../../state/lists/hooks'
-import Modal from '../Modal'
+
 import { CurrencySearch } from './CurrencySearch'
 import { ListSelect } from './ListSelect'
 
@@ -13,8 +14,8 @@ interface CurrencySearchModalProps {
   onCurrencySelect: (currency: Currency) => void
   otherSelectedCurrency?: Currency | null
   // eslint-disable-next-line react/no-unused-prop-types
-  showCommonBases?: boolean,
-  currencyList?: any,
+  showCommonBases?: boolean
+  currencyList?: any
 }
 
 export default function CurrencySearchModal({
@@ -53,7 +54,7 @@ export default function CurrencySearchModal({
   const noListSelected = !selectedListUrl
 
   return (
-    <Modal isOpen={isOpen} onDismiss={onDismiss} maxHeight={90} minHeight={listView ? 40 : noListSelected ? 0 : 80}>
+    <SwapModal isOpen={isOpen} onDismiss={onDismiss} maxHeight={90} minHeight={listView ? 40 : noListSelected ? 0 : 80}>
       {listView ? (
         <ListSelect onDismiss={onDismiss} onBack={handleClickBack} />
       ) : noListSelected ? (
@@ -79,6 +80,6 @@ export default function CurrencySearchModal({
           currencyList={currencyList}
         />
       )}
-    </Modal>
+    </SwapModal>
   )
 }

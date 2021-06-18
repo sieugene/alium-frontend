@@ -3,9 +3,9 @@ import { ArrowLeft } from 'react-feather'
 import { usePopper } from 'react-popper'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Text } from '@alium-official/uikit'
-import { useTranslation } from 'react-i18next'
+
 import styled from 'styled-components'
-import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
+import { ReactComponent as DropDown } from '../../assets/svg/dropdown.svg'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 
@@ -23,7 +23,6 @@ import QuestionHelper from '../QuestionHelper'
 import Row, { RowBetween } from '../Row'
 import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds'
 
-
 const { error: Error } = TYPE
 
 const UnpaddedLinkStyledButton = styled(LinkStyledButton)`
@@ -39,8 +38,8 @@ const PopoverContainer = styled.div<{ show: boolean }>`
   transition: visibility 150ms linear, opacity 150ms linear;
   background: ${({ theme }) => theme.colors.invertedContrast};
   border: 1px solid ${({ theme }) => theme.colors.tertiary};
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.01), 0 4px 8px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04),
-    0 24px 32px rgba(0, 0, 0, 0.01);
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
+    0px 24px 32px rgba(0, 0, 0, 0.01);
   color: ${({ theme }) => theme.colors.textSubtle};
   border-radius: 0.5rem;
   padding: 1rem;
@@ -97,11 +96,12 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
   const { current: list, pendingUpdate: pending } = listsByUrl[listUrl]
 
   const isSelected = listUrl === selectedListUrl
-  const {t} = useTranslation();
+
   const [open, toggle] = useToggle(false)
   const node = useRef<HTMLDivElement>()
   const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>()
   const [popperElement, setPopperElement] = useState<HTMLDivElement>()
+
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'auto',
     strategy: 'fixed',
@@ -112,6 +112,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
 
   const selectThisList = useCallback(() => {
     if (isSelected) return
+
     dispatch(selectList(listUrl))
     onBack()
   }, [dispatch, isSelected, listUrl, onBack])
@@ -122,10 +123,10 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
   }, [dispatch, listUrl, pending])
 
   const handleRemoveList = useCallback(() => {
-    if (window.prompt(t('confirmRemoveList')) === `REMOVE`) {
+    if (window.prompt(`Please confirm you would like to remove this list by typing REMOVE`) === `REMOVE`) {
       dispatch(removeList(listUrl))
     }
-  }, [t, dispatch, listUrl])
+  }, [dispatch, listUrl])
 
   if (!list) return null
 
@@ -172,17 +173,17 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
             <SeparatorDark />
             <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>View list</ExternalLink>
             <UnpaddedLinkStyledButton onClick={handleRemoveList} disabled={Object.keys(listsByUrl).length === 1}>
-              {t('removeList')}
+              Remove list
             </UnpaddedLinkStyledButton>
             {pending && (
-              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>{t('updateList')}</UnpaddedLinkStyledButton>
+              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>Update list</UnpaddedLinkStyledButton>
             )}
           </PopoverContainer>
         )}
       </StyledMenu>
       {isSelected ? (
         <Button disabled style={{ width: '5rem', minWidth: '5rem' }}>
-          {t('selected')}
+          Selected
         </Button>
       ) : (
         <>
@@ -194,7 +195,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
             }}
             onClick={selectThisList}
           >
-            {t('select')}
+            Select
           </Button>
         </>
       )}
@@ -209,7 +210,7 @@ const ListContainer = styled.div`
 
 export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBack: () => void }) {
   const [listUrlInput, setListUrlInput] = useState<string>('')
-  const {t} = useTranslation();
+
   const dispatch = useDispatch<AppDispatch>()
   const lists = useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl)
   const adding = Boolean(lists[listUrlInput]?.loadingRequestId)
@@ -276,7 +277,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
           <div>
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} />
           </div>
-          <Text fontSize="20px">{t('manageLists')}</Text>
+          <Text fontSize="20px">Manage Lists</Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
       </PaddedColumn>
@@ -285,14 +286,14 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
 
       <PaddedColumn gap="14px">
         <Text bold>
-          {t('addList')}{' '}
-          <QuestionHelper text={t('questionHelpers.listsBep20')} />
+          Add a list{' '}
+          <QuestionHelper text="Token lists are an open specification for lists of BEP20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious BEP20 tokens." />
         </Text>
         <Row>
           <SearchInput
             type="text"
             id="list-add-input"
-            placeholder={t('questionHelpers.selectName')}
+            placeholder="https:// or ipfs:// or ENS name"
             value={listUrlInput}
             onChange={handleInput}
             onKeyDown={handleEnterKey}
@@ -319,7 +320,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       <Separator />
 
       <div style={{ padding: '16px', textAlign: 'center' }}>
-        <ExternalLink href="https://tokenlists.org">{t('browseLists')}</ExternalLink>
+        <ExternalLink href="https://tokenlists.org">Browse lists</ExternalLink>
       </div>
     </Column>
   )

@@ -1,9 +1,9 @@
+import { HelpIcon } from '@alium-official/uikit'
 import React, { useCallback, useState } from 'react'
-import { HelpCircle as Question } from 'react-feather'
 import styled from 'styled-components'
 import Tooltip from '../Tooltip'
 
-const QuestionWrapper = styled.div`
+const QuestionWrapper = styled.div<{ bordered?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,8 +13,16 @@ const QuestionWrapper = styled.div`
   outline: none;
   cursor: default;
   border-radius: 36px;
-  background-color: ${({ theme }) => theme.colors.invertedContrast};
   color: ${({ theme }) => theme.colors.textSubtle};
+
+  ${({ bordered }) =>
+    bordered &&
+    `
+    border: 1px solid #D2D6E5;
+    box-sizing: border-box;
+    border-radius: 6px;
+    width: 40px;
+    height: 40px;`}
 
   :hover,
   :focus {
@@ -22,7 +30,7 @@ const QuestionWrapper = styled.div`
   }
 `
 
-export default function QuestionHelper({ text }: { text: string }) {
+export default function QuestionHelper({ text, bordered }: { text: string; bordered?: boolean }) {
   const [show, setShow] = useState<boolean>(false)
 
   const open = useCallback(() => setShow(true), [setShow])
@@ -31,8 +39,8 @@ export default function QuestionHelper({ text }: { text: string }) {
   return (
     <span style={{ marginLeft: 4 }}>
       <Tooltip text={text} show={show}>
-        <QuestionWrapper onClick={open} onMouseEnter={open} onMouseLeave={close}>
-          <Question size={16} />
+        <QuestionWrapper onClick={open} onMouseEnter={open} onMouseLeave={close} bordered={bordered}>
+          <HelpIcon />
         </QuestionWrapper>
       </Tooltip>
     </span>

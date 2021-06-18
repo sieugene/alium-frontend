@@ -1,10 +1,10 @@
 import React, { useContext, useMemo } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { Trade, TradeType } from '@alium-official/sdk'
-import { Button, Text } from '@alium-official/uikit'
+import { Button, Text, ColoredArrowDownIcon } from '@alium-official/uikit'
 
-import { ArrowDown, AlertTriangle } from 'react-feather'
-import { useTranslation } from 'react-i18next'
+import { AlertTriangle } from 'react-feather'
+
 import { Field } from '../../state/swap/actions'
 import { TYPE } from '../Shared'
 import { isAddress, shortenAddress } from '../../utils'
@@ -14,15 +14,15 @@ import CurrencyLogo from '../CurrencyLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { SwapShowAcceptChanges } from './styleds'
 
-
 const { main: Main } = TYPE
 
 const PriceInfoText = styled(Text)`
-  font-style: italic;
   line-height: 1.3;
+  color: #8990a5;
+  font-size: 14px;
 
   span {
-    color: ${({ theme }) => theme.colors.primary};
+    color: #6c5dd3;
     font-weight: 600;
   }
 `
@@ -46,35 +46,53 @@ export default function SwapModalHeader({
   ])
   const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
-  const {t} = useTranslation();
+
   const theme = useContext(ThemeContext)
 
   return (
     <AutoColumn gap="md" style={{ marginTop: '20px' }}>
-      <RowBetween align="flex-end">
+      <RowBetween
+        align="flex-end"
+        style={{
+          backgroundColor: '#F5F7FF',
+          borderRadius: '6px',
+          height: '48px',
+          placeItems: 'center',
+          padding: '0 16px',
+        }}
+      >
         <RowFixed gap="0px">
           <CurrencyLogo currency={trade.inputAmount.currency} size="24px" style={{ marginRight: '12px' }} />
           <Text
-            fontSize="24px"
+            fontSize="14px"
             color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? theme.colors.primary : 'text'}
           >
             {trade.inputAmount.toSignificant(6)}
           </Text>
         </RowFixed>
         <RowFixed gap="0px">
-          <Text fontSize="24px" style={{ marginLeft: '10px', fontWeight: 500 }}>
+          <Text fontSize="14px" style={{ marginLeft: '10px', fontWeight: 500 }}>
             {trade.inputAmount.currency.symbol}
           </Text>
         </RowFixed>
       </RowBetween>
       <RowFixed>
-        <ArrowDown size="16" color={theme.colors.textSubtle} style={{ marginLeft: '4px', minWidth: '16px' }} />
+        <ColoredArrowDownIcon width="24px" style={{ marginLeft: '16px' }} />
       </RowFixed>
-      <RowBetween align="flex-end">
+      <RowBetween
+        align="flex-end"
+        style={{
+          backgroundColor: '#F5F7FF',
+          borderRadius: '6px',
+          height: '48px',
+          placeItems: 'center',
+          padding: '0 16px',
+        }}
+      >
         <RowFixed gap="0px">
           <CurrencyLogo currency={trade.outputAmount.currency} size="24px" style={{ marginRight: '12px' }} />
           <Text
-            fontSize="24px"
+            fontSize="14px"
             style={{ marginLeft: '10px', fontWeight: 500 }}
             color={
               priceImpactSeverity > 2
@@ -88,7 +106,7 @@ export default function SwapModalHeader({
           </Text>
         </RowFixed>
         <RowFixed gap="0px">
-          <Text fontSize="24px" style={{ marginLeft: '10px', fontWeight: 500 }}>
+          <Text fontSize="14px" style={{ marginLeft: '10px', fontWeight: 500 }}>
             {trade.outputAmount.currency.symbol}
           </Text>
         </RowFixed>
@@ -98,35 +116,38 @@ export default function SwapModalHeader({
           <RowBetween>
             <RowFixed>
               <AlertTriangle size={20} style={{ marginRight: '8px', minWidth: 24 }} />
-              <Main color={theme.colors.primary}> {t('priceUpdated')}</Main>
+              <Main color={theme.colors.primary} style={{ fontSize: '14px' }}>
+                {' '}
+                Price Updated
+              </Main>
             </RowFixed>
-            <Button onClick={onAcceptChanges}>{t('accept')}</Button>
+            <Button onClick={onAcceptChanges}>Accept</Button>
           </RowBetween>
         </SwapShowAcceptChanges>
       ) : null}
       <AutoColumn justify="flex-start" gap="sm" style={{ padding: '16px 0 0' }}>
         {trade.tradeType === TradeType.EXACT_INPUT ? (
           <PriceInfoText>
-            {`${t('outputEstimated')} `}
+            {`Output is estimated. You will receive at least `}
             <span>
               {slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(6)} {trade.outputAmount.currency.symbol}
             </span>
-            {` ${t('orWillRevert')}`}
+            {' or the transaction will revert.'}
           </PriceInfoText>
         ) : (
           <PriceInfoText>
-            {`${t('inputEstimated')} `}
+            {`Input is estimated. You will sell at most `}
             <span>
               {slippageAdjustedAmounts[Field.INPUT]?.toSignificant(6)} {trade.inputAmount.currency.symbol}
             </span>
-            {` ${t('orWillRevert')}`}
+            {' or the transaction will revert.'}
           </PriceInfoText>
         )}
       </AutoColumn>
       {recipient !== null ? (
         <AutoColumn justify="flex-start" gap="sm" style={{ padding: '16px 0 0' }}>
           <Main>
-            {t('outputWillBeSentTo')}{' '}
+            Output will be sent to{' '}
             <b title={recipient}>{isAddress(recipient) ? shortenAddress(recipient) : recipient}</b>
           </Main>
         </AutoColumn>

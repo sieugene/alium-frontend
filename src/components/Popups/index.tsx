@@ -11,7 +11,6 @@ const MobilePopupWrapper = styled.div<{ height: string | number }>`
   height: ${({ height }) => height};
   margin: ${({ height }) => (height ? '0 auto;' : 0)};
   margin-bottom: ${({ height }) => (height ? '20px' : 0)}};
-  margin-top: ${({ height }) => (height ? '100px' : 0)}};
 
   ${({ theme }) => theme.mediaQueries.sm} {
     display: block;
@@ -32,7 +31,7 @@ const MobilePopupInner = styled.div`
 
 const FixedPopupColumn = styled(AutoColumn)`
   position: fixed;
-  top: 68px;
+  top: 64px;
   right: 1rem;
   max-width: 355px !important;
   width: 100%;
@@ -43,12 +42,40 @@ const FixedPopupColumn = styled(AutoColumn)`
   }
 `
 
+const StyledPopupContainer = styled.div`
+  position: fixed;
+  right: 0;
+  top: 97px;
+  z-index: 10000;
+  > div:last-child > div {
+    display: flex;
+    flex-direction: column;
+  }
+  > div:last-child > div > div:not(:last-child) {
+    margin-bottom: 5px;
+  }
+`
+
 export default function Popups() {
   // get all popups
   const activePopups = useActivePopups()
-
+  // const activePopups =
+  // [
+  // {
+  //   "key": "0xc56bdf1e4b9c5ab81f03fdf3de1d90b326df8918034f6726b2ce340330ee4828",
+  //   "show": true,
+  //   "content": {
+  //     "txn": {
+  //       "hash": "0xc56bdf1e4b9c5ab81f03fdf3de1d90b326df8918034f6726b2ce340330ee4828",
+  //       "success": true,
+  //       "summary": "Swap 0.000000139 BNB for 1 ALM"
+  //     }
+  //   },
+  //   "removeAfterMs": 15000000
+  // }
+  // ]
   return (
-    <>
+    <StyledPopupContainer>
       <FixedPopupColumn gap="20px">
         {activePopups.map((item) => (
           <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
@@ -64,6 +91,6 @@ export default function Popups() {
             ))}
         </MobilePopupInner>
       </MobilePopupWrapper>
-    </>
+    </StyledPopupContainer>
   )
 }

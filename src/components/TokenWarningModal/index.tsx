@@ -4,12 +4,11 @@ import { Button, Text } from '@alium-official/uikit'
 
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
 import { AlertTriangle } from 'react-feather'
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
 import { ExternalLink, TYPE } from '../Shared'
-import { getEtherscanLink, shortenAddress } from '../../utils'
+import { getExplorerLink, getExplorerName, shortenAddress } from '../../utils'
 import CurrencyLogo from '../CurrencyLogo'
 import Modal from '../Modal'
 import { AutoRow, RowBetween } from '../Row'
@@ -48,7 +47,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
   const tokenName = token?.name?.toLowerCase() ?? ''
 
   const allTokens = useAllTokens()
-  const {t} = useTranslation();
+
   const duplicateNameOrSymbol = useMemo(() => {
     if (!token || !chainId) return false
 
@@ -77,8 +76,10 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
               : token.name || token.symbol}{' '}
           </Main>
           {chainId && (
-            <ExternalLink style={{ fontWeight: 400 }} href={getEtherscanLink(chainId, token.address, 'token')}>
-              <Blue title={token.address}>{shortenAddress(token.address)} ({t('viewOnBscScan')})</Blue>
+            <ExternalLink style={{ fontWeight: 400 }} href={getExplorerLink(chainId, token.address, 'token')}>
+              <Blue title={token.address}>
+                {shortenAddress(token.address)} (View on {getExplorerName(chainId)})
+              </Blue>
             </ExternalLink>
           )}
         </AutoColumn>
@@ -96,7 +97,6 @@ export default function TokenWarningModal({
   tokens: Token[]
   onConfirm: () => void
 }) {
-  const {t} = useTranslation();
   const [understandChecked, setUnderstandChecked] = useState(false)
   const toggleUnderstand = useCallback(() => setUnderstandChecked((uc) => !uc), [])
 
@@ -107,16 +107,18 @@ export default function TokenWarningModal({
         <AutoColumn gap="lg">
           <AutoRow gap="6px">
             <StyledWarningIcon />
-            <Text color="failure">{t('tokenImported')}</Text>
+            <Text color="failure">Token imported</Text>
           </AutoRow>
           <Text>
-            {t('anyoneCanCreate')} <em>{t('any')}</em> {t('existingToken')}
+            Anyone can create an BEP20 token on BSC with <em>any</em> name, including creating fake versions of existing
+            tokens and tokens that claim to represent projects that do not have a token.
           </Text>
           <Text>
-            {t('interfaceCanLoad')}
+            This interface can load arbitrary tokens by token addresses. Please take extra caution and do your research
+            when interacting with arbitrary BEP20 tokens.
           </Text>
           <Text>
-            {t('arbitaryToken')} <strong>{t('unableSellBack')}</strong>
+            If you purchase an arbitrary token, <strong>you may be unable to sell it back.</strong>
           </Text>
           {tokens.map((token) => {
             return <TokenWarningCard key={token.address} token={token} />
@@ -132,7 +134,7 @@ export default function TokenWarningModal({
                   onChange={toggleUnderstand}
                 />{' '}
                 <Text as="span" ml="4px">
-                  {t('iUnderstand')}
+                  I understand
                 </Text>
               </label>
             </div>
@@ -145,7 +147,7 @@ export default function TokenWarningModal({
                 onConfirm()
               }}
             >
-              {t('continue')}
+              Continue
             </Button>
           </RowBetween>
         </AutoColumn>

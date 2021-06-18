@@ -36,6 +36,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from 'react-i18next'
 import AppBody from '../AppBody'
 import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.svg'
+import SwapAppBody from './SwapAppBody'
 
 const { main: Main } = TYPE
 
@@ -292,7 +293,7 @@ const Swap = () => {
         onConfirm={handleConfirmTokenWarning}
       />
       <CardNav />
-      <AppBody>
+      <SwapAppBody>
         <Wrapper id="swap-page">
           <ConfirmSwapModal
             isOpen={showConfirm}
@@ -483,7 +484,7 @@ const Swap = () => {
             </CardBody>
           </StyledCardBody>
         </Wrapper>
-      </AppBody>
+      </SwapAppBody>
       <AdvancedSwapDetailsDropdown trade={trade} />
     </CardWrapper>
   )

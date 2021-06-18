@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { Text } from '@alium-official/uikit'
 
-
 const Card = styled.div<any>`
   width: 100%;
+  border-radius: 16px;
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border};
-  border-radius: 6px;
+  border-radius: ${({ borderRadius }) => borderRadius};
 `
 export default Card
 
@@ -18,6 +18,8 @@ export const LightCard = styled(Card)`
 
 export const GreyCard = styled(Card)`
   background-color: ${({ theme }) => theme.colors.tertiary};
+  padding: 8px;
+  border-radius: 6px;
 `
 
 export const OutlineCard = styled(Card)`

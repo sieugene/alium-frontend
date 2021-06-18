@@ -1,36 +1,52 @@
-import { Input, Text } from '@alium-official/uikit'
-import React, { useEffect, useState } from 'react'
+import { Input,Text } from '@alium-official/uikit'
+import React,{ useEffect,useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useUserDeadline } from 'state/user/hooks'
-import styled from 'styled-components'
+import styled,{ useTheme } from 'styled-components'
 import QuestionHelper from '../QuestionHelper'
-import TranslatedText from '../TranslatedText'
 
 const StyledTransactionDeadlineSetting = styled.div`
   margin-bottom: 16px;
+  margin-top: 20px;
+
+  @media screen and (max-width: 480px) {
+    margin-top: 10px;
+  }
 `
 
 const Label = styled.div`
   align-items: center;
   display: flex;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
+
+  > div {
+    letter-spacing: -0.1px;
+  }
+
+  @media screen and (max-width: 480px) {
+    margin-bottom: 8px;
+  }
 `
 
 const Field = styled.div`
+  display: flex;
   align-items: center;
-  display: inline-flex;
-
   & > ${Input} {
-    max-width: 100px;
+    width: 100%;
+    max-width: 301.7px;
+    height: 48px;
   }
 
   & > ${Text} {
+    min-width: 52px;
     font-size: 14px;
-    margin-left: 8px;
+    margin-left: 16px;
   }
 `
 
 const TransactionDeadlineSetting = () => {
+  const theme = useTheme()
+  const { t } = useTranslation()
   const [deadline, setDeadline] = useUserDeadline()
   const [value, setValue] = useState(deadline / 60) // deadline in minutes
   const [error, setError] = useState<string | null>(null)
@@ -39,7 +55,6 @@ const TransactionDeadlineSetting = () => {
     const { value: inputValue } = evt.target
     setValue(parseInt(inputValue, 10))
   }
-  const { t } = useTranslation()
 
   // Updates local storage if value is valid
   useEffect(() => {
@@ -49,24 +64,22 @@ const TransactionDeadlineSetting = () => {
         setDeadline(rawValue)
         setError(null)
       } else {
-        setError('Enter a valid deadline')
+        setError(t('errorMessages.validDeadline'))
       }
     } catch {
-      setError('Enter a valid deadline')
+      setError(t('errorMessages.validDeadline'))
     }
-  }, [value, setError, setDeadline])
+  }, [t, value, setError, setDeadline])
 
   return (
     <StyledTransactionDeadlineSetting>
       <Label>
-        <Text style={{ fontWeight: 600 }}>
-          <TranslatedText translationId={90}>Transaction deadline</TranslatedText>
-        </Text>
-        <QuestionHelper text={t('questionHelpers.transactionWillRevert')} />
+        <Text style={{ fontWeight: 600 }}>{t('transactionDeadline')}</Text>
+        <QuestionHelper text={t('questionHelperMessages.transactionRevertPending')} />
       </Label>
       <Field>
         <Input type="number" step="1" min="1" value={value} onChange={handleChange} />
-        <Text>{t('minutes')}</Text>
+        <Text color={theme.colors.textSubtle}>{t('minutes')}</Text>
       </Field>
       {error && (
         <Text mt="8px" color="failure">
