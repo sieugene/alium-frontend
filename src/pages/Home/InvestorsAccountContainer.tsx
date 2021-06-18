@@ -24,8 +24,8 @@ const InvestorsAccountContainer = () => {
       <ApplicationUpdater />
       <TransactionUpdater />
       <MulticallUpdater />
-      <Route exact strict path="/profile" component={InvestorsAccount} />
-      <Route exact strict path="/profile/collection" component={Collection} />
+      <Route exact strict path="/account" component={InvestorsAccount} />
+      <Route exact strict path="/account/collection" component={Collection} />
     </>
   )
 }
