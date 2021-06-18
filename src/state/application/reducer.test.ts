@@ -12,8 +12,8 @@ describe('application reducer', () => {
       walletModalOpen: false,
       settingsMenuOpen: false,
       blockNumber: {
-        [ChainId.MAINNET]: 3
-      }
+        [ChainId.MAINNET]: 3,
+      },
     })
   })
 
@@ -71,13 +71,13 @@ describe('application reducer', () => {
       store.dispatch(updateBlockNumber({ chainId: ChainId.MAINNET, blockNumber: 2 }))
       expect(store.getState().blockNumber[ChainId.MAINNET]).toEqual(3)
     })
-    it('works with non-set chains', () => {
-      store.dispatch(updateBlockNumber({ chainId: ChainId.ROPSTEN, blockNumber: 2 }))
-      expect(store.getState().blockNumber).toEqual({
-        [ChainId.MAINNET]: 3,
-        [ChainId.ROPSTEN]: 2
-      })
-    })
+    // it('works with non-set chains', () => {
+    //   store.dispatch(updateBlockNumber({ chainId: ChainId.ROPSTEN, blockNumber: 2 }))
+    //   expect(store.getState().blockNumber).toEqual({
+    //     [ChainId.MAINNET]: 3,
+    //     [ChainId.ROPSTEN]: 2
+    //   })
+    // })
   })
 
   describe('removePopup', () => {

@@ -1,9 +1,9 @@
 import { Currency, Pair } from '@alium-official/sdk'
-import { Button, ChevronDownIcon, Text } from '@alium-official/uikit'
+import { ArrowDropDownIcon, Button, Text } from '@alium-official/uikit'
 import { darken } from 'polished'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import { TranslateString } from '../../utils/translateTextHelpers'
@@ -12,13 +12,13 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { Input as NumericalInput } from '../NumericalInput'
 import { RowBetween } from '../Row'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
-import TranslatedText from '../TranslatedText'
 
-const InputRow = styled.div<{ selected: boolean }>`
+const InputRow = styled.div<{ selected: boolean; customHeight?: number }>`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
+  padding: ${({ selected }) => (selected ? '0.4rem 0.5rem 0.4rem 1rem' : '0.4rem 0.75rem 0.4rem 1rem')};
+  ${({ customHeight }) => (customHeight ? `height: ${customHeight}px;` : '')}
 `
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
@@ -33,17 +33,28 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   cursor: pointer;
   user-select: none;
   border: none;
-  padding: 0 0.5rem;
+  padding: 0 8px 0 10px;
+  position: relative;
 `
 
 const LabelRow = styled.div`
+  width: -webkit-fill-available;
+  position: absolute;
+  padding: 4px 0.75rem;
+  top: -17px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0.75rem 1rem 0 1rem;
+
+  & ${Text} {
+    background: #fff;
+    padding: 4px;
+    font-size: 13px;
+    line-height: 1rem;
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.primaryBright};
+  }
+
   span:hover {
     cursor: pointer;
     color: ${({ theme }) => darken(0.2, theme.colors.textSubtle)};
@@ -89,6 +100,7 @@ interface CurrencyInputPanelProps {
   id: string
   showCommonBases?: boolean
   currencyList?: any
+  customHeight?: number
 }
 
 export default function CurrencyInputPanel({
@@ -107,8 +119,11 @@ export default function CurrencyInputPanel({
   id,
   showCommonBases,
   currencyList,
+  customHeight,
 }: CurrencyInputPanelProps) {
+  const theme = useTheme()
   const { t } = useTranslation()
+
   const [modalOpen, setModalOpen] = useState(false)
   const { account } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
@@ -122,18 +137,28 @@ export default function CurrencyInputPanel({
         {!hideInput && (
           <LabelRow>
             <RowBetween>
-              <Text fontSize="14px">{label}</Text>
+              <Text fontSize="14px" style={{ color: '#6C5DD3' }}>
+                {label}
+              </Text>
               {account && (
-                <Text onClick={onMax} fontSize="14px" style={{ display: 'inline', cursor: 'pointer' }}>
+                <Text
+                  onClick={onMax}
+                  fontSize="14px"
+                  style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
+                >
                   {!hideBalance && !!currency && selectedCurrencyBalance
-                    ? t('balance', { balanceInput: selectedCurrencyBalance?.toSignificant(6) })
+                    ? `Balance: ${selectedCurrencyBalance?.toSignificant(6)}`
                     : ' -'}
                 </Text>
               )}
             </RowBetween>
           </LabelRow>
         )}
-        <InputRow style={hideInput ? { padding: '0', borderRadius: '8px' } : {}} selected={disableCurrencySelect}>
+        <InputRow
+          style={hideInput ? { padding: '0', borderRadius: '8px' } : {}}
+          selected={disableCurrencySelect}
+          customHeight={customHeight}
+        >
           {!hideInput && (
             <>
               <NumericalInput
@@ -142,10 +167,11 @@ export default function CurrencyInputPanel({
                 onUserInput={(val) => {
                   onUserInput(val)
                 }}
+                style={{ fontSize: '14px' }}
               />
               {account && currency && showMaxButton && label !== 'To' && (
-                <Button onClick={onMax} size="sm" variant="text">
-                  {t('max')}
+                <Button onClick={onMax} size="sm" variant="text" buttonType="max">
+                  MAX
                 </Button>
               )}
             </>
@@ -161,25 +187,29 @@ export default function CurrencyInputPanel({
           >
             <Aligner>
               {pair ? (
-                <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={16} margin />
+                <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin />
               ) : currency ? (
                 <CurrencyLogo currency={currency} size="24px" style={{ marginRight: '8px' }} />
               ) : null}
               {pair ? (
-                <Text>
+                <Text color={theme.colors.textSubtle} style={{ marginLeft: '8px', fontSize: '14px' }}>
                   {pair?.token0.symbol}:{pair?.token1.symbol}
                 </Text>
               ) : (
-                <Text>
+                <Text color={theme.colors.textSubtle} style={{ paddingRight: '12px', fontSize: '14px' }}>
                   {(currency && currency.symbol && currency.symbol.length > 20
                     ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
                         currency.symbol.length - 5,
                         currency.symbol.length
                       )}`
-                    : currency?.symbol) || <TranslatedText translationId={82}>Select a currency</TranslatedText>}
+                    : currency?.symbol) || (
+                    <Text color={theme.colors.textSubtle} style={{ fontSize: '14px' }}>
+                      {t('selectToken')}
+                    </Text>
+                  )}
                 </Text>
               )}
-              {!disableCurrencySelect && <ChevronDownIcon />}
+              {!disableCurrencySelect && <ArrowDropDownIcon />}
             </Aligner>
           </CurrencySelect>
         </InputRow>

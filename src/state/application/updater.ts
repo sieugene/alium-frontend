@@ -26,13 +26,12 @@ export default function Updater(): null {
         return s
       })
     },
-    [chainId, setState],
+    [chainId, setState]
   )
 
   // attach/detach listeners
   useEffect(() => {
-    // tyt
-    if (!library || !chainId || !windowVisible || !library?.getBlockNumber) return undefined
+    if (!library || !chainId || !windowVisible) return undefined
 
     setState({ chainId, blockNumber: null })
 

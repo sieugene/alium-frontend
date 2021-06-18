@@ -1,7 +1,6 @@
 import { TransactionResponse } from '@ethersproject/providers'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
 import { addTransaction } from './actions'
@@ -10,7 +9,7 @@ import { TransactionDetails } from './reducer'
 // helper that can take a ethers library transaction response and add it to the list of transactions
 export function useTransactionAdder(): (
   response: TransactionResponse,
-  customData?: { summary?: string; approval?: { tokenAddress: string; spender: string }, additionalData?: any }
+  customData?: { summary?: string; approval?: { tokenAddress: string; spender: string }; additionalData?: any },
 ) => void {
   const { chainId, account } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
@@ -18,7 +17,11 @@ export function useTransactionAdder(): (
   return useCallback(
     (
       response: TransactionResponse,
-      { summary, approval, additionalData }: { summary?: string; approval?: { tokenAddress: string; spender: string }, additionalData?: any } = {}
+      {
+        summary,
+        approval,
+        additionalData,
+      }: { summary?: string; approval?: { tokenAddress: string; spender: string }; additionalData?: any } = {},
     ) => {
       if (!account) return
       if (!chainId) return
@@ -29,7 +32,7 @@ export function useTransactionAdder(): (
       }
       dispatch(addTransaction({ hash, from: account, chainId, approval, summary, additionalData }))
     },
-    [dispatch, chainId, account]
+    [dispatch, chainId, account],
   )
 }
 
@@ -75,6 +78,6 @@ export function useHasPendingApproval(tokenAddress: string | undefined, spender:
         if (!approval) return false
         return approval.spender === spender && approval.tokenAddress === tokenAddress && isTransactionRecent(tx)
       }),
-    [allTransactions, spender, tokenAddress]
+    [allTransactions, spender, tokenAddress],
   )
 }

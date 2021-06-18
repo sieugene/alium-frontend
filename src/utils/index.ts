@@ -3,11 +3,11 @@ import { getAddress } from '@ethersproject/address'
 import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
-import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
-import { AliumVestingAbi, NFT_VESTING } from 'pages/InvestorsAccount/constants'
-import { ROUTER_ADDRESS } from '../constants'
+import { JsonRpcSigner, Provider, Web3Provider } from '@ethersproject/providers'
+import { ROUTER_ABI, ROUTER_ADDRESS } from 'config/contracts'
+import { NFT_VESTING, AliumVestingAbi } from 'pages/InvestorsAccount/constants'
 import { TokenAddressMap } from '../state/lists/hooks'
+import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -22,9 +22,52 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   56: '',
   97: 'testnet.',
 }
+const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
+  [ChainId.MAINNET]: '',
+  [ChainId.BSCTESTNET]: 'testnet.',
+  [ChainId.HECOMAINNET]: '',
+  [ChainId.HECOTESTNET]: 'testnet.',
+}
+
+const EXPLORER_URLS: { [chainId in ChainId]: string } = {
+  [ChainId.MAINNET]: 'bscscan.com',
+  [ChainId.BSCTESTNET]: 'bscscan.com',
+  [ChainId.HECOMAINNET]: 'hecoinfo.com',
+  [ChainId.HECOTESTNET]: 'hecoinfo.com',
+}
+
+const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
+  [ChainId.MAINNET]: 'BscScan',
+  [ChainId.BSCTESTNET]: 'BscScan',
+  [ChainId.HECOMAINNET]: 'HecoScan',
+  [ChainId.HECOTESTNET]: 'HecoScan',
+}
+
+export const getExplorerName = (chainId: ChainId) => {
+  const name = EXPLORER_NAMES[chainId]
+  return name
+}
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
   const prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[56]}bscscan.com`
+
+  switch (type) {
+    case 'transaction': {
+      return `${prefix}/tx/${data}`
+    }
+    case 'token': {
+      return `${prefix}/token/${data}`
+    }
+    case 'address':
+    default: {
+      return `${prefix}/address/${data}`
+    }
+  }
+}
+
+export function getExplorerLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
+  const url = EXPLORER_URLS[chainId] || EXPLORER_URLS[ChainId.MAINNET]
+  const prefix = `https://${EXPLORER_PREFIXES[chainId] || EXPLORER_PREFIXES[ChainId.MAINNET]}${url}`
 
   switch (type) {
     case 'transaction': {
@@ -52,6 +95,13 @@ export function shortenAddress(address: string, chars = 4): string {
 // add 10%
 export function calculateGasMargin(value: BigNumber): BigNumber {
   return value.mul(BigNumber.from(10000).add(BigNumber.from(1000))).div(BigNumber.from(10000))
+}
+
+// add 30% to default gas price
+export async function calculateGasPrice(provider: Provider): Promise<BigNumber> {
+  const defaultGasPrice = await provider.getGasPrice()
+
+  return defaultGasPrice.mul(BigNumber.from(10000).add(BigNumber.from(3000))).div(BigNumber.from(10000))
 }
 
 // converts a basis points value to a sdk percent
@@ -89,8 +139,8 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 }
 
 // account is optional
-export function getRouterContract(_: number, library: Web3Provider, account?: string): Contract {
-  return getContract(ROUTER_ADDRESS, IUniswapV2Router02ABI, library, account)
+export function getRouterContract(chainId: ChainId, library: Web3Provider, account?: string): Contract {
+  return getContract(chainId && ROUTER_ADDRESS[chainId], ROUTER_ABI, library, account)
 }
 
 export function escapeRegExp(string: string): string {

@@ -66,13 +66,13 @@ export default function Updater(): null {
                   },
                 })
               )
+
               addPopup(
                 {
                   txn: {
                     hash,
                     success: receipt.status === 1,
                     summary: transactions[hash]?.summary,
-                    additionalData: transactions[hash]?.additionalData,
                   },
                 },
                 hash

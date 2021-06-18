@@ -1,23 +1,22 @@
-import { parseUnits } from '@ethersproject/units'
 import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from '@alium-official/sdk'
+import { parseUnits } from '@ethersproject/units'
+import { useAlmToken } from 'hooks/useAlm'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import useToggledVersion, { Version } from '../../hooks/useToggledVersion'
-import useENS from '../../hooks/useENS'
-import { useV1Trade } from '../../data/V1'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { useTradeExactIn, useTradeExactOut } from '../../hooks/Trades'
+import useENS from '../../hooks/useENS'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import { isAddress } from '../../utils'
+import { computeSlippageAdjustedAmounts } from '../../utils/prices'
 import { AppDispatch, AppState } from '../index'
+import { useUserSlippageTolerance } from '../user/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { SwapState } from './reducer'
-
-import { useUserSlippageTolerance } from '../user/hooks'
-import { computeSlippageAdjustedAmounts } from '../../utils/prices'
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
@@ -98,7 +97,6 @@ export function useMigrateActionHandlers(): {
   }
 }
 
-
 // try to parse a user entered amount for a given token
 export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmount | undefined {
   if (!value || !currency) {
@@ -119,10 +117,10 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
   return undefined
 }
 
-const BAD_RECIPIENT_ADDRESSES: string[] = [
-  '0x8F77e94eB5e74EDB1Ba8461a119a245bA5639b26', // v2 factory
+const BAD_RECIPIENT_ADDRESSES: string | any[] = [
+  process.env.REACT_APP_FACTORY_ADDRESS, // v2 factory
   '0xf164fC0Ec4E93095b804a4795bBe1e041497b92a', // v2 router 01
-  '0x07899d5bE4B700Db9bf345530fF849a530EF79c3', // v2 router 02
+  process.env.REACT_APP_ROUTER_ADDRESS, // v2 router 02
 ]
 
 /**
@@ -144,11 +142,8 @@ export function useDerivedSwapInfo(): {
   parsedAmount: CurrencyAmount | undefined
   v2Trade: Trade | undefined
   inputError?: string
-  v1Trade: Trade | undefined
 } {
   const { account } = useActiveWeb3React()
-
-  const toggledVersion = useToggledVersion()
 
   const {
     independentField,
@@ -159,6 +154,7 @@ export function useDerivedSwapInfo(): {
   } = useSwapState()
 
   const inputCurrency = useCurrency(inputCurrencyId)
+  const { t } = useTranslation()
   const outputCurrency = useCurrency(outputCurrencyId)
   const recipientLookup = useENS(recipient ?? undefined)
   const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
@@ -186,9 +182,6 @@ export function useDerivedSwapInfo(): {
     [Field.OUTPUT]: outputCurrency ?? undefined,
   }
 
-  // get link to trade on v1, if a better rate exists
-  const v1Trade = useV1Trade(isExactIn, currencies[Field.INPUT], currencies[Field.OUTPUT], parsedAmount)
-
   let inputError: string | undefined
   if (!account) {
     inputError = 'Connect Wallet'
@@ -199,7 +192,7 @@ export function useDerivedSwapInfo(): {
   }
 
   if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT]) {
-    inputError = inputError ?? 'Select a token'
+    inputError = inputError ?? t('selectToken')
   }
 
   const formattedTo = isAddress(to)
@@ -217,19 +210,10 @@ export function useDerivedSwapInfo(): {
 
   const slippageAdjustedAmounts = v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage)
 
-  const slippageAdjustedAmountsV1 =
-    v1Trade && allowedSlippage && computeSlippageAdjustedAmounts(v1Trade, allowedSlippage)
-
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [
     currencyBalances[Field.INPUT],
-    toggledVersion === Version.v1
-      ? slippageAdjustedAmountsV1
-        ? slippageAdjustedAmountsV1[Field.INPUT]
-        : null
-      : slippageAdjustedAmounts
-      ? slippageAdjustedAmounts[Field.INPUT]
-      : null,
+    slippageAdjustedAmounts ? slippageAdjustedAmounts[Field.INPUT] : null,
   ]
 
   if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
@@ -242,7 +226,6 @@ export function useDerivedSwapInfo(): {
     parsedAmount,
     v2Trade: v2Trade ?? undefined,
     inputError,
-    v1Trade,
   }
 }
 
@@ -252,11 +235,8 @@ export function useMigrateInfo(): {
   parsedAmount: CurrencyAmount | undefined
   v2Trade: Trade | undefined
   inputError?: string
-  v1Trade: Trade | undefined
 } {
   const { account } = useActiveWeb3React()
-
-  const toggledVersion = useToggledVersion()
 
   const {
     independentField,
@@ -265,7 +245,7 @@ export function useMigrateInfo(): {
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
     recipient,
   } = useSwapState()
-
+  const { t } = useTranslation()
   const inputCurrency = useCurrency(inputCurrencyId)
   const outputCurrency = useCurrency(outputCurrencyId)
   const recipientLookup = useENS(recipient ?? undefined)
@@ -294,9 +274,6 @@ export function useMigrateInfo(): {
     [Field.OUTPUT]: outputCurrency ?? undefined,
   }
 
-  // get link to trade on v1, if a better rate exists
-  const v1Trade = useV1Trade(isExactIn, currencies[Field.INPUT], currencies[Field.OUTPUT], parsedAmount)
-
   let inputError: string | undefined
   if (!account) {
     inputError = 'Connect Wallet'
@@ -307,7 +284,7 @@ export function useMigrateInfo(): {
   }
 
   if (!currencies[Field.INPUT]) {
-    inputError = inputError ?? 'Select a token'
+    inputError = inputError ?? t('selectToken')
   }
 
   const formattedTo = isAddress(to)
@@ -325,19 +302,10 @@ export function useMigrateInfo(): {
 
   const slippageAdjustedAmounts = v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage)
 
-  const slippageAdjustedAmountsV1 =
-    v1Trade && allowedSlippage && computeSlippageAdjustedAmounts(v1Trade, allowedSlippage)
-
   // compare input balance to max input based on version
   const [balanceIn] = [
     currencyBalances[Field.INPUT],
-    toggledVersion === Version.v1
-      ? slippageAdjustedAmountsV1
-        ? slippageAdjustedAmountsV1[Field.INPUT]
-        : null
-      : slippageAdjustedAmounts
-      ? slippageAdjustedAmounts[Field.INPUT]
-      : null,
+    slippageAdjustedAmounts ? slippageAdjustedAmounts[Field.INPUT] : null,
   ]
 
   if (balanceIn && parsedAmount && balanceIn.lessThan(parsedAmount)) {
@@ -350,7 +318,6 @@ export function useMigrateInfo(): {
     parsedAmount,
     v2Trade: v2Trade ?? undefined,
     inputError,
-    v1Trade,
   }
 }
 
@@ -417,20 +384,21 @@ export function useDefaultsFromURLSearch():
   const { chainId } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
   const parsedQs = useParsedQueryString()
-  const [result, setResult] = useState<
-    { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined
-  >()
+  const [result, setResult] =
+    useState<{ inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined>()
+  // for set alm token as default
+  const ALMCurrencyId = useAlmToken()?.address
 
   useEffect(() => {
     if (!chainId) return
     const parsed = queryParametersToSwapState(parsedQs)
-
+    const outpudId = parsed[Field.OUTPUT].currencyId || ALMCurrencyId
     dispatch(
       replaceSwapState({
         typedValue: parsed.typedValue,
         field: parsed.independentField,
         inputCurrencyId: parsed[Field.INPUT].currencyId,
-        outputCurrencyId: parsed[Field.OUTPUT].currencyId,
+        outputCurrencyId: outpudId,
         recipient: parsed.recipient,
       })
     )

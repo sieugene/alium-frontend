@@ -2,16 +2,14 @@ import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Trade, TokenAmount, CurrencyAmount, ETHER } from '@alium-official/sdk'
 import { useCallback, useMemo } from 'react'
-import { ROUTER_ADDRESS } from '../constants'
+import { ROUTER_ADDRESS } from '../config/contracts'
 import { useTokenAllowance } from '../data/Allowances'
-import { getTradeVersion, useV1TradeExchangeAddress } from '../data/V1'
 import { Field } from '../state/swap/actions'
 import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
 import { computeSlippageAdjustedAmounts } from '../utils/prices'
-import { calculateGasMargin } from '../utils'
+import { calculateGasMargin, calculateGasPrice } from '../utils'
 import { useTokenContract } from './useContract'
 import { useActiveWeb3React } from './index'
-import { Version } from './useToggledVersion'
 
 export enum ApprovalState {
   UNKNOWN,
@@ -49,10 +47,10 @@ export function useApproveCallback(
   const addTransaction = useTransactionAdder()
 
   const approve = useCallback(async (): Promise<void> => {
-    // if (approvalState !== ApprovalState.NOT_APPROVED) {
-    //   console.error('approve was called unnecessarily')
-    //   return
-    // }
+    if (approvalState !== ApprovalState.NOT_APPROVED) {
+      console.error('approve was called unnecessarily')
+      return
+    }
     if (!token) {
       console.error('no token')
       return
@@ -80,10 +78,13 @@ export function useApproveCallback(
       return tokenContract.estimateGas.approve(spender, amountToApprove.raw.toString())
     })
 
+    const gasPrice = await calculateGasPrice(tokenContract.provider)
+
     // eslint-disable-next-line consistent-return
     return tokenContract
       .approve(spender, useExact ? amountToApprove.raw.toString() : MaxUint256, {
         gasLimit: calculateGasMargin(estimatedGas),
+        gasPrice,
       })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
@@ -95,7 +96,6 @@ export function useApproveCallback(
         console.error('Failed to approve token', error)
         throw error
       })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [approvalState, token, tokenContract, amountToApprove, spender, addTransaction])
 
   return [approvalState, approve]
@@ -103,11 +103,10 @@ export function useApproveCallback(
 
 // wraps useApproveCallback in the context of a swap
 export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) {
+  const { chainId } = useActiveWeb3React()
   const amountToApprove = useMemo(
     () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage)[Field.INPUT] : undefined),
     [trade, allowedSlippage]
   )
-  const tradeIsV1 = getTradeVersion(trade) === Version.v1
-  const v1ExchangeAddress = useV1TradeExchangeAddress(trade)
-  return useApproveCallback(amountToApprove, tradeIsV1 ? v1ExchangeAddress : ROUTER_ADDRESS)
+  return useApproveCallback(amountToApprove, chainId && ROUTER_ADDRESS[chainId])
 }

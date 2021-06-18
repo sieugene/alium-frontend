@@ -65,7 +65,7 @@ export default function useNftPool() {
   const privateClaimRewards = useSingleContractMultipleData(
     privateExchangerContract,
     'rewards',
-    privateClaimRewardsInputs
+    privateClaimRewardsInputs,
   )
 
   const tokensRewards: { [poolId: string]: number | string } = useMemo(() => {

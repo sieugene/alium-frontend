@@ -1,16 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { DEFAULT_DEADLINE_FROM_NOW,INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
+import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from 'config/settings'
 import { updateVersion } from '../global/actions'
 import {
-addSerializedPair,
-addSerializedToken,
-removeSerializedPair,
-removeSerializedToken,
-SerializedPair,
-SerializedToken,
-updateMatchesDarkMode,
-updateUserDarkMode,updateUserDeadline,updateUserExpertMode,
-updateUserSlippageTolerance
+  addSerializedPair,
+  addSerializedToken,
+  removeSerializedPair,
+  removeSerializedToken,
+  SerializedPair,
+  SerializedToken,
+  updateMatchesDarkMode,
+  updateUserDarkMode,
+  updateUserExpertMode,
+  updateUserSlippageTolerance,
+  updateUserDeadline,
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -61,7 +63,7 @@ export const initialState: UserState = {
   timestamp: currentTimestamp(),
 }
 
-export default createReducer<UserState>(initialState, (builder) =>
+export default createReducer(initialState, (builder) =>
   builder
     .addCase(updateVersion, (state) => {
       // slippage isnt being tracked in local storage, reset to default
@@ -126,5 +128,5 @@ export default createReducer<UserState>(initialState, (builder) =>
         delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)]
       }
       state.timestamp = currentTimestamp()
-    }),
+    })
 )

@@ -1,10 +1,15 @@
 import { CurrencyAmount, Fraction, JSBI, Percent, TokenAmount, Trade } from '@alium-official/sdk'
-import { BLOCKED_PRICE_IMPACT_NON_EXPERT , ALLOWED_PRICE_IMPACT_HIGH, ALLOWED_PRICE_IMPACT_LOW, ALLOWED_PRICE_IMPACT_MEDIUM } from '../constants'
+import {
+  BLOCKED_PRICE_IMPACT_NON_EXPERT,
+  ALLOWED_PRICE_IMPACT_HIGH,
+  ALLOWED_PRICE_IMPACT_LOW,
+  ALLOWED_PRICE_IMPACT_MEDIUM,
+} from 'config/settings'
 
 import { Field } from '../state/swap/actions'
 import { basisPointsToPercent } from './index'
 
-const BASE_FEE = new Percent(JSBI.BigInt(20), JSBI.BigInt(10000))
+const BASE_FEE = new Percent(JSBI.BigInt(25), JSBI.BigInt(10000))
 const ONE_HUNDRED_PERCENT = new Percent(JSBI.BigInt(10000), JSBI.BigInt(10000))
 const INPUT_FRACTION_AFTER_FEE = ONE_HUNDRED_PERCENT.subtract(BASE_FEE)
 
@@ -50,7 +55,7 @@ export function computeSlippageAdjustedAmounts(
   const pct = basisPointsToPercent(allowedSlippage)
   return {
     [Field.INPUT]: trade?.maximumAmountIn(pct),
-    [Field.OUTPUT]: trade?.minimumAmountOut(pct)
+    [Field.OUTPUT]: trade?.minimumAmountOut(pct),
   }
 }
 

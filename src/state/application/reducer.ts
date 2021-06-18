@@ -3,9 +3,10 @@ import {
   addPopup,
   PopupContent,
   removePopup,
-  toggleWalletModal,
+  setConnectionError,
   toggleSettingsMenu,
-  updateBlockNumber
+  toggleWalletModal,
+  updateBlockNumber,
 } from './actions'
 
 export type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>
@@ -15,16 +16,18 @@ export interface ApplicationState {
   popupList: PopupList
   walletModalOpen: boolean
   settingsMenuOpen: boolean
+  connectionError: any
 }
 
 const initialState: ApplicationState = {
   blockNumber: {},
   popupList: [],
   walletModalOpen: false,
-  settingsMenuOpen: false
+  settingsMenuOpen: false,
+  connectionError: null,
 }
 
-export default createReducer(initialState, builder =>
+export default createReducer(initialState, (builder) =>
   builder
     .addCase(updateBlockNumber, (state, action) => {
       const { chainId, blockNumber } = action.payload
@@ -34,27 +37,30 @@ export default createReducer(initialState, builder =>
         state.blockNumber[chainId] = Math.max(blockNumber, state.blockNumber[chainId])
       }
     })
-    .addCase(toggleWalletModal, state => {
+    .addCase(toggleWalletModal, (state) => {
       state.walletModalOpen = !state.walletModalOpen
     })
-    .addCase(toggleSettingsMenu, state => {
+    .addCase(toggleSettingsMenu, (state) => {
       state.settingsMenuOpen = !state.settingsMenuOpen
     })
     .addCase(addPopup, (state, { payload: { content, key, removeAfterMs = 15000 } }) => {
-      state.popupList = (key ? state.popupList.filter(popup => popup.key !== key) : state.popupList).concat([
+      state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
         {
           key: key || nanoid(),
           show: true,
           content,
-          removeAfterMs
-        }
+          removeAfterMs,
+        },
       ])
     })
     .addCase(removePopup, (state, { payload: { key } }) => {
-      state.popupList.forEach(p => {
+      state.popupList.forEach((p) => {
         if (p.key === key) {
           p.show = false
         }
       })
     })
+    .addCase(setConnectionError, (state, { payload: { error } }) => {
+      state.connectionError = error
+    }),
 )

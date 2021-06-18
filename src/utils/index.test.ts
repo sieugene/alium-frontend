@@ -3,33 +3,33 @@ import { AddressZero } from '@ethersproject/constants'
 import { TokenAmount, Token, ChainId, Percent, JSBI } from '@alium-official/sdk'
 
 import {
-  getEtherscanLink,
+  getExplorerLink,
   calculateSlippageAmount,
   isAddress,
   shortenAddress,
   calculateGasMargin,
-  basisPointsToPercent
+  basisPointsToPercent,
 } from '.'
 
 describe('utils', () => {
-  describe('#getEtherscanLink', () => {
+  describe('#getExplorerLink', () => {
     it('correct for tx', () => {
-      expect(getEtherscanLink(1, 'abc', 'transaction')).toEqual('https://bscscan.com/tx/abc')
+      expect(getExplorerLink(1, 'abc', 'transaction')).toEqual('https://bscscan.com/tx/abc')
     })
     it('correct for token', () => {
-      expect(getEtherscanLink(1, 'abc', 'token')).toEqual('https://bscscan.com/token/abc')
+      expect(getExplorerLink(1, 'abc', 'token')).toEqual('https://bscscan.com/token/abc')
     })
     it('correct for address', () => {
-      expect(getEtherscanLink(1, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
+      expect(getExplorerLink(1, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
     })
     it('unrecognized chain id defaults to mainnet', () => {
-      expect(getEtherscanLink(2, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
+      expect(getExplorerLink(2, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
     })
     it('ropsten', () => {
-      expect(getEtherscanLink(3, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
+      expect(getExplorerLink(3, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
     })
     it('enum', () => {
-      expect(getEtherscanLink(ChainId.RINKEBY, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
+      expect(getExplorerLink(ChainId.RINKEBY, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
     })
   })
 
@@ -37,10 +37,10 @@ describe('utils', () => {
     it('bounds are correct', () => {
       const tokenAmount = new TokenAmount(new Token(ChainId.MAINNET, AddressZero, 0), '100')
       expect(() => calculateSlippageAmount(tokenAmount, -1)).toThrow()
-      expect(calculateSlippageAmount(tokenAmount, 0).map(bound => bound.toString())).toEqual(['100', '100'])
-      expect(calculateSlippageAmount(tokenAmount, 100).map(bound => bound.toString())).toEqual(['99', '101'])
-      expect(calculateSlippageAmount(tokenAmount, 200).map(bound => bound.toString())).toEqual(['98', '102'])
-      expect(calculateSlippageAmount(tokenAmount, 10000).map(bound => bound.toString())).toEqual(['0', '200'])
+      expect(calculateSlippageAmount(tokenAmount, 0).map((bound) => bound.toString())).toEqual(['100', '100'])
+      expect(calculateSlippageAmount(tokenAmount, 100).map((bound) => bound.toString())).toEqual(['99', '101'])
+      expect(calculateSlippageAmount(tokenAmount, 200).map((bound) => bound.toString())).toEqual(['98', '102'])
+      expect(calculateSlippageAmount(tokenAmount, 10000).map((bound) => bound.toString())).toEqual(['0', '200'])
       expect(() => calculateSlippageAmount(tokenAmount, 10001)).toThrow()
     })
   })
@@ -97,7 +97,9 @@ describe('utils', () => {
       expect(basisPointsToPercent(100).equalTo(new Percent(JSBI.BigInt(1), JSBI.BigInt(100)))).toBeTruthy()
       expect(basisPointsToPercent(500).equalTo(new Percent(JSBI.BigInt(5), JSBI.BigInt(100)))).toBeTruthy()
       expect(basisPointsToPercent(50).equalTo(new Percent(JSBI.BigInt(5), JSBI.BigInt(1000)))).toBeTruthy()
-      expect(basisPointsToPercent(110.00000000000001).equalTo(new Percent(JSBI.BigInt(110), JSBI.BigInt(10000)))).toBeTruthy()
+      expect(
+        basisPointsToPercent(110.00000000000001).equalTo(new Percent(JSBI.BigInt(110), JSBI.BigInt(10000)))
+      ).toBeTruthy()
     })
   })
 })
