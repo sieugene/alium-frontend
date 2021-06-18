@@ -53,19 +53,21 @@ const Marginer = styled.div`
 `
 const WrapInvestorsAccounComponent = ({ children }) => {
   return (
-    <AppWrapper>
-      <BodyWrapper>{children}</BodyWrapper>
-    </AppWrapper>
+    <>
+      <ListsUpdater />
+      <ApplicationUpdater />
+      <TransactionUpdater />
+      <MulticallUpdater />
+      <AppWrapper>
+        <BodyWrapper>{children}</BodyWrapper>
+      </AppWrapper>
+    </>
   )
 }
 
 const InvestorsAccountContainer = () => {
   return (
     <>
-      <ListsUpdater />
-      <ApplicationUpdater />
-      <TransactionUpdater />
-      <MulticallUpdater />
       <Route
         exact
         strict

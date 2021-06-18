@@ -16,7 +16,7 @@ import Pools from './views/Pools'
 // Only pool is included in the main bundle because of it's the most visited page'
 const Home = lazy(() => import('./views/Home'))
 const Farms = lazy(() => import('./views/Farms'))
-const InvestorsAccountContainer = lazy(() => import('pages/Home/InvestorsAccountContainer'))
+const InvestorsAccountContainer = lazy(() => import('pages/InvestorsAccount/InvestorsAccountContainer'))
 const SwapContainter = lazy(() => import('pages/Swap/SwapContainter'))
 
 // This config is required for number formating
@@ -48,10 +48,10 @@ const App: React.FC = () => {
         <Switch>
           <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
             <InvestorsAccountContainer />
+            <SwapContainter />
             <Route path="/" exact>
               <Home />
             </Route>
-            <SwapContainter />
           </MenuWrappedRoute>
           <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
             <Route path="/farms">

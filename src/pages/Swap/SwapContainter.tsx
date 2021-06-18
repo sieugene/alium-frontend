@@ -1,9 +1,9 @@
 import backgroundImage from 'assets/svg/trade-background.svg'
 import AddLiquidity from 'pages/AddLiquidity'
 import {
-  RedirectDuplicateTokenIds,
-  RedirectOldAddLiquidityPathStructure,
-  RedirectToAddLiquidity,
+RedirectDuplicateTokenIds,
+RedirectOldAddLiquidityPathStructure,
+RedirectToAddLiquidity
 } from 'pages/AddLiquidity/redirects'
 import Pool from 'pages/Pool'
 import PoolFinder from 'pages/PoolFinder'
@@ -13,7 +13,11 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 import Swap from '.'
-import { RedirectPathToSwapOnly, RedirectToSwap } from './redirects'
+import { RedirectPathToSwapOnly,RedirectToSwap } from './redirects'
+import ApplicationUpdater from '../../state/application/updater'
+import ListsUpdater from '../../state/lists/updater'
+import MulticallUpdater from '../../state/multicall/updater'
+import TransactionUpdater from '../../state/transactions/updater'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -58,9 +62,15 @@ const BodyWrapper = styled.div`
 
 const WrapSwapComponent = ({ children }) => {
   return (
-    <AppWrapper>
-      <BodyWrapper>{children}</BodyWrapper>
-    </AppWrapper>
+    <>
+      <ListsUpdater />
+      <ApplicationUpdater />
+      <TransactionUpdater />
+      <MulticallUpdater />
+      <AppWrapper>
+        <BodyWrapper>{children}</BodyWrapper>
+      </AppWrapper>
+    </>
   )
 }
 
