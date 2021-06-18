@@ -1,10 +1,10 @@
 // import { useWallet } from '@binance-chain/bsc-use-wallet'
-import { getMainDomain, Maintenance, NotFound, ResetCSS } from '@alium-official/uikit'
+import { getMainDomain,Maintenance,NotFound,ResetCSS } from '@alium-official/uikit'
 import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
-import React, { lazy, Suspense, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { MenuWrappedRoute } from './components/Menu'
+import React,{ lazy,Suspense,useEffect } from 'react'
+import { BrowserRouter as Router,Route,Switch } from 'react-router-dom'
+import MenuWrappedRoute from './components/Menu'
 import PageLoader from './components/PageLoader'
 import ToastListener from './components/ToastListener'
 // import { useFetchProfile, useFetchPublicData } from 'state/hooks'
@@ -22,7 +22,7 @@ const Farms = lazy(() => import('./views/Farms'))
 // const Nft = lazy(() => import('./views/Nft'))
 // const Teams = lazy(() => import('./views/Teams'))
 // const Team = lazy(() => import('./views/Teams/Team'))
-// const Profile = lazy(() => import('./views/Profile'))
+const InvestorsAccountContainer = lazy(() => import('pages/Home/InvestorsAccountContainer'))
 
 // This config is required for number formating
 BigNumber.config({
@@ -51,18 +51,32 @@ const App: React.FC = () => {
         <ResetCSS />
         <GlobalStyle />
         <Switch>
-          <MenuWrappedRoute loginBlockVisible={loginBlockVisible} path="/" exact>
-            <Home />
+          {/* <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
+            <InvestorsAccountContainer />
+          </MenuWrappedRoute> */}
+
+          <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
+            <InvestorsAccountContainer />
+            <Route path="/" exact>
+              <Home />
+            </Route>
           </MenuWrappedRoute>
-          <MenuWrappedRoute loginBlockVisible={loginBlockVisible} path="/farms">
-            <Farms />
+          <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
+            <Route path="/farms">
+              <Farms />
+            </Route>
           </MenuWrappedRoute>
-          <MenuWrappedRoute loginBlockVisible={loginBlockVisible} path="/pools">
-            <Pools />
+          <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
+            <Route path="/pools">
+              <Pools />
+            </Route>
           </MenuWrappedRoute>
-          <MenuWrappedRoute loginBlockVisible={loginBlockVisible} path="/audits">
-            <AuditPage />
+          <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
+            <Route path="/audits">
+              <AuditPage />
+            </Route>
           </MenuWrappedRoute>
+
           {/* <Route path="/lottery">
               <Lottery />
             </Route> */}

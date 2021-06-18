@@ -1,9 +1,13 @@
-import { Contract } from '@ethersproject/contracts'
+import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Percent, Token } from '@alium-official/sdk'
 import { getAddress } from '@ethersproject/address'
-import { AddressZero } from '@ethersproject/constants'
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainId, JSBI, Percent, CurrencyAmount } from '@alium-official/sdk'
+import { AddressZero } from '@ethersproject/constants'
+import { Contract } from '@ethersproject/contracts'
+import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
+import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
+import { AliumVestingAbi, NFT_VESTING } from 'pages/InvestorsAccount/constants'
+import { ROUTER_ADDRESS } from '../constants'
+import { TokenAddressMap } from '../state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -13,36 +17,14 @@ export function isAddress(value: any): string | false {
     return false
   }
 }
-
-const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: '',
-  [ChainId.BSCTESTNET]: 'testnet.',
-  [ChainId.HECOMAINNET]: '',
-  [ChainId.HECOTESTNET]: 'testnet.',
+// @ts-ignore
+const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
+  56: '',
+  97: 'testnet.',
 }
 
-const EXPLORER_URLS: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: 'bscscan.com',
-  [ChainId.BSCTESTNET]: 'bscscan.com',
-  [ChainId.HECOMAINNET]: 'hecoinfo.com',
-  [ChainId.HECOTESTNET]: 'hecoinfo.com',
-}
-
-const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: 'BscScan',
-  [ChainId.BSCTESTNET]: 'BscScan',
-  [ChainId.HECOMAINNET]: 'HecoScan',
-  [ChainId.HECOTESTNET]: 'HecoScan',
-}
-
-export const getExplorerName = (chainId: ChainId) => {
-  const name = EXPLORER_NAMES[chainId]
-  return name
-}
-
-export function getExplorerLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
-  const url = EXPLORER_URLS[chainId] || EXPLORER_URLS[ChainId.MAINNET]
-  const prefix = `https://${EXPLORER_PREFIXES[chainId] || EXPLORER_PREFIXES[ChainId.MAINNET]}${url}`
+export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
+  const prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[56]}bscscan.com`
 
   switch (type) {
     case 'transaction': {
@@ -104,4 +86,24 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
   }
 
   return new Contract(address, ABI, getProviderOrSigner(library, account) as any)
+}
+
+// account is optional
+export function getRouterContract(_: number, library: Web3Provider, account?: string): Contract {
+  return getContract(ROUTER_ADDRESS, IUniswapV2Router02ABI, library, account)
+}
+
+export function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
+}
+
+export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
+  if (currency === ETHER) return true
+  return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
+}
+
+export async function getAccountTotalBalance(account, library): Promise<number> {
+  const contract = getContract(NFT_VESTING, AliumVestingAbi, library, account)
+  const { 0: totalBalanceRaw } = await contract.getTotalBalanceOf(account)
+  return Number(totalBalanceRaw.toString())
 }
