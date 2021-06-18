@@ -29,10 +29,10 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [56, 97],
+  supportedChainIds: [56, 97, 128, 256],
 })
 
-export const bsc = new BscConnector({ supportedChainIds: [56] })
+export const bsc = new BscConnector({ supportedChainIds: [56, 97, 128, 256] })
 
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
@@ -57,7 +57,7 @@ export const portis = new PortisConnector({
 // mainnet only
 export const walletlink = new WalletLinkConnector({
   url: NETWORK_URL,
-  appName: 'Uniswap',
+  appName: 'AliumSwap',
   appLogoUrl:
     'https://mpng.pngfly.com/20181202/bex/kisspng-emoji-domain-unicorn-pin-badges-sticker-unicorn-tumblr-emoji-unicorn-iphoneemoji-5c046729264a77.5671679315437924251569.jpg',
 })
