@@ -16,6 +16,7 @@ import { Dots } from '../../components/swap/styleds'
 import useCollectionNft from '../../hooks/useCollectionNft'
 import { getAccountTotalBalance } from '../../utils'
 import AppBody from '../AppBody'
+import AppInvestorsAccountBody from './AppInvestorsAccountBody'
 import NftAccountCard from './components/NftAccountCard'
 import NftNavTabs from './components/NftNavTabs'
 import NftPoolCard from './components/NftPoolCard'
@@ -296,7 +297,7 @@ const InvestorsAccount = () => {
           {t('strategicalPartnership')}
         </StyledHeading>
 
-        <AppBody>
+        <AppInvestorsAccountBody>
           {!account ? (
             'Please connect to your wallet first.'
           ) : balanceAccount === undefined || accountTotalBalance === -1 ? (
@@ -377,7 +378,7 @@ const InvestorsAccount = () => {
               </NftTable>
             </>
           )}
-        </AppBody>
+        </AppInvestorsAccountBody>
       </CardWrapper>
     </ContentHolder>
   )

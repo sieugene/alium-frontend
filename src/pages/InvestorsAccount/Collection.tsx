@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useCollectionNft from '../../hooks/useCollectionNft'
 import AppBody from '../AppBody'
+import AppInvestorsAccountBody from './AppInvestorsAccountBody'
 import NftCollectionCard from './components/NftCollectionCard'
 import NftCollectionHeader from './components/NftCollectionHeader'
 import NftNavTabs from './components/NftNavTabs'
@@ -116,7 +117,7 @@ function Collection() {
         <Text fontSize="48px" style={{ fontWeight: 700, marginBottom: '32px' }}>
           Your NFT deck
         </Text>
-        <AppBody>
+        <AppInvestorsAccountBody>
           <SelectedNftRow>
             {selectedCard && (
               <>
@@ -146,7 +147,7 @@ function Collection() {
               )}
             </NftTableContent>
           </NftTable>
-        </AppBody>
+        </AppInvestorsAccountBody>
       </CardWrapper>
     </ContentHolder>
   )
