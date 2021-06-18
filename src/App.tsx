@@ -16,13 +16,8 @@ import Pools from './views/Pools'
 // Only pool is included in the main bundle because of it's the most visited page'
 const Home = lazy(() => import('./views/Home'))
 const Farms = lazy(() => import('./views/Farms'))
-// const Lottery = lazy(() => import('./views/Lottery'))
-// const Ifos = lazy(() => import('./views/Ifos'))
-// const NotFound = lazy(() => import('./views/NotFound'))
-// const Nft = lazy(() => import('./views/Nft'))
-// const Teams = lazy(() => import('./views/Teams'))
-// const Team = lazy(() => import('./views/Teams/Team'))
 const InvestorsAccountContainer = lazy(() => import('pages/Home/InvestorsAccountContainer'))
+const SwapContainter = lazy(() => import('pages/Swap/SwapContainter'))
 
 // This config is required for number formating
 BigNumber.config({
@@ -51,15 +46,12 @@ const App: React.FC = () => {
         <ResetCSS />
         <GlobalStyle />
         <Switch>
-          {/* <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
-            <InvestorsAccountContainer />
-          </MenuWrappedRoute> */}
-
           <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
             <InvestorsAccountContainer />
             <Route path="/" exact>
               <Home />
             </Route>
+            <SwapContainter />
           </MenuWrappedRoute>
           <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
             <Route path="/farms">

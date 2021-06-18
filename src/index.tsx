@@ -1,3 +1,4 @@
+import Popups from 'components/Popups'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import TagManager from 'react-gtm-module'
@@ -15,6 +16,7 @@ TagManager.initialize(tagManagerArgs)
 ReactDOM.render(
   <React.StrictMode>
     <Providers>
+      <Popups />
       <App />
     </Providers>
   </React.StrictMode>,
