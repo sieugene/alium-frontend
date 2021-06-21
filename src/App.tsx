@@ -1,23 +1,34 @@
 // import { useWallet } from '@binance-chain/bsc-use-wallet'
-import { getMainDomain,Maintenance,NotFound,ResetCSS } from '@alium-official/uikit'
+import { getMainDomain, NotFound, ResetCSS } from '@alium-official/uikit'
 import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
-import React,{ lazy,Suspense,useEffect } from 'react'
-import { BrowserRouter as Router,Route,Switch } from 'react-router-dom'
+import AddLiquidity from 'pages/AddLiquidity'
+import {
+  RedirectDuplicateTokenIds,
+  RedirectOldAddLiquidityPathStructure,
+  RedirectToAddLiquidity,
+} from 'pages/AddLiquidity/redirects'
+import InvestorsAccount from 'pages/InvestorsAccount'
+import Collection from 'pages/InvestorsAccount/Collection'
+import { WrapInvestorsAccounComponent } from 'pages/InvestorsAccount/InvestorsAccountContainer'
+import Pool from 'pages/Pool'
+import PoolFinder from 'pages/PoolFinder'
+import { RemoveLiquidity } from 'pages/RemoveLiquidity'
+import { RedirectOldRemoveLiquidityPathStructure } from 'pages/RemoveLiquidity/redirects'
+import Swap from 'pages/Swap'
+import { RedirectPathToSwapOnly, RedirectToSwap } from 'pages/Swap/redirects'
+import { WrapSwapComponent } from 'pages/Swap/SwapContainter'
+import React, { lazy, Suspense, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MenuWrappedRoute from './components/Menu'
 import PageLoader from './components/PageLoader'
 import ToastListener from './components/ToastListener'
 // import { useFetchProfile, useFetchPublicData } from 'state/hooks'
 import GlobalStyle from './style/Global'
-import AuditPage from './views/Audit'
-import Pools from './views/Pools'
-
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page'
 const Home = lazy(() => import('./views/Home'))
 const Farms = lazy(() => import('./views/Farms'))
-const InvestorsAccountContainer = lazy(() => import('pages/InvestorsAccount/InvestorsAccountContainer'))
-const SwapContainter = lazy(() => import('pages/Swap/SwapContainter'))
 
 // This config is required for number formating
 BigNumber.config({
@@ -45,15 +56,147 @@ const App: React.FC = () => {
       <Suspense fallback={<PageLoader />}>
         <ResetCSS />
         <GlobalStyle />
-        <Switch>
-          <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
-            <InvestorsAccountContainer />
-            <SwapContainter />
-            <Route path="/" exact>
-              <Home />
-            </Route>
-          </MenuWrappedRoute>
-          <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
+        <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            {/* Investors account routes */}
+            <Route
+              exact
+              strict
+              path="/account"
+              render={() => (
+                <WrapInvestorsAccounComponent>
+                  <InvestorsAccount />
+                </WrapInvestorsAccounComponent>
+              )}
+            />
+            <Route
+              exact
+              strict
+              path="/collection"
+              render={() => (
+                <WrapInvestorsAccounComponent>
+                  <Collection />
+                </WrapInvestorsAccounComponent>
+              )}
+            />
+            {/* Swap routes */}
+            <Route
+              exact
+              strict
+              path="/swap"
+              render={() => (
+                <WrapSwapComponent>
+                  <Swap />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              strict
+              path="/swap/:outputCurrency"
+              render={() => (
+                <WrapSwapComponent>
+                  <RedirectToSwap />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              strict
+              path="/send"
+              render={() => (
+                <WrapSwapComponent>
+                  <RedirectPathToSwapOnly />
+                </WrapSwapComponent>
+              )}
+            />
+            {/* <Route exact strict path="/migrate" component={Migrate} /> */}
+            <Route
+              exact
+              strict
+              path="/find"
+              render={() => (
+                <WrapSwapComponent>
+                  <PoolFinder />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              strict
+              path="/pool"
+              render={() => (
+                <WrapSwapComponent>
+                  <Pool />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              strict
+              path="/create"
+              render={() => (
+                <WrapSwapComponent>
+                  <RedirectToAddLiquidity />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              path="/add"
+              render={() => (
+                <WrapSwapComponent>
+                  <AddLiquidity />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              path="/add/:currencyIdA"
+              render={() => (
+                <WrapSwapComponent>
+                  <RedirectOldAddLiquidityPathStructure />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              path="/add/:currencyIdA/:currencyIdB"
+              render={() => (
+                <WrapSwapComponent>
+                  <RedirectDuplicateTokenIds />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              strict
+              path="/remove/:tokens"
+              render={() => (
+                <WrapSwapComponent>
+                  <RedirectOldRemoveLiquidityPathStructure />
+                </WrapSwapComponent>
+              )}
+            />
+            <Route
+              exact
+              strict
+              path="/remove/:currencyIdA/:currencyIdB"
+              render={() => (
+                <WrapSwapComponent>
+                  <RemoveLiquidity />
+                </WrapSwapComponent>
+              )}
+            />
+            {/* Default route */}
+            <Route
+              render={() => {
+                return <NotFound redirectURL={`https://${getMainDomain()}`} />
+              }}
+            />
+
+            {/* <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
             <Route path="/farms">
               <Farms />
             </Route>
@@ -67,41 +210,39 @@ const App: React.FC = () => {
             <Route path="/audits">
               <AuditPage />
             </Route>
-          </MenuWrappedRoute>
+          </MenuWrappedRoute> */}
 
-          {/* <Route path="/lottery">
+            {/* <Route path="/lottery">
               <Lottery />
             </Route> */}
-          {/* <Route path="/ifo">
+            {/* <Route path="/ifo">
               <Ifos />
             </Route> */}
-          {/* <Route path="/nft">
+            {/* <Route path="/nft">
               <Nft />
             </Route> */}
-          {/* <Route exact path="/teams">
+            {/* <Route exact path="/teams">
               <Teams />
             </Route>
             <Route path="/teams/:id">
               <Team />
             </Route> */}
-          {/* <Route path="/profile">
+            {/* <Route path="/profile">
               <Profile />
             </Route> */}
-          {/* Redirect */}
-          {/* <Route path="/staking">
+            {/* Redirect */}
+            {/* <Route path="/staking">
               <Redirect to="/pools" />
             </Route> */}
-          {/* <Route path="/syrup">
+            {/* <Route path="/syrup">
               <Redirect to="/pools" />
             </Route> */}
-          {/* 404 */}
-          <Route path="/maintenance">
+            {/* 404 */}
+            {/* <Route path="/maintenance">
             <Maintenance />
-          </Route>
-          <MenuWrappedRoute loginBlockVisible={loginBlockHidden}>
-            <NotFound redirectURL={`https://${getMainDomain()}`} />
-          </MenuWrappedRoute>
-        </Switch>
+          </Route> */}
+          </Switch>
+        </MenuWrappedRoute>
         <ToastListener />
       </Suspense>
     </Router>

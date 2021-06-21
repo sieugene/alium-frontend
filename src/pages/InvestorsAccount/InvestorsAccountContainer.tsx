@@ -1,8 +1,5 @@
 import 'i18n'
 import 'inter-ui'
-import InvestorsAccount from 'pages/InvestorsAccount'
-import Collection from 'pages/InvestorsAccount/Collection'
-import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 import 'typeface-roboto'
 import ApplicationUpdater from '../../state/application/updater'
@@ -51,7 +48,7 @@ const BodyWrapper = styled.div`
 const Marginer = styled.div`
   margin-top: 5rem;
 `
-const WrapInvestorsAccounComponent = ({ children }) => {
+export const WrapInvestorsAccounComponent = ({ children }) => {
   return (
     <>
       <ListsUpdater />
@@ -64,32 +61,3 @@ const WrapInvestorsAccounComponent = ({ children }) => {
     </>
   )
 }
-
-const InvestorsAccountContainer = () => {
-  return (
-    <>
-      <Route
-        exact
-        strict
-        path="/account"
-        render={() => (
-          <WrapInvestorsAccounComponent>
-            <InvestorsAccount />
-          </WrapInvestorsAccounComponent>
-        )}
-      />
-      <Route
-        exact
-        strict
-        path="/account/collection"
-        render={() => (
-          <WrapInvestorsAccounComponent>
-            <Collection />
-          </WrapInvestorsAccounComponent>
-        )}
-      />
-    </>
-  )
-}
-
-export default InvestorsAccountContainer
