@@ -14,7 +14,7 @@ export const useLiquidityPriorityDefaultAlm = () => {
   const history = useHistory()
   const ALMCurrencyId = useAlmToken()?.address
   useEffect(() => {
-    if (params?.currencyIdA === 'ETH') {
+    if (params?.currencyIdA === 'ETH' && ALMCurrencyId) {
       history.push(`/add/ETH/${ALMCurrencyId}`)
     }
     // ignore lint, need only in first load add page
