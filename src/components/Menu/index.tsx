@@ -1,5 +1,5 @@
-import { ChainId, ETHER } from '@alium-official/sdk'
-import { externalLinks, getMainDomain, Menu as UikitMenu, MenuEntry, useModal } from '@alium-official/uikit'
+import { ChainId,ETHER } from '@alium-official/sdk'
+import { externalLinks,Menu as UikitMenu,MenuEntry,useModal } from '@alium-official/uikit'
 import { useWeb3React } from '@web3-react/core'
 import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
 import { useActiveWeb3React } from 'hooks'
@@ -7,8 +7,9 @@ import useAuth from 'hooks/useAuth'
 import useTheme from 'hooks/useTheme'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { ROUTES } from 'routes'
 import { useCurrencyBalance } from 'state/wallet/hooks'
-import { getExplorerLink, getExplorerName } from 'utils'
+import { getExplorerLink,getExplorerName } from 'utils'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
 const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
@@ -18,17 +19,17 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
     {
       label: t('mainMenu.home'),
       icon: 'HomeIcon',
-      href: `https://${getMainDomain()}`,
+      href: ROUTES.home,
     },
     {
       label: t('mainMenu.trade'),
       icon: 'TradeIcon',
       items: [
-        { label: t('swap'), href: `https://exchange.${getMainDomain()}` },
-        { label: t('mainMenu.liquidity'), href: `https://exchange.${getMainDomain()}/pool` },
+        { label: t('swap'), href: ROUTES.exchange },
+        { label: t('mainMenu.liquidity'), href: ROUTES.pool },
       ],
     },
-    { label: 'Token holder area', icon: 'PrivateRoundIcon', href: `https://account.${getMainDomain()}` },
+    { label: 'Token holder area', icon: 'PrivateRoundIcon', href: ROUTES.tokenHolderArea },
     // {
     //   label: 'Analytics',
     //   icon: 'InfoIcon',
@@ -42,7 +43,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       label: t('mainMenu.more'),
       icon: 'MoreIcon',
       items: [
-        { label: 'Audits', href: `https://${getMainDomain()}/audits` },
+        { label: 'Audits', href: ROUTES.audits },
         // { label: 'Voting', href: 'https://voting.dev.alium.finance' },
         { label: t('mainMenu.github'), href: externalLinks.github },
         // { label: 'Docs', href: 'https://docs.pancakeswap.finance' },

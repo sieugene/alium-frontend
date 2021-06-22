@@ -1,6 +1,7 @@
 import { useActiveWeb3React } from 'hooks'
 import { useEffect } from 'react'
 import { useHistory, useParams } from 'react-router'
+import { ROUTES } from 'routes'
 import { useAllTokens } from './Tokens'
 
 export const useAlmToken = () => {
@@ -15,7 +16,7 @@ export const useLiquidityPriorityDefaultAlm = () => {
   const ALMCurrencyId = useAlmToken()?.address
   useEffect(() => {
     if (params?.currencyIdA === 'ETH' && ALMCurrencyId) {
-      history.push(`/add/ETH/${ALMCurrencyId}`)
+      history.push(ROUTES.addByMultiple('ETH', ALMCurrencyId))
     }
     // ignore lint, need only in first load add page
     // eslint-disable-next-line react-hooks/exhaustive-deps

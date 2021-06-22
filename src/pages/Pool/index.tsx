@@ -1,5 +1,5 @@
 import { Pair } from '@alium-official/sdk'
-import { Button,CardBody,Text } from '@alium-official/uikit'
+import { Button, CardBody, Text } from '@alium-official/uikit'
 import { LightCard } from 'components/Card'
 import CardNav from 'components/CardNav'
 import { AutoColumn } from 'components/Column'
@@ -7,17 +7,18 @@ import UnlockButton from 'components/ConnectWalletButton'
 import PageHeader from 'components/PageHeader'
 import FullPositionCard from 'components/PositionCard'
 import Question from 'components/QuestionHelper'
-import { StyledInternalLink,TYPE } from 'components/Shared'
+import { StyledInternalLink, TYPE } from 'components/Shared'
 import { Dots } from 'components/swap/styleds'
 import { usePairs } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
 import SwapAppBody from 'pages/Swap/SwapAppBody'
-import React,{ useContext,useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { toV2LiquidityToken,useTrackedTokenPairs } from 'state/user/hooks'
+import { ROUTES } from 'routes'
+import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
 import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
-import styled,{ ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 
 const { body: Body } = TYPE
 
@@ -156,23 +157,23 @@ export default function Pool() {
   const trackedTokenPairs = useTrackedTokenPairs()
   const tokenPairsWithLiquidityTokens = useMemo(
     () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
-    [trackedTokenPairs]
+    [trackedTokenPairs],
   )
   const liquidityTokens = useMemo(
     () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
-    [tokenPairsWithLiquidityTokens]
+    [tokenPairsWithLiquidityTokens],
   )
   const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
     account ?? undefined,
-    liquidityTokens
+    liquidityTokens,
   )
   // fetch the reserves for all V2 pools in which the user has a balance
   const liquidityTokensWithBalances = useMemo(
     () =>
       tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
-        v2PairsBalances[liquidityToken.address]?.greaterThan('0')
+        v2PairsBalances[liquidityToken.address]?.greaterThan('0'),
       ),
-    [tokenPairsWithLiquidityTokens, v2PairsBalances]
+    [tokenPairsWithLiquidityTokens, v2PairsBalances],
   )
   const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
   const v2IsLoading =
@@ -187,7 +188,7 @@ export default function Pool() {
       //     {t('addLiquidity')}
       //   </Button>
       // ) : (
-      <Button id="join-pool-button" as={Link} to="/add/ETH">
+      <Button id="join-pool-button" as={Link} to={ROUTES.addByOne('ETH')}>
         {t('addLiquidity')}
       </Button>
       // )

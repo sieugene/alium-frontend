@@ -1,6 +1,8 @@
-import { getMainDomain,useModal } from '@alium-official/uikit'
+import { useModal } from '@alium-official/uikit'
 import { motion } from 'framer-motion'
 import React,{ FC,useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { dbMailListCreateEmail } from 'utils/firebase'
 import CongratsModal from 'views/Home/components/CongratsModal'
@@ -510,22 +512,22 @@ const HomeNew = () => {
       </Container>
       <Container>
         <Cards>
-          <a href={`https://exchange.${getMainDomain()}`}>
+          <NavLink to={ROUTES.exchange}>
             <MotionLeftColumn opacityDelay={0.3} xInitial={-80} xDuration={1.4}>
               <CardExchange>
                 <div className="title">Exchange</div>
                 <div className="button" />
               </CardExchange>
             </MotionLeftColumn>
-          </a>
-          <a href={`https://exchange.${getMainDomain()}/pool`}>
+          </NavLink>
+          <NavLink to={ROUTES.pool}>
             <MotionLeftColumn opacityDelay={0.5} xInitial={-100} xDuration={1.5}>
               <CardLiquidity>
                 <div className="title">Liquidity</div>
                 <div className="button" />
               </CardLiquidity>
             </MotionLeftColumn>
-          </a>
+          </NavLink>
         </Cards>
       </Container>
     </>

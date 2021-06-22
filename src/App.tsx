@@ -1,12 +1,12 @@
 // import { useWallet } from '@binance-chain/bsc-use-wallet'
-import { getMainDomain, NotFound, ResetCSS } from '@alium-official/uikit'
+import { NotFound,ResetCSS } from '@alium-official/uikit'
 import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
 import AddLiquidity from 'pages/AddLiquidity'
 import {
-  RedirectDuplicateTokenIds,
-  RedirectOldAddLiquidityPathStructure,
-  RedirectToAddLiquidity,
+RedirectDuplicateTokenIds,
+RedirectOldAddLiquidityPathStructure,
+RedirectToAddLiquidity
 } from 'pages/AddLiquidity/redirects'
 import InvestorsAccount from 'pages/InvestorsAccount'
 import Collection from 'pages/InvestorsAccount/Collection'
@@ -16,10 +16,11 @@ import PoolFinder from 'pages/PoolFinder'
 import { RemoveLiquidity } from 'pages/RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from 'pages/RemoveLiquidity/redirects'
 import Swap from 'pages/Swap'
-import { RedirectPathToSwapOnly, RedirectToSwap } from 'pages/Swap/redirects'
+import { RedirectPathToSwapOnly,RedirectToSwap } from 'pages/Swap/redirects'
 import { WrapSwapComponent } from 'pages/Swap/SwapContainter'
-import React, { lazy, Suspense, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import React,{ lazy,Suspense,useEffect } from 'react'
+import { BrowserRouter as Router,Route,Switch } from 'react-router-dom'
+import { ROUTES } from 'routes'
 import MenuWrappedRoute from './components/Menu'
 import PageLoader from './components/PageLoader'
 import ToastListener from './components/ToastListener'
@@ -28,6 +29,7 @@ import GlobalStyle from './style/Global'
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page'
 const Home = lazy(() => import('./views/Home'))
+const AuditPage = lazy(() => import('views/Audit'))
 const Farms = lazy(() => import('./views/Farms'))
 
 // This config is required for number formating
@@ -144,7 +146,7 @@ const App: React.FC = () => {
             />
             <Route
               exact
-              path="/add"
+              path={ROUTES.add}
               render={() => (
                 <WrapSwapComponent>
                   <AddLiquidity />
@@ -153,7 +155,7 @@ const App: React.FC = () => {
             />
             <Route
               exact
-              path="/add/:currencyIdA"
+              path={ROUTES.addWithCurrencyA}
               render={() => (
                 <WrapSwapComponent>
                   <RedirectOldAddLiquidityPathStructure />
@@ -162,7 +164,7 @@ const App: React.FC = () => {
             />
             <Route
               exact
-              path="/add/:currencyIdA/:currencyIdB"
+              path={ROUTES.addWithMultipleCurrency}
               render={() => (
                 <WrapSwapComponent>
                   <RedirectDuplicateTokenIds />
@@ -172,7 +174,7 @@ const App: React.FC = () => {
             <Route
               exact
               strict
-              path="/remove/:tokens"
+              path={ROUTES.removeTokens}
               render={() => (
                 <WrapSwapComponent>
                   <RedirectOldRemoveLiquidityPathStructure />
@@ -182,17 +184,20 @@ const App: React.FC = () => {
             <Route
               exact
               strict
-              path="/remove/:currencyIdA/:currencyIdB"
+              path={ROUTES.removeMultiple}
               render={() => (
                 <WrapSwapComponent>
                   <RemoveLiquidity />
                 </WrapSwapComponent>
               )}
             />
+            <Route exact strict path="/audits">
+              <AuditPage />
+            </Route>
             {/* Default route */}
             <Route
               render={() => {
-                return <NotFound redirectURL={`https://${getMainDomain()}`} />
+                return <NotFound redirectURL={ROUTES.home} />
               }}
             />
 
@@ -204,11 +209,6 @@ const App: React.FC = () => {
           <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
             <Route path="/pools">
               <Pools />
-            </Route>
-          </MenuWrappedRoute>
-          <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
-            <Route path="/audits">
-              <AuditPage />
             </Route>
           </MenuWrappedRoute> */}
 

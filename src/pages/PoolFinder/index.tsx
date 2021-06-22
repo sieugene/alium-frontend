@@ -1,24 +1,24 @@
-import { Currency, ETHER, JSBI, TokenAmount } from '@alium-official/sdk'
-import React, { useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { Button, ChevronDownIcon, AddIcon, CardBody, Text } from '@alium-official/uikit'
-import { useTranslation } from 'react-i18next'
-import CardNav from 'components/CardNav'
+import { Currency,ETHER,JSBI,TokenAmount } from '@alium-official/sdk'
+import { AddIcon,Button,CardBody,ChevronDownIcon,Text } from '@alium-official/uikit'
 import { LightCard } from 'components/Card'
-import { AutoColumn, ColumnCenter } from 'components/Column'
+import CardNav from 'components/CardNav'
+import { AutoColumn,ColumnCenter } from 'components/Column'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { FindPoolTabs } from 'components/NavigationTabs'
 import { MinimalPositionCard } from 'components/PositionCard'
 import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
-import { PairState, usePair } from 'data/Reserves'
+import { StyledInternalLink } from 'components/Shared'
+import { PairState,usePair } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
+import SwapAppBody from 'pages/Swap/SwapAppBody'
+import React,{ useCallback,useEffect,useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ROUTES } from 'routes'
 import { usePairAdder } from 'state/user/hooks'
 import { useTokenBalance } from 'state/wallet/hooks'
-import { StyledInternalLink } from 'components/Shared'
+import styled from 'styled-components'
 import { currencyId } from 'utils/currencyId'
-import AppBody from '../AppBody'
 import { Dots } from '../Pool/styleds'
-import SwapAppBody from 'pages/Swap/SwapAppBody'
 
 enum Fields {
   TOKEN0 = 0,
@@ -61,7 +61,7 @@ export default function PoolFinder() {
       pairState === PairState.EXISTS &&
         pair &&
         JSBI.equal(pair.reserve0.raw, JSBI.BigInt(0)) &&
-        JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0))
+        JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0)),
     )
 
   const position: TokenAmount | undefined = useTokenBalance(account ?? undefined, pair?.liquidityToken)
@@ -75,7 +75,7 @@ export default function PoolFinder() {
         setCurrency1(currency)
       }
     },
-    [activeField]
+    [activeField],
   )
 
   const handleSearchDismiss = useCallback(() => {
@@ -141,7 +141,7 @@ export default function PoolFinder() {
                   <LightCard padding="30px 10px">
                     <AutoColumn gap="sm" justify="center">
                       <Text style={{ textAlign: 'center' }}>{t('noLiquidityInPool')}</Text>
-                      <StyledInternalLink to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}>
+                      <StyledInternalLink to={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
                         <Text style={{ textAlign: 'center' }}>{t('addLiquidity')}</Text>
                       </StyledInternalLink>
                     </AutoColumn>
@@ -151,7 +151,7 @@ export default function PoolFinder() {
                 <LightCard padding="30px 10px">
                   <AutoColumn gap="sm" justify="center">
                     <Text style={{ textAlign: 'center' }}>{t('noPool')}</Text>
-                    <StyledInternalLink to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}>
+                    <StyledInternalLink to={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
                       {t('createPool')}
                     </StyledInternalLink>
                   </AutoColumn>

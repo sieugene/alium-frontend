@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
-import { JSBI, Pair, Percent } from '@alium-official/sdk'
+import { JSBI,Pair,Percent } from '@alium-official/sdk'
 import {
-  Button,
-  Card as UIKitCard,
-  CardBody,
-  IconButton,
-  Text,
-  ArrowDropUpIcon,
-  ArrowDropDownIcon,
-  ColoredCopyIcon,
+ArrowDropDownIcon,
+ArrowDropUpIcon,
+Button,
+Card as UIKitCard,
+CardBody,
+ColoredCopyIcon,
+IconButton,
+Text
 } from '@alium-official/uikit'
 import { darken } from 'polished'
+import React,{ useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
@@ -22,7 +23,7 @@ import Card from '../Card'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { RowBetween, RowFixed } from '../Row'
+import { RowBetween,RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
 
 interface FixedHeightProps {
@@ -262,7 +263,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
             <RowBetween marginTop="10px">
               <Button
                 as={Link}
-                to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
+                to={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}
                 // style={{ width: '48%' }}
               >
                 Add
@@ -271,7 +272,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
                 variant="secondary"
                 as={Link}
                 // style={{ width: '48%' }}
-                to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}
+                to={ROUTES.removeByMultiple(currencyId(currency0), currencyId(currency1))}
               >
                 Remove
               </Button>

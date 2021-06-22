@@ -1,5 +1,5 @@
-import { ChainId,Currency,currencyEquals,ETHER,Percent,WETH } from '@alium-official/sdk'
-import { AddIcon,Button,Flex,Text } from '@alium-official/uikit'
+import { ChainId, Currency, currencyEquals, ETHER, Percent, WETH } from '@alium-official/sdk'
+import { AddIcon, Button, Flex, Text } from '@alium-official/uikit'
 import { BigNumber } from '@ethersproject/bignumber'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
@@ -7,35 +7,35 @@ import { TransactionResponse } from '@ethersproject/providers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { ROUTER_ADDRESS } from 'config/contracts'
 import SwapAppBody from 'pages/Swap/SwapAppBody'
-import React,{ FC,useCallback,useMemo,useState } from 'react'
-import { ArrowDown,ChevronDown } from 'react-feather'
-import { useHistory,useParams } from 'react-router-dom'
+import React, { FC, useCallback, useMemo, useState } from 'react'
+import { ArrowDown, ChevronDown } from 'react-feather'
+import { useHistory, useParams } from 'react-router-dom'
+import { ROUTES } from 'routes'
 import styled from 'styled-components'
-import { AutoColumn,ColumnCenter } from '../../components/Column'
+import { AutoColumn, ColumnCenter } from '../../components/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { AddRemoveTabs } from '../../components/NavigationTabs'
 import { MinimalPositionCard } from '../../components/PositionCard'
-import { RowBetween,RowFixed } from '../../components/Row'
+import { RowBetween, RowFixed } from '../../components/Row'
 import { StyledInternalLink } from '../../components/Shared'
 import Slider from '../../components/Slider'
 import { Dots } from '../../components/swap/styleds'
-import TransactionConfirmationModal,{ ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
+import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
-import { ApprovalState,useApproveCallback } from '../../hooks/useApproveCallback'
+import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { usePairContract } from '../../hooks/useContract'
 import { Field } from '../../state/burn/actions'
-import { useBurnActionHandlers,useBurnState,useDerivedBurnInfo } from '../../state/burn/hooks'
+import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks'
 import { useTransactionAdder } from '../../state/transactions/hooks'
-import { useUserDeadline,useUserSlippageTolerance } from '../../state/user/hooks'
-import { calculateGasMargin,calculateGasPrice,calculateSlippageAmount,getRouterContract } from '../../utils'
+import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
+import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from '../../utils'
 import { currencyId } from '../../utils/currencyId'
 import useDebouncedChangeHandler from '../../utils/useDebouncedChangeHandler'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
-import AppBody from '../AppBody'
-import { ClickableText,Wrapper } from '../Pool/styleds'
+import { ClickableText, Wrapper } from '../Pool/styleds'
 
 const OutlineCard = styled.div`
   padding: 17px 24px;
@@ -80,7 +80,7 @@ export const RemoveLiquidity: FC = () => {
   const { account, chainId, library } = useActiveWeb3React()
   const [tokenA, tokenB] = useMemo(
     () => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)],
-    [currencyA, currencyB, chainId]
+    [currencyA, currencyB, chainId],
   )
 
   // const theme = useContext(ThemeContext)
@@ -124,7 +124,7 @@ export const RemoveLiquidity: FC = () => {
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
-    chainId && ROUTER_ADDRESS[chainId]
+    chainId && ROUTER_ADDRESS[chainId],
   )
 
   const onAttemptToApprove = async () => {
@@ -197,7 +197,7 @@ export const RemoveLiquidity: FC = () => {
       setSignatureData(null)
       return _onUserInput(field, val)
     },
-    [_onUserInput]
+    [_onUserInput],
   )
 
   const onLiquidityInput = useCallback((val: string): void => onUserInput(Field.LIQUIDITY, val), [onUserInput])
@@ -305,12 +305,12 @@ export const RemoveLiquidity: FC = () => {
           .catch((e) => {
             console.error(`estimateGas failed`, index, methodName, args, e)
             return undefined
-          })
-      )
+          }),
+      ),
     )
 
     const indexOfSuccessfulEstimation = safeGasEstimates.findIndex((safeGasEstimate) =>
-      BigNumber.isBigNumber(safeGasEstimate)
+      BigNumber.isBigNumber(safeGasEstimate),
     )
 
     // all estimations failed...
@@ -448,35 +448,35 @@ export const RemoveLiquidity: FC = () => {
     (value: number) => {
       onUserInput(Field.LIQUIDITY_PERCENT, value.toString())
     },
-    [onUserInput]
+    [onUserInput],
   )
 
   const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER
   const oneCurrencyIsWETH = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WETH[chainId], currencyA)) ||
-        (currencyB && currencyEquals(WETH[chainId], currencyB)))
+        (currencyB && currencyEquals(WETH[chainId], currencyB))),
   )
 
   const handleSelectCurrencyA = useCallback(
     (currency: Currency) => {
       if (currencyIdB && currencyId(currency) === currencyIdB) {
-        history.push(`/remove/${currencyId(currency)}/${currencyIdA}`)
+        history.push(ROUTES.removeByMultiple(currencyId(currency), currencyIdA))
       } else {
-        history.push(`/remove/${currencyId(currency)}/${currencyIdB}`)
+        history.push(ROUTES.removeByMultiple(currencyId(currency), currencyIdB))
       }
     },
-    [currencyIdA, currencyIdB, history]
+    [currencyIdA, currencyIdB, history],
   )
   const handleSelectCurrencyB = useCallback(
     (currency: Currency) => {
       if (currencyIdA && currencyId(currency) === currencyIdA) {
-        history.push(`/remove/${currencyIdB}/${currencyId(currency)}`)
+        history.push(ROUTES.removeByMultiple(currencyIdB, currencyId(currency)))
       } else {
-        history.push(`/remove/${currencyIdA}/${currencyId(currency)}`)
+        history.push(ROUTES.removeByMultiple(currencyIdA, currencyId(currency)))
       }
     },
-    [currencyIdA, currencyIdB, history]
+    [currencyIdA, currencyIdB, history],
   )
 
   const handleDismissConfirmation = useCallback(() => {
@@ -491,7 +491,7 @@ export const RemoveLiquidity: FC = () => {
 
   const [innerLiquidityPercentage, setInnerLiquidityPercentage] = useDebouncedChangeHandler(
     Number.parseInt(parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0)),
-    liquidityPercentChangeCallback
+    liquidityPercentChangeCallback,
   )
 
   const StyledWrapper = styled(Wrapper)`
@@ -664,17 +664,19 @@ export const RemoveLiquidity: FC = () => {
                         <RowBetween style={{ justifyContent: 'flex-end' }}>
                           {oneCurrencyIsETH ? (
                             <StyledInternalLink
-                              to={`/remove/${currencyA === ETHER ? WETH[chainId].address : currencyIdA}/${
-                                currencyB === ETHER ? WETH[chainId].address : currencyIdB
-                              }`}
+                              to={ROUTES.removeByMultiple(
+                                currencyA === ETHER ? WETH[chainId].address : currencyIdA,
+                                currencyB === ETHER ? WETH[chainId].address : currencyIdB,
+                              )}
                             >
                               Receive WBNB
                             </StyledInternalLink>
                           ) : oneCurrencyIsWETH ? (
                             <StyledInternalLink
-                              to={`/remove/${
-                                currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'ETH' : currencyIdA
-                              }/${currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'ETH' : currencyIdB}`}
+                              to={ROUTES.removeByMultiple(
+                                currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'ETH' : currencyIdA,
+                                currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'ETH' : currencyIdB,
+                              )}
                             >
                               Receive BNB
                             </StyledInternalLink>

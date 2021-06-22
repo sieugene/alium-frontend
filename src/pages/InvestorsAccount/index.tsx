@@ -1,13 +1,14 @@
-import { Button, Flex, getMainDomain, Heading, Text } from '@alium-official/uikit'
+import { Button,Flex,Heading,Text } from '@alium-official/uikit'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import Modal from 'components/Modal'
-import { TransactionSubmittedContent, TransactionSucceedContent } from 'components/TransactionConfirmationModal'
+import { TransactionSubmittedContent,TransactionSucceedContent } from 'components/TransactionConfirmationModal'
 import { useActiveWeb3React } from 'hooks'
 import { useNFTPrivateContract } from 'hooks/useContract'
 import useNftPoolHook from 'hooks/useNftPool'
-import React, { useCallback, useEffect, useState } from 'react'
+import React,{ useCallback,useEffect,useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
+import { ROUTES } from 'routes'
 import { removePopup } from 'state/application/actions'
 import { PopupList } from 'state/application/reducer'
 import { AppState } from 'state/index'
@@ -15,7 +16,6 @@ import styled from 'styled-components'
 import { Dots } from '../../components/swap/styleds'
 import useCollectionNft from '../../hooks/useCollectionNft'
 import { getAccountTotalBalance } from '../../utils'
-import AppBody from '../AppBody'
 import AppInvestorsAccountBody from './AppInvestorsAccountBody'
 import NftAccountCard from './components/NftAccountCard'
 import NftNavTabs from './components/NftNavTabs'
@@ -309,7 +309,7 @@ const InvestorsAccount = () => {
           ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
             <NoNFT>
               <NoNFTText>You don&apos;t have NFT tokens yet, but you can purchase them on the page</NoNFTText>
-              <Button href={`https://public.${getMainDomain()}`} target="_blank" as="a">
+              <Button href={ROUTES.public} target="_blank" as="a">
                 Buy NFT
               </Button>
             </NoNFT>

@@ -1,10 +1,10 @@
-import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@alium-official/sdk'
-import { AddIcon, Button, CardBody, Text, Text as UIKitText } from '@alium-official/uikit'
+import { Currency,currencyEquals,ETHER,TokenAmount,WETH } from '@alium-official/sdk'
+import { AddIcon,Button,CardBody,Text,Text as UIKitText } from '@alium-official/uikit'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { LightCard } from 'components/Card'
 import CardNav from 'components/CardNav'
-import { AutoColumn, ColumnCenter } from 'components/Column'
+import { AutoColumn,ColumnCenter } from 'components/Column'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import DoubleCurrencyLogo from 'components/DoubleLogo'
@@ -12,28 +12,28 @@ import Loader from 'components/Loader'
 import { AddRemoveTabs } from 'components/NavigationTabs'
 import Pane from 'components/Pane'
 import { MinimalPositionCard } from 'components/PositionCard'
-import Row, { AutoRow, RowBetween, RowFlat } from 'components/Row'
-import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
+import Row,{ AutoRow,RowBetween,RowFlat } from 'components/Row'
+import TransactionConfirmationModal,{ ConfirmationModalContent } from 'components/TransactionConfirmationModal'
 import { ROUTER_ADDRESS } from 'config/contracts'
 import { PairState } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
-import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import { ApprovalState,useApproveCallback } from 'hooks/useApproveCallback'
 import SwapAppBody from 'pages/Swap/SwapAppBody'
-import React, { useCallback, useEffect, useState } from 'react'
+import React,{ useCallback,useEffect,useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import { ROUTES } from 'routes'
 import { Field } from 'state/mint/actions'
-import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
+import { useDerivedMintInfo,useMintActionHandlers,useMintState } from 'state/mint/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
+import { useIsExpertMode,useUserDeadline,useUserSlippageTolerance } from 'state/user/hooks'
 import styled from 'styled-components'
-import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
+import { calculateGasMargin,calculateGasPrice,calculateSlippageAmount,getRouterContract } from 'utils'
 import { currencyId } from 'utils/currencyId'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import AppBody from '../AppBody'
 import { Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { PoolPriceBar } from './PoolPriceBar'
@@ -89,7 +89,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
   const oneCurrencyIsWETH = Boolean(
     chainId &&
       ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
-        (currencyB && currencyEquals(currencyB, WETH[chainId])))
+        (currencyB && currencyEquals(currencyB, WETH[chainId]))),
   )
   const expertMode = useIsExpertMode()
 
@@ -136,7 +136,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
         [field]: maxAmountSpend(currencyBalances[field]),
       }
     },
-    {}
+    {},
   )
 
   const atMaxAmounts: { [field in Field]?: TokenAmount } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
@@ -146,17 +146,17 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
         [field]: maxAmounts[field]?.equalTo(parsedAmounts[field] ?? '0'),
       }
     },
-    {}
+    {},
   )
 
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_A],
-    chainId && ROUTER_ADDRESS[chainId]
+    chainId && ROUTER_ADDRESS[chainId],
   )
   const [approvalB, approveBCallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_B],
-    chainId && ROUTER_ADDRESS[chainId]
+    chainId && ROUTER_ADDRESS[chainId],
   )
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
@@ -247,7 +247,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
           })
 
           setTxHash(response.hash)
-        })
+        }),
       )
       .catch((e) => {
         setAttemptingTxn(false)
@@ -322,31 +322,31 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
       setApprovalSubmittedA(false)
       const newCurrencyIdA = currencyId(currA)
       if (newCurrencyIdA === currencyIdB) {
-        history.push(`/add/${currencyIdB}/${currencyIdA}`)
+        history.push(ROUTES.addByMultiple(currencyIdB, currencyIdA))
       } else {
-        history.push(`/add/${newCurrencyIdA}/${currencyIdB}`)
+        history.push(ROUTES.addByMultiple(newCurrencyIdA, currencyIdB))
       }
     },
-    [currencyIdB, history, currencyIdA]
+    [currencyIdB, history, currencyIdA],
   )
 
   useLiquidityPriorityDefaultAlm()
-  
+
   const handleCurrencyBSelect = useCallback(
     (currB: Currency) => {
       setApprovalSubmittedB(false)
       const newCurrencyIdB = currencyId(currB)
       if (currencyIdA === newCurrencyIdB) {
         if (currencyIdB) {
-          history.push(`/add/${currencyIdB}/${newCurrencyIdB}`)
+          history.push(ROUTES.addByMultiple(currencyIdB, newCurrencyIdB))
         } else {
-          history.push(`/add/${newCurrencyIdB}`)
+          history.push(ROUTES.addByOne(newCurrencyIdB))
         }
       } else {
-        history.push(`/add/${currencyIdA || 'ETH'}/${newCurrencyIdB}`)
+        history.push(ROUTES.addByMultiple(currencyIdA || 'ETH', newCurrencyIdB))
       }
     },
-    [currencyIdA, history, currencyIdB]
+    [currencyIdA, history, currencyIdB],
   )
 
   const handleDismissConfirmation = useCallback(() => {

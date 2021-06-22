@@ -1,10 +1,10 @@
-import { getMainDomain } from '@alium-official/uikit'
 import { useActiveWeb3React } from 'hooks'
 import { useEffect, useState } from 'react'
+import { ROUTES } from 'routes'
 
 const initialState = {
-  profileLink: `https://${getMainDomain()}/profile`,
-  noProfileLink: `https://${getMainDomain()}/profile`,
+  profileLink: ROUTES.profile,
+  noProfileLink: ROUTES.profile,
 }
 
 /**

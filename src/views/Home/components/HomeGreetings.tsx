@@ -1,7 +1,9 @@
-import { Button, getMainDomain, Heading, Text } from '@alium-official/uikit'
+import { Button, Heading, Text } from '@alium-official/uikit'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Lottie from 'react-lottie-player'
+import { NavLink } from 'react-router-dom'
+import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import greetingsAnimationJSON from '../../../assets/data/greetings-animation.json'
 import GreetingsConfetti from './GreetingsConfetti'
@@ -119,12 +121,9 @@ const HomeGreetings: React.FC = () => {
         <StyledText className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
           {t('greetingsMessage')}
         </StyledText>
-        <a
-          href={`https://exchange.${getMainDomain()}`}
-          className="animate__animated animate__fadeInUp animate__delay-2s animate__fast"
-        >
+        <NavLink to={ROUTES.exchange} className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
           <StyledButton>{t('startTrading')}</StyledButton>
-        </a>
+        </NavLink>
       </InfoWrapper>
 
       <ImageFrapper>
