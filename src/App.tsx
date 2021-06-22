@@ -65,7 +65,7 @@ const App: React.FC = () => {
             <Route
               exact
               strict
-              path="/account"
+              path={ROUTES.tokenHolderArea}
               render={() => (
                 <WrapInvestorsAccounComponent>
                   <InvestorsAccount />
@@ -75,7 +75,7 @@ const App: React.FC = () => {
             <Route
               exact
               strict
-              path="/collection"
+              path={ROUTES.collection}
               render={() => (
                 <WrapInvestorsAccounComponent>
                   <Collection />

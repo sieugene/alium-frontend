@@ -15,6 +15,7 @@ export const ROUTES = {
   removeByMultiple: (currencyIdA: string, currencyIdB: string) => `/remove/${currencyIdA}/${currencyIdB}`,
   //
   tokenHolderArea: '/account',
+  collection: '/collection',
   audits: '/audits',
   public: `https://public.${getMainDomain()}`,
   profile: `https://${getMainDomain()}/profile`,
