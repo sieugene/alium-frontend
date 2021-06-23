@@ -4,15 +4,15 @@ on:
   push:
     branches:
       - develop
-      - master
+      - combined
   pull_request:
-    branches:      
+    branches:
       - develop
-      - master
-      
+      - combined
+
 jobs:
   build_dev:
-    if: github.ref == 'refs/heads/develop'  
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/combined'
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2.1.1
@@ -33,7 +33,7 @@ jobs:
       - name: Install dependincies
         run: yarn install
       - name: Build project
-        run: yarn build:dev      
+        run: yarn build:dev
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -50,12 +50,12 @@ jobs:
           name: build
       - run: cp -r ./ ~/$GITHUB_REPOSITORY
 
-  #deploy_stage:
-  #  needs: build
-  #  if: github.ref == 'refs/heads/master'
-  #  runs-on: [self-hosted, stage]
-  #  steps:
-  #    - uses: actions/download-artifact@v2
-  #      with:
-  #        name: build
-  #    - run: cp -r ./ ~/$GITHUB_REPOSITORY
+  deploy_merge:
+    needs: build_dev
+    if: github.ref == 'refs/heads/combined'
+    runs-on: [self-hosted, stage]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
+      - run: cp -r ./ ~/Alium-Finance/alium-frontend-merge
