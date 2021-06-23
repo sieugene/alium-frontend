@@ -1,5 +1,5 @@
+import Link, { LinkProps } from 'next/link'
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
-import { Link, LinkProps } from 'react-router-dom'
 import { SpaceProps } from 'styled-system'
 
 export const sizes = {

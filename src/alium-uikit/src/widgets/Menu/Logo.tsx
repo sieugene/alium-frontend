@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { LogoIcon } from '../../components/Svg'
 import Flex from '../../components/Flex/Flex'
 import { LogoIcon as LogoWithText } from './icons'
+import Link from 'next/link'
 
 interface Props {
   isDark: boolean
@@ -50,7 +50,7 @@ const Logo: React.FC<Props> = ({ isDark, href, isPushed }) => {
           {innerLogo}
         </StyledLink>
       ) : (
-        <StyledLink to={href} aria-label="Alium home page">
+        <StyledLink href={href} aria-label="Alium home page">
           {innerLogo}
         </StyledLink>
       )}

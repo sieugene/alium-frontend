@@ -1,4 +1,5 @@
 import { useParticleBurst } from 'alium-uikit/src'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -19,7 +20,7 @@ const disableWhenNotChristmas = () => {
 }
 
 const useMerryChristmas = () => {
-  const { pathname } = useLocation()
+  const { pathname } = useRouter()
   const { initialize, teardown } = useParticleBurst({
     imgSrc: '/images/bunny-santa.svg',
     disableWhen: disableWhenNotChristmas,

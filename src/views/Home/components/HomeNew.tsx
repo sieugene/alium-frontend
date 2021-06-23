@@ -1,7 +1,7 @@
 import { useModal } from 'alium-uikit/src'
 import { motion } from 'framer-motion'
 import React, { FC, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import Link from 'next/link'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { dbMailListCreateEmail } from 'utils/firebase'
@@ -512,22 +512,22 @@ const HomeNew = () => {
       </Container>
       <Container>
         <Cards>
-          <NavLink to={ROUTES.exchange}>
+          <Link href={ROUTES.exchange}>
             <MotionLeftColumn opacityDelay={0.3} xInitial={-80} xDuration={1.4}>
               <CardExchange>
                 <div className="title">Exchange</div>
                 <div className="button" />
               </CardExchange>
             </MotionLeftColumn>
-          </NavLink>
-          <NavLink to={ROUTES.pool}>
+          </Link>
+          <Link href={ROUTES.pool}>
             <MotionLeftColumn opacityDelay={0.5} xInitial={-100} xDuration={1.5}>
               <CardLiquidity>
                 <div className="title">Liquidity</div>
                 <div className="button" />
               </CardLiquidity>
             </MotionLeftColumn>
-          </NavLink>
+          </Link>
         </Cards>
       </Container>
     </>

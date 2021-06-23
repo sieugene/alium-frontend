@@ -1,25 +1,8 @@
-import dynamic from 'next/dynamic'
 import React from 'react'
-
-const Providers = dynamic(() => import('Providers'), { ssr: false })
-
-const Popups = dynamic(() => import('components/Popups'), { ssr: false })
-
-const App = dynamic(() => import('App'), { ssr: false })
+import Home from 'views/Home'
 
 function HomePage() {
-  // @ts-ignore
-  const isBrowser = process.browser
-  return (
-    <>
-      {isBrowser && (
-        <Providers>
-          <Popups />
-          <App />
-        </Providers>
-      )}
-    </>
-  )
+  return <Home />
 }
 
 export default HomePage

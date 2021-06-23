@@ -8,6 +8,9 @@ import 'typeface-roboto'
 const Providers = dynamic(() => import('Providers'), { ssr: false })
 const Popups = dynamic(() => import('components/Popups'), { ssr: false })
 const ToastListener = dynamic(() => import('components/ToastListener'), { ssr: false })
+const GlobalStyle = dynamic(() => import('style/Global'), { ssr: false })
+const ResetCSS = dynamic(() => import('alium-uikit/src').then((module) => module.ResetCSS), { ssr: false })
+const MenuWrappedRoute = dynamic(() => import('../components/Menu'), { ssr: false })
 
 // import '../i18n'
 
@@ -29,15 +32,17 @@ function MyApp({ Component, pageProps }: AppProps) {
     console.warn = () => null
   }, [])
 
-  // useEagerConnect()
+  // process.browser && useEagerConnect()
 
   return (
-    <>
-      <Providers>
-        <Popups />
+    <Providers>
+      <Popups />
+      <ResetCSS />
+      <GlobalStyle />
+      <MenuWrappedRoute loginBlockVisible>
         <Component {...pageProps} /> <ToastListener />
-      </Providers>
-    </>
+      </MenuWrappedRoute>
+    </Providers>
   )
 }
 export default MyApp

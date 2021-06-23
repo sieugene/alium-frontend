@@ -1,4 +1,5 @@
 import { Button, Flex } from 'alium-uikit/src'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ROUTES } from 'routes'
@@ -51,7 +52,7 @@ const IconWrapper = styled.div<{ size?: number; active: boolean }>`
 `
 
 function NftNavTabs() {
-  const location = useLocation()
+  const location = useRouter()
 
   return (
     <NavWrap>

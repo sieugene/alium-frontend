@@ -15,7 +15,7 @@ const isMobileWallet = (anotherWallet: ConnectorNames) => {
 }
 
 const isWeb3Detect = () => {
-  const global: any = window
+  const global: any = process.browser && window
   return Boolean(global?.web3)
 }
 

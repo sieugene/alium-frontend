@@ -1,4 +1,5 @@
 import { Text } from 'alium-uikit/src'
+import { useRouter } from 'next/router'
 import { stringify } from 'qs'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +11,7 @@ import { AutoColumn } from '../Column'
 import { StyledInternalLink } from '../Shared'
 
 export default function BetterTradeLink({ version }: { version: Version }) {
-  const location = useLocation()
+  const location = useRouter()
   const search = useParsedQueryString()
   const { t } = useTranslation()
   const linkDestination = useMemo(() => {

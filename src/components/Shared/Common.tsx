@@ -1,7 +1,7 @@
 import { darken } from 'polished'
 import React, { HTMLProps, useCallback } from 'react'
 import { ArrowLeft, X } from 'react-feather'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import styled, { keyframes } from 'styled-components'
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
@@ -142,7 +142,7 @@ const BackArrowLink = styled(StyledInternalLink)`
 `
 export function BackArrow({ to }: { to: string }) {
   return (
-    <BackArrowLink to={to}>
+    <BackArrowLink href={to}>
       <ArrowLeft />
     </BackArrowLink>
   )

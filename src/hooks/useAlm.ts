@@ -1,6 +1,7 @@
 import { useActiveWeb3React } from 'hooks'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useHistory, useParams } from 'react-router'
+import { useHistory } from 'react-router'
 import { ROUTES } from 'routes'
 import { useAllTokens } from './Tokens'
 
@@ -11,11 +12,11 @@ export const useAlmToken = () => {
 }
 
 export const useLiquidityPriorityDefaultAlm = () => {
-  const params: any = useParams()
+  const { query }: any = useRouter()
   const history = useHistory()
   const ALMCurrencyId = useAlmToken()?.address
   useEffect(() => {
-    if (params?.currencyIdA === 'ETH' && ALMCurrencyId) {
+    if (query?.currencyIdA === 'ETH' && ALMCurrencyId) {
       history.push(ROUTES.addByMultiple('ETH', ALMCurrencyId))
     }
     // ignore lint, need only in first load add page
