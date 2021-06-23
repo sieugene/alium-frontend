@@ -6,7 +6,7 @@ on:
       - develop
       - merge
   pull_request:
-    branches:      
+    branches:
       - develop
       - merge
       
@@ -33,7 +33,7 @@ jobs:
       - name: Install dependincies
         run: yarn install
       - name: Build project
-        run: yarn build:dev      
+        run: yarn build:dev
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
