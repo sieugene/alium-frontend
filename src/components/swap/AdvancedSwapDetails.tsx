@@ -1,6 +1,6 @@
-import React from 'react'
 import { Trade, TradeType } from '@alium-official/sdk'
-import { Card, CardBody, Text } from '@alium-official/uikit'
+import { Card, CardBody, Text } from 'alium-uikit/src'
+import React from 'react'
 import styled from 'styled-components'
 import { Field } from '../../state/swap/actions'
 import { useUserSlippageTolerance } from '../../state/user/hooks'

@@ -1,6 +1,6 @@
 import { JSBI, TokenAmount } from '@alium-official/sdk'
-import { Button, Flex, Heading, Text } from '@alium-official/uikit'
 import { parseUnits } from '@ethersproject/units'
+import { Button, Flex, Heading, Text } from 'alium-uikit/src'
 import axios from 'axios'
 import { GreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
@@ -277,9 +277,9 @@ const StrategicalPartnershipHome = () => {
   const [approval, approveCallback] = useApproveCallback(
     new TokenAmount(
       new WrappedTokenInfo(currencies.match[values.currency], []),
-      JSBI.BigInt(parseUnits(cardPrice, currencies.match[values.currency]?.decimals).toString())
+      JSBI.BigInt(parseUnits(cardPrice, currencies.match[values.currency]?.decimals).toString()),
     ),
-    NFT_PRIVATE_ADDRESS
+    NFT_PRIVATE_ADDRESS,
   )
   const [approvalSubmitted, setApprovalSubmitted] = React.useState<boolean>(false)
 

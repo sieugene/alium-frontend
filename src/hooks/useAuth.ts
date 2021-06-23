@@ -1,4 +1,3 @@
-import { ConnectorNames, removeConnectorId } from '@alium-official/uikit'
 import { NoBscProviderError } from '@binance-chain/bsc-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import {
@@ -9,6 +8,7 @@ import {
   UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
   WalletConnectConnector,
 } from '@web3-react/walletconnect-connector'
+import { ConnectorNames, removeConnectorId } from 'alium-uikit/src'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { setConnectionError } from 'state/application/actions'

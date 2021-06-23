@@ -1,4 +1,4 @@
-import { getChainId } from '@alium-official/uikit'
+import { getChainId } from 'alium-uikit/src'
 
 const chainId = getChainId()
 

@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useRouteMatch, Link } from 'react-router-dom'
-import { ButtonMenu, ButtonMenuItem, Text, Toggle } from '@alium-official/uikit'
+import { ButtonMenu, ButtonMenuItem, Text, Toggle } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
+import React from 'react'
+import { Link, useRouteMatch } from 'react-router-dom'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

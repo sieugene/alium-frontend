@@ -1,4 +1,4 @@
-import { Button, Heading, Text } from '@alium-official/uikit'
+import { Button, Heading, Text } from 'alium-uikit/src'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Lottie from 'react-lottie-player'

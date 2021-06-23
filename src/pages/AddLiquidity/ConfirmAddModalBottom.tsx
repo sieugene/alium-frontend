@@ -1,11 +1,10 @@
 import { Currency, CurrencyAmount, Fraction, Percent } from '@alium-official/sdk'
+import { Button } from 'alium-uikit/src'
 import React from 'react'
-import { Button } from '@alium-official/uikit'
-
-import { RowBetween, RowFixed } from '../../components/Row'
 import CurrencyLogo from '../../components/CurrencyLogo'
-import { Field } from '../../state/mint/actions'
+import { RowBetween, RowFixed } from '../../components/Row'
 import { TYPE } from '../../components/Shared'
+import { Field } from '../../state/mint/actions'
 
 const { body: Body } = TYPE
 

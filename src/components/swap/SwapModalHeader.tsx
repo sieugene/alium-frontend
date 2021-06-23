@@ -1,17 +1,15 @@
-import React, { useContext, useMemo } from 'react'
-import styled, { ThemeContext } from 'styled-components'
 import { Trade, TradeType } from '@alium-official/sdk'
-import { Button, Text, ColoredArrowDownIcon } from '@alium-official/uikit'
-
+import { Button, ColoredArrowDownIcon, Text } from 'alium-uikit/src'
+import React, { useContext, useMemo } from 'react'
 import { AlertTriangle } from 'react-feather'
-
+import styled, { ThemeContext } from 'styled-components'
 import { Field } from '../../state/swap/actions'
-import { TYPE } from '../Shared'
 import { isAddress, shortenAddress } from '../../utils'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import { RowBetween, RowFixed } from '../Row'
+import { TYPE } from '../Shared'
 import { SwapShowAcceptChanges } from './styleds'
 
 const { main: Main } = TYPE
@@ -40,10 +38,10 @@ export default function SwapModalHeader({
   showAcceptChanges: boolean
   onAcceptChanges: () => void
 }) {
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
-    trade,
-    allowedSlippage,
-  ])
+  const slippageAdjustedAmounts = useMemo(
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
+    [trade, allowedSlippage],
+  )
   const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 

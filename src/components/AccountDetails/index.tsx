@@ -1,4 +1,4 @@
-import { Button } from '@alium-official/uikit'
+import { Button } from 'alium-uikit/src'
 import React, { useCallback, useContext } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { useTranslation } from 'react-i18next'

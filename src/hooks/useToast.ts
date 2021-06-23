@@ -1,9 +1,8 @@
-import { useMemo } from 'react'
+import { Toast, toastTypes } from 'alium-uikit/src'
 import { kebabCase } from 'lodash'
-import { Toast, toastTypes } from '@alium-official/uikit'
+import { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-
-import { push as pushToast, remove as removeToast, clear as clearToast } from '../state/actions'
+import { clear as clearToast, push as pushToast, remove as removeToast } from '../state/actions'
 
 // Toasts
 const useToast = () => {

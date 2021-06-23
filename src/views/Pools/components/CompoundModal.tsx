@@ -1,10 +1,10 @@
+import { Button, Modal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
-import styled from 'styled-components'
-import React, { useMemo, useState } from 'react'
-import { Button, Modal } from '@alium-official/uikit'
-import ModalActions from 'components/ModalActions'
 import Balance from 'components/Balance'
+import ModalActions from 'components/ModalActions'
 import useI18n from 'hooks/useI18n'
+import React, { useMemo, useState } from 'react'
+import styled from 'styled-components'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 
 interface DepositModalProps {

@@ -1,6 +1,6 @@
+import { Card } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
-import { Card } from '@alium-official/uikit'
 
 export const BodyWrapper = styled(Card)`
   position: relative;
@@ -11,7 +11,7 @@ export const BodyWrapper = styled(Card)`
   background: transparent;
   box-shadow: none;
   padding: 0;
-  
+
   @media screen and (max-width: 790px) {
     padding: 16px 10px;
   }

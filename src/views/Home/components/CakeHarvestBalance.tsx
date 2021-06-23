@@ -1,12 +1,12 @@
-import React from 'react'
-import { Text } from '@alium-official/uikit'
 import { useWeb3React } from '@web3-react/core'
+import { Text } from 'alium-uikit/src'
 // import BigNumber from 'bignumber.js'
 import useI18n from 'hooks/useI18n'
+import React from 'react'
+import CardBusdValue from './CardBusdValue'
 // import useAllEarnings from 'hooks/useAllEarnings'
 // import { usePriceCakeBusd } from 'state/hooks'
 import CardValue from './CardValue'
-import CardBusdValue from './CardBusdValue'
 
 const CakeHarvestBalance = () => {
   const TranslateString = useI18n()

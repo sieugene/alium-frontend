@@ -1,5 +1,5 @@
 import { Pair } from '@alium-official/sdk'
-import { Button, CardBody, Text } from '@alium-official/uikit'
+import { Button, CardBody, Text } from 'alium-uikit/src'
 import { LightCard } from 'components/Card'
 import CardNav from 'components/CardNav'
 import { AutoColumn } from 'components/Column'

@@ -1,5 +1,5 @@
+import { CoinLogoIcon } from 'alium-uikit/src'
 import React, { useState } from 'react'
-import { CoinLogoIcon } from '@alium-official/uikit'
 import styled from 'styled-components'
 
 const BAD_SRCS: { [tokenAddress: string]: true } = {}

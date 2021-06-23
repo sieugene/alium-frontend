@@ -1,6 +1,6 @@
 // import styled from 'styled-components'
-// import { Heading, Text, BaseLayout } from '@alium-official/uikit'
-// import { BaseLayout } from '@alium-official/uikit'
+// import { Heading, Text, BaseLayout } from 'alium-uikit/src'
+// import { BaseLayout } from 'alium-uikit/src'
 // import useI18n from 'hooks/useI18n'
 import Page from 'components/layout/Page'
 import React from 'react'

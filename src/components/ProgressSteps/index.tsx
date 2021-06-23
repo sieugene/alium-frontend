@@ -1,8 +1,8 @@
+import { CheckMarkDoneIcon } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
-import { CheckMarkDoneIcon } from '@alium-official/uikit'
-import { RowBetween } from '../Row'
 import { AutoColumn } from '../Column'
+import { RowBetween } from '../Row'
 
 const Wrapper = styled(AutoColumn)`
   margin-top: 1.25rem;

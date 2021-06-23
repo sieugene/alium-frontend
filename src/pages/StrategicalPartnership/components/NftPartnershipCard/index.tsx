@@ -1,8 +1,8 @@
+import { ArrowDropDownIcon, ArrowDropUpIcon, Flex, Text } from 'alium-uikit/src'
 import React, { useState } from 'react'
 // import { BigNumber } from '@ethersproject/bignumber'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Text, Flex, ArrowDropDownIcon, ArrowDropUpIcon } from '@alium-official/uikit'
 import cardList, { CardType } from '../../constants/cards'
 import currencies from '../../constants/currencies'
 
@@ -19,8 +19,8 @@ const NFTWrapper = styled.button`
 const ContentHolder = styled.div`
   @media screen and (max-width: 850px) {
     > div:nth-child(3) {
-        margin-top: 10px;
-      }
+      margin-top: 10px;
+    }
   }
   @media screen and (max-width: 790px) {
     > div:nth-child(3) {
@@ -44,10 +44,10 @@ const StyledDropDown = styled.div`
     right: 24px;
     top: 18px;
   }
-  
+
   @media screen and (max-width: 1170px) {
-      margin-right: 14px;
-    }
+    margin-right: 14px;
+  }
   @media screen and (max-width: 850px) {
     margin-right: 118px;
   }
@@ -135,9 +135,9 @@ const StyledFlex = styled(Flex)`
     width: 356px;
     height: 400px;
   }
-  
+
   @media screen and (max-width: 850px) {
-  > div {
+    > div {
       margin-left: 20px;
       margin-top: 25px;
     }
@@ -146,7 +146,7 @@ const StyledFlex = styled(Flex)`
       height: 304px;
     }
   }
-  
+
   @media screen and (max-width: 790px) {
     flex-direction: row-reverse;
     justify-content: space-between;
@@ -249,7 +249,7 @@ const StyledListLabel = (props: TextPropsType) => (
 )
 
 const StyledListValue = (props: TextPropsType) => (
-  <Text style={{ fontSize: '14px', lineHeight: '16px', color: '#6C5DD3', fontWeight: '500'}} {...props} />
+  <Text style={{ fontSize: '14px', lineHeight: '16px', color: '#6C5DD3', fontWeight: '500' }} {...props} />
 )
 
 type PropsType = {
@@ -265,7 +265,7 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
 
   const [showOptions, setShowOptions] = useState(false)
   const [selectedOption, setSelectedOption] = useState(
-    `${(+cardList[0]?.price).toLocaleString()} ${currencies.stablecoins[0]}`
+    `${(+cardList[0]?.price).toLocaleString()} ${currencies.stablecoins[0]}`,
   )
 
   const handleClick = (item) => {

@@ -1,12 +1,12 @@
 // import { useWallet } from '@binance-chain/bsc-use-wallet'
-import { NotFound,ResetCSS } from '@alium-official/uikit'
+import { NotFound, ResetCSS } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
 import AddLiquidity from 'pages/AddLiquidity'
 import {
-RedirectDuplicateTokenIds,
-RedirectOldAddLiquidityPathStructure,
-RedirectToAddLiquidity
+  RedirectDuplicateTokenIds,
+  RedirectOldAddLiquidityPathStructure,
+  RedirectToAddLiquidity,
 } from 'pages/AddLiquidity/redirects'
 import InvestorsAccount from 'pages/InvestorsAccount'
 import Collection from 'pages/InvestorsAccount/Collection'
@@ -16,10 +16,10 @@ import PoolFinder from 'pages/PoolFinder'
 import { RemoveLiquidity } from 'pages/RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from 'pages/RemoveLiquidity/redirects'
 import Swap from 'pages/Swap'
-import { RedirectPathToSwapOnly,RedirectToSwap } from 'pages/Swap/redirects'
+import { RedirectPathToSwapOnly, RedirectToSwap } from 'pages/Swap/redirects'
 import { WrapSwapComponent } from 'pages/Swap/SwapContainter'
-import React,{ lazy,Suspense,useEffect } from 'react'
-import { BrowserRouter as Router,Route,Switch } from 'react-router-dom'
+import React, { lazy, Suspense, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import MenuWrappedRoute from './components/Menu'
 import PageLoader from './components/PageLoader'

@@ -1,16 +1,15 @@
-import React, { useCallback, useMemo } from 'react'
 import { diffTokenLists, TokenList } from '@uniswap/token-lists'
-import { Button, Text } from '@alium-official/uikit'
+import { Button, Text } from 'alium-uikit/src'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../state'
 import { useRemovePopup } from '../../state/application/hooks'
 import { acceptListUpdate } from '../../state/lists/actions'
-import { TYPE } from '../Shared'
 import listVersionLabel from '../../utils/listVersionLabel'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
-
+import { TYPE } from '../Shared'
 
 const { body: Body } = TYPE
 
@@ -30,20 +29,24 @@ export default function ListUpdatePopup({
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
   const dispatch = useDispatch<AppDispatch>()
-  const {t} = useTranslation();
+  const { t } = useTranslation()
   const handleAcceptUpdate = useCallback(() => {
     if (auto) return
     dispatch(acceptListUpdate(listUrl))
     removeThisPopup()
   }, [auto, dispatch, listUrl, removeThisPopup])
 
-  const { added: tokensAdded, changed: tokensChanged, removed: tokensRemoved } = useMemo(() => {
+  const {
+    added: tokensAdded,
+    changed: tokensChanged,
+    removed: tokensRemoved,
+  } = useMemo(() => {
     return diffTokenLists(oldList.tokens, newList.tokens)
   }, [newList.tokens, oldList.tokens])
   const numTokensChanged = useMemo(
     () =>
       Object.keys(tokensChanged).reduce((memo, chainId: any) => memo + Object.keys(tokensChanged[chainId]).length, 0),
-    [tokensChanged]
+    [tokensChanged],
   )
 
   return (
@@ -51,15 +54,14 @@ export default function ListUpdatePopup({
       <AutoColumn style={{ flex: '1' }} gap="8px">
         {auto ? (
           <Body fontWeight={500}>
-            {t('tokenListUpdated', {label: oldList.name})}{' '}
-            <strong>{listVersionLabel(newList.version)}</strong>.
+            {t('tokenListUpdated', { label: oldList.name })} <strong>{listVersionLabel(newList.version)}</strong>.
           </Body>
         ) : (
           <>
             <div>
               <Text fontSize="14px">
-                {t('popups.updateAvailable', {label: oldList.name})}(
-                {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
+                {t('popups.updateAvailable', { label: oldList.name })}({listVersionLabel(oldList.version)} to{' '}
+                {listVersionLabel(newList.version)}).
               </Text>
               <ul>
                 {tokensAdded.length > 0 ? (
@@ -84,7 +86,11 @@ export default function ListUpdatePopup({
                     {t('popups.removed')}
                   </li>
                 ) : null}
-                {numTokensChanged > 0 ? <li>{numTokensChanged} {t('popups.tokensUpdated')}</li> : null}
+                {numTokensChanged > 0 ? (
+                  <li>
+                    {numTokensChanged} {t('popups.tokensUpdated')}
+                  </li>
+                ) : null}
               </ul>
             </div>
             <AutoRow>

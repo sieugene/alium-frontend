@@ -1,5 +1,5 @@
 import { ChainId } from '@alium-official/sdk'
-import { getChainId } from '@alium-official/uikit'
+import { getChainId } from 'alium-uikit/src'
 import random from 'lodash/random'
 
 const bscNodes = [process.env.REACT_APP_NODE_1, process.env.REACT_APP_NODE_2, process.env.REACT_APP_NODE_3]

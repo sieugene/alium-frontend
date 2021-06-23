@@ -1,6 +1,6 @@
+import { ChevronDownIcon, ChevronUpIcon, Text } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
-import { ChevronDownIcon, ChevronUpIcon, Text } from '@alium-official/uikit'
 
 export interface ExpandableSectionButtonProps {
   onClick?: () => void

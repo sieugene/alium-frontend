@@ -1,9 +1,9 @@
+import { Flex, Heading, IconButton, Text, useModal } from 'alium-uikit/src'
 import React, { ReactNode } from 'react'
-import styled, { useTheme } from 'styled-components'
-import { Heading, IconButton, Text, Flex, useModal } from '@alium-official/uikit'
 import { useTranslation } from 'react-i18next'
-import SettingsModal from './SettingsModal'
+import styled, { useTheme } from 'styled-components'
 import RecentTransactionsModal from './RecentTransactionsModal'
+import SettingsModal from './SettingsModal'
 
 interface PageHeaderProps {
   title: ReactNode

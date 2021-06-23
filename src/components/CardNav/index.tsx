@@ -1,8 +1,8 @@
+import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src'
 import React from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ButtonMenu, ButtonMenuItem, Heading, Flex } from '@alium-official/uikit'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 const StyledNav = styled.div`
   margin-bottom: 32px;

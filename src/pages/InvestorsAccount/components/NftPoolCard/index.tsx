@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Text } from '@alium-official/uikit'
+import { Button, Flex, Heading, Text } from 'alium-uikit/src'
 import { BigNumber, ethers } from 'ethers'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'

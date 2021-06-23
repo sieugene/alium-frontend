@@ -1,5 +1,5 @@
+import { useParticleBurst } from 'alium-uikit/src'
 import { useEffect } from 'react'
-import { useParticleBurst } from '@alium-official/uikit'
 import { useLocation } from 'react-router-dom'
 
 const disableWhenNotChristmas = () => {

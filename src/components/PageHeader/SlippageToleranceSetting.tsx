@@ -1,4 +1,4 @@
-import { ButtonMenu, ButtonMenuItem, Flex, Input, Text } from '@alium-official/uikit'
+import { ButtonMenu, ButtonMenuItem, Flex, Input, Text } from 'alium-uikit/src'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useUserSlippageTolerance } from 'state/user/hooks'

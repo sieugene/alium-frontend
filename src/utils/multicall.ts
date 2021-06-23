@@ -1,5 +1,5 @@
-import { getChainId } from '@alium-official/uikit'
 import { Interface } from '@ethersproject/abi'
+import { getChainId } from 'alium-uikit/src'
 import { MULTICALL_FUNC_ABI, MULTICALL_FUNC_NETWORKS } from 'constants/multicall'
 import { getWeb3NoAccount } from 'utils/web3'
 import { AbiItem } from 'web3-utils'

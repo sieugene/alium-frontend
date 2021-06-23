@@ -1,4 +1,4 @@
-import { ConnectorNames, getChainId, getConnectorId } from '@alium-official/uikit'
+import { ConnectorNames, getChainId, getConnectorId } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import { useEffect } from 'react'
 
@@ -13,7 +13,7 @@ const _binanceChainListener = async () =>
 
         resolve()
       },
-    })
+    }),
   )
 
 const useEagerConnect = () => {

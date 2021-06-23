@@ -1,4 +1,4 @@
-import { Button, Text } from '@alium-official/uikit'
+import { Button, Text } from 'alium-uikit/src'
 import React, { useCallback, useState } from 'react'
 import { AlertTriangle } from 'react-feather'
 import { useTranslation } from 'react-i18next'

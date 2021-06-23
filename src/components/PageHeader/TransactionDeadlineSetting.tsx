@@ -1,8 +1,8 @@
-import { Input,Text } from '@alium-official/uikit'
-import React,{ useEffect,useState } from 'react'
+import { Input, Text } from 'alium-uikit/src'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useUserDeadline } from 'state/user/hooks'
-import styled,{ useTheme } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import QuestionHelper from '../QuestionHelper'
 
 const StyledTransactionDeadlineSetting = styled.div`

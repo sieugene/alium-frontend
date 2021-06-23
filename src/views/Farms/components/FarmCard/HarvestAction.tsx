@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import { Button, Flex, Heading } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
-import { Button, Flex, Heading } from '@alium-official/uikit'
-import useI18n from 'hooks/useI18n'
 import { useHarvest } from 'hooks/useHarvest'
+import useI18n from 'hooks/useI18n'
+import React, { useState } from 'react'
 import { getBalanceNumber } from 'utils/formatBalance'
 
 interface FarmCardActionsProps {

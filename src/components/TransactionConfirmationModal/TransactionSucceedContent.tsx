@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ColoredCopyIcon,Flex,Heading,Text } from '@alium-official/uikit'
+import { ColoredCopyIcon, Flex, Heading, Text } from 'alium-uikit/src'
 import { NFT_COLLECTIBLE_ADDRESS } from 'constants/abis/nftPrivate'
 import { CardType } from 'pages/Home/constants/cards'
-import React,{ useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { PopupList } from 'state/application/reducer'
 import { AppState } from 'state/index'
 import styled from 'styled-components'
 import previewImg from '../../assets/images/transaction-succeed-preview.svg'
-import { Section,Wrapper } from './helpers'
+import { Section, Wrapper } from './helpers'
 
 type TransactionSucceedContentProps = {
   onDismiss: () => void

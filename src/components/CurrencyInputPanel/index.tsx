@@ -1,5 +1,5 @@
 import { Currency, Pair } from '@alium-official/sdk'
-import { ArrowDropDownIcon, Button, Text } from '@alium-official/uikit'
+import { ArrowDropDownIcon, Button, Text } from 'alium-uikit/src'
 import { darken } from 'polished'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -200,7 +200,7 @@ export default function CurrencyInputPanel({
                   {(currency && currency.symbol && currency.symbol.length > 20
                     ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
                         currency.symbol.length - 5,
-                        currency.symbol.length
+                        currency.symbol.length,
                       )}`
                     : currency?.symbol) || (
                     <Text color={theme.colors.textSubtle} style={{ fontSize: '14px' }}>

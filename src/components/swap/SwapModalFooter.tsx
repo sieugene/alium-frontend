@@ -1,7 +1,6 @@
 import { Trade, TradeType } from '@alium-official/sdk'
+import { Button, SwapIcon, Text } from 'alium-uikit/src'
 import React, { useMemo, useState } from 'react'
-import { Text, Button, SwapIcon } from '@alium-official/uikit'
-
 import { Field } from '../../state/swap/actions'
 import {
   computeSlippageAdjustedAmounts,
@@ -29,10 +28,10 @@ export default function SwapModalFooter({
   disabledConfirm: boolean
 }) {
   const [showInverted, setShowInverted] = useState<boolean>(false)
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
-    allowedSlippage,
-    trade,
-  ])
+  const slippageAdjustedAmounts = useMemo(
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
+    [allowedSlippage, trade],
+  )
   const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
   const severity = warningSeverity(priceImpactWithoutFee)
 

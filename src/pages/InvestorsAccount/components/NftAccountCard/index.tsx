@@ -1,4 +1,4 @@
-import { Button, Flex } from '@alium-official/uikit'
+import { Button, Flex } from 'alium-uikit/src'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import Modal from '../../../../components/Modal'
@@ -143,7 +143,7 @@ const NftAccountCard = ({ card }: PropsType) => {
       const withoutSpaces = input.replace(/\s+/g, '')
       setValue(withoutSpaces)
     },
-    [setValue, limitId]
+    [setValue, limitId],
   )
 
   const onApproveHandler = useCallback(() => {

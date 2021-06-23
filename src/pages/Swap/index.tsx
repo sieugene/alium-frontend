@@ -1,40 +1,37 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import styled, { ThemeContext } from 'styled-components'
 import { CurrencyAmount, JSBI, Token, Trade } from '@alium-official/sdk'
-import { ArrowDown } from 'react-feather'
-import { CardBody, Button, Text, Flex } from '@alium-official/uikit'
-
+import { Button, CardBody, Flex, Text } from 'alium-uikit/src'
 import AddressInputPanel from 'components/AddressInputPanel'
 import Card, { GreyCard } from 'components/Card'
-import { AutoColumn } from 'components/Column'
-import ConfirmSwapModal from 'components/swap/ConfirmSwapModal'
-import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import CardNav from 'components/CardNav'
+import { AutoColumn } from 'components/Column'
+import ConnectWalletButton from 'components/ConnectWalletButton'
+import CurrencyInputPanel from 'components/CurrencyInputPanel'
+import Loader from 'components/Loader'
+import PageHeader from 'components/PageHeader'
+import ProgressSteps from 'components/ProgressSteps'
 import { AutoRow, RowBetween } from 'components/Row'
+import { LinkStyledButton, TYPE } from 'components/Shared'
 import AdvancedSwapDetailsDropdown from 'components/swap/AdvancedSwapDetailsDropdown'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
+import ConfirmSwapModal from 'components/swap/ConfirmSwapModal'
 import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from 'components/swap/styleds'
 import TradePrice from 'components/swap/TradePrice'
 import TokenWarningModal from 'components/TokenWarningModal'
-import ProgressSteps from 'components/ProgressSteps'
-
 import { INITIAL_ALLOWED_SLIPPAGE } from 'config/settings'
 import { useActiveWeb3React } from 'hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCallback'
 import { useSwapCallback } from 'hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { ArrowDown } from 'react-feather'
+import { useTranslation } from 'react-i18next'
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { useExpertModeManager, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
-import { LinkStyledButton, TYPE } from 'components/Shared'
+import styled, { ThemeContext } from 'styled-components'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
-import Loader from 'components/Loader'
-import PageHeader from 'components/PageHeader'
-import ConnectWalletButton from 'components/ConnectWalletButton'
-import { useTranslation } from 'react-i18next'
-import AppBody from '../AppBody'
 import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.svg'
 import SwapAppBody from './SwapAppBody'
 
@@ -98,7 +95,7 @@ const Swap = () => {
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
   const urlLoadedTokens: Token[] = useMemo(
     () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c instanceof Token) ?? [],
-    [loadedInputCurrency, loadedOutputCurrency]
+    [loadedInputCurrency, loadedOutputCurrency],
   )
   const handleConfirmTokenWarning = useCallback(() => {
     setDismissTokenWarning(true)
@@ -119,11 +116,11 @@ const Swap = () => {
   const { independentField, typedValue, recipient } = useSwapState()
   const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
 
-  const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback(
-    currencies[Field.INPUT],
-    currencies[Field.OUTPUT],
-    typedValue
-  )
+  const {
+    wrapType,
+    execute: onWrap,
+    inputError: wrapInputError,
+  } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   //   const { address: recipientAddress } = useENSAddress(recipient)
   const trade = showWrap ? undefined : v2Trade
@@ -146,13 +143,13 @@ const Swap = () => {
     (value: string) => {
       onUserInput(Field.INPUT, value)
     },
-    [onUserInput]
+    [onUserInput],
   )
   const handleTypeOutput = useCallback(
     (value: string) => {
       onUserInput(Field.OUTPUT, value)
     },
-    [onUserInput]
+    [onUserInput],
   )
 
   // modal and loading
@@ -179,7 +176,7 @@ const Swap = () => {
 
   const route = trade?.route
   const userHasSpecifiedInputOutput = Boolean(
-    currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
+    currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
   )
   const noRoute = !route
 
@@ -204,7 +201,7 @@ const Swap = () => {
     trade,
     allowedSlippage,
     deadline,
-    recipient
+    recipient,
   )
 
   const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
@@ -269,7 +266,7 @@ const Swap = () => {
       setApprovalSubmitted(false) // reset 2 step UI for approvals
       onCurrencySelection(Field.INPUT, inputCurrency)
     },
-    [onCurrencySelection, setApprovalSubmitted]
+    [onCurrencySelection, setApprovalSubmitted],
   )
 
   const handleMaxInput = useCallback(() => {
@@ -282,7 +279,7 @@ const Swap = () => {
     (outputCurrency) => {
       onCurrencySelection(Field.OUTPUT, outputCurrency)
     },
-    [onCurrencySelection]
+    [onCurrencySelection],
   )
 
   return (

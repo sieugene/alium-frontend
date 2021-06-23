@@ -1,5 +1,4 @@
 import { JSBI, TokenAmount } from '@alium-official/sdk'
-import { Button, Flex, Heading, Text } from '@alium-official/uikit'
 import { parseUnits } from '@ethersproject/units'
 import {
   FormControl,
@@ -11,6 +10,7 @@ import {
   OutlinedInput,
   Select,
 } from '@material-ui/core'
+import { Button, Flex, Heading, Text } from 'alium-uikit/src'
 import axios from 'axios'
 import { GreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
@@ -194,7 +194,7 @@ const Home = () => {
   const [activeCard, setActiveCard] = useState<any>('0')
 
   const updateMaxCardsAmount = useCallback(() => {
-    (async () => {
+    ;(async () => {
       const maxAmounts = await Promise.all(
         [1, 2, 3].map(async (item) => {
           const result = await collectibleContract
@@ -208,7 +208,7 @@ const Home = () => {
             })
             .catch((err) => console.error(err))
           return result
-        })
+        }),
       )
       setMaxCardsAmount(maxAmounts)
     })()
@@ -315,11 +315,11 @@ const Home = () => {
       JSBI.BigInt(
         parseUnits(
           values.count ? values?.count.toString() : '1',
-          currencies.match[values.currency]?.decimals
-        ).toString()
-      )
+          currencies.match[values.currency]?.decimals,
+        ).toString(),
+      ),
     ),
-    NFT_PRIVATE_ADDRESS
+    NFT_PRIVATE_ADDRESS,
   )
   const [approvalSubmitted, setApprovalSubmitted] = React.useState<boolean>(false)
 
@@ -337,8 +337,8 @@ const Home = () => {
       parseInt(
         parseUnits(
           (+cardList[activeCard]?.price * values.count).toString(),
-          currencies.match[values.currency]?.decimals
-        ).toString()
+          currencies.match[values.currency]?.decimals,
+        ).toString(),
       )
 
   const isValidInputs = values.count && values.currency && sufficientBalance

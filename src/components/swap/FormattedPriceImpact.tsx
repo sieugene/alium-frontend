@@ -1,8 +1,8 @@
 import { Percent } from '@alium-official/sdk'
+import { Text } from 'alium-uikit/src'
+import { ONE_BIPS } from 'config/settings'
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from '@alium-official/uikit'
-import { ONE_BIPS } from 'config/settings'
 /**
  * Formatted version of price impact text with warning colors
  */

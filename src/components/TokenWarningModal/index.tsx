@@ -1,18 +1,17 @@
 import { Token } from '@alium-official/sdk'
+import { Button, Text } from 'alium-uikit/src'
 import { transparentize } from 'polished'
-import { Button, Text } from '@alium-official/uikit'
-
 import React, { useCallback, useMemo, useState } from 'react'
-import styled from 'styled-components'
 import { AlertTriangle } from 'react-feather'
+import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
-import { ExternalLink, TYPE } from '../Shared'
 import { getExplorerLink, getExplorerName, shortenAddress } from '../../utils'
+import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import Modal from '../Modal'
 import { AutoRow, RowBetween } from '../Row'
-import { AutoColumn } from '../Column'
+import { ExternalLink, TYPE } from '../Shared'
 
 const { main: Main, blue: Blue } = TYPE
 

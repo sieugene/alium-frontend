@@ -1,10 +1,9 @@
+import { Flex, Text } from 'alium-uikit/src'
 import React from 'react'
 // import { BigNumber } from '@ethersproject/bignumber'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Text, Flex } from '@alium-official/uikit'
 import { CardType } from '../../constants/cards'
-
 import nftChecked from '../../images/nft-checked.svg'
 
 const NFTWrapper = styled.button`

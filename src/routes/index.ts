@@ -1,4 +1,4 @@
-import { getMainDomain } from '@alium-official/uikit'
+import { getMainDomain } from 'alium-uikit/src'
 
 export const ROUTES = {
   home: '/',

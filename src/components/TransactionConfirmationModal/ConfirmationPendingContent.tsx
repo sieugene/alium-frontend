@@ -1,10 +1,9 @@
+import { Spinner, Text } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Spinner } from '@alium-official/uikit'
-
-import { AutoColumn } from '../Column'
 import Circle from '../../assets/svg/blue-loader.svg'
-import { Wrapper, Section, ConfirmedIcon, ContentHeader } from './helpers'
+import { AutoColumn } from '../Column'
+import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'
 
 type ConfirmationPendingContentProps = { onDismiss: () => void; pendingText: string }
 

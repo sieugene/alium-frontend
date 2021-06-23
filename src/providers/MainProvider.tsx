@@ -1,5 +1,5 @@
-import { ModalProvider } from '@alium-official/uikit'
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
+import { ModalProvider } from 'alium-uikit/src'
 import { BlockContextProvider } from 'contexts/BlockContext'
 import { LanguageContextProvider } from 'contexts/Localisation/languageContext'
 import { RefreshContextProvider } from 'contexts/RefreshContext'

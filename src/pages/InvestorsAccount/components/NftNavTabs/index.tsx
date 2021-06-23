@@ -1,6 +1,6 @@
-import { Button,Flex } from '@alium-official/uikit'
+import { Button, Flex } from 'alium-uikit/src'
 import React from 'react'
-import { Link,useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { ReactComponent as MyCollectionIcon } from '../../../../assets/images/nav-collection.svg'
@@ -8,7 +8,7 @@ import { ReactComponent as AlmTokenStatsIcon } from '../../../../assets/images/n
 
 const NavWrap = styled(Flex)`
   padding: 8px 16px;
-  border: 1px solid #D2D6E5;
+  border: 1px solid #d2d6e5;
   box-sizing: border-box;
   border-radius: 6px;
   margin-top: 56px;
@@ -16,7 +16,7 @@ const NavWrap = styled(Flex)`
   a:first-child {
     margin-right: 8px;
   }
-  @media (max-width: 568px){
+  @media (max-width: 568px) {
     flex-wrap: wrap;
     button {
       margin: 0;
@@ -29,7 +29,7 @@ const NavWrap = styled(Flex)`
   }
 `
 
-const IconWrapper = styled.div<{ size?: number, active: boolean }>`
+const IconWrapper = styled.div<{ size?: number; active: boolean }>`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -41,9 +41,9 @@ const IconWrapper = styled.div<{ size?: number, active: boolean }>`
     width: ${({ size }) => (size ? `${size}px` : '32px')};
   }
   svg {
-   path{
-     stroke: ${({ active }) => (active ? '#FFF' : "#6C5DD3")}
-   } 
+    path {
+      stroke: ${({ active }) => (active ? '#FFF' : '#6C5DD3')};
+    }
   }
   ${({ theme }) => theme.mediaQueries.lg} {
     align-items: flex-end;
@@ -51,7 +51,6 @@ const IconWrapper = styled.div<{ size?: number, active: boolean }>`
 `
 
 function NftNavTabs() {
-
   const location = useLocation()
 
   return (

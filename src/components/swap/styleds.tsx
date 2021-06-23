@@ -1,8 +1,7 @@
+import { Text } from 'alium-uikit/src'
 import { transparentize } from 'polished'
 import React from 'react'
 import { AlertTriangle } from 'react-feather'
-import { Text } from '@alium-official/uikit'
-
 import styled, { css } from 'styled-components'
 import { AutoColumn } from '../Column'
 

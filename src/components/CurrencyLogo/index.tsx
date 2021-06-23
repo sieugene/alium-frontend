@@ -1,5 +1,5 @@
 import { ChainId, Currency, ETHER, Token } from '@alium-official/sdk'
-import { getChainId } from '@alium-official/uikit'
+import { getChainId } from 'alium-uikit/src'
 import { useActiveWeb3React } from 'hooks'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'

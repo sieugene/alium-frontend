@@ -1,26 +1,25 @@
-import React, { useMemo } from 'react'
+import { Text } from 'alium-uikit/src'
 import { stringify } from 'qs'
-import { useLocation } from 'react-router'
-import { Text } from '@alium-official/uikit'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import { DEFAULT_VERSION, Version } from '../../hooks/useToggledVersion'
-import { StyledInternalLink } from "../Shared"
 import { YellowCard } from '../Card'
 import { AutoColumn } from '../Column'
-
+import { StyledInternalLink } from '../Shared'
 
 export default function BetterTradeLink({ version }: { version: Version }) {
   const location = useLocation()
   const search = useParsedQueryString()
-  const {t} = useTranslation();
+  const { t } = useTranslation()
   const linkDestination = useMemo(() => {
     return {
       ...location,
       search: `?${stringify({
         ...search,
-        use: version !== DEFAULT_VERSION ? version : undefined
-      })}`
+        use: version !== DEFAULT_VERSION ? version : undefined,
+      })}`,
     }
   }, [location, search, version])
 

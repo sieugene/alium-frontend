@@ -1,28 +1,28 @@
-import { Currency,ETHER,Token } from '@alium-official/sdk'
-import { CloseIcon,IconButton,Text } from '@alium-official/uikit'
-import React,{ KeyboardEvent,RefObject,useCallback,useContext,useEffect,useMemo,useRef,useState } from 'react'
+import { Currency, ETHER, Token } from '@alium-official/sdk'
+import { CloseIcon, IconButton, Text } from 'alium-uikit/src'
+import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
-import styled,{ ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { arrayElementToTop } from 'utils/arrayElementToTop'
 import { useActiveWeb3React } from '../../hooks'
-import { useAllTokens,useToken } from '../../hooks/Tokens'
+import { useAllTokens, useToken } from '../../hooks/Tokens'
 import { useSelectedListInfo } from '../../state/lists/hooks'
 import { isAddress } from '../../utils'
 import Card from '../Card'
 import Column from '../Column'
 import ListLogo from '../ListLogo'
 import QuestionHelper from '../QuestionHelper'
-import Row,{ RowBetween } from '../Row'
-import { LinkStyledButton,TYPE } from '../Shared'
+import Row, { RowBetween } from '../Row'
+import { LinkStyledButton, TYPE } from '../Shared'
 import TranslatedText from '../TranslatedText'
 import CommonBases from './CommonBases'
 import CurrencyList from './CurrencyList'
 import { filterTokens } from './filtering'
 import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
-import { PaddedColumn,SearchInput,Separator } from './styleds'
+import { PaddedColumn, SearchInput, Separator } from './styleds'
 
 const { main: Main } = TYPE
 
@@ -120,7 +120,7 @@ export function CurrencySearch({
       onCurrencySelect(currency)
       onDismiss()
     },
-    [onDismiss, onCurrencySelect]
+    [onDismiss, onCurrencySelect],
   )
 
   // clear the input on open
@@ -153,7 +153,7 @@ export function CurrencySearch({
         }
       }
     },
-    [filteredSortedTokens, handleCurrencySelect, searchQuery]
+    [filteredSortedTokens, handleCurrencySelect, searchQuery],
   )
 
   const selectedListInfo = useSelectedListInfo()

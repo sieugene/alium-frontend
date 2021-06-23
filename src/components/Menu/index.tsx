@@ -1,6 +1,6 @@
-import { ChainId,ETHER } from '@alium-official/sdk'
-import { externalLinks,Menu as UikitMenu,MenuEntry,useModal } from '@alium-official/uikit'
+import { ChainId, ETHER } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uikit/src'
 import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
 import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'
@@ -9,7 +9,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ROUTES } from 'routes'
 import { useCurrencyBalance } from 'state/wallet/hooks'
-import { getExplorerLink,getExplorerName } from 'utils'
+import { getExplorerLink, getExplorerName } from 'utils'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
 const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {

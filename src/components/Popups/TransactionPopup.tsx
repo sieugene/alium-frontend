@@ -1,11 +1,11 @@
+import { PopupCheckIcon, PopupFailIcon } from 'alium-uikit/src'
 import React, { useContext } from 'react'
-import { PopupCheckIcon, PopupFailIcon } from '@alium-official/uikit'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
-import { TYPE, ExternalLink } from '../Shared'
 import { getExplorerLink, getExplorerName } from '../../utils'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
+import { ExternalLink, TYPE } from '../Shared'
 
 const { body: Body } = TYPE
 

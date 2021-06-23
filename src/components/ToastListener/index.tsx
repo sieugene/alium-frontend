@@ -1,8 +1,7 @@
+import { Toast, ToastContainer } from 'alium-uikit/src'
+import useToast from 'hooks/useToast'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { ToastContainer, Toast } from '@alium-official/uikit'
-import useToast from 'hooks/useToast'
-
 
 const ToastListener = () => {
   const toasts: Toast[] = useSelector((state: any) => state?.toasts?.data) || []

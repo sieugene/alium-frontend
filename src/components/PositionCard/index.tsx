@@ -1,16 +1,16 @@
-import { JSBI,Pair,Percent } from '@alium-official/sdk'
+import { JSBI, Pair, Percent } from '@alium-official/sdk'
 import {
-ArrowDropDownIcon,
-ArrowDropUpIcon,
-Button,
-Card as UIKitCard,
-CardBody,
-ColoredCopyIcon,
-IconButton,
-Text
-} from '@alium-official/uikit'
+  ArrowDropDownIcon,
+  ArrowDropUpIcon,
+  Button,
+  Card as UIKitCard,
+  CardBody,
+  ColoredCopyIcon,
+  IconButton,
+  Text,
+} from 'alium-uikit/src'
 import { darken } from 'polished'
-import React,{ useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
@@ -23,7 +23,7 @@ import Card from '../Card'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { RowBetween,RowFixed } from '../Row'
+import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
 
 interface FixedHeightProps {

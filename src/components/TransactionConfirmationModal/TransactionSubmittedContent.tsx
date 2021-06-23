@@ -1,12 +1,12 @@
 import { ChainId } from '@alium-official/sdk'
+import { Button, LinkExternal } from 'alium-uikit/src'
 import React, { useContext } from 'react'
-import { ThemeContext } from 'styled-components'
-import { Button, LinkExternal } from '@alium-official/uikit'
-import { useTranslation } from 'react-i18next'
 import { ArrowUpCircle } from 'react-feather'
-import { AutoColumn } from '../Column'
+import { useTranslation } from 'react-i18next'
+import { ThemeContext } from 'styled-components'
 import { getExplorerLink, getExplorerName } from '../../utils'
-import { Wrapper, Section, ConfirmedIcon, ContentHeader } from './helpers'
+import { AutoColumn } from '../Column'
+import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'
 
 type TransactionSubmittedContentProps = {
   onDismiss: () => void

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { CurrencyAmount } from '@alium-official/sdk'
-import { Button,CardBody,Heading } from '@alium-official/uikit'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { BigNumber } from '@ethersproject/bignumber'
+import { Button, CardBody, Heading } from 'alium-uikit/src'
 import { GreyCard } from 'components/Card'
 import CardNav from 'components/CardNav'
 import { AutoColumn } from 'components/Column'
@@ -11,18 +11,18 @@ import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { RowBetween } from 'components/Row'
 import { TYPE } from 'components/Shared'
 import AdvancedSwapDetailsDropdown from 'components/swap/AdvancedSwapDetailsDropdown'
-import { BottomGrouping,Wrapper } from 'components/swap/styleds'
+import { BottomGrouping, Wrapper } from 'components/swap/styleds'
 import { VAMPIRE_ADDRESS } from 'config/contracts'
 import { useActiveWeb3React } from 'hooks'
 import { useToken } from 'hooks/Tokens'
-import { ApprovalState,useApproveCallback } from 'hooks/useApproveCallback'
+import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useVampireContract } from 'hooks/useContract'
-import useWrapCallback,{ WrapType } from 'hooks/useWrapCallback'
+import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import SwapAppBody from 'pages/Swap/SwapAppBody'
-import React,{ useCallback,useEffect,useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { Field } from 'state/swap/actions'
-import { useMigrateActionHandlers,useMigrateInfo,useSwapState } from 'state/swap/hooks'
+import { useMigrateActionHandlers, useMigrateInfo, useSwapState } from 'state/swap/hooks'
 import styled from 'styled-components'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { Dots } from '../Pool/styleds'
@@ -72,7 +72,7 @@ function Migrate() {
             const address = await vampire.lpTokensInfo(item).then((resp: any) => resp.lpToken)
             const parents = await vampire.lpTokenDetailedInfo(item).then((resp: any) => resp)
             return { address, ...{ left: parents[0] }, right: parents[1] }
-          })
+          }),
         )
         return temp
       })
@@ -99,7 +99,7 @@ function Migrate() {
           chainId: id,
           decimals: 18,
         },
-        []
+        [],
       )
       return info
     })
@@ -134,7 +134,7 @@ function Migrate() {
     (value: string) => {
       onUserInput(Field.INPUT, value)
     },
-    [onUserInput]
+    [onUserInput],
   )
 
   const formattedAmounts = {
@@ -147,7 +147,7 @@ function Migrate() {
   // check whether the user has approved the router on the input token
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.INPUT],
-    chainId && VAMPIRE_ADDRESS[chainId]
+    chainId && VAMPIRE_ADDRESS[chainId],
   )
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -190,7 +190,7 @@ function Migrate() {
       setApprovalSubmitted(false) // reset 2 step UI for approvals
       onCurrencySelection(Field.INPUT, inputCurrency)
     },
-    [onCurrencySelection, setApprovalSubmitted]
+    [onCurrencySelection, setApprovalSubmitted],
   )
 
   const handleMaxInput = useCallback(() => {

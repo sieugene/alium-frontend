@@ -1,6 +1,6 @@
-// import { Heading, Button, Flex, ConnectorId, useWalletModal } from '@alium-official/uikit'
-import { Button, Flex, Heading, useWalletModal } from '@alium-official/uikit'
+// import { Heading, Button, Flex, ConnectorId, useWalletModal } from 'alium-uikit/src'
 import { useWeb3React } from '@web3-react/core'
+import { Button, Flex, Heading, useWalletModal } from 'alium-uikit/src'
 import { injected, walletconnect } from 'connectors'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -93,7 +93,7 @@ const Header = () => {
     '',
     t('copyAddress'),
     t('logoutTitle'),
-    t('viewOnBscScan')
+    t('viewOnBscScan'),
   )
 
   const accountEllipsis = account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : null

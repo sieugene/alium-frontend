@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { Toast } from '@alium-official/uikit'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Toast } from 'alium-uikit/src'
 
 const initialState: ToastsState = {
   data: [],

@@ -1,4 +1,4 @@
-import { Flex, Heading, Text } from '@alium-official/uikit'
+import { Flex, Heading, Text } from 'alium-uikit/src'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { PoolsTypes } from '../../constants/pools'

@@ -1,7 +1,6 @@
-import React from 'react'
 import { Price } from '@alium-official/sdk'
-import { SyncAltIcon, Text } from '@alium-official/uikit'
-
+import { SyncAltIcon, Text } from 'alium-uikit/src'
+import React from 'react'
 import { StyledBalanceMaxMini } from './styleds'
 
 interface TradePriceProps {

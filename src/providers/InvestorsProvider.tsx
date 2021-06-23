@@ -1,5 +1,5 @@
-import { ModalProvider } from '@alium-official/uikit'
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
+import { ModalProvider } from 'alium-uikit/src'
 import { LanguageContextProvider } from 'contexts/Localisation/languageContext'
 import React from 'react'
 import { Provider } from 'react-redux'

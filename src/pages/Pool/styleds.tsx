@@ -1,5 +1,4 @@
-import { Text } from '@alium-official/uikit'
-
+import { Text } from 'alium-uikit/src'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`

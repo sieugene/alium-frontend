@@ -1,12 +1,12 @@
+import { Flex } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
-import { Flex } from '@alium-official/uikit'
 
 const NftCollectionHeaderWrap = styled(Flex)`
   justify-content: space-between;
   align-items: center;
   align-content: center;
-  background: #EBEDF9;
+  background: #ebedf9;
   border-radius: 6px;
   width: 100%;
   padding: 16px 24px;
@@ -15,7 +15,7 @@ const NftCollectionHeaderWrap = styled(Flex)`
   }
 `
 
-const Field = styled(Flex)<{maxWidth: string}>`
+const Field = styled(Flex)<{ maxWidth: string }>`
   font-style: normal;
   justify-content: flex-start;
   font-weight: bold;
@@ -23,9 +23,9 @@ const Field = styled(Flex)<{maxWidth: string}>`
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
-  color: #8990A5;
+  color: #8990a5;
   width: 100%;
-  max-width: ${({maxWidth}) => maxWidth};
+  max-width: ${({ maxWidth }) => maxWidth};
   flex: 1;
 `
 

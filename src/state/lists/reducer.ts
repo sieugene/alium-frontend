@@ -2,8 +2,8 @@ import { createReducer } from '@reduxjs/toolkit'
 import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
 // eslint-disable-next-line import/no-unresolved
 import { TokenList } from '@uniswap/token-lists/dist/types'
+import { getChainId } from 'alium-uikit/src'
 import DEFAULT_LIST from 'config/tokens'
-import { getChainId } from '@alium-official/uikit'
 import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
 import { acceptListUpdate, addList, fetchTokenList, removeList, selectList } from './actions'
@@ -141,7 +141,7 @@ export default createReducer(initialState, (builder) =>
       } else if (state.lastInitializedDefaultListOfLists) {
         const lastInitializedSet = state.lastInitializedDefaultListOfLists.reduce<Set<string>>(
           (s, l) => s.add(l),
-          new Set()
+          new Set(),
         )
         const newListOfListsSet = DEFAULT_LIST_OF_LISTS.reduce<Set<string>>((s, l) => s.add(l), new Set())
 
@@ -159,5 +159,5 @@ export default createReducer(initialState, (builder) =>
       }
 
       state.lastInitializedDefaultListOfLists = DEFAULT_LIST_OF_LISTS
-    })
+    }),
 )

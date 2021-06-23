@@ -1,11 +1,11 @@
-import { ArrowBackIcon,ButtonMenu,ButtonMenuItem,Flex } from '@alium-official/uikit'
+import { ArrowBackIcon, ButtonMenu, ButtonMenuItem, Flex } from 'alium-uikit/src'
 import QuestionHelper from 'components/QuestionHelper'
 import { RowBetween } from 'components/Row'
 import TranslatedText from 'components/TranslatedText'
 import { darken } from 'polished'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link as HistoryLink,NavLink } from 'react-router-dom'
+import { Link as HistoryLink, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Tabs = styled.div`

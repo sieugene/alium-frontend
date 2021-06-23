@@ -1,4 +1,4 @@
-import { HelpIcon } from '@alium-official/uikit'
+import { HelpIcon } from 'alium-uikit/src'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import Tooltip from '../Tooltip'

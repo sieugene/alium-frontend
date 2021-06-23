@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { toastTypes } from '@alium-official/uikit'
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
+import { toastTypes } from 'alium-uikit/src'
 import { kebabCase } from 'lodash'
 import { push } from 'state/toasts'
-import { AchievementState, Achievement } from '../types'
+import { Achievement, AchievementState } from '../types'
 import { getAchievements } from './helpers'
 
 const initialState: AchievementState = {

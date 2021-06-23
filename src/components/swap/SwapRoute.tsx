@@ -1,11 +1,10 @@
 import { Trade } from '@alium-official/sdk'
+import { Flex } from 'alium-uikit/src'
 import React, { Fragment, memo } from 'react'
 import { ChevronRight } from 'react-feather'
-import { Flex } from '@alium-official/uikit'
-
 import styled from 'styled-components'
-import { TYPE } from '../Shared'
 import CurrencyLogo from '../CurrencyLogo'
+import { TYPE } from '../Shared'
 
 const { black: Black } = TYPE
 

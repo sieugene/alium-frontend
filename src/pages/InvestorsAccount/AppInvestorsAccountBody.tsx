@@ -1,4 +1,4 @@
-import { Card } from '@alium-official/uikit'
+import { Card } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
 

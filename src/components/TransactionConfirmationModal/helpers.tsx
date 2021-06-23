@@ -1,7 +1,6 @@
+import { CloseIcon, Heading, IconButton } from 'alium-uikit/src'
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { Heading, IconButton, CloseIcon } from '@alium-official/uikit'
-
 import { AutoColumn, ColumnCenter } from '../Column'
 
 export const Wrapper = styled.div`

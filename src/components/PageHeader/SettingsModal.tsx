@@ -1,7 +1,7 @@
+import { Modal } from 'alium-uikit/src'
 import React from 'react'
-import { Modal } from '@alium-official/uikit'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import SlippageToleranceSetting from './SlippageToleranceSetting'
 import TransactionDeadlineSetting from './TransactionDeadlineSetting'
 

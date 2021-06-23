@@ -1,13 +1,12 @@
-import React, { useMemo } from 'react'
-import { CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Text, Modal, Button } from '@alium-official/uikit'
-import styled from 'styled-components'
-
+import { Button, CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Modal, Text } from 'alium-uikit/src'
+import Loader from 'components/Loader'
 import { useActiveWeb3React } from 'hooks'
-import { getExplorerLink } from 'utils'
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { isTransactionRecent, useAllTransactions } from 'state/transactions/hooks'
 import { TransactionDetails } from 'state/transactions/reducer'
-import Loader from 'components/Loader'
-import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { getExplorerLink } from 'utils'
 
 const StyledWrapper = styled.div`
   max-width: 450px;

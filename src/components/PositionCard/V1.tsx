@@ -1,5 +1,5 @@
 import { Token, TokenAmount, WETH } from '@alium-official/sdk'
-import { Button, Text } from '@alium-official/uikit'
+import { Button, Text } from 'alium-uikit/src'
 import React from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { ROUTES } from 'routes'

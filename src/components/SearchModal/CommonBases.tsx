@@ -1,15 +1,13 @@
-import React from 'react'
-import { Text } from '@alium-official/uikit'
-import { useTranslation } from 'react-i18next'
 import { ChainId, Currency, currencyEquals, ETHER, Token } from '@alium-official/sdk'
+import { Text } from 'alium-uikit/src'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-
 import { SUGGESTED_BASES } from '../../constants'
 import { AutoColumn } from '../Column'
+import CurrencyLogo from '../CurrencyLogo'
 import QuestionHelper from '../QuestionHelper'
 import { AutoRow } from '../Row'
-import CurrencyLogo from '../CurrencyLogo'
-
 
 const BaseWrapper = styled.div<{ disable?: boolean }>`
   border: 1px solid ${({ theme, disable }) => (disable ? 'transparent' : theme.colors.tertiary)};
@@ -30,13 +28,13 @@ const BaseWrapper = styled.div<{ disable?: boolean }>`
 export default function CommonBases({
   chainId,
   onSelect,
-  selectedCurrency
+  selectedCurrency,
 }: {
   chainId?: ChainId
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation()
   return (
     <AutoColumn gap="md">
       <AutoRow>

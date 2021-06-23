@@ -1,6 +1,6 @@
-import { useModal } from '@alium-official/uikit'
+import { useModal } from 'alium-uikit/src'
 import { motion } from 'framer-motion'
-import React,{ FC,useState } from 'react'
+import React, { FC, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'

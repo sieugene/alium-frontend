@@ -1,6 +1,6 @@
-import { Button } from '@alium-official/uikit'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
+import { Button } from 'alium-uikit/src'
 import { darken, lighten } from 'polished'
 import React, { useMemo } from 'react'
 import { Activity } from 'react-feather'
