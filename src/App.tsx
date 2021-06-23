@@ -200,47 +200,6 @@ const App: React.FC = () => {
                 return <NotFound redirectURL={ROUTES.home} />
               }}
             />
-
-            {/* <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
-            <Route path="/farms">
-              <Farms />
-            </Route>
-          </MenuWrappedRoute>
-          <MenuWrappedRoute loginBlockVisible={loginBlockVisible}>
-            <Route path="/pools">
-              <Pools />
-            </Route>
-          </MenuWrappedRoute> */}
-
-            {/* <Route path="/lottery">
-              <Lottery />
-            </Route> */}
-            {/* <Route path="/ifo">
-              <Ifos />
-            </Route> */}
-            {/* <Route path="/nft">
-              <Nft />
-            </Route> */}
-            {/* <Route exact path="/teams">
-              <Teams />
-            </Route>
-            <Route path="/teams/:id">
-              <Team />
-            </Route> */}
-            {/* <Route path="/profile">
-              <Profile />
-            </Route> */}
-            {/* Redirect */}
-            {/* <Route path="/staking">
-              <Redirect to="/pools" />
-            </Route> */}
-            {/* <Route path="/syrup">
-              <Redirect to="/pools" />
-            </Route> */}
-            {/* 404 */}
-            {/* <Route path="/maintenance">
-            <Maintenance />
-          </Route> */}
           </Switch>
         </MenuWrappedRoute>
         <ToastListener />
