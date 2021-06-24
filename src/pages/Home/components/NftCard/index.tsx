@@ -4,7 +4,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CardType } from '../../constants/cards'
-import nftChecked from '../../images/nft-checked.svg'
 
 const NFTWrapper = styled.button`
   border: 1px solid #eef0f9;
@@ -110,7 +109,7 @@ const NftCard = ({ card, activeCard, maxCardsAmounts, handleClickCard }: PropsTy
   const ID = card.id.toString()
   return (
     <NFTWrapper key={ID} type="button" onClick={() => handleClickCard(ID)} className={isActive ? 'active' : ''}>
-      {isActive && <img className="nth-checked-icon" src={nftChecked} alt="nft-checked" />}
+      {isActive && <img className="nth-checked-icon" src={'../../images/nft-checked.svg'} alt="nft-checked" />}
 
       <img src={card.img} alt="nft-preview" className="nft-preview" />
       <StyledHeading className="desktop">{card.headline}</StyledHeading>

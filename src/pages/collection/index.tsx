@@ -1,18 +1,17 @@
 import dynamic from 'next/dynamic'
-import React from 'react'
 
 const WrapInvestorsAccounComponent = dynamic(() => import('pages/InvestorsAccount/InvestorsAccountContainer'), {
   ssr: false,
 })
 
-const InvestorsAccount = dynamic(() => import('pages/InvestorsAccount'), { ssr: false })
+const Collection = dynamic(() => import('pages/InvestorsAccount/Collection'), { ssr: false })
 
-const Account = () => {
+const CollectionPage = () => {
   return (
     <WrapInvestorsAccounComponent>
-      <InvestorsAccount />
+      <Collection />
     </WrapInvestorsAccounComponent>
   )
 }
 
-export default Account
+export default CollectionPage

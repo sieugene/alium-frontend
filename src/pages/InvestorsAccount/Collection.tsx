@@ -6,7 +6,7 @@ import AppInvestorsAccountBody from './AppInvestorsAccountBody'
 import NftCollectionCard from './components/NftCollectionCard'
 import NftCollectionHeader from './components/NftCollectionHeader'
 import NftNavTabs from './components/NftNavTabs'
-import cardImage from './images/Card-Preview.png'
+
 
 const ContentHolder = styled.div`
   position: relative;
@@ -121,7 +121,7 @@ function Collection() {
             {selectedCard && (
               <>
                 <SelectedNftWrapper>
-                  <Image src={cardImage} alt="nft-preview" className="nft-preview" />
+                  <Image src={"images/collection/Card-Preview.png"} alt="nft-preview" className="nft-preview" />
                   <span>{selectedCard[1]}</span>
                 </SelectedNftWrapper>
               </>
