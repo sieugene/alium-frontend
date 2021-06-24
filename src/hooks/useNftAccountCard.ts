@@ -7,7 +7,7 @@ import {
   NFT_ALIUM_COLLECTIBLE_NFT,
   NFT_EXCHANGER_PRIVATE,
   NFT_EXCHANGER_PUBLIC,
-} from '../pages/InvestorsAccount/constants'
+} from '../views/InvestorsAccount/constants'
 import { useSingleCallResult } from '../state/multicall/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { getContract } from '../utils'

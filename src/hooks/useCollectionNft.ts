@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { Contract } from '@ethersproject/contracts'
 import { useActiveWeb3React } from './index'
 import { getContract } from '../utils'
-import { AliumCollectibleAbi, NFT_ALIUM_COLLECTIBLE_NFT } from '../pages/InvestorsAccount/constants'
+import { AliumCollectibleAbi, NFT_ALIUM_COLLECTIBLE_NFT } from '../views/InvestorsAccount/constants'
 import { useSingleCallResult, useSingleContractMultipleData } from '../state/multicall/hooks'
-import pools from '../pages/InvestorsAccount/constants/pools'
-import { cardListPrivate, cardListPublic, cardListStrategical, CardType } from '../pages/InvestorsAccount/constants/cards'
+import pools from '../views/InvestorsAccount/constants/pools'
+import { cardListPrivate, cardListPublic, cardListStrategical, CardType } from '../views/InvestorsAccount/constants/cards'
 
 export default function useCollectionNft() {
   const [collectibleContract, setCollectibleContract] = useState<Contract | null>(null)

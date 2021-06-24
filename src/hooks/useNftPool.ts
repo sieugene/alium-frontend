@@ -8,9 +8,9 @@ import {
   NFT_EXCHANGER_PRIVATE,
   NFT_EXCHANGER_PUBLIC,
   NFT_VESTING,
-} from '../pages/InvestorsAccount/constants'
-import { cardListPrivate, cardListPublic, cardListStrategical } from '../pages/InvestorsAccount/constants/cards'
-import pools, { PoolsTypes } from '../pages/InvestorsAccount/constants/pools'
+} from '../views/InvestorsAccount/constants'
+import { cardListPrivate, cardListPublic, cardListStrategical } from '../views/InvestorsAccount/constants/cards'
+import pools, { PoolsTypes } from '../views/InvestorsAccount/constants/pools'
 import { useSingleContractMultipleData } from '../state/multicall/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { getContract } from '../utils'

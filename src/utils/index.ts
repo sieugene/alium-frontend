@@ -5,7 +5,7 @@ import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Provider, Web3Provider } from '@ethersproject/providers'
 import { ROUTER_ABI, ROUTER_ADDRESS } from 'config/contracts'
-import { NFT_VESTING, AliumVestingAbi } from 'pages/InvestorsAccount/constants'
+import { NFT_VESTING, AliumVestingAbi } from 'views/InvestorsAccount/constants'
 import { TokenAddressMap } from '../state/lists/hooks'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 

@@ -1,10 +1,10 @@
 import dynamic from 'next/dynamic'
 
-const WrapInvestorsAccounComponent = dynamic(() => import('pages/InvestorsAccount/InvestorsAccountContainer'), {
+const WrapInvestorsAccounComponent = dynamic(() => import('views/InvestorsAccount/InvestorsAccountContainer'), {
   ssr: false,
 })
 
-const Collection = dynamic(() => import('pages/InvestorsAccount/Collection'), { ssr: false })
+const Collection = dynamic(() => import('views/InvestorsAccount/Collection'), { ssr: false })
 
 const CollectionPage = () => {
   return (

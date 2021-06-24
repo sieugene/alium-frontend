@@ -6,7 +6,7 @@ const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
 })
 
 const RedirectDuplicateTokenIds = dynamic(
-  () => import('pages/AddLiquidity/redirects').then((module) => module.RedirectDuplicateTokenIds),
+  () => import('views/AddLiquidity/redirects').then((module) => module.RedirectDuplicateTokenIds),
   {
     ssr: false,
   },
