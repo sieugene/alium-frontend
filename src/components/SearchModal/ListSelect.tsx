@@ -4,7 +4,7 @@ import { ArrowLeft } from 'react-feather'
 import { usePopper } from 'react-popper'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { ReactComponent as DropDown } from '../../assets/svg/dropdown.svg'
+import { Dropdown } from '../../../public/images/Dropdown'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import useToggle from '../../hooks/useToggle'
@@ -161,7 +161,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
             onClick={toggle}
             variant="secondary"
           >
-            <DropDown />
+            <Dropdown />
           </Button>
         </div>
 

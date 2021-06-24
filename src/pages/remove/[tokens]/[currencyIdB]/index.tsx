@@ -5,14 +5,16 @@ const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
   ssr: false,
 })
 
-const Pool = dynamic(() => import('views/Pool'), { ssr: false })
+const RemoveLiquidity = dynamic(() => import('pages/RemoveLiquidity').then((module) => module.RemoveLiquidity), {
+  ssr: false,
+})
 
-const PoolPage = () => {
+const RemoveMultiple = () => {
   return (
     <WrapSwapComponent>
-      <Pool />
+      <RemoveLiquidity />
     </WrapSwapComponent>
   )
 }
 
-export default PoolPage
+export default RemoveMultiple

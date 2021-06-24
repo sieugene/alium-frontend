@@ -121,7 +121,7 @@ const HomeGreetings: React.FC = () => {
         <StyledText className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
           {t('greetingsMessage')}
         </StyledText>
-        <NavLink to={ROUTES.exchange} className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
+        <NavLink href={ROUTES.exchange} className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
           <StyledButton>{t('startTrading')}</StyledButton>
         </NavLink>
       </InfoWrapper>

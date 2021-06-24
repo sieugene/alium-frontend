@@ -1,18 +1,17 @@
 import dynamic from 'next/dynamic'
 import React from 'react'
+import { RedirectPathToSwapOnly } from 'views/Swap/redirects'
 
 const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
   ssr: false,
 })
 
-const Pool = dynamic(() => import('views/Pool'), { ssr: false })
-
-const PoolPage = () => {
+const Send = () => {
   return (
     <WrapSwapComponent>
-      <Pool />
+      <RedirectPathToSwapOnly />
     </WrapSwapComponent>
   )
 }
 
-export default PoolPage
+export default Send

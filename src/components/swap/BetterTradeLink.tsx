@@ -29,7 +29,7 @@ export default function BetterTradeLink({ version }: { version: Version }) {
       <AutoColumn gap="sm" justify="center" style={{ alignItems: 'center', textAlign: 'center' }}>
         <Text style={{ lineHeight: '145.23%' }} fontSize="14px">
           {t('betterPrice')}{' '}
-          <StyledInternalLink to={linkDestination}>
+          <StyledInternalLink href={linkDestination}>
             <b>Uniswap {version.toUpperCase()} ↗</b>
           </StyledInternalLink>
         </Text>

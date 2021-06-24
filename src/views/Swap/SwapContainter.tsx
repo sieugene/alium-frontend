@@ -1,4 +1,4 @@
-import backgroundImage from 'assets/svg/trade-background.svg'
+const backgroundImage = 'assets/svg/trade-background.svg'
 import React from 'react'
 import styled from 'styled-components'
 import ApplicationUpdater from '../../state/application/updater'
@@ -47,7 +47,7 @@ const BodyWrapper = styled.div`
   }
 `
 
-export const WrapSwapComponent = ({ children }) => {
+const WrapSwapComponent = ({ children }) => {
   return (
     <>
       <ListsUpdater />
@@ -60,3 +60,5 @@ export const WrapSwapComponent = ({ children }) => {
     </>
   )
 }
+
+export default WrapSwapComponent

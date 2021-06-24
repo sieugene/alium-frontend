@@ -5,14 +5,14 @@ const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
   ssr: false,
 })
 
-const Pool = dynamic(() => import('views/Pool'), { ssr: false })
+const PoolFinder = dynamic(() => import('pages/PoolFinder'), { ssr: false })
 
-const PoolPage = () => {
+const Find = () => {
   return (
     <WrapSwapComponent>
-      <Pool />
+      <PoolFinder />
     </WrapSwapComponent>
   )
 }
 
-export default PoolPage
+export default Find

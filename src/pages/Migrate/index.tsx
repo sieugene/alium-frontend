@@ -18,14 +18,14 @@ import { useToken } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useVampireContract } from 'hooks/useContract'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
-import SwapAppBody from 'pages/Swap/SwapAppBody'
+import SwapAppBody from 'views/Swap/SwapAppBody'
 import React, { useCallback, useEffect, useState } from 'react'
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { Field } from 'state/swap/actions'
 import { useMigrateActionHandlers, useMigrateInfo, useSwapState } from 'state/swap/hooks'
 import styled from 'styled-components'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
-import { Dots } from '../Pool/styleds'
+import { Dots } from '../../views/Pool/styleds'
 
 const { main: Main } = TYPE
 

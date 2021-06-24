@@ -20,10 +20,9 @@ import { useActiveWeb3React } from 'hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
-import SwapAppBody from 'pages/Swap/SwapAppBody'
+import SwapAppBody from 'views/Swap/SwapAppBody'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
@@ -34,9 +33,10 @@ import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRout
 import { currencyId } from 'utils/currencyId'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { Wrapper } from '../Pool/styleds'
+import { Wrapper } from '../../views/Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { PoolPriceBar } from './PoolPriceBar'
+import { useRouter } from 'next/router'
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -81,7 +81,7 @@ type props = {
 }
 
 const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
-  const history = useHistory()
+  const history = useRouter()
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
   const { account, chainId, library } = useActiveWeb3React()

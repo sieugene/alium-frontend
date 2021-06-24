@@ -1,27 +1,39 @@
+import { useRouter } from 'next/router'
 import React from 'react'
-import { Redirect, useParams } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import AddLiquidity from './index'
 
 export const RedirectToAddLiquidity = () => {
-  return <Redirect to={ROUTES.add} />
+  const router = useRouter()
+  React.useEffect(() => {
+    router.push(ROUTES.add)
+  }, [])
+  return <div></div>
 }
 
 const OLD_PATH_STRUCTURE = /^(0x[a-fA-F0-9]{40})-(0x[a-fA-F0-9]{40})$/
 
 export const RedirectOldAddLiquidityPathStructure = () => {
-  const { currencyIdA } = useParams<{ currencyIdA: string }>()
+  const router = useRouter()
+  const { query } = router
+  const currencyIdA = query?.currencyIdA as string
   const match = currencyIdA.match(OLD_PATH_STRUCTURE)
   if (match?.length) {
-    return <Redirect to={ROUTES.addByMultiple(match[1], match[2])} />
+    router.push(ROUTES.addByMultiple(match[1], match[2]))
+    return null
   }
   return <AddLiquidity currencyIdA={currencyIdA} />
 }
 
 export const RedirectDuplicateTokenIds = () => {
-  const { currencyIdA, currencyIdB } = useParams<{ currencyIdA: string; currencyIdB: string }>()
-  if (currencyIdA.toLowerCase() === currencyIdB.toLowerCase()) {
-    return <Redirect to={ROUTES.addByOne(currencyIdA)} />
+  const router = useRouter()
+  const { query } = router
+  const currencyIdA = query?.currencyIdA as string
+  const currencyIdB = query?.currencyIdB as string
+
+  if (currencyIdA?.toLowerCase() === currencyIdB?.toLowerCase()) {
+    router.push(ROUTES.addByOne(currencyIdA))
+    return null
   }
   return <AddLiquidity currencyIdA={currencyIdA} currencyIdB={currencyIdB} />
 }

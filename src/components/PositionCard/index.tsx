@@ -9,9 +9,9 @@ import {
   IconButton,
   Text,
 } from 'alium-uikit/src'
+import { useRouter } from 'next/router'
 import { darken } from 'polished'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { useTotalSupply } from '../../data/TotalSupply'
@@ -196,6 +196,8 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
     e.stopPropagation()
   }
 
+  const router = useRouter()
+
   return (
     <HoverCard>
       <AutoColumn gap="12px">
@@ -262,17 +264,19 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
 
             <RowBetween marginTop="10px">
               <Button
-                as={Link}
-                to={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}
+                onClick={() => {
+                  router.push(ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1)))
+                }}
+
                 // style={{ width: '48%' }}
               >
                 Add
               </Button>
               <Button
                 variant="secondary"
-                as={Link}
-                // style={{ width: '48%' }}
-                to={ROUTES.removeByMultiple(currencyId(currency0), currencyId(currency1))}
+                onClick={() => {
+                  ROUTES.removeByMultiple(currencyId(currency0), currencyId(currency1))
+                }}
               >
                 Remove
               </Button>

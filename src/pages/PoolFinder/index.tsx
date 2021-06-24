@@ -10,7 +10,7 @@ import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { StyledInternalLink } from 'components/Shared'
 import { PairState, usePair } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
-import SwapAppBody from 'pages/Swap/SwapAppBody'
+import SwapAppBody from 'views/Swap/SwapAppBody'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ROUTES } from 'routes'
@@ -18,7 +18,7 @@ import { usePairAdder } from 'state/user/hooks'
 import { useTokenBalance } from 'state/wallet/hooks'
 import styled from 'styled-components'
 import { currencyId } from 'utils/currencyId'
-import { Dots } from '../Pool/styleds'
+import { Dots } from '../../views/Pool/styleds'
 
 enum Fields {
   TOKEN0 = 0,
@@ -141,7 +141,7 @@ export default function PoolFinder() {
                   <LightCard padding="30px 10px">
                     <AutoColumn gap="sm" justify="center">
                       <Text style={{ textAlign: 'center' }}>{t('noLiquidityInPool')}</Text>
-                      <StyledInternalLink to={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
+                      <StyledInternalLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
                         <Text style={{ textAlign: 'center' }}>{t('addLiquidity')}</Text>
                       </StyledInternalLink>
                     </AutoColumn>
@@ -151,7 +151,7 @@ export default function PoolFinder() {
                 <LightCard padding="30px 10px">
                   <AutoColumn gap="sm" justify="center">
                     <Text style={{ textAlign: 'center' }}>{t('noPool')}</Text>
-                    <StyledInternalLink to={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
+                    <StyledInternalLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
                       {t('createPool')}
                     </StyledInternalLink>
                   </AutoColumn>

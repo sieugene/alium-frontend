@@ -1,7 +1,7 @@
 import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const StyledNav = styled.div`
@@ -43,6 +43,7 @@ const StyledNav = styled.div`
 
 const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
   const { t } = useTranslation()
+  const router = useRouter()
 
   return (
     <Flex alignItems="flex-start">
@@ -51,10 +52,20 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
           {t('mainMenu.trade')}
         </Heading>
         <ButtonMenu size="md" variant="primary" activeIndex={activeIndex}>
-          <ButtonMenuItem id="swap-nav-link" to="/swap" as={Link}>
+          <ButtonMenuItem
+            id="swap-nav-link"
+            onClick={() => {
+              router.push('/swap')
+            }}
+          >
             {t('swap')}
           </ButtonMenuItem>
-          <ButtonMenuItem id="pool-nav-link" to="/pool" as={Link}>
+          <ButtonMenuItem
+            id="pool-nav-link"
+            onClick={() => {
+              router.push('/pool')
+            }}
+          >
             {t('mainMenu.liquidity')}
           </ButtonMenuItem>
           {/* <ButtonMenuItem id="migrate-nav-link" to="/migrate" as={Link}>

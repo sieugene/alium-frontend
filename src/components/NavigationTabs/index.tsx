@@ -2,10 +2,10 @@ import { ArrowBackIcon, ButtonMenu, ButtonMenuItem, Flex } from 'alium-uikit/src
 import QuestionHelper from 'components/QuestionHelper'
 import { RowBetween } from 'components/Row'
 import TranslatedText from 'components/TranslatedText'
+import Link from 'next/link'
 import { darken } from 'polished'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link as HistoryLink, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Tabs = styled.div`
@@ -43,7 +43,7 @@ const StyledAbsoluteLink = styled.a`
   }
 `
 
-const StyledNavLink = styled(NavLink).attrs({
+const StyledNavLink = styled(Link).attrs({
   activeClassName,
 })`
   display: flex;
@@ -87,10 +87,10 @@ const StyledRowBetween = styled(RowBetween)`
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
   return (
     <Tabs style={{ marginBottom: '20px' }}>
-      <StyledNavLink id="swap-nav-link" to="/swap" isActive={() => active === 'swap'}>
+      <StyledNavLink href="/swap" isActive={() => active === 'swap'}>
         <TranslatedText translationId={8}>Swap</TranslatedText>
       </StyledNavLink>
-      <StyledNavLink id="pool-nav-link" to="/pool" isActive={() => active === 'pool'}>
+      <StyledNavLink to="/pool" isActive={() => active === 'pool'}>
         <TranslatedText translationId={74}>Pool</TranslatedText>
       </StyledNavLink>
       <StyledAbsoluteLink id="migrate-nav-link" target="_blank" href="https://www.binance.org/en/panama">
@@ -102,13 +102,13 @@ export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
 
 export const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => (
   <ButtonMenu activeIndex={activeIndex} size="sm" variant="subtle">
-    <ButtonMenuItem id="swap-nav-link" to="/swap" as={HistoryLink}>
+    <ButtonMenuItem id="swap-nav-link" href="/swap" as={Link}>
       <TranslatedText translationId={8}>Swap</TranslatedText>
     </ButtonMenuItem>
-    <ButtonMenuItem id="pool-nav-link" to="/pool" as={HistoryLink}>
+    <ButtonMenuItem id="pool-nav-link" href="/pool" as={Link}>
       <TranslatedText translationId={74}>Liquidity</TranslatedText>
     </ButtonMenuItem>
-    <ButtonMenuItem id="migrate-nav-link" to="/migrate" as={HistoryLink}>
+    <ButtonMenuItem id="migrate-nav-link" href="/migrate" as={Link}>
       Migrate
     </ButtonMenuItem>
   </ButtonMenu>
@@ -120,9 +120,9 @@ export function FindPoolTabs() {
     <Tabs>
       <StyledRowBetween style={{ borderBottom: '1px solid #f4f5fa' }}>
         <Flex alignItems="center">
-          <HistoryLink to="/pool">
+          <Link href="/pool">
             <ArrowBackIcon width="24px" height="24px" />
-          </HistoryLink>
+          </Link>
           <ActiveText>Import Pool</ActiveText>
           <QuestionHelper text={t('questionHelpers.useThisTool')} />
         </Flex>
@@ -137,9 +137,9 @@ export function AddRemoveTabs({ adding }: { adding: boolean }) {
     <Tabs>
       <StyledRowBetween style={{ borderBottom: '1px solid #f4f5fa' }}>
         <Flex alignItems="center">
-          <HistoryLink to="/pool">
+          <Link href="/pool">
             <ArrowBackIcon width="24px" height="24px" />
-          </HistoryLink>
+          </Link>
           <ActiveText>
             {adding ? 'Add' : 'Remove'} {t('mainMenu.liquidity')}
           </ActiveText>

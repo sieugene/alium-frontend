@@ -82,7 +82,7 @@ export default function PopupItem({
     const {
       listUpdate: { listUrl, oldList, newList, auto },
     } = content
-    popupContent = <ListUpdatePopup popKey={popKey} listUrl={listUrl} oldList={oldList} newList={newList} auto={auto} />
+    popupContent = <ListUpdatePopup popKey={popKey} listUrl={listUrl} oldList={oldList} newList={newList} auhref={auto} />
   }
 
   const faderStyle = useSpring({

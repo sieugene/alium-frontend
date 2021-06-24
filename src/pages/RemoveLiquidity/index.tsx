@@ -6,12 +6,12 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { AddIcon, Button, Flex, Text } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { ROUTER_ADDRESS } from 'config/contracts'
-import SwapAppBody from 'pages/Swap/SwapAppBody'
+import { useRouter } from 'next/router'
 import React, { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
-import { useHistory, useParams } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
+import SwapAppBody from 'views/Swap/SwapAppBody'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import CurrencyLogo from '../../components/CurrencyLogo'
@@ -35,7 +35,7 @@ import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRout
 import { currencyId } from '../../utils/currencyId'
 import useDebouncedChangeHandler from '../../utils/useDebouncedChangeHandler'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
-import { ClickableText, Wrapper } from '../Pool/styleds'
+import { ClickableText, Wrapper } from '../../views/Pool/styleds'
 
 const OutlineCard = styled.div`
   padding: 17px 24px;
@@ -74,8 +74,11 @@ const StyledTextAddIcon = styled.div`
 `
 
 export const RemoveLiquidity: FC = () => {
-  const history = useHistory()
-  const { currencyIdA, currencyIdB } = useParams<{ currencyIdA: string; currencyIdB: string }>()
+  const history = useRouter()
+  const { query } = history
+  const currencyIdA = query?.tokens as string
+  const currencyIdB = query?.currencyIdB as string
+
   const [currencyA, currencyB] = [useCurrency(currencyIdA) ?? undefined, useCurrency(currencyIdB) ?? undefined]
   const { account, chainId, library } = useActiveWeb3React()
   const [tokenA, tokenB] = useMemo(
@@ -664,7 +667,7 @@ export const RemoveLiquidity: FC = () => {
                         <RowBetween style={{ justifyContent: 'flex-end' }}>
                           {oneCurrencyIsETH ? (
                             <StyledInternalLink
-                              to={ROUTES.removeByMultiple(
+                              href={ROUTES.removeByMultiple(
                                 currencyA === ETHER ? WETH[chainId].address : currencyIdA,
                                 currencyB === ETHER ? WETH[chainId].address : currencyIdB,
                               )}
@@ -673,7 +676,7 @@ export const RemoveLiquidity: FC = () => {
                             </StyledInternalLink>
                           ) : oneCurrencyIsWETH ? (
                             <StyledInternalLink
-                              to={ROUTES.removeByMultiple(
+                              href={ROUTES.removeByMultiple(
                                 currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'ETH' : currencyIdA,
                                 currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'ETH' : currencyIdB,
                               )}

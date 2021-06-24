@@ -1,7 +1,6 @@
 import { useActiveWeb3React } from 'hooks'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useHistory } from 'react-router'
 import { ROUTES } from 'routes'
 import { useAllTokens } from './Tokens'
 
@@ -13,7 +12,7 @@ export const useAlmToken = () => {
 
 export const useLiquidityPriorityDefaultAlm = () => {
   const { query }: any = useRouter()
-  const history = useHistory()
+  const history = useRouter()
   const ALMCurrencyId = useAlmToken()?.address
   useEffect(() => {
     if (query?.currencyIdA === 'ETH' && ALMCurrencyId) {
