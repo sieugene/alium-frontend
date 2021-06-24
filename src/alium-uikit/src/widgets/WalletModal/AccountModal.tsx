@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import { renderToStaticMarkup } from 'react-dom/server'
+import styled from 'styled-components'
 import Button from '../../components/Button/Button'
-import Text from '../../components/Text/Text'
 import Flex from '../../components/Flex/Flex'
-import { Modal } from '../Modal'
+import { BSCScanIcon, ExitIcon, ModalBackgroundIcon, TransactionHistoryIcon } from '../../components/Svg'
 import DefaultAvatar from '../../components/Svg/Icons/DefaultAvatar'
 import InputCopy from '../../components/Svg/Icons/InputCopy'
 import MetaMask from '../../components/Svg/Icons/MetaMask'
-import { BSCScanIcon, ExitIcon, TransactionHistoryIcon, ModalBackgroundIcon } from '../../components/Svg'
+import Text from '../../components/Text/Text'
 import removeConnectorId from '../../util/connectorId/removeConnectorId'
+import { Modal } from '../Modal'
 
 interface Props {
   account: string

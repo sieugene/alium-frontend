@@ -139,9 +139,6 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
               </Accordion>
             )
           } else {
-            console.log(entry.href)
-            debugger
-
             return (
               <MenuEntry key={entry.label} isActive={entry.href === location.pathname} className={calloutClass}>
                 <a

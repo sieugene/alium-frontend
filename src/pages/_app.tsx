@@ -11,6 +11,7 @@ const ToastListener = dynamic(() => import('components/ToastListener'), { ssr: f
 const GlobalStyle = dynamic(() => import('style/Global'), { ssr: false })
 const ResetCSS = dynamic(() => import('alium-uikit/src').then((module) => module.ResetCSS), { ssr: false })
 const MenuWrappedRoute = dynamic(() => import('../components/Menu'), { ssr: false })
+const EagerConnectContainer = dynamic(() => import('connectors/EagerConnectContainer'), { ssr: false })
 
 // import '../i18n'
 
@@ -32,17 +33,20 @@ function MyApp({ Component, pageProps }: AppProps) {
     console.warn = () => null
   }, [])
 
-  // process.browser && useEagerConnect()
-
   return (
-    <Providers>
-      <Popups />
-      <ResetCSS />
-      <GlobalStyle />
-      <MenuWrappedRoute loginBlockVisible>
-        <Component {...pageProps} /> <ToastListener />
-      </MenuWrappedRoute>
-    </Providers>
+    <>
+      <Providers>
+        <EagerConnectContainer />
+        <Popups />
+        <ResetCSS />
+        <GlobalStyle />
+        <MenuWrappedRoute loginBlockVisible>
+          <Component {...pageProps} />
+        </MenuWrappedRoute>
+        <ToastListener />
+      </Providers>
+    </>
   )
 }
+
 export default MyApp
