@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Popups />
         <ResetCSS />
         <GlobalStyle />
-        <MenuWrappedRoute loginBlockVisible>
+        <MenuWrappedRoute loginBlockVisible={true}>
           <Component {...pageProps} />
         </MenuWrappedRoute>
         <ToastListener />

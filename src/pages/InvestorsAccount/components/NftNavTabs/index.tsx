@@ -1,11 +1,10 @@
 import { Button, Flex } from 'alium-uikit/src'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
-import { ReactComponent as MyCollectionIcon } from '../../../../assets/images/nav-collection.svg'
-import { ReactComponent as AlmTokenStatsIcon } from '../../../../assets/images/nav-stats.svg'
+import { AlmTokenStatsIcon } from '../../../../../public/images/account/AlmTokenStatsIcon'
+import { MyCollectionIcon } from '../../../../../public/images/account/MyCollectionIcon'
 
 const NavWrap = styled(Flex)`
   padding: 8px 16px;
@@ -57,9 +56,10 @@ function NftNavTabs() {
   return (
     <NavWrap>
       <Button
-        to={ROUTES.tokenHolderArea}
         variant={location.pathname === ROUTES.tokenHolderArea ? 'primary' : 'tertiary'}
-        as={Link}
+        onClick={() => {
+          location.push(ROUTES.tokenHolderArea)
+        }}
       >
         <IconWrapper active={location.pathname === ROUTES.tokenHolderArea} size={16}>
           <AlmTokenStatsIcon />
@@ -68,12 +68,12 @@ function NftNavTabs() {
       </Button>
       <Button
         variant={location.pathname === ROUTES.collection ? 'primary' : 'tertiary'}
-        to={ROUTES.collection}
-        as={Link}
+        onClick={() => {
+          location.push(ROUTES.collection)
+        }}
       >
         <IconWrapper active={location.pathname === ROUTES.collection} size={16}>
           <MyCollectionIcon />
-          {/* <img src={MyCollectionIcon} alt="My collection" /> */}
         </IconWrapper>
         My collection
       </Button>

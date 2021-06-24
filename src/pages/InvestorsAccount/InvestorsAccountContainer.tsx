@@ -1,19 +1,10 @@
-import 'i18n'
 import 'inter-ui'
+import React from 'react'
 import styled from 'styled-components'
-import 'typeface-roboto'
 import ApplicationUpdater from '../../state/application/updater'
 import ListsUpdater from '../../state/lists/updater'
 import MulticallUpdater from '../../state/multicall/updater'
 import TransactionUpdater from '../../state/transactions/updater'
-
-if ('ethereum' in window) {
-  ;(window.ethereum as any).autoRefreshOnNetworkChange = false
-}
-
-window.addEventListener('error', () => {
-  localStorage?.removeItem('redux_localstorage_simple_lists')
-})
 
 const AppWrapper = styled.div`
   display: flex;
@@ -48,7 +39,16 @@ const BodyWrapper = styled.div`
 const Marginer = styled.div`
   margin-top: 5rem;
 `
-export const WrapInvestorsAccounComponent = ({ children }) => {
+const WrapInvestorsAccounComponent = ({ children }) => {
+  React.useEffect(() => {
+    if ('ethereum' in window) {
+      ;(window.ethereum as any).autoRefreshOnNetworkChange = false
+    }
+
+    window.addEventListener('error', () => {
+      localStorage?.removeItem('redux_localstorage_simple_lists')
+    })
+  }, [])
   return (
     <>
       <ListsUpdater />
@@ -61,3 +61,4 @@ export const WrapInvestorsAccounComponent = ({ children }) => {
     </>
   )
 }
+export default WrapInvestorsAccounComponent
