@@ -2,9 +2,9 @@ import { Flex } from 'alium-uikit/src'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { PoolsTypes } from '../../constants/pools'
-const card1One = 'images/collection/Card-01.png'
-const card1Two = 'images/collection/Card-02.png'
-const card1Three = 'images/collection/Card-03.png'
+const card1One = '/images/collection/Card-01.png'
+const card1Two = '/images/collection/Card-02.png'
+const card1Three = '/images/collection/Card-03.png'
 
 interface CardRowProps {
   pool: PoolsTypes

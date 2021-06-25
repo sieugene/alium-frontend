@@ -1,7 +1,7 @@
 import { Spinner, Text } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
-const Circle = 'images/blue-loader.svg'
+const Circle = '/images/blue-loader.svg'
 import { AutoColumn } from '../Column'
 import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'
 

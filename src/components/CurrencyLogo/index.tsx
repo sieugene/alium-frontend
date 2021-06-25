@@ -3,12 +3,12 @@ import { getChainId } from 'alium-uikit/src'
 import { useActiveWeb3React } from 'hooks'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import BNBLogo from '../../assets/images/binance-logo.png'
-import HTlogo from '../../assets/images/heco-logo.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import CoinLogo from '../alium/CoinLogo'
 import Logo from '../Logo'
+const HTlogo = '/images/heco-logo.png'
+const BNBLogo = '/images/binance-logo.png'
 
 const BaseLogo: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: BNBLogo,

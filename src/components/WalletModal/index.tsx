@@ -3,12 +3,11 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { ReactComponent as Close } from '/images/x.svg'
+import { useTranslation } from 'next-i18next'
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { useTranslation } from 'next-i18next';
 import styled from 'styled-components'
-import MetamaskIcon from '../../assets/images/metamask.png'
-import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { fortmatic, injected, portis } from '../../connectors'
 import { OVERLAY_READY } from '../../connectors/Fortmatic'
 import { SUPPORTED_WALLETS } from '../../constants'
@@ -19,6 +18,7 @@ import Modal from '../Modal'
 import { ExternalLink } from '../Shared'
 import Option from './Option'
 import PendingView from './PendingView'
+const MetamaskIcon = '/images/metamask.png'
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -223,7 +223,7 @@ export default function WalletModal({
               link={option.href}
               header={option.name}
               subheader={null}
-              icon={require(`../../assets/images/${option.iconName}`)}
+              icon={require(`/images/${option.iconName}`)}
             />
           )
         }
@@ -277,7 +277,7 @@ export default function WalletModal({
             link={option.href}
             header={option.name}
             subheader={null} // use option.descriptio to bring back multi-line
-            icon={require(`../../assets/images/${option.iconName}`)}
+            icon={require(`/images/${option.iconName}`)}
           />
         )
       )

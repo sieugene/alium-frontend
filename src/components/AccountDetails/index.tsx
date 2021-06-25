@@ -1,14 +1,10 @@
 import { Button } from 'alium-uikit/src'
+import { ReactComponent as Close } from '/images/x.svg'
+import { useTranslation } from 'next-i18next'
 import React, { useCallback, useContext } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
-import { useTranslation } from 'next-i18next';
 import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
-import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import FortmaticIcon from '../../assets/images/fortmaticIcon.png'
-import PortisIcon from '../../assets/images/portisIcon.png'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
-import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import { useActiveWeb3React } from '../../hooks'
@@ -20,6 +16,10 @@ import { AutoRow } from '../Row'
 import { ExternalLink, LinkStyledButton, TYPE } from '../Shared'
 import Copy from './Copy'
 import Transaction from './Transaction'
+const FortmaticIcon = '/images/fortmaticIcon.png'
+const PortisIcon = '/images/portisIcon.png'
+const WalletConnectIcon = '/images/walletConnectIcon.svg'
+const CoinbaseWalletIcon = '/images/coinbaseWalletIcon.svg'
 
 const { body: Body } = TYPE
 

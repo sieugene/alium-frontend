@@ -121,7 +121,7 @@ function Collection() {
             {selectedCard && (
               <>
                 <SelectedNftWrapper>
-                  <Image src={"images/collection/Card-Preview.png"} alt="nft-preview" className="nft-preview" />
+                  <Image src={"/images/collection/Card-Preview.png"} alt="nft-preview" className="nft-preview" />
                   <span>{selectedCard[1]}</span>
                 </SelectedNftWrapper>
               </>
