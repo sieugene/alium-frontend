@@ -1,3 +1,4 @@
+import NextLink from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import getExternalLinkProps from '../../util/getExternalLinkProps'
@@ -22,7 +23,11 @@ const StyledLink = styled(Text)<LinkProps>`
 
 const Link: React.FC<LinkProps> = ({ external, ...props }) => {
   const internalProps = external ? getExternalLinkProps() : {}
-  return <StyledLink as="a" {...internalProps} {...props} />
+  return (
+    <NextLink href={props?.href || '/'}>
+      <StyledLink as={'a'} {...internalProps} {...props} />
+    </NextLink>
+  )
 }
 
 Link.defaultProps = {

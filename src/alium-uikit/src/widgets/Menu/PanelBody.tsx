@@ -1,3 +1,4 @@
+import { NextLink } from 'components/NextLink'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -89,6 +90,7 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
   // Close the menu when a user clicks a link on mobile
   const handleClick = isMobile ? () => pushNav(false) : undefined
   const homeLink = links.find((link) => link.label === 'Home')
+
   return (
     <Container>
       <StyledLogoIcon>
@@ -133,7 +135,7 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
                       isActive={item.href === location.pathname}
                       onClick={handleClick}
                     >
-                      <Link href={item.href}>{item.label}</Link>
+                      <NextLink href={item.href}>{item.label}</NextLink>
                     </MenuEntry>
                   ))}
               </Accordion>
@@ -141,16 +143,10 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
           } else {
             return (
               <MenuEntry key={entry.label} isActive={entry.href === location.pathname} className={calloutClass}>
-                <a
-                  href={entry.href}
-                  onClick={() => {
-                    handleClick()
-                    location.push(entry.href)
-                  }}
-                >
+                <NextLink.multiple href={entry.href} handleClick={handleClick}>
                   {iconElement}
                   <LinkLabel isPushed={isPushed}>{entry.label}</LinkLabel>
-                </a>
+                </NextLink.multiple>
               </MenuEntry>
             )
           }
