@@ -1,6 +1,6 @@
-import { ArrowForwardIcon, Card, Flex, Heading } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
+import { Heading, Card, Flex, ArrowForwardIcon } from 'alium-uikit/src'
 // import useLotteryTotalPrizesUsd from 'hooks/useLotteryTotalPrizesUsd'
 
 const StyledFarmStakingCard = styled(Card)`

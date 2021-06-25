@@ -1,10 +1,10 @@
-import { Card, CardBody, Text } from 'alium-uikit/src'
-import useI18n from 'hooks/useI18n'
-import { /* useTotalSupply, */ useBurnedBalance } from 'hooks/useTokenBalance'
 import React from 'react'
+import { Card, CardBody, Text } from 'alium-uikit/src'
 import styled from 'styled-components'
-import { getCakeAddress } from 'utils/addressHelpers'
 import { getBalanceNumber } from 'utils/formatBalance'
+import { /* useTotalSupply, */ useBurnedBalance } from 'hooks/useTokenBalance'
+import useI18n from 'hooks/useI18n'
+import { getCakeAddress } from 'utils/addressHelpers'
 import CardValue from './CardValue'
 
 const StyledCakeStats = styled(Card)`

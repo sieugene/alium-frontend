@@ -1,9 +1,9 @@
+import { NextLink } from 'components/NextLink'
 import React from 'react'
 import styled from 'styled-components'
-import { LogoIcon } from '../../components/Svg'
 import Flex from '../../components/Flex/Flex'
+import { LogoIcon } from '../../components/Svg'
 import { LogoIcon as LogoWithText } from './icons'
-import Link from 'next/link'
 
 interface Props {
   isDark: boolean
@@ -11,7 +11,7 @@ interface Props {
   isPushed?: boolean
 }
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NextLink)`
   display: flex;
   align-items: center;
   .mobile-icon {
@@ -33,14 +33,14 @@ const StyledLink = styled(Link)`
 const Logo: React.FC<Props> = ({ isDark, href, isPushed }) => {
   const isAbsoluteUrl = href.startsWith('http')
   const innerLogo = (
-    <>
+    <NextLink.multiple href={'/'}>
       <LogoIcon className="mobile-icon" />
       {!isPushed ? (
         <LogoWithText className="desktop-icon" isDark={isDark} />
       ) : (
         <LogoWithText className="desktop-icon" isDark={isDark} withText />
       )}
-    </>
+    </NextLink.multiple>
   )
 
   return (

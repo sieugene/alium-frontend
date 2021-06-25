@@ -1,9 +1,9 @@
-import { ArrowForwardIcon, Card, Flex, Heading } from 'alium-uikit/src'
-import pools from 'config/constants/pools'
-import orderBy from 'lodash/orderBy'
 import React from 'react'
-import { Pool } from 'state/types'
 import styled from 'styled-components'
+import orderBy from 'lodash/orderBy'
+import { Heading, Card, Flex, ArrowForwardIcon } from 'alium-uikit/src'
+import pools from 'config/constants/pools'
+import { Pool } from 'state/types'
 
 const StyledFarmStakingCard = styled(Card)`
   background: transparent;

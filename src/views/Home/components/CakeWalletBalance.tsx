@@ -1,14 +1,14 @@
-import { useWeb3React } from '@web3-react/core'
-import { Text } from 'alium-uikit/src'
-import { BigNumber } from 'bignumber.js'
-import useI18n from 'hooks/useI18n'
-import useTokenBalance from 'hooks/useTokenBalance'
 import React from 'react'
-import { usePriceCakeBusd } from 'state/hooks'
+import { Text } from 'alium-uikit/src'
+import { useWeb3React } from '@web3-react/core'
+import useTokenBalance from 'hooks/useTokenBalance'
+import useI18n from 'hooks/useI18n'
 import { getCakeAddress } from 'utils/addressHelpers'
 import { getBalanceNumber } from 'utils/formatBalance'
-import CardBusdValue from './CardBusdValue'
+import { usePriceCakeBusd } from 'state/hooks'
+import { BigNumber } from 'bignumber.js'
 import CardValue from './CardValue'
+import CardBusdValue from './CardBusdValue'
 
 const CakeWalletBalance = () => {
   const TranslateString = useI18n()

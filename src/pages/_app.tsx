@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import React from 'react'
 import TagManager from 'react-gtm-module'
 import 'typeface-roboto'
-import nextI18NextConfig from '../../next-i18next.config.js';
+import nextI18NextConfig from '../../next-i18next.config.js'
 
 const Providers = dynamic(() => import('Providers'), { ssr: false })
 const Popups = dynamic(() => import('components/Popups'), { ssr: false })
@@ -34,19 +34,17 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [])
 
   return (
-    <>
-      <Providers>
-        <EagerConnectContainer />
-        <Popups />
-        <ResetCSS />
-        <GlobalStyle />
-        <MenuWrappedRoute loginBlockVisible={true}>
-          <Component {...pageProps} />
-        </MenuWrappedRoute>
-        <ToastListener />
-      </Providers>
-    </>
+    <Providers>
+      <EagerConnectContainer />
+      <Popups />
+      <ResetCSS />
+      <GlobalStyle />
+      <MenuWrappedRoute loginBlockVisible={true}>
+        <Component {...pageProps} />
+      </MenuWrappedRoute>
+      <ToastListener />
+    </Providers>
   )
 }
 
-export default appWithTranslation(MyApp,nextI18NextConfig )
+export default appWithTranslation(MyApp, nextI18NextConfig)

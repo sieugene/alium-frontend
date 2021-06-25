@@ -2,23 +2,28 @@ import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 
-type Props = LinkProps
+type Props = LinkProps & {
+  className?: string
+}
 type DuplicatedProps = Props & {
   handleClick?: () => void
 }
-export const NextLink: FC<Props> & { multiple: FC<DuplicatedProps> } = ({ href, children, ...other }) => {
+export const NextLink: FC<Props> & { multiple: FC<DuplicatedProps> } = ({ href, children, className, ...other }) => {
   return (
     <Link href={href || '/'} {...other}>
-      {children}
+      <a href={href as string || '/'} className={className || ''}>
+        {children}
+      </a>
     </Link>
   )
 }
 // When you see error like multiple children
-NextLink.multiple = ({ handleClick, href, children, ...other }) => {
+NextLink.multiple = ({ handleClick, href, children, className, ...other }) => {
   const location = useRouter()
   const link = (href as string) || '/'
   return (
     <a
+      className={className || ''}
       href={link}
       onClick={(event) => {
         event.preventDefault()
