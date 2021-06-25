@@ -1,9 +1,9 @@
-import { Contract } from '@ethersproject/contracts'
+import { ChainId, CurrencyAmount, JSBI, Percent } from '@alium-official/sdk'
 import { getAddress } from '@ethersproject/address'
-import { AddressZero } from '@ethersproject/constants'
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainId, JSBI, Percent, CurrencyAmount } from '@alium-official/sdk'
+import { AddressZero } from '@ethersproject/constants'
+import { Contract } from '@ethersproject/contracts'
+import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -19,25 +19,36 @@ const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'testnet.',
   [ChainId.HECOMAINNET]: '',
   [ChainId.HECOTESTNET]: 'testnet.',
+  [ChainId.ETHER_MAINNET]: '',
+  // [ChainId.ETHER_TESTNET]: 'testnet.',
+  [ChainId.MATIC_MAINNET]: '',
+  // [ChainId.MATIC_TESTNET]: 'testnet.',
 }
 
 const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'bscscan.com',
-  [ChainId.BSCTESTNET]: 'bscscan.com',
+  [ChainId.BSCTESTNET]: 'testnet.bscscan.com',
   [ChainId.HECOMAINNET]: 'hecoinfo.com',
-  [ChainId.HECOTESTNET]: 'hecoinfo.com',
+  [ChainId.HECOTESTNET]: 'testnet.hecoinfo.com',
+  [ChainId.ETHER_MAINNET]: 'etherscan.io',
+  // [ChainId.ETHER_TESTNET]: 'ropsten.etherscan.io',
+  [ChainId.MATIC_MAINNET]: 'polygonscan.com',
+  // [ChainId.MATIC_TESTNET]: 'mumbai.polygonscan.com',
 }
 
 const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'BscScan',
-  [ChainId.BSCTESTNET]: 'BscScan',
+  [ChainId.BSCTESTNET]: 'BscScan Testnet',
   [ChainId.HECOMAINNET]: 'HecoScan',
-  [ChainId.HECOTESTNET]: 'HecoScan',
+  [ChainId.HECOTESTNET]: 'HecoScan Testnet',
+  [ChainId.ETHER_MAINNET]: 'Etherscan',
+  // [ChainId.ETHER_TESTNET]: 'Etherscan Ropsten Testnet',
+  [ChainId.MATIC_MAINNET]: 'PolygonScan',
+  // [ChainId.MATIC_TESTNET]: 'PolygonScan Mumbai Testnet',
 }
 
 export const getExplorerName = (chainId: ChainId) => {
-  const name = EXPLORER_NAMES[chainId]
-  return name
+  return EXPLORER_NAMES[chainId]
 }
 
 export function getExplorerLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
