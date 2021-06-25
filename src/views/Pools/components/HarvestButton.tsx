@@ -1,7 +1,6 @@
+import Link from 'next/link'
 import React, { useContext, useMemo } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-
-import { Link } from 'react-router-dom'
 
 const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;

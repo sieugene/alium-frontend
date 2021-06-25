@@ -1,8 +1,8 @@
 import { Button, Heading, Text } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'next-i18next';
 import Lottie from 'react-lottie-player'
-import { NavLink } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import greetingsAnimationJSON from '../../../assets/data/greetings-animation.json'
@@ -121,9 +121,11 @@ const HomeGreetings: React.FC = () => {
         <StyledText className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
           {t('greetingsMessage')}
         </StyledText>
-        <NavLink href={ROUTES.exchange} className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
-          <StyledButton>{t('startTrading')}</StyledButton>
-        </NavLink>
+        <Link href={ROUTES.exchange}>
+          <a href={ROUTES.exchange} className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
+            <StyledButton>{t('startTrading')}</StyledButton>
+          </a>
+        </Link>
       </InfoWrapper>
 
       <ImageFrapper>

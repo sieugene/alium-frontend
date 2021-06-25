@@ -1,7 +1,7 @@
 import { Token, TokenAmount, WETH } from '@alium-official/sdk'
 import { Button, Text } from 'alium-uikit/src'
+import Link from 'next/link'
 import React from 'react'
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { ROUTES } from 'routes'
 import { useActiveWeb3React } from '../../hooks'
 import { AutoColumn } from '../Column'
@@ -9,7 +9,7 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { FixedHeightRow, HoverCard } from './index'
 
-interface PositionCardProps extends RouteComponentProps<any> {
+interface PositionCardProps {
   token: Token
   V1LiquidityBalance: TokenAmount
 }
@@ -53,4 +53,4 @@ function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
   )
 }
 
-export default withRouter(V1PositionCard)
+export default V1PositionCard

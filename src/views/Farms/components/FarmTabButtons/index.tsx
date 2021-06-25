@@ -1,7 +1,8 @@
 import { ButtonMenu, ButtonMenuItem, Text, Toggle } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
-import { Link, useRouteMatch } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -24,7 +25,11 @@ const ToggleWrapper = styled.div`
 `
 
 const FarmTabButtons = ({ stackedOnly, setStackedOnly }) => {
-  const { url, isExact } = useRouteMatch()
+  // const { url, isExact } = useRouteMatch()
+  const { query } = useRouter()
+  const url = query?.url
+  const isExact = query?.url
+
   const TranslateString = useI18n()
 
   return (

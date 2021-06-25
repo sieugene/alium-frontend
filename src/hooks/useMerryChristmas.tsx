@@ -1,7 +1,6 @@
 import { useParticleBurst } from 'alium-uikit/src'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 
 const disableWhenNotChristmas = () => {
   const today = new Date()
