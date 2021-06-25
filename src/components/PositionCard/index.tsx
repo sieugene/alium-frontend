@@ -9,6 +9,7 @@ import {
   IconButton,
   Text,
 } from 'alium-uikit/src'
+import { NextLink } from 'components/NextLink'
 import { useRouter } from 'next/router'
 import { darken } from 'polished'
 import React, { useState } from 'react'
@@ -263,23 +264,17 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
             </FixedHeightRow>
 
             <RowBetween marginTop="10px">
-              <Button
-                onClick={() => {
-                  router.push(ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1)))
-                }}
+              <NextLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
+                <Button
 
                 // style={{ width: '48%' }}
-              >
-                Add
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  ROUTES.removeByMultiple(currencyId(currency0), currencyId(currency1))
-                }}
-              >
-                Remove
-              </Button>
+                >
+                  Add
+                </Button>
+              </NextLink>
+              <NextLink href={ROUTES.removeByMultiple(currencyId(currency0), currencyId(currency1))}>
+                <Button variant="secondary">Remove</Button>
+              </NextLink>
             </RowBetween>
           </AutoColumn>
         )}

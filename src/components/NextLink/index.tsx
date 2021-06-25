@@ -1,17 +1,17 @@
 import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import React, { AnchorHTMLAttributes, FC } from 'react'
 
 type Props = LinkProps & {
   className?: string
 }
 type DuplicatedProps = Props & {
   handleClick?: () => void
-}
+} & AnchorHTMLAttributes<HTMLAnchorElement>
 export const NextLink: FC<Props> & { multiple: FC<DuplicatedProps> } = ({ href, children, className, ...other }) => {
   return (
     <Link href={href || '/'} {...other}>
-      <a href={href as string || '/'} className={className || ''}>
+      <a href={(href as string) || '/'} className={className || ''}>
         {children}
       </a>
     </Link>

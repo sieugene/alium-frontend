@@ -1,12 +1,13 @@
 import { Button, Flex, Heading, Text } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import Modal from 'components/Modal'
+import { NextLink } from 'components/NextLink'
 import { TransactionSubmittedContent, TransactionSucceedContent } from 'components/TransactionConfirmationModal'
 import { useActiveWeb3React } from 'hooks'
 import { useNFTPrivateContract } from 'hooks/useContract'
 import useNftPoolHook from 'hooks/useNftPool'
+import { useTranslation } from 'next-i18next'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'next-i18next';
 import { useSelector } from 'react-redux'
 import { ROUTES } from 'routes'
 import { removePopup } from 'state/application/actions'
@@ -309,9 +310,9 @@ const InvestorsAccount = () => {
           ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
             <NoNFT>
               <NoNFTText>You don&apos;t have NFT tokens yet, but you can purchase them on the page</NoNFTText>
-              <Button href={ROUTES.public} target="_blank" as="a">
-                Buy NFT
-              </Button>
+              <NextLink.multiple href={ROUTES.public} target="_blank" as="a">
+                <Button>Buy NFT</Button>
+              </NextLink.multiple>
             </NoNFT>
           ) : (
             <>

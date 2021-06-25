@@ -1,11 +1,10 @@
-import { ArrowBackIcon, ButtonMenu, ButtonMenuItem, Flex } from 'alium-uikit/src'
+import { ArrowBackIcon, Flex } from 'alium-uikit/src'
+import { NextLink } from 'components/NextLink'
 import QuestionHelper from 'components/QuestionHelper'
 import { RowBetween } from 'components/Row'
-import TranslatedText from 'components/TranslatedText'
-import Link from 'next/link'
-import { darken } from 'polished'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { useTranslation } from 'next-i18next';
+import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
 const Tabs = styled.div`
@@ -17,58 +16,6 @@ const Tabs = styled.div`
 `
 
 const activeClassName = 'ACTIVE'
-
-const StyledAbsoluteLink = styled.a`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
-  border-radius: 3rem;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  color: ${({ theme }) => theme.colors.textDisabled};
-  font-size: 20px;
-
-  &.${activeClassName} {
-    border-radius: 12px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.text};
-  }
-
-  :hover,
-  :focus {
-    color: ${({ theme }) => darken(0.1, theme.colors.text)};
-  }
-`
-
-const StyledNavLink = styled(Link).attrs({
-  activeClassName,
-})`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
-  border-radius: 3rem;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  color: ${({ theme }) => theme.colors.textDisabled};
-  font-size: 20px;
-
-  &.${activeClassName} {
-    border-radius: 12px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.text};
-  }
-
-  :hover,
-  :focus {
-    color: ${({ theme }) => darken(0.1, theme.colors.text)};
-  }
-`
 
 const ActiveText = styled.div`
   font-weight: 600;
@@ -84,45 +31,15 @@ const StyledRowBetween = styled(RowBetween)`
   }
 `
 
-export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' }) {
-  return (
-    <Tabs style={{ marginBottom: '20px' }}>
-      <StyledNavLink href="/swap" isActive={() => active === 'swap'}>
-        <TranslatedText translationId={8}>Swap</TranslatedText>
-      </StyledNavLink>
-      <StyledNavLink to="/pool" isActive={() => active === 'pool'}>
-        <TranslatedText translationId={74}>Pool</TranslatedText>
-      </StyledNavLink>
-      <StyledAbsoluteLink id="migrate-nav-link" target="_blank" href="https://www.binance.org/en/panama">
-        Bridge
-      </StyledAbsoluteLink>
-    </Tabs>
-  )
-}
-
-export const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => (
-  <ButtonMenu activeIndex={activeIndex} size="sm" variant="subtle">
-    <ButtonMenuItem id="swap-nav-link" href="/swap" as={Link}>
-      <TranslatedText translationId={8}>Swap</TranslatedText>
-    </ButtonMenuItem>
-    <ButtonMenuItem id="pool-nav-link" href="/pool" as={Link}>
-      <TranslatedText translationId={74}>Liquidity</TranslatedText>
-    </ButtonMenuItem>
-    <ButtonMenuItem id="migrate-nav-link" href="/migrate" as={Link}>
-      Migrate
-    </ButtonMenuItem>
-  </ButtonMenu>
-)
-
 export function FindPoolTabs() {
   const { t } = useTranslation()
   return (
     <Tabs>
       <StyledRowBetween style={{ borderBottom: '1px solid #f4f5fa' }}>
         <Flex alignItems="center">
-          <Link href="/pool">
+          <NextLink href={ROUTES.pool}>
             <ArrowBackIcon width="24px" height="24px" />
-          </Link>
+          </NextLink>
           <ActiveText>Import Pool</ActiveText>
           <QuestionHelper text={t('questionHelpers.useThisTool')} />
         </Flex>
@@ -137,9 +54,9 @@ export function AddRemoveTabs({ adding }: { adding: boolean }) {
     <Tabs>
       <StyledRowBetween style={{ borderBottom: '1px solid #f4f5fa' }}>
         <Flex alignItems="center">
-          <Link href="/pool">
+          <NextLink href={ROUTES.pool}>
             <ArrowBackIcon width="24px" height="24px" />
-          </Link>
+          </NextLink>
           <ActiveText>
             {adding ? 'Add' : 'Remove'} {t('mainMenu.liquidity')}
           </ActiveText>

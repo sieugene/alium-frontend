@@ -1,6 +1,6 @@
 import { Token, TokenAmount, WETH } from '@alium-official/sdk'
 import { Button, Text } from 'alium-uikit/src'
-import Link from 'next/link'
+import { NextLink } from 'components/NextLink'
 import React from 'react'
 import { ROUTES } from 'routes'
 import { useActiveWeb3React } from '../../hooks'
@@ -34,18 +34,14 @@ function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
 
         <AutoColumn gap="8px">
           <RowBetween marginTop="10px">
-            <Button style={{ width: '68%' }} as={Link} href={`/migrate/v1/${V1LiquidityBalance.token.address}`}>
-              Migrate
-            </Button>
-
-            <Button
-              variant="secondary"
-              style={{ width: '28%' }}
-              as={Link}
-              href={ROUTES.removeByMultiple('v1', `${V1LiquidityBalance.token.address}`)}
-            >
-              Remove
-            </Button>
+            <NextLink href={`/migrate/v1/${V1LiquidityBalance.token.address}`}>
+              <Button style={{ width: '68%' }}>Migrate</Button>
+            </NextLink>
+            <NextLink href={ROUTES.removeByMultiple('v1', `${V1LiquidityBalance.token.address}`)}>
+              <Button variant="secondary" style={{ width: '28%' }}>
+                Remove
+              </Button>
+            </NextLink>
           </RowBetween>
         </AutoColumn>
       </AutoColumn>

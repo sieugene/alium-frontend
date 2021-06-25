@@ -1,4 +1,5 @@
 import { Button, Flex } from 'alium-uikit/src'
+import { NextLink } from 'components/NextLink'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { ROUTES } from 'routes'
@@ -55,28 +56,22 @@ function NftNavTabs() {
 
   return (
     <NavWrap>
-      <Button
-        variant={location.pathname === ROUTES.tokenHolderArea ? 'primary' : 'tertiary'}
-        onClick={() => {
-          location.push(ROUTES.tokenHolderArea)
-        }}
-      >
-        <IconWrapper active={location.pathname === ROUTES.tokenHolderArea} size={16}>
-          <AlmTokenStatsIcon />
-        </IconWrapper>
-        ALM token stats
-      </Button>
-      <Button
-        variant={location.pathname === ROUTES.collection ? 'primary' : 'tertiary'}
-        onClick={() => {
-          location.push(ROUTES.collection)
-        }}
-      >
-        <IconWrapper active={location.pathname === ROUTES.collection} size={16}>
-          <MyCollectionIcon />
-        </IconWrapper>
-        My collection
-      </Button>
+      <NextLink href={ROUTES.tokenHolderArea}>
+        <Button variant={location.pathname === ROUTES.tokenHolderArea ? 'primary' : 'tertiary'}>
+          <IconWrapper active={location.pathname === ROUTES.tokenHolderArea} size={16}>
+            <AlmTokenStatsIcon />
+          </IconWrapper>
+          ALM token stats
+        </Button>
+      </NextLink>
+      <NextLink href={ROUTES.collection}>
+        <Button variant={location.pathname === ROUTES.collection ? 'primary' : 'tertiary'}>
+          <IconWrapper active={location.pathname === ROUTES.collection} size={16}>
+            <MyCollectionIcon />
+          </IconWrapper>
+          My collection
+        </Button>
+      </NextLink>
     </NavWrap>
   )
 }

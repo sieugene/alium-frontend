@@ -1,7 +1,7 @@
+import { NextLink } from 'components/NextLink'
 import { darken } from 'polished'
 import React, { HTMLProps, useCallback } from 'react'
 import { ArrowLeft, X } from 'react-feather'
-import Link from 'next/link'
 import styled, { keyframes } from 'styled-components'
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
@@ -62,7 +62,7 @@ export const LinkStyledButton = styled.button<{ disabled?: boolean }>`
 `
 
 // An internal link from the react-router-dom library that is correctly styled
-export const StyledInternalLink = styled(Link)`
+export const StyledInternalLink = styled(NextLink)`
   text-decoration: none;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.primary};
@@ -117,7 +117,7 @@ export function ExternalLink({
         event.preventDefault()
       }
     },
-    [target]
+    [target],
   )
   return <StyledLink target={target} rel={rel} href={href} onClick={handleClick} {...rest} />
 }

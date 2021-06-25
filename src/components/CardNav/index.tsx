@@ -1,7 +1,9 @@
 import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src'
+import { NextLink } from 'components/NextLink'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { useTranslation } from 'next-i18next';
+import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
 const StyledNav = styled.div`
@@ -52,22 +54,13 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
           {t('mainMenu.trade')}
         </Heading>
         <ButtonMenu size="md" variant="primary" activeIndex={activeIndex}>
-          <ButtonMenuItem
-            id="swap-nav-link"
-            onClick={() => {
-              router.push('/swap')
-            }}
-          >
-            {t('swap')}
+          <ButtonMenuItem id="swap-nav-link">
+            <NextLink href={ROUTES.exchange}>{t('swap')}</NextLink>
           </ButtonMenuItem>
-          <ButtonMenuItem
-            id="pool-nav-link"
-            onClick={() => {
-              router.push('/pool')
-            }}
-          >
-            {t('mainMenu.liquidity')}
+          <ButtonMenuItem id="pool-nav-link">
+            <NextLink href={ROUTES.pool}>{t('mainMenu.liquidity')}</NextLink>
           </ButtonMenuItem>
+
           {/* <ButtonMenuItem id="migrate-nav-link" to="/migrate" as={Link}>
           Migrate
         </ButtonMenuItem> */}
