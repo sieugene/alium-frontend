@@ -1,7 +1,7 @@
 import { Button } from 'alium-uikit/src'
 import React, { useCallback, useContext } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'

@@ -13,7 +13,7 @@ import { usePairs } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
 import { useRouter } from 'next/router'
 import React, { useContext, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { ROUTES } from 'routes'
 import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
 import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'

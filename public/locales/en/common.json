@@ -1,4 +1,4 @@
-export default {
+{
   "noWallet": "No Binance Smart Chain wallet found",
   "wrongNetwork": "You are on the wrong network",
   "switchNetwork": "Please switch to {{ correctNetwork }}",
@@ -152,5 +152,8 @@ export default {
     "github": "GitHub",
     "blog": "Blog",
     "docs": "Docs"
-  }
+  },
+  "hurray": "Hurray",
+  "greetingsMessage": "We're up and running. Join us now to get the maximum benefit from the very beginning!",
+  "startTrading": "Start trading"
 }

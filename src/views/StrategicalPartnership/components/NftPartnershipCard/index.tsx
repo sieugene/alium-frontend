@@ -1,7 +1,7 @@
 import { ArrowDropDownIcon, ArrowDropUpIcon, Flex, Text } from 'alium-uikit/src'
 import React, { useState } from 'react'
 // import { BigNumber } from '@ethersproject/bignumber'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import styled from 'styled-components'
 import cardList, { CardType } from '../../constants/cards'
 import currencies from '../../constants/currencies'

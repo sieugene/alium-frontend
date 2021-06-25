@@ -1,7 +1,7 @@
 import { diffTokenLists, TokenList } from '@uniswap/token-lists'
 import { Button, Text } from 'alium-uikit/src'
 import React, { useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../state'
 import { useRemovePopup } from '../../state/application/hooks'

@@ -5,7 +5,7 @@ import TranslatedText from 'components/TranslatedText'
 import Link from 'next/link'
 import { darken } from 'polished'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import styled from 'styled-components'
 
 const Tabs = styled.div`

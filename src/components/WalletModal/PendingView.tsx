@@ -2,7 +2,7 @@
 /* eslint-disable global-require */
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import styled from 'styled-components'
 import { darken } from 'polished'
 import Option from './Option'

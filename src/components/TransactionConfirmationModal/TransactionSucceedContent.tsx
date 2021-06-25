@@ -3,7 +3,7 @@ import { ColoredCopyIcon, Flex, Heading, Text } from 'alium-uikit/src'
 import { NFT_COLLECTIBLE_ADDRESS } from 'constants/abis/nftPrivate'
 import { CardType } from 'pages/Home/constants/cards'
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { useSelector } from 'react-redux'
 import { PopupList } from 'state/application/reducer'
 import { AppState } from 'state/index'

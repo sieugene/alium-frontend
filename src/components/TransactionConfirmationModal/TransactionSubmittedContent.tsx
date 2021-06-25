@@ -2,7 +2,7 @@ import { ChainId } from '@alium-official/sdk'
 import { Button, LinkExternal } from 'alium-uikit/src'
 import React, { useContext } from 'react'
 import { ArrowUpCircle } from 'react-feather'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { ThemeContext } from 'styled-components'
 import { getExplorerLink, getExplorerName } from '../../utils'
 import { AutoColumn } from '../Column'

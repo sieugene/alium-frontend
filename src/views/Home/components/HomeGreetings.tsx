@@ -1,6 +1,6 @@
 import { Button, Heading, Text } from 'alium-uikit/src'
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import Lottie from 'react-lottie-player'
 import { NavLink } from 'react-router-dom'
 import { ROUTES } from 'routes'

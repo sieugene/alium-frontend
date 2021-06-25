@@ -1,6 +1,6 @@
 import { Flex, Heading, IconButton, Text, useModal } from 'alium-uikit/src'
 import React, { ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import styled, { useTheme } from 'styled-components'
 import RecentTransactionsModal from './RecentTransactionsModal'
 import SettingsModal from './SettingsModal'

@@ -1,7 +1,7 @@
 import { Flex, Text } from 'alium-uikit/src'
 import React from 'react'
 // import { BigNumber } from '@ethersproject/bignumber'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import styled from 'styled-components'
 import { CardType } from '../../constants/cards'
 

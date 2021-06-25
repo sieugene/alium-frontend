@@ -2,7 +2,7 @@ import { Button, CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Modal, Text
 import Loader from 'components/Loader'
 import { useActiveWeb3React } from 'hooks'
 import React, { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { isTransactionRecent, useAllTransactions } from 'state/transactions/hooks'
 import { TransactionDetails } from 'state/transactions/reducer'
 import styled from 'styled-components'

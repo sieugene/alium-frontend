@@ -1,9 +1,11 @@
 import BigNumber from 'bignumber.js'
+import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import React from 'react'
 import TagManager from 'react-gtm-module'
 import 'typeface-roboto'
+import nextI18NextConfig from '../../next-i18next.config.js';
 
 const Providers = dynamic(() => import('Providers'), { ssr: false })
 const Popups = dynamic(() => import('components/Popups'), { ssr: false })
@@ -12,8 +14,6 @@ const GlobalStyle = dynamic(() => import('style/Global'), { ssr: false })
 const ResetCSS = dynamic(() => import('alium-uikit/src').then((module) => module.ResetCSS), { ssr: false })
 const MenuWrappedRoute = dynamic(() => import('../components/Menu'), { ssr: false })
 const EagerConnectContainer = dynamic(() => import('connectors/EagerConnectContainer'), { ssr: false })
-
-// import '../i18n'
 
 const tagManagerArgs = {
   gtmId: 'GTM-MWZ3WL5',
@@ -49,4 +49,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default appWithTranslation(MyApp,nextI18NextConfig )

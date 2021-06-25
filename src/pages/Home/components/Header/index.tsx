@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { Button, Flex, Heading, useWalletModal } from 'alium-uikit/src'
 import { injected, walletconnect } from 'connectors'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import styled from 'styled-components'
 import logoMobile from '../../images/logo-mobile.svg'
 import logo from '../../images/logo.svg'

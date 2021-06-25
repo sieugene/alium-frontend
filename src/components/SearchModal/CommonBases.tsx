@@ -1,7 +1,7 @@
 import { ChainId, Currency, currencyEquals, ETHER, Token } from '@alium-official/sdk'
 import { Text } from 'alium-uikit/src'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import styled from 'styled-components'
 import { SUGGESTED_BASES } from '../../constants'
 import { AutoColumn } from '../Column'

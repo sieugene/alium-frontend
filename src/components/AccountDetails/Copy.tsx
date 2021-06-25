@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { CheckCircle, Copy } from 'react-feather'
 import useCopyClipboard from '../../hooks/useCopyClipboard'
 

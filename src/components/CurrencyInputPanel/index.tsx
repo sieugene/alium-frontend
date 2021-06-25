@@ -2,7 +2,7 @@ import { Currency, Pair } from '@alium-official/sdk'
 import { ArrowDropDownIcon, Button, Text } from 'alium-uikit/src'
 import { darken } from 'polished'
 import React, { useCallback, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import styled, { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrencyBalance } from '../../state/wallet/hooks'

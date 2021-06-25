@@ -1,3 +1,4 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 import React from 'react'
 import { RedirectToSwap } from 'views/Swap/redirects'
@@ -15,3 +16,9 @@ const OutputCurrencySwap = () => {
 }
 
 export default OutputCurrencySwap
+
+export const getServerSideProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common'])),
+  },
+})

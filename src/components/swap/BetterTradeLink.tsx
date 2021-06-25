@@ -2,7 +2,7 @@ import { Text } from 'alium-uikit/src'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
 import React, { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { useLocation } from 'react-router'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import { DEFAULT_VERSION, Version } from '../../hooks/useToggledVersion'

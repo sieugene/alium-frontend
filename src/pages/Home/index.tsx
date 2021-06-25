@@ -23,7 +23,7 @@ import { useActiveWeb3React } from 'hooks'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useCollectibleContract, useNFTPrivateContract } from 'hooks/useContract'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next';
 import { useSelector } from 'react-redux'
 import { useRemovePopup } from 'state/application/hooks'
 import { PopupList } from 'state/application/reducer'
