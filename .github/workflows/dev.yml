@@ -4,15 +4,17 @@ on:
   push:
     branches:
       - develop
-      - merge
+      - combined
+      - merged/tonext
   pull_request:
     branches:
       - develop
-      - merge
-      
+      - combined
+      - merged/tonext
+
 jobs:
   build_dev:
-    if: github.ref == 'refs/heads/develop' ||  github.ref == 'refs/heads/merge'
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/combined'
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2.1.1
@@ -30,6 +32,8 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install global cli utils
         run: yarn global add dotenv-cli
+      - name: Clear cache
+        run: yarn cache clean
       - name: Install dependincies
         run: yarn install
       - name: Build project
@@ -50,12 +54,22 @@ jobs:
           name: build
       - run: cp -r ./ ~/$GITHUB_REPOSITORY
 
-  deploy_merge:
+  deploy_combined:
     needs: build_dev
-    if: github.ref == 'refs/heads/merge'
-    runs-on: [self-hosted, stage]
+    if: github.ref == 'refs/heads/combined'
+    runs-on: [self-hosted, dev]
     steps:
       - uses: actions/download-artifact@v2
         with:
           name: build
       - run: cp -r ./ ~/Alium-Finance/alium-frontend-merge
+
+  deploy_tonext:
+    needs: build_dev
+    if: github.ref == 'refs/heads/merged/tonext'
+    runs-on: [self-hosted, dev]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
+      - run: cp -r ./ ~/Alium-Finance/alium-frontend-next
