@@ -123,10 +123,11 @@ const AccountModal: React.FC<Props> = ({
   balanceHook,
 }) => {
   const [currentBalance, setBalance] = useState(balance)
+
   // balanceHook().then((result?: any)=>setBalance(result.toSignificant(6)))
   useEffect(() => {
     // balanceHook().then((result)=>setBalance(result))
-    balanceHook().then((result?: any) => setBalance(result?.toSignificant(6) || "0"))
+    balanceHook().then((result?: any) => setBalance(result?.toSignificant(6) || '0'))
   }, [balanceHook])
 
   // balanceHook().then((result)=>console.log(result.toSignificant(6)))

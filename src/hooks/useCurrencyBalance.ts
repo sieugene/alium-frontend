@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import Web3 from 'web3'
 import { CurrencyAmount, JSBI } from '@alium-official/sdk'
+import { useEffect, useState } from 'react'
 import web3NoAccount from 'utils/web3'
+import Web3 from 'web3'
 
 const useCurrencyBalance: any = (account: string, web3: Web3) => {
   const [balance, setBalance] = useState<CurrencyAmount>()

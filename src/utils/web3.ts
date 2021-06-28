@@ -1,6 +1,6 @@
+import getNodeUrl from 'utils/getRpcUrl'
 import Web3 from 'web3'
 import { HttpProviderOptions } from 'web3-core-helpers'
-import getNodeUrl from 'utils/getRpcUrl'
 
 const RPC_URL = getNodeUrl()
 // @ts-ignore
