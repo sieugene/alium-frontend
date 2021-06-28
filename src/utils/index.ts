@@ -20,9 +20,9 @@ const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
   [ChainId.HECOMAINNET]: '',
   [ChainId.HECOTESTNET]: 'testnet.',
   [ChainId.ETHER_MAINNET]: '',
-  // [ChainId.ETHER_TESTNET]: 'testnet.',
+  [ChainId.ETHER_TESTNET]: 'testnet.',
   [ChainId.MATIC_MAINNET]: '',
-  // [ChainId.MATIC_TESTNET]: 'testnet.',
+  [ChainId.MATIC_TESTNET]: 'testnet.',
 }
 
 const EXPLORER_URLS: { [chainId in ChainId]: string } = {
@@ -31,9 +31,9 @@ const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.HECOMAINNET]: 'hecoinfo.com',
   [ChainId.HECOTESTNET]: 'testnet.hecoinfo.com',
   [ChainId.ETHER_MAINNET]: 'etherscan.io',
-  // [ChainId.ETHER_TESTNET]: 'ropsten.etherscan.io',
+  [ChainId.ETHER_TESTNET]: 'rinkeby.etherscan.io',
   [ChainId.MATIC_MAINNET]: 'polygonscan.com',
-  // [ChainId.MATIC_TESTNET]: 'mumbai.polygonscan.com',
+  [ChainId.MATIC_TESTNET]: 'mumbai.polygonscan.com',
 }
 
 const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
@@ -42,9 +42,9 @@ const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
   [ChainId.HECOMAINNET]: 'HecoScan',
   [ChainId.HECOTESTNET]: 'HecoScan Testnet',
   [ChainId.ETHER_MAINNET]: 'Etherscan',
-  // [ChainId.ETHER_TESTNET]: 'Etherscan Ropsten Testnet',
+  [ChainId.ETHER_TESTNET]: 'Etherscan Rinkeby Testnet',
   [ChainId.MATIC_MAINNET]: 'PolygonScan',
-  // [ChainId.MATIC_TESTNET]: 'PolygonScan Mumbai Testnet',
+  [ChainId.MATIC_TESTNET]: 'PolygonScan Mumbai Testnet',
 }
 
 export const getExplorerName = (chainId: ChainId) => {

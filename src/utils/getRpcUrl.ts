@@ -13,9 +13,9 @@ export const nodes = {
   [ChainId.HECOMAINNET]: hecoNodes,
   [ChainId.HECOTESTNET]: hecoNodes,
   [ChainId.ETHER_MAINNET]: ethereumNodes,
-  // [ChainId.ETHER_TESTNET]: ethereumNodes,
+  [ChainId.ETHER_TESTNET]: ethereumNodes,
   [ChainId.MATIC_MAINNET]: maticNodes,
-  // [ChainId.MATIC_TESTNET]: maticNodes,
+  [ChainId.MATIC_TESTNET]: maticNodes,
 }
 
 const getNodeUrl = (chainId: ChainId) => {

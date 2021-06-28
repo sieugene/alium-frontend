@@ -67,6 +67,19 @@ const Params = {
       blockExplorerUrls: ['https://polygonscan.com/'],
     },
   ],
+  [ChainId.MATIC_TESTNET]: [
+    {
+      chainId: `0x${ChainId.MATIC_TESTNET.toString(16)}`,
+      chainName: 'Polygon Matic Chain',
+      nativeCurrency: {
+        name: 'Polygon Matic',
+        symbol: 'MATIC',
+        decimals: 18,
+      },
+      rpcUrls: nodes[ChainId.MATIC_TESTNET],
+      blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+    },
+  ],
   [ChainId.ETHER_MAINNET]: [
     {
       chainId: `0x${ChainId.ETHER_MAINNET.toString(16)}`,
@@ -78,6 +91,19 @@ const Params = {
       },
       rpcUrls: nodes[ChainId.ETHER_MAINNET],
       blockExplorerUrls: ['https://etherscan.io/'],
+    },
+  ],
+  [ChainId.ETHER_TESTNET]: [
+    {
+      chainId: `0x${ChainId.ETHER_TESTNET.toString(16)}`,
+      chainName: 'Ethereum Chain',
+      nativeCurrency: {
+        name: 'Ethereum',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: nodes[ChainId.ETHER_TESTNET],
+      blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
     },
   ],
 }
