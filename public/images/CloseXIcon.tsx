@@ -9,7 +9,7 @@ export const CloseXIcon = () => {
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
       strokeWidth="2"
       className="feather feather-x"
       viewBox="0 0 20 20"

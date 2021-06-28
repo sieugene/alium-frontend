@@ -1,10 +1,9 @@
-import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src';
-import { NextLink } from 'components/NextLink';
-import { useTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { ROUTES } from 'routes';
-import styled from 'styled-components';
+import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import React from 'react'
+import { ROUTES } from 'routes'
+import styled from 'styled-components'
 
 const StyledNav = styled.div`
   margin-bottom: 32px;
@@ -41,11 +40,11 @@ const StyledNav = styled.div`
       align-self: center;
     }
   }
-`;
+`
 
 const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
-  const { t } = useTranslation();
-  const router = useRouter();
+  const { t } = useTranslation()
+  const router = useRouter()
 
   return (
     <Flex alignItems="flex-start">
@@ -54,11 +53,11 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
           {t('mainMenu.trade')}
         </Heading>
         <ButtonMenu size="md" variant="primary" activeIndex={activeIndex}>
-          <ButtonMenuItem id="swap-nav-link">
-            <NextLink href={ROUTES.exchange}>{t('swap')}</NextLink>
+          <ButtonMenuItem id="swap-nav-link" href={ROUTES.exchange} as="a">
+            {t('swap')}
           </ButtonMenuItem>
-          <ButtonMenuItem id="pool-nav-link">
-            <NextLink href={ROUTES.pool}>{t('mainMenu.liquidity')}</NextLink>
+          <ButtonMenuItem id="pool-nav-link" href={ROUTES.pool} as="a">
+            {t('mainMenu.liquidity')}
           </ButtonMenuItem>
 
           {/* <ButtonMenuItem id="migrate-nav-link" to="/migrate" as={Link}>
@@ -67,7 +66,7 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
         </ButtonMenu>
       </StyledNav>
     </Flex>
-  );
-};
+  )
+}
 
-export default Nav;
+export default Nav
