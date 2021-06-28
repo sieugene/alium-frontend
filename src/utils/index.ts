@@ -6,8 +6,8 @@ import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Provider, Web3Provider } from '@ethersproject/providers'
 import { ROUTER_ABI, ROUTER_ADDRESS } from 'config/contracts'
 import { NFT_VESTING, AliumVestingAbi } from 'views/InvestorsAccount/constants'
-import { TokenAddressMap } from '../state/lists/hooks'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
+import { TokenAddressMap } from '../state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -27,6 +27,10 @@ const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'testnet.',
   [ChainId.HECOMAINNET]: '',
   [ChainId.HECOTESTNET]: 'testnet.',
+  1: '',
+  4: '',
+  137: '',
+  80001: '',
 }
 
 const EXPLORER_URLS: { [chainId in ChainId]: string } = {
@@ -34,6 +38,10 @@ const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'bscscan.com',
   [ChainId.HECOMAINNET]: 'hecoinfo.com',
   [ChainId.HECOTESTNET]: 'hecoinfo.com',
+  1: '',
+  4: '',
+  137: '',
+  80001: '',
 }
 
 const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
@@ -41,6 +49,10 @@ const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'BscScan',
   [ChainId.HECOMAINNET]: 'HecoScan',
   [ChainId.HECOTESTNET]: 'HecoScan',
+  1: '',
+  4: '',
+  137: '',
+  80001: '',
 }
 
 export const getExplorerName = (chainId: ChainId) => {

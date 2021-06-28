@@ -1,13 +1,12 @@
-import { ChainId,JSBI,Percent,Token,WETH } from '@alium-official/sdk'
+import { ChainId, JSBI, Percent, Token, WETH } from '@alium-official/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 // import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
-import { bsc,injected } from '../connectors'
+import { bsc, injected } from '../connectors'
 
 // TODO
 // export const ROUTER_ADDRESS = '0x05fF2B0DB69458A0750badebc4f9e13aDd608C7F' // router of cake
 // export const ROUTER_ADDRESS = '0x5E468Edc83968f9CfdFA47a75a777CdBb34D4bbC' // router of DAI-ALIUM
 export const ROUTER_ADDRESS = '0x07899d5bE4B700Db9bf345530fF849a530EF79c3' // router of alium
-
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -187,6 +186,10 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.BSCTESTNET]: [WETH[ChainId.BSCTESTNET]],
   [ChainId.HECOMAINNET]: [WETH[ChainId.HECOMAINNET]],
   [ChainId.HECOTESTNET]: [WETH[ChainId.HECOTESTNET]],
+  1: [WETH[ChainId.HECOTESTNET]],
+  4: [WETH[ChainId.HECOTESTNET]],
+  137: [WETH[ChainId.HECOTESTNET]],
+  80001: [WETH[ChainId.HECOTESTNET]],
 }
 
 // used to construct intermediary pairs for trading
@@ -283,7 +286,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     iconName: 'binance.svg',
     description: 'Easy-to-use browser extension.',
     href: null,
-    color: '#E8831D'
+    color: '#E8831D',
   },
   INJECTED: {
     connector: injected,
@@ -292,7 +295,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     description: 'Injected web3 provider.',
     href: null,
     color: '#010101',
-    primary: true
+    primary: true,
   },
   METAMASK: {
     connector: injected,
@@ -300,8 +303,8 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     iconName: 'metamask.png',
     description: 'Easy-to-use browser extension.',
     href: null,
-    color: '#E8831D'
-  }
+    color: '#E8831D',
+  },
   // WALLET_CONNECT: {
   //   connector: walletconnect,
   //   name: 'WalletConnect',

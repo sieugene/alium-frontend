@@ -38,6 +38,10 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.BSCTESTNET]: {},
   [ChainId.HECOMAINNET]: {},
   [ChainId.HECOTESTNET]: {},
+  1: {},
+  4: {},
+  137: {},
+  80001: {},
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
