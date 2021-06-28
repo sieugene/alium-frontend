@@ -1,10 +1,10 @@
 import { Button } from 'alium-uikit/src';
-import { ReactComponent as Close } from '/images/x.svg';
 import { useTranslation } from 'next-i18next';
 import React, { useCallback, useContext } from 'react';
 import { ExternalLink as LinkIcon } from 'react-feather';
 import { useDispatch } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
+import { CloseXIcon } from '../../../public/images/CloseXIcon';
 import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../../connectors';
 import { SUPPORTED_WALLETS } from '../../constants';
 import { useActiveWeb3React } from '../../hooks';
@@ -157,7 +157,7 @@ const CloseIcon = styled.div`
   }
 `;
 
-const CloseColor = styled(Close)`
+const CloseColor = styled(CloseXIcon)`
   path {
     stroke: ${({ theme }) => theme.colors.textDisabled};
   }

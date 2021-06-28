@@ -4,6 +4,8 @@ import React, { AnchorHTMLAttributes, FC } from 'react';
 
 type Props = LinkProps & {
   className?: string
+  style?: React.CSSProperties
+  id?: string
 }
 type DuplicatedProps = Props & {
   handleClick?: () => void

@@ -59,6 +59,13 @@
     "no-confusing-arrow": "off",
     "react/no-unknown-property": "off",
     "no-unused-expressions": "off",
+    "semi": "off",
+    "no-plusplus": "off",
+    "max-len": "off",
+    "react/require-default-props": "off",
+    "radix": "off",
+    "prefer-spread": "off",
+    "react/jsx-pascal-case": "off",
     "import/extensions": [
       1,
       "ignorePackages",

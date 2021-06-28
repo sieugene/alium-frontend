@@ -25,7 +25,7 @@ const Link: React.FC<LinkProps> = ({ external, ...props }) => {
   const internalProps = external ? getExternalLinkProps() : {}
   return (
     <NextLink href={props?.href || '/'}>
-      <StyledLink as={'a'} {...internalProps} {...props} />
+      <StyledLink as="a" {...internalProps} {...props} />
     </NextLink>
   )
 }

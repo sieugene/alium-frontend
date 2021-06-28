@@ -12,8 +12,8 @@ import { NFT_PRIVATE_ADDRESS } from 'constants/abis/nftPrivate'
 import { useActiveWeb3React } from 'hooks'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useNFTPrivateContract } from 'hooks/useContract'
+import { useTranslation } from 'next-i18next'
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'next-i18next';
 import { useSelector } from 'react-redux'
 import { PopupList } from 'state/application/reducer'
 import { AppState } from 'state/index'
@@ -21,13 +21,14 @@ import { WrappedTokenInfo } from 'state/lists/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import styled from 'styled-components'
+import { Dots } from "../Pool/styleds"
 import AppBody from '../AppBody'
-import bgIMG from '../Home/images/background-img.svg'
-import { Dots } from '../../views/Pool/styleds'
 import NftPartnershipCard from './components/NftPartnershipCard'
 import cardList from './constants/cards'
 import currencies from './constants/currencies'
 import emails from './constants/membersList'
+
+const bgIMG = 'images/home/background-img.svg'
 
 const ContentHolder = styled.div`
   position: relative;

@@ -53,13 +53,11 @@ const DefaultSeparator = <ChevronRightIcon color="currentColor" width="24px" />
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ separator = DefaultSeparator, children }) => {
   const validItems = Children.toArray(children).filter((child) => isValidElement(child))
-  const items = insertSeparators(validItems, separator)
+  const items = insertSeparators(validItems, separator) as ReactNode[]
 
   return (
     <StyledBreadcrumbs>
-      {items.map((item, index) => (
-        <li key={`child-${index}`}>{item}</li>
-      ))}
+      {items?.length && items.map((item, index) => <li key={`child-${index}`}>{item}</li>)}
     </StyledBreadcrumbs>
   )
 }

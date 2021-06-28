@@ -140,7 +140,7 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
                   ))}
               </Accordion>
             )
-          } else {
+          }
             return (
               <MenuEntry key={entry.label} isActive={entry.href === location.pathname} className={calloutClass}>
                 <NextLink.multiple href={entry.href} handleClick={handleClick}>
@@ -149,7 +149,6 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
                 </NextLink.multiple>
               </MenuEntry>
             )
-          }
         })}
       </StyledLinksPanel>
     </Container>

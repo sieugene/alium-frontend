@@ -17,7 +17,7 @@ const Send = () => {
 
 export default Send;
 
-export const getStaticProps = async ({ locale }) => ({
+export const getServerSideProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['common'])),
   },

@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+// @ts-ignore
 import { render, RenderResult } from '@testing-library/react'
 import { ThemeProvider } from 'styled-components'
 import { light } from './theme'
