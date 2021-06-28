@@ -14,7 +14,7 @@ on:
 
 jobs:
   build_dev:
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/combined || github.ref == 'refs/heads/merged/tonext'
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/combined' || github.ref == 'refs/heads/merged/tonext'
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2.1.1
