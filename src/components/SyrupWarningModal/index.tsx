@@ -1,14 +1,14 @@
-import { Button, Text } from 'alium-uikit/src'
-import React, { useCallback, useState } from 'react'
-import { AlertTriangle } from 'react-feather'
+import { Button, Text } from 'alium-uikit/src';
+import React, { useCallback, useState } from 'react';
+import { AlertTriangle } from 'react-feather';
 import { useTranslation } from 'next-i18next';
-import styled from 'styled-components'
-import { AutoColumn } from '../Column'
-import Modal from '../Modal'
-import { AutoRow, RowBetween } from '../Row'
-import { TYPE } from '../Shared'
+import styled from 'styled-components';
+import { AutoColumn } from '../Column';
+import Modal from '../Modal';
+import { AutoRow, RowBetween } from '../Row';
+import { TYPE } from '../Shared';
 
-const { main: Main, body: Body } = TYPE
+const { main: Main, body: Body } = TYPE;
 
 const WarningContainer = styled.div`
   max-width: 420px;
@@ -18,11 +18,11 @@ const WarningContainer = styled.div`
   border: 1px solid #f3841e;
   border-radius: 20px;
   overflow: auto;
-`
+`;
 
 const StyledWarningIcon = styled(AlertTriangle)`
   stroke: ${({ theme }) => theme.colors.failure};
-`
+`;
 
 export default function SyrupWarningModal({
   isOpen,
@@ -33,10 +33,10 @@ export default function SyrupWarningModal({
   transactionType: string
   onConfirm: () => void
 }) {
-  const [understandChecked, setUnderstandChecked] = useState(false)
-  const toggleUnderstand = useCallback(() => setUnderstandChecked((uc) => !uc), [])
-  const { t } = useTranslation()
-  const handleDismiss = useCallback(() => null, [])
+  const [understandChecked, setUnderstandChecked] = useState(false);
+  const toggleUnderstand = useCallback(() => setUnderstandChecked((uc) => !uc), []);
+  const { t } = useTranslation();
+  const handleDismiss = useCallback(() => null, []);
   return (
     <Modal isOpen={isOpen} onDismiss={handleDismiss} maxHeight={90}>
       <WarningContainer className="token-warning-container">
@@ -71,8 +71,8 @@ export default function SyrupWarningModal({
               variant="danger"
               style={{ width: '140px' }}
               onClick={() => {
-                setUnderstandChecked(false)
-                onConfirm()
+                setUnderstandChecked(false);
+                onConfirm();
               }}
             >
               {t('continue')}
@@ -81,5 +81,5 @@ export default function SyrupWarningModal({
         </AutoColumn>
       </WarningContainer>
     </Modal>
-  )
+  );
 }

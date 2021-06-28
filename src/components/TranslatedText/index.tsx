@@ -1,5 +1,5 @@
-import React from 'react'
-import useI18n from 'hooks/useI18n'
+import React from 'react';
+import useI18n from 'hooks/useI18n';
 
 export interface TranslatedTextProps {
   translationId: number
@@ -7,8 +7,8 @@ export interface TranslatedTextProps {
 }
 
 const TranslatedText = ({ translationId, children }: TranslatedTextProps) => {
-  const TranslateString = useI18n()
-  return <>{TranslateString(translationId, children)}</>
-}
+  const TranslateString = useI18n();
+  return <>{TranslateString(translationId, children)}</>;
+};
 
-export default TranslatedText
+export default TranslatedText;

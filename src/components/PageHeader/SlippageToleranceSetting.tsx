@@ -1,17 +1,17 @@
-import { ButtonMenu, ButtonMenuItem, Flex, Input, Text } from 'alium-uikit/src'
-import React, { useEffect, useState } from 'react'
+import { ButtonMenu, ButtonMenuItem, Flex, Input, Text } from 'alium-uikit/src';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { useUserSlippageTolerance } from 'state/user/hooks'
-import styled, { useTheme } from 'styled-components'
-import QuestionHelper from '../QuestionHelper'
+import { useUserSlippageTolerance } from 'state/user/hooks';
+import styled, { useTheme } from 'styled-components';
+import QuestionHelper from '../QuestionHelper';
 
-const MAX_SLIPPAGE = 5000
-const RISKY_SLIPPAGE_LOW = 50
-const RISKY_SLIPPAGE_HIGH = 500
+const MAX_SLIPPAGE = 5000;
+const RISKY_SLIPPAGE_LOW = 50;
+const RISKY_SLIPPAGE_HIGH = 500;
 
 const StyledSlippageToleranceSettings = styled.div`
   margin-bottom: 16px;
-`
+`;
 
 const Field = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const Field = styled.div`
     font-size: 14px;
     margin-left: 18px;
   }
-`
+`;
 
 const Options = styled.div`
   align-items: center;
@@ -49,17 +49,17 @@ const Options = styled.div`
     flex-direction: column;
     align-items: flex-start;
   }
-`
+`;
 
 const StyledButtonMenu = styled(ButtonMenu)`
   padding-top: 8px;
   padding-bottom: 8px;
-`
+`;
 
 const StyledButtonItem = styled(ButtonMenuItem)`
   padding: 6px 20px;
   width: 100%;
-`
+`;
 
 const Label = styled.div`
   align-items: center;
@@ -71,7 +71,7 @@ const Label = styled.div`
   @media screen and (max-width: 480px) {
     margin-bottom: 8px;
   }
-`
+`;
 
 const PercentInputWrapper = styled.div`
   margin-left: 10px;
@@ -80,57 +80,57 @@ const PercentInputWrapper = styled.div`
     margin-left: 0;
     margin-top: 18px;
   }
-`
+`;
 
 const predefinedValues = [
   { label: '0,1%', value: 0.1 },
   { label: '0,5%', value: 0.5 },
   { label: '1%', value: 1 },
-]
+];
 
 const SlippageToleranceSettings = () => {
-  const theme = useTheme()
-  const [userSlippageTolerance, setUserslippageTolerance] = useUserSlippageTolerance()
-  const [value, setValue] = useState(userSlippageTolerance / 100)
-  const [error, setError] = useState<string | null>(null)
+  const theme = useTheme();
+  const [userSlippageTolerance, setUserslippageTolerance] = useUserSlippageTolerance();
+  const [value, setValue] = useState(userSlippageTolerance / 100);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = evt.target
-    setValue(parseFloat(inputValue))
-  }
+    const { value: inputValue } = evt.target;
+    setValue(parseFloat(inputValue));
+  };
 
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   // Updates local storage if value is valid
   useEffect(() => {
     try {
-      const rawValue = value * 100
+      const rawValue = value * 100;
       if (!Number.isNaN(rawValue) && rawValue > 0 && rawValue < MAX_SLIPPAGE) {
-        setUserslippageTolerance(rawValue)
-        setError(null)
+        setUserslippageTolerance(rawValue);
+        setError(null);
       } else {
-        setError(t('errors.enterValidPercentage'))
+        setError(t('errors.enterValidPercentage'));
       }
     } catch {
-      setError(t('errors.enterValidPercentage'))
+      setError(t('errors.enterValidPercentage'));
     }
-  }, [value, setError, setUserslippageTolerance])
+  }, [value, setError, setUserslippageTolerance]);
 
   // Notify user if slippage is risky
   useEffect(() => {
     if (userSlippageTolerance < RISKY_SLIPPAGE_LOW) {
-      setError('Your transaction may fail')
+      setError('Your transaction may fail');
     } else if (userSlippageTolerance > RISKY_SLIPPAGE_HIGH) {
-      setError('Your transaction may be frontrun')
+      setError('Your transaction may be frontrun');
     }
-  }, [userSlippageTolerance, setError])
+  }, [userSlippageTolerance, setError]);
 
   const getActiveIndex = () => {
-    const values = predefinedValues.map((_value) => _value.value)
-    return values.indexOf(value)
-  }
+    const values = predefinedValues.map((_value) => _value.value);
+    return values.indexOf(value);
+  };
 
-  const activeIndex = getActiveIndex()
+  const activeIndex = getActiveIndex();
 
   return (
     <StyledSlippageToleranceSettings>
@@ -145,7 +145,7 @@ const SlippageToleranceSettings = () => {
           variant="primary"
           activeIndex={activeIndex}
           onClick={(index) => {
-            setValue(predefinedValues[index].value)
+            setValue(predefinedValues[index].value);
           }}
         >
           {predefinedValues.map((valueElement) => (
@@ -180,7 +180,7 @@ const SlippageToleranceSettings = () => {
         </Text>
       )}
     </StyledSlippageToleranceSettings>
-  )
-}
+  );
+};
 
-export default SlippageToleranceSettings
+export default SlippageToleranceSettings;

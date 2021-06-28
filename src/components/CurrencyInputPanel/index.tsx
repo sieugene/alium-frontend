@@ -1,17 +1,17 @@
-import { Currency, Pair } from '@alium-official/sdk'
-import { ArrowDropDownIcon, Button, Text } from 'alium-uikit/src'
-import { darken } from 'polished'
-import React, { useCallback, useState } from 'react'
+import { Currency, Pair } from '@alium-official/sdk';
+import { ArrowDropDownIcon, Button, Text } from 'alium-uikit/src';
+import { darken } from 'polished';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import styled, { useTheme } from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
-import { useCurrencyBalance } from '../../state/wallet/hooks'
-import { TranslateString } from '../../utils/translateTextHelpers'
-import CurrencyLogo from '../CurrencyLogo'
-import DoubleCurrencyLogo from '../DoubleLogo'
-import { Input as NumericalInput } from '../NumericalInput'
-import { RowBetween } from '../Row'
-import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
+import styled, { useTheme } from 'styled-components';
+import { useActiveWeb3React } from '../../hooks';
+import { useCurrencyBalance } from '../../state/wallet/hooks';
+import { TranslateString } from '../../utils/translateTextHelpers';
+import CurrencyLogo from '../CurrencyLogo';
+import DoubleCurrencyLogo from '../DoubleLogo';
+import { Input as NumericalInput } from '../NumericalInput';
+import { RowBetween } from '../Row';
+import CurrencySearchModal from '../SearchModal/CurrencySearchModal';
 
 const InputRow = styled.div<{ selected: boolean; customHeight?: number }>`
   display: flex;
@@ -19,7 +19,7 @@ const InputRow = styled.div<{ selected: boolean; customHeight?: number }>`
   align-items: center;
   padding: ${({ selected }) => (selected ? '0.4rem 0.5rem 0.4rem 1rem' : '0.4rem 0.75rem 0.4rem 1rem')};
   ${({ customHeight }) => (customHeight ? `height: ${customHeight}px;` : '')}
-`
+`;
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
   align-items: center;
@@ -35,7 +35,7 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   border: none;
   padding: 0 8px 0 10px;
   position: relative;
-`
+`;
 
 const LabelRow = styled.div`
   width: -webkit-fill-available;
@@ -59,13 +59,13 @@ const LabelRow = styled.div`
     cursor: pointer;
     color: ${({ theme }) => darken(0.2, theme.colors.textSubtle)};
   }
-`
+`;
 
 const Aligner = styled.span`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const InputPanel = styled.div<{ hideInput?: boolean }>`
   width: 100%;
@@ -76,13 +76,13 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
   border-radius: 6px;
   background-color: transparent;
   z-index: 1;
-`
+`;
 
 const Container = styled.div<{ hideInput: boolean }>`
   border-radius: 6px;
   background-color: transparent;
   box-shadow: ${({ theme }) => theme.shadows.inset};
-`
+`;
 
 interface CurrencyInputPanelProps {
   value: string
@@ -121,15 +121,15 @@ export default function CurrencyInputPanel({
   currencyList,
   customHeight,
 }: CurrencyInputPanelProps) {
-  const theme = useTheme()
-  const { t } = useTranslation()
+  const theme = useTheme();
+  const { t } = useTranslation();
 
-  const [modalOpen, setModalOpen] = useState(false)
-  const { account } = useActiveWeb3React()
-  const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
+  const [modalOpen, setModalOpen] = useState(false);
+  const { account } = useActiveWeb3React();
+  const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined);
   const handleDismissSearch = useCallback(() => {
-    setModalOpen(false)
-  }, [setModalOpen])
+    setModalOpen(false);
+  }, [setModalOpen]);
 
   return (
     <InputPanel id={id}>
@@ -165,7 +165,7 @@ export default function CurrencyInputPanel({
                 className="token-amount-input"
                 value={value}
                 onUserInput={(val) => {
-                  onUserInput(val)
+                  onUserInput(val);
                 }}
                 style={{ fontSize: '14px' }}
               />
@@ -181,7 +181,7 @@ export default function CurrencyInputPanel({
             className="open-currency-select-button"
             onClick={() => {
               if (!disableCurrencySelect) {
-                setModalOpen(true)
+                setModalOpen(true);
               }
             }}
           >
@@ -226,5 +226,5 @@ export default function CurrencyInputPanel({
         />
       )}
     </InputPanel>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-import { Currency } from '@alium-official/sdk'
-import React from 'react'
-import styled from 'styled-components'
-import CurrencyLogo from '../CurrencyLogo'
+import { Currency } from '@alium-official/sdk';
+import React from 'react';
+import styled from 'styled-components';
+import CurrencyLogo from '../CurrencyLogo';
 
 const Wrapper = styled.div<{ margin: boolean; sizeraw: number }>`
   position: relative;
@@ -21,7 +21,7 @@ const Wrapper = styled.div<{ margin: boolean; sizeraw: number }>`
     box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
     z-index: 4;
   }
-`
+`;
 
 interface DoubleCurrencyLogoProps {
   margin?: boolean
@@ -32,11 +32,11 @@ interface DoubleCurrencyLogoProps {
 
 const HigherLogo = styled(CurrencyLogo)`
   z-index: 2;
-`
+`;
 const CoveredLogo = styled(CurrencyLogo)<{ sizeraw: number }>`
   position: absolute;
   left: -20px;
-`
+`;
 
 export default function DoubleCurrencyLogo({
   currency0,
@@ -49,5 +49,5 @@ export default function DoubleCurrencyLogo({
       {currency0 && <HigherLogo currency={currency0} size={`${size.toString()}px`} />}
       {currency1 && <CoveredLogo currency={currency1} size={`${size.toString()}px`} sizeraw={size} />}
     </Wrapper>
-  )
+  );
 }

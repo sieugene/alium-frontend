@@ -1,12 +1,12 @@
-import { Trade } from '@alium-official/sdk'
-import { Flex } from 'alium-uikit/src'
-import React, { Fragment, memo } from 'react'
-import { ChevronRight } from 'react-feather'
-import styled from 'styled-components'
-import CurrencyLogo from '../CurrencyLogo'
-import { TYPE } from '../Shared'
+import { Trade } from '@alium-official/sdk';
+import { Flex } from 'alium-uikit/src';
+import React, { Fragment, memo } from 'react';
+import { ChevronRight } from 'react-feather';
+import styled from 'styled-components';
+import CurrencyLogo from '../CurrencyLogo';
+import { TYPE } from '../Shared';
 
-const { black: Black } = TYPE
+const { black: Black } = TYPE;
 
 const StyledFlex = styled(Flex)`
   > img {
@@ -17,9 +17,9 @@ const StyledFlex = styled(Flex)`
     border-radius: 16px;
     box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
   }
-`
+`;
 
-export default memo(function SwapRoute({ trade }: { trade: Trade }) {
+export default memo(({ trade }: { trade: Trade }) => {
   return (
     <Flex
       px="1rem"
@@ -31,7 +31,7 @@ export default memo(function SwapRoute({ trade }: { trade: Trade }) {
       alignItems="center"
     >
       {trade.route.path.map((token, i, path) => {
-        const isLastItem: boolean = i === path.length - 1
+        const isLastItem: boolean = i === path.length - 1;
         return (
           // eslint-disable-next-line react/no-array-index-key
           <Fragment key={i}>
@@ -43,8 +43,8 @@ export default memo(function SwapRoute({ trade }: { trade: Trade }) {
             </StyledFlex>
             {isLastItem ? null : <ChevronRight color="#8990A5" />}
           </Fragment>
-        )
+        );
       })}
     </Flex>
-  )
-})
+  );
+});

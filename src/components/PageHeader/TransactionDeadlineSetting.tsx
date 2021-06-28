@@ -1,9 +1,9 @@
-import { Input, Text } from 'alium-uikit/src'
-import React, { useEffect, useState } from 'react'
+import { Input, Text } from 'alium-uikit/src';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { useUserDeadline } from 'state/user/hooks'
-import styled, { useTheme } from 'styled-components'
-import QuestionHelper from '../QuestionHelper'
+import { useUserDeadline } from 'state/user/hooks';
+import styled, { useTheme } from 'styled-components';
+import QuestionHelper from '../QuestionHelper';
 
 const StyledTransactionDeadlineSetting = styled.div`
   margin-bottom: 16px;
@@ -12,7 +12,7 @@ const StyledTransactionDeadlineSetting = styled.div`
   @media screen and (max-width: 480px) {
     margin-top: 10px;
   }
-`
+`;
 
 const Label = styled.div`
   align-items: center;
@@ -26,7 +26,7 @@ const Label = styled.div`
   @media screen and (max-width: 480px) {
     margin-bottom: 8px;
   }
-`
+`;
 
 const Field = styled.div`
   display: flex;
@@ -42,34 +42,34 @@ const Field = styled.div`
     font-size: 14px;
     margin-left: 16px;
   }
-`
+`;
 
 const TransactionDeadlineSetting = () => {
-  const theme = useTheme()
-  const { t } = useTranslation()
-  const [deadline, setDeadline] = useUserDeadline()
-  const [value, setValue] = useState(deadline / 60) // deadline in minutes
-  const [error, setError] = useState<string | null>(null)
+  const theme = useTheme();
+  const { t } = useTranslation();
+  const [deadline, setDeadline] = useUserDeadline();
+  const [value, setValue] = useState(deadline / 60); // deadline in minutes
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = evt.target
-    setValue(parseInt(inputValue, 10))
-  }
+    const { value: inputValue } = evt.target;
+    setValue(parseInt(inputValue, 10));
+  };
 
   // Updates local storage if value is valid
   useEffect(() => {
     try {
-      const rawValue = value * 60
+      const rawValue = value * 60;
       if (!Number.isNaN(rawValue) && rawValue > 0) {
-        setDeadline(rawValue)
-        setError(null)
+        setDeadline(rawValue);
+        setError(null);
       } else {
-        setError(t('errorMessages.validDeadline'))
+        setError(t('errorMessages.validDeadline'));
       }
     } catch {
-      setError(t('errorMessages.validDeadline'))
+      setError(t('errorMessages.validDeadline'));
     }
-  }, [t, value, setError, setDeadline])
+  }, [t, value, setError, setDeadline]);
 
   return (
     <StyledTransactionDeadlineSetting>
@@ -87,7 +87,7 @@ const TransactionDeadlineSetting = () => {
         </Text>
       )}
     </StyledTransactionDeadlineSetting>
-  )
-}
+  );
+};
 
-export default TransactionDeadlineSetting
+export default TransactionDeadlineSetting;

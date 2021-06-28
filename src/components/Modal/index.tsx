@@ -1,13 +1,13 @@
-import React from 'react'
-import styled, { css } from 'styled-components'
-import { animated, useTransition } from 'react-spring'
-import { DialogOverlay, DialogContent } from '@reach/dialog'
-import { isMobile } from 'react-device-detect'
-import '@reach/dialog/styles.css'
-import { transparentize } from 'polished'
-import { useActiveWeb3React } from 'hooks'
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { animated, useTransition } from 'react-spring';
+import { DialogOverlay, DialogContent } from '@reach/dialog';
+import { isMobile } from 'react-device-detect';
+import '@reach/dialog/styles.css';
+import { transparentize } from 'polished';
+import { useActiveWeb3React } from 'hooks';
 
-const AnimatedDialogOverlay = animated(DialogOverlay)
+const AnimatedDialogOverlay = animated(DialogOverlay);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const StyledDialogOverlay = styled(({ ...rest }) => (
@@ -25,12 +25,12 @@ const StyledDialogOverlay = styled(({ ...rest }) => (
    
     ${({ isTransparancy }) =>
       isTransparancy ?
-      css`background-color: rgba(11, 19, 89, 0.9);` : 
+      css`background-color: rgba(11, 19, 89, 0.9);` :
       css`background-color: rgba(11, 19, 89, 1); `}
   }
-`
+`;
 
-const AnimatedDialogContent = animated(DialogContent)
+const AnimatedDialogContent = animated(DialogContent);
 // destructure to not pass custom props to Dialog DOM element
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogContent = styled(({ minHeight, maxHeight, padding, mobile, isOpen, ...rest }) => (
@@ -88,7 +88,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, padding, mobile, isO
       width: 90vw;
     }
   }
-`
+`;
 
 interface ModalProps {
   isOpen: boolean
@@ -115,9 +115,9 @@ export default function Modal({
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
-  })
+  });
 
-  const { account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React();
 
   return (
     <>
@@ -131,7 +131,7 @@ export default function Modal({
                 maxHeight={maxHeight}
                 padding={padding}
                 mobile={isMobile}
-                style={{margin: 'auto'}}
+                style={{ margin: 'auto' }}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {/* eslint-disable */}
@@ -143,5 +143,5 @@ export default function Modal({
           )
       )}
     </>
-  )
+  );
 }

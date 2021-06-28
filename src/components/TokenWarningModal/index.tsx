@@ -1,25 +1,25 @@
-import { Token } from '@alium-official/sdk'
-import { Button, Text } from 'alium-uikit/src'
-import { transparentize } from 'polished'
-import React, { useCallback, useMemo, useState } from 'react'
-import { AlertTriangle } from 'react-feather'
-import styled from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
-import { useAllTokens } from '../../hooks/Tokens'
-import { getExplorerLink, getExplorerName, shortenAddress } from '../../utils'
-import { AutoColumn } from '../Column'
-import CurrencyLogo from '../CurrencyLogo'
-import Modal from '../Modal'
-import { AutoRow, RowBetween } from '../Row'
-import { ExternalLink, TYPE } from '../Shared'
+import { Token } from '@alium-official/sdk';
+import { Button, Text } from 'alium-uikit/src';
+import { transparentize } from 'polished';
+import React, { useCallback, useMemo, useState } from 'react';
+import { AlertTriangle } from 'react-feather';
+import styled from 'styled-components';
+import { useActiveWeb3React } from '../../hooks';
+import { useAllTokens } from '../../hooks/Tokens';
+import { getExplorerLink, getExplorerName, shortenAddress } from '../../utils';
+import { AutoColumn } from '../Column';
+import CurrencyLogo from '../CurrencyLogo';
+import Modal from '../Modal';
+import { AutoRow, RowBetween } from '../Row';
+import { ExternalLink, TYPE } from '../Shared';
 
-const { main: Main, blue: Blue } = TYPE
+const { main: Main, blue: Blue } = TYPE;
 
 const Wrapper = styled.div<{ error: boolean }>`
   background: ${({ theme }) => transparentize(0.6, theme.colors.tertiary)};
   padding: 0.75rem;
   border-radius: 20px;
-`
+`;
 
 const WarningContainer = styled.div`
   max-width: 420px;
@@ -29,37 +29,37 @@ const WarningContainer = styled.div`
   border: 1px solid #f3841e;
   border-radius: 20px;
   overflow: auto;
-`
+`;
 
 const StyledWarningIcon = styled(AlertTriangle)`
   stroke: ${({ theme }) => theme.colors.failure};
-`
+`;
 
 interface TokenWarningCardProps {
   token?: Token
 }
 
 function TokenWarningCard({ token }: TokenWarningCardProps) {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useActiveWeb3React();
 
-  const tokenSymbol = token?.symbol?.toLowerCase() ?? ''
-  const tokenName = token?.name?.toLowerCase() ?? ''
+  const tokenSymbol = token?.symbol?.toLowerCase() ?? '';
+  const tokenName = token?.name?.toLowerCase() ?? '';
 
-  const allTokens = useAllTokens()
+  const allTokens = useAllTokens();
 
   const duplicateNameOrSymbol = useMemo(() => {
-    if (!token || !chainId) return false
+    if (!token || !chainId) return false;
 
     return Object.keys(allTokens).some((tokenAddress) => {
-      const userToken = allTokens[tokenAddress]
+      const userToken = allTokens[tokenAddress];
       if (userToken.equals(token)) {
-        return false
+        return false;
       }
-      return userToken.symbol?.toLowerCase() === tokenSymbol || userToken.name?.toLowerCase() === tokenName
-    })
-  }, [token, chainId, allTokens, tokenSymbol, tokenName])
+      return userToken.symbol?.toLowerCase() === tokenSymbol || userToken.name?.toLowerCase() === tokenName;
+    });
+  }, [token, chainId, allTokens, tokenSymbol, tokenName]);
 
-  if (!token) return null
+  if (!token) return null;
 
   return (
     <Wrapper error={duplicateNameOrSymbol}>
@@ -84,7 +84,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
         </AutoColumn>
       </AutoRow>
     </Wrapper>
-  )
+  );
 }
 
 export default function TokenWarningModal({
@@ -96,10 +96,10 @@ export default function TokenWarningModal({
   tokens: Token[]
   onConfirm: () => void
 }) {
-  const [understandChecked, setUnderstandChecked] = useState(false)
-  const toggleUnderstand = useCallback(() => setUnderstandChecked((uc) => !uc), [])
+  const [understandChecked, setUnderstandChecked] = useState(false);
+  const toggleUnderstand = useCallback(() => setUnderstandChecked((uc) => !uc), []);
 
-  const handleDismiss = useCallback(() => null, [])
+  const handleDismiss = useCallback(() => null, []);
   return (
     <Modal isOpen={isOpen} onDismiss={handleDismiss} maxHeight={90}>
       <WarningContainer className="token-warning-container">
@@ -120,7 +120,7 @@ export default function TokenWarningModal({
             If you purchase an arbitrary token, <strong>you may be unable to sell it back.</strong>
           </Text>
           {tokens.map((token) => {
-            return <TokenWarningCard key={token.address} token={token} />
+            return <TokenWarningCard key={token.address} token={token} />;
           })}
           <RowBetween>
             <div>
@@ -143,7 +143,7 @@ export default function TokenWarningModal({
               style={{ width: '140px' }}
               className="token-dismiss-button"
               onClick={() => {
-                onConfirm()
+                onConfirm();
               }}
             >
               Continue
@@ -152,5 +152,5 @@ export default function TokenWarningModal({
         </AutoColumn>
       </WarningContainer>
     </Modal>
-  )
+  );
 }

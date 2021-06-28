@@ -1,12 +1,12 @@
-import { ChainId } from '@alium-official/sdk'
-import { Button, LinkExternal } from 'alium-uikit/src'
-import React, { useContext } from 'react'
-import { ArrowUpCircle } from 'react-feather'
+import { ChainId } from '@alium-official/sdk';
+import { Button, LinkExternal } from 'alium-uikit/src';
+import React, { useContext } from 'react';
+import { ArrowUpCircle } from 'react-feather';
 import { useTranslation } from 'next-i18next';
-import { ThemeContext } from 'styled-components'
-import { getExplorerLink, getExplorerName } from '../../utils'
-import { AutoColumn } from '../Column'
-import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'
+import { ThemeContext } from 'styled-components';
+import { getExplorerLink, getExplorerName } from '../../utils';
+import { AutoColumn } from '../Column';
+import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers';
 
 type TransactionSubmittedContentProps = {
   onDismiss: () => void
@@ -15,8 +15,8 @@ type TransactionSubmittedContentProps = {
 }
 
 const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSubmittedContentProps) => {
-  const theme = useContext(ThemeContext)
-  const { t } = useTranslation()
+  const theme = useContext(ThemeContext);
+  const { t } = useTranslation();
 
   return (
     <Wrapper>
@@ -37,7 +37,7 @@ const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSu
         </AutoColumn>
       </Section>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default TransactionSubmittedContent
+export default TransactionSubmittedContent;

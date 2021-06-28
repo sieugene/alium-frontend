@@ -1,10 +1,10 @@
-import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src'
-import { NextLink } from 'components/NextLink'
-import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
-import React from 'react'
-import { ROUTES } from 'routes'
-import styled from 'styled-components'
+import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src';
+import { NextLink } from 'components/NextLink';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { ROUTES } from 'routes';
+import styled from 'styled-components';
 
 const StyledNav = styled.div`
   margin-bottom: 32px;
@@ -41,11 +41,11 @@ const StyledNav = styled.div`
       align-self: center;
     }
   }
-`
+`;
 
 const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
-  const { t } = useTranslation()
-  const router = useRouter()
+  const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <Flex alignItems="flex-start">
@@ -67,7 +67,7 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
         </ButtonMenu>
       </StyledNav>
     </Flex>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;

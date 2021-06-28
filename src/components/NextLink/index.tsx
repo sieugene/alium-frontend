@@ -1,6 +1,6 @@
-import Link, { LinkProps } from 'next/link'
-import { useRouter } from 'next/router'
-import React, { AnchorHTMLAttributes, FC } from 'react'
+import Link, { LinkProps } from 'next/link';
+import { useRouter } from 'next/router';
+import React, { AnchorHTMLAttributes, FC } from 'react';
 
 type Props = LinkProps & {
   className?: string
@@ -15,24 +15,24 @@ export const NextLink: FC<Props> & { multiple: FC<DuplicatedProps> } = ({ href, 
         {children}
       </a>
     </Link>
-  )
-}
+  );
+};
 // When you see error like multiple children
 NextLink.multiple = ({ handleClick, href, children, className, ...other }) => {
-  const location = useRouter()
-  const link = (href as string) || '/'
+  const location = useRouter();
+  const link = (href as string) || '/';
   return (
     <a
       className={className || ''}
       href={link}
       onClick={(event) => {
-        event.preventDefault()
-        handleClick && handleClick()
-        location.push(link)
+        event.preventDefault();
+        handleClick && handleClick();
+        location.push(link);
       }}
       {...other}
     >
       {children}
     </a>
-  )
-}
+  );
+};

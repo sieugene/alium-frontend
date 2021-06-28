@@ -1,15 +1,15 @@
-import { Trade, TradeType } from '@alium-official/sdk'
-import { Card, CardBody, Text } from 'alium-uikit/src'
-import React from 'react'
-import styled from 'styled-components'
-import { Field } from '../../state/swap/actions'
-import { useUserSlippageTolerance } from '../../state/user/hooks'
-import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from '../../utils/prices'
-import { AutoColumn } from '../Column'
-import QuestionHelper from '../QuestionHelper'
-import { RowBetween, RowFixed } from '../Row'
-import FormattedPriceImpact from './FormattedPriceImpact'
-import SwapRoute from './SwapRoute'
+import { Trade, TradeType } from '@alium-official/sdk';
+import { Card, CardBody, Text } from 'alium-uikit/src';
+import React from 'react';
+import styled from 'styled-components';
+import { Field } from '../../state/swap/actions';
+import { useUserSlippageTolerance } from '../../state/user/hooks';
+import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from '../../utils/prices';
+import { AutoColumn } from '../Column';
+import QuestionHelper from '../QuestionHelper';
+import { RowBetween, RowFixed } from '../Row';
+import FormattedPriceImpact from './FormattedPriceImpact';
+import SwapRoute from './SwapRoute';
 
 const StyledTradeSummary = styled.div`
   > div {
@@ -64,26 +64,26 @@ const StyledTradeSummary = styled.div`
       font-size: 11px;
     }
   }
-`
+`;
 
 const StyledRouteContainer = styled.div`
   background-color: white;
   border-radius: 6px;
   border: none;
   padding: 12px 6px;
-`
+`;
 
 const StyledText = styled(Text)`
   font-size: 14px;
   @media screen and (max-width: 530px) {
     font-size: 11px;
   }
-`
+`;
 
 function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
-  const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade);
+  const isExactIn = trade.tradeType === TradeType.EXACT_INPUT;
+  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage);
 
   return (
     <Card>
@@ -122,7 +122,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
         </RowBetween>
       </CardBody>
     </Card>
-  )
+  );
 }
 
 export interface AdvancedSwapDetailsProps {
@@ -130,9 +130,9 @@ export interface AdvancedSwapDetailsProps {
 }
 
 export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
-  const [allowedSlippage] = useUserSlippageTolerance()
+  const [allowedSlippage] = useUserSlippageTolerance();
 
-  const showRoute = Boolean(trade && trade.route.path.length > 2)
+  const showRoute = Boolean(trade && trade.route.path.length > 2);
 
   return (
     <AutoColumn gap="md">
@@ -157,5 +157,5 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
         </>
       )}
     </AutoColumn>
-  )
+  );
 }

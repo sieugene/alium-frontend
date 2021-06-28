@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Wrapper, Section, BottomSection, ContentHeader } from './helpers'
+import React from 'react';
+import styled from 'styled-components';
+import { Wrapper, Section, BottomSection, ContentHeader } from './helpers';
 
 type ConfirmationModalContentProps = {
   title: string
@@ -16,7 +16,7 @@ const StyledBodyContainer = styled.div`
   > div:nth-child(2) {
     padding: 0 20px;
   }
-`
+`;
 const ConfirmationModalContent = ({ title, bottomContent, onDismiss, topContent }: ConfirmationModalContentProps) => {
   return (
     <Wrapper>
@@ -26,7 +26,7 @@ const ConfirmationModalContent = ({ title, bottomContent, onDismiss, topContent 
         <BottomSection gap="12px">{bottomContent()}</BottomSection>
       </StyledBodyContainer>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default ConfirmationModalContent
+export default ConfirmationModalContent;

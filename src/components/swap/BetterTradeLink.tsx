@@ -1,19 +1,19 @@
-import { Text } from 'alium-uikit/src'
-import { useRouter } from 'next/router'
-import { stringify } from 'qs'
-import React, { useMemo } from 'react'
+import { Text } from 'alium-uikit/src';
+import { useRouter } from 'next/router';
+import { stringify } from 'qs';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'next-i18next';
-import { useLocation } from 'react-router'
-import useParsedQueryString from '../../hooks/useParsedQueryString'
-import { DEFAULT_VERSION, Version } from '../../hooks/useToggledVersion'
-import { YellowCard } from '../Card'
-import { AutoColumn } from '../Column'
-import { StyledInternalLink } from '../Shared'
+import { useLocation } from 'react-router';
+import useParsedQueryString from '../../hooks/useParsedQueryString';
+import { DEFAULT_VERSION, Version } from '../../hooks/useToggledVersion';
+import { YellowCard } from '../Card';
+import { AutoColumn } from '../Column';
+import { StyledInternalLink } from '../Shared';
 
 export default function BetterTradeLink({ version }: { version: Version }) {
-  const location = useRouter()
-  const search = useParsedQueryString()
-  const { t } = useTranslation()
+  const location = useRouter();
+  const search = useParsedQueryString();
+  const { t } = useTranslation();
   const linkDestination = useMemo(() => {
     return {
       ...location,
@@ -21,8 +21,8 @@ export default function BetterTradeLink({ version }: { version: Version }) {
         ...search,
         use: version !== DEFAULT_VERSION ? version : undefined,
       })}`,
-    }
-  }, [location, search, version])
+    };
+  }, [location, search, version]);
 
   return (
     <YellowCard style={{ marginTop: '12px', padding: '8px 4px' }}>
@@ -35,5 +35,5 @@ export default function BetterTradeLink({ version }: { version: Version }) {
         </Text>
       </AutoColumn>
     </YellowCard>
-  )
+  );
 }

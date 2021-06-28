@@ -1,19 +1,19 @@
-import { CheckMarkDoneIcon } from 'alium-uikit/src'
-import React from 'react'
-import styled from 'styled-components'
-import { AutoColumn } from '../Column'
-import { RowBetween } from '../Row'
+import { CheckMarkDoneIcon } from 'alium-uikit/src';
+import React from 'react';
+import styled from 'styled-components';
+import { AutoColumn } from '../Column';
+import { RowBetween } from '../Row';
 
 const Wrapper = styled(AutoColumn)`
   margin-top: 1.25rem;
-`
+`;
 
 const Grouping = styled(RowBetween)`
   width: 50%;
   @media screen and (max-width: 530px) {
     width: 100% !important;
   }
-`
+`;
 
 const Circle = styled.div<{ confirmed?: boolean; disabled?: boolean }>`
   min-width: 24px;
@@ -28,20 +28,20 @@ const Circle = styled.div<{ confirmed?: boolean; disabled?: boolean }>`
   opacity: ${({ disabled }) => (disabled ? '0.4' : '1')};
   color: #ffffff;
   position: relative;
-`
+`;
 
 const CircleRow = styled.div`
   width: calc(100% - 20px);
   display: flex;
   align-items: center;
-`
+`;
 
 const Connector = styled.div<{ prevConfirmed?: boolean }>`
   width: 100%;
   height: 1px;
   background-color: #d2d6e5;
   margin: 0 8px;
-`
+`;
 
 const StyledCheckMark = styled(CheckMarkDoneIcon)`
   background-color: #ffffff;
@@ -49,7 +49,7 @@ const StyledCheckMark = styled(CheckMarkDoneIcon)`
   border-radius: 3px;
   right: -5px;
   top: -5px;
-`
+`;
 
 interface ProgressCirclesProps {
   steps: boolean[]
@@ -80,10 +80,10 @@ export default function ProgressCircles({ steps }: ProgressCirclesProps) {
               </Circle>
               <Connector prevConfirmed={step} />
             </CircleRow>
-          )
+          );
         })}
         <Circle disabled={!steps[steps.length - 1]}>{steps.length + 1}</Circle>
       </Grouping>
     </Wrapper>
-  )
+  );
 }

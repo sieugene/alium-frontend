@@ -1,17 +1,17 @@
-import { PopupCheckIcon, PopupFailIcon } from 'alium-uikit/src'
-import React, { useContext } from 'react'
-import styled, { ThemeContext } from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
-import { getExplorerLink, getExplorerName } from '../../utils'
-import { AutoColumn } from '../Column'
-import { AutoRow } from '../Row'
-import { ExternalLink, TYPE } from '../Shared'
+import { PopupCheckIcon, PopupFailIcon } from 'alium-uikit/src';
+import React, { useContext } from 'react';
+import styled, { ThemeContext } from 'styled-components';
+import { useActiveWeb3React } from '../../hooks';
+import { getExplorerLink, getExplorerName } from '../../utils';
+import { AutoColumn } from '../Column';
+import { AutoRow } from '../Row';
+import { ExternalLink, TYPE } from '../Shared';
 
-const { body: Body } = TYPE
+const { body: Body } = TYPE;
 
 const RowNoFlex = styled(AutoRow)`
   flex-wrap: nowrap;
-`
+`;
 
 export default function TransactionPopup({
   hash,
@@ -22,9 +22,9 @@ export default function TransactionPopup({
   success?: boolean
   summary?: string
 }) {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useActiveWeb3React();
 
-  const theme = useContext(ThemeContext)
+  const theme = useContext(ThemeContext);
 
   return (
     <RowNoFlex>
@@ -46,5 +46,5 @@ export default function TransactionPopup({
         )}
       </AutoColumn>
     </RowNoFlex>
-  )
+  );
 }

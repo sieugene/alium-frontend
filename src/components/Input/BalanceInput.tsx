@@ -1,8 +1,8 @@
-import { Button } from 'alium-uikit/src'
-import useI18n from 'hooks/useI18n'
-import React from 'react'
-import styled from 'styled-components'
-import Input, { InputProps } from './Input'
+import { Button } from 'alium-uikit/src';
+import useI18n from 'hooks/useI18n';
+import React from 'react';
+import styled from 'styled-components';
+import Input, { InputProps } from './Input';
 
 interface Props extends InputProps {
   max: number | string
@@ -12,12 +12,12 @@ interface Props extends InputProps {
 
 const StyledSpacer = styled.div`
   width: ${(props) => props.theme.spacing[3]}px;
-`
+`;
 
 const StyledTokenAdornmentWrapper = styled.div`
   align-items: center;
   display: flex;
-`
+`;
 
 const StyledMaxText = styled.div`
   align-items: center;
@@ -27,15 +27,15 @@ const StyledMaxText = styled.div`
   font-weight: 700;
   height: 44px;
   justify-content: flex-end;
-`
+`;
 
 const StyledTokenSymbol = styled.span`
   color: ${(props) => props.theme.colors.primary};
   font-weight: 700;
-`
+`;
 
 const BalanceInput: React.FC<Props> = ({ max, symbol, onChange, onSelectMax, value }) => {
-  const TranslateString = useI18n()
+  const TranslateString = useI18n();
 
   return (
     <div>
@@ -57,7 +57,7 @@ const BalanceInput: React.FC<Props> = ({ max, symbol, onChange, onSelectMax, val
       />
       <StyledMaxText>{TranslateString(454, `${max.toLocaleString()} ${symbol} Available`)}</StyledMaxText>
     </div>
-  )
-}
+  );
+};
 
-export default BalanceInput
+export default BalanceInput;

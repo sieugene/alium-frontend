@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import { useTranslation } from 'next-i18next';
-import { CheckCircle, Copy } from 'react-feather'
-import useCopyClipboard from '../../hooks/useCopyClipboard'
+import { CheckCircle, Copy } from 'react-feather';
+import useCopyClipboard from '../../hooks/useCopyClipboard';
 
-import { LinkStyledButton } from '../Shared'
+import { LinkStyledButton } from '../Shared';
 
 const CopyIcon = styled(LinkStyledButton)`
   color: ${({ theme }) => theme.colors.textDisabled};
@@ -18,19 +18,19 @@ const CopyIcon = styled(LinkStyledButton)`
     text-decoration: none;
     color: ${({ theme }) => theme.colors.textSubtle};
   }
-`
+`;
 const TransactionStatusText = styled.span`
   margin-left: 0.25rem;
   font-size: 0.825rem;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-`
+`;
 
 export default function CopyHelper(props: { toCopy: string; children: React.ReactNode }) {
-  const [isCopied, setCopied] = useCopyClipboard()
-  const { children, toCopy } = props
-  const {t} = useTranslation();
+  const [isCopied, setCopied] = useCopyClipboard();
+  const { children, toCopy } = props;
+  const { t } = useTranslation();
 
   return (
     <CopyIcon onClick={() => setCopied(toCopy)}>
@@ -46,5 +46,5 @@ export default function CopyHelper(props: { toCopy: string; children: React.Reac
       )}
       {isCopied ? '' : children}
     </CopyIcon>
-  )
+  );
 }

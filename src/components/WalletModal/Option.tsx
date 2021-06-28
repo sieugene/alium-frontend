@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { ExternalLink } from '../Shared'
+import React from 'react';
+import styled from 'styled-components';
+import { ExternalLink } from '../Shared';
 
 const InfoCard = styled.button<{ active?: boolean }>`
   background-color: ${({ theme, active }) => (active ? theme.colors.tertiary : theme.colors.invertedContrast)};
@@ -13,7 +13,7 @@ const InfoCard = styled.button<{ active?: boolean }>`
     box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.primary};
   }
   border-color: ${({ theme, active }) => (active ? 'transparent' : theme.colors.tertiary)};
-`
+`;
 
 const OptionCard = styled(InfoCard as any)`
   display: flex;
@@ -22,14 +22,14 @@ const OptionCard = styled(InfoCard as any)`
   justify-content: space-between;
   margin-top: 2rem;
   padding: 1rem;
-`
+`;
 
 const OptionCardLeft = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   height: 100%;
-`
+`;
 
 const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean }>`
   margin-top: 0;
@@ -38,7 +38,7 @@ const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean }>`
     border: ${({ clickable, theme }) => (clickable ? `1px solid ${theme.colors.primary}` : ``)};
   }
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
-`
+`;
 
 const GreenCircle = styled.div`
   display: flex;
@@ -53,28 +53,28 @@ const GreenCircle = styled.div`
     background-color: ${({ theme }) => theme.colors.success};
     border-radius: 50%;
   }
-`
+`;
 
 const CircleWrapper = styled.div`
   color: ${({ theme }) => theme.colors.success};
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const HeaderText = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  color: ${props => (props.color === 'blue' ? ({ theme }) => theme.colors.primary : ({ theme }) => theme.colors.text)};
+  color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.colors.primary : ({ theme }) => theme.colors.text)};
   font-size: 1rem;
   font-weight: 500;
-`
+`;
 
 const SubHeader = styled.div`
   color: ${({ theme }) => theme.colors.text};
   margin-top: 10px;
   font-size: 12px;
-`
+`;
 
 const IconWrapper = styled.div<{ size?: number | null }>`
   display: flex;
@@ -83,13 +83,13 @@ const IconWrapper = styled.div<{ size?: number | null }>`
   justify-content: center;
   & > img,
   span {
-    height: ${({ size }) => (size ? `${size  }px` : '24px')};
-    width: ${({ size }) => (size ? `${size  }px` : '24px')};
+    height: ${({ size }) => (size ? `${size}px` : '24px')};
+    width: ${({ size }) => (size ? `${size}px` : '24px')};
   }
   ${({ theme }) => theme.mediaQueries.lg} {
     align-items: flex-end;
   }
-`
+`;
 
 export default function Option({
   link = null,
@@ -135,10 +135,10 @@ export default function Option({
         <img src={icon} alt="Icon" />
       </IconWrapper>
     </OptionCardClickable>
-  )
+  );
   if (link) {
-    return <ExternalLink href={link}>{content}</ExternalLink>
+    return <ExternalLink href={link}>{content}</ExternalLink>;
   }
 
-  return content
+  return content;
 }

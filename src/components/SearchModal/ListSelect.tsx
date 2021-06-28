@@ -1,33 +1,33 @@
-import { Button, Text } from 'alium-uikit/src'
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
-import { ArrowLeft } from 'react-feather'
-import { usePopper } from 'react-popper'
-import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { Dropdown } from '../../../public/images/Dropdown'
-import { useFetchListCallback } from '../../hooks/useFetchListCallback'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import useToggle from '../../hooks/useToggle'
-import { AppDispatch, AppState } from '../../state'
-import { acceptListUpdate, removeList, selectList } from '../../state/lists/actions'
-import { useSelectedListUrl } from '../../state/lists/hooks'
-import listVersionLabel from '../../utils/listVersionLabel'
-import { parseENSAddress } from '../../utils/parseENSAddress'
-import uriToHttp from '../../utils/uriToHttp'
-import Column from '../Column'
-import ListLogo from '../ListLogo'
-import QuestionHelper from '../QuestionHelper'
-import Row, { RowBetween } from '../Row'
-import { CloseIcon, ExternalLink, LinkStyledButton, TYPE } from '../Shared'
-import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds'
+import { Button, Text } from 'alium-uikit/src';
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { ArrowLeft } from 'react-feather';
+import { usePopper } from 'react-popper';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { Dropdown } from '../../../public/images/Dropdown';
+import { useFetchListCallback } from '../../hooks/useFetchListCallback';
+import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+import useToggle from '../../hooks/useToggle';
+import { AppDispatch, AppState } from '../../state';
+import { acceptListUpdate, removeList, selectList } from '../../state/lists/actions';
+import { useSelectedListUrl } from '../../state/lists/hooks';
+import listVersionLabel from '../../utils/listVersionLabel';
+import { parseENSAddress } from '../../utils/parseENSAddress';
+import uriToHttp from '../../utils/uriToHttp';
+import Column from '../Column';
+import ListLogo from '../ListLogo';
+import QuestionHelper from '../QuestionHelper';
+import Row, { RowBetween } from '../Row';
+import { CloseIcon, ExternalLink, LinkStyledButton, TYPE } from '../Shared';
+import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds';
 
-const { error: Error } = TYPE
+const { error: Error } = TYPE;
 
 const UnpaddedLinkStyledButton = styled(LinkStyledButton)`
   padding: 0;
   font-size: 1rem;
   opacity: ${({ disabled }) => (disabled ? '0.4' : '1')};
-`
+`;
 
 const PopoverContainer = styled.div<{ show: boolean }>`
   z-index: 100;
@@ -46,7 +46,7 @@ const PopoverContainer = styled.div<{ show: boolean }>`
   grid-gap: 8px;
   font-size: 1rem;
   text-align: left;
-`
+`;
 
 const StyledMenu = styled.div`
   display: flex;
@@ -54,7 +54,7 @@ const StyledMenu = styled.div`
   align-items: center;
   position: relative;
   border: none;
-`
+`;
 
 const StyledListUrlText = styled.div`
   max-width: 160px;
@@ -63,70 +63,70 @@ const StyledListUrlText = styled.div`
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 
 function ListOrigin({ listUrl }: { listUrl: string }) {
-  const ensName = useMemo(() => parseENSAddress(listUrl)?.ensName, [listUrl])
+  const ensName = useMemo(() => parseENSAddress(listUrl)?.ensName, [listUrl]);
   const host = useMemo(() => {
-    if (ensName) return undefined
-    const lowerListUrl = listUrl.toLowerCase()
+    if (ensName) return undefined;
+    const lowerListUrl = listUrl.toLowerCase();
     if (lowerListUrl.startsWith('ipfs://') || lowerListUrl.startsWith('ipns://')) {
-      return listUrl
+      return listUrl;
     }
     try {
-      const url = new URL(listUrl)
-      return url.host
+      const url = new URL(listUrl);
+      return url.host;
     } catch (error) {
-      return undefined
+      return undefined;
     }
-  }, [listUrl, ensName])
-  return <>{ensName ?? host}</>
+  }, [listUrl, ensName]);
+  return <>{ensName ?? host}</>;
 }
 
 function listUrlRowHTMLId(listUrl: string) {
-  return `list-row-${listUrl.replace(/\./g, '-')}`
+  return `list-row-${listUrl.replace(/\./g, '-')}`;
 }
 
-const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; onBack: () => void }) {
-  const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl)
-  const selectedListUrl = useSelectedListUrl()
-  const dispatch = useDispatch<AppDispatch>()
-  const { current: list, pendingUpdate: pending } = listsByUrl[listUrl]
+const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void }) => {
+  const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl);
+  const selectedListUrl = useSelectedListUrl();
+  const dispatch = useDispatch<AppDispatch>();
+  const { current: list, pendingUpdate: pending } = listsByUrl[listUrl];
 
-  const isSelected = listUrl === selectedListUrl
+  const isSelected = listUrl === selectedListUrl;
 
-  const [open, toggle] = useToggle(false)
-  const node = useRef<HTMLDivElement>()
-  const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>()
-  const [popperElement, setPopperElement] = useState<HTMLDivElement>()
+  const [open, toggle] = useToggle(false);
+  const node = useRef<HTMLDivElement>();
+  const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>();
+  const [popperElement, setPopperElement] = useState<HTMLDivElement>();
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'auto',
     strategy: 'fixed',
     modifiers: [{ name: 'offset', options: { offset: [8, 8] } }],
-  })
+  });
 
-  useOnClickOutside(node, open ? toggle : undefined)
+  useOnClickOutside(node, open ? toggle : undefined);
 
   const selectThisList = useCallback(() => {
-    if (isSelected) return
+    if (isSelected) return;
 
-    dispatch(selectList(listUrl))
-    onBack()
-  }, [dispatch, isSelected, listUrl, onBack])
+    dispatch(selectList(listUrl));
+    onBack();
+  }, [dispatch, isSelected, listUrl, onBack]);
 
   const handleAcceptListUpdate = useCallback(() => {
-    if (!pending) return
-    dispatch(acceptListUpdate(listUrl))
-  }, [dispatch, listUrl, pending])
+    if (!pending) return;
+    dispatch(acceptListUpdate(listUrl));
+  }, [dispatch, listUrl, pending]);
 
   const handleRemoveList = useCallback(() => {
     if (window.prompt(`Please confirm you would like to remove this list by typing REMOVE`) === `REMOVE`) {
-      dispatch(removeList(listUrl))
+      dispatch(removeList(listUrl));
     }
-  }, [dispatch, listUrl])
+  }, [dispatch, listUrl]);
 
-  if (!list) return null
+  if (!list) return null;
 
   return (
     <Row key={listUrl} align="center" padding="16px" id={listUrlRowHTMLId(listUrl)}>
@@ -198,75 +198,75 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
         </>
       )}
     </Row>
-  )
-})
+  );
+});
 
 const ListContainer = styled.div`
   flex: 1;
   overflow: auto;
-`
+`;
 
 export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBack: () => void }) {
-  const [listUrlInput, setListUrlInput] = useState<string>('')
+  const [listUrlInput, setListUrlInput] = useState<string>('');
 
-  const dispatch = useDispatch<AppDispatch>()
-  const lists = useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl)
-  const adding = Boolean(lists[listUrlInput]?.loadingRequestId)
-  const [addError, setAddError] = useState<string | null>(null)
+  const dispatch = useDispatch<AppDispatch>();
+  const lists = useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl);
+  const adding = Boolean(lists[listUrlInput]?.loadingRequestId);
+  const [addError, setAddError] = useState<string | null>(null);
 
   const handleInput = useCallback((e) => {
-    setListUrlInput(e.target.value)
-    setAddError(null)
-  }, [])
-  const fetchList = useFetchListCallback()
+    setListUrlInput(e.target.value);
+    setAddError(null);
+  }, []);
+  const fetchList = useFetchListCallback();
 
   const handleAddList = useCallback(() => {
-    if (adding) return
-    setAddError(null)
+    if (adding) return;
+    setAddError(null);
     fetchList(listUrlInput)
       .then(() => {
-        setListUrlInput('')
+        setListUrlInput('');
       })
       .catch((error) => {
-        setAddError(error.message)
-        dispatch(removeList(listUrlInput))
-      })
-  }, [adding, dispatch, fetchList, listUrlInput])
+        setAddError(error.message);
+        dispatch(removeList(listUrlInput));
+      });
+  }, [adding, dispatch, fetchList, listUrlInput]);
 
   const validUrl: boolean = useMemo(() => {
-    return uriToHttp(listUrlInput).length > 0 || Boolean(parseENSAddress(listUrlInput))
-  }, [listUrlInput])
+    return uriToHttp(listUrlInput).length > 0 || Boolean(parseENSAddress(listUrlInput));
+  }, [listUrlInput]);
 
   const handleEnterKey = useCallback(
     (e) => {
       if (validUrl && e.key === 'Enter') {
-        handleAddList()
+        handleAddList();
       }
     },
     [handleAddList, validUrl],
-  )
+  );
 
   const sortedLists = useMemo(() => {
-    const listUrls = Object.keys(lists)
+    const listUrls = Object.keys(lists);
     return listUrls
       .filter((listUrl) => {
-        return Boolean(lists[listUrl].current)
+        return Boolean(lists[listUrl].current);
       })
       .sort((u1, u2) => {
-        const { current: l1 } = lists[u1]
-        const { current: l2 } = lists[u2]
+        const { current: l1 } = lists[u1];
+        const { current: l2 } = lists[u2];
         if (l1 && l2) {
           return l1.name.toLowerCase() < l2.name.toLowerCase()
             ? -1
             : l1.name.toLowerCase() === l2.name.toLowerCase()
             ? 0
-            : 1
+            : 1;
         }
-        if (l1) return -1
-        if (l2) return 1
-        return 0
-      })
-  }, [lists])
+        if (l1) return -1;
+        if (l2) return 1;
+        return 0;
+      });
+  }, [lists]);
 
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
@@ -321,7 +321,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
         <ExternalLink href="https://tokenlists.org">Browse lists</ExternalLink>
       </div>
     </Column>
-  )
+  );
 }
 
-export default ListSelect
+export default ListSelect;

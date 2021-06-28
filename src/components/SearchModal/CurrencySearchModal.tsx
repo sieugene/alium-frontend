@@ -1,11 +1,11 @@
-import { Currency } from '@alium-official/sdk'
-import { SwapModal } from 'components/Modal/SwapModal'
-import React, { useCallback, useEffect, useState } from 'react'
-import useLast from '../../hooks/useLast'
-import { useSelectedListUrl } from '../../state/lists/hooks'
+import { Currency } from '@alium-official/sdk';
+import { SwapModal } from 'components/Modal/SwapModal';
+import React, { useCallback, useEffect, useState } from 'react';
+import useLast from '../../hooks/useLast';
+import { useSelectedListUrl } from '../../state/lists/hooks';
 
-import { CurrencySearch } from './CurrencySearch'
-import { ListSelect } from './ListSelect'
+import { CurrencySearch } from './CurrencySearch';
+import { ListSelect } from './ListSelect';
 
 interface CurrencySearchModalProps {
   isOpen: boolean
@@ -26,32 +26,32 @@ export default function CurrencySearchModal({
   otherSelectedCurrency,
   currencyList,
 }: CurrencySearchModalProps) {
-  const [listView, setListView] = useState<boolean>(false)
-  const lastOpen = useLast(isOpen)
+  const [listView, setListView] = useState<boolean>(false);
+  const lastOpen = useLast(isOpen);
 
   useEffect(() => {
     if (isOpen && !lastOpen) {
-      setListView(false)
+      setListView(false);
     }
-  }, [isOpen, lastOpen])
+  }, [isOpen, lastOpen]);
 
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {
-      onCurrencySelect(currency)
-      onDismiss()
+      onCurrencySelect(currency);
+      onDismiss();
     },
     [onDismiss, onCurrencySelect]
-  )
+  );
 
   const handleClickChangeList = useCallback(() => {
-    setListView(true)
-  }, [])
+    setListView(true);
+  }, []);
   const handleClickBack = useCallback(() => {
-    setListView(false)
-  }, [])
+    setListView(false);
+  }, []);
 
-  const selectedListUrl = useSelectedListUrl()
-  const noListSelected = !selectedListUrl
+  const selectedListUrl = useSelectedListUrl();
+  const noListSelected = !selectedListUrl;
 
   return (
     <SwapModal isOpen={isOpen} onDismiss={onDismiss} maxHeight={90} minHeight={listView ? 40 : noListSelected ? 0 : 80}>
@@ -81,5 +81,5 @@ export default function CurrencySearchModal({
         />
       )}
     </SwapModal>
-  )
+  );
 }
