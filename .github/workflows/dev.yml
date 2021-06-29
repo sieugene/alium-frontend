@@ -4,15 +4,13 @@ on:
   push:
     branches:
       - develop
-      - merge
   pull_request:
     branches:      
       - develop
-      - merge
       
 jobs:
   build_dev:
-    if: github.ref == 'refs/heads/develop' ||  github.ref == 'refs/heads/merge'
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2.1.1
@@ -49,13 +47,3 @@ jobs:
         with:
           name: build
       - run: cp -r ./ ~/$GITHUB_REPOSITORY
-
-  deploy_merge:
-    needs: build_dev
-    if: github.ref == 'refs/heads/merge'
-    runs-on: [self-hosted, stage]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: build
-      - run: cp -r ./ ~/Alium-Finance/alium-frontend-merge
