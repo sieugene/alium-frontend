@@ -20,11 +20,9 @@ const NftPoolCardWrap = styled(Flex)`
   width: 100%;
   padding: 24px;
   margin-bottom: 16px;
-
   &:last-child {
     margin-bottom: 0;
   }
-
   @media (max-width: 1024px) {
     flex-direction: column;
   }
@@ -41,11 +39,9 @@ const Field = styled(Flex)<{ maxWidth: string }>`
   width: 100%;
   max-width: ${({ maxWidth }) => maxWidth};
   flex: 1;
-
   &:last-child {
     justify-content: flex-end;
   }
-
   @media (max-width: 1024px) {
     max-width: unset;
     padding: 10px 16px;
@@ -54,11 +50,9 @@ const Field = styled(Flex)<{ maxWidth: string }>`
     &:nth-child(2n + 1) {
       background-color: #f4f5fa;
     }
-
     &:first-child {
       background-color: #fff;
     }
-
     &:last-child {
       justify-content: space-between;
     }
@@ -97,17 +91,14 @@ const FieldPool = styled(Field)`
 const FieldClaim = styled(Field)`
   align-items: center;
   align-content: center;
-
   & > div {
     width: 100%;
     justify-content: space-between;
     flex-direction: row-reverse;
   }
-
   button {
     margin-left: 8px;
   }
-
   @media (max-width: 1024px) {
     align-items: flex-start;
     justify-content: space-between;
@@ -115,7 +106,6 @@ const FieldClaim = styled(Field)`
       margin-top: 8px;
       margin-left: 0;
     }
-
     & > div {
       width: unset;
       flex-direction: column;
@@ -155,12 +145,37 @@ const getTimeFormat = (timestamp: string | undefined) => {
   return 'loading'
 }
 
+const unlockedByTimestamp = (timestamp: string | undefined) => {
+  if (timestamp === '0') {
+    return true
+  }
+  if (timestamp) {
+    const date = new Date(parseInt(`${timestamp}000`))
+    return new Date() > date
+  }
+  return false
+}
+
 function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
+  // Temp formatter date
+  const original_timestamp = pool?.timestamp || '0'
+  const formattedTime = getTimeFormat(original_timestamp)
+  const TEMP_CONDITION_FOR_21_JULY = formattedTime === '21th July 2021'
+  const addingAWeek = Number(original_timestamp) + 604800
+  const extensionUpToAWeekTimeStamp = TEMP_CONDITION_FOR_21_JULY ? addingAWeek.toString() : original_timestamp
+  // console.log('TIMESTAMP_ORIGINAL', original_timestamp)
+  // console.log('TIMESTAMP_CHANGED', extensionUpToAWeekTimeStamp)
+  // end
   const total = ethers.utils.formatEther(pool.total || BigNumber.from(0))
   const locked = ethers.utils.formatEther(pool.locked || BigNumber.from(0))
   const unlocked = ethers.utils.formatEther(pool.unlocked || BigNumber.from(0))
   const claimed = ethers.utils.formatEther(pool.claimed || BigNumber.from(0))
-  const isUnlocked = !!Number(unlocked)
+  // unlock with timestamp
+  const unlockWithTimestamp = TEMP_CONDITION_FOR_21_JULY
+    ? unlockedByTimestamp(extensionUpToAWeekTimeStamp)
+    : !!Number(unlocked)
+  //
+  const isUnlocked = unlockWithTimestamp
   const [isLoadingLocal, setIsLoadingLocal] = useState(false)
 
   const [initClaimed, setInitClaimed] = useState<string>('')
@@ -221,7 +236,8 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
       </FieldClaim>
       <Field maxWidth="140px">
         <FieldName>Next unclocked date</FieldName>
-        {getTimeFormat(pool.timestamp)}
+        {/* {getTimeFormat(pool.timestamp)} */}
+        {getTimeFormat(extensionUpToAWeekTimeStamp)}
       </Field>
     </NftPoolCardWrap>
   )

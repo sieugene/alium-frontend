@@ -67,6 +67,7 @@
     "prefer-spread": "off",
     "react/jsx-pascal-case": "off",
     "no-async-promise-executor": "off",
+    "camelcase": "off",
     "import/extensions": [
       1,
       "ignorePackages",
