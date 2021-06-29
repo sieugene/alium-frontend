@@ -15,6 +15,7 @@ RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 FROM node:14-alpine AS runner
 WORKDIR /app
 RUN apk add git
+COPY --from=builder /app/.env.production ./.env.production
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules

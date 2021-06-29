@@ -1,0 +1,12 @@
+version: '3.5'
+
+networks:
+  net:
+    driver: overlay
+    attachable: true
+
+services:
+  frontend:
+    image: aliumfrontend
+    ports:
+      - 3000:3000

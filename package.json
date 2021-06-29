@@ -5,7 +5,7 @@
   "homepage": ".",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "start": "cross-env PORT=3002 NODE_ENV=production next start",
+    "start": "cross-env NODE_ENV=production next start",
     "dev": "cross-env NODE_ENV=development next dev",
     "build": "cross-env NODE_ENV=production next build",
     "build:dev": "cross-env NODE_ENV=development next build",
