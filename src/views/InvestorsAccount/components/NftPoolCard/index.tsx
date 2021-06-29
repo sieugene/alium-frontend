@@ -172,7 +172,7 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
   const claimed = ethers.utils.formatEther(pool.claimed || BigNumber.from(0))
   // unlock with timestamp
   const unlockWithTimestamp = TEMP_CONDITION_FOR_21_JULY
-    ? unlockedByTimestamp(extensionUpToAWeekTimeStamp)
+    ? unlockedByTimestamp(extensionUpToAWeekTimeStamp) || !!Number(unlocked)
     : !!Number(unlocked)
   //
   const isUnlocked = unlockWithTimestamp
