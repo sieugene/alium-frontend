@@ -86,7 +86,7 @@ const WalletCard: React.FC<Props> = ({
       setSelectedWallet(title)
       onDismiss()
     } catch (error) {
-      console.error(error)
+      console.log(error)
     } finally {
       setconnectionLoad(false)
     }
@@ -96,8 +96,10 @@ const WalletCard: React.FC<Props> = ({
     <StyledFlex
       flexDirection="column"
       alignItems="center"
-      onClick={title !== 'Metamask' && selectedNetwork === 'Huobi' ? undefined : onClickHandler}
-      isBlurred={title !== 'Metamask' && selectedNetwork === 'Huobi'}
+      onClick={
+        title !== 'Metamask' && ['Huobi', 'Polygon', 'Ethereum'].includes(selectedNetwork) ? undefined : onClickHandler
+      }
+      isBlurred={title !== 'Metamask' && ['Huobi', 'Polygon', 'Ethereum'].includes(selectedNetwork)}
     >
       <ConnectionLoad load={connectionLoad} />
       <StyledButton

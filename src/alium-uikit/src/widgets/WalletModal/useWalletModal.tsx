@@ -40,6 +40,41 @@ const useWalletModal = (
     })
   }
 
+  const chainIdData: { [i: number]: { tokenSymbol: string; networkName: string } } = {
+    1: {
+      tokenSymbol: 'ETH',
+      networkName: 'Ethereum Chain',
+    },
+    4: {
+      tokenSymbol: 'ETH',
+      networkName: 'Ethereum Chain Testnet Ropsten',
+    },
+    56: {
+      tokenSymbol: 'BNB',
+      networkName: 'Binance Smart Chain',
+    },
+    97: {
+      tokenSymbol: 'BNB',
+      networkName: 'Binance Smart Chain Testnet',
+    },
+    128: {
+      tokenSymbol: 'HT',
+      networkName: 'Huobi ECO Chain',
+    },
+    137: {
+      tokenSymbol: 'MATIC',
+      networkName: 'Polygon Matic Chain',
+    },
+    256: {
+      tokenSymbol: 'HT',
+      networkName: 'Huobi ECO Chain Testnet',
+    },
+    80001: {
+      tokenSymbol: 'MATIC',
+      networkName: 'Polygon Matic Chain Testnet',
+    },
+  }
+
   const [onPresentConnectModal] = useModal(<ConnectModal login={loginWithUpdateNetwork} title={title} />)
   const [onPresentAccountModal] = useModal(
     <AccountModal
@@ -50,8 +85,8 @@ const useWalletModal = (
       balance={balance}
       explorerName={explorerName}
       explorerLink={explorerLink}
-      tokenSymbol={id === 56 || id === 97 ? 'BNB' : 'HT'}
-      networkName={id === 56 || id === 97 ? 'Binance Smart Chain' : 'Huobi ECO Chain'}
+      tokenSymbol={chainIdData[id]?.tokenSymbol ?? 'Undefined Token'}
+      networkName={chainIdData[id]?.networkName ?? `Undefined Chain (ID: ${id})`}
       onTransactionHistoryHandler={onTransactionHistoryHandler}
       balanceHook={balanceHook}
     />,
