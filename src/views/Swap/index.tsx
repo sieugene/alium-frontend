@@ -1,4 +1,5 @@
 import { CurrencyAmount, JSBI, Token, Trade } from '@alium-official/sdk'
+import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { Button, CardBody, Flex, Text } from 'alium-uikit/src'
 import AddressInputPanel from 'components/AddressInputPanel'
 import Card, { GreyCard } from 'components/Card'
@@ -23,13 +24,14 @@ import { useCurrency } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCallback'
 import { useSwapCallback } from 'hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
+import { useTranslation } from 'next-i18next'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
-import { useTranslation } from 'next-i18next';
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { useExpertModeManager, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import styled, { ThemeContext } from 'styled-components'
+import GTM from 'utils/gtm'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
 import { ExchangeIcon } from '../../../public/images/Exchange-icon'
@@ -206,6 +208,8 @@ const Swap = () => {
 
   const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
 
+  const sendDataToGTM = useGTMDispatch()
+
   const handleSwap = useCallback(() => {
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee)) {
       return
@@ -216,6 +220,7 @@ const Swap = () => {
     setSwapState((prevState) => ({ ...prevState, attemptingTxn: true, swapErrorMessage: undefined, txHash: undefined }))
     swapCallback()
       .then((hash) => {
+        GTM.swap(sendDataToGTM, trade)
         setSwapState((prevState) => ({
           ...prevState,
           attemptingTxn: false,

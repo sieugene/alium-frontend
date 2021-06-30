@@ -1,5 +1,5 @@
+import { SwapModal } from 'components/Modal/SwapModal';
 import React from 'react';
-import Modal from '../Modal';
 import { useActiveWeb3React } from '../../hooks';
 import ConfirmationPendingContent from './ConfirmationPendingContent';
 import TransactionSubmittedContent from './TransactionSubmittedContent';
@@ -27,7 +27,7 @@ const TransactionConfirmationModal = ({
 
   // confirmation screen
   return (
-    <Modal isOpen={isOpen} onDismiss={onDismiss}>
+    <SwapModal isOpen={isOpen} onDismiss={onDismiss}>
       {attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (
@@ -35,7 +35,7 @@ const TransactionConfirmationModal = ({
       ) : (
         content()
       )}
-    </Modal>
+    </SwapModal>
   );
 };
 
