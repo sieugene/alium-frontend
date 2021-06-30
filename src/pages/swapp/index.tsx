@@ -1,25 +1,25 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import dynamic from 'next/dynamic';
-import React from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import dynamic from 'next/dynamic'
+import React from 'react'
 
 const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
   ssr: false,
-});
+})
 
-const Pool = dynamic(() => import('views/Pool'), { ssr: false });
+const Swap = dynamic(() => import('views/Swap'), { ssr: false })
 
-const PoolPage = () => {
+const SwapPage = () => {
   return (
     <WrapSwapComponent>
-      <Pool />
+      <Swap />
     </WrapSwapComponent>
-  );
-};
+  )
+}
 
-export default PoolPage;
+export default SwapPage
 
 export const getServerSideProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['common'])),
   },
-});
+})
