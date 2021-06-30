@@ -3,73 +3,37 @@ name: dev
 on:
   push:
     branches:
-      - develop
-      - combined
       - merged/tonext
   pull_request:
     branches:
-      - develop
-      - combined
       - merged/tonext
+  workflow_dispatch
 
+env:
+  VERSION: merged/tonext
+  IMAGE_ID: ghcr.io/alium-finance/alium-frontend
 jobs:
   build_dev:
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/combined' || github.ref == 'refs/heads/merged/tonext'
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2.1.1
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Install global cli utils
-        run: yarn global add dotenv-cli
-      - name: Clear cache
-        run: yarn cache clean
-      - name: Install dependincies
-        run: yarn install
-      - name: Build project
-        run: yarn build:dev
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: build
+      - uses: actions/checkout@v2
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build image
+        run: |
+          docker pull $IMAGE_ID:$VERSION || true
+          docker build -f Dockerfile . -t build --cache-from $IMAGE_ID:$VERSION
+      - name: Push image
+        run: |
+          docker tag build $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
 
   deploy_dev:
     needs: build_dev
-    if: github.ref == 'refs/heads/develop'
     runs-on: [self-hosted, dev]
     steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: build
-      - run: cp -r ./ ~/$GITHUB_REPOSITORY
-
-  deploy_combined:
-    needs: build_dev
-    if: github.ref == 'refs/heads/combined'
-    runs-on: [self-hosted, dev]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: build
-      - run: cp -r ./ ~/Alium-Finance/alium-frontend-merge
-
-  deploy_tonext:
-    needs: build_dev
-    if: github.ref == 'refs/heads/merged/tonext'
-    runs-on: [self-hosted, dev]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: build
-      - run: cp -r ./ ~/Alium-Finance/alium-frontend-next
+      - uses: actions/checkout@v2
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - run: docker stack deploy --compose-file docker-compose.yml alium --with-registry-auth
+      - run: docker system prune -f

@@ -6,7 +6,7 @@ networks:
     attachable: true
 
 services:
-  frontend:
-    image: aliumfrontend
+  analytics:
+    image: ghcr.io/alium-finance/alium-frontend:${VERSION}
     ports:
-      - 3000:3000
+      - 3001:3000
