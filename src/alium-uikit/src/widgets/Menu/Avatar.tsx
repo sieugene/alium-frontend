@@ -1,5 +1,5 @@
+import Link from 'next/link'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import NoProfileAvatar from '../../components/Svg/Icons/NoProfileAvatar'
 import { Profile } from './types'
@@ -52,7 +52,7 @@ const Avatar: React.FC<AvatarProps> = ({ profile }) => {
 
   return (
     <StyledAvatar title={username}>
-      <Link to={link} aria-label={ariaLabel}>
+      <Link href={link} aria-label={ariaLabel}>
         {icon}
       </Link>
       {showPip && <Pip />}

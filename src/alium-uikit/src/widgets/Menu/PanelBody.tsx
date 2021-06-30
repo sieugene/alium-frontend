@@ -1,5 +1,6 @@
+import { NextLink } from 'components/NextLink'
+import { useRouter } from 'next/router'
 import React from 'react'
-import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { SvgProps } from '../../components/Svg'
 import Accordion from './Accordion'
@@ -8,7 +9,6 @@ import { HamburgerCloseIcon } from './icons'
 import Logo from './Logo'
 import MenuButton from './MenuButton'
 import { LinkLabel, MenuEntry } from './MenuEntry'
-import MenuLink from './MenuLink'
 import { PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {
@@ -31,23 +31,21 @@ interface StyledIconProps {
 }
 
 const StyledIcon = styled.div`
-   {
-    height: 24px;
-    width: 24px;
-    background: linear-gradient(0deg, #ffffff, #ffffff);
-    box-shadow: 0px 6px 8px rgba(220, 224, 244, 0.56);
-    border-radius: 40px;
-    display: flex;
-    position: absolute;
-    right: -12px;
-    top: 36px;
-    transition: background-color 200ms ease-in-out;
-    border-right: 2px solid rgba(133, 133, 133, 0.1);
-  }
+  height: 24px;
+  width: 24px;
+  background: linear-gradient(0deg, #ffffff, #ffffff);
+  box-shadow: 0px 6px 8px rgba(220, 224, 244, 0.56);
+  border-radius: 40px;
+  display: flex;
+  position: absolute;
+  right: -12px;
+  top: 36px;
+  transition: background-color 200ms ease-in-out;
+  border-right: 2px solid rgba(133, 133, 133, 0.1);
   &:hover {
     background: linear-gradient(0deg, #f0f0f0, #f0f0f0);
   }
-  > * {
+  & > * {
     margin: auto;
     transition: transform 200ms ease-in-out;
     transform: ${(props: StyledIconProps) => (props.reverse ? 'rotate(180deg)' : '')};
@@ -62,21 +60,20 @@ const StyledLinksPanel = styled.div`
     padding-right: 17px;
   }
   @media screen and (max-width: 967px) {
-    > div:not(:last-child) {
-      border-bottom: 1px solid #F4F5FA;
+    & > div:not(:last-child) {
+      border-bottom: 1px solid #f4f5fa;
     }
-    > div > a {
+    & > div > a {
       font-weight: 500;
     }
-    > div > div:first-child {
+    & > div > div:first-child {
       font-weight: 500;
     }
-    > div > div:not(:first-child) > div > a {
-      color: #8990A5 !important;
+    & > div > div:not(:first-child) > div > a {
+      color: #8990a5 !important;
       font-weight: 500;
     }
   }
-}
 `
 
 const StyledLogoIcon = styled.div`
@@ -87,11 +84,12 @@ const StyledLogoIcon = styled.div`
 `
 
 const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, togglePush, isDark }) => {
-  const location = useLocation()
+  const location = useRouter()
 
   // Close the menu when a user clicks a link on mobile
   const handleClick = isMobile ? () => pushNav(false) : undefined
   const homeLink = links.find((link) => link.label === 'Home')
+
   return (
     <Container>
       <StyledLogoIcon>
@@ -136,7 +134,7 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
                       isActive={item.href === location.pathname}
                       onClick={handleClick}
                     >
-                      <MenuLink href={item.href}>{item.label}</MenuLink>
+                      <NextLink href={item.href}>{item.label}</NextLink>
                     </MenuEntry>
                   ))}
               </Accordion>
@@ -144,10 +142,10 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
           }
           return (
             <MenuEntry key={entry.label} isActive={entry.href === location.pathname} className={calloutClass}>
-              <MenuLink href={entry.href} onClick={handleClick}>
+              <NextLink.multiple href={entry.href} handleClick={handleClick}>
                 {iconElement}
                 <LinkLabel isPushed={isPushed}>{entry.label}</LinkLabel>
-              </MenuLink>
+              </NextLink.multiple>
             </MenuEntry>
           )
         })}

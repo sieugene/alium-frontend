@@ -2,35 +2,66 @@ import { externalLinks } from '../../config'
 import { getMainDomain } from '../../util'
 
 export const links = [
-  { label: 'Home', icon: 'HomeIcon', href: '/' },
+  {
+    label: 'Home',
+    icon: 'HomeIcon',
+    href: '/',
+  },
   {
     label: 'Trade',
     icon: 'TradeIcon',
     items: [
-      { label: 'Exchange', href: `https://exchange.${getMainDomain()}` },
-      { label: 'Liquidity', href: `https://exchange.${getMainDomain()}/#/pool` },
+      {
+        label: 'Exchange',
+        href: `https://exchange.${getMainDomain()}`,
+      },
+      {
+        label: 'Liquidity',
+        href: `https://exchange.${getMainDomain()}/#/pool`,
+      },
     ],
   },
-  { label: 'Private Round NFTs', icon: 'PrivateRoundIcon', href: '/account' },
+  {
+    label: 'Private Round NFTs',
+    icon: 'PrivateRoundIcon',
+    href: '/account',
+  },
   {
     label: 'Analytics',
     icon: 'InfoIcon',
     items: [
-      { label: 'Github', href: externalLinks.github },
-      { label: 'Docs', href: `https://docs.${getMainDomain()}` },
-      { label: 'Blog', href: externalLinks.medium },
+      {
+        label: 'Github',
+        href: externalLinks.github,
+      },
+      {
+        label: 'Docs',
+        href: `https://docs.${getMainDomain()}`,
+      },
+      {
+        label: 'Blog',
+        href: externalLinks.medium,
+      },
     ],
   },
   {
     label: 'More',
     icon: 'MoreIcon',
     items: [
-      { label: 'Github', href: externalLinks.github },
-      { label: 'Docs', href: `https://docs.${getMainDomain()}` },
-      { label: 'Blog', href: externalLinks.medium },
+      {
+        label: 'Github',
+        href: externalLinks.github,
+      },
+      {
+        label: 'Docs',
+        href: `https://docs.${getMainDomain()}`,
+      },
+      {
+        label: 'Blog',
+        href: externalLinks.medium,
+      },
     ],
   },
-  { label: 'Alium.art', icon: 'IconArt', href: `https://alium.art` },
 ]
 
 export const socials = [

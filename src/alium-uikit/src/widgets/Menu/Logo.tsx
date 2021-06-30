@@ -1,5 +1,5 @@
+import { NextLink } from 'components/NextLink'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Flex from '../../components/Flex/Flex'
 import { LogoIcon } from '../../components/Svg'
@@ -11,7 +11,7 @@ interface Props {
   isPushed?: boolean
 }
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NextLink)`
   display: flex;
   align-items: center;
   .mobile-icon {
@@ -33,14 +33,14 @@ const StyledLink = styled(Link)`
 const Logo: React.FC<Props> = ({ isDark, href, isPushed }) => {
   const isAbsoluteUrl = href.startsWith('http')
   const innerLogo = (
-    <>
+    <NextLink.multiple href="/">
       <LogoIcon className="mobile-icon" />
       {!isPushed ? (
         <LogoWithText className="desktop-icon" isDark={isDark} />
       ) : (
         <LogoWithText className="desktop-icon" isDark={isDark} withText />
       )}
-    </>
+    </NextLink.multiple>
   )
 
   return (
@@ -50,7 +50,7 @@ const Logo: React.FC<Props> = ({ isDark, href, isPushed }) => {
           {innerLogo}
         </StyledLink>
       ) : (
-        <StyledLink to={href} aria-label="Alium home page">
+        <StyledLink href={href} aria-label="Alium home page">
           {innerLogo}
         </StyledLink>
       )}

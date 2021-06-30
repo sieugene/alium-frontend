@@ -1,3 +1,4 @@
+import useOnClickOutside from 'hooks/useOnClickOutside'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
@@ -32,15 +33,6 @@ const Container = styled.div<{ isOpen: boolean }>`
       display: none;
     }
   }
-
-  // @media screen and (min-width: 968px) {
-  //   ${({ isOpen }) =>
-    isOpen &&
-    `
-  //   box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
-  //   border-radius: 6px;
-  // `};
-  // }
 `
 
 const AccordionContent = styled.div<{ isOpen: boolean; isPushed: boolean; maxHeight: number }>`
@@ -67,6 +59,7 @@ const Accordion: React.FC<Props> = ({
   children,
   className,
 }) => {
+  const accordRef = React.useRef()
   const [isOpen, setIsOpen] = useState(initialOpenState)
 
   const handleClick = () => {
@@ -78,8 +71,11 @@ const Accordion: React.FC<Props> = ({
     }
   }
 
+  useOnClickOutside(accordRef, () => {
+    setIsOpen(false)
+  })
   return (
-    <Container isOpen={isOpen}>
+    <Container isOpen={isOpen} ref={accordRef}>
       <MenuEntry onClick={handleClick} className={className}>
         {icon}
         <LinkLabel isPushed={isPushed}>{label}</LinkLabel>
