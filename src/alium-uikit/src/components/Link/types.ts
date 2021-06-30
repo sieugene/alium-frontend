@@ -1,9 +1,6 @@
-import { LinkProps as NextLinkProps } from 'next/link'
+import { AnchorHTMLAttributes } from 'react'
 import { TextProps } from '../Text'
 
-export interface LinkProps extends TextProps, NextLinkProps {
+export interface LinkProps extends TextProps, AnchorHTMLAttributes<HTMLAnchorElement> {
   external?: boolean
-  as?: 'a' | 'button'
-  style?: React.CSSProperties
-  id?: string
 }

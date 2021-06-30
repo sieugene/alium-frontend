@@ -6,7 +6,7 @@ const Icon: React.FC<SvgProps> = (props) => {
   return (
     <Svg viewBox="0 0 17 16" fill="none" {...props}>
       <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clipPath="url(#clip0)">
+        <g clip-path="url(#clip0)">
           <path
             d="M13.5413 4.51245L1.51465 10.0281L3.21972 11.7569L15.5146 6.2201V5.37338L13.5413 4.51245Z"
             fill="#8990A5"
