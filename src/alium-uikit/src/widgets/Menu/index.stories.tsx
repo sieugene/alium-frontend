@@ -20,7 +20,7 @@ export const Connected: React.FC = () => {
   const [balance, setBalance] = useState(undefined)
 
   function later() {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve(100)
       }, 3000)

@@ -1,5 +1,5 @@
-import Link, { LinkProps } from 'next/link'
-import { ButtonHTMLAttributes, ReactNode } from 'react'
+import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
+import { Link, LinkProps } from 'react-router-dom'
 import { SpaceProps } from 'styled-system'
 
 export const sizes = {
@@ -27,7 +27,7 @@ export type Sizes = typeof sizes[keyof typeof sizes]
 export type Types = typeof types[keyof typeof types]
 export type Variants = typeof variants[keyof typeof variants]
 
-type ButtonTypes = ButtonHTMLAttributes<HTMLButtonElement> | LinkProps
+type ButtonTypes = ButtonHTMLAttributes<HTMLButtonElement> | AnchorHTMLAttributes<HTMLAnchorElement> | LinkProps
 
 export type ButtonProps = {
   variant?: Variants
@@ -42,9 +42,6 @@ export type ButtonProps = {
   disabled?: boolean
   buttonType?: Types
   buttonSize?: string
-  onClick?: (...props: any) => any
-  style?: React.CSSProperties
-  id?: string
 } & ButtonTypes &
   SpaceProps
 

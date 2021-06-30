@@ -1,7 +1,7 @@
 import { chainIdLocationKey } from '../config'
 
 const switchNetwork = (value: string, withReload: boolean): void => {
-  if (process.browser && typeof window !== 'undefined') {
+  if (typeof window !== 'undefined') {
     const searchParams = new URLSearchParams(window.location.search)
     searchParams.set(chainIdLocationKey, value)
     const newurl = `${window.location.protocol}//${window.location.host}${
