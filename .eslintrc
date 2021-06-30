@@ -30,6 +30,12 @@
         ]
       }
     ],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-extra-semi": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-alert": "off",
+    "@next/next/no-img-element": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "quotes": "off",
     "no-underscore-dangle": "off",

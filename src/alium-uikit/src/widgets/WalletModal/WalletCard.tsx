@@ -86,7 +86,7 @@ const WalletCard: React.FC<Props> = ({
       setSelectedWallet(title)
       onDismiss()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     } finally {
       setconnectionLoad(false)
     }
