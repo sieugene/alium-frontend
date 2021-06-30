@@ -1,8 +1,8 @@
-import { SwapModal } from 'components/Modal/SwapModal';
-import React from 'react';
-import { useActiveWeb3React } from '../../hooks';
-import ConfirmationPendingContent from './ConfirmationPendingContent';
-import TransactionSubmittedContent from './TransactionSubmittedContent';
+import { SwapModal } from 'components/Modal/SwapModal'
+import React from 'react'
+import { useActiveWeb3React } from '../../hooks'
+import ConfirmationPendingContent from './ConfirmationPendingContent'
+import TransactionSubmittedContent from './TransactionSubmittedContent'
 
 interface ConfirmationModalProps {
   isOpen: boolean
@@ -21,9 +21,9 @@ const TransactionConfirmationModal = ({
   pendingText,
   content,
 }: ConfirmationModalProps) => {
-  const { chainId } = useActiveWeb3React();
+  const { chainId } = useActiveWeb3React()
 
-  if (!chainId) return null;
+  if (!chainId) return null
 
   // confirmation screen
   return (
@@ -36,7 +36,7 @@ const TransactionConfirmationModal = ({
         content()
       )}
     </SwapModal>
-  );
-};
+  )
+}
 
-export default TransactionConfirmationModal;
+export default TransactionConfirmationModal

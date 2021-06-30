@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@alium-official/sdk'
+import { Currency, currencyEquals, ETHER, ROUTER_ADDRESS, TokenAmount, WETH } from '@alium-official/sdk'
 import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -15,7 +15,6 @@ import Pane from 'components/Pane'
 import { MinimalPositionCard } from 'components/PositionCard'
 import Row, { AutoRow, RowBetween, RowFlat } from 'components/Row'
 import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
-import { ROUTER_ADDRESS } from 'config/contracts'
 import { PairState } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
 import { useCurrency } from 'hooks/Tokens'
@@ -36,7 +35,7 @@ import GTM from 'utils/gtm'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import SwapAppBody from 'views/Swap/SwapAppBody'
-import { Wrapper } from "../Pool/styleds"
+import { Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { PoolPriceBar } from './PoolPriceBar'
 
@@ -249,7 +248,8 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
           })
 
           setTxHash(response.hash)
-        }),)
+        }),
+      )
       .catch((e) => {
         setAttemptingTxn(false)
         // we only care if the error is something _other_ than the user rejected the tx

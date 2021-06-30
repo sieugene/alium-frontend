@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Wrapper, Section, BottomSection, ContentHeader } from './helpers'
+import { BottomSection, ContentHeader, Section, Wrapper } from './helpers'
 
 type ConfirmationModalContentProps = {
   title: string
