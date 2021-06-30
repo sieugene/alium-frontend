@@ -7,10 +7,9 @@ on:
   pull_request:
     branches:
       - merged/tonext
-  workflow_dispatch
 
 env:
-  VERSION: tonext
+  VERSION: merged/tonext
   IMAGE_ID: ghcr.io/alium-finance/alium-frontend
 jobs:
   build_dev:
