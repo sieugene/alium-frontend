@@ -1,13 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import { BrowserRouter, Link } from 'react-router-dom'
 import capitalize from 'lodash/capitalize'
+import React from 'react'
+import { BrowserRouter, Link } from 'react-router-dom'
+import styled from 'styled-components'
+import { getMainDomain } from '../../util'
 import Flex from '../Flex/Flex'
-import { LogoIcon, AddIcon, AutoRenewIcon, CloseIcon } from '../Svg'
+import { AddIcon, AutoRenewIcon, CloseIcon, LogoIcon } from '../Svg'
 import Button from './Button'
 import IconButton from './IconButton'
 import { variants } from './types'
-import { getMainDomain } from '../../util'
 
 const Row = styled(Flex)`
   margin-bottom: 32px;

@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from '../../components/Text'
 import { Heading } from '../../components/Heading'
 import { SocialNetworks } from '../../components/SocialNetworks'
-import MaintenancePreview from './assets/maintenance-preview'
-import MaintenanceCloudRight from './assets/background-cloud-right'
+import { Text } from '../../components/Text'
 import MaintenanceCloudLeft from './assets/background-cloud-left'
+import MaintenanceCloudRight from './assets/background-cloud-right'
+import MaintenancePreview from './assets/maintenance-preview'
 
 const StyledWrapper = styled.div`
   z-index: 100;

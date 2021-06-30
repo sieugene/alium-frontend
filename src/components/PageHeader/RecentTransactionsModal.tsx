@@ -1,12 +1,12 @@
-import { Button, CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Modal, Text } from 'alium-uikit/src';
-import Loader from 'components/Loader';
-import { useActiveWeb3React } from 'hooks';
-import React, { useMemo } from 'react';
-import { useTranslation } from 'next-i18next';
-import { isTransactionRecent, useAllTransactions } from 'state/transactions/hooks';
-import { TransactionDetails } from 'state/transactions/reducer';
-import styled from 'styled-components';
-import { getExplorerLink } from 'utils';
+import { Button, CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Modal, Text } from 'alium-uikit/src'
+import Loader from 'components/Loader'
+import { useActiveWeb3React } from 'hooks'
+import { useTranslation } from 'next-i18next'
+import React, { useMemo } from 'react'
+import { isTransactionRecent, useAllTransactions } from 'state/transactions/hooks'
+import { TransactionDetails } from 'state/transactions/reducer'
+import styled from 'styled-components'
+import { getExplorerLink } from 'utils'
 
 const StyledWrapper = styled.div`
   max-width: 450px;
@@ -17,43 +17,43 @@ const StyledWrapper = styled.div`
     overflow-y: auto;
     padding: 19px 24px 15px 24px;
   }
-`;
+`
 
-const StyledTransactionsList = styled.div``;
+const StyledTransactionsList = styled.div``
 
 type RecentTransactionsModalProps = {
   onDismiss?: () => void
 }
 
 // TODO: Fix UI Kit typings
-const defaultOnDismiss = () => null;
+const defaultOnDismiss = () => null
 
-const newTransactionsFirst = (a: TransactionDetails, b: TransactionDetails) => b.addedTime - a.addedTime;
+const newTransactionsFirst = (a: TransactionDetails, b: TransactionDetails) => b.addedTime - a.addedTime
 
 const getRowStatus = (sortedRecentTransaction: TransactionDetails) => {
-  const { hash, receipt } = sortedRecentTransaction;
+  const { hash, receipt } = sortedRecentTransaction
 
   if (!hash) {
-    return { icon: <Loader />, color: 'text' };
+    return { icon: <Loader />, color: 'text' }
   }
 
   if (hash && receipt?.status === 1) {
-    return { icon: <CheckmarkCircleIcon color="primaryBright" marginRight="8px" />, color: 'primaryBright' };
+    return { icon: <CheckmarkCircleIcon color="primaryBright" marginRight="8px" />, color: 'primaryBright' }
   }
 
-  return { icon: <ErrorIcon color="failure" marginRight="8px" />, color: 'failure' };
-};
+  return { icon: <ErrorIcon color="failure" marginRight="8px" />, color: 'failure' }
+}
 
 const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransactionsModalProps) => {
-  const { account, chainId } = useActiveWeb3React();
-  const allTransactions = useAllTransactions();
-  const { t } = useTranslation();
+  const { account, chainId } = useActiveWeb3React()
+  const allTransactions = useAllTransactions()
+  const { t } = useTranslation()
 
   // Logic taken from Web3Status/index.tsx line 175
   const sortedRecentTransactions = useMemo(() => {
-    const txs = Object.values(allTransactions);
-    return txs.filter(isTransactionRecent).sort(newTransactionsFirst);
-  }, [allTransactions]);
+    const txs = Object.values(allTransactions)
+    return txs.filter(isTransactionRecent).sort(newTransactionsFirst)
+  }, [allTransactions])
 
   return (
     <StyledWrapper>
@@ -80,8 +80,8 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
           {account &&
             chainId &&
             sortedRecentTransactions.map((sortedRecentTransaction) => {
-              const { hash, summary } = sortedRecentTransaction;
-              const { icon } = getRowStatus(sortedRecentTransaction);
+              const { hash, summary } = sortedRecentTransaction
+              const { icon } = getRowStatus(sortedRecentTransaction)
 
               return (
                 <Flex key={hash} alignItems="center" justifyContent="space-between" mb="16px" style={{ width: '100%' }}>
@@ -96,12 +96,12 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
                     </Flex>
                   </LinkExternal>
                 </Flex>
-              );
+              )
             })}
         </StyledTransactionsList>
       </Modal>
     </StyledWrapper>
-  );
-};
+  )
+}
 
-export default RecentTransactionsModal;
+export default RecentTransactionsModal

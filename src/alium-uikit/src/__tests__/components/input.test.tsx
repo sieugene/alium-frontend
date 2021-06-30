@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderWithTheme } from '../../testHelpers'
 import Input from '../../components/Input/Input'
+import { renderWithTheme } from '../../testHelpers'
 
 const handleChange = jest.fn()
 

@@ -1,3 +1,3 @@
 export { default as ToastContainer } from './ToastContainer'
 export { types as toastTypes } from './types'
-export type { ToastContainerProps, Toast, Types as ToastTypes, ErrorConnect } from './types'
+export type { ErrorConnect, Toast, ToastContainerProps, Types as ToastTypes } from './types'

@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ColoredCopyIcon, Flex, Heading, Text } from 'alium-uikit/src';
-import { NFT_COLLECTIBLE_ADDRESS } from 'constants/abis/nftPrivate';
-import { useTranslation } from 'next-i18next';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { PopupList } from 'state/application/reducer';
-import { AppState } from 'state/index';
-import styled from 'styled-components';
-import { CardType } from 'views/Home/constants/cards';
-import { Section, Wrapper } from './helpers';
+import { ColoredCopyIcon, Flex, Heading, Text } from 'alium-uikit/src'
+import { NFT_COLLECTIBLE_ADDRESS } from 'constants/abis/nftPrivate'
+import { useTranslation } from 'next-i18next'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { PopupList } from 'state/application/reducer'
+import { AppState } from 'state/index'
+import styled from 'styled-components'
+import { CardType } from 'views/Home/constants/cards'
+import { Section, Wrapper } from './helpers'
 
-const previewImg = '/images/transaction-succeed-preview.svg';
+const previewImg = '/images/transaction-succeed-preview.svg'
 
 type TransactionSucceedContentProps = {
   onDismiss: () => void
@@ -22,7 +22,7 @@ const StyledDetailsLabel = (props: React.ComponentProps<typeof Text>) => (
     style={{ fontSize: '14px', lineHeight: '20px', letterSpacing: '0.3px', color: '#8990A5', textAlign: 'center' }}
     {...props}
   />
-);
+)
 const StyledDetailsText = (props: React.ComponentProps<typeof Text>) => (
   <Text
     style={{
@@ -36,7 +36,7 @@ const StyledDetailsText = (props: React.ComponentProps<typeof Text>) => (
     }}
     {...props}
   />
-);
+)
 
 const Content = styled.div`
   & .preview-image {
@@ -104,7 +104,7 @@ const Content = styled.div`
     }
     overflow: hidden;
   }
-`;
+`
 
 const CopyButton = styled.button`
   background: none;
@@ -128,7 +128,7 @@ const CopyButton = styled.button`
   &:active {
     background-color: rgba(108, 93, 211, 0.3);
   }
-`;
+`
 const ImgPreview = styled.img`
   width: 345px;
   height: 164px;
@@ -136,25 +136,25 @@ const ImgPreview = styled.img`
     width: 300px;
     height: 99px;
   }
-`;
+`
 
 const TransactionSucceedContent = ({ onDismiss, hash }: TransactionSucceedContentProps) => {
-  const popupList = useSelector<AppState, PopupList | any>((s) => s.application.popupList);
-  const filteredPopups = popupList.filter((popup) => popup.key === hash);
+  const popupList = useSelector<AppState, PopupList | any>((s) => s.application.popupList)
+  const filteredPopups = popupList.filter((popup) => popup.key === hash)
 
   let popupSummary = { count: 0, card: {}, price: undefined } as {
     count: number
     card: CardType
     price: undefined | string
-  };
-  if (filteredPopups[0]) {
-    popupSummary = filteredPopups[0].content.txn.additionalData;
   }
-  const { t } = useTranslation();
-  const [copied, setCopied] = useState(false);
+  if (filteredPopups[0]) {
+    popupSummary = filteredPopups[0].content.txn.additionalData
+  }
+  const { t } = useTranslation()
+  const [copied, setCopied] = useState(false)
   const copyAddress = () => {
-    navigator.clipboard.writeText(NFT_COLLECTIBLE_ADDRESS);
-  };
+    navigator.clipboard.writeText(NFT_COLLECTIBLE_ADDRESS)
+  }
 
   return (
     <Wrapper style={{ maxWidth: '550px' }} onClick={onDismiss}>
@@ -190,7 +190,7 @@ const TransactionSucceedContent = ({ onDismiss, hash }: TransactionSucceedConten
         </Content>
       </Section>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default TransactionSucceedContent;
+export default TransactionSucceedContent

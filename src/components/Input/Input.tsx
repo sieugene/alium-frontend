@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 export interface InputProps {
   endAdornment?: React.ReactNode
@@ -16,7 +16,7 @@ const StyledInputWrapper = styled.div`
   display: flex;
   height: 72px;
   padding: 0 ${(props) => props.theme.spacing[3]}px;
-`;
+`
 
 const StyledInput = styled.input`
   width: 100%;
@@ -29,7 +29,7 @@ const StyledInput = styled.input`
   margin: 0;
   padding: 0;
   outline: none;
-`;
+`
 
 const Input: React.FC<InputProps> = ({ endAdornment, onChange, placeholder, startAdornment, value }) => {
   return (
@@ -38,7 +38,7 @@ const Input: React.FC<InputProps> = ({ endAdornment, onChange, placeholder, star
       <StyledInput placeholder={placeholder} value={value} onChange={onChange} />
       {!!endAdornment && endAdornment}
     </StyledInputWrapper>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

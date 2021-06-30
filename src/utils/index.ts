@@ -1,12 +1,11 @@
-import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Percent, Token } from '@alium-official/sdk'
+import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Percent, ROUTER_ADDRESS, Token } from '@alium-official/sdk'
 import { getAddress } from '@ethersproject/address'
 import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Provider, Web3Provider } from '@ethersproject/providers'
-import { ROUTER_ABI, ROUTER_ADDRESS } from 'config/contracts'
-import { NFT_VESTING, AliumVestingAbi } from 'views/InvestorsAccount/constants'
-import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
+import { ROUTER_ABI } from 'config/contracts'
+import { AliumVestingAbi, NFT_VESTING } from 'views/InvestorsAccount/constants'
 import { TokenAddressMap } from '../state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -27,32 +26,32 @@ const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'testnet.',
   [ChainId.HECOMAINNET]: '',
   [ChainId.HECOTESTNET]: 'testnet.',
-  1: '',
-  4: '',
-  137: '',
-  80001: '',
+  [ChainId.ETHER_MAINNET]: '',
+  [ChainId.ETHER_TESTNET]: 'testnet.',
+  [ChainId.MATIC_MAINNET]: '',
+  [ChainId.MATIC_TESTNET]: 'testnet.',
 }
 
 const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'bscscan.com',
-  [ChainId.BSCTESTNET]: 'bscscan.com',
+  [ChainId.BSCTESTNET]: 'testnet.bscscan.com',
   [ChainId.HECOMAINNET]: 'hecoinfo.com',
-  [ChainId.HECOTESTNET]: 'hecoinfo.com',
-  1: '',
-  4: '',
-  137: '',
-  80001: '',
+  [ChainId.HECOTESTNET]: 'testnet.hecoinfo.com',
+  [ChainId.ETHER_MAINNET]: 'etherscan.io',
+  [ChainId.ETHER_TESTNET]: 'rinkeby.etherscan.io',
+  [ChainId.MATIC_MAINNET]: 'polygonscan.com',
+  [ChainId.MATIC_TESTNET]: 'mumbai.polygonscan.com',
 }
 
 const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'BscScan',
-  [ChainId.BSCTESTNET]: 'BscScan',
+  [ChainId.BSCTESTNET]: 'BscScan Testnet',
   [ChainId.HECOMAINNET]: 'HecoScan',
-  [ChainId.HECOTESTNET]: 'HecoScan',
-  1: '',
-  4: '',
-  137: '',
-  80001: '',
+  [ChainId.HECOTESTNET]: 'HecoScan Testnet',
+  [ChainId.ETHER_MAINNET]: 'Etherscan',
+  [ChainId.ETHER_TESTNET]: 'Etherscan Rinkeby Testnet',
+  [ChainId.MATIC_MAINNET]: 'PolygonScan',
+  [ChainId.MATIC_TESTNET]: 'PolygonScan Mumbai Testnet',
 }
 
 export const getExplorerName = (chainId: ChainId) => {

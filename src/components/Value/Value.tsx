@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import CountUp from 'react-countup';
-
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react'
+import CountUp from 'react-countup'
+import styled from 'styled-components'
 
 interface ValueProps {
   value: string | number
@@ -10,15 +9,15 @@ interface ValueProps {
 }
 
 const Value: React.FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => {
-  const [start, updateStart] = useState(0);
-  const [end, updateEnd] = useState(0);
+  const [start, updateStart] = useState(0)
+  const [end, updateEnd] = useState(0)
 
   useEffect(() => {
     if (typeof value === 'number') {
-      updateStart(end);
-      updateEnd(value);
+      updateStart(end)
+      updateEnd(value)
     }
-  }, [value]);
+  }, [value])
 
   return (
     <StyledValue style={{ fontSize }}>
@@ -37,14 +36,14 @@ const Value: React.FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => 
         />
       )}
     </StyledValue>
-  );
-};
+  )
+}
 
 const StyledValue = styled.div`
   font-family: 'Roboto Mono', monospace;
   color: ${(props) => props.theme.colors.primary};
   font-size: 30px;
   font-weight: 900;
-`;
+`
 
-export default Value;
+export default Value

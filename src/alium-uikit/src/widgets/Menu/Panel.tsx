@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { SIDEBAR_WIDTH_FULL, SIDEBAR_WIDTH_REDUCED } from './config'
 import PanelBody from './PanelBody'
 import PanelFooter from './PanelFooter'
-import { SIDEBAR_WIDTH_REDUCED, SIDEBAR_WIDTH_FULL } from './config'
 import { PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {

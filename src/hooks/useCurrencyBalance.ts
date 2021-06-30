@@ -8,7 +8,7 @@ const useCurrencyBalance: any = (account: string, web3: Web3) => {
   const _web3 = web3 ?? web3NoAccount
   useEffect(() => {
     if (!account) return
-    (async () => {
+    ;(async () => {
       const resBalance = await _web3.eth.getBalance(account)
       const currencyBalance = CurrencyAmount.ether(JSBI.BigInt(resBalance.toString()))
       setBalance(currencyBalance)

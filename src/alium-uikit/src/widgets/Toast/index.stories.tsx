@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
 import { sample } from 'lodash'
+import React, { useState } from 'react'
 import { alertVariants } from '../../components/Alert'
 import Button from '../../components/Button/Button'
-import ToastContainer from './ToastContainer'
 import { getMainDomain } from '../../util'
+import ToastContainer from './ToastContainer'
 
 export default {
   title: 'Widgets/Toast',

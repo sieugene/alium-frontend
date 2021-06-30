@@ -1,8 +1,8 @@
-import { Button, ButtonProps, useWalletModal } from 'alium-uikit/src';
-import useAuth from 'hooks/useAuth';
-import React from 'react';
-import { useTranslation } from 'next-i18next';
-import styled from 'styled-components';
+import { Button, ButtonProps, useWalletModal } from 'alium-uikit/src'
+import useAuth from 'hooks/useAuth'
+import { useTranslation } from 'next-i18next'
+import React from 'react'
+import styled from 'styled-components'
 
 const StyledButtonUnlockWallet = styled.div`
   > button {
@@ -14,12 +14,12 @@ const StyledButtonUnlockWallet = styled.div`
       width: 100%;
     }
   }
-`;
+`
 
 const UnlockButton: React.FC<ButtonProps> = (props) => {
-  const { t } = useTranslation();
-  const { login, logout } = useAuth();
-  const { onPresentConnectModal } = useWalletModal(login, logout);
+  const { t } = useTranslation()
+  const { login, logout } = useAuth()
+  const { onPresentConnectModal } = useWalletModal(login, logout)
 
   return (
     <StyledButtonUnlockWallet>
@@ -27,7 +27,7 @@ const UnlockButton: React.FC<ButtonProps> = (props) => {
         {t('unlockWallet')}
       </Button>
     </StyledButtonUnlockWallet>
-  );
-};
+  )
+}
 
-export default UnlockButton;
+export default UnlockButton

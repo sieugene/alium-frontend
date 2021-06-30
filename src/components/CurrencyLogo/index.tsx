@@ -1,5 +1,6 @@
 import { ChainId, Currency, ETHER, Token } from '@alium-official/sdk'
 import { getChainId } from 'alium-uikit/src'
+import PolygonMaticLogo from 'assets/images/polygon-matic-logo.png'
 import { useActiveWeb3React } from 'hooks'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
@@ -11,15 +12,15 @@ import Logo from '../Logo'
 const HTlogo = '/images/heco-logo.png'
 const BNBLogo = '/images/binance-logo.png'
 
-const BaseLogo: { [chainId in ChainId]: string } = {
+const BaseLogo: { [chainId in ChainId]: any } = {
   [ChainId.MAINNET]: BNBLogo,
   [ChainId.BSCTESTNET]: BNBLogo,
   [ChainId.HECOMAINNET]: HTlogo,
   [ChainId.HECOTESTNET]: HTlogo,
-  1: '',
-  4: '',
-  137: '',
-  80001: '',
+  [ChainId.ETHER_MAINNET]: HTlogo,
+  [ChainId.ETHER_TESTNET]: HTlogo,
+  [ChainId.MATIC_MAINNET]: PolygonMaticLogo,
+  [ChainId.MATIC_TESTNET]: PolygonMaticLogo,
 }
 
 const getTokenLogoURL = (address: string) =>
@@ -66,6 +67,10 @@ export default function CurrencyLogo({
     }
     return []
   }, [currency, uriLocations])
+
+  if (currency?.symbol === 'BNB') {
+    return <StyledEthereumLogo src={BNBLogo} size={size} style={style} />
+  }
 
   if (currency === ETHER) {
     return <StyledEthereumLogo src={chainId && BaseLogo[chainId]} size={size} style={style} />

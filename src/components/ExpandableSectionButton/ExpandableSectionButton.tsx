@@ -1,6 +1,6 @@
-import { ChevronDownIcon, ChevronUpIcon, Text } from 'alium-uikit/src';
-import React from 'react';
-import styled from 'styled-components';
+import { ChevronDownIcon, ChevronUpIcon, Text } from 'alium-uikit/src'
+import React from 'react'
+import styled from 'styled-components'
 
 export interface ExpandableSectionButtonProps {
   onClick?: () => void
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   svg {
     fill: ${({ theme }) => theme.colors.primary};
   }
-`;
+`
 
 const ExpandableSectionButton: React.FC<ExpandableSectionButtonProps> = ({ onClick, expanded }) => {
   return (
@@ -26,11 +26,11 @@ const ExpandableSectionButton: React.FC<ExpandableSectionButtonProps> = ({ onCli
       </Text>
       {expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
     </Wrapper>
-  );
-};
+  )
+}
 
 ExpandableSectionButton.defaultProps = {
   expanded: false,
-};
+}
 
-export default ExpandableSectionButton;
+export default ExpandableSectionButton

@@ -1,6 +1,9 @@
 import { Contract } from '@ethersproject/contracts'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
+import { useSingleContractMultipleData } from '../state/multicall/hooks'
+import { useTransactionAdder } from '../state/transactions/hooks'
+import { getContract } from '../utils'
 import {
   AliumVestingAbi,
   NFTPrivateExchangerAbi,
@@ -11,9 +14,6 @@ import {
 } from '../views/InvestorsAccount/constants'
 import { cardListPrivate, cardListPublic, cardListStrategical } from '../views/InvestorsAccount/constants/cards'
 import pools, { PoolsTypes } from '../views/InvestorsAccount/constants/pools'
-import { useSingleContractMultipleData } from '../state/multicall/hooks'
-import { useTransactionAdder } from '../state/transactions/hooks'
-import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 
 export default function useNftPool() {

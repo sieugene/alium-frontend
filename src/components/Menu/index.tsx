@@ -1,19 +1,19 @@
-import { ChainId, ETHER } from '@alium-official/sdk';
-import { useWeb3React } from '@web3-react/core';
-import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uikit/src';
-import ConnectionPending from 'components/ConnectionPending/ConnectionPending';
-import { useActiveWeb3React } from 'hooks';
-import useAuth from 'hooks/useAuth';
-import useTheme from 'hooks/useTheme';
-import { useTranslation } from 'next-i18next';
-import React from 'react';
-import { ROUTES } from 'routes';
-import { useCurrencyBalance } from 'state/wallet/hooks';
-import { getExplorerLink, getExplorerName } from 'utils';
-import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal';
+import { ChainId, ETHER } from '@alium-official/sdk'
+import { useWeb3React } from '@web3-react/core'
+import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uikit/src'
+import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
+import { useActiveWeb3React } from 'hooks'
+import useAuth from 'hooks/useAuth'
+import useTheme from 'hooks/useTheme'
+import { useTranslation } from 'next-i18next'
+import React from 'react'
+import { ROUTES } from 'routes'
+import { useCurrencyBalance } from 'state/wallet/hooks'
+import { getExplorerLink, getExplorerName } from 'utils'
+import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
 const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const links: MenuEntry[] = [
     {
@@ -51,15 +51,15 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         { label: t('mainMenu.blog'), href: externalLinks.medium },
       ],
     },
-  ];
+  ]
 
-  const { account } = useWeb3React();
-  const { chainId } = useActiveWeb3React();
-  const { login, logout } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
-  const balance = useCurrencyBalance(account as string, ETHER);
-  const explorerName = getExplorerName(chainId as ChainId);
-  const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address');
+  const { account } = useWeb3React()
+  const { chainId } = useActiveWeb3React()
+  const { login, logout } = useAuth()
+  const { isDark, toggleTheme } = useTheme()
+  const balance = useCurrencyBalance(account as string, ETHER)
+  const explorerName = getExplorerName(chainId as ChainId)
+  const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
   // const useBalance = async () => {
   //   const result = await useCurrencyBalance(account as string, ETHER)
   //   return result
@@ -67,7 +67,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
 
   // useBalance().then((result)=>console.log(result))
 
-  const [transactionsHistoryModal] = useModal(<RecentTransactionsModal />);
+  const [transactionsHistoryModal] = useModal(<RecentTransactionsModal />)
 
   return (
     <>
@@ -99,7 +99,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         {...props}
       />
     </>
-  );
-};
+  )
+}
 
-export default Menu;
+export default Menu

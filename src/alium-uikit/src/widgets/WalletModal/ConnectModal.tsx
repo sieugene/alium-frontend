@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
+import { isMobile } from 'react-device-detect'
 import styled from 'styled-components'
+import Flex from '../../components/Flex/Flex'
 import { Link } from '../../components/Link'
 import { HelpIcon } from '../../components/Svg'
-import { Modal } from '../Modal'
-import WalletCard from './WalletCard'
-import { wallets, networks } from './config'
-import { Login } from './types'
-import Flex from '../../components/Flex/Flex'
 import Text from '../../components/Text/Text'
-import NetworkSelector from './NetworkSelector'
 import getChainId from '../../util/chainId/getChainId'
-import { setChainId } from '../../util'
-import { isMobile } from 'react-device-detect'
+import { Modal } from '../Modal'
+import { networks, wallets } from './config'
+import NetworkSelector from './NetworkSelector'
+import { Login } from './types'
+import WalletCard from './WalletCard'
 
 interface Props {
   login: Login
@@ -72,15 +71,11 @@ const StyledWalletFlex = styled(StyledFlex)`
   }
 `
 
-const ConnectModal: React.FC<Props> = ({
-  login,
-  onDismiss = () => null,
-  title = 'Connect to a wallet',
-}) => {
+const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, title = 'Connect to a wallet' }) => {
   const id = getChainId()
 
   const [selectedNetwork, setSelectedNetwork] = useState(
-    id === 256 || id === 128 ? networks[1].title : networks[0].title
+    id === 256 || id === 128 ? networks[1].title : networks[0].title,
   )
   const [selectedWallet, setSelectedWallet] = useState('')
 

@@ -1,10 +1,11 @@
-import React from 'react'
 import noop from 'lodash/noop'
+import React from 'react'
 import { renderWithTheme } from '../../testHelpers'
-import ConnectModal from '../../widgets/WalletModal/ConnectModal'
 import AccountModal from '../../widgets/WalletModal/AccountModal'
+import ConnectModal from '../../widgets/WalletModal/ConnectModal'
 
 it('renders ConnectModal correctly', () => {
+  // @ts-ignore
   const { asFragment } = renderWithTheme(<ConnectModal login={noop} />)
   expect(asFragment()).toMatchInlineSnapshot(`
     <DocumentFragment>
@@ -421,7 +422,7 @@ it('renders ConnectModal correctly', () => {
 
 it('renders AccountModal correctly', () => {
   const { asFragment } = renderWithTheme(
-    <AccountModal account="0xb218C5D6aF1F979aC42BC68d98A5A0D796C6aB01" logout={noop} />
+    <AccountModal account="0xb218C5D6aF1F979aC42BC68d98A5A0D796C6aB01" logout={noop} />,
   )
   expect(asFragment()).toMatchInlineSnapshot(`
     <DocumentFragment>

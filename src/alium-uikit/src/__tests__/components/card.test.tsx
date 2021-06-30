@@ -1,6 +1,6 @@
 import React from 'react'
+import { Card, CardBody, CardFooter, CardHeader } from '../../components/Card'
 import { renderWithTheme } from '../../testHelpers'
-import { Card, CardBody, CardHeader, CardFooter } from '../../components/Card'
 
 it('renders correctly', () => {
   const { asFragment } = renderWithTheme(
@@ -8,7 +8,7 @@ it('renders correctly', () => {
       <CardHeader>Header</CardHeader>
       <CardBody>Body</CardBody>
       <CardFooter>Footer</CardFooter>
-    </Card>
+    </Card>,
   )
   expect(asFragment()).toMatchInlineSnapshot(`
     <DocumentFragment>

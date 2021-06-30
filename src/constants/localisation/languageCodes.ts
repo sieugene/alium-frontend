@@ -57,5 +57,5 @@ export const allLanguages = [
   TA,
   TR,
   UK,
-  VI
+  VI,
 ]

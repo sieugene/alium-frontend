@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderWithTheme } from '../../testHelpers'
 import Skeleton from '../../components/Skeleton/Skeleton'
+import { renderWithTheme } from '../../testHelpers'
 
 it('renders correctly', () => {
   const { asFragment } = renderWithTheme(<Skeleton />)

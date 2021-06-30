@@ -1,26 +1,26 @@
-import { CloseIcon, Heading, IconButton } from 'alium-uikit/src';
-import React, { ReactNode } from 'react';
-import styled from 'styled-components';
-import { AutoColumn, ColumnCenter } from '../Column';
+import { CloseIcon, Heading, IconButton } from 'alium-uikit/src'
+import React, { ReactNode } from 'react'
+import styled from 'styled-components'
+import { AutoColumn, ColumnCenter } from '../Column'
 
 export const Wrapper = styled.div`
   width: 100%;
   overflow-y: hidden;
   max-height: 100vh;
-`;
+`
 export const Section = styled(AutoColumn)`
   padding: 24px;
-`;
+`
 
 export const ConfirmedIcon = styled(ColumnCenter)`
   padding: 40px 0;
-`;
+`
 
 export const BottomSection = styled(Section)`
   background-color: ${({ theme }) => theme.colors.invertedContrast};
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-`;
+`
 
 /**
  * TODO: Remove this when modal system from the UI Kit is implemented
@@ -38,7 +38,7 @@ const StyledContentHeader = styled.div`
     letter-spacing: -0.3px;
     font-weight: 500;
   }
-`;
+`
 
 const StyledIcon = styled.div<{ margin?: number }>`
   border: 1px solid #d2d6e5;
@@ -48,7 +48,7 @@ const StyledIcon = styled.div<{ margin?: number }>`
     width: 40px;
     height: 40px;
   }
-`;
+`
 
 type ContentHeaderProps = {
   children: ReactNode
@@ -64,4 +64,4 @@ export const ContentHeader = ({ children, onDismiss }: ContentHeaderProps) => (
       </IconButton>
     </StyledIcon>
   </StyledContentHeader>
-);
+)

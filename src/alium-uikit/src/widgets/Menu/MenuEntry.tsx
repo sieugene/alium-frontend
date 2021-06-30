@@ -1,4 +1,4 @@
-import styled, { keyframes, DefaultTheme } from 'styled-components'
+import styled, { DefaultTheme, keyframes } from 'styled-components'
 import { MENU_ENTRY_HEIGHT } from './config'
 
 export interface Props {

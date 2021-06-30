@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
-import Text from '../../components/Text/Text'
-import { Login, WalletsConfig } from './types'
+import ConnectionLoad from '../../components/ConnectionLoad'
 import Flex from '../../components/Flex/Flex'
 import { CheckmarkCircleIcon } from '../../components/Svg'
+import Text from '../../components/Text/Text'
 import setConnectorId from '../../util/connectorId/setConnectorId'
-import ConnectionLoad from '../../components/ConnectionLoad'
+import { Login, WalletsConfig } from './types'
 
 interface Props {
   walletConfig: WalletsConfig

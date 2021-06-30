@@ -1,8 +1,7 @@
-import React from 'react'
 import noop from 'lodash/noop'
-import { BrowserRouter } from 'react-router-dom'
+import React from 'react'
 import { renderWithTheme } from '../../testHelpers'
-import { Menu, menuConfig, LangType } from '../../widgets/Menu'
+import { Menu, menuConfig } from '../../widgets/Menu'
 
 /**
  * @see https://jestjs.io/docs/en/manual-mocks
@@ -23,18 +22,17 @@ Object.defineProperty(window, 'matchMedia', {
 
 it('renders correctly', () => {
   const { asFragment } = renderWithTheme(
-    <BrowserRouter>
-      <Menu
-        account="0xbdda50183d817c3289f895a4472eb475967dc980"
-        login={noop}
-        logout={noop}
-        isDark={false}
-        toggleTheme={noop}
-        links={menuConfig}
-      >
-        body
-      </Menu>
-    </BrowserRouter>
+    <Menu
+      account="0xbdda50183d817c3289f895a4472eb475967dc980"
+      // @ts-ignore
+      login={noop}
+      logout={noop}
+      isDark={false}
+      toggleTheme={noop}
+      links={menuConfig}
+    >
+      body
+    </Menu>,
   )
 
   expect(asFragment()).toMatchInlineSnapshot(`

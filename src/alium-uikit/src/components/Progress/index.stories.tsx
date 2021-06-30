@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import random from 'lodash/random'
+import React, { useState } from 'react'
 import Button from '../Button/Button'
 import Progress from './Progress'
 

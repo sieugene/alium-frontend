@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CheckmarkCircleIcon } from '../../components/Svg'
-import Flex from '../../components/Flex/Flex'
-import Text from '../../components/Text/Text'
 import Button from '../../components/Button/Button'
-import { NetworksConfig } from './types'
+import Flex from '../../components/Flex/Flex'
+import { CheckmarkCircleIcon } from '../../components/Svg'
+import Text from '../../components/Text/Text'
 import { setChainId } from '../../util'
+import { NetworksConfig } from './types'
 
 const StyledNetworkSelector = styled(Button)`
   position: relative;

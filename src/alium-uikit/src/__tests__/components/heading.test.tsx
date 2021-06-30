@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderWithTheme } from '../../testHelpers'
 import Heading from '../../components/Heading/Heading'
+import { renderWithTheme } from '../../testHelpers'
 
 it('renders correctly', () => {
   const { asFragment } = renderWithTheme(<Heading>Title</Heading>)

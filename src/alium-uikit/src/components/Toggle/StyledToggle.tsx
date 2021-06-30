@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { scales } from '../Checkbox/types'
-import { ToggleProps, HandleProps, InputProps, ScaleKeys } from './types'
+import { HandleProps, InputProps, ScaleKeys, ToggleProps } from './types'
 
 const scaleKeyValues = {
   sm: {
@@ -23,9 +23,11 @@ const scaleKeyValues = {
   },
 }
 
-const getScale = (property: ScaleKeys) => ({ scale = scales.MD }: ToggleProps) => {
-  return scaleKeyValues[scale][property]
-}
+const getScale =
+  (property: ScaleKeys) =>
+  ({ scale = scales.MD }: ToggleProps) => {
+    return scaleKeyValues[scale][property]
+  }
 
 export const Handle = styled.div<HandleProps>`
   background-color: ${({ theme }) => theme.toggle.handleBackground};

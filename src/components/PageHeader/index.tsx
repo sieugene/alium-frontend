@@ -1,9 +1,9 @@
-import { Flex, Heading, IconButton, Text, useModal } from 'alium-uikit/src';
-import React, { ReactNode } from 'react';
-import { useTranslation } from 'next-i18next';
-import styled, { useTheme } from 'styled-components';
-import RecentTransactionsModal from './RecentTransactionsModal';
-import SettingsModal from './SettingsModal';
+import { Flex, Heading, IconButton, Text, useModal } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
+import React, { ReactNode } from 'react'
+import styled, { useTheme } from 'styled-components'
+import RecentTransactionsModal from './RecentTransactionsModal'
+import SettingsModal from './SettingsModal'
 
 interface PageHeaderProps {
   title: ReactNode
@@ -26,7 +26,7 @@ const CogIcon = () => (
       strokeWidth="1.5"
     />
   </svg>
-);
+)
 
 const HistoryIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +36,7 @@ const HistoryIcon = () => (
       fill="#8990A5"
     />
   </svg>
-);
+)
 
 const StyledIcon = styled.div<{ margin?: number }>`
   border: 1px solid #d2d6e5;
@@ -47,7 +47,7 @@ const StyledIcon = styled.div<{ margin?: number }>`
     width: 40px;
     height: 40px;
   }
-`;
+`
 
 const StyledPageHeader = styled.div`
   border-bottom: 1px solid #f4f5fa;
@@ -60,18 +60,18 @@ const StyledPageHeader = styled.div`
   @media screen and (max-width: 376px) {
     padding: 20px 16px;
   }
-`;
+`
 
 const Details = styled.div`
   flex: 1;
-`;
+`
 
 const PageHeader = ({ title, description, children }: PageHeaderProps) => {
-  const theme = useTheme() as any;
-  const { t } = useTranslation();
+  const theme = useTheme() as any
+  const { t } = useTranslation()
 
-  const [onPresentSettings] = useModal(<SettingsModal />);
-  const [onPresentRecentTransactions] = useModal(<RecentTransactionsModal />);
+  const [onPresentSettings] = useModal(<SettingsModal />)
+  const [onPresentRecentTransactions] = useModal(<RecentTransactionsModal />)
 
   return (
     <StyledPageHeader>
@@ -97,7 +97,7 @@ const PageHeader = ({ title, description, children }: PageHeaderProps) => {
       </Flex>
       {children && <Text mt="16px">{children}</Text>}
     </StyledPageHeader>
-  );
-};
+  )
+}
 
-export default PageHeader;
+export default PageHeader

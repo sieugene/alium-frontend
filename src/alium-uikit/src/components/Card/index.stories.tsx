@@ -1,13 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
 /* eslint-disable import/no-unresolved */
 import { Meta } from '@storybook/react/types-6-0'
+import React from 'react'
+import styled from 'styled-components'
 import Heading from '../Heading/Heading'
-import CardRibbon from './CardRibbon'
-import UIKitCardHeader from './CardHeader'
+import Card from './Card'
 import CardBody from './CardBody'
 import CardFooter from './CardFooter'
-import Card from './Card'
+import UIKitCardHeader from './CardHeader'
+import CardRibbon from './CardRibbon'
 
 const Row = styled.div`
   margin-bottom: 32px;

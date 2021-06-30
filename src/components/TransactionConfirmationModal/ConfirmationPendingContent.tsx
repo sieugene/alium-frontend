@@ -1,17 +1,17 @@
-import { Spinner, Text } from 'alium-uikit/src';
-import React from 'react';
-import styled from 'styled-components';
-import { AutoColumn } from '../Column';
-import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers';
+import { Spinner, Text } from 'alium-uikit/src'
+import React from 'react'
+import styled from 'styled-components'
+import { AutoColumn } from '../Column'
+import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'
 
-const Circle = '/images/blue-loader.svg';
+const Circle = '/images/blue-loader.svg'
 
 type ConfirmationPendingContentProps = { onDismiss: () => void; pendingText: string }
 
 const CustomLightSpinner = styled<any>(Spinner)<{ size: string }>`
   height: ${({ size }) => size};
   width: ${({ size }) => size};
-`;
+`
 
 const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPendingContentProps) => {
   return (
@@ -31,7 +31,7 @@ const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPend
         </AutoColumn>
       </Section>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default ConfirmationPendingContent;
+export default ConfirmationPendingContent

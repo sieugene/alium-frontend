@@ -1,18 +1,18 @@
-import { Trade, TradeType } from '@alium-official/sdk';
-import { Button, SwapIcon, Text } from 'alium-uikit/src';
-import React, { useMemo, useState } from 'react';
-import { Field } from '../../state/swap/actions';
+import { Trade, TradeType } from '@alium-official/sdk'
+import { Button, SwapIcon, Text } from 'alium-uikit/src'
+import React, { useMemo, useState } from 'react'
+import { Field } from '../../state/swap/actions'
 import {
   computeSlippageAdjustedAmounts,
   computeTradePriceBreakdown,
   formatExecutionPrice,
   warningSeverity,
-} from '../../utils/prices';
-import { AutoColumn } from '../Column';
-import QuestionHelper from '../QuestionHelper';
-import { AutoRow, RowBetween, RowFixed } from '../Row';
-import FormattedPriceImpact from './FormattedPriceImpact';
-import { SwapCallbackError } from './styleds';
+} from '../../utils/prices'
+import { AutoColumn } from '../Column'
+import QuestionHelper from '../QuestionHelper'
+import { AutoRow, RowBetween, RowFixed } from '../Row'
+import FormattedPriceImpact from './FormattedPriceImpact'
+import { SwapCallbackError } from './styleds'
 
 export default function SwapModalFooter({
   trade,
@@ -27,13 +27,13 @@ export default function SwapModalFooter({
   swapErrorMessage: string | undefined
   disabledConfirm: boolean
 }) {
-  const [showInverted, setShowInverted] = useState<boolean>(false);
+  const [showInverted, setShowInverted] = useState<boolean>(false)
   const slippageAdjustedAmounts = useMemo(
     () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
     [allowedSlippage, trade],
-  );
-  const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade]);
-  const severity = warningSeverity(priceImpactWithoutFee);
+  )
+  const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
+  const severity = warningSeverity(priceImpactWithoutFee)
 
   return (
     <>
@@ -117,5 +117,5 @@ export default function SwapModalFooter({
         {swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
       </AutoRow>
     </>
-  );
+  )
 }

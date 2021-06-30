@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
 /* eslint-disable import/no-unresolved */
 import { Meta } from '@storybook/react/types-6-0'
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { getMainDomain } from '../../util'
 import ButtonMenu from './ButtonMenu'
 import ButtonMenuItem from './ButtonMenuItem'
-import { getMainDomain } from '../../util'
 
 const Row = styled.div`
   margin-bottom: 32px;

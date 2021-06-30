@@ -1,8 +1,8 @@
-import { Percent } from '@alium-official/sdk';
-import { Text } from 'alium-uikit/src';
-import { ONE_BIPS } from 'config/settings';
-import React from 'react';
-import styled from 'styled-components';
+import { Percent } from '@alium-official/sdk'
+import { Text } from 'alium-uikit/src'
+import { ONE_BIPS } from 'config/settings'
+import React from 'react'
+import styled from 'styled-components'
 /**
  * Formatted version of price impact text with warning colors
  */
@@ -11,7 +11,7 @@ const StyledText = styled(Text)`
   @media screen and (max-width: 530px) {
     font-size: 11px;
   }
-`;
+`
 
 export default function FormattedPriceImpact({ priceImpact }: { priceImpact?: Percent }) {
   return (
@@ -22,5 +22,5 @@ export default function FormattedPriceImpact({ priceImpact }: { priceImpact?: Pe
     >
       {priceImpact ? (priceImpact.lessThan(ONE_BIPS) ? '<0.01%' : `${priceImpact.toFixed(2)}%`) : '-'}
     </StyledText>
-  );
+  )
 }

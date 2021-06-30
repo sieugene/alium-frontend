@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
-import { useTable, ColumnType } from './index'
-import { data, columns } from './example/const'
+import { columns, data } from './example/const'
 import StyledTh from './example/header'
+import { ColumnType, useTable } from './index'
 import { DataType } from './types'
 
 const Table = <T extends DataType>({ _columns, _data }: { _columns: ColumnType<T>[]; _data: T[] }) => {

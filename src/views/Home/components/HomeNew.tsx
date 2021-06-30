@@ -1,7 +1,7 @@
 import { useModal } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
 import { motion } from 'framer-motion'
-import React,{ FC,useState } from 'react'
+import React, { FC, useState } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { dbMailListCreateEmail } from 'utils/firebase'

@@ -1,18 +1,16 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { animated, useTransition } from 'react-spring';
-import { DialogOverlay, DialogContent } from '@reach/dialog';
-import { isMobile } from 'react-device-detect';
-import '@reach/dialog/styles.css';
-import { transparentize } from 'polished';
-import { useActiveWeb3React } from 'hooks';
+import { DialogContent, DialogOverlay } from '@reach/dialog'
+import '@reach/dialog/styles.css'
+import { useActiveWeb3React } from 'hooks'
+import { transparentize } from 'polished'
+import React from 'react'
+import { isMobile } from 'react-device-detect'
+import { animated, useTransition } from 'react-spring'
+import styled, { css } from 'styled-components'
 
-const AnimatedDialogOverlay = animated(DialogOverlay);
+const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-const StyledDialogOverlay = styled(({ ...rest }) => (
-  <AnimatedDialogOverlay {...rest} />
-))`
+const StyledDialogOverlay = styled(({ ...rest }) => <AnimatedDialogOverlay {...rest} />)`
   &[data-reach-dialog-overlay] {
     z-index: 2;
     background-color: transparent;
@@ -22,15 +20,18 @@ const StyledDialogOverlay = styled(({ ...rest }) => (
     align-items: center;
     justify-content: center;
 
-   
     ${({ isTransparancy }) =>
-      isTransparancy ?
-      css`background-color: rgba(11, 19, 89, 0.9);` :
-      css`background-color: rgba(11, 19, 89, 1); `}
+      isTransparancy
+        ? css`
+            background-color: rgba(11, 19, 89, 0.9);
+          `
+        : css`
+            background-color: rgba(11, 19, 89, 1);
+          `}
   }
-`;
+`
 
-const AnimatedDialogContent = animated(DialogContent);
+const AnimatedDialogContent = animated(DialogContent)
 // destructure to not pass custom props to Dialog DOM element
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogContent = styled(({ minHeight, maxHeight, padding, mobile, isOpen, ...rest }) => (
@@ -40,7 +41,8 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, padding, mobile, isO
 })`
   &[data-reach-dialog-overlay] {
     background-color: rgb(11, 19, 89, 0.9);
-  },
+  }
+  ,
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
     // border: 1px solid ${({ theme }) => theme.colors.invertedContrast};/
@@ -49,7 +51,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, padding, mobile, isO
     width: 80%;
     overflow: hidden;
     padding: 50px;
-    
+
     @media screen and (max-width: 433px) {
       padding: 45px 20px;
     }
@@ -88,7 +90,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, padding, mobile, isO
       width: 90vw;
     }
   }
-`;
+`
 
 interface ModalProps {
   isOpen: boolean
@@ -97,8 +99,8 @@ interface ModalProps {
   maxHeight?: number
   padding?: number | string
   initialFocusRef?: React.RefObject<any>
-  children?: React.ReactNode,
-  isTransparancy?: boolean;
+  children?: React.ReactNode
+  isTransparancy?: boolean
 }
 
 export default function Modal({
@@ -108,23 +110,31 @@ export default function Modal({
   maxHeight = 50,
   padding,
   initialFocusRef,
-  children, isTransparancy
+  children,
+  isTransparancy,
 }: ModalProps) {
   const fadeTransition = useTransition(isOpen, null, {
     config: { duration: 200 },
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
-  });
+  })
 
-  const { account } = useActiveWeb3React();
+  const { account } = useActiveWeb3React()
 
   return (
     <>
       {fadeTransition.map(
         ({ item, key, props }) =>
           item && (
-            <StyledDialogOverlay key={key} style={props} onDismiss={onDismiss} initialFocusRef={initialFocusRef} isLogged={account} isTransparancy={isTransparancy}>
+            <StyledDialogOverlay
+              key={key}
+              style={props}
+              onDismiss={onDismiss}
+              initialFocusRef={initialFocusRef}
+              isLogged={account}
+              isTransparancy={isTransparancy}
+            >
               <StyledDialogContent
                 aria-label="dialog content"
                 minHeight={minHeight}
@@ -140,8 +150,8 @@ export default function Modal({
                 {children}
               </StyledDialogContent>
             </StyledDialogOverlay>
-          )
+          ),
       )}
     </>
-  );
+  )
 }

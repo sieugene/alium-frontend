@@ -3,10 +3,10 @@ import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants'
-
 import { useActiveWeb3React } from '../../hooks'
 // eslint-disable-next-line import/no-cycle
 import { useAllTokens } from '../../hooks/Tokens'
+import { setThemeCache } from '../../utils/theme'
 import { AppDispatch, AppState } from '../index'
 import {
   addSerializedPair,
@@ -19,7 +19,6 @@ import {
   updateUserExpertMode,
   updateUserSlippageTolerance,
 } from './actions'
-import { setThemeCache } from '../../utils/theme'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -37,7 +36,7 @@ function deserializeToken(serializedToken: SerializedToken): Token {
     serializedToken.address,
     serializedToken.decimals,
     serializedToken.symbol,
-    serializedToken.name
+    serializedToken.name,
   )
 }
 
@@ -51,7 +50,7 @@ export function useIsDarkMode(): boolean {
       userDarkMode,
       matchesDarkMode,
     }),
-    shallowEqual
+    shallowEqual,
   )
   return userDarkMode === null ? matchesDarkMode : userDarkMode
 }
@@ -63,7 +62,7 @@ export function useDarkModeManager(): [boolean, () => void] {
     ({ user: { userDarkMode } }) => ({
       userDarkMode,
     }),
-    shallowEqual
+    shallowEqual,
   )
   const darkMode = useIsDarkMode()
 
@@ -100,7 +99,7 @@ export function useUserSlippageTolerance(): [number, (slippage: number) => void]
     (slippageTolerance: number) => {
       dispatch(updateUserSlippageTolerance({ userSlippageTolerance: slippageTolerance }))
     },
-    [dispatch]
+    [dispatch],
   )
 
   return [userSlippageTolerance, setUserSlippageTolerance]
@@ -116,7 +115,7 @@ export function useUserDeadline(): [number, (slippage: number) => void] {
     (deadline: number) => {
       dispatch(updateUserDeadline({ userDeadline: deadline }))
     },
-    [dispatch]
+    [dispatch],
   )
 
   return [userDeadline, setUserDeadline]
@@ -128,7 +127,7 @@ export function useAddUserToken(): (token: Token) => void {
     (token: Token) => {
       dispatch(addSerializedToken({ serializedToken: serializeToken(token) }))
     },
-    [dispatch]
+    [dispatch],
   )
 }
 
@@ -138,7 +137,7 @@ export function useRemoveUserAddedToken(): (chainId: number, address: string) =>
     (chainId: number, address: string) => {
       dispatch(removeSerializedToken({ chainId, address }))
     },
-    [dispatch]
+    [dispatch],
   )
 }
 
@@ -166,7 +165,7 @@ export function usePairAdder(): (pair: Pair) => void {
     (pair: Pair) => {
       dispatch(addSerializedPair({ serializedPair: serializePair(pair) }))
     },
-    [dispatch]
+    [dispatch],
   )
 }
 
@@ -210,7 +209,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
             )
           })
         : [],
-    [tokens, chainId]
+    [tokens, chainId],
   )
 
   // pairs saved by users
@@ -226,11 +225,10 @@ export function useTrackedTokenPairs(): [Token, Token][] {
     })
   }, [savedSerializedPairs, chainId])
 
-  const combinedList = useMemo(() => userPairs.concat(generatedPairs).concat(pinnedPairs), [
-    generatedPairs,
-    pinnedPairs,
-    userPairs,
-  ])
+  const combinedList = useMemo(
+    () => userPairs.concat(generatedPairs).concat(pinnedPairs),
+    [generatedPairs, pinnedPairs, userPairs],
+  )
 
   return useMemo(() => {
     // dedupes pairs of tokens in the combined list

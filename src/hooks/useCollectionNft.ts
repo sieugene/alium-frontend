@@ -1,11 +1,16 @@
-import { useEffect, useMemo, useState } from 'react'
 import { Contract } from '@ethersproject/contracts'
-import { useActiveWeb3React } from './index'
+import { useEffect, useMemo, useState } from 'react'
+import { useSingleCallResult, useSingleContractMultipleData } from '../state/multicall/hooks'
 import { getContract } from '../utils'
 import { AliumCollectibleAbi, NFT_ALIUM_COLLECTIBLE_NFT } from '../views/InvestorsAccount/constants'
-import { useSingleCallResult, useSingleContractMultipleData } from '../state/multicall/hooks'
+import {
+  cardListPrivate,
+  cardListPublic,
+  cardListStrategical,
+  CardType,
+} from '../views/InvestorsAccount/constants/cards'
 import pools from '../views/InvestorsAccount/constants/pools'
-import { cardListPrivate, cardListPublic, cardListStrategical, CardType } from '../views/InvestorsAccount/constants/cards'
+import { useActiveWeb3React } from './index'
 
 export default function useCollectionNft() {
   const [collectibleContract, setCollectibleContract] = useState<Contract | null>(null)
@@ -42,12 +47,18 @@ export default function useCollectionNft() {
     return []
   }, [nftIndex, account])
 
-  const tokenOfOwnerResult = useSingleContractMultipleData(collectibleContract, 'tokenOfOwnerByIndex', tokenOfOwnerInputs)
+  const tokenOfOwnerResult = useSingleContractMultipleData(
+    collectibleContract,
+    'tokenOfOwnerByIndex',
+    tokenOfOwnerInputs,
+  )
 
   const tokensIds = useMemo(() => {
-    return tokenOfOwnerResult.map((result) => {
-      return result.result?.[0]?.toString()
-    }).filter((token) => token !== undefined)
+    return tokenOfOwnerResult
+      .map((result) => {
+        return result.result?.[0]?.toString()
+      })
+      .filter((token) => token !== undefined)
   }, [tokenOfOwnerResult])
 
   const tokenTypeInputs = useMemo(() => {
@@ -64,7 +75,7 @@ export default function useCollectionNft() {
     })
   }, [tokenTypeResults])
 
-  const tokenTypesWithTokenId: {[tokenType: string] : number[]} = useMemo(() => {
+  const tokenTypesWithTokenId: { [tokenType: string]: number[] } = useMemo(() => {
     const newObj = {}
     tokensTypes.forEach((tokenType: string, id) => {
       if (newObj[parseInt(tokenType)]) {
@@ -77,10 +88,10 @@ export default function useCollectionNft() {
   }, [tokensIds, tokensTypes])
 
   const poolsWithCards = useMemo(() => {
-    return  pools.map((pool) => {
+    return pools.map((pool) => {
       return {
         ...pool,
-        cards: tokenTypesWithTokenId[pool.id] || []
+        cards: tokenTypesWithTokenId[pool.id] || [],
       }
     })
   }, [tokenTypesWithTokenId])
@@ -89,7 +100,7 @@ export default function useCollectionNft() {
     return cardListPublic.map((card) => {
       return {
         ...card,
-        cardsCount: tokenTypesWithTokenId[card.id]?.length || 0
+        cardsCount: tokenTypesWithTokenId[card.id]?.length || 0,
       }
     })
   }, [tokenTypesWithTokenId])
@@ -98,7 +109,7 @@ export default function useCollectionNft() {
     return cardListStrategical.map((card) => {
       return {
         ...card,
-        cardsCount: tokenTypesWithTokenId[card.id]?.length || 0
+        cardsCount: tokenTypesWithTokenId[card.id]?.length || 0,
       }
     })
   }, [tokenTypesWithTokenId])
@@ -107,7 +118,7 @@ export default function useCollectionNft() {
     return cardListPrivate.map((card) => {
       return {
         ...card,
-        cardsCount: tokenTypesWithTokenId[card.id]?.length || 0
+        cardsCount: tokenTypesWithTokenId[card.id]?.length || 0,
       }
     })
   }, [tokenTypesWithTokenId])
@@ -117,6 +128,6 @@ export default function useCollectionNft() {
     privateCardsWithCount,
     publicCardsWithCount,
     strategicalCardsWithCount,
-    poolsWithCards
+    poolsWithCards,
   }
 }

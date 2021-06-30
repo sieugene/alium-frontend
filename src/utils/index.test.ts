@@ -1,14 +1,13 @@
+import { ChainId, JSBI, Percent, Token, TokenAmount } from '@alium-official/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
-import { TokenAmount, Token, ChainId, Percent, JSBI } from '@alium-official/sdk'
-
 import {
-  getExplorerLink,
+  basisPointsToPercent,
+  calculateGasMargin,
   calculateSlippageAmount,
+  getExplorerLink,
   isAddress,
   shortenAddress,
-  calculateGasMargin,
-  basisPointsToPercent,
 } from '.'
 
 describe('utils', () => {
@@ -29,7 +28,7 @@ describe('utils', () => {
       expect(getExplorerLink(3, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
     })
     it('enum', () => {
-      expect(getExplorerLink(ChainId.RINKEBY, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
+      expect(getExplorerLink(ChainId.ETHER_TESTNET, 'abc', 'address')).toEqual('https://bscscan.com/address/abc')
     })
   })
 
@@ -98,7 +97,7 @@ describe('utils', () => {
       expect(basisPointsToPercent(500).equalTo(new Percent(JSBI.BigInt(5), JSBI.BigInt(100)))).toBeTruthy()
       expect(basisPointsToPercent(50).equalTo(new Percent(JSBI.BigInt(5), JSBI.BigInt(1000)))).toBeTruthy()
       expect(
-        basisPointsToPercent(110.00000000000001).equalTo(new Percent(JSBI.BigInt(110), JSBI.BigInt(10000)))
+        basisPointsToPercent(110.00000000000001).equalTo(new Percent(JSBI.BigInt(110), JSBI.BigInt(10000))),
       ).toBeTruthy()
     })
   })

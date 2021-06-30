@@ -7,8 +7,8 @@ const Params = {
       chainId: `0x${ChainId.MAINNET.toString(16)}`,
       chainName: 'Binance Smart Chain Mainnet',
       nativeCurrency: {
-        name: 'BNB',
-        symbol: 'bnb',
+        name: 'Binance Coin',
+        symbol: 'BNB',
         decimals: 18,
       },
       rpcUrls: nodes[ChainId.MAINNET],
@@ -20,8 +20,8 @@ const Params = {
       chainId: `0x${ChainId.BSCTESTNET.toString(16)}`,
       chainName: 'Binance Smart Chain Testnet',
       nativeCurrency: {
-        name: 'BNB',
-        symbol: 'bnb',
+        name: 'Binance Coin',
+        symbol: 'BNB',
         decimals: 18,
       },
       rpcUrls: nodes[ChainId.BSCTESTNET],
@@ -33,8 +33,8 @@ const Params = {
       chainId: `0x${ChainId.HECOMAINNET.toString(16)}`,
       chainName: 'Heco Chain Mainnet',
       nativeCurrency: {
-        name: 'HT',
-        symbol: 'ht',
+        name: 'Huobi Token',
+        symbol: 'HT',
         decimals: 18,
       },
       rpcUrls: nodes[ChainId.HECOMAINNET],
@@ -46,12 +46,64 @@ const Params = {
       chainId: `0x${ChainId.HECOTESTNET.toString(16)}`,
       chainName: 'Heco Chain Testnet',
       nativeCurrency: {
-        name: 'HT',
-        symbol: 'ht',
+        name: 'Huobi Token',
+        symbol: 'HT',
         decimals: 18,
       },
       rpcUrls: nodes[ChainId.HECOTESTNET],
       blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
+    },
+  ],
+  [ChainId.MATIC_MAINNET]: [
+    {
+      chainId: `0x${ChainId.MATIC_MAINNET.toString(16)}`,
+      chainName: 'Polygon Matic Chain',
+      nativeCurrency: {
+        name: 'Polygon Matic',
+        symbol: 'MATIC',
+        decimals: 18,
+      },
+      rpcUrls: nodes[ChainId.MATIC_MAINNET],
+      blockExplorerUrls: ['https://polygonscan.com/'],
+    },
+  ],
+  [ChainId.MATIC_TESTNET]: [
+    {
+      chainId: `0x${ChainId.MATIC_TESTNET.toString(16)}`,
+      chainName: 'Polygon Matic Chain',
+      nativeCurrency: {
+        name: 'Polygon Matic',
+        symbol: 'MATIC',
+        decimals: 18,
+      },
+      rpcUrls: nodes[ChainId.MATIC_TESTNET],
+      blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+    },
+  ],
+  [ChainId.ETHER_MAINNET]: [
+    {
+      chainId: `0x${ChainId.ETHER_MAINNET.toString(16)}`,
+      chainName: 'Ethereum Chain',
+      nativeCurrency: {
+        name: 'Ethereum',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: nodes[ChainId.ETHER_MAINNET],
+      blockExplorerUrls: ['https://etherscan.io/'],
+    },
+  ],
+  [ChainId.ETHER_TESTNET]: [
+    {
+      chainId: `0x${ChainId.ETHER_TESTNET.toString(16)}`,
+      chainName: 'Ethereum Chain',
+      nativeCurrency: {
+        name: 'Ethereum',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: nodes[ChainId.ETHER_TESTNET],
+      blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
     },
   ],
 }
@@ -91,7 +143,7 @@ export const registerToken = async (
   tokenAddress: string,
   tokenSymbol: string,
   tokenDecimals: number,
-  tokenImage: string
+  tokenImage: string,
 ) => {
   const provider: any = (window as WindowChain).ethereum
   let tokenAdded: any

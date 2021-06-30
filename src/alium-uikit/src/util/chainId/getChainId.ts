@@ -1,6 +1,6 @@
 import Cookies from 'universal-cookie'
-import setChainId from './setChainId'
 import { chainIdCookieKey } from '../../config'
+import setChainId from './setChainId'
 
 const cookies = new Cookies()
 

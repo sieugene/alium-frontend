@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 import observerOptions from './options'
-import Wrapper from './Wrapper'
 import { ImageProps } from './types'
+import Wrapper from './Wrapper'
 
 const BackgroundImage: React.FC<ImageProps> = ({ src, ...otherProps }) => {
   const imgRef = useRef(null)
 
   useEffect(() => {
-    const img = (imgRef.current as unknown) as HTMLElement
+    const img = imgRef.current as unknown as HTMLElement
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const { isIntersecting } = entry

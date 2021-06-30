@@ -1,7 +1,7 @@
-import React, { cloneElement, Children, ReactElement } from 'react'
-import StyledButtonMenu from './StyledButtonMenu'
+import React, { Children, cloneElement, ReactElement } from 'react'
 import { sizes, variants } from '../Button/types'
-import { ButtonMenuProps, ButtonMenuItemProps } from './types'
+import StyledButtonMenu from './StyledButtonMenu'
+import { ButtonMenuItemProps, ButtonMenuProps } from './types'
 
 const ButtonMenu: React.FC<ButtonMenuProps> = ({
   activeIndex = 0,

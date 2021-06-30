@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from 'config/settings'
+import { DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from 'config/settings'
 import { updateVersion } from '../global/actions'
 import {
   addSerializedPair,
@@ -10,9 +10,9 @@ import {
   SerializedToken,
   updateMatchesDarkMode,
   updateUserDarkMode,
+  updateUserDeadline,
   updateUserExpertMode,
   updateUserSlippageTolerance,
-  updateUserDeadline,
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -128,5 +128,5 @@ export default createReducer(initialState, (builder) =>
         delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)]
       }
       state.timestamp = currentTimestamp()
-    })
+    }),
 )

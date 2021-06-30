@@ -1,5 +1,8 @@
 import { Contract } from '@ethersproject/contracts'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSingleCallResult } from '../state/multicall/hooks'
+import { useTransactionAdder } from '../state/transactions/hooks'
+import { getContract } from '../utils'
 import {
   AliumCollectibleAbi,
   NFTPrivateExchangerAbi,
@@ -8,9 +11,6 @@ import {
   NFT_EXCHANGER_PRIVATE,
   NFT_EXCHANGER_PUBLIC,
 } from '../views/InvestorsAccount/constants'
-import { useSingleCallResult } from '../state/multicall/hooks'
-import { useTransactionAdder } from '../state/transactions/hooks'
-import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import useCollectionNft from './useCollectionNft'
 
@@ -81,7 +81,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
       }
       return null
     },
-    [collectibleContract, account, addTransaction]
+    [collectibleContract, account, addTransaction],
   )
 
   if (account && ownerOfToken?.[0] !== account) {
@@ -110,7 +110,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
       }
       return null
     },
-    [account, addTransaction, privateExchangerContract, publicExchangerContract]
+    [account, addTransaction, privateExchangerContract, publicExchangerContract],
   )
 
   if (tokenType && parseInt(tokenType) !== cardId) {

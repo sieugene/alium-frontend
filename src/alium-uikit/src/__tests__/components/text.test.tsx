@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderWithTheme } from '../../testHelpers'
 import Text from '../../components/Text/Text'
+import { renderWithTheme } from '../../testHelpers'
 
 it('renders correctly', () => {
   const { asFragment } = renderWithTheme(<Text>Alium</Text>)

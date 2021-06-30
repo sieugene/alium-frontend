@@ -1,8 +1,8 @@
-import { CoinLogoIcon } from 'alium-uikit/src';
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { CoinLogoIcon } from 'alium-uikit/src'
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
-const BAD_SRCS: { [tokenAddress: string]: true } = {};
+const BAD_SRCS: { [tokenAddress: string]: true } = {}
 
 export interface LogoProps {
   alt?: string
@@ -17,15 +17,15 @@ const StyledCoinLogoIcon = styled(CoinLogoIcon)`
   border-radius: 16px;
   // width: 18px;
   // height: 18px;
-`;
+`
 
 /**
  * Renders an image by sequentially trying a list of URIs, and then eventually a fallback triangle alert
  */
 export default function Logo({ srcs, alt, ...rest }: LogoProps) {
-  const [, refresh] = useState<number>(0);
+  const [, refresh] = useState<number>(0)
 
-  const src: string | undefined = srcs.find((s) => !BAD_SRCS[s]);
+  const src: string | undefined = srcs.find((s) => !BAD_SRCS[s])
 
   if (src) {
     return (
@@ -34,12 +34,12 @@ export default function Logo({ srcs, alt, ...rest }: LogoProps) {
         alt={alt}
         src={src}
         onError={() => {
-          if (src) BAD_SRCS[src] = true;
-          refresh((i) => i + 1);
+          if (src) BAD_SRCS[src] = true
+          refresh((i) => i + 1)
         }}
       />
-    );
+    )
   }
 
-  return <StyledCoinLogoIcon {...rest} />;
+  return <StyledCoinLogoIcon {...rest} />
 }

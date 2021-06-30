@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import observerOptions from './options'
-import Wrapper from './Wrapper'
 import { ImageProps } from './types'
+import Wrapper from './Wrapper'
 
 const StyledImage = styled.img`
   position: absolute;
@@ -26,7 +26,7 @@ const Image: React.FC<ImageProps> = ({ src, alt, ...otherProps }) => {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    const img = (imgRef.current as unknown) as HTMLImageElement
+    const img = imgRef.current as unknown as HTMLImageElement
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const { isIntersecting } = entry

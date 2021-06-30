@@ -5,10 +5,10 @@ const VAMPIRE_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: '0xAe3c67D35848D9f9375349e1E5667FF3079C0E55',
   [ChainId.HECOMAINNET]: '0xAe3c67D35848D9f9375349e1E5667FF3079C0E55',
   [ChainId.HECOTESTNET]: '0xAe3c67D35848D9f9375349e1E5667FF3079C0E55',
-  1: '',
-  4: '',
-  137: '',
-  80001: '',
+  [ChainId.ETHER_MAINNET]: '',
+  [ChainId.ETHER_TESTNET]: '',
+  [ChainId.MATIC_MAINNET]: '',
+  [ChainId.MATIC_TESTNET]: '',
 }
 
 export default VAMPIRE_ADDRESS

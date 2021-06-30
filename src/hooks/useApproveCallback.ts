@@ -1,15 +1,14 @@
+import { CurrencyAmount, ETHER, ROUTER_ADDRESS, TokenAmount, Trade } from '@alium-official/sdk'
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Trade, TokenAmount, CurrencyAmount, ETHER } from '@alium-official/sdk'
 import { useCallback, useMemo } from 'react'
-import { ROUTER_ADDRESS } from '../config/contracts'
 import { useTokenAllowance } from '../data/Allowances'
 import { Field } from '../state/swap/actions'
-import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
-import { computeSlippageAdjustedAmounts } from '../utils/prices'
+import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
 import { calculateGasMargin, calculateGasPrice } from '../utils'
-import { useTokenContract } from './useContract'
+import { computeSlippageAdjustedAmounts } from '../utils/prices'
 import { useActiveWeb3React } from './index'
+import { useTokenContract } from './useContract'
 
 export enum ApprovalState {
   UNKNOWN,
@@ -21,7 +20,7 @@ export enum ApprovalState {
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
 export function useApproveCallback(
   amountToApprove?: CurrencyAmount,
-  spender?: string
+  spender?: string,
 ): [ApprovalState, () => Promise<void>] {
   const { account } = useActiveWeb3React()
   const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
@@ -106,7 +105,7 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
   const { chainId } = useActiveWeb3React()
   const amountToApprove = useMemo(
     () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage)[Field.INPUT] : undefined),
-    [trade, allowedSlippage]
+    [trade, allowedSlippage],
   )
   return useApproveCallback(amountToApprove, chainId && ROUTER_ADDRESS[chainId])
 }

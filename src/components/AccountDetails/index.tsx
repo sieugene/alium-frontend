@@ -1,28 +1,28 @@
-import { Button } from 'alium-uikit/src';
-import { useTranslation } from 'next-i18next';
-import React, { useCallback, useContext } from 'react';
-import { ExternalLink as LinkIcon } from 'react-feather';
-import { useDispatch } from 'react-redux';
-import styled, { ThemeContext } from 'styled-components';
-import { CloseXIcon } from '../../../public/images/CloseXIcon';
-import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../../connectors';
-import { SUPPORTED_WALLETS } from '../../constants';
-import { useActiveWeb3React } from '../../hooks';
-import { AppDispatch } from '../../state';
-import { clearAllTransactions } from '../../state/transactions/actions';
-import { getEtherscanLink, shortenAddress } from '../../utils';
-import Identicon from '../Identicon';
-import { AutoRow } from '../Row';
-import { ExternalLink, LinkStyledButton, TYPE } from '../Shared';
-import Copy from './Copy';
-import Transaction from './Transaction';
+import { Button } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
+import React, { useCallback, useContext } from 'react'
+import { ExternalLink as LinkIcon } from 'react-feather'
+import { useDispatch } from 'react-redux'
+import styled, { ThemeContext } from 'styled-components'
+import { CloseXIcon } from '../../../public/images/CloseXIcon'
+import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../../connectors'
+import { SUPPORTED_WALLETS } from '../../constants'
+import { useActiveWeb3React } from '../../hooks'
+import { AppDispatch } from '../../state'
+import { clearAllTransactions } from '../../state/transactions/actions'
+import { getEtherscanLink, shortenAddress } from '../../utils'
+import Identicon from '../Identicon'
+import { AutoRow } from '../Row'
+import { ExternalLink, LinkStyledButton, TYPE } from '../Shared'
+import Copy from './Copy'
+import Transaction from './Transaction'
 
-const FortmaticIcon = '/images/fortmaticIcon.png';
-const PortisIcon = '/images/portisIcon.png';
-const WalletConnectIcon = '/images/walletConnectIcon.svg';
-const CoinbaseWalletIcon = '/images/coinbaseWalletIcon.svg';
+const FortmaticIcon = '/images/fortmaticIcon.png'
+const PortisIcon = '/images/portisIcon.png'
+const WalletConnectIcon = '/images/walletConnectIcon.svg'
+const CoinbaseWalletIcon = '/images/coinbaseWalletIcon.svg'
 
-const { body: Body } = TYPE;
+const { body: Body } = TYPE
 
 const HeaderRow = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const HeaderRow = styled.div`
   color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.colors.primary : 'inherit')};
   ${({ theme }) => theme.mediaQueries.lg}
   padding: 1rem;
-`;
+`
 
 const UpperSection = styled.div`
   position: relative;
@@ -51,7 +51,7 @@ const UpperSection = styled.div`
     margin-top: 0;
     font-weight: 500;
   }
-`;
+`
 
 const InfoCard = styled.div`
   padding: 1rem;
@@ -61,7 +61,7 @@ const InfoCard = styled.div`
   display: grid;
   grid-row-gap: 12px;
   margin-bottom: 20px;
-`;
+`
 
 const AccountGroupingRow = styled.div`
   display: flex;
@@ -76,7 +76,7 @@ const AccountGroupingRow = styled.div`
     flex-flow: row nowrap;
     align-items: center;
   }
-`;
+`
 
 const AccountSection = styled.div`
   background-color: ${({ theme }) => theme.colors.invertedContrast};
@@ -84,7 +84,7 @@ const AccountSection = styled.div`
   ${({ theme }) => theme.mediaQueries.lg} {
     padding: 0 1rem 1.5rem 1rem;
   }
-`;
+`
 
 const YourAccount = styled.div`
   h5 {
@@ -96,7 +96,7 @@ const YourAccount = styled.div`
     margin: 0;
     font-weight: 500;
   }
-`;
+`
 
 const LowerSection = styled.div`
   display: flex;
@@ -113,7 +113,7 @@ const LowerSection = styled.div`
     font-weight: 400;
     color: ${({ theme }) => theme.colors.textDisabled};
   }
-`;
+`
 
 const AccountControl = styled.div`
   display: flex;
@@ -135,7 +135,7 @@ const AccountControl = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-`;
+`
 
 const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
   color: ${({ theme }) => theme.colors.textDisabled};
@@ -145,7 +145,7 @@ const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
   :hover {
     color: ${({ theme }) => theme.colors.textSubtle};
   }
-`;
+`
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -155,20 +155,20 @@ const CloseIcon = styled.div`
     cursor: pointer;
     opacity: 0.6;
   }
-`;
+`
 
 const CloseColor = styled(CloseXIcon)`
   path {
     stroke: ${({ theme }) => theme.colors.textDisabled};
   }
-`;
+`
 
 const WalletName = styled.div`
   width: initial;
   font-size: 0.825rem;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.textDisabled};
-`;
+`
 
 const IconWrapper = styled.div<{ size?: number }>`
   display: flex;
@@ -184,12 +184,12 @@ const IconWrapper = styled.div<{ size?: number }>`
   ${({ theme }) => theme.mediaQueries.lg} {
     align-items: flex-end;
   }
-`;
+`
 
 const TransactionListWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
-`;
+`
 
 const WalletAction = styled(Button)`
   width: fit-content;
@@ -201,21 +201,21 @@ const WalletAction = styled(Button)`
     cursor: pointer;
     text-decoration: underline;
   }
-`;
+`
 
 const MainWalletAction = styled(WalletAction)`
   color: ${({ theme }) => theme.colors.primary};
-`;
+`
 
 function renderTransactions(transactions: string[]) {
   return (
     <TransactionListWrapper>
       {transactions.map((hash, i) => {
         // eslint-disable-next-line react/no-array-index-key
-        return <Transaction key={i} hash={hash} />;
+        return <Transaction key={i} hash={hash} />
       })}
     </TransactionListWrapper>
-  );
+  )
 }
 
 interface AccountDetailsProps {
@@ -233,21 +233,21 @@ export default function AccountDetails({
   ENSName,
   openOptions,
 }: AccountDetailsProps) {
-  const { chainId, account, connector } = useActiveWeb3React();
-  const theme = useContext(ThemeContext);
-  const { t } = useTranslation();
-  const dispatch = useDispatch<AppDispatch>();
+  const { chainId, account, connector } = useActiveWeb3React()
+  const theme = useContext(ThemeContext)
+  const { t } = useTranslation()
+  const dispatch = useDispatch<AppDispatch>()
 
   function formatConnectorName() {
-    const { ethereum } = window;
-    const isMetaMask = !!(ethereum && ethereum.isMetaMask);
+    const { ethereum } = window
+    const isMetaMask = !!(ethereum && ethereum.isMetaMask)
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         (k) =>
           SUPPORTED_WALLETS[k].connector === connector && (connector !== injected || isMetaMask === (k === 'METAMASK')),
       )
-      .map((k) => SUPPORTED_WALLETS[k].name)[0];
-    return <WalletName>{t('connectedWith', { label: name })}</WalletName>;
+      .map((k) => SUPPORTED_WALLETS[k].name)[0]
+    return <WalletName>{t('connectedWith', { label: name })}</WalletName>
   }
 
   function getStatusIcon() {
@@ -256,28 +256,28 @@ export default function AccountDetails({
         <IconWrapper size={16}>
           <Identicon />
         </IconWrapper>
-      );
+      )
     }
     if (connector === walletconnect) {
       return (
         <IconWrapper size={16}>
           <img src={WalletConnectIcon} alt="wallet connect logo" />
         </IconWrapper>
-      );
+      )
     }
     if (connector === walletlink) {
       return (
         <IconWrapper size={16}>
           <img src={CoinbaseWalletIcon} alt="coinbase wallet logo" />
         </IconWrapper>
-      );
+      )
     }
     if (connector === fortmatic) {
       return (
         <IconWrapper size={16}>
           <img src={FortmaticIcon} alt="fortmatic logo" />
         </IconWrapper>
-      );
+      )
     }
     if (connector === portis) {
       return (
@@ -286,21 +286,21 @@ export default function AccountDetails({
             <img src={PortisIcon} alt="portis logo" />
             <MainWalletAction
               onClick={() => {
-                portis.portis.showPortis();
+                portis.portis.showPortis()
               }}
             >
               {t('showPortis')}
             </MainWalletAction>
           </IconWrapper>
         </>
-      );
+      )
     }
-    return null;
+    return null
   }
 
   const clearAllTransactionsCallback = useCallback(() => {
-    if (chainId) dispatch(clearAllTransactions({ chainId }));
-  }, [dispatch, chainId]);
+    if (chainId) dispatch(clearAllTransactions({ chainId }))
+  }, [dispatch, chainId])
 
   return (
     <>
@@ -319,7 +319,7 @@ export default function AccountDetails({
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                       onClick={() => {
-                        (connector as any).close();
+                        ;(connector as any).close()
                       }}
                     >
                       {t('disconnect')}
@@ -328,7 +328,7 @@ export default function AccountDetails({
                   <WalletAction
                     style={{ fontSize: '.825rem', fontWeight: 400 }}
                     onClick={() => {
-                      openOptions();
+                      openOptions()
                     }}
                   >
                     {t('change')}
@@ -420,5 +420,5 @@ export default function AccountDetails({
         </LowerSection>
       )}
     </>
-  );
+  )
 }

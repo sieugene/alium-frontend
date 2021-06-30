@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from 'react'
 import debounce from 'lodash/debounce'
+import { useCallback, useEffect } from 'react'
 
 type ParticleOptions = {
   size?: number
@@ -52,7 +52,7 @@ const createParticle = (x: number, y: number, imgSrc: string, options: ParticleO
       duration: Math.random() * 1000 + 5000,
       easing: 'cubic-bezier(0, .9, .57, 1)',
       delay,
-    }
+    },
   )
 
   animation.onfinish = () => {
@@ -109,9 +109,9 @@ const useParticleBurst = (options: Options): { initialize: () => void; teardown:
           }
         },
         debounceDuration,
-        { leading: true }
+        { leading: true },
       ),
-    [debounceDuration, numberOfParticles, imgSrc, disableWhen, particleOptions]
+    [debounceDuration, numberOfParticles, imgSrc, disableWhen, particleOptions],
   )
   const listener = makeListener()
 

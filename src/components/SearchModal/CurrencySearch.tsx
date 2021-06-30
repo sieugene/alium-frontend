@@ -1,30 +1,30 @@
-import { Currency, ETHER, Token } from '@alium-official/sdk';
-import { CloseIcon, IconButton, Text } from 'alium-uikit/src';
-import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'next-i18next';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { FixedSizeList } from 'react-window';
-import styled, { ThemeContext } from 'styled-components';
-import { arrayElementToTop } from 'utils/arrayElementToTop';
-import { useActiveWeb3React } from '../../hooks';
-import { useAllTokens, useToken } from '../../hooks/Tokens';
-import { useSelectedListInfo } from '../../state/lists/hooks';
-import { isAddress } from '../../utils';
-import Card from '../Card';
-import Column from '../Column';
-import ListLogo from '../ListLogo';
-import QuestionHelper from '../QuestionHelper';
-import Row, { RowBetween } from '../Row';
-import { LinkStyledButton, TYPE } from '../Shared';
-import TranslatedText from '../TranslatedText';
-import CommonBases from './CommonBases';
-import CurrencyList from './CurrencyList';
-import { filterTokens } from './filtering';
-import SortButton from './SortButton';
-import { useTokenComparator } from './sorting';
-import { PaddedColumn, SearchInput, Separator } from './styleds';
+import { Currency, ETHER, Token } from '@alium-official/sdk'
+import { CloseIcon, IconButton, Text } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
+import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import { FixedSizeList } from 'react-window'
+import styled, { ThemeContext } from 'styled-components'
+import { arrayElementToTop } from 'utils/arrayElementToTop'
+import { useActiveWeb3React } from '../../hooks'
+import { useAllTokens, useToken } from '../../hooks/Tokens'
+import { useSelectedListInfo } from '../../state/lists/hooks'
+import { isAddress } from '../../utils'
+import Card from '../Card'
+import Column from '../Column'
+import ListLogo from '../ListLogo'
+import QuestionHelper from '../QuestionHelper'
+import Row, { RowBetween } from '../Row'
+import { LinkStyledButton, TYPE } from '../Shared'
+import TranslatedText from '../TranslatedText'
+import CommonBases from './CommonBases'
+import CurrencyList from './CurrencyList'
+import { filterTokens } from './filtering'
+import SortButton from './SortButton'
+import { useTokenComparator } from './sorting'
+import { PaddedColumn, SearchInput, Separator } from './styleds'
 
-const { main: Main } = TYPE;
+const { main: Main } = TYPE
 
 interface CurrencySearchProps {
   isOpen: boolean
@@ -39,23 +39,23 @@ interface CurrencySearchProps {
 
 const StyledRowBetween = styled.div`
   padding: 0 22px 2px 22px;
-`;
+`
 
 const StyledCurrencyList = styled.div`
   flex: 1;
   padding-left: 16px;
-`;
+`
 
 const StyledSearchInput = styled.div`
   position: relative;
-`;
+`
 
 const StyledRemoveIcon = styled.div`
   position: absolute;
   top: 15px;
   right: 40px;
   cursor: pointer;
-`;
+`
 
 export function CurrencySearch({
   selectedCurrency,
@@ -67,96 +67,96 @@ export function CurrencySearch({
   onChangeList,
   currencyList,
 }: CurrencySearchProps) {
-  const { t } = useTranslation();
-  const { chainId } = useActiveWeb3React();
-  const theme = useContext(ThemeContext);
+  const { t } = useTranslation()
+  const { chainId } = useActiveWeb3React()
+  const theme = useContext(ThemeContext)
 
-  const fixedList = useRef<FixedSizeList>();
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [invertSearchOrder, setInvertSearchOrder] = useState<boolean>(false);
-  const globalTokenList = useAllTokens();
-  const allTokens = currencyList || globalTokenList;
+  const fixedList = useRef<FixedSizeList>()
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [invertSearchOrder, setInvertSearchOrder] = useState<boolean>(false)
+  const globalTokenList = useAllTokens()
+  const allTokens = currencyList || globalTokenList
 
   // if they input an address, use it
-  const isAddressSearch = isAddress(searchQuery);
-  const searchToken = useToken(searchQuery);
+  const isAddressSearch = isAddress(searchQuery)
+  const searchToken = useToken(searchQuery)
 
   const showETH: boolean = useMemo(() => {
-    const s = searchQuery.toLowerCase().trim();
-    if (currencyList) return false;
-    return s === '' || s === 'b' || s === 'bn' || s === 'bnb';
-  }, [currencyList, searchQuery]);
+    const s = searchQuery.toLowerCase().trim()
+    if (currencyList) return false
+    return s === '' || s === 'b' || s === 'bn' || s === 'bnb'
+  }, [currencyList, searchQuery])
 
-  const tokenComparator = useTokenComparator(invertSearchOrder);
+  const tokenComparator = useTokenComparator(invertSearchOrder)
 
   const filteredTokens: Token[] = useMemo(() => {
-    if (isAddressSearch) return searchToken ? [searchToken] : [];
-    return filterTokens(Object.values(allTokens), searchQuery);
-  }, [isAddressSearch, searchToken, allTokens, searchQuery]);
+    if (isAddressSearch) return searchToken ? [searchToken] : []
+    return filterTokens(Object.values(allTokens), searchQuery)
+  }, [isAddressSearch, searchToken, allTokens, searchQuery])
 
   const filteredSortedTokens: Token[] = useMemo(() => {
-    if (searchToken) return [searchToken];
-    const sorted = filteredTokens.sort(tokenComparator);
+    if (searchToken) return [searchToken]
+    const sorted = filteredTokens.sort(tokenComparator)
     const symbolMatch = searchQuery
       .toLowerCase()
       .split(/\s+/)
-      .filter((s) => s.length > 0);
-    if (symbolMatch.length > 1) return sorted;
+      .filter((s) => s.length > 0)
+    if (symbolMatch.length > 1) return sorted
 
     const sortedTokens = [
       ...(searchToken ? [searchToken] : []),
       // sort any exact symbol matches first
       ...sorted.filter((token) => token.symbol?.toLowerCase() === symbolMatch[0]),
       ...sorted.filter((token) => token.symbol?.toLowerCase() !== symbolMatch[0]),
-    ];
+    ]
 
-    const conditionForTokenToTop = (el: Token) => el.symbol === 'ALM';
-    const sortedWithAlmFirst: Token[] = arrayElementToTop(conditionForTokenToTop, sortedTokens);
-    return sortedWithAlmFirst;
-  }, [filteredTokens, searchQuery, searchToken, tokenComparator]);
+    const conditionForTokenToTop = (el: Token) => el.symbol === 'ALM'
+    const sortedWithAlmFirst: Token[] = arrayElementToTop(conditionForTokenToTop, sortedTokens)
+    return sortedWithAlmFirst
+  }, [filteredTokens, searchQuery, searchToken, tokenComparator])
 
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {
-      onCurrencySelect(currency);
-      onDismiss();
+      onCurrencySelect(currency)
+      onDismiss()
     },
     [onDismiss, onCurrencySelect],
-  );
+  )
 
   // clear the input on open
   useEffect(() => {
-    if (isOpen) setSearchQuery('');
-  }, [isOpen]);
+    if (isOpen) setSearchQuery('')
+  }, [isOpen])
 
   // manage focus on modal show
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>()
   const handleInput = useCallback((event) => {
-    const input = event.target.value;
-    const checksummedInput = isAddress(input);
-    setSearchQuery(checksummedInput || input);
-    fixedList.current?.scrollTo(0);
-  }, []);
+    const input = event.target.value
+    const checksummedInput = isAddress(input)
+    setSearchQuery(checksummedInput || input)
+    fixedList.current?.scrollTo(0)
+  }, [])
 
   const handleEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-        const s = searchQuery.toLowerCase().trim();
+        const s = searchQuery.toLowerCase().trim()
         if (s === 'bnb') {
-          handleCurrencySelect(ETHER);
+          handleCurrencySelect(ETHER)
         } else if (filteredSortedTokens.length > 0) {
           if (
             filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||
             filteredSortedTokens.length === 1
           ) {
-            handleCurrencySelect(filteredSortedTokens[0]);
+            handleCurrencySelect(filteredSortedTokens[0])
           }
         }
       }
     },
     [filteredSortedTokens, handleCurrencySelect, searchQuery],
-  );
+  )
 
-  const selectedListInfo = useSelectedListInfo();
+  const selectedListInfo = useSelectedListInfo()
 
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
@@ -243,7 +243,7 @@ export function CurrencySearch({
         </>
       )}
     </Column>
-  );
+  )
 }
 
-export default CurrencySearch;
+export default CurrencySearch

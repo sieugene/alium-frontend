@@ -1,5 +1,5 @@
-import { BigNumber } from '@ethersproject/bignumber'
 import { Token, TokenAmount } from '@alium-official/sdk'
+import { BigNumber } from '@ethersproject/bignumber'
 import { useTokenContract } from '../hooks/useContract'
 import { useSingleCallResult } from '../state/multicall/hooks'
 

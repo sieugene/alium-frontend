@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { Spinner } from '../Spinner'
 import styled from 'styled-components'
+import { Spinner } from '../Spinner'
 type Props = {
   load: boolean
 }

@@ -60,5 +60,5 @@ export default createReducer(initialState, (builder) =>
       }
       tx.receipt = receipt
       tx.confirmedTime = now()
-    })
+    }),
 )

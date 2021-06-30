@@ -1,5 +1,5 @@
-import { createStore, Store } from 'redux'
 import { DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from 'config/settings'
+import { createStore, Store } from 'redux'
 import { updateVersion } from '../global/actions'
 import reducer, { initialState, UserState } from './reducer'
 

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Link, LinkExternal } from './index'
-import CheckmarkCircleIcon from '../Svg/Icons/CheckmarkCircle'
 import Flex from '../Flex/Flex'
+import CheckmarkCircleIcon from '../Svg/Icons/CheckmarkCircle'
+import { Link, LinkExternal } from './index'
 
 export default {
   title: 'Components/Link',

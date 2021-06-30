@@ -1,4 +1,4 @@
-import { JSBI, Pair, Percent } from '@alium-official/sdk';
+import { JSBI, Pair, Percent } from '@alium-official/sdk'
 import {
   ArrowDropDownIcon,
   ArrowDropUpIcon,
@@ -8,24 +8,24 @@ import {
   ColoredCopyIcon,
   IconButton,
   Text,
-} from 'alium-uikit/src';
-import { NextLink } from 'components/NextLink';
-import { useRouter } from 'next/router';
-import { darken } from 'polished';
-import React, { useState } from 'react';
-import { ROUTES } from 'routes';
-import styled from 'styled-components';
-import { useTotalSupply } from '../../data/TotalSupply';
-import { useActiveWeb3React } from '../../hooks';
-import { useTokenBalance } from '../../state/wallet/hooks';
-import { currencyId } from '../../utils/currencyId';
-import { unwrappedToken } from '../../utils/wrappedCurrency';
-import Card from '../Card';
-import { AutoColumn } from '../Column';
-import CurrencyLogo from '../CurrencyLogo';
-import DoubleCurrencyLogo from '../DoubleLogo';
-import { RowBetween, RowFixed } from '../Row';
-import { Dots } from '../swap/styleds';
+} from 'alium-uikit/src'
+import { NextLink } from 'components/NextLink'
+import { useRouter } from 'next/router'
+import { darken } from 'polished'
+import React, { useState } from 'react'
+import { ROUTES } from 'routes'
+import styled from 'styled-components'
+import { useTotalSupply } from '../../data/TotalSupply'
+import { useActiveWeb3React } from '../../hooks'
+import { useTokenBalance } from '../../state/wallet/hooks'
+import { currencyId } from '../../utils/currencyId'
+import { unwrappedToken } from '../../utils/wrappedCurrency'
+import Card from '../Card'
+import { AutoColumn } from '../Column'
+import CurrencyLogo from '../CurrencyLogo'
+import DoubleCurrencyLogo from '../DoubleLogo'
+import { RowBetween, RowFixed } from '../Row'
+import { Dots } from '../swap/styleds'
 
 interface FixedHeightProps {
   background?: boolean
@@ -41,28 +41,28 @@ export const FixedHeightRow = styled(RowBetween)`
   `}// > *:first-child {
   //   padding-left: 8px;
   // }
-`;
+`
 
 export const HoverCard = styled(Card)`
   border: 1px solid ${({ theme }) => theme.colors.invertedContrast};
   :hover {
     border: 1px solid ${({ theme }) => darken(0.06, theme.colors.invertedContrast)};
   }
-`;
+`
 
 const CopyButtonWrapper = styled(IconButton)`
   width: 30px;
   height: 30px;
-`;
+`
 
 const StyledUIKitCard = styled(UIKitCard)`
   border-radius: 6px;
   max-width: 738px;
-`;
+`
 
 const StyledCardBody = styled(CardBody)`
   padding: 24px;
-`;
+`
 
 interface PositionCardProps {
   pair: Pair
@@ -71,15 +71,15 @@ interface PositionCardProps {
 }
 
 export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCardProps) {
-  const { account } = useActiveWeb3React();
+  const { account } = useActiveWeb3React()
 
-  const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0);
-  const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1);
+  const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0)
+  const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1)
 
-  const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(false)
 
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken);
-  const totalPoolTokens = useTotalSupply(pair.liquidityToken);
+  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
   const [token0Deposited, token1Deposited] =
     !!pair &&
@@ -91,7 +91,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
           pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
           pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
         ]
-      : [undefined, undefined];
+      : [undefined, undefined]
 
   return (
     <>
@@ -159,26 +159,26 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
         </StyledUIKitCard>
       )}
     </>
-  );
+  )
 }
 
 export default function FullPositionCard({ pair }: PositionCardProps) {
-  const { account } = useActiveWeb3React();
+  const { account } = useActiveWeb3React()
 
-  const currency0 = unwrappedToken(pair.token0);
-  const currency1 = unwrappedToken(pair.token1);
+  const currency0 = unwrappedToken(pair.token0)
+  const currency1 = unwrappedToken(pair.token1)
 
-  const liquidityAddress = pair.liquidityToken.address;
+  const liquidityAddress = pair.liquidityToken.address
 
-  const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(false)
 
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken);
-  const totalPoolTokens = useTotalSupply(pair.liquidityToken);
+  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
   const poolTokenPercentage =
     !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
-      : undefined;
+      : undefined
 
   const [token0Deposited, token1Deposited] =
     !!pair &&
@@ -190,14 +190,14 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
           pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
           pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
         ]
-      : [undefined, undefined];
+      : [undefined, undefined]
 
   const handleAddressCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
-    navigator.clipboard.writeText(liquidityAddress);
-    e.stopPropagation();
-  };
+    navigator.clipboard.writeText(liquidityAddress)
+    e.stopPropagation()
+  }
 
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <HoverCard>
@@ -265,9 +265,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
 
             <RowBetween marginTop="10px">
               <NextLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
-                <Button>
-                  Add
-                </Button>
+                <Button>Add</Button>
               </NextLink>
               <NextLink href={ROUTES.removeByMultiple(currencyId(currency0), currencyId(currency1))}>
                 <Button variant="secondary">Remove</Button>
@@ -277,5 +275,5 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
         )}
       </AutoColumn>
     </HoverCard>
-  );
+  )
 }

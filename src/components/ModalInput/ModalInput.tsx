@@ -1,7 +1,7 @@
-import { Button, Flex, Input, InputProps, Link, Text } from 'alium-uikit/src';
-import React from 'react';
-import styled from 'styled-components';
-import useI18n from '../../hooks/useI18n';
+import { Button, Flex, Input, InputProps, Link, Text } from 'alium-uikit/src'
+import React from 'react'
+import styled from 'styled-components'
+import useI18n from '../../hooks/useI18n'
 
 interface ModalInputProps {
   max: string
@@ -16,11 +16,11 @@ interface ModalInputProps {
 
 const getBoxShadow = ({ isWarning = false, theme }) => {
   if (isWarning) {
-    return theme.shadows.warning;
+    return theme.shadows.warning
   }
 
-  return theme.shadows.inset;
-};
+  return theme.shadows.inset
+}
 
 const StyledTokenInput = styled.div<InputProps>`
   display: flex;
@@ -31,7 +31,7 @@ const StyledTokenInput = styled.div<InputProps>`
   color: ${({ theme }) => theme.colors.text};
   padding: 8px 16px 8px 0;
   width: 100%;
-`;
+`
 
 const StyledInput = styled(Input)`
   box-shadow: none;
@@ -46,7 +46,7 @@ const StyledInput = styled(Input)`
   ${({ theme }) => theme.mediaQueries.sm} {
     width: auto;
   }
-`;
+`
 
 const StyledErrorMessage = styled(Text)`
   position: absolute;
@@ -54,7 +54,7 @@ const StyledErrorMessage = styled(Text)`
   a {
     display: inline;
   }
-`;
+`
 
 const ModalInput: React.FC<ModalInputProps> = ({
   max,
@@ -65,10 +65,10 @@ const ModalInput: React.FC<ModalInputProps> = ({
   addLiquidityUrl,
   inputTitle,
 }) => {
-  const TranslateString = useI18n();
-  const isBalanceZero = max === '0' || !max;
+  const TranslateString = useI18n()
+  const isBalanceZero = max === '0' || !max
 
-  const displayBalance = isBalanceZero ? '0' : parseFloat(max).toFixed(4);
+  const displayBalance = isBalanceZero ? '0' : parseFloat(max).toFixed(4)
 
   return (
     <div style={{ position: 'relative' }}>
@@ -96,7 +96,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
         </StyledErrorMessage>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ModalInput;
+export default ModalInput

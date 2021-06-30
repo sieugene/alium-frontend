@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
+import Balance from 'components/Balance'
+import { BinanceTag, CommunityTag, CoreTag } from 'components/Tags'
+import { PoolCategory } from 'config/constants/types'
+import useI18n from 'hooks/useI18n'
+import React, { useState } from 'react'
+import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
-import useI18n from 'hooks/useI18n'
-import { ChevronDown, ChevronUp } from 'react-feather'
-import Balance from 'components/Balance'
-import { CommunityTag, CoreTag, BinanceTag } from 'components/Tags'
-import { PoolCategory } from 'config/constants/types'
 
 const tags = {
   [PoolCategory.BINANCE]: BinanceTag,

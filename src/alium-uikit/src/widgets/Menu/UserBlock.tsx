@@ -69,7 +69,7 @@ const UserBlock: React.FC<Props> = (props) => {
     explorerName,
     explorerLink,
     onTransactionHistoryHandler,
-    balanceHook
+    balanceHook,
   )
   const accountEllipsis = account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : null
   return (

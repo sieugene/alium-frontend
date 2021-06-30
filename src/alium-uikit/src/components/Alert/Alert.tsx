@@ -1,13 +1,13 @@
 import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
+import { IconButton } from '../Button'
+import { Flex } from '../Flex'
+import { CloseIcon } from '../Svg'
+import BlockIcon from '../Svg/Icons/Block'
 import CheckmarkCircleIcon from '../Svg/Icons/CheckmarkCircle'
 import ErrorIcon from '../Svg/Icons/Error'
-import BlockIcon from '../Svg/Icons/Block'
 import InfoIcon from '../Svg/Icons/Info'
 import { Text } from '../Text'
-import { IconButton } from '../Button'
-import { CloseIcon } from '../Svg'
-import { Flex } from '../Flex'
 import { AlertProps, variants } from './types'
 
 interface ThemedIconLabel {

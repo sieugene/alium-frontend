@@ -1,7 +1,7 @@
 import React from 'react'
-import StyledProgress, { Bar } from './StyledProgress'
-import ProgressBunnyWrapper from './ProgressBunnyWrapper'
 import { ProgressBunny } from '../Svg'
+import ProgressBunnyWrapper from './ProgressBunnyWrapper'
+import StyledProgress, { Bar } from './StyledProgress'
 import { ProgressProps } from './types'
 
 const stepGuard = (step: number) => {

@@ -1,5 +1,5 @@
-import { nanoid } from '@reduxjs/toolkit'
 import { ChainId } from '@alium-official/sdk'
+import { nanoid } from '@reduxjs/toolkit'
 import { TokenList } from '@uniswap/token-lists'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -26,10 +26,10 @@ export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> 
         }
         throw new Error('Could not construct mainnet ENS resolver')
       }
-       // @ts-ignore
+      // @ts-ignore
       return resolveENSContentHash(ensName, library)
     },
-    [chainId, library]
+    [chainId, library],
   )
 
   return useCallback(
@@ -47,7 +47,7 @@ export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> 
           throw error
         })
     },
-    [chainId, dispatch, ensResolver]
+    [chainId, dispatch, ensResolver],
   )
 }
 

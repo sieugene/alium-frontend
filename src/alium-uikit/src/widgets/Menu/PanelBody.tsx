@@ -1,5 +1,4 @@
 import { NextLink } from 'components/NextLink'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
@@ -141,14 +140,14 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
               </Accordion>
             )
           }
-            return (
-              <MenuEntry key={entry.label} isActive={entry.href === location.pathname} className={calloutClass}>
-                <NextLink.multiple href={entry.href} handleClick={handleClick}>
-                  {iconElement}
-                  <LinkLabel isPushed={isPushed}>{entry.label}</LinkLabel>
-                </NextLink.multiple>
-              </MenuEntry>
-            )
+          return (
+            <MenuEntry key={entry.label} isActive={entry.href === location.pathname} className={calloutClass}>
+              <NextLink.multiple href={entry.href} handleClick={handleClick}>
+                {iconElement}
+                <LinkLabel isPushed={isPushed}>{entry.label}</LinkLabel>
+              </NextLink.multiple>
+            </MenuEntry>
+          )
         })}
       </StyledLinksPanel>
     </Container>

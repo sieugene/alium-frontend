@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const ToggleElement = styled.span<{ isActive?: boolean; isOnSwitch?: boolean }>`
   padding: 0.25rem 0.5rem;
@@ -10,7 +10,7 @@ const ToggleElement = styled.span<{ isActive?: boolean; isOnSwitch?: boolean }>`
     isActive ? (isOnSwitch ? '#FFFFFF' : theme.colors.textSubtle) : theme.colors.textDisabled};
   font-size: 0.825rem;
   font-weight: 400;
-`;
+`
 
 const StyledToggle = styled.button<{ isActive?: boolean; activeElement?: boolean }>`
   border-radius: 16px;
@@ -21,7 +21,7 @@ const StyledToggle = styled.button<{ isActive?: boolean; activeElement?: boolean
   outline: none;
   padding: 0;
   background-color: transparent;
-`;
+`
 
 export interface ToggleProps {
   id?: string
@@ -39,5 +39,5 @@ export default function Toggle({ id, isActive, toggle }: ToggleProps) {
         Off
       </ToggleElement>
     </StyledToggle>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import { createAction } from '@reduxjs/toolkit'
 import { ChainId } from '@alium-official/sdk'
+import { createAction } from '@reduxjs/toolkit'
 
 export interface SerializableTransactionReceipt {
   to: string

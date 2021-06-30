@@ -1,14 +1,14 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
-import { AbstractConnector } from '@web3-react/abstract-connector';
-import React from 'react';
-import { useTranslation } from 'next-i18next';
-import styled from 'styled-components';
-import { darken } from 'polished';
-import Option from './Option';
-import { SUPPORTED_WALLETS } from '../../constants';
-import { injected } from '../../connectors';
-import Loader from '../Loader';
+import { AbstractConnector } from '@web3-react/abstract-connector'
+import { useTranslation } from 'next-i18next'
+import { darken } from 'polished'
+import React from 'react'
+import styled from 'styled-components'
+import { injected } from '../../connectors'
+import { SUPPORTED_WALLETS } from '../../constants'
+import Loader from '../Loader'
+import Option from './Option'
 
 const PendingSection = styled.div`
   display: flex;
@@ -19,11 +19,11 @@ const PendingSection = styled.div`
   & > * {
     width: 100%;
   }
-`;
+`
 
 const StyledLoader = styled(Loader)`
   margin-right: 1rem;
-`;
+`
 
 const LoadingMessage = styled.div<{ error?: boolean }>`
   display: flex;
@@ -38,14 +38,14 @@ const LoadingMessage = styled.div<{ error?: boolean }>`
   & > * {
     padding: 1rem;
   }
-`;
+`
 
 const ErrorGroup = styled.div`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-`;
+`
 
 const ErrorButton = styled.div`
   border-radius: 8px;
@@ -61,14 +61,14 @@ const ErrorButton = styled.div`
     cursor: pointer;
     background-color: ${({ theme }) => darken(0.1, theme.colors.textDisabled)};
   }
-`;
+`
 
 const LoadingWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-`;
+`
 
 export default function PendingView({
   connector,
@@ -81,8 +81,8 @@ export default function PendingView({
   setPendingError: (error: boolean) => void
   tryActivation: (connector: AbstractConnector) => void
 }) {
-  const { t } = useTranslation();
-  const isMetamask = window?.ethereum?.isMetaMask;
+  const { t } = useTranslation()
+  const isMetamask = window?.ethereum?.isMetaMask
 
   return (
     <PendingSection>
@@ -93,9 +93,9 @@ export default function PendingView({
               <div>{t('errorConnecting')}</div>
               <ErrorButton
                 onClick={() => {
-                  setPendingError(false);
+                  setPendingError(false)
                   if (connector) {
-                    tryActivation(connector);
+                    tryActivation(connector)
                   }
                 }}
               >
@@ -111,14 +111,14 @@ export default function PendingView({
         </LoadingWrapper>
       </LoadingMessage>
       {Object.keys(SUPPORTED_WALLETS).map((key) => {
-        const option = SUPPORTED_WALLETS[key];
+        const option = SUPPORTED_WALLETS[key]
         if (option.connector === connector) {
           if (option.connector === injected) {
             if (isMetamask && option.name !== 'MetaMask') {
-              return null;
+              return null
             }
             if (!isMetamask && option.name === 'MetaMask') {
-              return null;
+              return null
             }
           }
           return (
@@ -131,10 +131,10 @@ export default function PendingView({
               subheader={option.description}
               icon={require(`/images/${option.iconName}`)}
             />
-          );
+          )
         }
-        return null;
+        return null
       })}
     </PendingSection>
-  );
+  )
 }

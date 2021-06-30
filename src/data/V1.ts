@@ -1,4 +1,3 @@
-import { AddressZero } from '@ethersproject/constants'
 import {
   BigintIsh,
   Currency,
@@ -15,6 +14,7 @@ import {
   TradeType,
   WETH,
 } from '@alium-official/sdk'
+import { AddressZero } from '@ethersproject/constants'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from '../hooks'
 import { useAllTokens } from '../hooks/Tokens'
@@ -47,7 +47,7 @@ function useMockV1Pair(inputCurrency?: Currency): MockV1Pair | undefined {
   return useMemo(
     () =>
       token && tokenBalance && ETHBalance && inputCurrency ? new MockV1Pair(ETHBalance.raw, tokenBalance) : undefined,
-    [ETHBalance, inputCurrency, token, tokenBalance]
+    [ETHBalance, inputCurrency, token, tokenBalance],
   )
 }
 
@@ -67,7 +67,7 @@ export function useAllTokenV1Exchanges(): { [exchangeAddress: string]: Token } {
         }
         return memo
       }, {}) ?? {},
-    [allTokens, args, data]
+    [allTokens, args, data],
   )
 }
 
@@ -80,7 +80,7 @@ export function useUserHasLiquidityInAllTokens(): boolean | undefined {
   const v1ExchangeLiquidityTokens = useMemo(
     () =>
       chainId ? Object.keys(exchanges).map((address) => new Token(chainId, address, 18, 'UNI-V1', 'Uniswap V1')) : [],
-    [chainId, exchanges]
+    [chainId, exchanges],
   )
 
   const balances = useTokenBalances(account ?? undefined, v1ExchangeLiquidityTokens)
@@ -91,7 +91,7 @@ export function useUserHasLiquidityInAllTokens(): boolean | undefined {
         const b = balances[tokenAddress]?.raw
         return b && JSBI.greaterThan(b, JSBI.BigInt(0))
       }),
-    [balances]
+    [balances],
   )
 }
 
@@ -102,7 +102,7 @@ export function useV1Trade(
   isExactIn?: boolean,
   inputCurrency?: Currency,
   outputCurrency?: Currency,
-  exactAmount?: CurrencyAmount
+  exactAmount?: CurrencyAmount,
 ): Trade | undefined {
   // get the mock v1 pairs
   const inputPair = useMockV1Pair(inputCurrency)
@@ -165,7 +165,7 @@ const ONE_HUNDRED_PERCENT = new Percent('1')
 export function isTradeBetter(
   tradeA: Trade | undefined,
   tradeB: Trade | undefined,
-  minimumDelta: Percent = ZERO_PERCENT
+  minimumDelta: Percent = ZERO_PERCENT,
 ): boolean | undefined {
   if (tradeA && !tradeB) return false
   if (tradeB && !tradeA) return true

@@ -180,16 +180,95 @@ export const TEST_HECO_UNI = new Token(
   'UNI',
 )
 
+export const MATIC_TESTNET_ALM = new Token(
+  ChainId.MATIC_TESTNET,
+  '0x54a472C96b01f8639326D49Ef3eD4B9a78C3ba63',
+  18,
+  'ALM',
+  'Alium Token',
+)
+export const MATIC_TESTNET_USDT = new Token(
+  ChainId.MATIC_TESTNET,
+  '0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11',
+  18,
+  'USDT',
+  'Mock USDT',
+)
+export const MATIC_TESTNET_pegBNB = new Token(
+  ChainId.MATIC_TESTNET,
+  '0x4D3D711853a4A25AE1D17347a97253A66Ed63D18',
+  18,
+  'pegBNB',
+  'Pegged BNB',
+)
+export const MATIC_TESTNET_pegSOL = new Token(
+  ChainId.MATIC_TESTNET,
+  '0xF92dC46c2F373480cbC7Dacb0A003C4a2c23ea78',
+  18,
+  'pegSOL',
+  'Pegged SOL',
+)
+export const MATIC_TESTNET_pegDOT = new Token(
+  ChainId.MATIC_TESTNET,
+  '0x9D35B7afFf83Fd7EA2c9ed16E1C08af27aC07D18',
+  18,
+  'pegDOT',
+  'Pegged DOT',
+)
+export const MATIC_TESTNET_WMATIC = new Token(
+  ChainId.MATIC_TESTNET,
+  '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
+  18,
+  'WMATIC',
+  'Wrapped Matic',
+)
+
+export const ETHER_TESTNET_ALM = new Token(
+  ChainId.ETHER_TESTNET,
+  '0x6cFe00906a2074F41788b8Dc4fa66a4c13C2A3a3',
+  18,
+  'ALM',
+  'Alium Token',
+)
+export const ETHER_TESTNET_USDT = new Token(
+  ChainId.ETHER_TESTNET,
+  '0x54a472C96b01f8639326D49Ef3eD4B9a78C3ba63',
+  18,
+  'USDT',
+  'TETHER',
+)
+export const ETHER_TESTNET_pegBNB = new Token(
+  ChainId.ETHER_TESTNET,
+  '0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11',
+  18,
+  'pegBNB',
+  'Pegged BNB',
+)
+export const ETHER_TESTNET_pegSOL = new Token(
+  ChainId.ETHER_TESTNET,
+  '0x4D3D711853a4A25AE1D17347a97253A66Ed63D18',
+  18,
+  'pegSOL',
+  'Pegged SOL',
+)
+export const ETHER_TESTNET_pegDOT = new Token(
+  ChainId.ETHER_TESTNET,
+  '0xF92dC46c2F373480cbC7Dacb0A003C4a2c23ea78',
+  18,
+  'pegDOT',
+  'Pegged DOT',
+)
+
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
   [ChainId.BSCTESTNET]: [TESTWBNB],
   [ChainId.BSCTESTNET]: [WETH[ChainId.BSCTESTNET]],
   [ChainId.HECOMAINNET]: [WETH[ChainId.HECOMAINNET]],
   [ChainId.HECOTESTNET]: [WETH[ChainId.HECOTESTNET]],
-  1: [WETH[ChainId.HECOTESTNET]],
-  4: [WETH[ChainId.HECOTESTNET]],
-  137: [WETH[ChainId.HECOTESTNET]],
-  80001: [WETH[ChainId.HECOTESTNET]],
+  [ChainId.ETHER_MAINNET]: [WETH[ChainId.ETHER_MAINNET]],
+  [ChainId.ETHER_TESTNET]: [WETH[ChainId.ETHER_TESTNET]],
+  [ChainId.MATIC_MAINNET]: [WETH[ChainId.MATIC_MAINNET]],
+  [ChainId.MATIC_TESTNET]: [WETH[ChainId.MATIC_TESTNET]],
 }
 
 // used to construct intermediary pairs for trading
@@ -199,13 +278,32 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.BSCTESTNET]: [TEST_BSC_ALM, TEST_BSC_DAI, TEST_BSC_XXX1, TEST_BSC_USDT, TEST_BSC_WETH],
   [ChainId.HECOMAINNET]: [...WETH_ONLY[ChainId.HECOMAINNET], HECO_USDT, HECO_ETH],
   [ChainId.HECOTESTNET]: [TEST_HECO_DAI, TEST_HECO_USDT, TEST_HECO_USDC],
+  [ChainId.MATIC_MAINNET]: [...WETH_ONLY[ChainId.MATIC_MAINNET]],
+  [ChainId.MATIC_TESTNET]: [
+    MATIC_TESTNET_ALM,
+    MATIC_TESTNET_USDT,
+    MATIC_TESTNET_pegBNB,
+    MATIC_TESTNET_pegSOL,
+    MATIC_TESTNET_pegDOT,
+    MATIC_TESTNET_WMATIC,
+    ...WETH_ONLY[ChainId.MATIC_TESTNET],
+  ],
+  [ChainId.ETHER_MAINNET]: [...WETH_ONLY[ChainId.ETHER_MAINNET]],
+  [ChainId.ETHER_TESTNET]: [
+    ETHER_TESTNET_ALM,
+    ETHER_TESTNET_USDT,
+    ETHER_TESTNET_pegBNB,
+    ETHER_TESTNET_pegSOL,
+    ETHER_TESTNET_pegDOT,
+    ...WETH_ONLY[ChainId.ETHER_TESTNET],
+  ],
 }
 
 /**
  * Some tokens can only be swapped via certain pairs, so we override the list of bases that are considered for these
  * tokens.
  */
-export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
+export const CUSTOM_BASES: { [chainId in ChainId]: { [tokenAddress: string]: Token[] } } = {
   [ChainId.HECOMAINNET]: {},
   [ChainId.HECOTESTNET]: {},
   [ChainId.MAINNET]: {
@@ -214,6 +312,10 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
   [ChainId.BSCTESTNET]: {
     [ETH.address]: [TESTDAI, TESTALM, TESTXXX1],
   },
+  [ChainId.MATIC_MAINNET]: {},
+  [ChainId.MATIC_TESTNET]: {},
+  [ChainId.ETHER_MAINNET]: {},
+  [ChainId.ETHER_TESTNET]: {},
 }
 
 // used for display in the default list when adding liquidity
@@ -248,7 +350,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.HECOTESTNET]: [...WETH_ONLY[ChainId.HECOTESTNET], TEST_HECO_DAI, TEST_HECO_USDC, TEST_HECO_USDT],
 }
 
-export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
+export const PINNED_PAIRS: { readonly [chainId in ChainId]: [Token, Token][] } = {
   [ChainId.MAINNET]: [
     [
       new Token(ChainId.MAINNET, '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82', 18, 'CAKE', 'PancakeSwap Token'),
@@ -266,6 +368,10 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [TEST_HECO_DAI, TEST_HECO_USDT],
     [TEST_HECO_DAI, TEST_HECO_USDC],
   ],
+  [ChainId.MATIC_MAINNET]: [],
+  [ChainId.MATIC_TESTNET]: [],
+  [ChainId.ETHER_MAINNET]: [],
+  [ChainId.ETHER_TESTNET]: [],
 }
 export interface WalletInfo {
   connector?: AbstractConnector

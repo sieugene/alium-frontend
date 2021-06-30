@@ -1,14 +1,14 @@
-import { Button, Text } from 'alium-uikit/src';
-import React, { useContext } from 'react';
-import { AlertTriangle } from 'react-feather';
-import { ThemeContext } from 'styled-components';
-import { AutoColumn } from '../Column';
-import { BottomSection, ContentHeader, Section, Wrapper } from './helpers';
+import { Button, Text } from 'alium-uikit/src'
+import React, { useContext } from 'react'
+import { AlertTriangle } from 'react-feather'
+import { ThemeContext } from 'styled-components'
+import { AutoColumn } from '../Column'
+import { BottomSection, ContentHeader, Section, Wrapper } from './helpers'
 
 type TransactionErrorContentProps = { message: string; onDismiss: () => void }
 
 const TransactionErrorContent = ({ message, onDismiss }: TransactionErrorContentProps) => {
-  const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext)
   return (
     <Wrapper>
       <Section>
@@ -24,7 +24,7 @@ const TransactionErrorContent = ({ message, onDismiss }: TransactionErrorContent
         <Button onClick={onDismiss}>Dismiss</Button>
       </BottomSection>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default TransactionErrorContent;
+export default TransactionErrorContent

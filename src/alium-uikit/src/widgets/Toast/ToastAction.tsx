@@ -1,7 +1,7 @@
-import React from 'react'
 import Link from 'next/link'
-import getExternalLinkProps from '../../util/getExternalLinkProps'
+import React from 'react'
 import { Button } from '../../components/Button'
+import getExternalLinkProps from '../../util/getExternalLinkProps'
 import { ToastAction as Action } from './types'
 
 interface ToastActionProps {

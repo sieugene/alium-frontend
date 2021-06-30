@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
 import noop from 'lodash/noop'
+import React, { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import Flex from '../../components/Flex/Flex'
 import Heading from '../../components/Heading/Heading'
 import Text from '../../components/Text/Text'
+import useModal from '../Modal/useModal'
+import { links } from './config'
 import Menu from './Menu'
 import { MenuEntry } from './MenuEntry'
-import { LangType } from './types'
-import { links } from './config'
-import useModal from '../Modal/useModal'
 
 export default {
   title: 'Widgets/Menu',

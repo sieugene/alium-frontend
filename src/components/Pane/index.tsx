@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Pane = styled.div`
   // border: 2px solid ${({ theme }) => theme.colors.borderColor};
@@ -6,6 +6,6 @@ const Pane = styled.div`
   padding: 16px;
   background: #f5f7ff;
   margin-top: 8px;
-`;
+`
 
-export default Pane;
+export default Pane

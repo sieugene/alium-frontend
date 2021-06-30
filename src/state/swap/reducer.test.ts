@@ -21,7 +21,7 @@ describe('swap reducer', () => {
         selectCurrency({
           field: Field.OUTPUT,
           currencyId: '0x0000',
-        })
+        }),
       )
 
       expect(store.getState()).toEqual({

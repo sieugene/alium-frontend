@@ -1,5 +1,5 @@
-import React from 'react'
 import times from 'lodash/times'
+import React from 'react'
 import Flex from '../Flex/Flex'
 import BackgroundImage from './BackgroundImage'
 import Img from './Image'

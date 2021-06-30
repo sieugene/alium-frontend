@@ -67,7 +67,7 @@ export default createReducer(initialState, (builder) =>
             listeners[chainId][callKey][blocksPerFetch]--
           }
         })
-      }
+      },
     )
     .addCase(fetchingMulticallResults, (state, { payload: { chainId, fetchingBlockNumber, calls } }) => {
       state.callResults[chainId] = state.callResults[chainId] ?? {}
@@ -107,5 +107,5 @@ export default createReducer(initialState, (builder) =>
           blockNumber,
         }
       })
-    })
+    }),
 )

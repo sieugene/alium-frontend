@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderWithTheme } from '../../testHelpers'
 import Toggle from '../../components/Toggle/Toggle'
+import { renderWithTheme } from '../../testHelpers'
 
 const handleChange = jest.fn()
 

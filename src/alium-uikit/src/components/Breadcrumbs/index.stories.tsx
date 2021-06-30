@@ -1,8 +1,8 @@
 import React from 'react'
-import Text from '../Text/Text'
 import Link from '../Link/Link'
 import LogoIcon from '../Svg/Icons/Logo'
 import WonIcon from '../Svg/Icons/Won'
+import Text from '../Text/Text'
 import BreadCrumbs from './Breadcrumbs'
 
 export default {

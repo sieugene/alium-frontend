@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import Loader from 'react-loader-spinner'
+import styled from 'styled-components'
 import { SpinnerProps } from './types'
 
 const Container = styled.div`

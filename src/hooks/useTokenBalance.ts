@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
+import BigNumber from 'bignumber.js'
+import { useEffect, useState } from 'react'
 import { getBep20Contract, getCakeContract } from 'utils/contractHelpers'
-import useWeb3 from './useWeb3'
 import useRefresh from './useRefresh'
+import useWeb3 from './useWeb3'
 
 const useTokenBalance = (tokenAddress: string) => {
   const [balance, setBalance] = useState(new BigNumber(0))

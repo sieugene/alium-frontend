@@ -16,9 +16,9 @@ import {
   getProfileContract,
   getSouschefContract,
 } from 'utils/contractHelpers'
-import UNISOCKS_ABI from '../constants/abis/unisocks.json'
 import { ENS_ABI, ENS_PUBLIC_RESOLVER_ABI, ERC20_ABI, ERC20_BYTES32_ABI, IPAIR_ABI, WETH_ABI } from '../config/abis'
 import { MULTICALL_ABI, MULTICALL_ADDRESS, VAMPIRE_ABI, VAMPIRE_ADDRESS } from '../config/contracts'
+import UNISOCKS_ABI from '../constants/abis/unisocks.json'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import useWeb3 from './useWeb3'

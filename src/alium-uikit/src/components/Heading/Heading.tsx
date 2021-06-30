@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Text from '../Text/Text'
-import { tags, sizes, HeadingProps } from './types'
+import { HeadingProps, sizes, tags } from './types'
 
 const style = {
   [sizes.MD]: {

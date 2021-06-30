@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import Heading from '../../components/Heading/Heading'
-import Flex from '../../components/Flex/Flex'
-import { ArrowBackIcon, CloseIcon } from '../../components/Svg'
 import { IconButton } from '../../components/Button'
+import Flex from '../../components/Flex/Flex'
+import Heading from '../../components/Heading/Heading'
+import { ArrowBackIcon, CloseIcon } from '../../components/Svg'
 import { InjectedProps } from './types'
 
 interface Props extends InjectedProps {
@@ -58,13 +58,13 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #D2D6E5;
+  border: 1px solid #d2d6e5;
   border-radius: 4px;
   background: #fff;
   transition: background-color 200ms ease-in-out;
-  
+
   :hover {
-    background-color: #D2D6E5;
+    background-color: #d2d6e5;
   }
 `
 

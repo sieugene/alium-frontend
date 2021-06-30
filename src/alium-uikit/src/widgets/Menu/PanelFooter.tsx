@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import Flex from '../../components/Flex/Flex'
 import Link from '../../components/Link/Link'
 import { SvgProps } from '../../components/Svg'
 import { socials } from './config'
@@ -9,7 +8,7 @@ import { PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {}
 
-const Icons = (IconModule as unknown) as { [key: string]: React.FC<SvgProps> }
+const Icons = IconModule as unknown as { [key: string]: React.FC<SvgProps> }
 
 const Container = styled.div<{ isPushed?: boolean }>`
   flex: none;
@@ -50,7 +49,7 @@ const StyledSocial = styled.div<{ isPushed?: boolean }>`
   flex-wrap: ${(props) => (props.isPushed ? 'inherit' : 'wrap')};
   a {
     margin-left: 16px;
-    &:last-child{
+    &:last-child {
       margin-right: 16px;
     }
   }

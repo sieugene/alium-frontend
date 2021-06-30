@@ -1,5 +1,5 @@
+import { darkColors, lightColors } from '../../theme/colors'
 import { ButtonTheme, variants } from './types'
-import { lightColors, darkColors } from '../../theme/colors'
 
 const { PRIMARY, SECONDARY, TERTIARY, TEXT, DANGER, SUBTLE, SUCCESS, DEFAULT } = variants
 

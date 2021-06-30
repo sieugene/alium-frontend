@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { DropdownProps, PositionProps, Position } from './types'
+import { DropdownProps, Position, PositionProps } from './types'
 
 const getLeft = ({ position }: PositionProps) => {
   if (position === 'top-right') {

@@ -1,8 +1,7 @@
-import { AbstractConnectorArguments, ConnectorUpdate } from '@web3-react/types'
 import { AbstractConnector } from '@web3-react/abstract-connector'
+import { AbstractConnectorArguments, ConnectorUpdate } from '@web3-react/types'
 import warning from 'tiny-warning'
-
-import { SendReturnResult, SendReturn, Send, SendOld } from './types'
+import { Send, SendOld, SendReturn, SendReturnResult } from './types'
 
 function parseSendReturn(sendReturn: SendReturnResult | SendReturn): any {
   // eslint-disable-next-line no-prototype-builtins
@@ -68,14 +67,14 @@ export class BscConnector extends AbstractConnector {
     }
 
     if ((window.BinanceChain as any).isMetaMask) {
-      (window.BinanceChain as any).autoRefreshOnNetworkChange = false
+      ;(window.BinanceChain as any).autoRefreshOnNetworkChange = false
     }
 
     // try to activate + get account via eth_requestAccounts
     let account
     try {
       account = await (window.BinanceChain.send as Send)('eth_requestAccounts').then(
-        (sendReturn) => parseSendReturn(sendReturn)[0]
+        (sendReturn) => parseSendReturn(sendReturn)[0],
       )
     } catch (error) {
       if ((error as any).code === 4001) {
@@ -148,7 +147,7 @@ export class BscConnector extends AbstractConnector {
     let account
     try {
       account = await (window.BinanceChain.send as Send)('eth_accounts').then(
-        (sendReturn) => parseSendReturn(sendReturn)[0]
+        (sendReturn) => parseSendReturn(sendReturn)[0],
       )
     } catch {
       warning(false, 'eth_accounts was unsuccessful, falling back to enable')

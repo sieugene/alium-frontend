@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import noop from 'lodash/noop'
 /* eslint-disable import/no-unresolved */
 import { Meta } from '@storybook/react/types-6-0'
-import Alert from './Alert'
+import noop from 'lodash/noop'
+import React from 'react'
+import styled from 'styled-components'
 import { Text } from '../Text'
+import Alert from './Alert'
 
 const Row = styled.div`
   margin-bottom: 32px;

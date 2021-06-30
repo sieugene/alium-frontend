@@ -1,39 +1,37 @@
-import Web3 from 'web3'
-import { AbiItem } from 'web3-utils'
-import web3NoAccount from 'utils/web3'
-import { poolsConfig } from 'config/constants'
-import { PoolCategory } from 'config/constants/types'
-
-// Addresses
-import {
-  getAddress,
-  getPancakeProfileAddress,
-  getPancakeRabbitsAddress,
-  getCakeAddress,
-  getLotteryAddress,
-  getLotteryTicketAddress,
-  getMasterChefAddress,
-  getPointCenterIfoAddress,
-  getClaimRefundAddress,
-} from 'utils/addressHelpers'
-
-// ABI
-import profileABI from 'config/abi/pancakeProfile.json'
-import pancakeRabbitsAbi from 'config/abi/pancakeRabbits.json'
-import bep20Abi from 'config/abi/erc20.json'
 import cakeAbi from 'config/abi/cake.json'
+import claimRefundAbi from 'config/abi/claimRefund.json'
+import bep20Abi from 'config/abi/erc20.json'
 import ifoAbi from 'config/abi/ifo.json'
-import pointCenterIfo from 'config/abi/pointCenterIfo.json'
 import lotteryAbi from 'config/abi/lottery.json'
 import lotteryTicketAbi from 'config/abi/lotteryNft.json'
 import masterChef from 'config/abi/masterchef.json'
+// ABI
+import profileABI from 'config/abi/pancakeProfile.json'
+import pancakeRabbitsAbi from 'config/abi/pancakeRabbits.json'
+import pointCenterIfo from 'config/abi/pointCenterIfo.json'
 import sousChef from 'config/abi/sousChef.json'
 import sousChefBnb from 'config/abi/sousChefBnb.json'
-import claimRefundAbi from 'config/abi/claimRefund.json'
+import { poolsConfig } from 'config/constants'
+import { PoolCategory } from 'config/constants/types'
+// Addresses
+import {
+  getAddress,
+  getCakeAddress,
+  getClaimRefundAddress,
+  getLotteryAddress,
+  getLotteryTicketAddress,
+  getMasterChefAddress,
+  getPancakeProfileAddress,
+  getPancakeRabbitsAddress,
+  getPointCenterIfoAddress,
+} from 'utils/addressHelpers'
+import web3NoAccount from 'utils/web3'
+import Web3 from 'web3'
+import { AbiItem } from 'web3-utils'
 
 const getContract = (abi: any, address: string, web3?: Web3) => {
   const _web3 = web3 ?? web3NoAccount
-  return new _web3.eth.Contract((abi as unknown) as AbiItem, address)
+  return new _web3.eth.Contract(abi as unknown as AbiItem, address)
 }
 
 export const getBep20Contract = (address: string, web3?: Web3) => {

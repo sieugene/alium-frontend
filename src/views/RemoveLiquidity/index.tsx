@@ -1,11 +1,10 @@
-import { ChainId, Currency, currencyEquals, ETHER, Percent, WETH } from '@alium-official/sdk'
+import { ChainId, Currency, currencyEquals, ETHER, Percent, ROUTER_ADDRESS, WETH } from '@alium-official/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
 import { AddIcon, Button, Flex, Text } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { ROUTER_ADDRESS } from 'config/contracts'
 import { useRouter } from 'next/router'
 import React, { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
@@ -35,7 +34,7 @@ import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRout
 import { currencyId } from '../../utils/currencyId'
 import useDebouncedChangeHandler from '../../utils/useDebouncedChangeHandler'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
-import { ClickableText, Wrapper } from '../../views/Pool/styleds'
+import { ClickableText, Wrapper } from '../Pool/styleds'
 
 const OutlineCard = styled.div`
   padding: 17px 24px;

@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderWithTheme } from '../../testHelpers'
 import { BaseLayout, CardsLayout } from '../../components/Layouts'
+import { renderWithTheme } from '../../testHelpers'
 
 it('renders base layout correctly', () => {
   const { asFragment } = renderWithTheme(<BaseLayout>basic layout</BaseLayout>)

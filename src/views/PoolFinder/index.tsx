@@ -10,14 +10,14 @@ import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { StyledInternalLink } from 'components/Shared'
 import { PairState, usePair } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
-import SwapAppBody from 'views/Swap/SwapAppBody'
+import { useTranslation } from 'next-i18next'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'next-i18next';
 import { ROUTES } from 'routes'
 import { usePairAdder } from 'state/user/hooks'
 import { useTokenBalance } from 'state/wallet/hooks'
 import styled from 'styled-components'
 import { currencyId } from 'utils/currencyId'
+import SwapAppBody from 'views/Swap/SwapAppBody'
 import { Dots } from '../../views/Pool/styleds'
 
 enum Fields {

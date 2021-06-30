@@ -38,10 +38,10 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.BSCTESTNET]: {},
   [ChainId.HECOMAINNET]: {},
   [ChainId.HECOTESTNET]: {},
-  1: {},
-  4: {},
-  137: {},
-  80001: {},
+  [ChainId.ETHER_MAINNET]: {},
+  [ChainId.ETHER_TESTNET]: {},
+  [ChainId.MATIC_MAINNET]: {},
+  [ChainId.MATIC_TESTNET]: {},
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
@@ -70,7 +70,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
         },
       }
     },
-    { ...EMPTY_LIST }
+    { ...EMPTY_LIST },
   )
   listCache?.set(list, map)
   return map
@@ -119,6 +119,6 @@ export function useAllLists(): TokenList[] {
       Object.keys(lists)
         .map((url) => lists[url].current)
         .filter((l): l is TokenList => Boolean(l)),
-    [lists]
+    [lists],
   )
 }

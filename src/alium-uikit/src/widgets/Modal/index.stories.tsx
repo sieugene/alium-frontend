@@ -1,8 +1,8 @@
 import React from 'react'
 import { Modal, useModal } from '.'
-import { InjectedProps } from './types'
 import Button from '../../components/Button/Button'
 import Heading from '../../components/Heading/Heading'
+import { InjectedProps } from './types'
 
 export default {
   title: 'Widgets/Modal',
