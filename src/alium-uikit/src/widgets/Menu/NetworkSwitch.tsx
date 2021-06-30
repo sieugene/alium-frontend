@@ -112,6 +112,7 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
 
   const updateNetworkChain = (networkId: number) => {
     setId(networkId)
+
     setSelectedOption(networkId === 256 || networkId === 128 ? networks[1].label : networks[0].label)
   }
 
