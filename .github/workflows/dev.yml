@@ -9,7 +9,7 @@ on:
       - merged/tonext
 
 env:
-  VERSION: merged/tonext
+  VERSION: tonext
   IMAGE_ID: ghcr.io/alium-finance/alium-frontend
 jobs:
   build_dev:
