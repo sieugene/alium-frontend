@@ -1,4 +1,5 @@
 import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@alium-official/sdk'
+import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { AddIcon, Button, CardBody, Text, Text as UIKitText } from 'alium-uikit/src'
@@ -20,9 +21,9 @@ import { useActiveWeb3React } from 'hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
-import SwapAppBody from 'views/Swap/SwapAppBody'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'next-i18next';
 import { ROUTES } from 'routes'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
@@ -31,12 +32,13 @@ import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'stat
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
 import { currencyId } from 'utils/currencyId'
+import GTM from 'utils/gtm'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { Wrapper } from '../../views/Pool/styleds'
+import SwapAppBody from 'views/Swap/SwapAppBody'
+import { Wrapper } from "../Pool/styleds"
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { PoolPriceBar } from './PoolPriceBar'
-import { useRouter } from 'next/router'
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -177,7 +179,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
   }, [approvalB, approvalSubmittedB])
 
   const addTransaction = useTransactionAdder()
-
+  const sendDataToGTM = useGTMDispatch()
   const onAdd = async () => {
     if (!chainId || !library || !account) return
     const router = getRouterContract(chainId, library, account)
@@ -239,7 +241,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
           gasPrice,
         }).then((response) => {
           setAttemptingTxn(false)
-
+          GTM.addLiquidity(sendDataToGTM, { liquidityMinted, currencies })
           addTransaction(response, {
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencies[Field.CURRENCY_A]?.symbol
@@ -247,8 +249,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
           })
 
           setTxHash(response.hash)
-        }),
-      )
+        }),)
       .catch((e) => {
         setAttemptingTxn(false)
         // we only care if the error is something _other_ than the user rejected the tx
