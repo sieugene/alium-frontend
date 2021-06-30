@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
 import { getChainId, setChainId } from '../../util'
-import { networks } from '../WalletModal/config'
+import { networksDev, networksProd } from '../WalletModal/config'
 import { NetworksConfig } from '../WalletModal/types'
 
 const StyledDropDown = styled.div`
@@ -108,12 +108,15 @@ type Props = {
 const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
   const [showOptions, setShowOptions] = useState(false)
   const [id, setId] = useState(chainId || getChainId())
-  const [selectedOption, setSelectedOption] = useState(id === 256 || id === 128 ? networks[1].label : networks[0].label)
+
+  const networks = [56, 128, 137, 1].includes(Number(chainId)) ? networksProd : networksDev
+
+  const { icon: Icon, label } = networks.find((x) => x.chainId === chainId) ?? { label: '???' }
+  const [selectedOption, setSelectedOption] = useState(label)
 
   const updateNetworkChain = (networkId: number) => {
     setId(networkId)
-
-    setSelectedOption(networkId === 256 || networkId === 128 ? networks[1].label : networks[0].label)
+    setSelectedOption(label)
   }
 
   React.useEffect(() => {
@@ -132,19 +135,15 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
     }, 0)
   }
 
-  const { icon: Icon } = networks[networks.findIndex((network) => network.label === selectedOption)]
-
   return (
     <StyledDropDown onClick={() => setShowOptions(!showOptions)}>
-      <StyledIconContainer>
-        <Icon />
-      </StyledIconContainer>
+      <StyledIconContainer>{Icon && <Icon />}</StyledIconContainer>
       <StyledSelectedOption>{selectedOption}</StyledSelectedOption>
       {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
       {showOptions && (
         <StyledOptionsContainer>
           {networks.map((item) => (
-            <StyledOption key={item.title} onClick={() => handleClick(item)}>
+            <StyledOption key={item.chainId} onClick={() => handleClick(item)}>
               {item.label}
             </StyledOption>
           ))}
