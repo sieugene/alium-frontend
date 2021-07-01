@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useToast } from 'state/hooks'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
-import { getChainId, setChainId } from '../../util'
+import { getChainId, removeChainId, setChainId } from '../../util'
 import { networksDev, networksProd } from '../WalletModal/config'
 import { NetworksConfig } from '../WalletModal/types'
 
@@ -115,7 +115,7 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
 
   const networks = isDev ? networksDev : networksProd
   const networkExist = networks.find((x) => x.chainId === chainId)
-  const { icon: Icon, label } = networkExist ?? { label: '???' }
+  const { icon: Icon, label } = networkExist ?? { label: '???', icon: networks[0].icon }
   const [selectedOption, setSelectedOption] = useState(label)
 
   const updateNetworkChain = (networkId: number) => {
@@ -142,6 +142,7 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
 
   React.useEffect(() => {
     if (chainId && !networkExist) {
+      removeChainId()
       toastError("Can't find network", 'Please choice network')
       // If network not found, set default
       // handleClick(networks[0], true)
