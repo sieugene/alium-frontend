@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useToast } from 'state/hooks'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
 import { getChainId, setChainId } from '../../util'
@@ -108,10 +109,13 @@ type Props = {
 const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
   const [showOptions, setShowOptions] = useState(false)
   const [id, setId] = useState(chainId || getChainId())
+  const { toastError } = useToast()
 
-  const networks = [56, 128, 137, 1].includes(Number(chainId)) ? networksProd : networksDev
+  const isDev = process.env.NODE_ENV === 'development'
 
-  const { icon: Icon, label } = networks.find((x) => x.chainId === chainId) ?? { label: '???' }
+  const networks = isDev ? networksDev : networksProd
+  const networkExist = networks.find((x) => x.chainId === chainId)
+  const { icon: Icon, label } = networkExist ?? { label: '???' }
   const [selectedOption, setSelectedOption] = useState(label)
 
   const updateNetworkChain = (networkId: number) => {
@@ -126,14 +130,23 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
     }
   }, [chainId])
 
-  const handleClick = (item: NetworksConfig) => {
+  const handleClick = (item: NetworksConfig, withoutReload?: boolean) => {
     setSelectedOption(item.label)
     setChainId(item.chainId)
     setId(item.chainId)
-    setTimeout(() => {
-      window.location.reload()
-    }, 0)
+    !withoutReload &&
+      setTimeout(() => {
+        window.location.reload()
+      }, 0)
   }
+
+  React.useEffect(() => {
+    if (chainId && !networkExist) {
+      toastError("Can't find network", 'Please choice network')
+      // If network not found, set default
+      // handleClick(networks[0], true)
+    }
+  }, [networkExist])
 
   return (
     <StyledDropDown onClick={() => setShowOptions(!showOptions)}>

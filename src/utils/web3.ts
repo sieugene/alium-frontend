@@ -1,4 +1,4 @@
-import { getChainId } from '@alium-official/uikit'
+import { getChainId } from 'alium-uikit/src'
 import getNodeUrl from 'utils/getRpcUrl'
 import Web3 from 'web3'
 import { HttpProviderOptions } from 'web3-core-helpers'

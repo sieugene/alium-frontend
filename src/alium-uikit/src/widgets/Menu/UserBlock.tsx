@@ -1,10 +1,12 @@
+import dynamic from 'next/dynamic'
 import React from 'react'
 import styled from 'styled-components'
 import Flex from '../../components/Flex/Flex'
 import { useWalletModal } from '../WalletModal'
 import { Login } from '../WalletModal/types'
 import { ConnectButton } from './ConnectButton'
-import NetworkSwitch from './NetworkSwitch'
+
+const NetworkSwitch = dynamic(() => import('./NetworkSwitch'), { ssr: false })
 
 interface Props {
   account?: string

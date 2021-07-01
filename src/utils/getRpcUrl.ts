@@ -20,9 +20,13 @@ export const nodes = {
 }
 
 const getNodeUrl = (chainId?: ChainId) => {
-  const id = chainId || getChainId()
-  const randomIndex = random(0, nodes[id].length - 1)
-  return nodes[id][randomIndex]
+  try {
+    const id = chainId || getChainId()
+    const randomIndex = random(0, nodes[id].length - 1)
+    return nodes[id][randomIndex]
+  } catch (error) {
+    return 0
+  }
 }
 
 export default getNodeUrl
