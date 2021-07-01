@@ -111,7 +111,8 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
   const [id, setId] = useState(chainId || getChainId())
   const { toastError } = useToast()
 
-  const isDev = process.env.NODE_ENV === 'development'
+  // const isDev = process.env.NODE_ENV === 'development'
+  const isDev = true
 
   const networks = isDev ? networksDev : networksProd
   const networkExist = networks.find((x) => x.chainId === chainId)

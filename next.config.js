@@ -3,7 +3,8 @@
 const webpack = require('webpack')
 const { i18n } = require('./next-i18next.config')
 
-const isDev = process.env.NODE_ENV === 'development'
+// const isDev = process.env.NODE_ENV === 'development'
+const isDev = true
 
 const { parsed: myEnv } = isDev
   ? require('dotenv').config({

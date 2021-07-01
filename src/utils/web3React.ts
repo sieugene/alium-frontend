@@ -11,7 +11,8 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const chainId = getChainId()
   const rpcUrl = getNodeUrl(chainId)
 
-  const isDev = process.env.NODE_ENV === 'development'
+  // const isDev = process.env.NODE_ENV === 'development'
+  const isDev = true
   const networks = isDev ? networksDev : networksProd
 
   const supported = networks.find((network) => network.chainId === chainId)
