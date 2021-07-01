@@ -7,6 +7,6 @@ networks:
 
 services:
   frontend:
-    image: aliumfrontend
+    image: ghcr.io/alium-finance/alium-frontend:${VERSION}
     ports:
       - 3001:3000
