@@ -144,7 +144,7 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
   React.useEffect(() => {
     if (chainId && !networkExist) {
       removeChainId()
-      toastError("Can't find network", 'Please choice network')
+      // toastError("Can't find network", 'Please choice network')
       // If network not found, set default
       // handleClick(networks[0], true)
     }
