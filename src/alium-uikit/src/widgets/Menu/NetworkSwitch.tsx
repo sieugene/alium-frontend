@@ -116,7 +116,7 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
 
   const networks = isDev ? networksDev : networksProd
   const networkExist = networks.find((x) => x.chainId === chainId)
-  const { icon: Icon, label } = networkExist ?? { label: '???', icon: networks[0].icon }
+  const { icon: Icon, label } = networkExist ?? networks[0]
   const [selectedOption, setSelectedOption] = useState(label)
 
   const updateNetworkChain = (networkId: number) => {

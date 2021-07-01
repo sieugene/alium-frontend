@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable max-classes-per-file */
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { AbstractConnectorArguments, ConnectorUpdate } from '@web3-react/types'
 import warning from 'tiny-warning'
@@ -162,6 +164,7 @@ export class BscConnector extends AbstractConnector {
     }
 
     if (!account) {
+      // eslint-disable-next-line prefer-destructuring
       account = parseSendReturn((window.BinanceChain.send as SendOld)({ method: 'eth_accounts' }))[0]
     }
 

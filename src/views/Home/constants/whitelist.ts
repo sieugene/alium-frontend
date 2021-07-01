@@ -3,7 +3,7 @@ import { getChainId } from 'alium-uikit/src'
 const chainId = getChainId()
 
 const whitelist = {
-  '97': [
+  97: [
     '0xAa50dA3BD10D140536Dd96136a4781274c09561b',
     '0x5C9C39Dfe868bE7Ee04EdB425957Be479c3dC356',
     '0x51ddE69E667080D38D290E0F13c77877EA4DB302',
@@ -14,7 +14,7 @@ const whitelist = {
     '0x89FCA750687B2461d810d5EfC35c43A1cD4b4AF6',
     '0xe9df78Cda7156B8Ba102C8D11E07Cf733e2Ab4A1',
   ],
-  '56': [
+  56: [
     '0xAa50dA3BD10D140536Dd96136a4781274c09561b',
     '0x5C9C39Dfe868bE7Ee04EdB425957Be479c3dC356',
     '0x51ddE69E667080D38D290E0F13c77877EA4DB302',

@@ -38,6 +38,11 @@ const useAuth = () => {
                 } catch (err) {
                   console.error('err :>> ', err)
                 }
+              } else {
+                // if ethereum change network in wallet
+                const messageErr =
+                  chainId === 1 || chainId === 4 ? 'Please change network in your wallet' : 'Please change network'
+                toastError(`Can't setup connect`, messageErr)
               }
             } else {
               removeConnectorId()

@@ -76,7 +76,9 @@ const StyledWalletFlex = styled(StyledFlex)`
 
 const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, title = 'Connect to a wallet' }) => {
   const chainId = getChainId()
-  const networks = [56, 128, 137, 1].includes(Number(chainId)) ? networksProd : networksDev
+  // const isDev = process.env.NODE_ENV === 'development'
+  const isDev = true
+  const networks = isDev ? networksDev : networksProd
 
   const networkConfig = networks.find((x) => x.chainId === chainId) ?? { title: '???' }
   const [selectedNetwork, setSelectedNetwork] = useState(networkConfig.title)
