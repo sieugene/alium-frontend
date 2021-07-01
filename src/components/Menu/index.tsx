@@ -51,6 +51,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         { label: t('mainMenu.blog'), href: externalLinks.medium },
       ],
     },
+    { label: 'Alium.art', icon: 'IconArt', href: `https://alium.art` },
   ]
 
   const { account } = useWeb3React()
