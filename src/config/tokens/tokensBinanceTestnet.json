@@ -13,7 +13,7 @@
     {
       "name": "Alium Swap",
       "symbol": "ALM",
-      "address": "0xf671C33452adfB8e0f645d95d8E3C6Df0d78fED2",
+      "address": "0x6f58aCfaEB1BfDC9c4959c43aDdE7a3b63BF019f",
       "chainId": 97,
       "decimals": 18,
       "logoURI": "https://github.com/Alium-Finance/alium-swap-interface/blob/master/public/images/coins/ALM.png?raw=true"

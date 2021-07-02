@@ -11,6 +11,14 @@
   "keywords": ["alium", "default"],
   "tokens": [
     {
+      "name": "Alium Swap",
+      "symbol": "ALM",
+      "address": "0x54a472C96b01f8639326D49Ef3eD4B9a78C3ba63",
+      "chainId": 256,
+      "decimals": 18,
+      "logoURI": "https://github.com/Alium-Finance/alium-swap-interface/blob/master/public/images/coins/ALM.png?raw=true"
+    },
+    {
       "name": "Wrapped Heco",
       "symbol": "WHT",
       "address": "0x7aF326B6351C8A9b8fb8CD205CBe11d4Ac5FA836",

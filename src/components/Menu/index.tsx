@@ -60,7 +60,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   const { chainId } = useActiveWeb3React()
   const { login, logout } = useAuth()
   const { isDark, toggleTheme } = useTheme()
-  const { balance } = useCurrencyBalance(account, web3)
+  const { balance } = useCurrencyBalance(account, ETHER)
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
   // const useBalance = async () => {
