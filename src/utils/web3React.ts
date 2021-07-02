@@ -33,6 +33,7 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
     [ConnectorNames.Injected]: injected,
     [ConnectorNames.WalletConnect]: walletconnect,
     [ConnectorNames.BSC]: bscConnector,
+    [ConnectorNames.TOKENPOCKET]: null,
   }
 
   return { chainId: supportedId, connector: connectorsByName[connectorID] }

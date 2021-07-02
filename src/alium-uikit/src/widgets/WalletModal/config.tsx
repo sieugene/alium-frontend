@@ -39,7 +39,7 @@ export const wallets: WalletsConfig[] = [
   {
     title: 'Token Pocket',
     icon: TokenPocket,
-    connectorId: isMobileWallet(ConnectorNames.Injected),
+    connectorId: isMobileWallet(ConnectorNames.TOKENPOCKET),
   },
   {
     title: 'Wallet Connect',

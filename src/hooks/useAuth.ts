@@ -14,6 +14,7 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { setConnectionError } from 'state/application/actions'
 import { useToast } from 'state/hooks'
+import { checkSupportConnect } from 'utils/connection/notifyWeb3'
 import GTM from 'utils/gtm'
 import { setupNetwork } from '../utils/wallet'
 import { getConnectorsByName } from '../utils/web3React'
@@ -28,13 +29,21 @@ const useAuth = () => {
     async (connectorID: ConnectorNames) => {
       try {
         const { chainId, connector } = getConnectorsByName(connectorID)
+        const support = checkSupportConnect(connectorID)
+        if (!support) {
+          toastError('Provider Error', 'No provider was found. Please change provider')
+          return null
+        }
+
         if (connector) {
           await activate(connector, async (error: Error) => {
             if (error instanceof UnsupportedChainIdError) {
               const hasSetup = await setupNetwork(chainId)
               if (hasSetup) {
                 try {
-                  await activate(connector, (err) => console.error('err :>> ', err))
+                  await activate(connector, (err) => {
+                    toastError(err.name, err.message)
+                  })
                 } catch (err) {
                   console.error('err :>> ', err)
                 }
