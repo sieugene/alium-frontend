@@ -72,6 +72,22 @@ const StyledTextAddIcon = styled.div`
   }
 `
 
+const Receive = styled(StyledInternalLink)`
+  width: 94px;
+  height: 24px;
+  background: #e6e6f6;
+  border-radius: 6px;
+  padding: 7px;
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 10px;
+  letter-spacing: 1px;
+  color: #6c5dd3;
+  margin-top: 16px;
+`
+
 export const RemoveLiquidity: FC = () => {
   const history = useRouter()
   const { query } = history
@@ -665,23 +681,23 @@ export const RemoveLiquidity: FC = () => {
                       {chainId && (oneCurrencyIsWETH || oneCurrencyIsETH) ? (
                         <RowBetween style={{ justifyContent: 'flex-end' }}>
                           {oneCurrencyIsETH ? (
-                            <StyledInternalLink
+                            <Receive
                               href={ROUTES.removeByMultiple(
                                 currencyA === ETHER ? WETH[chainId].address : currencyIdA,
                                 currencyB === ETHER ? WETH[chainId].address : currencyIdB,
                               )}
                             >
                               Receive WBNB
-                            </StyledInternalLink>
+                            </Receive>
                           ) : oneCurrencyIsWETH ? (
-                            <StyledInternalLink
+                            <Receive
                               href={ROUTES.removeByMultiple(
                                 currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'ETH' : currencyIdA,
                                 currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'ETH' : currencyIdB,
                               )}
                             >
                               Receive BNB
-                            </StyledInternalLink>
+                            </Receive>
                           ) : null}
                         </RowBetween>
                       ) : null}
