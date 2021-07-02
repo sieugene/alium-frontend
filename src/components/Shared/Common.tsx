@@ -17,12 +17,12 @@ export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColo
   background-color: ${({ backgroundColor }) => backgroundColor};
   width: 100%;
 
-  :hover,
-  :focus {
+  &:hover,
+  &:focus {
     background-color: ${({ backgroundColor }) => darken(0.05, backgroundColor)};
   }
 
-  :active {
+  &:active {
     background-color: ${({ backgroundColor }) => darken(0.1, backgroundColor)};
   }
 
@@ -82,7 +82,7 @@ export const StyledInternalLink = styled(NextLink)`
   }
 `
 
-const StyledLink = styled.a`
+const StyledLink = styled(NextLink.multiple)`
   text-decoration: none;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.primary};

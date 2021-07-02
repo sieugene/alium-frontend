@@ -78,7 +78,8 @@ export function getEtherscanLink(chainId: ChainId, data: string, type: 'transact
 
 export function getExplorerLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
   const url = EXPLORER_URLS[chainId] || EXPLORER_URLS[ChainId.MAINNET]
-  const prefix = `https://${EXPLORER_PREFIXES[chainId] || EXPLORER_PREFIXES[ChainId.MAINNET]}${url}`
+  // const prefix = `https://${EXPLORER_PREFIXES[chainId] || EXPLORER_PREFIXES[ChainId.MAINNET]}${url}`
+  const prefix = `https://${url}`
 
   switch (type) {
     case 'transaction': {
