@@ -39,6 +39,7 @@ export const wallets: WalletsConfig[] = [
   {
     title: 'Token Pocket',
     icon: TokenPocket,
+    // Remove Later to  ConnectorNames.WalletConnect
     connectorId: isMobileWallet(ConnectorNames.TOKENPOCKET),
   },
   {

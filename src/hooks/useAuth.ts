@@ -29,11 +29,13 @@ const useAuth = () => {
     async (connectorID: ConnectorNames) => {
       try {
         const { chainId, connector } = getConnectorsByName(connectorID)
+        // Remove Later
         const support = checkSupportConnect(connectorID)
         if (!support) {
           toastError('Provider Error', 'No provider was found. Please change provider')
           return null
         }
+        //
 
         if (connector) {
           await activate(connector, async (error: Error) => {
