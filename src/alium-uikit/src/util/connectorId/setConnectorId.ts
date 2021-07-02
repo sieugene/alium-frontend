@@ -8,6 +8,7 @@ export enum ConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   BSC = 'bsc',
+  TOKENPOCKET = 'tokenpocket'
 }
 
 type setConnectorId = (connectorId: typeof ConnectorNames[keyof typeof ConnectorNames] | null) => void
