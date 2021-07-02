@@ -4,11 +4,12 @@ import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uik
 import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
 import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'
+import useCurrencyBalance from 'hooks/useCurrencyBalance'
 import useTheme from 'hooks/useTheme'
+import useWeb3 from 'hooks/useWeb3'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { ROUTES } from 'routes'
-import { useCurrencyBalance } from 'state/wallet/hooks'
 import { getExplorerLink, getExplorerName } from 'utils'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
@@ -55,10 +56,11 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   ]
 
   const { account } = useWeb3React()
+  const web3 = useWeb3()
   const { chainId } = useActiveWeb3React()
   const { login, logout } = useAuth()
   const { isDark, toggleTheme } = useTheme()
-  const balance = useCurrencyBalance(account as string, ETHER)
+  const { balance } = useCurrencyBalance(account, web3)
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
   // const useBalance = async () => {
