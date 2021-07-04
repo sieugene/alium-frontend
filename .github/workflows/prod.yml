@@ -41,3 +41,13 @@ jobs:
         with:
           name: build
       - run: cp -r ./ ~/$GITHUB_REPOSITORY
+
+  deploy_prod_2:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    runs-on: [self-hosted, prod-2]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
+      - run: cp -r ./ ~/$GITHUB_REPOSITORY
