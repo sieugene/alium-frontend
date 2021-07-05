@@ -1,24 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable import/no-extraneous-dependencies */
-const webpack = require('webpack')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { i18n } = require('./next-i18next.config')
 
-// const isDev = process.env.NODE_ENV === 'development'
-const isDev = true
-
-const { parsed: myEnv } = isDev
-  ? require('dotenv').config({
-      path: './.env.development',
-    })
-  : require('dotenv').config({
-      path: './.env.production',
-    })
-console.log('APP was started with MODE', isDev ? 'DEV' : 'PRODUCTION')
+const { NODE_ENV, __NEXT_PROCESSED_ENV, ...OTHER_ENVS } = process.env
 
 module.exports = {
-  webpack(config) {
-    config.plugins.push(new webpack.EnvironmentPlugin(myEnv))
-    return config
+  i18n,
+  env: {
+    ...OTHER_ENVS,
   },
   distDir: 'build',
   compress: false,
@@ -27,5 +15,4 @@ module.exports = {
     autoPrerender: false,
   },
   reactStrictMode: true,
-  i18n,
 }
