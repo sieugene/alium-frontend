@@ -82,10 +82,13 @@ type props = {
 }
 
 const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
+  useLiquidityPriorityDefaultAlm()
+
   const history = useRouter()
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
   const { account, chainId, library } = useActiveWeb3React()
+  const user = React.useMemo(() => account, [account])
 
   const oneCurrencyIsWETH = Boolean(
     chainId &&
@@ -121,6 +124,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
   const [deadline] = useUserDeadline() // custom from users settings
   const [allowedSlippage] = useUserSlippageTolerance() // custom from users
   const [txHash, setTxHash] = useState<string>('')
+  const [hasError, setError] = useState(null)
   const { t } = useTranslation()
 
   // get formatted amounts
@@ -180,10 +184,11 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
   const addTransaction = useTransactionAdder()
   const sendDataToGTM = useGTMDispatch()
   const onAdd = async () => {
-    if (!chainId || !library || !account) return
-    const router = getRouterContract(chainId, library, account)
+    if (!chainId || !library || !user) return
+    const router = getRouterContract(chainId, library, user)
 
     const { [Field.CURRENCY_A]: parsedAmountA, [Field.CURRENCY_B]: parsedAmountB } = parsedAmounts
+
     if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB) {
       return
     }
@@ -208,7 +213,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
         (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
         amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
         amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
-        account,
+        user,
         deadlineFromNow,
       ]
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
@@ -222,7 +227,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
         parsedAmountB.raw.toString(),
         amountsMin[Field.CURRENCY_A].toString(),
         amountsMin[Field.CURRENCY_B].toString(),
-        account,
+        user,
         deadlineFromNow,
       ]
       value = null
@@ -233,7 +238,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
     setAttemptingTxn(true)
     // const aa = await estimate(...args, value ? { value } : {})
     await estimate(...args, value ? { value } : {})
-      .then((estimatedGasLimit) =>
+      .then((estimatedGasLimit) => {
         method(...args, {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit),
@@ -248,10 +253,13 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
           })
 
           setTxHash(response.hash)
-        }),
-      )
+        })
+      })
       .catch((e) => {
+        setError(e)
         setAttemptingTxn(false)
+        console.log('-----Error when adding liqudity-----', e)
+
         // we only care if the error is something _other_ than the user rejected the tx
         if (e?.code !== 4001) {
           console.error(e)
@@ -309,6 +317,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
         parsedAmounts={parsedAmounts}
         noLiquidity={noLiquidity}
         onAdd={onAdd}
+        hasError={hasError}
         poolTokenPercentage={poolTokenPercentage}
       />
     )
@@ -330,8 +339,6 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
     },
     [currencyIdB, history, currencyIdA],
   )
-
-  useLiquidityPriorityDefaultAlm()
 
   const handleCurrencyBSelect = useCallback(
     (currB: Currency) => {
@@ -367,7 +374,10 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
         <Wrapper>
           <TransactionConfirmationModal
             isOpen={showConfirm}
-            onDismiss={handleDismissConfirmation}
+            onDismiss={() => {
+              handleDismissConfirmation()
+              setError(null)
+            }}
             attemptingTxn={attemptingTxn}
             hash={txHash}
             content={() => (
@@ -449,7 +459,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
                 </div>
               )}
 
-              {!account ? (
+              {!user ? (
                 <ConnectWalletButton fullwidth />
               ) : (
                 <AutoColumn gap="md">
