@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 import { setConnectionError } from 'state/application/actions'
 import { useToast } from 'state/hooks'
 import { checkSupportConnect } from 'utils/connection/notifyWeb3'
+import { clearWalletConnect } from 'utils/connection/walletConnect'
 import GTM from 'utils/gtm'
 import { setupNetwork } from '../utils/wallet'
 import { getConnectorsByName } from '../utils/web3React'
@@ -45,6 +46,8 @@ const useAuth = () => {
                 try {
                   await activate(connector, (err) => {
                     toastError(err.name, err.message)
+                    removeConnectorId()
+                    clearWalletConnect()
                   })
                 } catch (err) {
                   console.error('err :>> ', err)
