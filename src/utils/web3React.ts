@@ -2,7 +2,7 @@ import { BscConnector } from '@binance-chain/bsc-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { ConnectorNames, getChainId } from 'alium-uikit/src'
-import { networksDev, networksProd } from '../alium-uikit/src/widgets/WalletModal/config'
+import { networksDev, networksProd } from 'alium-uikit/src/widgets/WalletModal/config'
 // import Web3 from 'web3'
 import getNodeUrl from './getRpcUrl'
 
@@ -11,8 +11,7 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const chainId = getChainId()
   const rpcUrl = getNodeUrl(chainId)
 
-  // const isDev = process.env.NODE_ENV === 'development'
-  const isDev = true
+  const isDev = process.env.APP_ENV === 'development'
   const networks = isDev ? networksDev : networksProd
 
   const supported = networks.find((network) => network.chainId === chainId)
