@@ -4,8 +4,7 @@ import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import React from 'react'
-import { useStoreAccount } from 'store/account/useStoreAccount'
-import { useStoreNetwork } from 'store/network/useStoreNetwork'
+import { InitStores } from 'store/InitStores'
 import 'typeface-roboto'
 import GTM from 'utils/gtm'
 import nextI18NextConfig from '../../next-i18next.config.js'
@@ -24,25 +23,9 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 })
 
-function MyApp({ Component, pageProps }: AppProps) {
-  // get store actions
-  const initStoreAccount = useStoreAccount((state) => state.initStoreAccount)
-  const killStoreAccount = useStoreAccount((state) => state.killStoreAccount)
-  const initStoreNetwork = useStoreNetwork((state) => state.initStoreNetwork)
-  const killStoreNetwork = useStoreNetwork((state) => state.killStoreNetwork)
-
-  // use store actions
-  React.useEffect(() => {
-    initStoreAccount()
-    initStoreNetwork()
-
-    return () => {
-      killStoreAccount()
-      killStoreNetwork()
-    }
-  }, [])
-
-  return (
+const MyApp = ({ Component, pageProps }: AppProps) => (
+  <>
+    <InitStores />
     <GTMProvider state={GTM.params}>
       <Providers>
         <EagerConnectContainer />
@@ -55,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ToastListener />
       </Providers>
     </GTMProvider>
-  )
-}
+  </>
+)
 
 export default appWithTranslation(MyApp, nextI18NextConfig)

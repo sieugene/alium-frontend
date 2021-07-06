@@ -2,7 +2,7 @@ import useEagerConnect from 'hooks/useEagerConnect'
 
 const EagerConnectContainer = () => {
   process.browser && useEagerConnect()
-  return <div></div>
+  return null
 }
 
 export default EagerConnectContainer

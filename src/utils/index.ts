@@ -21,16 +21,6 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   56: '',
   97: 'testnet.',
 }
-const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: '',
-  [ChainId.BSCTESTNET]: 'testnet.',
-  [ChainId.HECOMAINNET]: '',
-  [ChainId.HECOTESTNET]: 'testnet.',
-  [ChainId.ETHER_MAINNET]: '',
-  [ChainId.ETHER_TESTNET]: 'testnet.',
-  [ChainId.MATIC_MAINNET]: '',
-  [ChainId.MATIC_TESTNET]: 'testnet.',
-}
 
 const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'bscscan.com',
