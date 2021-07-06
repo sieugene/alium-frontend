@@ -4,6 +4,8 @@ import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import React from 'react'
+import { useStoreAccount } from 'store/account/useStoreAccount'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import 'typeface-roboto'
 import GTM from 'utils/gtm'
 import nextI18NextConfig from '../../next-i18next.config.js'
@@ -16,15 +18,28 @@ const ResetCSS = dynamic(() => import('alium-uikit/src').then((module) => module
 const MenuWrappedRoute = dynamic(() => import('../components/Menu'), { ssr: false })
 const EagerConnectContainer = dynamic(() => import('connectors/EagerConnectContainer'), { ssr: false })
 
-// This config is required for number formating
+// This config is required for number formatting
 BigNumber.config({
   EXPONENTIAL_AT: 1000,
   DECIMAL_PLACES: 80,
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // get store actions
+  const initStoreAccount = useStoreAccount((state) => state.initStoreAccount)
+  const killStoreAccount = useStoreAccount((state) => state.killStoreAccount)
+  const initStoreNetwork = useStoreNetwork((state) => state.initStoreNetwork)
+  const killStoreNetwork = useStoreNetwork((state) => state.killStoreNetwork)
+
+  // use store actions
   React.useEffect(() => {
-    console.warn = () => null
+    initStoreAccount()
+    initStoreNetwork()
+
+    return () => {
+      killStoreAccount()
+      killStoreNetwork()
+    }
   }, [])
 
   return (
