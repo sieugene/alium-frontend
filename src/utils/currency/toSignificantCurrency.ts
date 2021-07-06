@@ -15,7 +15,8 @@ function getFlooredFixed(v: number, d: number) {
 const formatZero = (formatted: string, fullStr: string) => {
   const isZero = formatted[formatted.length - 1] === '0'
   if (isZero && formatted.length > 2 && fullStr.length > 2) {
-    const shift = fullStr[fullStr.length - 2] || ''
+    const shiftedValue = fullStr[fullStr.length - 2]
+    const shift = (shiftedValue !== '.' && shiftedValue !== '0' && fullStr[fullStr.length - 2]) || ''
     return formatted.substring(0, formatted.length - 1) + shift
   }
   return formatted
