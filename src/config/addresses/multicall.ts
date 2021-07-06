@@ -7,8 +7,8 @@ const MULTICALL_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.HECOTESTNET]: '0x4763395a9eb252bb509ac78dc409d64b1d9d1b84',
   [ChainId.ETHER_MAINNET]: '',
   [ChainId.ETHER_TESTNET]: '',
-  [ChainId.MATIC_MAINNET]: '',
-  [ChainId.MATIC_TESTNET]: '',
+  [ChainId.MATIC_MAINNET]: '0x6cFe00906a2074F41788b8Dc4fa66a4c13C2A3a3',
+  [ChainId.MATIC_TESTNET]: '0x1b1CD5E15C1d0E84cbffF8F7Df514e4f90031FdC',
 }
 
 export default MULTICALL_ADDRESS
