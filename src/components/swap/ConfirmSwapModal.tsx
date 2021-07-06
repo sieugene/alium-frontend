@@ -1,5 +1,6 @@
 import { currencyEquals, Trade } from '@alium-official/sdk'
 import React, { useCallback, useMemo } from 'react'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,
   TransactionErrorContent,
@@ -77,9 +78,9 @@ export default function ConfirmSwapModal({
   }, [allowedSlippage, onConfirm, showAcceptChanges, swapErrorMessage, trade])
 
   // text to show while loading
-  const pendingText = `Swapping ${trade?.inputAmount?.toSignificant(6)} ${
+  const pendingText = `Swapping ${toSignificantCurrency(trade?.inputAmount)} ${
     trade?.inputAmount?.currency?.symbol
-  } for ${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`
+  } for ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
 
   const confirmationContent = useCallback(
     () =>

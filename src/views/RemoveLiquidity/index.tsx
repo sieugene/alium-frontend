@@ -10,6 +10,7 @@ import React, { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import SwapAppBody from 'views/Swap/SwapAppBody'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
@@ -126,11 +127,11 @@ export const RemoveLiquidity: FC = () => {
       ? '<1'
       : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
     [Field.LIQUIDITY]:
-      independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
+      independentField === Field.LIQUIDITY ? typedValue : toSignificantCurrency(parsedAmounts[Field.LIQUIDITY]) ?? '',
     [Field.CURRENCY_A]:
-      independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) ?? '',
+      independentField === Field.CURRENCY_A ? typedValue : toSignificantCurrency(parsedAmounts[Field.CURRENCY_A]) ?? '',
     [Field.CURRENCY_B]:
-      independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? '',
+      independentField === Field.CURRENCY_B ? typedValue : toSignificantCurrency(parsedAmounts[Field.CURRENCY_B]) ?? '',
   }
 
   const atMaxAmount = parsedAmounts[Field.LIQUIDITY_PERCENT]?.equalTo(new Percent('1'))
@@ -371,7 +372,7 @@ export const RemoveLiquidity: FC = () => {
           style={{ backgroundColor: '#F5F7FF', borderRadius: '6px', padding: '13px 16px' }}
           alignItems="center"
         >
-          <Text fontSize="14px">{parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}</Text>
+          <Text fontSize="14px">{toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])}</Text>
           <RowFixed gap="4px">
             <CurrencyLogo currency={currencyA} size="24px" />
             <Text fontSize="14px" style={{ marginLeft: '10px' }}>
@@ -388,7 +389,7 @@ export const RemoveLiquidity: FC = () => {
           style={{ backgroundColor: '#F5F7FF', borderRadius: '6px', padding: '13px 16px' }}
           alignItems="center"
         >
-          <Text fontSize="14px">{parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}</Text>
+          <Text fontSize="14px">{toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])}</Text>
           <RowFixed gap="4px">
             <CurrencyLogo currency={currencyB} size="24px" />
             <Text fontSize="14px" style={{ marginLeft: '10px' }}>
@@ -424,7 +425,7 @@ export const RemoveLiquidity: FC = () => {
           <RowFixed>
             <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin size={24} />
             <Text fontSize="11px" ml="8px">
-              {parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}
+              {toSignificantCurrency(parsedAmounts[Field.LIQUIDITY])}
             </Text>
           </RowFixed>
         </RowBetween>
@@ -435,13 +436,13 @@ export const RemoveLiquidity: FC = () => {
                 Price
               </Text>
               <Text fontSize="11px" color="#6C5DD3">
-                1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
+                1 {currencyA?.symbol} = {tokenA ? toSignificantCurrency(pair.priceOf(tokenA)) : '-'} {currencyB?.symbol}
               </Text>
             </RowBetween>
             <RowBetween>
               <div />
               <Text fontSize="11px" color="#6C5DD3">
-                1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
+                1 {currencyB?.symbol} = {tokenB ? toSignificantCurrency(pair.priceOf(tokenB)) : '-'} {currencyA?.symbol}
               </Text>
             </RowBetween>
           </StyledPriceContainer>
@@ -458,9 +459,9 @@ export const RemoveLiquidity: FC = () => {
     )
   }
 
-  const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
+  const pendingText = `Removing ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])} ${
     currencyA?.symbol
-  } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`
+  } and ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])} ${currencyB?.symbol}`
 
   const liquidityPercentChangeCallback = useCallback(
     (value: number) => {
@@ -764,13 +765,15 @@ export const RemoveLiquidity: FC = () => {
                   <Flex justifyContent="space-between" mb="8px">
                     <Text style={{ color: '#8990A5', fontSize: '14px', fontWeight: 500 }}>Price:</Text>
                     <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
-                      1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
+                      1 {currencyA?.symbol} = {tokenA ? toSignificantCurrency(pair.priceOf(tokenA)) : '-'}{' '}
+                      {currencyB?.symbol}
                     </Text>
                   </Flex>
                   <Flex justifyContent="space-between">
                     <div />
                     <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
-                      1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
+                      1 {currencyB?.symbol} = {tokenB ? toSignificantCurrency(pair.priceOf(tokenB)) : '-'}{' '}
+                      {currencyA?.symbol}
                     </Text>
                   </Flex>
                 </div>

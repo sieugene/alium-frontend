@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import styled from 'styled-components'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import Button from '../../components/Button/Button'
 import Flex from '../../components/Flex/Flex'
 import { BSCScanIcon, ExitIcon, ModalBackgroundIcon, TransactionHistoryIcon } from '../../components/Svg'
@@ -123,13 +124,10 @@ const AccountModal: React.FC<Props> = ({
   balanceHook,
 }) => {
   const [currentBalance, setBalance] = useState(balance)
-  // balanceHook().then((result?: any)=>setBalance(result.toSignificant(6)))
   useEffect(() => {
     // balanceHook().then((result)=>setBalance(result))
-    balanceHook().then((result?: any) => setBalance(result?.toSignificant(6)))
+    balanceHook().then((result?: any) => setBalance(toSignificantCurrency(result)))
   }, [balanceHook])
-
-  // balanceHook().then((result)=>console.log(result.toSignificant(6)))
 
   return (
     <Modal title={title} onDismiss={onDismiss} styledModalContent={{ padding: '0 24px 32px 24px' }}>

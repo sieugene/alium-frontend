@@ -1,8 +1,9 @@
 import { Trade } from '@alium-official/sdk'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 
 export const swapTradeFormat = (trade: Trade) => {
   return {
-    token: `${trade?.inputAmount?.toSignificant(6)} ${trade?.inputAmount?.currency?.symbol}`,
-    value: `${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`,
+    token: `${toSignificantCurrency(trade?.inputAmount)} ${trade?.inputAmount?.currency?.symbol}`,
+    value: `${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`,
   }
 }

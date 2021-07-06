@@ -1,6 +1,7 @@
 import { Trade, TradeType } from '@alium-official/sdk'
 import { Button, SwapIcon, Text } from 'alium-uikit/src'
 import React, { useMemo, useState } from 'react'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { Field } from '../../state/swap/actions'
 import {
   computeSlippageAdjustedAmounts,
@@ -96,7 +97,7 @@ export default function SwapModalFooter({
             <QuestionHelper text="For each trade a 0.25% fee is paid. 0.2% goes to liquidity providers and 0.05% goes to the AliumSwap treasury." />
           </RowFixed>
           <Text fontSize="11px" color="#6C5DD3">
-            {realizedLPFee ? `${realizedLPFee?.toSignificant(6)} ${trade.inputAmount.currency.symbol}` : '-'}
+            {realizedLPFee ? `${toSignificantCurrency(realizedLPFee)} ${trade.inputAmount.currency.symbol}` : '-'}
           </Text>
         </RowBetween>
       </AutoColumn>

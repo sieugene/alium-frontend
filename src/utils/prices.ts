@@ -5,6 +5,7 @@ import {
   ALLOWED_PRICE_IMPACT_MEDIUM,
   BLOCKED_PRICE_IMPACT_NON_EXPERT,
 } from 'config/settings'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { Field } from '../state/swap/actions'
 import { basisPointsToPercent } from './index'
 
@@ -72,10 +73,10 @@ export function formatExecutionPrice(trade?: Trade, inverted?: boolean): string 
     return ''
   }
   return inverted
-    ? `${trade.executionPrice.invert().toSignificant(6)} ${trade.inputAmount.currency.symbol} / ${
+    ? `${toSignificantCurrency(trade.executionPrice.invert())} ${trade.inputAmount.currency.symbol} / ${
         trade.outputAmount.currency.symbol
       }`
-    : `${trade.executionPrice.toSignificant(6)} ${trade.outputAmount.currency.symbol} / ${
+    : `${toSignificantCurrency(trade.executionPrice)} ${trade.outputAmount.currency.symbol} / ${
         trade.inputAmount.currency.symbol
       }`
 }

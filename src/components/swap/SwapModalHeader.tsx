@@ -3,6 +3,7 @@ import { Button, ColoredArrowDownIcon, Text } from 'alium-uikit/src'
 import React, { useContext, useMemo } from 'react'
 import { AlertTriangle } from 'react-feather'
 import styled, { ThemeContext } from 'styled-components'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { Field } from '../../state/swap/actions'
 import { isAddress, shortenAddress } from '../../utils'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
@@ -65,7 +66,7 @@ export default function SwapModalHeader({
             fontSize="14px"
             color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? theme.colors.primary : 'text'}
           >
-            {trade.inputAmount.toSignificant(6)}
+            {toSignificantCurrency(trade.inputAmount)}
           </Text>
         </RowFixed>
         <RowFixed gap="0px">
@@ -100,7 +101,7 @@ export default function SwapModalHeader({
                 : 'text'
             }
           >
-            {trade.outputAmount.toSignificant(6)}
+            {toSignificantCurrency(trade.outputAmount)}
           </Text>
         </RowFixed>
         <RowFixed gap="0px">
@@ -128,7 +129,7 @@ export default function SwapModalHeader({
           <PriceInfoText>
             {`Output is estimated. You will receive at least `}
             <span>
-              {slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(6)} {trade.outputAmount.currency.symbol}
+              {toSignificantCurrency(slippageAdjustedAmounts[Field.OUTPUT])} {trade.outputAmount.currency.symbol}
             </span>
             {' or the transaction will revert.'}
           </PriceInfoText>
@@ -136,7 +137,7 @@ export default function SwapModalHeader({
           <PriceInfoText>
             {`Input is estimated. You will sell at most `}
             <span>
-              {slippageAdjustedAmounts[Field.INPUT]?.toSignificant(6)} {trade.inputAmount.currency.symbol}
+              {toSignificantCurrency(slippageAdjustedAmounts[Field.INPUT])} {trade.inputAmount.currency.symbol}
             </span>
             {' or the transaction will revert.'}
           </PriceInfoText>

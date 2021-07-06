@@ -12,6 +12,7 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { ROUTES } from 'routes'
 import { getExplorerLink, getExplorerName } from 'utils'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
 const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
@@ -87,7 +88,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         toggleTheme={toggleTheme}
         loginBlockVisible={loginBlockVisible}
         buttonTitle={t('connect')}
-        balance={balance?.toSignificant(6)}
+        balance={toSignificantCurrency(balance)}
         explorerName={explorerName}
         explorerLink={explorerLink}
         options={{

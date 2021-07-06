@@ -30,6 +30,7 @@ import { useTransactionAdder } from 'state/transactions/hooks'
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { currencyId } from 'utils/currencyId'
 import GTM from 'utils/gtm'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
@@ -130,7 +131,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
   // get formatted amounts
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+    [dependentField]: noLiquidity ? otherTypedValue : toSignificantCurrency(parsedAmounts[dependentField]) ?? '',
   }
 
   // get the max amounts user can add
@@ -287,7 +288,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
       <AutoColumn gap="10px">
         <RowFlat>
           <UIKitText fontSize="24px" mr="8px">
-            {liquidityMinted?.toSignificant(6)}
+            {toSignificantCurrency(liquidityMinted)}
           </UIKitText>
           <DoubleCurrencyLogo
             currency0={currencies[Field.CURRENCY_A]}
@@ -323,9 +324,9 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
     )
   }
 
-  const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
+  const pendingText = `Supplying ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])} ${
     currencies[Field.CURRENCY_A]?.symbol
-  } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
+  } and ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])} ${currencies[Field.CURRENCY_B]?.symbol}`
 
   const handleCurrencyASelect = useCallback(
     (currA: Currency) => {
