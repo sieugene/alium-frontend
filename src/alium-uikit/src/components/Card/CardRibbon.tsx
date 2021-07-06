@@ -4,13 +4,13 @@ import { CardRibbonProps } from './types'
 
 interface StyledCardRibbonProps extends CardRibbonProps {
   theme: DefaultTheme
+  variantColor: any
 }
 
 const StyledCardRibbon = styled.div<Partial<StyledCardRibbonProps>>`
   background-color: ${({ variantColor = 'secondary', theme }) => theme.colors[variantColor]};
   color: white;
   margin: 0;
-  padding: 0;
   padding: 8px 0;
   position: absolute;
   right: 0;
