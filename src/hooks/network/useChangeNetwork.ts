@@ -6,7 +6,7 @@ import React from 'react'
  * useChangeNetwork - when network be changed in wallet, retry login
  * @param    {activate} login   login by connector name
  */
-const useChangeNetwork = (login: (connectorID: ConnectorNames) => Promise<any>, logout: () => void) => {
+const useChangeNetwork = (login: (connectorID: ConnectorNames) => Promise<any>) => {
   const { active, error, activate } = useWeb3ReactCore()
   React.useEffect(() => {
     const { ethereum } = window

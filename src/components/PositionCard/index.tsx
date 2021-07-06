@@ -15,6 +15,7 @@ import { darken } from 'polished'
 import React, { useState } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -118,7 +119,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
                 </RowFixed>
                 <RowFixed>
                   <Text fontSize="14px" style={{ fontWeight: 500 }}>
-                    {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
+                    {userPoolBalance ? toSignificantCurrency(userPoolBalance) : '-'}
                   </Text>
                 </RowFixed>
               </FixedHeightRow>
@@ -132,7 +133,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
                   {token0Deposited ? (
                     <RowFixed>
                       <Text ml="6px" fontSize="14px" style={{ fontWeight: 500 }}>
-                        {token0Deposited?.toSignificant(6)}
+                        {toSignificantCurrency(token0Deposited)}
                       </Text>
                     </RowFixed>
                   ) : (
@@ -146,7 +147,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
                   {token1Deposited ? (
                     <RowFixed>
                       <Text ml="6px" fontSize="14px" style={{ fontWeight: 500 }}>
-                        {token1Deposited?.toSignificant(6)}
+                        {toSignificantCurrency(token1Deposited)}
                       </Text>
                     </RowFixed>
                   ) : (
@@ -230,7 +231,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
               {token0Deposited ? (
                 <RowFixed>
                   <Text ml="6px" color="#6c5dd3">
-                    {token0Deposited?.toSignificant(6)}
+                    {toSignificantCurrency(token0Deposited)}
                   </Text>
                   <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency0} />
                 </RowFixed>
@@ -246,7 +247,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
               {token1Deposited ? (
                 <RowFixed>
                   <Text ml="6px" color="#6c5dd3">
-                    {token1Deposited?.toSignificant(6)}
+                    {toSignificantCurrency(token1Deposited)}
                   </Text>
                   <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency1} />
                 </RowFixed>

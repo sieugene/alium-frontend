@@ -1,6 +1,7 @@
 import { Price } from '@alium-official/sdk'
 import { SyncAltIcon, Text } from 'alium-uikit/src'
 import React from 'react'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { StyledBalanceMaxMini } from './styleds'
 
 interface TradePriceProps {
@@ -10,7 +11,7 @@ interface TradePriceProps {
 }
 
 export default function TradePrice({ price, showInverted, setShowInverted }: TradePriceProps) {
-  const formattedPrice = showInverted ? price?.toSignificant(6) : price?.invert()?.toSignificant(6)
+  const formattedPrice = showInverted ? toSignificantCurrency(price) : toSignificantCurrency(price?.invert())
 
   const show = Boolean(price?.baseCurrency && price?.quoteCurrency)
   const label = showInverted

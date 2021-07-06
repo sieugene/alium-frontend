@@ -1,5 +1,6 @@
 import { Currency, currencyEquals, ETHER, WETH } from '@alium-official/sdk'
 import { useMemo } from 'react'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
@@ -45,7 +46,7 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} BNB to WBNB` })
+                  addTransaction(txReceipt, { summary: `Wrap ${toSignificantCurrency(inputAmount)} BNB to WBNB` })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }
@@ -62,7 +63,7 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`)
-                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WBNB to BNB` })
+                  addTransaction(txReceipt, { summary: `Unwrap ${toSignificantCurrency(inputAmount)} WBNB to BNB` })
                 } catch (error) {
                   console.error('Could not withdraw', error)
                 }

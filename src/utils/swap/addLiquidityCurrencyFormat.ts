@@ -1,5 +1,6 @@
 import { Currency, TokenAmount } from '@alium-official/sdk'
 import { Field } from 'state/mint/actions'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 
 export type addLiquidityCurrencyFormatPayload = {
   liquidityMinted: TokenAmount
@@ -12,7 +13,7 @@ export type addLiquidityCurrencyFormatPayload = {
 export const addLiquidityCurrencyFormat = (data: addLiquidityCurrencyFormatPayload) => {
   const { liquidityMinted, currencies } = data
   return {
-    value: liquidityMinted?.toSignificant(6),
+    value: toSignificantCurrency(liquidityMinted),
     token1: `${currencies[Field.CURRENCY_A]?.symbol}`,
     token2: `${currencies[Field.CURRENCY_B]?.symbol}`,
   }

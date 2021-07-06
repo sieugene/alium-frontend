@@ -4,6 +4,7 @@ import { useTranslation } from 'next-i18next'
 import { darken } from 'polished'
 import React, { useCallback, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import { TranslateString } from '../../utils/translateTextHelpers'
@@ -147,7 +148,7 @@ export default function CurrencyInputPanel({
                   style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
                 >
                   {!hideBalance && !!currency && selectedCurrencyBalance
-                    ? `Balance: ${selectedCurrencyBalance?.toSignificant(6)}`
+                    ? `Balance: ${toSignificantCurrency(selectedCurrencyBalance)}`
                     : ' -'}
                 </Text>
               )}

@@ -2,6 +2,7 @@ import { Currency, CurrencyAmount, Fraction, Percent } from '@alium-official/sdk
 import { Button } from 'alium-uikit/src'
 import React from 'react'
 import { useToast } from 'state/hooks'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import { RowBetween, RowFixed } from '../../components/Row'
 import { TYPE } from '../../components/Shared'
@@ -43,7 +44,7 @@ export function ConfirmAddModalBottom({
         <RowFixed style={{ padding: '8px' }}>
           <CurrencyLogo currency={currencies[Field.CURRENCY_A]} style={{ marginRight: '8px' }} />
           <Body style={{ fontWeight: '500', fontSize: '11px' }}>
-            {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
+            {toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])}
           </Body>
         </RowFixed>
       </RowBetween>
@@ -52,7 +53,7 @@ export function ConfirmAddModalBottom({
         <RowFixed>
           <CurrencyLogo currency={currencies[Field.CURRENCY_B]} style={{ marginRight: '8px' }} />
           <Body style={{ fontWeight: '500', fontSize: '11px' }}>
-            {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
+            {toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])}
           </Body>
         </RowFixed>
       </RowBetween>

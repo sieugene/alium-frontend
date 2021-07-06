@@ -23,9 +23,10 @@ import { WrappedTokenInfo } from 'state/lists/hooks'
 import { Field } from 'state/swap/actions'
 import { useMigrateActionHandlers, useMigrateInfo, useSwapState } from 'state/swap/hooks'
 import styled from 'styled-components'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import SwapAppBody from 'views/Swap/SwapAppBody'
-import { Dots } from '../../views/Pool/styleds'
+import { Dots } from "../Pool/styleds"
 
 const { main: Main } = TYPE
 
@@ -141,7 +142,7 @@ function Migrate() {
     [independentField]: typedValue,
     [dependentField]: showWrap
       ? parsedAmounts[independentField]?.toExact() ?? ''
-      : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+      : toSignificantCurrency(parsedAmounts[dependentField]) ?? '',
   }
 
   // check whether the user has approved the router on the input token
