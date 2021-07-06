@@ -2,7 +2,7 @@ const nft1 = 'https://gateway.pinata.cloud/ipfs/QmNZuNGKW9oqx6dfVwV6X9jCCdUrGZfc
 const nft2 = 'https://gateway.pinata.cloud/ipfs/QmdqoZhSvpu98ViJXGxBtcmTt5ZUCWBG2co3qBWTCD2yne'
 const nft3 = 'https://gateway.pinata.cloud/ipfs/QmepixECjxmmoRcE2or9jNDKcyhgNerutjMFcGsKADDCjV'
 
-export type CardType = {
+export interface CardType {
   id: number
   img: string
   headline: string

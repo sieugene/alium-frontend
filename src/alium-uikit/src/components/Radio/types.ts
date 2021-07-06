@@ -1,6 +1,6 @@
 import { SpaceProps } from 'styled-system'
 
-export type RadioTheme = {
+export interface RadioTheme {
   handleBackground: string
 }
 

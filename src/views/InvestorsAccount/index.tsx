@@ -257,7 +257,7 @@ const InvestorsAccount = () => {
   return (
     <ContentHolder>
       <CardWrapper>
-        <Text fontSize="48px" style={{ fontWeight: 700, marginBottom: '32px' }}>
+        <Text fontSize='48px' style={{ fontWeight: 700, marginBottom: '32px' }}>
           Your NFT deck
         </Text>
         <Modal
@@ -266,9 +266,9 @@ const InvestorsAccount = () => {
             setHideModalOpen(false)
           }}
         >
-          <Flex flexDirection="column" style={{ margin: '0 auto' }}>
+          <Flex flexDirection='column' style={{ margin: '0 auto' }}>
             <Text
-              mb="30px"
+              mb='30px'
               style={{
                 textAlign: 'center',
                 fontWeight: 'bold',
@@ -283,18 +283,18 @@ const InvestorsAccount = () => {
             <ConnectWalletButton fullwidth />
           </Flex>
         </Modal>
-        <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding="24px" isTransparancy>
+        <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
           <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
         </Modal>
 
-        <Modal isOpen={isSucceedPopupVisible} onDismiss={handleSucceedModalClose} maxHeight={90} padding="24px">
+        <Modal isOpen={isSucceedPopupVisible} onDismiss={handleSucceedModalClose} maxHeight={90} padding='24px'>
           <TransactionSucceedContent hash={succeedHash} onDismiss={handleSucceedModalClose} />
         </Modal>
 
-        <StyledHeading as="h1" size="xl" color="heading" mb="40px" mt="20px" className="heading--desktop">
+        <StyledHeading as='h1' size='xl' color='heading' mb='40px' mt='20px' className='heading--desktop'>
           {t('strategicalPartnership')}
         </StyledHeading>
-        <StyledHeading as="h1" size="xl" color="heading" mb="40px" className="heading--mobile">
+        <StyledHeading as='h1' size='xl' color='heading' mb='40px' className='heading--mobile'>
           {t('strategicalPartnership')}
         </StyledHeading>
 
@@ -302,15 +302,13 @@ const InvestorsAccount = () => {
           {!account ? (
             'Please connect to your wallet first.'
           ) : balanceAccount === undefined || accountTotalBalance === -1 ? (
-            <>
-              <Dots>
-                <span style={{ fontSize: '20px' }}>Loading please wait</span>
-              </Dots>
-            </>
+            <Dots>
+              <span style={{ fontSize: '20px' }}>Loading please wait</span>
+            </Dots>
           ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
             <NoNFT>
               <NoNFTText>You don&apos;t have NFT tokens yet, but you can purchase them on the page</NoNFTText>
-              <NextLink.multiple href={ROUTES.public} target="_blank" as="a">
+              <NextLink.multiple href={ROUTES.public} target='_blank' as='a'>
                 <Button>Buy NFT</Button>
               </NextLink.multiple>
             </NoNFT>
@@ -318,7 +316,7 @@ const InvestorsAccount = () => {
             <>
               {privateCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                 <>
-                  <StyledHeading as="h2" size="lg" color="heading" mb="16px" mt="16px">
+                  <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
                     Private Pool Cards
                   </StyledHeading>
                   <NftCardsContainer>
@@ -332,7 +330,7 @@ const InvestorsAccount = () => {
               )}
               {strategicalCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                 <>
-                  <StyledHeading as="h2" size="lg" color="heading" mb="16px" mt="16px">
+                  <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
                     Strategical Pool Cards
                   </StyledHeading>
                   <NftCardsContainer>
@@ -346,7 +344,7 @@ const InvestorsAccount = () => {
               )}
               {publicCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                 <>
-                  <StyledHeading as="h2" size="lg" color="heading" mb="16px" mt="16px">
+                  <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
                     Public Pool Cards
                   </StyledHeading>
                   <NftCardsContainer>

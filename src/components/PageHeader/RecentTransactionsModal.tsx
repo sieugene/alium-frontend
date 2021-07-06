@@ -21,7 +21,7 @@ const StyledWrapper = styled.div`
 
 const StyledTransactionsList = styled.div``
 
-type RecentTransactionsModalProps = {
+interface RecentTransactionsModalProps {
   onDismiss?: () => void
 }
 
@@ -38,10 +38,10 @@ const getRowStatus = (sortedRecentTransaction: TransactionDetails) => {
   }
 
   if (hash && receipt?.status === 1) {
-    return { icon: <CheckmarkCircleIcon color="primaryBright" marginRight="8px" />, color: 'primaryBright' }
+    return { icon: <CheckmarkCircleIcon color='primaryBright' marginRight='8px' />, color: 'primaryBright' }
   }
 
-  return { icon: <ErrorIcon color="failure" marginRight="8px" />, color: 'failure' }
+  return { icon: <ErrorIcon color='failure' marginRight='8px' />, color: 'failure' }
 }
 
 const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransactionsModalProps) => {
@@ -59,19 +59,19 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
     <StyledWrapper>
       <Modal title={t('recentTransactions')} onDismiss={onDismiss}>
         {!account && (
-          <Flex justifyContent="center" flexDirection="column" alignItems="center">
-            <Text mb="20px" bold mt="12px" style={{ textAlign: 'center' }}>
+          <Flex justifyContent='center' flexDirection='column' alignItems='center'>
+            <Text mb='20px' bold mt='12px' style={{ textAlign: 'center' }}>
               {t('pleaseConnectWallet')}
             </Text>
-            <Button variant="secondary" size="md" onClick={onDismiss}>
+            <Button variant='secondary' size='md' onClick={onDismiss}>
               {t('close')}
             </Button>
           </Flex>
         )}
         {account && chainId && sortedRecentTransactions.length === 0 && (
-          <Flex justifyContent="center" flexDirection="column" alignItems="center">
-            <Text mb="8px">{t('noRecentTransactions')}</Text>
-            <Button variant="secondary" size="md" onClick={onDismiss} mt="10px">
+          <Flex justifyContent='center' flexDirection='column' alignItems='center'>
+            <Text mb='8px'>{t('noRecentTransactions')}</Text>
+            <Button variant='secondary' size='md' onClick={onDismiss} mt='10px'>
               {t('close')}
             </Button>
           </Flex>
@@ -84,10 +84,10 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
               const { icon } = getRowStatus(sortedRecentTransaction)
 
               return (
-                <Flex key={hash} alignItems="center" justifyContent="space-between" mb="16px" style={{ width: '100%' }}>
+                <Flex key={hash} alignItems='center' justifyContent='space-between' mb='16px' style={{ width: '100%' }}>
                   <LinkExternal
                     href={getExplorerLink(chainId, hash, 'transaction')}
-                    color="#0B1359"
+                    color='#0B1359'
                     style={{ width: '100%', justifyContent: 'space-between', paddingRight: '4px' }}
                   >
                     <Flex>

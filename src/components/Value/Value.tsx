@@ -17,7 +17,7 @@ const Value: React.FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => 
       updateStart(end)
       updateEnd(value)
     }
-  }, [value])
+  }, [end, value])
 
   return (
     <StyledValue style={{ fontSize }}>
@@ -32,7 +32,7 @@ const Value: React.FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => 
             decimals !== undefined ? decimals : end < 0 ? 4 : end > 1e5 ? 0 : 3
           }
           duration={1}
-          separator=","
+          separator=','
         />
       )}
     </StyledValue>

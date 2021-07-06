@@ -1,16 +1,16 @@
 import { Token, TokenAmount } from '@alium-official/sdk'
 import { useMemo } from 'react'
-import { useAllTokenBalances } from '../../state/wallet/hooks'
+import { useAllTokenBalances } from 'state/wallet/hooks'
 
 // compare two token amounts with highest one coming first
 function balanceComparator(balanceA?: TokenAmount, balanceB?: TokenAmount) {
   if (balanceA && balanceB) {
     return balanceA.greaterThan(balanceB) ? -1 : balanceA.equalTo(balanceB) ? 0 : 1
   }
-  if (balanceA && balanceA.greaterThan('0')) {
+  if (balanceA?.greaterThan('0')) {
     return -1
   }
-  if (balanceB && balanceB.greaterThan('0')) {
+  if (balanceB?.greaterThan('0')) {
     return 1
   }
   return 0

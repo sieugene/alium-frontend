@@ -12,7 +12,7 @@ import { Section, Wrapper } from './helpers'
 
 const previewImg = '/images/transaction-succeed-preview.svg'
 
-type TransactionSucceedContentProps = {
+interface TransactionSucceedContentProps {
   onDismiss: () => void
   hash: string | undefined
 }
@@ -142,6 +142,7 @@ const TransactionSucceedContent = ({ onDismiss, hash }: TransactionSucceedConten
   const popupList = useSelector<AppState, PopupList | any>((s) => s.application.popupList)
   const filteredPopups = popupList.filter((popup) => popup.key === hash)
 
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   let popupSummary = { count: 0, card: {}, price: undefined } as {
     count: number
     card: CardType
@@ -160,29 +161,29 @@ const TransactionSucceedContent = ({ onDismiss, hash }: TransactionSucceedConten
     <Wrapper style={{ maxWidth: '550px' }} onClick={onDismiss}>
       <Section>
         <Content>
-          <div className="info-block">
+          <div className='info-block'>
             {/* <ContentHeader onDismiss={onDismiss}> </ContentHeader> */}
-            <ImgPreview className="preview-image" src={previewImg} alt="transaction-succeed-preview" />
+            <ImgPreview className='preview-image' src={previewImg} alt='transaction-succeed-preview' />
             <Heading style={{ textAlign: 'center', marginTop: 20, marginBottom: 16 }}>{t('congratulations')}!</Heading>
             <StyledDetailsText>{popupSummary?.card.headline}</StyledDetailsText>
 
-            <Flex alignItems="center" justifyContent="center" style={{ marginTop: '4px' }}>
+            <Flex alignItems='center' justifyContent='center' style={{ marginTop: '4px' }}>
               <StyledDetailsLabel>{t('successfullyBought')}</StyledDetailsLabel>
               {/* <StyledDetailsText>{popupSummary.count} {popupSummary.count > 1 ? "cards" : "card"}</StyledDetailsText> */}
             </Flex>
 
             {popupSummary.price && (
-              <Flex alignItems="center" justifyContent="center" className="exchange-info" style={{ marginTop: '4px' }}>
+              <Flex alignItems='center' justifyContent='center' className='exchange-info' style={{ marginTop: '4px' }}>
                 <StyledDetailsLabel>{t('laterExchange')}</StyledDetailsLabel>
                 <StyledDetailsText>{popupSummary.price} ALM</StyledDetailsText>
               </Flex>
             )}
           </div>
-          <button className="address-block" onClick={copyAddress} type="button">
+          <button className='address-block' onClick={copyAddress} type='button'>
             <StyledDetailsLabel>{t('toSeeNftCards')}</StyledDetailsLabel>
-            <Flex className="address-field" alignItems="center" justifyContent="space-between">
-              <StyledDetailsLabel className="address">{NFT_COLLECTIBLE_ADDRESS}</StyledDetailsLabel>
-              <CopyButton type="button" className={copied ? 'active' : ''}>
+            <Flex className='address-field' alignItems='center' justifyContent='space-between'>
+              <StyledDetailsLabel className='address'>{NFT_COLLECTIBLE_ADDRESS}</StyledDetailsLabel>
+              <CopyButton type='button' className={copied ? 'active' : ''}>
                 <ColoredCopyIcon />
               </CopyButton>
             </Flex>

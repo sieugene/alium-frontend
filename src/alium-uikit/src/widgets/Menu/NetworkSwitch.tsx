@@ -103,7 +103,7 @@ const StyledIconContainer = styled.div`
     height: 24px;
   }
 `
-type Props = {
+interface Props {
   chainId?: number | null
 }
 const NetworkSwitch: React.FC<Props> = ({ chainId }) => {

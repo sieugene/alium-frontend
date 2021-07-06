@@ -1,7 +1,7 @@
 import styled, { DefaultTheme } from 'styled-components'
 import { Variants, variants } from '../Button/types'
 
-type StyledButtonMenuProps = {
+interface StyledButtonMenuProps {
   variant: Variants
   theme: DefaultTheme
 }

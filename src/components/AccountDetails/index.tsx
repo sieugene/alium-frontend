@@ -240,7 +240,7 @@ export default function AccountDetails({
 
   function formatConnectorName() {
     const { ethereum } = window
-    const isMetaMask = !!(ethereum && ethereum.isMetaMask)
+    const isMetaMask = !!ethereum?.isMetaMask
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         (k) =>
@@ -261,38 +261,36 @@ export default function AccountDetails({
     if (connector === walletconnect) {
       return (
         <IconWrapper size={16}>
-          <img src={WalletConnectIcon} alt="wallet connect logo" />
+          <img src={WalletConnectIcon} alt='wallet connect logo' />
         </IconWrapper>
       )
     }
     if (connector === walletlink) {
       return (
         <IconWrapper size={16}>
-          <img src={CoinbaseWalletIcon} alt="coinbase wallet logo" />
+          <img src={CoinbaseWalletIcon} alt='coinbase wallet logo' />
         </IconWrapper>
       )
     }
     if (connector === fortmatic) {
       return (
         <IconWrapper size={16}>
-          <img src={FortmaticIcon} alt="fortmatic logo" />
+          <img src={FortmaticIcon} alt='fortmatic logo' />
         </IconWrapper>
       )
     }
     if (connector === portis) {
       return (
-        <>
-          <IconWrapper size={16}>
-            <img src={PortisIcon} alt="portis logo" />
-            <MainWalletAction
-              onClick={() => {
-                portis.portis.showPortis()
-              }}
-            >
-              {t('showPortis')}
-            </MainWalletAction>
-          </IconWrapper>
-        </>
+        <IconWrapper size={16}>
+          <img src={PortisIcon} alt='portis logo' />
+          <MainWalletAction
+            onClick={() => {
+              portis.portis.showPortis()
+            }}
+          >
+            {t('showPortis')}
+          </MainWalletAction>
+        </IconWrapper>
       )
     }
     return null
@@ -335,70 +333,62 @@ export default function AccountDetails({
                   </WalletAction>
                 </div>
               </AccountGroupingRow>
-              <AccountGroupingRow id="web3-account-identifier-row">
+              <AccountGroupingRow id='web3-account-identifier-row'>
                 <AccountControl>
                   {ENSName ? (
-                    <>
-                      <div>
-                        {getStatusIcon()}
-                        <p> {ENSName}</p>
-                      </div>
-                    </>
+                    <div>
+                      {getStatusIcon()}
+                      <p> {ENSName}</p>
+                    </div>
                   ) : (
-                    <>
-                      <div>
-                        {getStatusIcon()}
-                        <p> {account && shortenAddress(account)}</p>
-                      </div>
-                    </>
+                    <div>
+                      {getStatusIcon()}
+                      <p> {account && shortenAddress(account)}</p>
+                    </div>
                   )}
                 </AccountControl>
               </AccountGroupingRow>
               <AccountGroupingRow>
                 {ENSName ? (
-                  <>
-                    <AccountControl>
-                      <div>
-                        {account && (
-                          <Copy toCopy={account}>
-                            <span style={{ marginLeft: '4px' }}>{t('copyAddress')}</span>
-                          </Copy>
-                        )}
-                        {chainId && account && (
-                          <AddressLink
-                            hasENS={!!ENSName}
-                            isENS
-                            href={chainId && getEtherscanLink(chainId, ENSName, 'address')}
-                          >
-                            <LinkIcon size={16} />
-                            <span style={{ marginLeft: '4px' }}>{t('viewOnBscScan')}</span>
-                          </AddressLink>
-                        )}
-                      </div>
-                    </AccountControl>
-                  </>
+                  <AccountControl>
+                    <div>
+                      {account && (
+                        <Copy toCopy={account}>
+                          <span style={{ marginLeft: '4px' }}>{t('copyAddress')}</span>
+                        </Copy>
+                      )}
+                      {chainId && account && (
+                        <AddressLink
+                          hasENS={!!ENSName}
+                          isENS
+                          href={chainId && getEtherscanLink(chainId, ENSName, 'address')}
+                        >
+                          <LinkIcon size={16} />
+                          <span style={{ marginLeft: '4px' }}>{t('viewOnBscScan')}</span>
+                        </AddressLink>
+                      )}
+                    </div>
+                  </AccountControl>
                 ) : (
-                  <>
-                    <AccountControl>
-                      <div>
-                        {account && (
-                          <Copy toCopy={account}>
-                            <span style={{ marginLeft: '4px' }}>{t('copyAddress')}</span>
-                          </Copy>
-                        )}
-                        {chainId && account && (
-                          <AddressLink
-                            hasENS={!!ENSName}
-                            isENS={false}
-                            href={getEtherscanLink(chainId, account, 'address')}
-                          >
-                            <LinkIcon size={16} />
-                            <span style={{ marginLeft: '4px' }}>{t('viewOnBscScan')}</span>
-                          </AddressLink>
-                        )}
-                      </div>
-                    </AccountControl>
-                  </>
+                  <AccountControl>
+                    <div>
+                      {account && (
+                        <Copy toCopy={account}>
+                          <span style={{ marginLeft: '4px' }}>{t('copyAddress')}</span>
+                        </Copy>
+                      )}
+                      {chainId && account && (
+                        <AddressLink
+                          hasENS={!!ENSName}
+                          isENS={false}
+                          href={getEtherscanLink(chainId, account, 'address')}
+                        >
+                          <LinkIcon size={16} />
+                          <span style={{ marginLeft: '4px' }}>{t('viewOnBscScan')}</span>
+                        </AddressLink>
+                      )}
+                    </div>
+                  </AccountControl>
                 )}
               </AccountGroupingRow>
             </InfoCard>
@@ -407,7 +397,7 @@ export default function AccountDetails({
       </UpperSection>
       {!!pendingTransactions.length || !!confirmedTransactions.length ? (
         <LowerSection>
-          <AutoRow mb="1rem" style={{ justifyContent: 'space-between' }}>
+          <AutoRow mb='1rem' style={{ justifyContent: 'space-between' }}>
             <Body>Recent Transactions</Body>
             <LinkStyledButton onClick={clearAllTransactionsCallback}>({t('clearAll')})</LinkStyledButton>
           </AutoRow>

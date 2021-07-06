@@ -65,7 +65,7 @@ const StyledModalText = styled.div`
   color: #0b1359;
 `
 
-type props = {
+interface props {
   handleClose: () => void
 }
 
@@ -73,7 +73,7 @@ const CongratsModal: React.FC<props> = ({ handleClose }) => {
   return (
     <StyledModal>
       <StyledButton onClick={handleClose}>
-        <CloseIcon color="primary" />
+        <CloseIcon color='primary' />
       </StyledButton>
       <StyledModalInner>
         <StyledModalImage />

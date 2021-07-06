@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import styled from 'styled-components'
 import { Spinner } from '../Spinner'
 
-type Props = {
+interface Props {
   load: boolean
 }
 const WrapConnection = styled.div`

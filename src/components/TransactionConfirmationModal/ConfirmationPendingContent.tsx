@@ -6,7 +6,10 @@ import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'
 
 const Circle = '/images/blue-loader.svg'
 
-type ConfirmationPendingContentProps = { onDismiss: () => void; pendingText: string }
+interface ConfirmationPendingContentProps {
+  onDismiss: () => void
+  pendingText: string
+}
 
 const CustomLightSpinner = styled<any>(Spinner)<{ size: string }>`
   height: ${({ size }) => size};
@@ -19,15 +22,15 @@ const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPend
       <Section>
         <ContentHeader onDismiss={onDismiss}>Waiting for confirmation</ContentHeader>
         <ConfirmedIcon>
-          <CustomLightSpinner src={Circle} alt="loader" size="90px" />
+          <CustomLightSpinner src={Circle} alt='loader' size='90px' />
         </ConfirmedIcon>
-        <AutoColumn gap="12px" justify="center">
-          <AutoColumn gap="12px" justify="center">
-            <Text fontSize="14px">
+        <AutoColumn gap='12px' justify='center'>
+          <AutoColumn gap='12px' justify='center'>
+            <Text fontSize='14px'>
               <strong>{pendingText}</strong>
             </Text>
           </AutoColumn>
-          <Text fontSize="14px">Confirm this transaction in your wallet</Text>
+          <Text fontSize='14px'>Confirm this transaction in your wallet</Text>
         </AutoColumn>
       </Section>
     </Wrapper>

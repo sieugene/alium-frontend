@@ -145,7 +145,7 @@ const StyledButton = styled(Button)`
   }
 `
 
-type PropsType = {
+interface PropsType {
   redirectURL?: string
 }
 
@@ -156,11 +156,11 @@ const NotFound: React.FC<PropsType> = ({ redirectURL = `https://${getMainDomain(
         <StyledHeading>Oops, your force is not strong enough</StyledHeading>
         <StyledText>This page you requested could not be found. May the force be with you!</StyledText>
 
-        <a href={redirectURL} rel="noreferrer noopener">
+        <a href={redirectURL} rel='noreferrer noopener'>
           <StyledButton>Back to main site</StyledButton>
         </a>
 
-        <StyledText className="small">Or subscribe to our social networks</StyledText>
+        <StyledText className='small'>Or subscribe to our social networks</StyledText>
 
         <SocialNetworks />
       </InfoWrapper>
@@ -169,10 +169,10 @@ const NotFound: React.FC<PropsType> = ({ redirectURL = `https://${getMainDomain(
       </ImageWrapper>
 
       <CloudsWrapper>
-        <CloudWrapper className="left">
+        <CloudWrapper className='left'>
           <CloudLeft />
         </CloudWrapper>
-        <CloudWrapper className="right">
+        <CloudWrapper className='right'>
           <CloudRight />
         </CloudWrapper>
       </CloudsWrapper>

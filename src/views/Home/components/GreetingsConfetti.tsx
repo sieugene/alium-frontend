@@ -7,7 +7,7 @@ export default () => {
 
   let localStoragValue = false
   if (localStorage.getItem('confetti-inited')) {
-    localStoragValue = !!+localStorage.getItem('confetti-inited')
+    localStoragValue = !!Number(localStorage.getItem('confetti-inited'))
   }
 
   const [inited] = useState(localStoragValue)

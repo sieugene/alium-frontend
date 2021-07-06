@@ -77,7 +77,7 @@ const StyledUIKitText = styled(UIKitText)`
   }
 `
 
-type props = {
+interface props {
   currencyIdA?: string
   currencyIdB?: string
 }
@@ -270,10 +270,10 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
 
   const modalHeader = () => {
     return noLiquidity ? (
-      <AutoColumn gap="20px">
-        <LightCard mt="20px" borderRadius="20px" padding="0">
+      <AutoColumn gap='20px'>
+        <LightCard mt='20px' borderRadius='20px' padding='0'>
           <RowFlat>
-            <UIKitText fontSize="24px" mr="8px">
+            <UIKitText fontSize='24px' mr='8px'>
               {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol}`}
             </UIKitText>
             <DoubleCurrencyLogo
@@ -285,9 +285,9 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
         </LightCard>
       </AutoColumn>
     ) : (
-      <AutoColumn gap="10px">
+      <AutoColumn gap='10px'>
         <RowFlat>
-          <UIKitText fontSize="24px" mr="8px">
+          <UIKitText fontSize='24px' mr='8px'>
             {toSignificantCurrency(liquidityMinted)}
           </UIKitText>
           <DoubleCurrencyLogo
@@ -297,11 +297,11 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
           />
         </RowFlat>
         <Row>
-          <UIKitText fontSize="22px">
+          <UIKitText fontSize='22px'>
             {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol} Pool Tokens`}
           </UIKitText>
         </Row>
-        <Text fontSize="14px" color="#8990A5">
+        <Text fontSize='14px' color='#8990A5'>
           {`Output is estimated. If the price changes by more than ${
             allowedSlippage / 100
           }% your transaction will revert.`}
@@ -392,7 +392,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
             pendingText={pendingText}
           />
           <CardBody>
-            <AutoColumn gap="20px">
+            <AutoColumn gap='20px'>
               {noLiquidity && (
                 <ColumnCenter>
                   <AutoColumn style={{ marginTop: '-15px', marginBottom: '10px' }}>
@@ -409,7 +409,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
                 </ColumnCenter>
               )}
               <CurrencyInputPanel
-                label="From"
+                label='From'
                 value={formattedAmounts[Field.CURRENCY_A]}
                 onUserInput={onFieldAInput}
                 onMax={() => {
@@ -418,16 +418,16 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
                 onCurrencySelect={handleCurrencyASelect}
                 showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
                 currency={currencies[Field.CURRENCY_A]}
-                id="add-liquidity-input-tokena"
+                id='add-liquidity-input-tokena'
                 showCommonBases={false}
               />
               <ColumnCenter>
                 <StyledAddIcon>
-                  <AddIcon color="#6C5DD3" width="12px" />
+                  <AddIcon color='#6C5DD3' width='12px' />
                 </StyledAddIcon>
               </ColumnCenter>
               <CurrencyInputPanel
-                label="To (estimated)"
+                label='To (estimated)'
                 value={formattedAmounts[Field.CURRENCY_B]}
                 onUserInput={onFieldBInput}
                 onCurrencySelect={handleCurrencyBSelect}
@@ -436,16 +436,16 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
                 }}
                 showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
                 currency={currencies[Field.CURRENCY_B]}
-                id="add-liquidity-input-tokenb"
+                id='add-liquidity-input-tokenb'
                 showCommonBases={false}
               />
               {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
                 <div>
                   <StyledUIKitText
                     style={{ textTransform: 'uppercase', fontWeight: 600 }}
-                    color="textSubtle"
-                    fontSize="12px"
-                    mb="2px"
+                    color='textSubtle'
+                    fontSize='12px'
+                    mb='2px'
                   >
                     {noLiquidity ? t('initialPricesAndPoolShare') : t('pricesAndPoolShare')}
                   </StyledUIKitText>
@@ -463,7 +463,7 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
               {!user ? (
                 <ConnectWalletButton fullwidth />
               ) : (
-                <AutoColumn gap="md">
+                <AutoColumn gap='md'>
                   {(approvalA === ApprovalState.NOT_APPROVED ||
                     approvalA === ApprovalState.PENDING ||
                     approvalB === ApprovalState.NOT_APPROVED ||
@@ -477,8 +477,8 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
                             style={{ width: approvalB !== ApprovalState.APPROVED ? '48%' : '100%' }}
                           >
                             {approvalA === ApprovalState.PENDING || approvalSubmittedA ? (
-                              <AutoRow gap="6px" justify="center">
-                                Approving {currencies[Field.CURRENCY_A]?.symbol} <Loader stroke="white" />
+                              <AutoRow gap='6px' justify='center'>
+                                Approving {currencies[Field.CURRENCY_A]?.symbol} <Loader stroke='white' />
                               </AutoRow>
                             ) : (
                               `Approve ${currencies[Field.CURRENCY_A]?.symbol}`
@@ -492,8 +492,8 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
                             style={{ width: approvalA !== ApprovalState.APPROVED ? '48%' : '100%' }}
                           >
                             {approvalB === ApprovalState.PENDING || approvalSubmittedB ? (
-                              <AutoRow gap="6px" justify="center">
-                                Approving {currencies[Field.CURRENCY_B]?.symbol} <Loader stroke="white" />
+                              <AutoRow gap='6px' justify='center'>
+                                Approving {currencies[Field.CURRENCY_B]?.symbol} <Loader stroke='white' />
                               </AutoRow>
                             ) : (
                               `Approve ${currencies[Field.CURRENCY_B]?.symbol}`

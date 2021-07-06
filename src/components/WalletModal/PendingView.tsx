@@ -1,4 +1,3 @@
-/* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { useTranslation } from 'next-i18next'
@@ -129,7 +128,10 @@ export default function PendingView({
               color={option.color}
               header={option.name}
               subheader={option.description}
-              icon={require(`/images/${option.iconName}`)}
+              icon={
+                // eslint-disable-next-line @typescript-eslint/no-require-imports
+                require(`/images/${option.iconName}`)
+              }
             />
           )
         }

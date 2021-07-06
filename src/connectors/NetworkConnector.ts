@@ -8,7 +8,7 @@ interface NetworkConnectorArguments {
 }
 
 // taken from ethers.js, compatible interface with web3 provider
-type AsyncSendable = {
+interface AsyncSendable {
   isMetaMask?: boolean
   host?: string
   path?: string

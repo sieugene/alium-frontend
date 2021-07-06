@@ -40,7 +40,7 @@ export const Default: React.FC = () => {
         </ButtonMenu>
       </Row>
       <Row>
-        <ButtonMenu activeIndex={index1} onClick={handleClick1} size="sm">
+        <ButtonMenu activeIndex={index1} onClick={handleClick1} size='sm'>
           <ButtonMenuItem>Button 1</ButtonMenuItem>
           <ButtonMenuItem>Button 2</ButtonMenuItem>
           <ButtonMenuItem>Button 3</ButtonMenuItem>
@@ -48,7 +48,7 @@ export const Default: React.FC = () => {
         </ButtonMenu>
       </Row>
       <Row>
-        <ButtonMenu activeIndex={index} onClick={handleClick} variant="subtle">
+        <ButtonMenu activeIndex={index} onClick={handleClick} variant='subtle'>
           <ButtonMenuItem>Button 1</ButtonMenuItem>
           <ButtonMenuItem>Button 2</ButtonMenuItem>
           <ButtonMenuItem>Button 3</ButtonMenuItem>
@@ -56,7 +56,7 @@ export const Default: React.FC = () => {
         </ButtonMenu>
       </Row>
       <Row>
-        <ButtonMenu activeIndex={index1} onClick={handleClick1} size="sm" variant="subtle">
+        <ButtonMenu activeIndex={index1} onClick={handleClick1} size='sm' variant='subtle'>
           <ButtonMenuItem>Button 1</ButtonMenuItem>
           <ButtonMenuItem>Button 2</ButtonMenuItem>
           <ButtonMenuItem>Button 3</ButtonMenuItem>
@@ -69,20 +69,18 @@ export const Default: React.FC = () => {
 
 export const AsLinks: React.FC = () => {
   return (
-    <>
-      <Row>
-        <ButtonMenu activeIndex={0}>
-          <ButtonMenuItem as="a" href={`https://${getMainDomain()}`}>
-            Link 1
-          </ButtonMenuItem>
-          <ButtonMenuItem as="a" href={`https://${getMainDomain()}`}>
-            Link 2
-          </ButtonMenuItem>
-          <ButtonMenuItem as="a" href={`https://${getMainDomain()}`}>
-            Link 3
-          </ButtonMenuItem>
-        </ButtonMenu>
-      </Row>
-    </>
+    <Row>
+      <ButtonMenu activeIndex={0}>
+        <ButtonMenuItem as='a' href={`https://${getMainDomain()}`}>
+          Link 1
+        </ButtonMenuItem>
+        <ButtonMenuItem as='a' href={`https://${getMainDomain()}`}>
+          Link 2
+        </ButtonMenuItem>
+        <ButtonMenuItem as='a' href={`https://${getMainDomain()}`}>
+          Link 3
+        </ButtonMenuItem>
+      </ButtonMenu>
+    </Row>
   )
 }

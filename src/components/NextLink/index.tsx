@@ -21,6 +21,7 @@ export const NextLink: FC<Props> & { multiple: FC<DuplicatedProps> } = ({ href, 
 }
 // When you see error like multiple children
 NextLink.multiple = ({ handleClick, href, children, className, ...other }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const location = useRouter()
   const link = (href as string) || '/'
   return (
@@ -29,7 +30,7 @@ NextLink.multiple = ({ handleClick, href, children, className, ...other }) => {
       href={link}
       onClick={(event) => {
         event.preventDefault()
-        handleClick && handleClick()
+        handleClick?.()
         location.push(link)
       }}
       {...other}

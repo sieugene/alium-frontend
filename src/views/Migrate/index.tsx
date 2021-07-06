@@ -26,7 +26,7 @@ import styled from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import SwapAppBody from 'views/Swap/SwapAppBody'
-import { Dots } from "../Pool/styleds"
+import { Dots } from '../Pool/styleds'
 
 const { main: Main } = TYPE
 
@@ -67,7 +67,7 @@ function Migrate() {
   useEffect(() => {
     async function getLpTokens() {
       const tokens: Array<any> = await vampire?.lpTokensInfoLength().then(async (response: TransactionResponse) => {
-        const length = +response.toString()
+        const length = Number(response.toString())
         const temp = await Promise.all(
           [...Array(length).keys()].map(async (item) => {
             const address = await vampire.lpTokensInfo(item).then((resp: any) => resp.lpToken)
@@ -205,13 +205,13 @@ function Migrate() {
       <CardNav activeIndex={2} />
       <SwapAppBody>
         <StyledCardHeader>
-          <Heading color="heading">Migrate</Heading>
+          <Heading color='heading'>Migrate</Heading>
         </StyledCardHeader>
-        <Wrapper id="swap-page">
+        <Wrapper id='swap-page'>
           <CardBody>
-            <AutoColumn gap="md">
+            <AutoColumn gap='md'>
               <CurrencyInputPanel
-                label="Quantity"
+                label='Quantity'
                 value={formattedAmounts[Field.INPUT]}
                 showMaxButton={!atMaxAmountInput}
                 currency={currencies[Field.INPUT]}
@@ -220,7 +220,7 @@ function Migrate() {
                 onCurrencySelect={handleInputSelect}
                 // otherCurrency=currencies[Field.INPUT]}
                 currencyList={lpList}
-                id="swap-currency-input"
+                id='swap-currency-input'
               />
             </AutoColumn>
             <ButtonWrap>
@@ -228,10 +228,10 @@ function Migrate() {
                 {!account ? (
                   <ConnectWalletButton fullwidth />
                 ) : (
-                  <AutoColumn gap="sm">
+                  <AutoColumn gap='sm'>
                     {approval === ApprovalState.UNKNOWN && (
                       <GreyCard style={{ textAlign: 'center' }}>
-                        <Main mb="4px">
+                        <Main mb='4px'>
                           {currencies[Field.INPUT] ? 'Enter an amount' : 'Please, choose your token'}
                         </Main>
                       </GreyCard>

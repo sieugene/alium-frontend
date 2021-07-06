@@ -50,7 +50,7 @@ const StyledIcon = styled.div<{ margin?: number }>`
   }
 `
 
-type ContentHeaderProps = {
+interface ContentHeaderProps {
   children: ReactNode
   onDismiss: () => void
 }
@@ -59,8 +59,8 @@ export const ContentHeader = ({ children, onDismiss }: ContentHeaderProps) => (
   <StyledContentHeader>
     <Heading>{children}</Heading>
     <StyledIcon>
-      <IconButton onClick={onDismiss} variant="text">
-        <CloseIcon color="primary" />
+      <IconButton onClick={onDismiss} variant='text'>
+        <CloseIcon color='primary' />
       </IconButton>
     </StyledIcon>
   </StyledContentHeader>

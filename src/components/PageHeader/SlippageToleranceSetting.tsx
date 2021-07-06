@@ -114,7 +114,7 @@ const SlippageToleranceSettings = () => {
     } catch {
       setError(t('errors.enterValidPercentage'))
     }
-  }, [value, setError, setUserslippageTolerance])
+  }, [t, value, setError, setUserslippageTolerance])
 
   // Notify user if slippage is risky
   useEffect(() => {
@@ -141,8 +141,8 @@ const SlippageToleranceSettings = () => {
 
       <Options>
         <StyledButtonMenu
-          size="sm"
-          variant="primary"
+          size='sm'
+          variant='primary'
           activeIndex={activeIndex}
           onClick={(index) => {
             setValue(predefinedValues[index].value)
@@ -155,19 +155,19 @@ const SlippageToleranceSettings = () => {
           ))}
         </StyledButtonMenu>
         <PercentInputWrapper>
-          <Flex alignItems="center">
+          <Flex alignItems='center'>
             <Field style={{ width: '100%' }}>
               <Input
-                type="number"
-                scale="lg"
+                type='number'
+                scale='lg'
                 step={0.1}
                 min={0.1}
-                placeholder="5%"
+                placeholder='5%'
                 value={value}
                 onChange={handleChange}
                 isWarning={error !== null}
               />
-              <Text color={theme.colors.textSubtle} fontSize="18px" style={{ width: 'auto' }}>
+              <Text color={theme.colors.textSubtle} fontSize='18px' style={{ width: 'auto' }}>
                 %
               </Text>
             </Field>
@@ -175,7 +175,7 @@ const SlippageToleranceSettings = () => {
         </PercentInputWrapper>
       </Options>
       {error && (
-        <Text mt="8px" color="failure">
+        <Text mt='8px' color='failure'>
           {error}
         </Text>
       )}

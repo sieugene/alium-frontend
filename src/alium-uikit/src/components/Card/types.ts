@@ -7,7 +7,7 @@ export interface CardRibbonProps {
   text: string
 }
 
-export type CardTheme = {
+export interface CardTheme {
   background: string
   boxShadow: string
   boxShadowActive: string

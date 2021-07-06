@@ -205,11 +205,11 @@ export const getWinningNumbers = async (lotteryContract) => {
   }
   if (!drawed) {
     for (let i = 0; i < 4; i++) {
-      numbers.push(+(await lotteryContract.methods.historyNumbers(issueIndex - 1, i).call()).toString())
+      numbers.push(Number((await lotteryContract.methods.historyNumbers(issueIndex - 1, i).call()).toString()))
     }
   } else {
     for (let i = 0; i < 4; i++) {
-      numbers.push(+(await lotteryContract.methods.winningNumbers(i).call()).toString())
+      numbers.push(Number((await lotteryContract.methods.winningNumbers(i).call()).toString()))
     }
   }
   return numbers

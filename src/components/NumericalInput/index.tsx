@@ -38,6 +38,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   }
 `
 
+// eslint-disable-next-line prefer-regex-literals
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group
 
 export const Input = React.memo(
@@ -68,17 +69,17 @@ export const Input = React.memo(
           enforcer(event.target.value.replace(/,/g, '.'))
         }}
         // universal input options
-        inputMode="decimal"
-        title="Token Amount"
-        autoComplete="off"
-        autoCorrect="off"
+        inputMode='decimal'
+        title='Token Amount'
+        autoComplete='off'
+        autoCorrect='off'
         // text-specific options
-        type="text"
-        pattern="^[0-9]*[.,]?[0-9]*$"
+        type='text'
+        pattern='^[0-9]*[.,]?[0-9]*$'
         placeholder={placeholder || '0.0'}
         minLength={1}
         maxLength={79}
-        spellCheck="false"
+        spellCheck='false'
       />
     )
   },

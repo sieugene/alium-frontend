@@ -16,7 +16,7 @@ const strategy1 = '/images/nft/strategy-1.gif'
 
 // const cardLink = 'https://gateway.pinata.cloud/ipfs/QmTVgjsjv4hMiaNtZzX7Fj4zs8WAjz2SktsY3C7qsSFjQW'
 
-export type CardType = {
+export interface CardType {
   id: number
   img: string
   headline: string

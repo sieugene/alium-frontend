@@ -56,7 +56,7 @@ export const StyledButton = styled.div`
   }
 `
 
-type props = {
+interface props {
   isAccount: boolean
   accountEllipsis: string | null
   onClick: () => void
@@ -66,8 +66,8 @@ export const ConnectButton: FC<props> = ({ isAccount, accountEllipsis, onClick }
   return (
     <StyledButton className={isAccount ? 'logged-in' : ''} onClick={onClick}>
       {!isAccount && (
-        <div className="icon">
-          <AddIcon color="#ffffff" />
+        <div className='icon'>
+          <AddIcon color='#ffffff' />
         </div>
       )}
       {isAccount ? accountEllipsis : 'Connect'}

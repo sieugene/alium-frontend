@@ -48,7 +48,7 @@ export type ButtonProps = {
 } & ButtonTypes &
   SpaceProps
 
-export type ButtonThemeVariant = {
+export interface ButtonThemeVariant {
   background: string
   backgroundActive: string
   backgroundHover: string

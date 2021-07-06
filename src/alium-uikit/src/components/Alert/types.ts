@@ -1,6 +1,6 @@
 import { MouseEvent, ReactNode } from 'react'
 
-export type AlertTheme = {
+export interface AlertTheme {
   background: string
 }
 

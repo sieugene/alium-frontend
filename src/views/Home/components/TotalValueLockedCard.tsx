@@ -30,13 +30,11 @@ const TotalValueLockedCard = () => {
         <Divider />
         {data ? (
           <>
-            <Heading size="xl" color="#24BA7B" mb="16px">{`$${tvl}`}</Heading>
-            <Text color="#8990A5">{TranslateString(764, 'Across all LPs')}</Text>
+            <Heading size='xl' color='#24BA7B' mb='16px'>{`$${tvl}`}</Heading>
+            <Text color='#8990A5'>{TranslateString(764, 'Across all LPs')}</Text>
           </>
         ) : (
-          <>
-            <Skeleton height={66} />
-          </>
+          <Skeleton height={66} />
         )}
       </CardBody>
     </StyledTotalValueLockedCard>

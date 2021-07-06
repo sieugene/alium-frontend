@@ -1,7 +1,7 @@
 import debounce from 'lodash/debounce'
 import { useCallback, useEffect } from 'react'
 
-type ParticleOptions = {
+interface ParticleOptions {
   size?: number
   distance?: number
 }
@@ -60,7 +60,7 @@ const createParticle = (x: number, y: number, imgSrc: string, options: ParticleO
   }
 }
 
-type Options = {
+interface Options {
   imgSrc: string
   selector?: string
   numberOfParticles?: number

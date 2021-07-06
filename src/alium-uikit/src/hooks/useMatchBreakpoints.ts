@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { breakpointMap } from '../theme/base'
 
-type State = {
+interface State {
   [key: string]: boolean
 }
 
-type MediaQueries = {
+interface MediaQueries {
   [key: string]: string
 }
 

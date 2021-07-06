@@ -7,7 +7,7 @@ export const RedirectPathToSwapOnly = () => {
   React.useEffect(() => {
     location.push('/swap')
   }, [])
-  return <div></div>
+  return <div />
 }
 
 // Redirects from the /swap/:outputCurrency path to the /swap?outputCurrency=:outputCurrency format
@@ -21,5 +21,5 @@ export const RedirectToSwap = () => {
     location.push(`/swap/${path}`)
   }, [])
 
-  return <div></div>
+  return <div />
 }

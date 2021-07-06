@@ -1,5 +1,3 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
@@ -199,7 +197,7 @@ export default function WalletModal({
 
   // get wallets user can switch too, depending on device/browser
   function getOptions() {
-    const isMetamask = window.ethereum && window.ethereum.isMetaMask
+    const isMetamask = window.ethereum?.isMetaMask
     return Object.keys(SUPPORTED_WALLETS).map((key) => {
       const option = SUPPORTED_WALLETS[key]
       // check for mobile options
@@ -224,7 +222,10 @@ export default function WalletModal({
               link={option.href}
               header={option.name}
               subheader={null}
-              icon={require(`/images/${option.iconName}`)}
+              icon={
+                // eslint-disable-next-line @typescript-eslint/no-require-imports
+                require(`/images/${option.iconName}`)
+              }
             />
           )
         }
@@ -240,10 +241,10 @@ export default function WalletModal({
               <Option
                 id={`connect-${key}`}
                 key={key}
-                color="#E8831D"
+                color='#E8831D'
                 header={t('installMetaMask')}
                 subheader={null}
-                link="https://metamask.io/"
+                link='https://metamask.io/'
                 icon={MetamaskIcon}
               />
             )
@@ -278,7 +279,10 @@ export default function WalletModal({
             link={option.href}
             header={option.name}
             subheader={null} // use option.descriptio to bring back multi-line
-            icon={require(`/images/${option.iconName}`)}
+            icon={
+              // eslint-disable-next-line @typescript-eslint/no-require-imports
+              require(`/images/${option.iconName}`)
+            }
           />
         )
       )
@@ -299,7 +303,7 @@ export default function WalletModal({
             {error instanceof UnsupportedChainIdError ? (
               <h5>
                 {t('pleaseConnect')}
-                <a href="https://docs.binance.org/smart-chain/wallet/metamask.html">{t('how')}?</a>
+                <a href='https://docs.binance.org/smart-chain/wallet/metamask.html'>{t('how')}?</a>
               </h5>
             ) : (
               t('errorConnectingRefreshPage')
@@ -325,7 +329,7 @@ export default function WalletModal({
           <CloseColor />
         </CloseIcon>
         {walletView !== WALLET_VIEWS.ACCOUNT ? (
-          <HeaderRow color="blue">
+          <HeaderRow color='blue'>
             <HoverText
               onClick={() => {
                 setPendingError(false)
@@ -354,7 +358,7 @@ export default function WalletModal({
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
               <span>{t('newToBsc')}? &nbsp;</span>{' '}
-              <ExternalLink href="https://docs.binance.org/smart-chain/wallet/metamask.html">
+              <ExternalLink href='https://docs.binance.org/smart-chain/wallet/metamask.html'>
                 {t('learnMoreAboutWallets')}
               </ExternalLink>
             </Blurb>

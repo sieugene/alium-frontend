@@ -8,7 +8,7 @@ const certikImage = '/images/audits/certik.png'
 const chainsultingImage = '/images/audits/chainsulting.png'
 const smartContract = '/images/audits/smart_contract_code.jpg'
 
-export type AuditType = {
+export interface AuditType {
   id: number
   headline: string
   date: string

@@ -1,6 +1,6 @@
 export type Breakpoints = string[]
 
-export type MediaQueries = {
+export interface MediaQueries {
   xs: string
   sm: string
   md: string
@@ -11,14 +11,14 @@ export type MediaQueries = {
 
 export type Spacing = number[]
 
-export type Radii = {
+export interface Radii {
   small: string
   default: string
   card: string
   circle: string
 }
 
-export type Shadows = {
+export interface Shadows {
   level1: string
   active: string
   success: string
@@ -27,11 +27,11 @@ export type Shadows = {
   inset: string
 }
 
-export type Gradients = {
+export interface Gradients {
   bubblegum: string
 }
 
-export type Colors = {
+export interface Colors {
   primary: string
   primaryBright: string
   primaryDark: string
@@ -58,7 +58,7 @@ export type Colors = {
   binance: string
 }
 
-export type ZIndices = {
+export interface ZIndices {
   dropdown: number
   modal: number
 }

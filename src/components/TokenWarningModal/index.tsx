@@ -63,14 +63,14 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
 
   return (
     <Wrapper error={duplicateNameOrSymbol}>
-      <AutoRow gap="6px">
-        <AutoColumn gap="24px">
-          <CurrencyLogo currency={token} size="16px" />
+      <AutoRow gap='6px'>
+        <AutoColumn gap='24px'>
+          <CurrencyLogo currency={token} size='16px' />
           <div> </div>
         </AutoColumn>
-        <AutoColumn gap="10px" justify="flex-start">
+        <AutoColumn gap='10px' justify='flex-start'>
           <Main>
-            {token && token.name && token.symbol && token.name !== token.symbol
+            {token?.name && token.symbol && token.name !== token.symbol
               ? `${token.name} (${token.symbol})`
               : token.name || token.symbol}{' '}
           </Main>
@@ -102,11 +102,11 @@ export default function TokenWarningModal({
   const handleDismiss = useCallback(() => null, [])
   return (
     <Modal isOpen={isOpen} onDismiss={handleDismiss} maxHeight={90}>
-      <WarningContainer className="token-warning-container">
-        <AutoColumn gap="lg">
-          <AutoRow gap="6px">
+      <WarningContainer className='token-warning-container'>
+        <AutoColumn gap='lg'>
+          <AutoRow gap='6px'>
             <StyledWarningIcon />
-            <Text color="failure">Token imported</Text>
+            <Text color='failure'>Token imported</Text>
           </AutoRow>
           <Text>
             Anyone can create an BEP20 token on BSC with <em>any</em> name, including creating fake versions of existing
@@ -124,24 +124,24 @@ export default function TokenWarningModal({
           })}
           <RowBetween>
             <div>
-              <label htmlFor="understand-checkbox" style={{ cursor: 'pointer', userSelect: 'none' }}>
+              <label htmlFor='understand-checkbox' style={{ cursor: 'pointer', userSelect: 'none' }}>
                 <input
-                  id="understand-checkbox"
-                  type="checkbox"
-                  className="understand-checkbox"
+                  id='understand-checkbox'
+                  type='checkbox'
+                  className='understand-checkbox'
                   checked={understandChecked}
                   onChange={toggleUnderstand}
                 />{' '}
-                <Text as="span" ml="4px">
+                <Text as='span' ml='4px'>
                   I understand
                 </Text>
               </label>
             </div>
             <Button
               disabled={!understandChecked}
-              variant="danger"
+              variant='danger'
               style={{ width: '140px' }}
-              className="token-dismiss-button"
+              className='token-dismiss-button'
               onClick={() => {
                 onConfirm()
               }}

@@ -8,7 +8,7 @@ export const RedirectToAddLiquidity = () => {
   React.useEffect(() => {
     router.push(ROUTES.add)
   }, [])
-  return <div></div>
+  return <div />
 }
 
 const OLD_PATH_STRUCTURE = /^(0x[a-fA-F0-9]{40})-(0x[a-fA-F0-9]{40})$/

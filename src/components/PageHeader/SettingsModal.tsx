@@ -11,7 +11,7 @@ const StyledModal = styled.div`
   z-index: inherit;
 `
 
-type SettingsModalProps = {
+interface SettingsModalProps {
   onDismiss?: () => void
 }
 

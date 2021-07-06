@@ -17,7 +17,7 @@ import toasts from './toasts'
 import transactions from './transactions/reducer'
 import user from './user/reducer'
 
-type MergedState = {
+interface MergedState {
   user: {
     [key: string]: any
   }

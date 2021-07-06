@@ -1,4 +1,4 @@
-export type OverlayProps = {
+export interface OverlayProps {
   show: boolean
   zIndex?: number
 }

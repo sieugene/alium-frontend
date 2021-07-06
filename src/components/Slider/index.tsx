@@ -110,24 +110,24 @@ interface InputSliderProps {
 export default function Slider({ value, onChange, min = 0, step = 1, max = 100, size = 28 }: InputSliderProps) {
   const [range, setRange] = useState(value)
   const updateRange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRange(parseInt(e.target.value))
+    setRange(parseInt(e.target.value, 10))
   }
   const changeCallback = (e) => {
-    onChange(parseInt(e.target.value))
+    onChange(parseInt(e.target.value, 10))
     updateRange(e)
   }
 
   return (
     <StyledRangeInput
       size={size}
-      type="range"
+      type='range'
       value={range}
       style={{ width: '100%', padding: '15px 0' }}
       onChange={updateRange}
       onMouseUp={changeCallback}
       onPointerUp={changeCallback}
       onTouchEnd={changeCallback}
-      aria-labelledby="input slider"
+      aria-labelledby='input slider'
       step={step}
       min={min}
       max={max}

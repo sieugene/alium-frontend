@@ -98,7 +98,7 @@ const Select = styled.select`
 
 const Option = styled.option``
 
-type PropsType = {
+interface PropsType {
   card: CardType
 }
 
@@ -178,22 +178,22 @@ const NftAccountCard = ({ card }: PropsType) => {
 
   return (
     <NFTWrapper>
-      <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding="24px" isTransparancy>
+      <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
         <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
       </Modal>
       <StyledFlex>
         {isMp4 ? (
           <Video autoPlay loop muted>
-            <source src={card.img} type="video/mp4" />
+            <source src={card.img} type='video/mp4' />
           </Video>
         ) : (
-          <Image src={card.img} alt="nft-preview" className="nft-preview" />
+          <Image src={card.img} alt='nft-preview' className='nft-preview' />
         )}
         <InputWrapper>
           <Label>Select you NFT id</Label>
           {/* <Input type="number" scale="lg" step={1} min={1} placeholder="1" value={value} onChange={handleInput} /> */}
           <Select value={value} onChange={handleInput}>
-            <Option value="-">-</Option>
+            <Option value='-'>-</Option>
             {cardIds.map((cardId) => {
               return <Option value={cardId}>{cardId}</Option>
             })}

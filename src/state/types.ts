@@ -73,7 +73,7 @@ export interface ProfileState {
   connectionError: any
 }
 
-export type TeamResponse = {
+export interface TeamResponse {
   0: string
   1: string
   2: string
@@ -81,7 +81,7 @@ export type TeamResponse = {
   4: boolean
 }
 
-export type TeamsById = {
+export interface TeamsById {
   [key: string]: Team
 }
 

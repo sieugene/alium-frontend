@@ -7,9 +7,9 @@
   "scripts": {
     "dev": "next dev",
     "dev:as-prod": "env-cmd -f .env.production next dev",
-    "build": "env-cmd -f .env.production next build",
+    "build": "next build",
     "build:as-dev": "env-cmd -f .env.development next build",
-    "start": "env-cmd -f .env.production next start",
+    "start": "next start",
     "start:as-dev": "env-cmd -f .env.development next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

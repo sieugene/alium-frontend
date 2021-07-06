@@ -1,4 +1,4 @@
-export type ColumnType<T> = {
+export interface ColumnType<T> {
   name: string
   label?: string
   hidden?: boolean
@@ -8,7 +8,7 @@ export type ColumnType<T> = {
   headerRender?: HeaderRenderType
 }
 
-export type ColumnStateType<T> = {
+export interface ColumnStateType<T> {
   name: string
   label: string
   hidden: boolean
@@ -23,7 +23,7 @@ export type ColumnStateType<T> = {
 export type HeaderRenderType = ({ label }: { label: React.ReactNode }) => React.ReactNode
 
 // this is the type saved as state and returned
-export type HeaderType<T> = {
+export interface HeaderType<T> {
   name: string
   label?: string
   hidden?: boolean
@@ -36,15 +36,17 @@ export type HeaderType<T> = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type DataType = { [key: string]: any }
+export interface DataType {
+  [key: string]: any
+}
 
-export type ColumnByNamesType<T> = {
+export interface ColumnByNamesType<T> {
   [key: string]: ColumnType<T>
 }
 
 export type RenderFunctionType<T> = ({ value, row }: RenderFunctionArgsType<T>) => React.ReactNode | undefined
 
-type RenderFunctionArgsType<T> = {
+interface RenderFunctionArgsType<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
   row: T
@@ -60,7 +62,7 @@ export interface RowType<T extends DataType> {
   original: T
 }
 
-export type CellType = {
+export interface CellType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
   render: () => React.ReactNode
@@ -109,7 +111,7 @@ export interface UseTableReturnType<T> {
   pagination: PaginatorType
 }
 
-type PaginatorType = {
+interface PaginatorType {
   nextPage: () => void
   prevPage: () => void
   page: number
@@ -118,7 +120,7 @@ type PaginatorType = {
   canPrev: boolean
 }
 
-export type TableState<T extends DataType> = {
+export interface TableState<T extends DataType> {
   columnsByName: ColumnByNamesType<T>
   columns: ColumnStateType<T>[]
   rows: RowType<T>[]

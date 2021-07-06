@@ -104,6 +104,7 @@ interface CurrencyInputPanelProps {
   customHeight?: number
 }
 
+// eslint-disable-next-line complexity
 export default function CurrencyInputPanel({
   value,
   onUserInput,
@@ -138,13 +139,13 @@ export default function CurrencyInputPanel({
         {!hideInput && (
           <LabelRow>
             <RowBetween>
-              <Text fontSize="14px" style={{ color: '#6C5DD3' }}>
+              <Text fontSize='14px' style={{ color: '#6C5DD3' }}>
                 {label}
               </Text>
               {account && (
                 <Text
                   onClick={onMax}
-                  fontSize="14px"
+                  fontSize='14px'
                   style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
                 >
                   {!hideBalance && !!currency && selectedCurrencyBalance
@@ -163,7 +164,7 @@ export default function CurrencyInputPanel({
           {!hideInput && (
             <>
               <NumericalInput
-                className="token-amount-input"
+                className='token-amount-input'
                 value={value}
                 onUserInput={(val) => {
                   onUserInput(val)
@@ -171,7 +172,7 @@ export default function CurrencyInputPanel({
                 style={{ fontSize: '14px' }}
               />
               {account && currency && showMaxButton && label !== 'To' && (
-                <Button onClick={onMax} size="sm" variant="text" buttonType="max">
+                <Button onClick={onMax} size='sm' variant='text' buttonType='max'>
                   MAX
                 </Button>
               )}
@@ -179,7 +180,7 @@ export default function CurrencyInputPanel({
           )}
           <CurrencySelect
             selected={!!currency}
-            className="open-currency-select-button"
+            className='open-currency-select-button'
             onClick={() => {
               if (!disableCurrencySelect) {
                 setModalOpen(true)
@@ -190,7 +191,7 @@ export default function CurrencyInputPanel({
               {pair ? (
                 <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin />
               ) : currency ? (
-                <CurrencyLogo currency={currency} size="24px" style={{ marginRight: '8px' }} />
+                <CurrencyLogo currency={currency} size='24px' style={{ marginRight: '8px' }} />
               ) : null}
               {pair ? (
                 <Text color={theme.colors.textSubtle} style={{ marginLeft: '8px', fontSize: '14px' }}>
@@ -198,7 +199,7 @@ export default function CurrencyInputPanel({
                 </Text>
               ) : (
                 <Text color={theme.colors.textSubtle} style={{ paddingRight: '12px', fontSize: '14px' }}>
-                  {(currency && currency.symbol && currency.symbol.length > 20
+                  {(currency?.symbol && currency.symbol.length > 20
                     ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
                         currency.symbol.length - 5,
                         currency.symbol.length,

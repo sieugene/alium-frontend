@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { BottomSection, ContentHeader, Section, Wrapper } from './helpers'
 
-type ConfirmationModalContentProps = {
+interface ConfirmationModalContentProps {
   title: string
   onDismiss: () => void
   topContent: () => React.ReactNode
@@ -23,7 +23,7 @@ const ConfirmationModalContent = ({ title, bottomContent, onDismiss, topContent 
       <ContentHeader onDismiss={onDismiss}>{title}</ContentHeader>
       <StyledBodyContainer>
         <Section>{topContent()}</Section>
-        <BottomSection gap="12px">{bottomContent()}</BottomSection>
+        <BottomSection gap='12px'>{bottomContent()}</BottomSection>
       </StyledBodyContainer>
     </Wrapper>
   )

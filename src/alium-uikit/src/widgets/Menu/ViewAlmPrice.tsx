@@ -69,7 +69,7 @@ const TextWrapper = styled.div`
   }
 `
 
-type props = {
+interface props {
   isPushed: boolean
 }
 

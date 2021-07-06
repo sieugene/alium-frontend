@@ -8,7 +8,7 @@ import { getExplorerLink, getExplorerName } from '../../utils'
 import { AutoColumn } from '../Column'
 import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'
 
-type TransactionSubmittedContentProps = {
+interface TransactionSubmittedContentProps {
   onDismiss: () => void
   hash: string | undefined
   chainId: ChainId
@@ -25,13 +25,13 @@ const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSu
         <ConfirmedIcon>
           <ArrowUpCircle strokeWidth={0.5} size={97} color={theme.colors.primary} />
         </ConfirmedIcon>
-        <AutoColumn gap="8px" justify="center">
+        <AutoColumn gap='8px' justify='center'>
           {chainId && hash && (
             <LinkExternal href={getExplorerLink(chainId, hash, 'transaction')}>
               View on {getExplorerName(chainId)}
             </LinkExternal>
           )}
-          <Button onClick={onDismiss} mt="20px">
+          <Button onClick={onDismiss} mt='20px'>
             {t('close')}
           </Button>
         </AutoColumn>

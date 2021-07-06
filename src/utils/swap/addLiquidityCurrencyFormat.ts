@@ -2,7 +2,7 @@ import { Currency, TokenAmount } from '@alium-official/sdk'
 import { Field } from 'state/mint/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 
-export type addLiquidityCurrencyFormatPayload = {
+export interface addLiquidityCurrencyFormatPayload {
   liquidityMinted: TokenAmount
   currencies: {
     CURRENCY_A?: Currency

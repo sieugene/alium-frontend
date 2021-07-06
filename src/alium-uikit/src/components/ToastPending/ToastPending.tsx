@@ -4,7 +4,7 @@ import Toast from '../../widgets/Toast/Toast'
 import { ErrorNetworkConnection, ToastProps } from '../../widgets/Toast/types'
 import { alertVariants } from '../Alert'
 
-type Props = {
+interface Props {
   error?: ErrorConnect
 }
 

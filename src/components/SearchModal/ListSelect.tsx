@@ -80,6 +80,7 @@ function ListOrigin({ listUrl }: { listUrl: string }) {
       return undefined
     }
   }, [listUrl, ensName])
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{ensName ?? host}</>
 }
 
@@ -129,7 +130,7 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
   if (!list) return null
 
   return (
-    <Row key={listUrl} align="center" padding="16px" id={listUrlRowHTMLId(listUrl)}>
+    <Row key={listUrl} align='center' padding='16px' id={listUrlRowHTMLId(listUrl)}>
       {list.logoURI ? (
         <ListLogo style={{ marginRight: '1rem' }} logoURI={list.logoURI} alt={`${list.name} list logo`} />
       ) : (
@@ -137,7 +138,7 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
       )}
       <Column style={{ flex: '1' }}>
         <Row>
-          <Text bold={isSelected} fontSize="16px" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <Text bold={isSelected} fontSize='16px' style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {list.name}
           </Text>
         </Row>
@@ -159,7 +160,7 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
               marginRight: '8px',
             }}
             onClick={toggle}
-            variant="secondary"
+            variant='secondary'
           >
             <Dropdown />
           </Button>
@@ -184,18 +185,16 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
           Selected
         </Button>
       ) : (
-        <>
-          <Button
-            className="select-button"
-            style={{
-              width: '5rem',
-              minWidth: '4.5rem',
-            }}
-            onClick={selectThisList}
-          >
-            Select
-          </Button>
-        </>
+        <Button
+          className='select-button'
+          style={{
+            width: '5rem',
+            minWidth: '4.5rem',
+          }}
+          onClick={selectThisList}
+        >
+          Select
+        </Button>
       )}
     </Row>
   )
@@ -275,23 +274,23 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
           <div>
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} />
           </div>
-          <Text fontSize="20px">Manage Lists</Text>
+          <Text fontSize='20px'>Manage Lists</Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
       </PaddedColumn>
 
       <Separator />
 
-      <PaddedColumn gap="14px">
+      <PaddedColumn gap='14px'>
         <Text bold>
           Add a list{' '}
-          <QuestionHelper text="Token lists are an open specification for lists of BEP20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious BEP20 tokens." />
+          <QuestionHelper text='Token lists are an open specification for lists of BEP20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious BEP20 tokens.' />
         </Text>
         <Row>
           <SearchInput
-            type="text"
-            id="list-add-input"
-            placeholder="https:// or ipfs:// or ENS name"
+            type='text'
+            id='list-add-input'
+            placeholder='https:// or ipfs:// or ENS name'
             value={listUrlInput}
             onChange={handleInput}
             onKeyDown={handleEnterKey}
@@ -318,7 +317,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       <Separator />
 
       <div style={{ padding: '16px', textAlign: 'center' }}>
-        <ExternalLink href="https://tokenlists.org">Browse lists</ExternalLink>
+        <ExternalLink href='https://tokenlists.org'>Browse lists</ExternalLink>
       </div>
     </Column>
   )

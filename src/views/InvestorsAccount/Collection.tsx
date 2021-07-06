@@ -112,18 +112,16 @@ function Collection() {
   return (
     <ContentHolder>
       <CardWrapper ref={selectImage}>
-        <Text fontSize="48px" style={{ fontWeight: 700, marginBottom: '32px' }}>
+        <Text fontSize='48px' style={{ fontWeight: 700, marginBottom: '32px' }}>
           Your NFT deck
         </Text>
         <AppInvestorsAccountBody>
           <SelectedNftRow>
             {selectedCard && (
-              <>
-                <SelectedNftWrapper>
-                  <Image src={'/images/collection/Card-Preview.png'} alt="nft-preview" className="nft-preview" />
-                  <span>{selectedCard[1]}</span>
-                </SelectedNftWrapper>
-              </>
+              <SelectedNftWrapper>
+                <Image src='/images/collection/Card-Preview.png' alt='nft-preview' className='nft-preview' />
+                <span>{selectedCard[1]}</span>
+              </SelectedNftWrapper>
             )}
           </SelectedNftRow>
           <NftNavTabs />

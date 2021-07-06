@@ -216,7 +216,7 @@ type TextPropsType = React.ComponentProps<typeof Text>
 
 const StyledHeading = (props: TextPropsType) => (
   <Text
-    mb="15px"
+    mb='15px'
     style={{
       textAlign: 'left',
       fontStyle: 'normal',
@@ -252,7 +252,7 @@ const StyledListValue = (props: TextPropsType) => (
   <Text style={{ fontSize: '14px', lineHeight: '16px', color: '#6C5DD3', fontWeight: '500' }} {...props} />
 )
 
-type PropsType = {
+interface PropsType {
   card: CardType
   handleChange: any
   buttonWrap: any
@@ -265,26 +265,26 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
 
   const [showOptions, setShowOptions] = useState(false)
   const [selectedOption, setSelectedOption] = useState(
-    `${(+cardList[0]?.price).toLocaleString()} ${currencies.stablecoins[0]}`,
+    `${Number(cardList[0]?.price).toLocaleString()} ${currencies.stablecoins[0]}`,
   )
 
   const handleClick = (item) => {
-    setSelectedOption(`${(+cardList[0]?.price).toLocaleString()} ${item}`)
+    setSelectedOption(`${Number(cardList[0]?.price).toLocaleString()} ${item}`)
     handleChange({ currency: item })
   }
 
   return (
-    <NFTWrapper key={ID} type="button">
+    <NFTWrapper key={ID} type='button'>
       <StyledFlex>
-        <img src={card.img} alt="nft-preview" className="nft-preview" />
+        <img src={card.img} alt='nft-preview' className='nft-preview' />
         <Flex>
           <ContentHolder>
-            <CustomStyledHeading className="desktop">{card.headline}</CustomStyledHeading>
-            <StyledCardInfo justifyContent="space-between" mt="10px">
+            <CustomStyledHeading className='desktop'>{card.headline}</CustomStyledHeading>
+            <StyledCardInfo justifyContent='space-between' mt='10px'>
               <StyledListLabel>{t('cards.cardsPrice')}</StyledListLabel>
               <StyledListValue>{card.cost}</StyledListValue>
             </StyledCardInfo>
-            <StyledCardInfo justifyContent="space-between" mt="15px">
+            <StyledCardInfo justifyContent='space-between' mt='15px'>
               <StyledListLabel>{t('cards.tokensAmount')}</StyledListLabel>
               <StyledListValue>{card.tokens}</StyledListValue>
             </StyledCardInfo>
@@ -296,7 +296,7 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
                 <StyledOptionsContainer>
                   {currencies.stablecoins.map((item) => (
                     <StyledOption onClick={() => handleClick(item)}>
-                      {`${(+cardList[0]?.price).toLocaleString()} ${item}`}
+                      {`${Number(cardList[0]?.price).toLocaleString()} ${item}`}
                     </StyledOption>
                   ))}
                 </StyledOptionsContainer>
@@ -313,8 +313,8 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
         {showOptions && (
           <StyledOptionsContainer>
             {currencies.stablecoins.map((item) => (
-              <StyledOption onClick={() => setSelectedOption(`${(+cardList[0]?.price).toLocaleString()} ${item}`)}>
-                {`${(+cardList[0]?.price).toLocaleString()} ${item}`}
+              <StyledOption onClick={() => setSelectedOption(`${Number(cardList[0]?.price).toLocaleString()} ${item}`)}>
+                {`${Number(cardList[0]?.price).toLocaleString()} ${item}`}
               </StyledOption>
             ))}
           </StyledOptionsContainer>

@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from 'react'
 
-export type ToggleTheme = {
+export interface ToggleTheme {
   handleBackground: string
 }
 
