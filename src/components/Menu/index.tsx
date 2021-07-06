@@ -3,6 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uikit/src'
 import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
 import { useActiveWeb3React } from 'hooks'
+import useChangeNetwork from 'hooks/network/useChangeNetwork'
 import useAuth from 'hooks/useAuth'
 import useCurrencyBalance from 'hooks/useCurrencyBalance'
 import useTheme from 'hooks/useTheme'
@@ -59,6 +60,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   const web3 = useWeb3()
   const { chainId } = useActiveWeb3React()
   const { login, logout } = useAuth()
+  useChangeNetwork(login)
   const { isDark, toggleTheme } = useTheme()
   const { balance } = useCurrencyBalance(account, ETHER)
   const explorerName = getExplorerName(chainId as ChainId)

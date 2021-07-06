@@ -81,8 +81,8 @@ const WalletCard: React.FC<Props> = ({
   const onClickHandler = async () => {
     setconnectionLoad(true)
     try {
-      await login(walletConfig.connectorId)
       setConnectorId(walletConfig.connectorId)
+      await login(walletConfig.connectorId)
       setSelectedWallet(title)
       onDismiss()
     } catch (error) {

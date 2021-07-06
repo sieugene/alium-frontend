@@ -57,6 +57,7 @@ const useAuth = () => {
                 const messageErr =
                   chainId === 1 || chainId === 4 ? 'Please change network in your wallet' : 'Please change network'
                 toastError(`Can't setup connect`, messageErr)
+                deactivate()
               }
             } else {
               removeConnectorId()
@@ -88,7 +89,11 @@ const useAuth = () => {
     [activate, toastError, dispatch],
   )
 
-  return { login, logout: deactivate }
+  const logout = async () => {
+    await deactivate()
+    debugger
+  }
+  return { login, logout }
 }
 
 export default useAuth
