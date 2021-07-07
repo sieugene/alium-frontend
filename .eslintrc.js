@@ -19,6 +19,7 @@ module.exports = {
     },
   },
   rules: {
+    'max-params': 0, // temp
     '@next/next/no-img-element': 0, // temp
     'react-hooks/rules-of-hooks': 2, // enable for errors: rules of hooks
     'react-hooks/exhaustive-deps': 1, // enable for warn: effect dependencies
