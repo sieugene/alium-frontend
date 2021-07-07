@@ -1,5 +1,7 @@
 import { ChainId, WETH } from '@alium-official/sdk'
 import { Contract } from '@ethersproject/contracts'
+import MULTICALL_ABI from 'config/abis/MULTICALL_ABI.json'
+import MULTICALL_ADDRESS from 'config/addresses/MULTICALL_ADDRESS'
 import { MIGRATOR_ABI, MIGRATOR_ADDRESS } from 'constants/abis/migrator'
 import { NFT_ABI, NFT_COLLECTIBLE_ABI, NFT_COLLECTIBLE_ADDRESS, NFT_PRIVATE_ADDRESS } from 'constants/abis/nftPrivate'
 import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from 'constants/v1'
@@ -17,7 +19,7 @@ import {
   getSouschefContract,
 } from 'utils/contractHelpers'
 import { ENS_ABI, ENS_PUBLIC_RESOLVER_ABI, ERC20_ABI, ERC20_BYTES32_ABI, IPAIR_ABI, WETH_ABI } from '../config/abis'
-import { MULTICALL_ABI, MULTICALL_ADDRESS, VAMPIRE_ABI, VAMPIRE_ADDRESS } from '../config/contracts'
+import { VAMPIRE_ABI, VAMPIRE_ADDRESS } from '../config/contracts'
 import UNISOCKS_ABI from '../constants/abis/unisocks.json'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'

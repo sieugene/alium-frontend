@@ -4,14 +4,14 @@ import BigNumber from 'bignumber.js'
 import { LOTTERY_TICKET_PRICE } from 'config'
 import lotteryAbi from 'config/abi/lottery.json'
 import ticketAbi from 'config/abi/lotteryNft.json'
-import MultiCallAbi from 'config/abi/Multicall.json'
+import MULTICALL_FUNC_ABI from 'config/abi/MULTICALL_FUNC_ABI.json'
 import { getWeb3NoAccount } from 'utils/web3'
 import { getMulticallAddress } from './addressHelpers'
 
 export const multiCall = async (abi, calls) => {
   const web3 = getWeb3NoAccount()
   // @ts-ignore
-  const multi = new web3.eth.Contract(MultiCallAbi, getMulticallAddress())
+  const multi = new web3.eth.Contract(MULTICALL_FUNC_ABI, getMulticallAddress())
   const itf = new Interface(abi)
   let res = []
   if (calls.length > 100) {
