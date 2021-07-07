@@ -143,7 +143,7 @@ const NetworkSwitch: React.FC<Props> = () => {
 
   // Update label when chainId change in modal
   React.useEffect(() => {
-    if (selectedOption !== networkExist.label) {
+    if (networkExist?.label && selectedOption !== networkExist.label) {
       setSelectedOption(networkExist.label)
     }
   }, [selectedOption, networkExist])
