@@ -28,7 +28,7 @@ jobs:
           docker push $IMAGE_ID:$VERSION
 
   deploy_stage:
-    needs: build_dev
+    needs: build_prod
     runs-on: [self-hosted, dev]
     steps:
       - uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
       - run: docker system prune -f
 
   deploy_prod:
-    needs: build_dev
+    needs: build_prod
     runs-on: [self-hosted, prod]
     steps:
       - uses: actions/checkout@v2
