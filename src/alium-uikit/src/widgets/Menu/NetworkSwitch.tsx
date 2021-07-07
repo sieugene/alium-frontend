@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { useToast } from 'state/hooks'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
-import { getChainId, removeChainId, setChainId } from '../../util'
+import { removeChainId, setChainId } from '../../util'
 import { networksDev, networksProd } from '../WalletModal/config'
 import { NetworksConfig } from '../WalletModal/types'
 
@@ -106,10 +106,9 @@ const StyledIconContainer = styled.div`
 interface Props {
   chainId?: number | null
 }
-const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
+const NetworkSwitch: React.FC<Props> = () => {
+  const { currentChainId: chainId, changeChainId } = useStoreNetwork()
   const [showOptions, setShowOptions] = useState(false)
-  const [id, setId] = useState(chainId || getChainId())
-  const { toastError } = useToast()
 
   const isDev = process.env.APP_ENV === 'development'
 
@@ -118,26 +117,10 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
   const { icon: Icon, label } = networkExist ?? networks[0]
   const [selectedOption, setSelectedOption] = useState(label)
 
-  const updateNetworkChain = (networkId: number) => {
-    setId(networkId)
-    setSelectedOption(label)
-  }
-
-  React.useEffect(() => {
-    // when user update network from wallet
-    if (chainId && id !== chainId) {
-      updateNetworkChain(chainId)
-    }
-  }, [chainId])
-
-  const handleClick = (item: NetworksConfig, withoutReload?: boolean) => {
+  const handleClick = (item: NetworksConfig) => {
     setSelectedOption(item.label)
+    changeChainId(item.chainId)
     setChainId(item.chainId)
-    setId(item.chainId)
-    !withoutReload &&
-      setTimeout(() => {
-        window.location.reload()
-      }, 0)
   }
 
   React.useEffect(() => {
@@ -145,7 +128,7 @@ const NetworkSwitch: React.FC<Props> = ({ chainId }) => {
       removeChainId()
       // toastError("Can't find network", 'Please choice network')
       // If network not found, set default
-      handleClick(networks[0], true)
+      handleClick(networks[0])
     }
   }, [networkExist])
 

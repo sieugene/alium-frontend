@@ -75,8 +75,8 @@ const UserBlock: React.FC<Props> = (props) => {
   )
   const accountEllipsis = account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : null
   return (
-    <Flex alignItems="center">
-      <NetworkSwitch chainId={chainId} />
+    <Flex alignItems='center'>
+      <NetworkSwitch />
       <ConnectButton
         isAccount={!!account}
         accountEllipsis={accountEllipsis}
