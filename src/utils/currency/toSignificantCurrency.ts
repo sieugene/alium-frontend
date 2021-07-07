@@ -1,12 +1,15 @@
 import { CurrencyAmount, Price } from '@alium-official/sdk'
 // toSignificant like metamask
+// export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
+//   if (currency && currency?.toSignificant) {
+//     const total = Number(currency.toSignificant(1000))
+//     const replaced = getFlooredFixed(total, 3)
+//     return formatZero(replaced, total.toString())
+//   }
+//   return ''
+// }
 export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
-  if (currency && currency?.toSignificant) {
-    const total = Number(currency.toSignificant(1000))
-    const replaced = getFlooredFixed(total, 3)
-    return formatZero(replaced, total.toString())
-  }
-  return ''
+  return currency?.toSignificant(6)
 }
 function getFlooredFixed(v: number, d: number) {
   // eslint-disable-next-line no-restricted-properties
