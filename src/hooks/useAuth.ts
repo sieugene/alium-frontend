@@ -45,7 +45,7 @@ const useAuth = () => {
               if (hasSetup) {
                 try {
                   await activate(connector, (err) => {
-                    toastError(err.name, err.message)
+                    toastError("Unsupported chain", err.message)
                     removeConnectorId()
                     clearWalletConnect()
                   })
