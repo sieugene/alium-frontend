@@ -1,4 +1,4 @@
-import { Text } from '@alium-official/uikit'
+import { Text } from 'alium-uikit/src'
 import React from 'react'
 import styled from 'styled-components'
 import AuditItem from './components/AuditItem'
@@ -15,11 +15,11 @@ const CardWrapper = styled.div`
   width: 100%;
   margin: 0 auto;
   position: relative;
-  
+
   @media screen and (max-width: 1024px) {
     max-width: 954px;
   }
-  
+
   @media screen and (max-width: 1016px) {
     padding: 0 32px 0 32px;
   }
@@ -47,7 +47,6 @@ const StyledText = styled(Text)`
 `
 
 const AuditPage = () => {
-
   return (
     <StyledWrapper>
       <ContentHolder>

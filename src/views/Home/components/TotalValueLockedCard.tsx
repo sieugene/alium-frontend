@@ -1,8 +1,8 @@
+import { Card, CardBody, Heading, Skeleton, Text } from 'alium-uikit/src'
+import { useGetStats } from 'hooks/api'
+import useI18n from 'hooks/useI18n'
 import React from 'react'
 import styled from 'styled-components'
-import { Card, CardBody, Heading, Skeleton, Text } from '@alium-official/uikit'
-import useI18n from 'hooks/useI18n'
-import { useGetStats } from 'hooks/api'
 
 const StyledTotalValueLockedCard = styled(Card)`
   border-radius: 6px;
@@ -30,13 +30,11 @@ const TotalValueLockedCard = () => {
         <Divider />
         {data ? (
           <>
-            <Heading size="xl" color="#24BA7B" mb="16px">{`$${tvl}`}</Heading>
-            <Text color="#8990A5">{TranslateString(764, 'Across all LPs')}</Text>
+            <Heading size='xl' color='#24BA7B' mb='16px'>{`$${tvl}`}</Heading>
+            <Text color='#8990A5'>{TranslateString(764, 'Across all LPs')}</Text>
           </>
         ) : (
-          <>
-            <Skeleton height={66} />
-          </>
+          <Skeleton height={66} />
         )}
       </CardBody>
     </StyledTotalValueLockedCard>

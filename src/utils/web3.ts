@@ -1,7 +1,7 @@
+import { getChainId } from 'alium-uikit/src'
+import getRpcUrl from 'utils/getRpcUrl'
 import Web3 from 'web3'
 import { HttpProviderOptions } from 'web3-core-helpers'
-import getRpcUrl from 'utils/getRpcUrl'
-import { getChainId } from '@alium-official/uikit'
 
 const chainId = getChainId()
 const RPC_URL = getRpcUrl(chainId)

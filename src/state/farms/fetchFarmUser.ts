@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js'
 import erc20ABI from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
-import multicall from 'utils/multicall'
 import farmsConfig from 'config/constants/farms'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
+import multicall from 'utils/multicall'
 
 export const fetchFarmUserAllowances = async (account: string) => {
   const masterChefAdress = getMasterChefAddress()

@@ -1,16 +1,17 @@
 /* eslint-disable no-await-in-loop */
-import BigNumber from 'bignumber.js'
 import { Interface } from '@ethersproject/abi'
-import { getWeb3NoAccount } from 'utils/web3'
-import MultiCallAbi from 'config/abi/Multicall.json'
-import ticketAbi from 'config/abi/lotteryNft.json'
-import lotteryAbi from 'config/abi/lottery.json'
+import BigNumber from 'bignumber.js'
 import { LOTTERY_TICKET_PRICE } from 'config'
+import lotteryAbi from 'config/abi/lottery.json'
+import ticketAbi from 'config/abi/lotteryNft.json'
+import MULTICALL_FUNC_ABI from 'config/abi/MULTICALL_FUNC_ABI.json'
+import { getWeb3NoAccount } from 'utils/web3'
 import { getMulticallAddress } from './addressHelpers'
 
 export const multiCall = async (abi, calls) => {
   const web3 = getWeb3NoAccount()
-  const multi = new web3.eth.Contract(MultiCallAbi, getMulticallAddress())
+  // @ts-ignore
+  const multi = new web3.eth.Contract(MULTICALL_FUNC_ABI, getMulticallAddress())
   const itf = new Interface(abi)
   let res = []
   if (calls.length > 100) {
@@ -47,7 +48,6 @@ export const getTickets = async (lotteryContract, ticketsContract, account, cust
   const issueIndex = customLotteryNum || (await lotteryContract.methods.issueIndex().call())
   const length = await getTicketsAmount(ticketsContract, account)
 
-  // eslint-disable-next-line prefer-spread
   const calls1 = Array.apply(null, { length }).map((a, i) => [
     ticketsContract.options.address,
     'tokenOfOwnerByIndex',
@@ -151,12 +151,14 @@ export const getTotalClaim = async (lotteryContract, ticketsContract, account) =
     const calls4 = finalTokenids.map((id) => [lotteryContract.options.address, 'getRewardView', [id]])
 
     const rewards = await multiCall(lotteryAbi, calls4)
+    // @ts-ignore
     const claim = rewards.reduce((p, c) => BigNumber.sum(p, c), BigNumber(0))
 
     return claim
   } catch (err) {
     console.error(err)
   }
+  // @ts-ignore
   return BigNumber(0)
 }
 
@@ -203,11 +205,11 @@ export const getWinningNumbers = async (lotteryContract) => {
   }
   if (!drawed) {
     for (let i = 0; i < 4; i++) {
-      numbers.push(+(await lotteryContract.methods.historyNumbers(issueIndex - 1, i).call()).toString())
+      numbers.push(Number((await lotteryContract.methods.historyNumbers(issueIndex - 1, i).call()).toString()))
     }
   } else {
     for (let i = 0; i < 4; i++) {
-      numbers.push(+(await lotteryContract.methods.winningNumbers(i).call()).toString())
+      numbers.push(Number((await lotteryContract.methods.winningNumbers(i).call()).toString()))
     }
   }
   return numbers

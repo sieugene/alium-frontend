@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
-import { ConnectorNames, getChainId, getConnectorId } from '@alium-official/uikit'
+import { ConnectorNames, getChainId, getConnectorId } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
+import { useEffect } from 'react'
 
 const _binanceChainListener = async () =>
   new Promise<void>((resolve) =>
@@ -23,20 +23,16 @@ const useEagerConnect = () => {
     const connectorId = getConnectorId()
     const chainId = getChainId()
 
-    if (connectorId === ConnectorNames.BSC && (chainId === 128 || chainId === 256)) {
-      return
-    }
-
     if (connectorId) {
-      const isConnectorBinanceChain = connectorId === ConnectorNames.BSC
-      const isBinanceChainDefined = Reflect.has(window, 'BinanceChain')
+      if (connectorId === ConnectorNames.BSC && (chainId === 56 || chainId === 97)) {
+        // Currently BSC extension doesn't always inject in time.
+        // We must check to see if it exists, and if not, wait for it before proceeding.
+        const isBinanceChainDefined = Reflect.has(window, 'BinanceChain')
+        if (!isBinanceChainDefined) {
+          _binanceChainListener().then(() => login(connectorId))
 
-      // Currently BSC extension doesn't always inject in time.
-      // We must check to see if it exists, and if not, wait for it before proceeding.
-      if (isConnectorBinanceChain && !isBinanceChainDefined) {
-        _binanceChainListener().then(() => login(connectorId))
-
-        return
+          return
+        }
       }
 
       login(connectorId)

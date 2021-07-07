@@ -1,7 +1,7 @@
-import React from 'react'
+import { Flex, Link, LinkExternal, Text } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
+import React from 'react'
 import styled from 'styled-components'
-import { Text, Flex, Link, LinkExternal } from '@alium-official/uikit'
 
 export interface ExpandableSectionProps {
   bscScanAddress?: string

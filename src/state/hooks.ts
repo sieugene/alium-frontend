@@ -1,23 +1,23 @@
-import { useEffect, useMemo } from 'react'
-import BigNumber from 'bignumber.js'
-import { kebabCase } from 'lodash'
 import { useWeb3React } from '@web3-react/core'
-import { Toast, toastTypes } from '@alium-official/uikit'
-import { useSelector, useDispatch } from 'react-redux'
+import { Toast, toastTypes } from 'alium-uikit/src'
+import BigNumber from 'bignumber.js'
 import { Team } from 'config/constants/types'
 import useRefresh from 'hooks/useRefresh'
+import { kebabCase } from 'lodash'
+import { useEffect, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAchievements } from './achievements'
 import {
+  clear as clearToast,
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
   fetchPoolsUserDataAsync,
   push as pushToast,
   remove as removeToast,
-  clear as clearToast,
 } from './actions'
-import { State, Farm, Pool, ProfileState, TeamsState, AchievementState } from './types'
 import { fetchProfile } from './profile'
 import { fetchTeam, fetchTeams } from './teams'
-import { fetchAchievements } from './achievements'
+import { AchievementState, Farm, Pool, ProfileState, State, TeamsState } from './types'
 
 const ZERO = new BigNumber(0)
 

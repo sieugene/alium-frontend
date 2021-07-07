@@ -1,7 +1,7 @@
-import { getProfileContract } from 'utils/contractHelpers'
 import { campaignMap } from 'config/constants/campaigns'
 import { Achievement } from 'state/types'
-import { getAchievementTitle, getAchievementDescription } from 'utils/achievements'
+import { getAchievementDescription, getAchievementTitle } from 'utils/achievements'
+import { getProfileContract } from 'utils/contractHelpers'
 
 /**
  * Gets all user point increase events on the profile filtered by wallet address

@@ -5,7 +5,7 @@ import makeBatchRequest from 'utils/makeBatchRequest'
 
 const pancakeRabbitsContract = getPancakeRabbitContract()
 
-export type NftMap = {
+export interface NftMap {
   [key: number]: {
     tokenUri: string
     tokenIds: number[]
@@ -14,7 +14,7 @@ export type NftMap = {
 
 type Action = { type: 'set_nfts'; data: NftMap } | { type: 'reset' }
 
-type State = {
+interface State {
   isLoading: boolean
   nfts: NftMap
 }

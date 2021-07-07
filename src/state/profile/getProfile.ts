@@ -1,9 +1,9 @@
-import Cookies from 'js-cookie'
-import { getProfileContract, getPancakeRabbitContract } from 'utils/contractHelpers'
-import { Nft } from 'config/constants/types'
-import { Profile } from 'state/types'
-import { getTeam } from 'state/teams/helpers'
 import nfts from 'config/constants/nfts'
+import { Nft } from 'config/constants/types'
+import Cookies from 'js-cookie'
+import { getTeam } from 'state/teams/helpers'
+import { Profile } from 'state/types'
+import { getPancakeRabbitContract, getProfileContract } from 'utils/contractHelpers'
 import { transformProfileResponse } from './helpers'
 
 const profileContract = getProfileContract()

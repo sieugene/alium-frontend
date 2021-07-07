@@ -1,59 +1,38 @@
-import { ChainId } from '@alium-official/sdk'
-import { externalLinks, getMainDomain, Menu as UikitMenu, MenuEntry } from '@alium-official/uikit'
+import { ChainId, ETHER } from '@alium-official/sdk'
+import { useWeb3React } from '@web3-react/core'
+import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uikit/src'
 import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
-import useActiveWeb3React from 'hooks'
-import useAccountTotalBalance from 'hooks/useAccountTotalBalance'
+import { useActiveWeb3React } from 'hooks'
+import useChangeNetwork from 'hooks/network/useChangeNetwork'
 import useAuth from 'hooks/useAuth'
 import useCurrencyBalance from 'hooks/useCurrencyBalance'
 import useTheme from 'hooks/useTheme'
 import useWeb3 from 'hooks/useWeb3'
-import React, { FC } from 'react'
-import { useTranslation } from 'react-i18next'
-// import { useWeb3React } from '@web3-react/core'
-import { Route, RouteProps } from 'react-router-dom'
+import { useTranslation } from 'next-i18next'
+import React from 'react'
+import { ROUTES } from 'routes'
 import { getExplorerLink, getExplorerName } from 'utils'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
+import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
-type PropsType = {
-  loginBlockVisible?: boolean
-}
-const Menu: FC<PropsType> = ({ loginBlockVisible = true, ...props }) => {
-  const { account, library, chainId } = useActiveWeb3React()
-  const web3 = useWeb3()
-  const { login, logout } = useAuth()
-  const { isDark, toggleTheme } = useTheme()
+const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
   const { t } = useTranslation()
-  const { balance } = useCurrencyBalance(account, web3)
-  const explorerName = getExplorerName(chainId as ChainId)
-  const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
 
-  const { totalBalance } = useAccountTotalBalance(account, library)
-
-  const useBalance = async () => {
-    // const result = await useCurrencyBalance(account, web3)
-    return balance
-  }
-
-  let links: MenuEntry[] = [
-    { label: 'Home', icon: 'HomeIcon', href: `https://${getMainDomain()}` },
+  const links: MenuEntry[] = [
+    {
+      label: t('mainMenu.home'),
+      icon: 'HomeIcon',
+      href: ROUTES.home,
+    },
     {
       label: t('mainMenu.trade'),
       icon: 'TradeIcon',
       items: [
-        { label: t('swap'), href: `https://exchange.${getMainDomain()}` },
-        { label: t('mainMenu.liquidity'), href: `https://exchange.${getMainDomain()}/pool` },
+        { label: t('swap'), href: ROUTES.exchange },
+        { label: t('mainMenu.liquidity'), href: ROUTES.pool },
       ],
     },
-  ]
-
-  // if (totalBalance > 0) {
-  links = [
-    ...links,
-    { label: 'Token holder area', icon: 'PrivateRoundIcon', href: `https://account.${getMainDomain()}` },
-  ]
-  // }
-
-  links = [
-    ...links,
+    { label: 'Token holder area', icon: 'PrivateRoundIcon', href: ROUTES.tokenHolderArea },
     // {
     //   label: 'Analytics',
     //   icon: 'InfoIcon',
@@ -67,7 +46,7 @@ const Menu: FC<PropsType> = ({ loginBlockVisible = true, ...props }) => {
       label: t('mainMenu.more'),
       icon: 'MoreIcon',
       items: [
-        { label: 'Audits', href: `https://${getMainDomain()}/audits` },
+        { label: 'Audits', href: ROUTES.audits },
         // { label: 'Voting', href: 'https://voting.dev.alium.finance' },
         { label: t('mainMenu.github'), href: externalLinks.github },
         // { label: 'Docs', href: 'https://docs.pancakeswap.finance' },
@@ -75,47 +54,58 @@ const Menu: FC<PropsType> = ({ loginBlockVisible = true, ...props }) => {
         { label: t('mainMenu.blog'), href: externalLinks.medium },
       ],
     },
+    { label: 'Alium.art', icon: 'IconArt', href: `https://alium.art` },
   ]
+
+  const { account } = useWeb3React()
+  const web3 = useWeb3()
+  const { chainId } = useActiveWeb3React()
+  const { login, logout } = useAuth()
+  useChangeNetwork(login)
+  const { isDark, toggleTheme } = useTheme()
+  const { balance } = useCurrencyBalance(account, ETHER)
+  const explorerName = getExplorerName(chainId as ChainId)
+  const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
+  // const useBalance = async () => {
+  //   const result = await useCurrencyBalance(account as string, ETHER)
+  //   return result
+  // }
+
+  // useBalance().then((result)=>console.log(result))
+
+  const [transactionsHistoryModal] = useModal(<RecentTransactionsModal />)
 
   return (
     <>
       <ConnectionPending />
       <UikitMenu
-        account={account}
+        // isProduction={process.env.NODE_ENV === "production"}
+        links={links}
+        account={account as string}
         login={login}
         logout={logout}
         isDark={isDark}
         toggleTheme={toggleTheme}
-        links={links}
         loginBlockVisible={loginBlockVisible}
         buttonTitle={t('connect')}
-        balance={balance?.toSignificant(6)}
+        balance={toSignificantCurrency(balance)}
         explorerName={explorerName}
         explorerLink={explorerLink}
         options={{
-          modalTitle: t('connectToWallet'),
+          modalTitle: 'Account',
           modalFooter: t('learnHowConnect'),
           modelLogout: t('logout'),
           modalBscScan: t('viewOnBscscan'),
           modelCopyAddress: t('copyAddress'),
         }}
+        onTransactionHistoryHandler={transactionsHistoryModal}
         betaText="This is the main version. Press here to switch to Beta."
         betaLink="https://beta.exchange.alium.finance"
-        balanceHook={useBalance}
+        balanceHook={async () => null}
         {...props}
       />
     </>
   )
 }
-
-export const MenuWrappedRoute: FC<RouteProps & { loginBlockVisible: boolean }> = ({
-  children,
-  loginBlockVisible,
-  ...props
-}) => (
-  <Route {...props}>
-    <Menu loginBlockVisible={loginBlockVisible}>{children}</Menu>
-  </Route>
-)
 
 export default Menu

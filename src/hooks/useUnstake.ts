@@ -1,13 +1,13 @@
-import { useCallback } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   fetchFarmUserDataAsync,
-  updateUserStakedBalance,
   updateUserBalance,
   updateUserPendingReward,
+  updateUserStakedBalance,
 } from 'state/actions'
-import { unstake, sousUnstake, sousEmegencyUnstake } from 'utils/callHelpers'
+import { sousEmegencyUnstake, sousUnstake, unstake } from 'utils/callHelpers'
 import { useMasterchef, useSousChef } from './useContract'
 
 const useUnstake = (pid: number) => {
