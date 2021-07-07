@@ -117,11 +117,7 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
   return undefined
 }
 
-const BAD_RECIPIENT_ADDRESSES: string | any[] = [
-  process.env.REACT_APP_FACTORY_ADDRESS, // v2 factory
-  '0xf164fC0Ec4E93095b804a4795bBe1e041497b92a', // v2 router 01
-  process.env.REACT_APP_ROUTER_ADDRESS, // v2 router 02
-]
+const BAD_RECIPIENT_ADDRESSES: string | any[] = ['0xf164fC0Ec4E93095b804a4795bBe1e041497b92a']
 
 /**
  * Returns true if any of the pairs or tokens in a trade have the given checksummed address
