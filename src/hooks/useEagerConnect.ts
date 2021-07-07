@@ -24,14 +24,10 @@ const useEagerConnect = () => {
     const chainId = getChainId()
 
     if (connectorId) {
-      const isConnectorBinanceChain = connectorId === ConnectorNames.BSC
-      const isBinanceChainDefined = Reflect.has(window, 'BinanceChain')
-
-      if (isConnectorBinanceChain) {
-        if (chainId === 128 || chainId === 256) return
-
+      if (connectorId === ConnectorNames.BSC && (chainId === 56 || chainId === 97)) {
         // Currently BSC extension doesn't always inject in time.
         // We must check to see if it exists, and if not, wait for it before proceeding.
+        const isBinanceChainDefined = Reflect.has(window, 'BinanceChain')
         if (!isBinanceChainDefined) {
           _binanceChainListener().then(() => login(connectorId))
 
