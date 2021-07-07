@@ -5,7 +5,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
 import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
-import { useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
+import { useMultipleContractSingleData, useSingleContractMultipleData } from '../../store/multicall/hooks/hooks'
 
 /**
  * Returns a map of the given addresses to their eventually consistent BNB balances.

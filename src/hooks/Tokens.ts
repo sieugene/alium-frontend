@@ -2,7 +2,7 @@ import { Currency, currencyEquals, ETHER, Token } from '@alium-official/sdk'
 import { parseBytes32String } from '@ethersproject/strings'
 import { useMemo } from 'react'
 import { useSelectedTokenList } from '../state/lists/hooks'
-import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
+import { NEVER_RELOAD, useSingleCallResult } from '../store/multicall/hooks/hooks'
 // eslint-disable-next-line import/no-cycle
 import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'

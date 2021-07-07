@@ -1,20 +1,15 @@
 import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { StoreMulticallState, useStoreMulticall } from 'store/multicall/useStoreMulticall'
 import { useActiveWeb3React } from '../../hooks'
 import { useMulticallContract } from '../../hooks/useContract'
 import useDebounce from '../../hooks/useDebounce'
 import chunkArray from '../../utils/chunkArray'
 import { CancelledError, retry, RetryableError } from '../../utils/retry'
 import { useBlockNumber } from '../application/hooks'
-import { AppDispatch, AppState } from '../index'
-import {
-  Call,
-  errorFetchingMulticallResults,
-  fetchingMulticallResults,
-  parseCallKey,
-  updateMulticallResults,
-} from './actions'
+import { AppDispatch } from '../index'
+import { Call, parseCallKey } from '../../store/multicall/helpers/actions'
 
 // chunk calls so we do not exceed the gas limit
 const CALL_CHUNK_SIZE = 500
@@ -53,7 +48,7 @@ async function fetchChunk(
  * @param chainId the current chain id
  */
 export function activeListeningKeys(
-  allListeners: AppState['multicall']['callListeners'],
+  allListeners: StoreMulticallState['callListeners'],
   chainId?: number,
 ): { [callKey: string]: number } {
   if (!allListeners || !chainId) return {}
@@ -65,11 +60,13 @@ export function activeListeningKeys(
 
     memo[callKey] = Object.keys(keyListeners)
       .filter((key) => {
+        // eslint-disable-next-line radix
         const blocksPerFetch = parseInt(key)
         if (blocksPerFetch <= 0) return false
         return keyListeners[blocksPerFetch] > 0
       })
       .reduce((previousMin, current) => {
+        // eslint-disable-next-line radix
         return Math.min(previousMin, parseInt(current))
       }, Infinity)
     return memo
@@ -84,7 +81,7 @@ export function activeListeningKeys(
  * @param latestBlockNumber the latest block number
  */
 export function outdatedListeningKeys(
-  callResults: AppState['multicall']['callResults'],
+  callResults: StoreMulticallState['callResults'],
   listeningKeys: { [callKey: string]: number },
   chainId: number | undefined,
   latestBlockNumber: number | undefined,
@@ -113,7 +110,8 @@ export function outdatedListeningKeys(
 
 export default function Updater(): null {
   const dispatch = useDispatch<AppDispatch>()
-  const state = useSelector<AppState, AppState['multicall']>((s) => s.multicall)
+  const state = useStoreMulticall()
+  const { fetchingMulticallResults, updateMulticallResults, errorFetchingMulticallResults } = state
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(state.callListeners, 100)
   const latestBlockNumber = useBlockNumber()
@@ -148,13 +146,11 @@ export default function Updater(): null {
       cancellations.current?.cancellations?.forEach((c) => c())
     }
 
-    dispatch(
-      fetchingMulticallResults({
-        calls,
-        chainId,
-        fetchingBlockNumber: latestBlockNumber,
-      }),
-    )
+    fetchingMulticallResults({
+      calls,
+      chainId,
+      fetchingBlockNumber: latestBlockNumber,
+    })
 
     cancellations.current = {
       blockNumber: latestBlockNumber,
@@ -169,21 +165,21 @@ export default function Updater(): null {
             cancellations.current = { cancellations: [], blockNumber: latestBlockNumber }
 
             // accumulates the length of all previous indices
+            // eslint-disable-next-line max-nested-callbacks
             const firstCallKeyIndex = chunkedCalls.slice(0, index).reduce<number>((memo, curr) => memo + curr.length, 0)
             const lastCallKeyIndex = firstCallKeyIndex + returnData.length
 
-            dispatch(
-              updateMulticallResults({
-                chainId,
-                results: outdatedCallKeys
-                  .slice(firstCallKeyIndex, lastCallKeyIndex)
-                  .reduce<{ [callKey: string]: string | null }>((memo, callKey, i) => {
-                    memo[callKey] = returnData[i] ?? null
-                    return memo
-                  }, {}),
-                blockNumber: fetchBlockNumber,
-              }),
-            )
+            updateMulticallResults({
+              chainId,
+              results: outdatedCallKeys
+                .slice(firstCallKeyIndex, lastCallKeyIndex)
+                // eslint-disable-next-line max-nested-callbacks
+                .reduce<{ [callKey: string]: string | null }>((memo, callKey, i) => {
+                  memo[callKey] = returnData[i] ?? null
+                  return memo
+                }, {}),
+              blockNumber: fetchBlockNumber,
+            })
 
             console.info('Success to fetch multicall chunk', chunk, chainId)
           })
@@ -193,13 +189,12 @@ export default function Updater(): null {
               return
             }
             console.error('Failed to fetch multicall chunk', chunk, chainId, error)
-            dispatch(
-              errorFetchingMulticallResults({
-                calls: chunk,
-                chainId,
-                fetchingBlockNumber: latestBlockNumber,
-              }),
-            )
+
+            errorFetchingMulticallResults({
+              calls: chunk,
+              chainId,
+              fetchingBlockNumber: latestBlockNumber,
+            })
           })
         return cancel
       }),

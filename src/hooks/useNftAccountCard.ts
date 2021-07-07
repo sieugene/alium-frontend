@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSingleCallResult } from '../state/multicall/hooks'
+import { useSingleCallResult } from '../store/multicall/hooks/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { getContract } from '../utils'
 import {

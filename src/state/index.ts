@@ -8,7 +8,6 @@ import farms from './farms'
 import { updateVersion } from './global/actions'
 import lists from './lists/reducer'
 import mint from './mint/reducer'
-import multicall from './multicall/reducer'
 import pools from './pools'
 import profile from './profile'
 import swap from './swap/reducer'
@@ -46,7 +45,6 @@ const store = configureStore({
     swap,
     mint,
     burn,
-    multicall,
     lists,
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), save({ states: PERSISTED_KEYS })],
