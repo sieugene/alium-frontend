@@ -54,7 +54,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         { label: t('mainMenu.blog'), href: externalLinks.medium },
       ],
     },
-    { label: 'Alium.art', icon: 'IconArt', href: `https://alium.art` },
+    { label: 'Alium.art', icon: 'IconArt', href: `https://alium.art`, new: true },
   ]
 
   const { account } = useWeb3React()
@@ -99,8 +99,8 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           modelCopyAddress: t('copyAddress'),
         }}
         onTransactionHistoryHandler={transactionsHistoryModal}
-        betaText="This is the main version. Press here to switch to Beta."
-        betaLink="https://beta.exchange.alium.finance"
+        betaText='This is the main version. Press here to switch to Beta.'
+        betaLink='https://beta.exchange.alium.finance'
         balanceHook={async () => null}
         {...props}
       />

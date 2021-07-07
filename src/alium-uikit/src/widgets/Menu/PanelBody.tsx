@@ -9,6 +9,7 @@ import { HamburgerCloseIcon } from './icons'
 import Logo from './Logo'
 import MenuButton from './MenuButton'
 import { LinkLabel, MenuEntry } from './MenuEntry'
+import { MenuNewItem } from './MenuNewItem'
 import { PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {
@@ -83,6 +84,11 @@ const StyledLogoIcon = styled.div`
   }
 `
 
+const LinkLabelWrap = styled.div<{ isPushed: boolean }>`
+  display: ${(props) => (props.isPushed ? 'flex' : 'none')};
+  flex-direction: row-reverse;
+`
+
 const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, togglePush, isDark }) => {
   const location = useRouter()
 
@@ -95,21 +101,21 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
       <StyledLogoIcon>
         <Logo isDark={isDark} href={homeLink?.href ?? '/'} isPushed={isPushed} />
       </StyledLogoIcon>
-      <MenuButton aria-label="Toggle menu" onClick={togglePush}>
+      <MenuButton aria-label='Toggle menu' onClick={togglePush}>
         {isPushed ? (
           <StyledIcon>
-            <HamburgerCloseIcon width="6px" />
+            <HamburgerCloseIcon width='6px' />
           </StyledIcon>
         ) : (
           <StyledIcon reverse>
-            <HamburgerCloseIcon width="6px" />
+            <HamburgerCloseIcon width='6px' />
           </StyledIcon>
         )}
       </MenuButton>
       <StyledLinksPanel>
         {links.map((entry) => {
           const Icon = Icons[entry.icon]
-          const iconElement = <Icon width="24px" mr="8px" />
+          const iconElement = <Icon width='24px' mr='8px' />
           const calloutClass = entry.calloutClass ? entry.calloutClass : undefined
 
           if (entry.items) {
@@ -141,12 +147,18 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
             )
           }
           return (
-            <MenuEntry key={entry.label} isActive={entry.href === location.pathname} className={calloutClass}>
-              <NextLink.multiple href={entry.href} handleClick={handleClick}>
-                {iconElement}
-                <LinkLabel isPushed={isPushed}>{entry.label}</LinkLabel>
-              </NextLink.multiple>
-            </MenuEntry>
+            <React.Fragment key={entry.label}>
+              <MenuEntry isActive={entry.href === location.pathname} className={calloutClass}>
+                <NextLink.multiple href={entry.href} handleClick={handleClick}>
+                  {iconElement}
+                  <LinkLabelWrap isPushed={isPushed}>
+                    <MenuNewItem isNew={entry?.new} />
+                    <LinkLabel isPushed={isPushed}>{entry.label}</LinkLabel>
+                  </LinkLabelWrap>
+                </NextLink.multiple>
+              </MenuEntry>
+              {!isPushed && <MenuNewItem isNew={entry?.new} />}
+            </React.Fragment>
           )
         })}
       </StyledLinksPanel>

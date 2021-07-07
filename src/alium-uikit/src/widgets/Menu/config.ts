@@ -62,7 +62,7 @@ export const links = [
       },
     ],
   },
-  { label: 'Alium.art', icon: 'IconArt', href: `https://alium.art` },
+  { label: 'Alium.art', icon: 'IconArt', href: `https://alium.art`, new: true },
 ]
 
 export const socials = [
