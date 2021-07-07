@@ -14,7 +14,7 @@ const getChainId: getChainId = () => {
   }
 
   // get chainId from env
-  const envChainId = process.env.REACT_APP_CHAIN_ID as string
+  const envChainId = process.env.APP_INITIAL_CHAIN_ID as string
   setChainId(envChainId)
   return parseInt(envChainId, 10)
 }

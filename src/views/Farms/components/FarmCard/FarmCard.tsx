@@ -1,4 +1,4 @@
-import { Flex, Skeleton, Text } from 'alium-uikit/src'
+import { Flex, getChainId, Skeleton, Text } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
@@ -130,6 +130,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm
   const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAdresses, quoteTokenSymbol, tokenAddresses })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
+  const chainId = getChainId()
 
   return (
     <FCard>
@@ -142,7 +143,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
         tokenSymbol={farm.tokenSymbol}
       />
       {!removed && (
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex justifyContent='space-between' alignItems='center'>
           <Text>{TranslateString(736, 'APR')}:</Text>
           <Text bold style={{ display: 'flex', alignItems: 'center' }}>
             {farm.apy ? (
@@ -156,7 +157,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
           </Text>
         </Flex>
       )}
-      <Flex justifyContent="space-between">
+      <Flex justifyContent='space-between'>
         <Text>{TranslateString(318, 'Earn')}:</Text>
         <Text bold>{earnLabel}</Text>
       </Flex>
@@ -169,7 +170,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          bscScanAddress={`https://bscscan.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]}`}
+          bscScanAddress={`https://bscscan.com/address/${farm.lpAddresses[chainId]}`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}
