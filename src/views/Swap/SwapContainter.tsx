@@ -1,4 +1,4 @@
-const backgroundImage = 'assets/svg/trade-background.svg'
+const backgroundImage = '/images/trade-background.svg'
 import React from 'react'
 import styled from 'styled-components'
 import ApplicationUpdater from '../../state/application/updater'
