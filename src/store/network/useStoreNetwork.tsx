@@ -1,3 +1,4 @@
+import { getChainId } from 'alium-uikit/src'
 import create from 'zustand'
 import createVanilla from 'zustand/vanilla'
 
@@ -10,7 +11,7 @@ export interface StoreAccountState {
 
 // store for usage outside of react
 export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
-  currentChainId: null,
+  currentChainId: getChainId(),
   initStoreNetwork: () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       window.ethereum.on('chainChanged', (chainId) => {
@@ -18,6 +19,9 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
         // window.location.reload()
       })
     }
+  },
+  changeChainId: (id: string) => {
+    set({ currentChainId: Number(id) })
   },
   killStoreNetwork: () => {
     unsub()
