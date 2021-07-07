@@ -1,7 +1,7 @@
 import useEagerConnect from 'hooks/useEagerConnect'
 
 const EagerConnectContainer = () => {
-  process.browser && useEagerConnect()
+  useEagerConnect()
   return null
 }
 
