@@ -12,7 +12,7 @@ env:
   VERSION: next-prod
   IMAGE_ID: ghcr.io/alium-finance/alium-frontend
 jobs:
-  build_dev:
+  build_prod:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -27,9 +27,19 @@ jobs:
           docker tag build $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
-  deploy_dev:
+  deploy_stage:
     needs: build_dev
     runs-on: [self-hosted, dev]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - run: docker stack deploy --compose-file docker-compose-prod.yml next-prod --with-registry-auth
+      - run: docker system prune -f
+
+  deploy_prod:
+    needs: build_dev
+    runs-on: [self-hosted, prod]
     steps:
       - uses: actions/checkout@v2
       - name: Log into registry
