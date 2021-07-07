@@ -94,8 +94,8 @@ const WalletCard: React.FC<Props> = ({
 
   return (
     <StyledFlex
-      flexDirection="column"
-      alignItems="center"
+      flexDirection='column'
+      alignItems='center'
       onClick={
         title !== 'Metamask' && ['Huobi', 'Polygon', 'Ethereum'].includes(selectedNetwork) ? undefined : onClickHandler
       }
@@ -104,14 +104,14 @@ const WalletCard: React.FC<Props> = ({
       <ConnectionLoad load={connectionLoad} />
       <StyledButton
         fullwidth
-        variant="tertiary"
+        variant='tertiary'
         style={{ justifyContent: 'space-between' }}
         id={`wallet-connect-${title.toLocaleLowerCase()}`}
       >
-        <Icon width="32px" />
+        <Icon width='32px' />
         {selected && <StyledCheckMarkInCircle />}
       </StyledButton>
-      <Text color="#8990A5" fontSize="11px" mt="8px" style={{ textAlign: 'center' }}>
+      <Text color='#8990A5' fontSize='11px' mt='8px' style={{ textAlign: 'center' }}>
         {title}
       </Text>
     </StyledFlex>

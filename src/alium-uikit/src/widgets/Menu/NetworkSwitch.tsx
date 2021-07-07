@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
-import { removeChainId, setChainId } from '../../util'
+import { getConnectorId, removeChainId, setChainId } from '../../util'
 import { networksDev, networksProd } from '../WalletModal/config'
 import { NetworksConfig } from '../WalletModal/types'
 
@@ -79,12 +79,12 @@ const StyledOptionsContainer = styled.div`
   }
 `
 
-const StyledOption = styled.div`
+const StyledOption = styled.div<{ disabled: boolean }>`
   padding: 12px;
   text-align: left;
-  color: #8990a5;
+  color: ${(props) => (props.disabled ? '#cfd0d5' : '#8990a5')};
   transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'no-drop' : 'pointer')};
   border-radius: 6px;
   :hover {
     background-color: #f5f7ff;
@@ -115,6 +115,7 @@ const NetworkSwitch: React.FC<Props> = () => {
   const networks = isDev ? networksDev : networksProd
   const networkExist = networks.find((x) => x.chainId === chainId)
   const { icon: Icon, label } = networkExist ?? networks[0]
+
   const [selectedOption, setSelectedOption] = useState(label)
 
   const handleClick = (item: NetworksConfig) => {
@@ -123,14 +124,29 @@ const NetworkSwitch: React.FC<Props> = () => {
     setChainId(item.chainId)
   }
 
+  const validSupportConnector = (network: NetworksConfig) => {
+    const currentConnectorId = getConnectorId()
+    if (!currentConnectorId) {
+      return true
+    }
+    return Boolean(network.supportConnectors.includes(currentConnectorId))
+  }
+
   React.useEffect(() => {
-    if (chainId && !networkExist) {
+    if ((chainId && !networkExist) || (networkExist && !validSupportConnector(networkExist))) {
       removeChainId()
       // toastError("Can't find network", 'Please choice network')
       // If network not found, set default
       handleClick(networks[0])
     }
-  }, [networkExist])
+  }, [chainId, networkExist])
+
+  // Update label when chainId change in modal
+  React.useEffect(() => {
+    if (networkExist?.label && selectedOption !== networkExist.label) {
+      setSelectedOption(networkExist.label)
+    }
+  }, [selectedOption, networkExist])
 
   return (
     <StyledDropDown onClick={() => setShowOptions(!showOptions)}>
@@ -139,11 +155,14 @@ const NetworkSwitch: React.FC<Props> = () => {
       {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
       {showOptions && (
         <StyledOptionsContainer>
-          {networks.map((item) => (
-            <StyledOption key={item.chainId} onClick={() => handleClick(item)}>
-              {item.label}
-            </StyledOption>
-          ))}
+          {networks.map((item) => {
+            const support = validSupportConnector(item)
+            return (
+              <StyledOption disabled={!support} key={item.chainId} onClick={() => support && handleClick(item)}>
+                {item.label}
+              </StyledOption>
+            )
+          })}
         </StyledOptionsContainer>
       )}
     </StyledDropDown>

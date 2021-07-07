@@ -45,7 +45,7 @@ const useAuth = () => {
               if (hasSetup) {
                 try {
                   await activate(connector, (err) => {
-                    toastError(err.name, err.message)
+                    toastError("Unsupported chain", err.message)
                     removeConnectorId()
                     clearWalletConnect()
                   })
@@ -80,7 +80,7 @@ const useAuth = () => {
           })
           GTM.connectWallet(sendDataToGTM, chainId)
         } else {
-          toastError("Can't find connector", 'The connector config is wrong')
+          // toastError("Can't find connector", 'The connector config is wrong')
         }
       } catch (error) {
         dispatch(setConnectionError({ error }))
@@ -91,7 +91,6 @@ const useAuth = () => {
 
   const logout = async () => {
     await deactivate()
-    debugger
   }
   return { login, logout }
 }

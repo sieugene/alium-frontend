@@ -1,11 +1,12 @@
+import { setChainId } from 'alium-uikit/src/util'
 import React, { useState } from 'react'
 import { isMobile } from 'react-device-detect'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import Flex from '../../components/Flex/Flex'
 import { Link } from '../../components/Link'
 import { HelpIcon } from '../../components/Svg'
 import Text from '../../components/Text/Text'
-import getChainId from '../../util/chainId/getChainId'
 import { Modal } from '../Modal'
 import { networksDev, networksProd, wallets } from './config'
 import NetworkSelector from './NetworkSelector'
@@ -75,7 +76,7 @@ const StyledWalletFlex = styled(StyledFlex)`
 `
 
 const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, title = 'Connect to a wallet' }) => {
-  const chainId = getChainId()
+  const { currentChainId: chainId, changeChainId } = useStoreNetwork()
   const isDev = process.env.APP_ENV === 'development'
   const networks = isDev ? networksDev : networksProd
 
@@ -89,7 +90,7 @@ const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, title = 
 
   return (
     <Modal title={title} onDismiss={handleClose}>
-      <StyledFlexPoint alignItems="center" marginBottom="5px">
+      <StyledFlexPoint alignItems='center' marginBottom='5px'>
         <StyledPoint>
           <p>1</p>
         </StyledPoint>
@@ -102,11 +103,15 @@ const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, title = 
             chainId={entry.chainId}
             selected={entry.title === selectedNetwork}
             networkConfig={entry}
-            setSelectedNetwork={setSelectedNetwork}
+            setSelectedNetwork={(wallet) => {
+              changeChainId(entry.chainId)
+              setChainId(entry.chainId)
+              setSelectedNetwork(wallet)
+            }}
           />
         ))}
       </StyledFlex>
-      <StyledFlexPoint alignItems="center" marginTop="30px" marginBottom="5px">
+      <StyledFlexPoint alignItems='center' marginTop='30px' marginBottom='5px'>
         <StyledPoint>
           <p>2</p>
         </StyledPoint>
@@ -139,9 +144,9 @@ const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, title = 
           )
         })}
       </StyledWalletFlex>
-      <HelpLink href="https://aliumswap.medium.com/how-to-set-up-a-wallet-to-use-alium-finance-cca9fa7cb8b0" external>
-        <HelpIcon color="primary" mr="6px" height="18px" width="18px" />
-        <Text fontSize="10px" color="#6C5DD3" style={{ fontWeight: 500 }}>
+      <HelpLink href='https://aliumswap.medium.com/how-to-set-up-a-wallet-to-use-alium-finance-cca9fa7cb8b0' external>
+        <HelpIcon color='primary' mr='6px' height='18px' width='18px' />
+        <Text fontSize='10px' color='#6C5DD3' style={{ fontWeight: 500 }}>
           Learn how to connect
         </Text>
       </HelpLink>

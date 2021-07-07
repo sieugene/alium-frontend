@@ -60,24 +60,28 @@ export const networksProd: NetworksConfig[] = [
     icon: Binance,
     label: 'Binance Smart Chain',
     chainId: 56,
+    supportConnectors: [ConnectorNames.BSC, ConnectorNames.WalletConnect, ConnectorNames.Injected],
   },
   {
     title: 'Huobi',
     icon: Huobi,
     label: 'Huobi ECO Chain',
     chainId: 128,
+    supportConnectors: [ConnectorNames.Injected],
   },
   {
     title: 'Polygon',
     icon: PolygonMatic,
     label: 'Polygon Matic Chain',
     chainId: 137,
+    supportConnectors: [ConnectorNames.Injected],
   },
   {
     title: 'Ethereum',
     icon: EtherIcon,
     label: 'Ethereum Chain',
     chainId: 1,
+    supportConnectors: [ConnectorNames.Injected],
   },
 ]
 
@@ -87,23 +91,27 @@ export const networksDev: NetworksConfig[] = [
     icon: Binance,
     label: 'Binance Smart Chain',
     chainId: 97,
+    supportConnectors: [ConnectorNames.BSC, ConnectorNames.WalletConnect, ConnectorNames.Injected],
   },
   {
     title: 'Huobi',
     icon: Huobi,
     label: 'Huobi ECO Chain',
     chainId: 256,
+    supportConnectors: [ConnectorNames.Injected],
   },
   {
     title: 'Polygon',
     icon: PolygonMatic,
     label: 'Polygon Matic Chain',
     chainId: 80001,
+    supportConnectors: [ConnectorNames.Injected],
   },
   {
     title: 'Ethereum',
     icon: EtherIcon,
     label: 'Ethereum Chain',
     chainId: 4,
+    supportConnectors: [ConnectorNames.Injected],
   },
 ]
