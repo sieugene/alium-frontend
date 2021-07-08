@@ -1,6 +1,7 @@
 import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@uniswap/token-lists'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAllTokenBalances } from 'state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useInterval from '../../hooks/useInterval'
@@ -94,5 +95,7 @@ export default function Updater(): null {
     })
   }, [dispatch, lists])
 
+  // load tokens
+  useAllTokenBalances()
   return null
 }
