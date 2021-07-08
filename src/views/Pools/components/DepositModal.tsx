@@ -1,7 +1,7 @@
 import { Button, Modal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import ModalActions from 'components/ModalActions'
-import React, { useCallback, useMemo, useState } from 'react'
+import { FC, FormEvent, useCallback, useMemo, useState } from 'react'
 import TokenInput from '../../../components/TokenInput'
 import useI18n from '../../../hooks/useI18n'
 import { getFullDisplayBalance } from '../../../utils/formatBalance'
@@ -13,7 +13,7 @@ interface DepositModalProps {
   tokenName?: string
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '' }) => {
+const DepositModal: FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '' }) => {
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
@@ -22,7 +22,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   }, [max])
 
   const handleChange = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
+    (e: FormEvent<HTMLInputElement>) => {
       setVal(e.currentTarget.value)
     },
     [setVal],

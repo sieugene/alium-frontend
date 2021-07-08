@@ -17,7 +17,7 @@ import { useToken } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useVampireContract } from 'hooks/useContract'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react';
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { Field } from 'state/swap/actions'
 import { useMigrateActionHandlers, useMigrateInfo, useSwapState } from 'state/swap/hooks'

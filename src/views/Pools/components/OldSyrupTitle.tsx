@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import styled from 'styled-components'
 import CardTitle from './CardTitle'
 
@@ -17,7 +18,7 @@ const ActionLink = styled.a`
   font-size: 14px;
 `
 
-const OldSyrupTitle: React.FC<Props> = ({ hasBalance = false }) => {
+const OldSyrupTitle: FC<Props> = ({ hasBalance = false }) => {
   if (hasBalance) {
     return (
       <div>

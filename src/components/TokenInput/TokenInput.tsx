@@ -1,4 +1,5 @@
 import { Button } from 'alium-uikit/src'
+import { FC } from 'react'
 import styled from 'styled-components'
 import useI18n from '../../hooks/useI18n'
 import Input, { InputProps } from '../Input'
@@ -35,7 +36,7 @@ const StyledTokenSymbol = styled.span`
 
 const StyledTokenInput = styled.div``
 
-const TokenInput: React.FC<TokenInputProps> = ({ max, symbol, onChange, onSelectMax, value }) => {
+const TokenInput: FC<TokenInputProps> = ({ max, symbol, onChange, onSelectMax, value }) => {
   const TranslateString = useI18n()
   return (
     <StyledTokenInput>

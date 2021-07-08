@@ -1,5 +1,5 @@
 import noop from 'lodash/noop'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import Flex from '../../components/Flex/Flex'
 import Heading from '../../components/Heading/Heading'
@@ -15,7 +15,7 @@ export default {
   argTypes: {},
 }
 
-export const Connected: React.FC = () => {
+export const Connected: FC = () => {
   const [openModal] = useModal(<h1>Test</h1>)
   const [balance, setBalance] = useState(undefined)
 
@@ -130,7 +130,7 @@ export const Connected: React.FC = () => {
   )
 }
 
-export const NotConnected: React.FC = () => {
+export const NotConnected: FC = () => {
   return (
     <BrowserRouter>
       <Menu
@@ -165,7 +165,7 @@ export const NotConnected: React.FC = () => {
   )
 }
 
-export const WithNoProfile: React.FC = () => {
+export const WithNoProfile: FC = () => {
   return (
     <BrowserRouter>
       <Menu
@@ -199,7 +199,7 @@ export const WithNoProfile: React.FC = () => {
   )
 }
 
-export const WithProfile: React.FC = () => {
+export const WithProfile: FC = () => {
   return (
     <BrowserRouter>
       <Menu
@@ -233,7 +233,7 @@ export const WithProfile: React.FC = () => {
   )
 }
 
-export const MenuEntryComponent: React.FC = () => {
+export const MenuEntryComponent: FC = () => {
   return (
     <Flex justifyContent='space-between' p='16px' style={{ backgroundColor: 'wheat' }}>
       <MenuEntry>Default</MenuEntry>

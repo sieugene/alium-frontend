@@ -1,6 +1,7 @@
 import { DialogContent, DialogOverlay } from '@reach/dialog'
 import '@reach/dialog/styles.css'
 import { transparentize } from 'polished'
+import { ReactNode, RefObject } from 'react'
 import { isMobile } from 'react-device-detect'
 import { animated, useTransition } from 'react-spring'
 import styled, { css } from 'styled-components'
@@ -72,8 +73,8 @@ interface ModalProps {
   onDismiss: () => void
   minHeight?: number | false
   maxHeight?: number
-  initialFocusRef?: React.RefObject<any>
-  children?: React.ReactNode
+  initialFocusRef?: RefObject<any>
+  children?: ReactNode
 }
 
 export const SwapModal = ({

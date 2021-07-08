@@ -1,4 +1,5 @@
 import { Button } from 'alium-uikit/src'
+import { FC } from 'react'
 import styled from 'styled-components'
 import useI18n from '../../hooks/useI18n'
 import Input, { InputProps } from '../Input'
@@ -10,7 +11,7 @@ interface TokenInputProps extends InputProps {
   onSelectMax?: () => void
 }
 
-const TicketInput: React.FC<TokenInputProps> = ({ max, symbol, availableSymbol, onChange, onSelectMax, value }) => {
+const TicketInput: FC<TokenInputProps> = ({ max, symbol, availableSymbol, onChange, onSelectMax, value }) => {
   const TranslateString = useI18n()
 
   return (

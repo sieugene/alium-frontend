@@ -2,7 +2,7 @@ import { Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react';
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import { DEFAULT_VERSION, Version } from '../../hooks/useToggledVersion'
 import { YellowCard } from '../Card'

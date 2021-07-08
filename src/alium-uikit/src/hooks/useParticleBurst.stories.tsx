@@ -9,7 +9,7 @@ export default {
   argTypes: {},
 }
 
-export const WithSelector: React.FC = () => {
+export const WithSelector: FC = () => {
   useParticleBurst({ imgSrc: imagePath, selector: 'button' })
 
   return (
@@ -27,7 +27,7 @@ export const WithSelector: React.FC = () => {
   )
 }
 
-export const Document: React.FC = () => {
+export const Document: FC = () => {
   useParticleBurst({ imgSrc: imagePath })
 
   return (
@@ -37,7 +37,7 @@ export const Document: React.FC = () => {
   )
 }
 
-export const AdjustDistance: React.FC = () => {
+export const AdjustDistance: FC = () => {
   useParticleBurst({ imgSrc: imagePath, particleOptions: { distance: 800 } })
 
   return (
@@ -47,7 +47,7 @@ export const AdjustDistance: React.FC = () => {
   )
 }
 
-export const AdjustSize: React.FC = () => {
+export const AdjustSize: FC = () => {
   useParticleBurst({ imgSrc: imagePath, particleOptions: { size: 80 } })
 
   return (
@@ -57,7 +57,7 @@ export const AdjustSize: React.FC = () => {
   )
 }
 
-export const AdjustNumberOfParticles: React.FC = () => {
+export const AdjustNumberOfParticles: FC = () => {
   useParticleBurst({ imgSrc: imagePath, numberOfParticles: 100 })
 
   return (
@@ -67,7 +67,7 @@ export const AdjustNumberOfParticles: React.FC = () => {
   )
 }
 
-export const DisableUnderCondition: React.FC = () => {
+export const DisableUnderCondition: FC = () => {
   const disableWhen = () => {
     const date = new Date()
     const currentMinutes = date.getMinutes()
@@ -84,7 +84,7 @@ export const DisableUnderCondition: React.FC = () => {
   )
 }
 
-export const StopAndStart: React.FC = () => {
+export const StopAndStart: FC = () => {
   const { initialize, teardown } = useParticleBurst({ imgSrc: imagePath })
 
   const handleInitialize = () => initialize()

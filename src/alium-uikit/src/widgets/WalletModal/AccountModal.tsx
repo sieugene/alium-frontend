@@ -1,5 +1,5 @@
 import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
-import React, { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import styled from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
@@ -106,7 +106,7 @@ const StyledFlex = styled(Flex)`
 
 const svgString = encodeURIComponent(renderToStaticMarkup(<ModalBackgroundIcon />))
 
-const AccountModal: React.FC<Props> = ({
+const AccountModal: FC<Props> = ({
   account,
   logout,
   onDismiss = () => null,

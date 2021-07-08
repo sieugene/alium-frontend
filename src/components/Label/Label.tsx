@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import styled from 'styled-components'
 
 interface LabelProps {
@@ -10,7 +11,7 @@ const StyledLabel = styled.div<{ isFinished: boolean }>`
   font-size: 14px;
 `
 
-const Label: React.FC<LabelProps> = ({ text, isFinished = false }) => (
+const Label: FC<LabelProps> = ({ text, isFinished = false }) => (
   <StyledLabel isFinished={isFinished}>{text}</StyledLabel>
 )
 

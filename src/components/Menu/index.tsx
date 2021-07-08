@@ -9,12 +9,13 @@ import useCurrencyBalance from 'hooks/useCurrencyBalance'
 import useTheme from 'hooks/useTheme'
 import useWeb3 from 'hooks/useWeb3'
 import { useTranslation } from 'next-i18next'
+import { FC } from 'react'
 import { ROUTES } from 'routes'
 import { getExplorerLink, getExplorerName } from 'utils'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
-const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
+const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
   const { t } = useTranslation()
 
   const links: MenuEntry[] = [

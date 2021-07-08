@@ -1,6 +1,6 @@
 import { Button } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react';
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'

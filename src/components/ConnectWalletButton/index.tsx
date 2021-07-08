@@ -1,6 +1,7 @@
 import { Button, ButtonProps, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'next-i18next'
+import { FC } from 'react'
 import styled from 'styled-components'
 
 const StyledButtonUnlockWallet = styled.div`
@@ -15,7 +16,7 @@ const StyledButtonUnlockWallet = styled.div`
   }
 `
 
-const UnlockButton: React.FC<ButtonProps> = (props) => {
+const UnlockButton: FC<ButtonProps> = (props) => {
   const { t } = useTranslation()
   const { login, logout } = useAuth()
   const { onPresentConnectModal } = useWalletModal(login, logout)

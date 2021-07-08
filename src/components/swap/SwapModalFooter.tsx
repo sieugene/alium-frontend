@@ -1,6 +1,6 @@
 import { Trade, TradeType } from '@alium-official/sdk'
 import { Button, SwapIcon, Text } from 'alium-uikit/src'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react';
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { Field } from '../../state/swap/actions'
 import {

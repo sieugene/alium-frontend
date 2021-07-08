@@ -1,4 +1,5 @@
 import { useTranslation } from 'next-i18next'
+import { ReactNode } from 'react'
 import { CheckCircle, Copy } from 'react-feather'
 import styled from 'styled-components'
 import useCopyClipboard from '../../hooks/useCopyClipboard'
@@ -25,7 +26,7 @@ const TransactionStatusText = styled.span`
   align-items: center;
 `
 
-export default function CopyHelper(props: { toCopy: string; children: React.ReactNode }) {
+export default function CopyHelper(props: { toCopy: string; children: ReactNode }) {
   const [isCopied, setCopied] = useCopyClipboard()
   const { children, toCopy } = props
   const { t } = useTranslation()

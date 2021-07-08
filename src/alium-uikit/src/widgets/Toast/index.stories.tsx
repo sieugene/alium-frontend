@@ -1,6 +1,6 @@
 import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
 import { sample } from 'lodash'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { alertVariants } from '../../components/Alert'
 import Button from '../../components/Button/Button'
 import ToastContainer from './ToastContainer'
@@ -11,7 +11,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const [toasts, setToasts] = useState([])
 
   const handleClick = (description = '') => {
@@ -48,7 +48,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const WithAction: React.FC = () => {
+export const WithAction: FC = () => {
   const [toasts, setToasts] = useState([])
 
   const handleClick = () => {

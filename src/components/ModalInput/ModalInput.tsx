@@ -1,4 +1,5 @@
 import { Button, Flex, Input, InputProps, Link, Text } from 'alium-uikit/src'
+import { FC, FormEvent } from 'react'
 import styled from 'styled-components'
 import useI18n from '../../hooks/useI18n'
 
@@ -6,7 +7,7 @@ interface ModalInputProps {
   max: string
   symbol: string
   onSelectMax?: () => void
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void
+  onChange: (e: FormEvent<HTMLInputElement>) => void
   placeholder?: string
   value: string
   addLiquidityUrl?: string
@@ -55,7 +56,7 @@ const StyledErrorMessage = styled(Text)`
   }
 `
 
-const ModalInput: React.FC<ModalInputProps> = ({
+const ModalInput: FC<ModalInputProps> = ({
   max,
   symbol,
   onChange,

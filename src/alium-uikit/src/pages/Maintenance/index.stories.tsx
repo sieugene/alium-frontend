@@ -6,6 +6,6 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return <Maintenance />
 }

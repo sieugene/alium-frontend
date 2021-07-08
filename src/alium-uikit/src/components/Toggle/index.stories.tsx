@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Toggle from './Toggle'
 
 export default {
@@ -6,7 +6,7 @@ export default {
   component: Toggle,
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const [isChecked, setIsChecked] = useState(false)
 
   const toggle = () => setIsChecked(!isChecked)

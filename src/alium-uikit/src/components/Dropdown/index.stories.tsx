@@ -8,7 +8,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <div>
       <Dropdown target={<Button>Hover</Button>}>
@@ -20,7 +20,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const Top: React.FC = () => {
+export const Top: FC = () => {
   return (
     <Flex justifyContent='space-between' style={{ marginTop: '400px' }}>
       <Dropdown position='top-right' target={<Button>Top right</Button>}>

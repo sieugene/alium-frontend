@@ -1,4 +1,5 @@
 import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { Heading } from '../../components/Heading'
@@ -148,7 +149,7 @@ interface PropsType {
   redirectURL?: string
 }
 
-const NotFound: React.FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` }) => {
+const NotFound: FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` }) => {
   return (
     <StyledWrapper>
       <InfoWrapper>

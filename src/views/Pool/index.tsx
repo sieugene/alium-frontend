@@ -12,7 +12,7 @@ import { useActiveWeb3React } from 'hooks'
 import { useAllV2PairsWithLiquidity } from 'hooks/pool/useAllV2PairsWithLiquidity'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import React, { useContext } from 'react'
+import { useContext } from 'react';
 import { ROUTES } from 'routes'
 import styled, { ThemeContext } from 'styled-components'
 import SwapAppBody from 'views/Swap/SwapAppBody'

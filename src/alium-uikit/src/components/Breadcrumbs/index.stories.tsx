@@ -10,7 +10,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <Text p='32px'>
       <BreadCrumbs mb='32px'>
@@ -28,7 +28,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const CustomSeparator: React.FC = () => {
+export const CustomSeparator: FC = () => {
   return (
     <Text p='32px'>
       <Text mb='16px'>

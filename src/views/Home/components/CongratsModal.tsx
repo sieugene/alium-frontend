@@ -1,4 +1,5 @@
 import { CloseIcon } from 'alium-uikit/src'
+import { FC } from 'react'
 import styled from 'styled-components'
 
 const StyledModal = styled.div`
@@ -68,7 +69,7 @@ interface props {
   handleClose: () => void
 }
 
-const CongratsModal: React.FC<props> = ({ handleClose }) => {
+const CongratsModal: FC<props> = ({ handleClose }) => {
   return (
     <StyledModal>
       <StyledButton onClick={handleClose}>

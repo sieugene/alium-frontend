@@ -1,7 +1,7 @@
 import { Placement } from '@popperjs/core'
 import Portal from '@reach/portal'
 import { transparentize } from 'polished'
-import React, { useCallback, useState } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 import useInterval from '../../hooks/useInterval'
@@ -76,9 +76,9 @@ const Arrow = styled.div`
 `
 
 export interface PopoverProps {
-  content: React.ReactNode
+  content: ReactNode
   show: boolean
-  children: React.ReactNode
+  children: ReactNode
   placement?: Placement
 }
 

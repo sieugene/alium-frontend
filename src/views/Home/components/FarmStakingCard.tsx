@@ -4,7 +4,7 @@ import UnlockButton from 'components/UnlockButton'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
 import { useAllHarvest } from 'hooks/useHarvest'
 import useI18n from 'hooks/useI18n'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react';
 import styled from 'styled-components'
 import CakeHarvestBalance from './CakeHarvestBalance'
 import CakeWalletBalance from './CakeWalletBalance'

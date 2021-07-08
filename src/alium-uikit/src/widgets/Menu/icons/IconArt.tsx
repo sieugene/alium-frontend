@@ -1,6 +1,7 @@
+import { FC } from 'react'
 import Svg from '../../../components/Svg/Svg'
 
-export const IconArt: React.FC = () => {
+export const IconArt: FC = () => {
   return (
     <Svg
       width='24'

@@ -1,7 +1,16 @@
 import { Currency, ETHER, Token } from '@alium-official/sdk'
 import { CloseIcon, IconButton, Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  KeyboardEvent,
+  RefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import styled, { ThemeContext } from 'styled-components'

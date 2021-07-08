@@ -1,5 +1,5 @@
 import { Flex, Text } from 'alium-uikit/src'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components'
 import useCollectionNft from '../../hooks/useCollectionNft'
 import AppInvestorsAccountBody from './AppInvestorsAccountBody'

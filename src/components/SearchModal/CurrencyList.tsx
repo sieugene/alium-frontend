@@ -1,7 +1,7 @@
 import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@alium-official/sdk'
 import { Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
+import { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react';
 import { FixedSizeList } from 'react-window'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'

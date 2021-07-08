@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import useI18n from 'hooks/useI18n'
 import useStake from 'hooks/useStake'
 import useUnstake from 'hooks/useUnstake'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
 import DepositModal from '../DepositModal'
@@ -23,13 +24,7 @@ const IconButtonWrapper = styled.div`
   }
 `
 
-const StakeAction: React.FC<FarmCardActionsProps> = ({
-  stakedBalance,
-  tokenBalance,
-  tokenName,
-  pid,
-  addLiquidityUrl,
-}) => {
+const StakeAction: FC<FarmCardActionsProps> = ({ stakedBalance, tokenBalance, tokenName, pid, addLiquidityUrl }) => {
   const TranslateString = useI18n()
   const { onStake } = useStake(pid)
   const { onUnstake } = useUnstake(pid)

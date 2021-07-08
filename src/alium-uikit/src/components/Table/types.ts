@@ -1,9 +1,11 @@
+import { Dispatch, ReactNode } from 'react'
+
 export interface ColumnType<T> {
   name: string
   label?: string
   hidden?: boolean
   sort?: ((a: RowType<T>, b: RowType<T>) => number) | undefined
-  render?: ({ value, row }: { value: any; row: T }) => React.ReactNode
+  render?: ({ value, row }: { value: any; row: T }) => ReactNode
   headerRender?: HeaderRenderType
 }
 
@@ -19,7 +21,7 @@ export interface ColumnStateType<T> {
   headerRender?: HeaderRenderType
 }
 
-export type HeaderRenderType = ({ label }: { label: React.ReactNode }) => React.ReactNode
+export type HeaderRenderType = ({ label }: { label: ReactNode }) => ReactNode
 
 // this is the type saved as state and returned
 export interface HeaderType<T> {
@@ -31,7 +33,7 @@ export interface HeaderType<T> {
     asc?: boolean
   }
   sort?: ((a: RowType<T>, b: RowType<T>) => number) | undefined
-  render: () => React.ReactNode
+  render: () => ReactNode
 }
 
 export interface DataType {
@@ -42,7 +44,7 @@ export interface ColumnByNamesType<T> {
   [key: string]: ColumnType<T>
 }
 
-export type RenderFunctionType<T> = ({ value, row }: RenderFunctionArgsType<T>) => React.ReactNode | undefined
+export type RenderFunctionType<T> = ({ value, row }: RenderFunctionArgsType<T>) => ReactNode | undefined
 
 interface RenderFunctionArgsType<T> {
   value: any
@@ -61,7 +63,7 @@ export interface RowType<T extends DataType> {
 
 export interface CellType {
   value: any
-  render: () => React.ReactNode
+  render: () => ReactNode
 }
 
 export interface UseTableTypeParams<T extends DataType> {
@@ -98,7 +100,7 @@ export interface UseTableReturnType<T> {
   originalRows: RowType<T>[]
   rows: RowType<T>[]
   selectedRows: RowType<T>[]
-  dispatch: React.Dispatch<TableAction<T>>
+  dispatch: Dispatch<TableAction<T>>
   toggleSort: (columnName: string, isAscOverride?: boolean) => void
   selectRow: (id: number) => void
   toggleAll: () => void

@@ -1,6 +1,6 @@
 import { ArrowDropDownIcon, ArrowDropUpIcon, Flex, Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
+import { ComponentProps, useState } from 'react'
 import styled from 'styled-components'
 import cardList, { CardType } from '../../constants/cards'
 import currencies from '../../constants/currencies'
@@ -211,7 +211,7 @@ const StyledCardInfo = styled(Flex)`
   }
 `
 
-type TextPropsType = React.ComponentProps<typeof Text>
+type TextPropsType = ComponentProps<typeof Text>
 
 const StyledHeading = (props: TextPropsType) => (
   <Text

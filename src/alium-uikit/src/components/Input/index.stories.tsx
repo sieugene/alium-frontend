@@ -19,7 +19,7 @@ export default {
   argTypes: {},
 } as Meta
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <div>
       {Object.keys(scales).map((key) => (

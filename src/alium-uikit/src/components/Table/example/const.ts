@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 export const columns = [
   {
     id: 1,
@@ -8,7 +10,7 @@ export const columns = [
     id: 2,
     name: 'pool',
     label: 'POOL',
-    render: ({ value }: { value: React.ReactNode }): React.ReactNode => value,
+    render: ({ value }: { value: ReactNode }): ReactNode => value,
   },
   {
     id: 3,

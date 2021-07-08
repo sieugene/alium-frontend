@@ -1,10 +1,10 @@
 import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/router'
-import React, { AnchorHTMLAttributes, FC } from 'react'
+import { AnchorHTMLAttributes, CSSProperties, FC } from 'react'
 
 type Props = LinkProps & {
   className?: string
-  style?: React.CSSProperties
+  style?: CSSProperties
   id?: string
 }
 type DuplicatedProps = Props & {

@@ -6,7 +6,7 @@ export default {
   argTypes: {},
 }
 
-export const Sizes: React.FC = () => {
+export const Sizes: FC = () => {
   return (
     <div>
       <Heading>Default</Heading>
@@ -18,7 +18,7 @@ export const Sizes: React.FC = () => {
   )
 }
 
-export const tags: React.FC = () => {
+export const tags: FC = () => {
   return (
     <div>
       <Heading>Default</Heading>

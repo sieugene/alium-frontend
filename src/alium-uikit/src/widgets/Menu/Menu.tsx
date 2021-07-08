@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Flex } from '../../components/Flex'
 import Overlay from '../../components/Overlay/Overlay'
@@ -162,7 +162,7 @@ const TopWrapper = styled.div`
   }
 `
 
-const Menu: React.FC<NavProps> = ({
+const Menu: FC<NavProps> = ({
   account,
   login,
   logout,

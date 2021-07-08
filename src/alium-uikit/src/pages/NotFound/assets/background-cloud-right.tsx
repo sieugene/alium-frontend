@@ -1,6 +1,7 @@
+import { FC } from 'react'
 import { SvgProps } from '../../../components/Svg/types'
 
-const Icon: React.FC<SvgProps> = () => {
+const Icon: FC<SvgProps> = () => {
   return (
     <svg xmlns='http://www.w3.org/2000/svg' width='651' height='704' fill='none' viewBox='0 0 651 704'>
       <path

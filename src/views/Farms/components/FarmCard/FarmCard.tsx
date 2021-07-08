@@ -5,7 +5,7 @@ import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import { communityFarms } from 'config/constants'
 import { QuoteToken } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
-import React, { useMemo, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { Farm } from 'state/types'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled, { keyframes } from 'styled-components'
@@ -94,7 +94,7 @@ interface FarmCardProps {
   account?: string
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethPrice, provider, account }) => {
+const FarmCard: FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethPrice, provider, account }) => {
   const TranslateString = useI18n()
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)

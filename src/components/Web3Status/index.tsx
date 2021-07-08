@@ -3,7 +3,7 @@ import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { Button } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
 import { darken, lighten } from 'polished'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react';
 import { Activity } from 'react-feather'
 import styled, { css } from 'styled-components'
 import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../../connectors'

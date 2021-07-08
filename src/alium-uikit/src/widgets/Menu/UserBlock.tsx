@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import { FC } from 'react'
 import styled from 'styled-components'
 import Flex from '../../components/Flex/Flex'
 import { useWalletModal } from '../WalletModal'
@@ -46,7 +47,7 @@ const StyledButtonTitle = styled.div`
   font-size: 14px;
 `
 
-const UserBlock: React.FC<Props> = (props) => {
+const UserBlock: FC<Props> = (props) => {
   const {
     account,
     login,

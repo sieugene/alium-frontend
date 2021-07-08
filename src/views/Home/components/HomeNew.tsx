@@ -1,7 +1,7 @@
 import { useModal } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
 import { motion } from 'framer-motion'
-import React, { FC, useState } from 'react'
+import { FC, FormEvent, useState } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { dbMailListCreateEmail } from 'utils/firebase'
@@ -440,7 +440,7 @@ const HomeNew = () => {
 
   const [openModal, closeModal] = useModal(<CongratsModal handleClose={handleCloseModal} />)
 
-  const handleChangeEmail = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleChangeEmail = (e: FormEvent<HTMLInputElement>) => {
     setEmail(e.currentTarget.value)
     setEmailError(null)
   }

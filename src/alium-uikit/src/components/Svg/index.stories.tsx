@@ -8,7 +8,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <div>
       <Svg viewBox='0 0 18 13'>
@@ -33,7 +33,7 @@ const components = context.keys().reduce((accum, path) => {
   }
 }, {})
 
-export const Icons: React.FC = () => {
+export const Icons: FC = () => {
   return (
     <Flex justifyContent='start' alignItems='center' flexWrap='wrap' style={{ maxWidth: '800px' }}>
       {Object.keys(components).map((file) => {

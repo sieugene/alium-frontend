@@ -1,6 +1,7 @@
 import { Flex, LinkExternal, Modal, Text } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import useI18n from 'hooks/useI18n'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { apyModalRoi, calculateCakeEarnedPerThousandDollars } from 'utils/compoundApyHelpers'
 
@@ -20,7 +21,7 @@ const Grid = styled.div`
 `
 
 const GridItem = styled.div`
-  margin-bottom: '10px';
+  margin-bottom: 10px;
 `
 
 const Description = styled(Text)`
@@ -28,13 +29,7 @@ const Description = styled(Text)`
   margin-bottom: 28px;
 `
 
-const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
-  onDismiss,
-  lpLabel,
-  cakePrice,
-  apy,
-  addLiquidityUrl,
-}) => {
+const ApyCalculatorModal: FC<ApyCalculatorModalProps> = ({ onDismiss, lpLabel, cakePrice, apy, addLiquidityUrl }) => {
   const TranslateString = useI18n()
   const farmApy = apy.times(new BigNumber(100)).toNumber()
   const oneThousandDollarsWorthOfCake = 1000 / cakePrice.toNumber()

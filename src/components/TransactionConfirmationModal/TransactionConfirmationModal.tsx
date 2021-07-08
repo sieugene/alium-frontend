@@ -1,4 +1,5 @@
 import { SwapModal } from 'components/Modal/SwapModal'
+import { ReactNode } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import ConfirmationPendingContent from './ConfirmationPendingContent'
 import TransactionSubmittedContent from './TransactionSubmittedContent'
@@ -7,7 +8,7 @@ interface ConfirmationModalProps {
   isOpen: boolean
   onDismiss: () => void
   hash: string | undefined
-  content: () => React.ReactNode
+  content: () => ReactNode
   attemptingTxn: boolean
   pendingText: string
 }

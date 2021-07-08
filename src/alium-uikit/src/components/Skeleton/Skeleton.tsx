@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { layout, space } from 'styled-system'
 import { animation as ANIMATION, SkeletonProps, variant as VARIANT } from './types'
@@ -54,7 +55,7 @@ const Waves = styled(Root)`
   }
 `
 
-const Skeleton: React.FC<SkeletonProps> = ({ variant = VARIANT.RECT, animation = ANIMATION.PULSE, ...props }) => {
+const Skeleton: FC<SkeletonProps> = ({ variant = VARIANT.RECT, animation = ANIMATION.PULSE, ...props }) => {
   if (animation === ANIMATION.WAVES) {
     return <Waves variant={variant} {...props} />
   }

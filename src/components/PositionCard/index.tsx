@@ -12,15 +12,15 @@ import {
 import { NextLink } from 'components/NextLink'
 import { useRouter } from 'next/router'
 import { darken } from 'polished'
-import React, { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import { useTotalSupply } from '../../data/TotalSupply'
-import { useActiveWeb3React } from '../../hooks'
-import { useTokenBalance } from '../../state/wallet/hooks'
-import { currencyId } from '../../utils/currencyId'
-import { unwrappedToken } from '../../utils/wrappedCurrency'
+import { useTotalSupply } from 'data/TotalSupply'
+import { useActiveWeb3React } from 'hooks'
+import { useTokenBalance } from 'state/wallet/hooks'
+import { currencyId } from 'utils/currencyId'
+import { unwrappedToken } from 'utils/wrappedCurrency'
 import Card from '../Card'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
@@ -192,7 +192,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
         ]
       : [undefined, undefined]
 
-  const handleAddressCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddressCopy = (e: MouseEvent<HTMLButtonElement>) => {
     navigator.clipboard.writeText(liquidityAddress)
     e.stopPropagation()
   }

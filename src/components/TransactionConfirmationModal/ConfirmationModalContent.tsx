@@ -1,11 +1,12 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { BottomSection, ContentHeader, Section, Wrapper } from './helpers'
 
 interface ConfirmationModalContentProps {
   title: string
   onDismiss: () => void
-  topContent: () => React.ReactNode
-  bottomContent: () => React.ReactNode
+  topContent: () => ReactNode
+  bottomContent: () => ReactNode
 }
 
 const StyledBodyContainer = styled.div`

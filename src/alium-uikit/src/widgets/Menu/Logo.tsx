@@ -1,4 +1,5 @@
 import { NextLink } from 'components/NextLink'
+import { FC } from 'react'
 import styled from 'styled-components'
 import Flex from '../../components/Flex/Flex'
 import { LogoIcon } from '../../components/Svg'
@@ -29,7 +30,7 @@ const StyledLink = styled(NextLink)`
   }
 `
 
-const Logo: React.FC<Props> = ({ isDark, href, isPushed }) => {
+const Logo: FC<Props> = ({ isDark, href, isPushed }) => {
   const isAbsoluteUrl = href.startsWith('http')
   const innerLogo = (
     <NextLink.multiple href='/'>

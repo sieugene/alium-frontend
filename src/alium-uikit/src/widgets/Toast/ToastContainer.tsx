@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { TransitionGroup } from 'react-transition-group'
 import styled from 'styled-components'
 import Toast from './Toast'
@@ -28,7 +29,7 @@ const StyledToastContainer = styled.div`
   }
 `
 
-const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onRemove, ttl = 6000, stackSpacing = 24 }) => {
+const ToastContainer: FC<ToastContainerProps> = ({ toasts, onRemove, ttl = 6000, stackSpacing = 24 }) => {
   return (
     <StyledToastContainer>
       <TransitionGroup>

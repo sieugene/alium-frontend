@@ -19,7 +19,7 @@ export default {
   },
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <div>
       <div>

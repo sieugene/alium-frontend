@@ -1,6 +1,6 @@
 import { Trade, TradeType } from '@alium-official/sdk'
 import { Button, ColoredArrowDownIcon, Text } from 'alium-uikit/src'
-import React, { useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react';
 import { AlertTriangle } from 'react-feather'
 import styled, { ThemeContext } from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'

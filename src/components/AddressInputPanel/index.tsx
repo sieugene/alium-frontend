@@ -1,5 +1,5 @@
 import { useTranslation } from 'next-i18next'
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import useENS from '../../hooks/useENS'

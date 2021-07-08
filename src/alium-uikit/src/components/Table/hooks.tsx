@@ -293,7 +293,7 @@ export const makeRender = <T extends DataType>(
   value: any,
   render: (({ value: val, row }: { value: any; row: T }) => ReactNode) | undefined,
   row: T,
-): (() => React.ReactNode) => {
+): (() => ReactNode) => {
   return render ? () => render({ row, value }) : () => value
 }
 

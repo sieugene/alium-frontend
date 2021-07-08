@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Skeleton from './Skeleton'
 
 export default {
@@ -10,7 +10,7 @@ export default {
   },
 }
 
-export const Default: React.FC = (args) => {
+export const Default: FC = (args) => {
   return <Skeleton {...args} />
 }
 
@@ -28,7 +28,7 @@ Animation.args = {
   animation: 'waves',
 }
 
-export const ParentSize: React.FC = (args) => {
+export const ParentSize: FC = (args) => {
   return (
     <div style={{ width: 200, height: 90 }}>
       {' '}
@@ -37,7 +37,7 @@ export const ParentSize: React.FC = (args) => {
   )
 }
 
-export const Text: React.FC = (args) => {
+export const Text: FC = (args) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

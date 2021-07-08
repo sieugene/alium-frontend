@@ -7,7 +7,7 @@ export default {
   argTypes: {},
 }
 
-export const Wallet: React.FC = () => {
+export const Wallet: FC = () => {
   const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(
     () => null,
     () => null,

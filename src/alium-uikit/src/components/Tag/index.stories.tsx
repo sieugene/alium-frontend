@@ -18,7 +18,7 @@ export default {
   argTypes: {},
 } as Meta
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <>
       <Row>
@@ -39,7 +39,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const WithIcon: React.FC = () => {
+export const WithIcon: FC = () => {
   return (
     <>
       <Row>

@@ -13,14 +13,14 @@ interface CustomModalProps extends InjectedProps {
   title: string
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ title, onDismiss }) => (
+const CustomModal: FC<CustomModalProps> = ({ title, onDismiss }) => (
   <Modal title={title} onDismiss={onDismiss}>
     <Heading>{title}</Heading>
     <Button>This button Does nothing</Button>
   </Modal>
 )
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const [onPresent1] = useModal(<CustomModal title='Modal 1' />)
   const [onPresent2] = useModal(<CustomModal title='Modal 2' />)
   return (
@@ -31,7 +31,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const DisableOverlayClick: React.FC = () => {
+export const DisableOverlayClick: FC = () => {
   const [onPresent1] = useModal(<CustomModal title='Modal 1' />, false)
 
   return (
@@ -45,7 +45,7 @@ interface BackButtonModalProps extends InjectedProps {
   title: string
 }
 
-const BackButtonModal: React.FC<BackButtonModalProps> = ({ title, onDismiss }) => {
+const BackButtonModal: FC<BackButtonModalProps> = ({ title, onDismiss }) => {
   const handleOnBack = () => {
     return 1
   }
@@ -59,7 +59,7 @@ const BackButtonModal: React.FC<BackButtonModalProps> = ({ title, onDismiss }) =
   )
 }
 
-export const WithBackButton: React.FC = () => {
+export const WithBackButton: FC = () => {
   const [onPresent1] = useModal(<BackButtonModal title='Modal with no X' />, false)
 
   return <Button onClick={onPresent1}>Only Back Button</Button>

@@ -9,7 +9,7 @@ import useBlock from 'hooks/useBlock'
 import useI18n from 'hooks/useI18n'
 import partition from 'lodash/partition'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { useFarms, usePools, usePriceBnbBusd, usePriceEthBnb } from 'state/hooks'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -46,7 +46,7 @@ const Hero = styled.div`
   }
 `
 
-const Farm: React.FC = () => {
+const Farm: FC = () => {
   const router = useRouter()
   const path = router.pathname
   const TranslateString = useI18n()

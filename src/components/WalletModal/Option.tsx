@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { ExternalLink } from '../Shared'
 
@@ -108,8 +109,8 @@ export default function Option({
   size?: number | null
   onClick?: null | (() => void)
   color: string
-  header: React.ReactNode
-  subheader: React.ReactNode | null
+  header: ReactNode
+  subheader: ReactNode | null
   icon: string
   active?: boolean
   id: string

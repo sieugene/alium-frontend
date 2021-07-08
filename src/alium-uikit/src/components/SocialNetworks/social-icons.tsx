@@ -1,6 +1,7 @@
+import { FC } from 'react'
 import { SvgProps } from '../Svg/types'
 
-export const GithubIcon: React.FC<SvgProps> = () => (
+export const GithubIcon: FC<SvgProps> = () => (
   <svg width='40' height='41' viewBox='0 0 40 41' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <g clipPath='url(#clip0)'>
       <path
@@ -17,7 +18,7 @@ export const GithubIcon: React.FC<SvgProps> = () => (
   </svg>
 )
 
-export const TelegramIcon: React.FC<SvgProps> = () => (
+export const TelegramIcon: FC<SvgProps> = () => (
   <svg width='40' height='41' viewBox='0 0 40 41' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       d='M11.3179 20.4889L15.4655 22.0369L17.0709 27.1997C17.1736 27.5304 17.5779 27.6526 17.8463 27.4332L20.1582 25.5485C20.4006 25.351 20.7457 25.3412 20.999 25.525L25.1689 28.5524C25.456 28.7611 25.8627 28.6038 25.9347 28.2569L28.9894 13.5634C29.068 13.1845 28.6956 12.8683 28.3348 13.0079L11.3131 19.5743C10.893 19.7363 10.8967 20.3311 11.3179 20.4889ZM16.8121 21.2129L24.918 16.2205C25.0637 16.131 25.2136 16.328 25.0885 16.444L18.3988 22.6624C18.1636 22.8813 18.012 23.1742 17.969 23.4922L17.7411 25.1809C17.7109 25.4064 17.3942 25.4288 17.332 25.2106L16.4556 22.1311C16.3552 21.7798 16.5015 21.4046 16.8121 21.2129Z'
@@ -27,7 +28,7 @@ export const TelegramIcon: React.FC<SvgProps> = () => (
   </svg>
 )
 
-export const TwitterIcon: React.FC<SvgProps> = () => (
+export const TwitterIcon: FC<SvgProps> = () => (
   <svg width='40' height='41' viewBox='0 0 40 41' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <g clipPath='url(#clip0)'>
       <path
@@ -44,7 +45,7 @@ export const TwitterIcon: React.FC<SvgProps> = () => (
   </svg>
 )
 
-export const MediumIcon: React.FC<SvgProps> = () => (
+export const MediumIcon: FC<SvgProps> = () => (
   <svg width='40' height='41' viewBox='0 0 40 41' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <g clipPath='url(#clip0)'>
       <path
@@ -61,7 +62,7 @@ export const MediumIcon: React.FC<SvgProps> = () => (
   </svg>
 )
 
-export const CoingeckoIcon: React.FC<SvgProps> = () => (
+export const CoingeckoIcon: FC<SvgProps> = () => (
   <svg width='40' height='41' viewBox='0 0 40 41' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <g clipPath='url(#clip0)'>
       <path
@@ -90,7 +91,7 @@ export const CoingeckoIcon: React.FC<SvgProps> = () => (
   </svg>
 )
 
-export const BscscanIcon: React.FC<SvgProps> = () => (
+export const BscscanIcon: FC<SvgProps> = () => (
   <svg width='40' height='41' viewBox='0 0 40 41' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <g clipPath='url(#clip0)'>
       <path
@@ -119,7 +120,7 @@ export const BscscanIcon: React.FC<SvgProps> = () => (
   </svg>
 )
 
-export const DextoolsIcon: React.FC<SvgProps> = () => {
+export const DextoolsIcon: FC<SvgProps> = () => {
   return (
     <svg width='17' height='16' viewBox='0 0 17 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <g clipPath='url(#clip0)'>
@@ -154,7 +155,7 @@ export const DextoolsIcon: React.FC<SvgProps> = () => {
   )
 }
 
-export const CoinMarketCapIcon: React.FC<SvgProps> = () => {
+export const CoinMarketCapIcon: FC<SvgProps> = () => {
   return (
     <svg width='17' height='16' viewBox='0 0 17 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <g clipPath='url(#clip0)'>

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import UnlockButton from 'components/UnlockButton'
 import { useApprove } from 'hooks/useApprove'
 import useI18n from 'hooks/useI18n'
-import React, { useCallback, useMemo, useState } from 'react'
+import { FC, useCallback, useMemo, useState } from 'react'
 import { useFarmFromSymbol, useFarmUser } from 'state/hooks'
 import { Farm } from 'state/types'
 import styled from 'styled-components'
@@ -27,7 +27,7 @@ interface FarmCardActionsProps {
   addLiquidityUrl?: string
 }
 
-const CardActions: React.FC<FarmCardActionsProps> = ({ farm, provider, account, addLiquidityUrl }) => {
+const CardActions: FC<FarmCardActionsProps> = ({ farm, provider, account, addLiquidityUrl }) => {
   const TranslateString = useI18n()
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { pid, lpAddresses } = useFarmFromSymbol(farm.lpSymbol)

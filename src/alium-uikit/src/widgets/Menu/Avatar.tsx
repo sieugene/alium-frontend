@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { FC } from 'react'
 import styled from 'styled-components'
 import NoProfileAvatar from '../../components/Svg/Icons/NoProfileAvatar'
 import { Profile } from './types'
@@ -27,7 +28,7 @@ const Pip = styled.div`
   width: 8px;
 `
 
-const Avatar: React.FC<AvatarProps> = ({ profile }) => {
+const Avatar: FC<AvatarProps> = ({ profile }) => {
   const { username = 'Bunny', image, profileLink, noProfileLink, showPip = false } = profile
   const link = profile.username ? profileLink : noProfileLink
   const isExternal = link.startsWith('http')

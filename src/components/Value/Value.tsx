@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import CountUp from 'react-countup'
 import styled from 'styled-components'
 
@@ -8,7 +8,7 @@ interface ValueProps {
   fontSize?: string | number
 }
 
-const Value: React.FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => {
+const Value: FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => {
   const [start, updateStart] = useState(0)
   const [end, updateEnd] = useState(0)
 

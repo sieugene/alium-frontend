@@ -13,7 +13,7 @@ import { useActiveWeb3React } from 'hooks'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useNFTPrivateContract } from 'hooks/useContract'
 import { useTranslation } from 'next-i18next'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState } from 'state'
 import { PopupList } from 'state/application/reducer'
@@ -282,7 +282,7 @@ const StrategicalPartnershipHome = () => {
     ),
     NFT_PRIVATE_ADDRESS,
   )
-  const [approvalSubmitted, setApprovalSubmitted] = React.useState<boolean>(false)
+  const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
 
   useEffect(() => {
     if (approval === ApprovalState.PENDING) {

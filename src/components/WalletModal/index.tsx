@@ -5,7 +5,7 @@ import { fortmatic, injected, portis } from 'connectors'
 import { OVERLAY_READY } from 'connectors/Fortmatic'
 import { SUPPORTED_WALLETS } from 'constants/index'
 import { useTranslation } from 'next-i18next'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect'
 import { useWalletModalOpen, useWalletModalToggle } from 'state/application/hooks'
 import styled from 'styled-components'

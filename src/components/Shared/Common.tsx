@@ -1,6 +1,6 @@
 import { NextLink } from 'components/NextLink'
 import { darken } from 'polished'
-import React, { HTMLProps, useCallback } from 'react'
+import { HTMLProps, MouseEvent, useCallback } from 'react'
 import { ArrowLeft, X } from 'react-feather'
 import styled, { keyframes } from 'styled-components'
 
@@ -112,7 +112,7 @@ export function ExternalLink({
   ...rest
 }: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }) {
   const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
+    (event: MouseEvent<HTMLAnchorElement>) => {
       if (!(target === '_blank' || event.ctrlKey || event.metaKey)) {
         event.preventDefault()
       }

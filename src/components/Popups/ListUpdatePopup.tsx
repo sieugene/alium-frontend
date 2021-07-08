@@ -1,7 +1,7 @@
 import { diffTokenLists, TokenList } from '@uniswap/token-lists'
 import { Button, Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { useCallback, useMemo } from 'react'
+import { Fragment, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../state'
 import { useRemovePopup } from '../../state/application/hooks'
@@ -67,10 +67,10 @@ export default function ListUpdatePopup({
                 {tokensAdded.length > 0 ? (
                   <li>
                     {tokensAdded.map((token, i) => (
-                      <React.Fragment key={`${token.chainId}-${token.address}`}>
+                      <Fragment key={`${token.chainId}-${token.address}`}>
                         <strong title={token.address}>{token.symbol}</strong>
                         {i === tokensAdded.length - 1 ? null : ', '}
-                      </React.Fragment>
+                      </Fragment>
                     ))}{' '}
                     {t('popups.added')}
                   </li>
@@ -78,10 +78,10 @@ export default function ListUpdatePopup({
                 {tokensRemoved.length > 0 ? (
                   <li>
                     {tokensRemoved.map((token, i) => (
-                      <React.Fragment key={`${token.chainId}-${token.address}`}>
+                      <Fragment key={`${token.chainId}-${token.address}`}>
                         <strong title={token.address}>{token.symbol}</strong>
                         {i === tokensRemoved.length - 1 ? null : ', '}
-                      </React.Fragment>
+                      </Fragment>
                     ))}{' '}
                     {t('popups.removed')}
                   </li>
@@ -105,5 +105,5 @@ export default function ListUpdatePopup({
         )}
       </AutoColumn>
     </AutoRow>
-  )
+  );
 }

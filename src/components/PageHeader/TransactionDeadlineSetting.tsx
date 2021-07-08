@@ -1,6 +1,6 @@
 import { Input, Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useUserDeadline } from 'state/user/hooks'
 import styled, { useTheme } from 'styled-components'
 import QuestionHelper from '../QuestionHelper'
@@ -51,7 +51,7 @@ const TransactionDeadlineSetting = () => {
   const [value, setValue] = useState(deadline / 60) // deadline in minutes
   const [error, setError] = useState<string | null>(null)
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue } = evt.target
     setValue(parseInt(inputValue, 10))
   }

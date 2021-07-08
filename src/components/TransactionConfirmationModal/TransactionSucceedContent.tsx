@@ -1,7 +1,7 @@
 import { ColoredCopyIcon, Flex, Heading, Text } from 'alium-uikit/src'
 import { NFT_COLLECTIBLE_ADDRESS } from 'constants/abis/nftPrivate'
 import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
+import { ComponentProps, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { PopupList } from 'state/application/reducer'
 import { AppState } from 'state/index'
@@ -16,13 +16,13 @@ interface TransactionSucceedContentProps {
   hash: string | undefined
 }
 
-const StyledDetailsLabel = (props: React.ComponentProps<typeof Text>) => (
+const StyledDetailsLabel = (props: ComponentProps<typeof Text>) => (
   <Text
     style={{ fontSize: '14px', lineHeight: '20px', letterSpacing: '0.3px', color: '#8990A5', textAlign: 'center' }}
     {...props}
   />
 )
-const StyledDetailsText = (props: React.ComponentProps<typeof Text>) => (
+const StyledDetailsText = (props: ComponentProps<typeof Text>) => (
   <Text
     style={{
       fontSize: '14px',

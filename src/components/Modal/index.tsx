@@ -2,6 +2,7 @@ import { DialogContent, DialogOverlay } from '@reach/dialog'
 import '@reach/dialog/styles.css'
 import { useActiveWeb3React } from 'hooks'
 import { transparentize } from 'polished'
+import { ReactNode, RefObject } from 'react'
 import { isMobile } from 'react-device-detect'
 import { animated, useTransition } from 'react-spring'
 import styled, { css } from 'styled-components'
@@ -96,8 +97,8 @@ interface ModalProps {
   minHeight?: number | false
   maxHeight?: number
   padding?: number | string
-  initialFocusRef?: React.RefObject<any>
-  children?: React.ReactNode
+  initialFocusRef?: RefObject<any>
+  children?: ReactNode
   isTransparancy?: boolean
 }
 

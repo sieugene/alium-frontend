@@ -1,4 +1,5 @@
 import { Card } from 'alium-uikit/src'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 export const BodyWrapper = styled(Card)`
@@ -23,6 +24,6 @@ export const BodyWrapper = styled(Card)`
 /**
  * The styled container element that wraps the content of most pages and the tabs.
  */
-export default function AppBody({ children }: { children: React.ReactNode }) {
+export default function AppBody({ children }: { children: ReactNode }) {
   return <BodyWrapper>{children}</BodyWrapper>
 }

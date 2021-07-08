@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import { createContext, Dispatch, SetStateAction } from 'react'
 
 export interface LanguageObject {
   code: string
@@ -6,9 +6,9 @@ export interface LanguageObject {
 }
 interface LanguageState {
   selectedLanguage: LanguageObject
-  setSelectedLanguage: React.Dispatch<React.SetStateAction<LanguageObject>>
+  setSelectedLanguage: Dispatch<SetStateAction<LanguageObject>>
   translatedLanguage: LanguageObject
-  setTranslatedLanguage: React.Dispatch<React.SetStateAction<LanguageObject>>
+  setTranslatedLanguage: Dispatch<SetStateAction<LanguageObject>>
 }
 
 const defaultLanguageState: LanguageState = {

@@ -1,7 +1,8 @@
+import { FC } from 'react'
 import Svg from '../../../components/Svg/Svg'
 import { SvgProps } from '../../../components/Svg/types'
 
-const CoinMarketCapIcon: React.FC<SvgProps> = (props) => {
+const CoinMarketCapIcon: FC<SvgProps> = (props) => {
   return (
     <Svg viewBox='0 0 17 16' fill='none' {...props}>
       <g clipPath='url(#clip0)'>

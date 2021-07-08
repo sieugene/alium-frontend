@@ -1,5 +1,5 @@
 import { Button, Flex } from 'alium-uikit/src'
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components'
 import Modal from '../../../../components/Modal'
 import { Dots } from '../../../../components/swap/styleds'

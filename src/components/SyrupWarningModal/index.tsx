@@ -1,6 +1,6 @@
 import { Button, Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react';
 import { AlertTriangle } from 'react-feather'
 import styled from 'styled-components'
 import { AutoColumn } from '../Column'

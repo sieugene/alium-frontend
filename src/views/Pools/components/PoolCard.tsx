@@ -12,7 +12,7 @@ import { useSousHarvest } from 'hooks/useHarvest'
 import useI18n from 'hooks/useI18n'
 import { useSousStake } from 'hooks/useStake'
 import { useSousUnstake } from 'hooks/useUnstake'
-import React, { useCallback, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 import { Pool } from 'state/types'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -69,7 +69,7 @@ const StyledDetails = styled.div`
   font-size: 14px;
 `
 
-const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
+const PoolCard: FC<HarvestProps> = ({ pool }) => {
   const {
     sousId,
     image,

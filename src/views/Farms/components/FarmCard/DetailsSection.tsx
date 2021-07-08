@@ -1,5 +1,6 @@
 import { Flex, Link, LinkExternal, Text } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
+import { FC } from 'react'
 import styled from 'styled-components'
 
 export interface ExpandableSectionProps {
@@ -29,7 +30,7 @@ const StyledLinkExternal = styled(LinkExternal)`
   }
 `
 
-const DetailsSection: React.FC<ExpandableSectionProps> = ({
+const DetailsSection: FC<ExpandableSectionProps> = ({
   bscScanAddress,
   removed,
   totalValueFormated,

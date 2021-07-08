@@ -7,7 +7,7 @@ import { useActiveWeb3React } from 'hooks'
 import { useNFTPrivateContract } from 'hooks/useContract'
 import useNftPoolHook from 'hooks/useNftPool'
 import { useTranslation } from 'next-i18next'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 import { ROUTES } from 'routes'
 import { removePopup } from 'state/application/actions'

@@ -1,5 +1,5 @@
 import { ArrowDropDownIcon, Flex, LinkExternal, Text } from 'alium-uikit/src'
-import React, { useState } from 'react'
+import { useState } from 'react';
 import styled from 'styled-components'
 // import { BSCScanIcon, GitHubIcon } from '../../../../assets/Icons'
 import { BSCScanIcon, GitHubIcon } from '../../svg'

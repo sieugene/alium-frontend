@@ -8,7 +8,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <div>
       <Text>You can apply any flexbox properties on the Flex component.</Text>

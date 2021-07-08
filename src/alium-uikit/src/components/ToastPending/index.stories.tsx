@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ErrorConnect } from '../../widgets/Toast'
 import { Button } from '../Button'
 import ToastPending from './ToastPending'
@@ -9,7 +9,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const [error, seterror] = useState<ErrorConnect>(null)
   const toastError: ErrorConnect = {
     code: '-32002',

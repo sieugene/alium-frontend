@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
@@ -56,7 +57,7 @@ interface Props {
   chainId: string
 }
 
-const NetworkSelector: React.FC<Props> = ({ chainId, selected, networkConfig, setSelectedNetwork }) => {
+const NetworkSelector: FC<Props> = ({ chainId, selected, networkConfig, setSelectedNetwork }) => {
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const { title, icon: Icon } = networkConfig
 

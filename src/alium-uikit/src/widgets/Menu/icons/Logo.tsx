@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import Svg from '../../../components/Svg/Svg'
 import { SvgProps } from '../../../components/Svg/types'
 
@@ -6,7 +7,7 @@ interface LogoProps extends SvgProps {
   withText?: boolean
 }
 
-const Logo: React.FC<LogoProps> = ({ ...props }) => {
+const Logo: FC<LogoProps> = ({ ...props }) => {
   const { withText } = props
   return (
     <Svg viewBox='0 0 1800 608' width={120} height={32} fill='none' {...props}>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import { FC, useCallback, useEffect, useRef } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
 import { Alert, alertVariants } from '../../components/Alert'
@@ -25,7 +25,7 @@ const StyledToast = styled.div`
   }
 `
 
-const Toast: React.FC<ToastProps> = ({ toast, onRemove, style, ttl, ...props }) => {
+const Toast: FC<ToastProps> = ({ toast, onRemove, style, ttl, ...props }) => {
   const timer = useRef<number>()
   const ref = useRef(null)
   const removeHandler = useRef(onRemove)

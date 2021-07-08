@@ -1,5 +1,5 @@
 import { currencyEquals, Trade } from '@alium-official/sdk'
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react';
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,

@@ -1,4 +1,4 @@
-import React, { Children, isValidElement, ReactNode } from 'react'
+import { Children, FC, isValidElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { space } from 'styled-system'
 import ChevronRightIcon from '../Svg/Icons/ChevronRight'
@@ -50,7 +50,7 @@ const insertSeparators = (items: ReactNode[], separator: BreadcrumbsProps['separ
 
 const DefaultSeparator = <ChevronRightIcon color='currentColor' width='24px' />
 
-const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ separator = DefaultSeparator, children }) => {
+const Breadcrumbs: FC<BreadcrumbsProps> = ({ separator = DefaultSeparator, children }) => {
   const validItems = Children.toArray(children).filter((child) => isValidElement(child))
   const items = insertSeparators(validItems, separator) as ReactNode[]
 

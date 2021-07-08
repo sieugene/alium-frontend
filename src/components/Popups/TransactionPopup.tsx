@@ -1,5 +1,5 @@
 import { PopupCheckIcon, PopupFailIcon } from 'alium-uikit/src'
-import React, { useContext } from 'react'
+import { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { getExplorerLink, getExplorerName } from '../../utils'

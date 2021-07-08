@@ -1,7 +1,7 @@
 import { ChainId, Currency, ETHER, Token } from '@alium-official/sdk'
 import PolygonMaticLogo from 'assets/images/polygon-matic-logo.png'
 import { useActiveWeb3React } from 'hooks'
-import React, { useMemo } from 'react'
+import { CSSProperties, useMemo } from 'react'
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
@@ -45,7 +45,7 @@ export default function CurrencyLogo({
 }: {
   currency?: Currency
   size?: string
-  style?: React.CSSProperties
+  style?: CSSProperties
 }) {
   let { chainId } = useActiveWeb3React()
   const currentChainId = useStoreNetwork((state) => state.currentChainId)

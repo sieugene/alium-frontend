@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 
 const StyledRangeInput = styled.input<{ size: number }>`
@@ -109,7 +109,7 @@ interface InputSliderProps {
 
 export default function Slider({ value, onChange, min = 0, step = 1, max = 100, size = 28 }: InputSliderProps) {
   const [range, setRange] = useState(value)
-  const updateRange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateRange = (e: ChangeEvent<HTMLInputElement>) => {
     setRange(parseInt(e.target.value, 10))
   }
   const changeCallback = (e) => {

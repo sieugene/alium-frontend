@@ -1,5 +1,5 @@
 import { getConnectorId } from 'alium-uikit/src/util/connectorId/getConnectorId'
-import React, { useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
@@ -106,7 +106,7 @@ const StyledIconContainer = styled.div`
 interface Props {
   chainId?: number | null
 }
-const NetworkSwitch: React.FC<Props> = () => {
+const NetworkSwitch: FC<Props> = () => {
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const [showOptions, setShowOptions] = useState(false)
@@ -132,7 +132,7 @@ const NetworkSwitch: React.FC<Props> = () => {
     return Boolean(network.supportConnectors.includes(currentConnectorId))
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if ((currentChainId && !networkExist) || (networkExist && !validSupportConnector(networkExist))) {
       // toastError("Can't find network", 'Please choice network')
       // If network not found, set default
@@ -141,7 +141,7 @@ const NetworkSwitch: React.FC<Props> = () => {
   }, [currentChainId, networkExist])
 
   // Update label when chainId change in modal
-  React.useEffect(() => {
+  useEffect(() => {
     if (networkExist?.label && selectedOption !== networkExist.label) {
       setSelectedOption(networkExist.label)
     }

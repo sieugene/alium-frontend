@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
 import ModalActions from 'components/ModalActions'
 import useI18n from 'hooks/useI18n'
-import React, { useMemo, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 
@@ -21,7 +21,7 @@ const BalanceRow = styled.div`
   flex-direction: row;
 `
 
-const CompoundModal: React.FC<DepositModalProps> = ({ earnings, onConfirm, onDismiss, tokenName = '' }) => {
+const CompoundModal: FC<DepositModalProps> = ({ earnings, onConfirm, onDismiss, tokenName = '' }) => {
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
   const fullBalance = useMemo(() => {

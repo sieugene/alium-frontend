@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import styled from 'styled-components'
 import { SIDEBAR_WIDTH_FULL, SIDEBAR_WIDTH_REDUCED } from './config'
 import PanelBody from './PanelBody'
@@ -41,7 +42,7 @@ const StyledPanel = styled.div<{ isPushed: boolean; showMenu: boolean }>`
   }
 `
 
-const Panel: React.FC<Props> = (props) => {
+const Panel: FC<Props> = (props) => {
   const { isPushed, showMenu } = props
   return (
     <StyledPanel isPushed={isPushed} showMenu={showMenu}>

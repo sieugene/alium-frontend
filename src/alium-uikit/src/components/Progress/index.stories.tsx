@@ -1,5 +1,5 @@
 import random from 'lodash/random'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Button from '../Button/Button'
 import Progress from './Progress'
 
@@ -9,7 +9,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const [progress, setProgress] = useState(random(1, 100))
 
   const handleClick = () => setProgress(random(1, 100))
@@ -26,7 +26,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const WithSecondary: React.FC = () => {
+export const WithSecondary: FC = () => {
   const [primaryStep, setPrimaryStep] = useState(10)
   const [secondaryStep, setSecondaryStep] = useState(40)
 
@@ -45,7 +45,7 @@ export const WithSecondary: React.FC = () => {
   )
 }
 
-export const WithSecondaryAndProgressBunny: React.FC = () => {
+export const WithSecondaryAndProgressBunny: FC = () => {
   const [primaryStep, setPrimaryStep] = useState(10)
   const [secondaryStep, setSecondaryStep] = useState(40)
 

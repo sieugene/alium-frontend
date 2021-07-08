@@ -8,7 +8,7 @@ export default {
   argTypes: {},
 }
 
-export const Image: React.FC = () => {
+export const Image: FC = () => {
   return (
     <div>
       <Img src='https://via.placeholder.com/800x400' width={800} height={400} alt='test' />
@@ -17,7 +17,7 @@ export const Image: React.FC = () => {
   )
 }
 
-export const ImageResponsive: React.FC = () => {
+export const ImageResponsive: FC = () => {
   return (
     <div>
       <Img src='https://via.placeholder.com/800x400' width={800} height={400} responsive />
@@ -26,7 +26,7 @@ export const ImageResponsive: React.FC = () => {
   )
 }
 
-export const Background: React.FC = () => {
+export const Background: FC = () => {
   return (
     <div>
       <BackgroundImage src='https://via.placeholder.com/800x400' width={800} height={400} mr='16px' />
@@ -35,7 +35,7 @@ export const Background: React.FC = () => {
   )
 }
 
-export const BackgroundResponsive: React.FC = () => {
+export const BackgroundResponsive: FC = () => {
   return (
     <div>
       <BackgroundImage src='https://via.placeholder.com/800x400' width={800} height={400} responsive mr='16px' />
@@ -44,7 +44,7 @@ export const BackgroundResponsive: React.FC = () => {
   )
 }
 
-export const LazyImages: React.FC = () => {
+export const LazyImages: FC = () => {
   return (
     <Flex flexWrap='wrap'>
       {times(40, (index) => (
@@ -61,7 +61,7 @@ export const LazyImages: React.FC = () => {
   )
 }
 
-export const LazyBackgrounds: React.FC = () => {
+export const LazyBackgrounds: FC = () => {
   return (
     <Flex flexWrap='wrap'>
       {times(40, (index) => (

@@ -1,6 +1,6 @@
 import { Button, Heading, Text } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
-import React, { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Lottie from 'react-lottie-player'
 import { ROUTES } from 'routes'
@@ -101,7 +101,7 @@ const ImageFrapper = styled.div`
   }
 `
 
-const HomeGreetings: React.FC = () => {
+const HomeGreetings: FC = () => {
   const [animationInited, setAnimationInited] = useState(false)
   const { t } = useTranslation()
 

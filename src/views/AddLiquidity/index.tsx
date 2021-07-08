@@ -13,7 +13,7 @@ import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useState } from 'react'
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { ROUTES } from 'routes'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
@@ -43,14 +43,14 @@ interface props {
   currencyIdB?: string
 }
 
-const AddLiquidity: React.FC<props> = React.memo(({ currencyIdA, currencyIdB }) => {
+const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   useLiquidityPriorityDefaultAlm()
 
   const history = useRouter()
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
   const { account, chainId, library } = useActiveWeb3React()
-  const user = React.useMemo(() => account, [account])
+  const user = useMemo(() => account, [account])
 
   const oneCurrencyIsWETH = Boolean(
     chainId &&

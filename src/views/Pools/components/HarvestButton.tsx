@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useContext, useMemo } from 'react'
+import { FC, ReactNode, useContext, useMemo } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -44,7 +44,7 @@ const StyledExternalLink = styled.a`
   text-decoration: none;
 `
 interface ButtonProps {
-  children?: React.ReactNode
+  children?: ReactNode
   disabled?: boolean
   href?: string
   onClick?: () => void
@@ -54,7 +54,7 @@ interface ButtonProps {
   variant?: 'default' | 'secondary' | 'tertiary'
 }
 
-const Button: React.FC<ButtonProps> = ({ children, disabled, href, onClick, size, text, to }) => {
+const Button: FC<ButtonProps> = ({ children, disabled, href, onClick, size, text, to }) => {
   const { colors, spacing } = useContext(ThemeContext)
   const buttonColor = colors.background
 

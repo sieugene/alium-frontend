@@ -1,5 +1,5 @@
 import { Button, Text } from 'alium-uikit/src'
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import { ArrowLeft } from 'react-feather'
 import { usePopper } from 'react-popper'
 import { useDispatch, useSelector } from 'react-redux'
@@ -85,7 +85,7 @@ function ListOrigin({ listUrl }: { listUrl: string }) {
 }
 
 function listUrlRowHTMLId(listUrl: string) {
-  return `list-row-${listUrl.replace(/\./g, '-')}`
+  return `list-row-${listUrl.replace(/\./g, '-')}`;
 }
 
 const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void }) => {

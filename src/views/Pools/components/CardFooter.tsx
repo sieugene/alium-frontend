@@ -3,7 +3,7 @@ import Balance from 'components/Balance'
 import { BinanceTag, CommunityTag, CoreTag } from 'components/Tags'
 import { PoolCategory } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
-import React, { useState } from 'react'
+import { FC, memo, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -72,7 +72,7 @@ const TokenLink = styled.a`
   color: #12aab5;
 `
 
-const CardFooter: React.FC<Props> = ({
+const CardFooter: FC<Props> = ({
   projectLink,
   totalStaked,
   blocksRemaining,
@@ -135,4 +135,4 @@ const CardFooter: React.FC<Props> = ({
   )
 }
 
-export default React.memo(CardFooter)
+export default memo(CardFooter)

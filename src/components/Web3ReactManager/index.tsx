@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { NetworkContextName } from 'config/settings'
 import { useTranslation } from 'next-i18next'
-import React, { useEffect, useState } from 'react'
+import { ReactChildren, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { network } from '../../connectors'
 import { useEagerConnect, useInactiveListener } from '../../hooks'
@@ -18,7 +18,7 @@ const Message = styled.h2`
   color: ${({ theme }) => theme.colors.primaryDark};
 `
 
-export default function Web3ReactManager({ children }: { children: React.ReactChildren }) {
+export default function Web3ReactManager({ children }: { children: ReactChildren }) {
   const { t } = useTranslation()
   const { active } = useWeb3React()
   const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React(NetworkContextName)

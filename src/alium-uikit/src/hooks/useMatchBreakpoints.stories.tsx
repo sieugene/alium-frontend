@@ -5,7 +5,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const state = useMatchBreakpoints()
 
   return (

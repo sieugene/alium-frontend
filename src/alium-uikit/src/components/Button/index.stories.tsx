@@ -22,7 +22,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <>
       {Object.values(variants).map((variant) => (
@@ -40,7 +40,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const Variants: React.FC = () => {
+export const Variants: FC = () => {
   return (
     <BrowserRouter>
       <Row>

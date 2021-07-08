@@ -1,6 +1,6 @@
 import { Currency } from '@alium-official/sdk'
 import { SwapModal } from 'components/Modal/SwapModal'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react';
 import useLast from '../../hooks/useLast'
 import { useSelectedListUrl } from '../../state/lists/hooks'
 import { CurrencySearch } from './CurrencySearch'

@@ -1,5 +1,5 @@
 import { CloseIcon } from 'alium-uikit/src'
-import React, { useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react';
 import { animated } from 'react-spring'
 import { useSpring } from 'react-spring/web'
 import styled from 'styled-components'

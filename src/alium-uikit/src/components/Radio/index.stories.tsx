@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Radio from './Radio'
 
 export default {
@@ -7,7 +7,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const [radio, setRadio] = useState('one')
   const [radioSm, setRadioSm] = useState('one')
 

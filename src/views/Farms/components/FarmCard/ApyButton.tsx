@@ -1,5 +1,6 @@
 import { CalculateIcon, IconButton, useModal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
+import { FC } from 'react'
 import ApyCalculatorModal from './ApyCalculatorModal'
 
 export interface ApyButtonProps {
@@ -9,7 +10,7 @@ export interface ApyButtonProps {
   addLiquidityUrl?: string
 }
 
-const ApyButton: React.FC<ApyButtonProps> = ({ lpLabel, cakePrice, apy, addLiquidityUrl }) => {
+const ApyButton: FC<ApyButtonProps> = ({ lpLabel, cakePrice, apy, addLiquidityUrl }) => {
   const [onPresentApyModal] = useModal(
     <ApyCalculatorModal lpLabel={lpLabel} cakePrice={cakePrice} apy={apy} addLiquidityUrl={addLiquidityUrl} />,
   )

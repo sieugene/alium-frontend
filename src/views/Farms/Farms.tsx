@@ -8,7 +8,7 @@ import { QuoteToken } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
 import useRefresh from 'hooks/useRefresh'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchFarmUserDataAsync } from 'state/actions'
 import { useFarms, usePriceBnbBusd, usePriceCakeBusd, usePriceEthBusd } from 'state/hooks'
@@ -16,7 +16,7 @@ import Divider from './components/Divider'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import FarmTabButtons from './components/FarmTabButtons'
 
-const Farms: React.FC = () => {
+const Farms: FC = () => {
   const router = useRouter()
   const path = router.pathname
   const TranslateString = useI18n()

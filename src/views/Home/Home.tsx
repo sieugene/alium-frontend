@@ -3,6 +3,7 @@
 // import { BaseLayout } from 'alium-uikit/src'
 // import useI18n from 'hooks/useI18n'
 import Page from 'components/layout/Page'
+import { FC } from 'react'
 import styled from 'styled-components'
 // import FarmStakingCard from 'views/Home/components/FarmStakingCard'
 // import LotteryCard from 'views/Home/components/LotteryCard'
@@ -75,7 +76,7 @@ const PageWrap = styled(Page)`
   }
 `
 
-const Home: React.FC = () => {
+const Home: FC = () => {
   return (
     <PageWrap>
       <HomeNew />

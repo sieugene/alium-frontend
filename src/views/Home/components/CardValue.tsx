@@ -1,5 +1,5 @@
 import { Text } from 'alium-uikit/src'
-import React, { useEffect, useRef } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { useCountUp } from 'react-countup'
 
 export interface CardValueProps {
@@ -12,7 +12,7 @@ export interface CardValueProps {
   color?: string
 }
 
-const CardValue: React.FC<CardValueProps> = ({
+const CardValue: FC<CardValueProps> = ({
   value,
   decimals,
   fontSize = '40px',

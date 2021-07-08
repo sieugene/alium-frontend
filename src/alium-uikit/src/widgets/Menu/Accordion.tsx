@@ -1,5 +1,5 @@
 import useOnClickOutside from 'hooks/useOnClickOutside'
-import React, { useState } from 'react'
+import { Children, FC, ReactElement, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
 import { MENU_ENTRY_HEIGHT } from './config'
@@ -8,7 +8,7 @@ import { PushedProps } from './types'
 
 interface Props extends PushedProps {
   label: string
-  icon: React.ReactElement
+  icon: ReactElement
   initialOpenState?: boolean
   className?: string
 }
@@ -50,16 +50,8 @@ const AccordionContent = styled.div<{ isOpen: boolean; isPushed: boolean; maxHei
   }
 `
 
-const Accordion: React.FC<Props> = ({
-  label,
-  icon,
-  isPushed,
-  pushNav,
-  initialOpenState = false,
-  children,
-  className,
-}) => {
-  const accordRef = React.useRef()
+const Accordion: FC<Props> = ({ label, icon, isPushed, pushNav, initialOpenState = false, children, className }) => {
+  const accordRef = useRef()
   const [isOpen, setIsOpen] = useState(initialOpenState)
 
   const handleClick = () => {
@@ -81,11 +73,7 @@ const Accordion: React.FC<Props> = ({
         <LinkLabel isPushed={isPushed}>{label}</LinkLabel>
         {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </MenuEntry>
-      <AccordionContent
-        isOpen={isOpen}
-        isPushed={isPushed}
-        maxHeight={React.Children.count(children) * MENU_ENTRY_HEIGHT}
-      >
+      <AccordionContent isOpen={isOpen} isPushed={isPushed} maxHeight={Children.count(children) * MENU_ENTRY_HEIGHT}>
         {children}
       </AccordionContent>
     </Container>

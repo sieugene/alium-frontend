@@ -6,7 +6,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { AddIcon, Button, Flex, Text } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useRouter } from 'next/router'
-import React, { FC, useCallback, useMemo, useState } from 'react'
+import { FC, useCallback, useMemo, useState } from 'react';
 import { ArrowDown, ChevronDown } from 'react-feather'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'

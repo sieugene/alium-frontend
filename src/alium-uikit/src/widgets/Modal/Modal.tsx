@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import styled from 'styled-components'
 import { IconButton } from '../../components/Button'
 import Flex from '../../components/Flex/Flex'
@@ -67,7 +68,7 @@ const StyledButton = styled.button`
   }
 `
 
-const Modal: React.FC<Props> = ({
+const Modal: FC<Props> = ({
   title,
   onDismiss,
   onBack,
