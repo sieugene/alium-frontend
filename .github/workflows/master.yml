@@ -1,18 +1,18 @@
-name: next-prod
+name: master
 
 on:
   push:
     branches:
-      - next-prod
+      - master
   pull_request:
     branches:
-      - next-prod
+      - master
 
 env:
-  VERSION: next-prod
+  VERSION: master
   IMAGE_ID: ghcr.io/alium-finance/alium-frontend
 jobs:
-  build_prod:
+  build:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -21,28 +21,28 @@ jobs:
       - name: Build image
         run: |
           docker pull $IMAGE_ID:$VERSION || true
-          docker build -f Dockerfile.prod . -t build --cache-from $IMAGE_ID:$VERSION
+          docker build -f Dockerfile.master . -t build --cache-from $IMAGE_ID:$VERSION
       - name: Push image
         run: |
           docker tag build $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
-  deploy_stage:
-    needs: build_prod
-    runs-on: [self-hosted, dev]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - run: docker stack deploy --compose-file docker-compose-prod.yml next-prod --with-registry-auth
-      - run: docker system prune -f
-
-  deploy_prod:
-    needs: build_prod
+  deploy-1:
+    needs: build
     runs-on: [self-hosted, prod]
     steps:
       - uses: actions/checkout@v2
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - run: docker stack deploy --compose-file docker-compose-prod.yml next-prod --with-registry-auth
+      - run: docker stack deploy --compose-file docker-compose.master.yml alium --with-registry-auth
+      - run: docker system prune -f
+
+  deploy-2:
+    needs: build
+    runs-on: [self-hosted, prod-2]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - run: docker stack deploy --compose-file docker-compose.master.yml alium --with-registry-auth
       - run: docker system prune -f

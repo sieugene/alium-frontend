@@ -7,6 +7,8 @@ networks:
 
 services:
   frontend:
+    build:
+      dockerfile: Dockerfile.develop
     image: ghcr.io/alium-finance/alium-frontend:${VERSION}
     ports:
-      - 3002:3000
+      - 3020:3000
