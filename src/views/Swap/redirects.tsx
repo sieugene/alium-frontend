@@ -6,7 +6,7 @@ export const RedirectPathToSwapOnly = () => {
   const location = useRouter()
   useEffect(() => {
     location.push('/swap')
-  }, [])
+  }, [location])
   return <div />
 }
 
@@ -19,7 +19,7 @@ export const RedirectToSwap = () => {
     const path =
       search && search.length > 1 ? `${search}&outputCurrency=${outputCurrency}` : `?outputCurrency=${outputCurrency}`
     location.push(`/swap/${path}`)
-  }, [])
+  }, [location, outputCurrency, search])
 
   return <div />
 }

@@ -25,7 +25,7 @@ const LanguageContext = createContext({
 } as LanguageState)
 
 const fileId = 8
-const projectId = parseInt(process.env.REACT_APP_CROWDIN_PROJECTID)
+const projectId = parseInt(process.env.REACT_APP_CROWDIN_PROJECTID, 10)
 const stringTranslationsApi = new StringTranslations({
   token: process.env.REACT_APP_CROWDIN_APIKEY,
 })

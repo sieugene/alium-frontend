@@ -138,7 +138,7 @@ const NetworkSwitch: FC<Props> = () => {
       // If network not found, set default
       handleClick(networks[0])
     }
-  }, [currentChainId, networkExist])
+  }, [currentChainId, handleClick, networkExist, networks])
 
   // Update label when chainId change in modal
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { Button, Flex } from 'alium-uikit/src'
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import Modal from '../../../../components/Modal'
 import { Dots } from '../../../../components/swap/styleds'
@@ -132,14 +132,14 @@ const NftAccountCard = ({ card }: PropsType) => {
   // }
 
   const limitId: number = useMemo(() => {
-    return totalSupply ? parseInt(totalSupply) : 1
+    return totalSupply ? parseInt(totalSupply, 10) : 1
   }, [totalSupply])
 
   const handleInput = useCallback(
     (event) => {
       let input = event.target.value
-      input = parseInt(input) <= 1 ? '1' : input
-      input = parseInt(input) >= limitId ? limitId.toString() : input
+      input = parseInt(input, 10) <= 1 ? '1' : input
+      input = parseInt(input, 10) >= limitId ? limitId.toString() : input
       const withoutSpaces = input.replace(/\s+/g, '')
       setValue(withoutSpaces)
     },
@@ -164,7 +164,7 @@ const NftAccountCard = ({ card }: PropsType) => {
   const onConvertHandler = useCallback(async () => {
     setPendingConvert(true)
     try {
-      onConvert(card.privateCall, typeof value === 'string' ? parseInt(value) : value).then((tx) => {
+      onConvert(card.privateCall, typeof value === 'string' ? parseInt(value, 10) : value).then((tx) => {
         if (tx) {
           setTxHash(tx)
           setTxOpen(true)
@@ -194,8 +194,12 @@ const NftAccountCard = ({ card }: PropsType) => {
           {/* <Input type="number" scale="lg" step={1} min={1} placeholder="1" value={value} onChange={handleInput} /> */}
           <Select value={value} onChange={handleInput}>
             <Option value='-'>-</Option>
-            {cardIds.map((cardId) => {
-              return <Option value={cardId}>{cardId}</Option>
+            {cardIds.map((cardId, key) => {
+              return (
+                <Option key={key} value={cardId}>
+                  {cardId}
+                </Option>
+              )
             })}
           </Select>
         </InputWrapper>

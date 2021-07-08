@@ -7,7 +7,7 @@ export const RedirectToAddLiquidity = () => {
   const router = useRouter()
   useEffect(() => {
     router.push(ROUTES.add)
-  }, [])
+  }, [router])
   return <div />
 }
 

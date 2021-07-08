@@ -392,7 +392,7 @@ export const useTable = <T extends DataType>(
   }, [state.columns])
 
   useEffect(() => {
-    if (options && options.filter) {
+    if (options?.filter) {
       dispatch({ type: 'GLOBAL_FILTER', filter: options.filter })
     }
   })

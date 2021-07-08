@@ -63,7 +63,7 @@ export default function useCollectionNft() {
 
   const tokenTypeInputs = useMemo(() => {
     return tokensIds.map((tokenId: string) => {
-      return [parseInt(tokenId)]
+      return [parseInt(tokenId, 10)]
     })
   }, [tokensIds])
 
@@ -78,10 +78,10 @@ export default function useCollectionNft() {
   const tokenTypesWithTokenId: { [tokenType: string]: number[] } = useMemo(() => {
     const newObj = {}
     tokensTypes.forEach((tokenType: string, id) => {
-      if (newObj[parseInt(tokenType)]) {
-        newObj[parseInt(tokenType)]?.push(tokensIds[id])
+      if (newObj[parseInt(tokenType, 10)]) {
+        newObj[parseInt(tokenType, 10)]?.push(tokensIds[id])
       } else {
-        newObj[parseInt(tokenType)] = [tokensIds[id]]
+        newObj[parseInt(tokenType, 10)] = [tokensIds[id]]
       }
     })
     return newObj

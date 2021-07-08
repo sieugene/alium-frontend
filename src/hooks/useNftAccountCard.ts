@@ -113,7 +113,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
     [account, addTransaction, privateExchangerContract, publicExchangerContract],
   )
 
-  if (tokenType && parseInt(tokenType) !== cardId) {
+  if (tokenType && parseInt(tokenType, 10) !== cardId) {
     error = 'Invalid Pool ID'
   }
 

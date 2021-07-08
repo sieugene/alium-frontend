@@ -87,7 +87,7 @@ const useAuth = () => {
         dispatch(setConnectionError({ error }))
       }
     },
-    [activate, toastError, dispatch],
+    [toastError, activate, sendDataToGTM, deactivate, dispatch],
   )
 
   const logout = async () => {

@@ -33,7 +33,7 @@ const useChangeNetwork = (login: (connectorID: ConnectorNames) => Promise<any>) 
       }
     }
     return undefined
-  }, [active, error, activate])
+  }, [active, error, activate, connect])
 }
 
 export default useChangeNetwork

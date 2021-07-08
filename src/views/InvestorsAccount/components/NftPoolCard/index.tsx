@@ -1,6 +1,6 @@
 import { Button, Flex, Heading, Text } from 'alium-uikit/src'
 import { BigNumber, ethers } from 'ethers'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { PoolsTypes } from '../../constants/pools'
 
@@ -139,7 +139,7 @@ const getTimeFormat = (timestamp: string | undefined) => {
     return 'completed'
   }
   if (timestamp) {
-    const date = new Date(parseInt(`${timestamp}000`))
+    const date = new Date(parseInt(`${timestamp}000`, 10))
     return `${date.getDate()}th ${month[date.getMonth()]} ${date.getFullYear()}`
   }
   return 'loading'
@@ -150,7 +150,7 @@ const unlockedByTimestamp = (timestamp: string | undefined) => {
     return true
   }
   if (timestamp) {
-    const date = new Date(parseInt(`${timestamp}000`))
+    const date = new Date(parseInt(`${timestamp}000`, 10))
     return new Date() > date
   }
   return false

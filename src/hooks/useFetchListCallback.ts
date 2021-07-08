@@ -29,7 +29,7 @@ export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> 
       }
       return resolveENSContentHash(ensName, library)
     },
-    [chainId, library],
+    [chainId, currentChainId, library],
   )
 
   return useCallback(

@@ -400,7 +400,7 @@ export function useDefaultsFromURLSearch():
     )
 
     setResult({ inputCurrencyId: parsed[Field.INPUT].currencyId, outputCurrencyId: parsed[Field.OUTPUT].currencyId })
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, parsedQs, ALMCurrencyId])
 
   return result
 }

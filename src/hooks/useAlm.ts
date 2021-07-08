@@ -23,5 +23,5 @@ export const useLiquidityPriorityDefaultAlm = () => {
       history.push(ROUTES.addByMultiple('ETH', ALMCurrencyId))
     }
     // ignore lint, need only in first load add page
-  }, [])
+  }, [ALMCurrencyId, history, query?.currencyIdA, query?.currencyIdB])
 }

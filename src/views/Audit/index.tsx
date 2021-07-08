@@ -55,8 +55,9 @@ const AuditPage = () => {
           </StyledText>
 
           <AuditListContainer>
-            {audits.map((audit) => (
+            {audits.map((audit, key) => (
               <AuditItem
+                key={key}
                 headline={audit.headline}
                 date={audit.date}
                 gitHubCertificate={audit.gitHubCertificate}

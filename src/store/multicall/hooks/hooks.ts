@@ -81,7 +81,7 @@ function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): C
         options,
       })
     }
-  }, [chainId, dispatch, options, serializedCallKeys])
+  }, [addMulticallListeners, chainId, dispatch, options, removeMulticallListeners, serializedCallKeys])
 
   return useMemo(
     () =>

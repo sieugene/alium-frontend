@@ -293,8 +293,8 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
               {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
               {showOptions && (
                 <StyledOptionsContainer>
-                  {currencies.stablecoins.map((item) => (
-                    <StyledOption onClick={() => handleClick(item)}>
+                  {currencies.stablecoins.map((item, key) => (
+                    <StyledOption key={key} onClick={() => handleClick(item)}>
                       {`${Number(cardList[0]?.price).toLocaleString()} ${item}`}
                     </StyledOption>
                   ))}
@@ -311,8 +311,11 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
         {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
         {showOptions && (
           <StyledOptionsContainer>
-            {currencies.stablecoins.map((item) => (
-              <StyledOption onClick={() => setSelectedOption(`${Number(cardList[0]?.price).toLocaleString()} ${item}`)}>
+            {currencies.stablecoins.map((item, key) => (
+              <StyledOption
+                key={key}
+                onClick={() => setSelectedOption(`${Number(cardList[0]?.price).toLocaleString()} ${item}`)}
+              >
                 {`${Number(cardList[0]?.price).toLocaleString()} ${item}`}
               </StyledOption>
             ))}

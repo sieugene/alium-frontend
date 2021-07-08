@@ -301,8 +301,8 @@ const StrategicalPartnershipHome = () => {
 
   const sufficientBalance =
     balance &&
-    parseInt(balance?.raw.toString()) >=
-      parseInt(parseUnits(cardPrice, currencies.match[values.currency]?.decimals).toString())
+    parseInt(balance?.raw.toString(), 10) >=
+      parseInt(parseUnits(cardPrice, currencies.match[values.currency]?.decimals).toString(), 10)
 
   const accountEllipsis = account ? `${account.substring(0, 8)}...${account.substring(account.length - 8)}` : null
 
@@ -426,8 +426,9 @@ const StrategicalPartnershipHome = () => {
         </StyledHeading>
 
         <AppBody>
-          {cardList.map((card) => (
+          {cardList.map((card, key) => (
             <NftPartnershipCard
+              key={key}
               card={card}
               handleChange={handleChange}
               buttonWrap={

@@ -33,7 +33,7 @@ export function ConfirmAddModalBottom({
     if (error) {
       toastError('Errow when adding liqudity')
     }
-  }, [error])
+  }, [error, toastError])
 
   return (
     <>

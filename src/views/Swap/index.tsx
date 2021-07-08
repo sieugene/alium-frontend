@@ -25,7 +25,7 @@ import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCall
 import { useSwapCallback } from 'hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useTranslation } from 'next-i18next'
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
@@ -237,7 +237,7 @@ const Swap = () => {
           txHash: undefined,
         }))
       })
-  }, [priceImpactWithoutFee, swapCallback, setSwapState])
+  }, [priceImpactWithoutFee, swapCallback, sendDataToGTM, trade])
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import { useStoreAccount } from 'store/account/useStoreAccount'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 
@@ -21,7 +21,7 @@ export const InitStores = () => {
       killStoreAccount()
       killStoreNetwork()
     }
-  }, [])
+  }, [killStoreAccount, killStoreNetwork])
 
   return null
 }

@@ -13,6 +13,7 @@
     "start:as-dev": "env-cmd -f .env.development next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
+    "eslint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "format": "prettier --write --ignore-unknown \"src/**/*\"",
     "up-deps": "npx npm-check-updates -u && yarn",
     "up-alium": "npx npm-check-updates @alium-official/* --target greatest -u && yarn"
