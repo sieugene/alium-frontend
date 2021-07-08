@@ -1,4 +1,3 @@
-import React from 'react'
 import { Modal, useModal } from '.'
 import Button from '../../components/Button/Button'
 import Heading from '../../components/Heading/Heading'
@@ -22,8 +21,8 @@ const CustomModal: React.FC<CustomModalProps> = ({ title, onDismiss }) => (
 )
 
 export const Default: React.FC = () => {
-  const [onPresent1] = useModal(<CustomModal title="Modal 1" />)
-  const [onPresent2] = useModal(<CustomModal title="Modal 2" />)
+  const [onPresent1] = useModal(<CustomModal title='Modal 1' />)
+  const [onPresent2] = useModal(<CustomModal title='Modal 2' />)
   return (
     <div>
       <Button onClick={onPresent1}>Open modal 1</Button>
@@ -33,7 +32,7 @@ export const Default: React.FC = () => {
 }
 
 export const DisableOverlayClick: React.FC = () => {
-  const [onPresent1] = useModal(<CustomModal title="Modal 1" />, false)
+  const [onPresent1] = useModal(<CustomModal title='Modal 1' />, false)
 
   return (
     <div>
@@ -53,7 +52,7 @@ const BackButtonModal: React.FC<BackButtonModalProps> = ({ title, onDismiss }) =
 
   return (
     <Modal title={title} onDismiss={onDismiss} onBack={handleOnBack} hideCloseButton>
-      <Button onClick={onDismiss} variant="text" fullwidth>
+      <Button onClick={onDismiss} variant='text' fullwidth>
         Consumer can still close it.
       </Button>
     </Modal>
@@ -61,7 +60,7 @@ const BackButtonModal: React.FC<BackButtonModalProps> = ({ title, onDismiss }) =
 }
 
 export const WithBackButton: React.FC = () => {
-  const [onPresent1] = useModal(<BackButtonModal title="Modal with no X" />, false)
+  const [onPresent1] = useModal(<BackButtonModal title='Modal with no X' />, false)
 
   return <Button onClick={onPresent1}>Only Back Button</Button>
 }

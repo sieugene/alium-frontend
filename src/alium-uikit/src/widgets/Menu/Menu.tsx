@@ -122,7 +122,7 @@ const StyledText = styled(Text)`
     position: absolute;
     width: 142px;
     background: #ffffff;
-    box-shadow: 0px 2px 16px rgba(185, 189, 208, 0.48);
+    box-shadow: 0 2px 16px rgba(185, 189, 208, 0.48);
     border-radius: 6px;
     font-size: 11px;
     text-align: center;
@@ -213,15 +213,15 @@ const Menu: React.FC<NavProps> = ({
       <StyledNav showMenu={showMenu}>
         <Flex>
           <StyledLogoWithText>
-            <LogoWithText className="desktop-icon" isDark={isDark} withText />
+            <LogoWithText className='desktop-icon' isDark={isDark} withText />
           </StyledLogoWithText>
           <StyledLogoWithoutText>
-            <Logo width="40px" height="40px" />
+            <Logo width='40px' height='40px' />
           </StyledLogoWithoutText>
           {false && betaText && (
             <StyledBetaIcon isPushed={isPushed}>
               {/* <BetaIcon height="28px" width="43px" /> */}
-              <StyledText color="#8990A5">
+              <StyledText color='#8990A5'>
                 {betaText.slice(0, betaText?.lastIndexOf('here'))}
                 <StyledClickableLink href={betaLink}>here</StyledClickableLink>
                 {betaText.slice(betaText?.lastIndexOf('here') + 4)}
@@ -246,8 +246,8 @@ const Menu: React.FC<NavProps> = ({
                 {...options}
               />
             )}
-            <MenuButton2 aria-label="Toggle menu" onClick={() => setIsPushed((prevState: boolean) => !prevState)}>
-              {isPushed ? <CloseIcon color="primary" width="24" height="25" /> : <BurgerIcon width="24" height="24" />}
+            <MenuButton2 aria-label='Toggle menu' onClick={() => setIsPushed((prevState: boolean) => !prevState)}>
+              {isPushed ? <CloseIcon color='primary' width='24' height='25' /> : <BurgerIcon width='24' height='24' />}
             </MenuButton2>
           </div>
         </TopWrapper>
@@ -266,7 +266,7 @@ const Menu: React.FC<NavProps> = ({
         <Inner isPushed={isPushed} showMenu={showMenu}>
           {children}
         </Inner>
-        <MobileOnlyOverlay show={isPushed} onClick={() => setIsPushed(false)} role="presentation" />
+        <MobileOnlyOverlay show={isPushed} onClick={() => setIsPushed(false)} role='presentation' />
       </BodyWrapper>
     </Wrapper>
   )

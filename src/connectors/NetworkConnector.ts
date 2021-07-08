@@ -90,7 +90,6 @@ class MiniRpcProvider implements AsyncSendable {
       memo[current.request.id] = current
       return memo
     }, {})
-    // eslint-disable-next-line no-restricted-syntax
     for (const result of json) {
       const {
         resolve,

@@ -210,10 +210,9 @@ const MainWalletAction = styled(WalletAction)`
 function renderTransactions(transactions: string[]) {
   return (
     <TransactionListWrapper>
-      {transactions.map((hash, i) => {
-        // eslint-disable-next-line react/no-array-index-key
-        return <Transaction key={i} hash={hash} />
-      })}
+      {transactions.map((hash, i) => (
+        <Transaction key={i} hash={hash} />
+      ))}
     </TransactionListWrapper>
   )
 }

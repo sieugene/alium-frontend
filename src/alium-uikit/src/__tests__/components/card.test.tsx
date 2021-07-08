@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card, CardBody, CardFooter, CardHeader } from '../../components/Card'
 import { renderWithTheme } from '../../testHelpers'
 

@@ -30,7 +30,7 @@ export const Connected: React.FC = () => {
   return (
     <BrowserRouter>
       <Menu
-        account="0xbdda50183d817c3289f895a4472eb475967dc980"
+        account='0xbdda50183d817c3289f895a4472eb475967dc980'
         login={noop}
         logout={noop}
         isDark={false}
@@ -41,10 +41,10 @@ export const Connected: React.FC = () => {
         balanceHook={later}
       >
         <div>
-          <Heading as="h1" mb="8px">
+          <Heading as='h1' mb='8px'>
             Page body
           </Heading>
-          <Text as="p">
+          <Text as='p'>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
             ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
@@ -169,7 +169,7 @@ export const WithNoProfile: React.FC = () => {
   return (
     <BrowserRouter>
       <Menu
-        account="0xbdda50183d817c3289f895a4472eb475967dc980"
+        account='0xbdda50183d817c3289f895a4472eb475967dc980'
         login={noop}
         logout={noop}
         isDark={false}
@@ -177,10 +177,10 @@ export const WithNoProfile: React.FC = () => {
         links={links}
       >
         <div>
-          <Heading as="h1" color="heading" mb="8px">
+          <Heading as='h1' color='heading' mb='8px'>
             Page body
           </Heading>
-          <Text as="p" color="basic">
+          <Text as='p' color='basic'>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
             ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
@@ -203,7 +203,7 @@ export const WithProfile: React.FC = () => {
   return (
     <BrowserRouter>
       <Menu
-        account="0xbdda50183d817c3289f895a4472eb475967dc980"
+        account='0xbdda50183d817c3289f895a4472eb475967dc980'
         login={noop}
         logout={noop}
         isDark={false}
@@ -211,10 +211,10 @@ export const WithProfile: React.FC = () => {
         links={links}
       >
         <div>
-          <Heading as="h1" mb="8px">
+          <Heading as='h1' mb='8px'>
             Page body
           </Heading>
-          <Text as="p">
+          <Text as='p'>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
             ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
@@ -235,7 +235,7 @@ export const WithProfile: React.FC = () => {
 
 export const MenuEntryComponent: React.FC = () => {
   return (
-    <Flex justifyContent="space-between" p="16px" style={{ backgroundColor: 'wheat' }}>
+    <Flex justifyContent='space-between' p='16px' style={{ backgroundColor: 'wheat' }}>
       <MenuEntry>Default</MenuEntry>
       <MenuEntry secondary>Secondary</MenuEntry>
       <MenuEntry isActive>isActive</MenuEntry>

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ProfileState } from 'state/types'
 import getProfile, { GetProfileResponse } from './getProfile'

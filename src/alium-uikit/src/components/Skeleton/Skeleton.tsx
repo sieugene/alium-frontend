@@ -1,4 +1,3 @@
-import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { layout, space } from 'styled-system'
 import { animation as ANIMATION, SkeletonProps, variant as VARIANT } from './types'

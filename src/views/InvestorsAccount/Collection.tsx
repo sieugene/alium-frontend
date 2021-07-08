@@ -106,7 +106,6 @@ function Collection() {
   }
   useEffect(() => {
     selectDefaultCard()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolClearedCards])
 
   return (

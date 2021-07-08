@@ -1,11 +1,11 @@
 import { ChainId, Currency, ETHER, Token } from '@alium-official/sdk'
-import { getChainId } from 'alium-uikit/src'
 import PolygonMaticLogo from 'assets/images/polygon-matic-logo.png'
 import { useActiveWeb3React } from 'hooks'
 import React, { useMemo } from 'react'
+import { WrappedTokenInfo } from 'state/lists/hooks'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import useHttpLocations from '../../hooks/useHttpLocations'
-import { WrappedTokenInfo } from '../../state/lists/hooks'
 import CoinLogo from '../alium/CoinLogo'
 import Logo from '../Logo'
 
@@ -29,7 +29,7 @@ const getTokenLogoURL = (address: string) =>
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.075);
   border-radius: 24px;
 `
 
@@ -48,9 +48,9 @@ export default function CurrencyLogo({
   style?: React.CSSProperties
 }) {
   let { chainId } = useActiveWeb3React()
-  const chainIdInCookie = getChainId()
-  if (chainIdInCookie) {
-    chainId = chainIdInCookie
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  if (currentChainId) {
+    chainId = currentChainId
   }
 
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)

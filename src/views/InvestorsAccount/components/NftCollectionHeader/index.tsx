@@ -1,5 +1,4 @@
 import { Flex } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 
 const NftCollectionHeaderWrap = styled(Flex)`
@@ -32,8 +31,8 @@ const Field = styled(Flex)<{ maxWidth: string }>`
 function NftCollectionHeader() {
   return (
     <NftCollectionHeaderWrap>
-      <Field maxWidth="292px">pool</Field>
-      <Field maxWidth="unset">souvenir cards</Field>
+      <Field maxWidth='292px'>pool</Field>
+      <Field maxWidth='unset'>souvenir cards</Field>
     </NftCollectionHeaderWrap>
   )
 }

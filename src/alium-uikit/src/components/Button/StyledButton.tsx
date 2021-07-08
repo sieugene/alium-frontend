@@ -89,7 +89,7 @@ const StyledButton = styled.button<ButtonProps>`
 
   &:active {
     background-color: ${getButtonVariantProp('backgroundActive')};
-    box-shadow: inset 0px 3px 0px ${getButtonVariantProp('boxShadow')};
+    box-shadow: inset 0 3px 0 ${getButtonVariantProp('boxShadow')};
   }
 
   ${({ buttonType }) =>

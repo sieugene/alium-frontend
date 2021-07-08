@@ -4,7 +4,6 @@ import { TranslationsContext } from '../hooks/TranslationsContext'
 const variableRegex = /%(.*?)%/
 
 const replaceDynamicString = (foundTranslation: string, fallback: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const stringToReplace = variableRegex.exec(foundTranslation)![0]
   const indexToReplace = foundTranslation.split(' ').indexOf(stringToReplace)
   const fallbackValueAtIndex = fallback.split(' ')[indexToReplace]

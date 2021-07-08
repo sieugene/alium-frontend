@@ -27,10 +27,7 @@ const Value: React.FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => 
         <CountUp
           start={start}
           end={end}
-          decimals={
-            // eslint-disable-next-line no-nested-ternary
-            decimals !== undefined ? decimals : end < 0 ? 4 : end > 1e5 ? 0 : 3
-          }
+          decimals={decimals !== undefined ? decimals : end < 0 ? 4 : end > 1e5 ? 0 : 3}
           duration={1}
           separator=','
         />

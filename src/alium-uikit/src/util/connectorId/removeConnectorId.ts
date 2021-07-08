@@ -6,8 +6,6 @@ const cookies = new Cookies()
 
 type removeConnectorId = () => void
 
-const removeConnectorId: removeConnectorId = () => {
+export const removeConnectorId: removeConnectorId = () => {
   cookies.remove(connectorLocalStorageKey, getCookieOptions())
 }
-
-export default removeConnectorId

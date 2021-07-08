@@ -67,7 +67,6 @@ const StyledCardBody = styled(CardBody)`
 
 interface PositionCardProps {
   pair: Pair
-  // eslint-disable-next-line react/no-unused-prop-types
   showUnwrapped?: boolean
 }
 
@@ -95,7 +94,6 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
       : [undefined, undefined]
 
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {userPoolBalance && (
         <StyledUIKitCard>

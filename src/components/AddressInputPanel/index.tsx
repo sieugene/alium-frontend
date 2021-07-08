@@ -52,7 +52,7 @@ const Input = styled.input<{ error?: boolean }>`
   ::placeholder {
     color: ${({ theme }) => theme.colors.textDisabled};
   }
-  padding: 0px;
+  padding: 0;
   -webkit-appearance: textfield;
 
   ::-webkit-search-decoration {
@@ -101,7 +101,7 @@ export default function AddressInputPanel({
     <InputPanel id={id}>
       <ContainerRow error={error}>
         <InputContainer>
-          <AutoColumn gap="md">
+          <AutoColumn gap='md'>
             <RowBetween>
               <Black color={theme.colors.textSubtle} fontWeight={500} fontSize={14}>
                 {t('recipient')}
@@ -113,15 +113,15 @@ export default function AddressInputPanel({
               )}
             </RowBetween>
             <Input
-              className="recipient-address-input"
-              type="text"
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck="false"
+              className='recipient-address-input'
+              type='text'
+              autoComplete='off'
+              autoCorrect='off'
+              autoCapitalize='off'
+              spellCheck='false'
               placeholder={t('walletAddressOrEnsName')}
               error={error}
-              pattern="^(0x[a-fA-F0-9]{40})$"
+              pattern='^(0x[a-fA-F0-9]{40})$'
               onChange={handleInput}
               value={value}
             />

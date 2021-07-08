@@ -2,13 +2,11 @@ import { DialogContent, DialogOverlay } from '@reach/dialog'
 import '@reach/dialog/styles.css'
 import { useActiveWeb3React } from 'hooks'
 import { transparentize } from 'polished'
-import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { animated, useTransition } from 'react-spring'
 import styled, { css } from 'styled-components'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const StyledDialogOverlay = styled(({ ...rest }) => <AnimatedDialogOverlay {...rest} />)`
   &[data-reach-dialog-overlay] {
@@ -32,8 +30,8 @@ const StyledDialogOverlay = styled(({ ...rest }) => <AnimatedDialogOverlay {...r
 `
 
 const AnimatedDialogContent = animated(DialogContent)
+
 // destructure to not pass custom props to Dialog DOM element
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogContent = styled(({ minHeight, maxHeight, padding, mobile, isOpen, ...rest }) => (
   <AnimatedDialogContent {...rest} />
 )).attrs({
@@ -136,7 +134,7 @@ export default function Modal({
               isTransparancy={isTransparancy}
             >
               <StyledDialogContent
-                aria-label="dialog content"
+                aria-label='dialog content'
                 minHeight={minHeight}
                 maxHeight={maxHeight}
                 padding={padding}
@@ -144,9 +142,7 @@ export default function Modal({
                 style={{ margin: 'auto' }}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
-                {/* eslint-disable */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}
-                {/* eslint-enable */}
                 {children}
               </StyledDialogContent>
             </StyledDialogOverlay>

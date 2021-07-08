@@ -55,13 +55,11 @@ export default async function getTokenList(
     } catch (error) {
       console.error('Failed to fetch list', listUrl, error)
       if (isLast) throw new Error(`Failed to download list ${listUrl}`)
-      // eslint-disable-next-line no-continue
       continue
     }
 
     if (!response.ok) {
       if (isLast) throw new Error(`Failed to download list ${listUrl}`)
-      // eslint-disable-next-line no-continue
       continue
     }
 

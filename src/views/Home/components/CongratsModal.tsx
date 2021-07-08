@@ -1,5 +1,4 @@
 import { CloseIcon } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 
 const StyledModal = styled.div`

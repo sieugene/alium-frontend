@@ -1,7 +1,6 @@
 import { Card, CardBody, Heading, Skeleton, Text } from 'alium-uikit/src'
 import { useGetStats } from 'hooks/api'
 import useI18n from 'hooks/useI18n'
-import React from 'react'
 import styled from 'styled-components'
 
 const StyledTotalValueLockedCard = styled(Card)`

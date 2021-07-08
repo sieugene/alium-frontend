@@ -1,4 +1,3 @@
-import React from 'react'
 import Button from '../components/Button/Button'
 import Text from '../components/Text/Text'
 import useParticleBurst from './useParticleBurst'
@@ -15,13 +14,13 @@ export const WithSelector: React.FC = () => {
 
   return (
     <div style={{ padding: '32px' }}>
-      <Button type="button" mr="16px">
+      <Button type='button' mr='16px'>
         Click Me
       </Button>
-      <Button type="button" variant="secondary" mr="16px">
+      <Button type='button' variant='secondary' mr='16px'>
         Or Me
       </Button>
-      <Button type="button" variant="tertiary">
+      <Button type='button' variant='tertiary'>
         Or Me
       </Button>
     </div>
@@ -79,8 +78,8 @@ export const DisableUnderCondition: React.FC = () => {
 
   return (
     <div style={{ padding: '32px' }}>
-      <Text mb="8px">Will only burst when current minute is even</Text>
-      <Button variant="success">Click Me</Button>
+      <Text mb='8px'>Will only burst when current minute is even</Text>
+      <Button variant='success'>Click Me</Button>
     </div>
   )
 }
@@ -93,11 +92,11 @@ export const StopAndStart: React.FC = () => {
 
   return (
     <div style={{ padding: '32px' }}>
-      <Text mb="8px">100 particles (beware of performance)</Text>
-      <Button variant="secondary" onClick={handleInitialize} mr="8px">
+      <Text mb='8px'>100 particles (beware of performance)</Text>
+      <Button variant='secondary' onClick={handleInitialize} mr='8px'>
         Start Bursts
       </Button>
-      <Button variant="tertiary" onClick={handleTeardown}>
+      <Button variant='tertiary' onClick={handleTeardown}>
         Stop Bursts
       </Button>
     </div>

@@ -3,7 +3,7 @@ import { OverlayProps } from './types'
 
 const Overlay = styled.div.attrs({ role: 'presentation' })<OverlayProps>`
   position: fixed;
-  top: 0px;
+  top: 0;
   left: 0px;
   width: 100%;
   height: 100%;

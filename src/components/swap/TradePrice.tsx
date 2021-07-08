@@ -1,6 +1,5 @@
 import { Price } from '@alium-official/sdk'
 import { SyncAltIcon, Text } from 'alium-uikit/src'
-import React from 'react'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { StyledBalanceMaxMini } from './styleds'
 
@@ -19,12 +18,12 @@ export default function TradePrice({ price, showInverted, setShowInverted }: Tra
     : `${price?.baseCurrency?.symbol} per ${price?.quoteCurrency?.symbol}`
 
   return (
-    <Text fontSize="14px" style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', color: '#6C5DD3' }}>
+    <Text fontSize='14px' style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', color: '#6C5DD3' }}>
       {show ? (
         <>
           {formattedPrice ?? '-'} {label}
           <StyledBalanceMaxMini onClick={() => setShowInverted(!showInverted)}>
-            <SyncAltIcon width="20px" color="primary" />
+            <SyncAltIcon width='20px' color='primary' />
           </StyledBalanceMaxMini>
         </>
       ) : (

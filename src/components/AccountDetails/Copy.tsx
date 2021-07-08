@@ -1,5 +1,4 @@
 import { useTranslation } from 'next-i18next'
-import React from 'react'
 import { CheckCircle, Copy } from 'react-feather'
 import styled from 'styled-components'
 import useCopyClipboard from '../../hooks/useCopyClipboard'
@@ -35,12 +34,12 @@ export default function CopyHelper(props: { toCopy: string; children: React.Reac
     <CopyIcon onClick={() => setCopied(toCopy)}>
       {isCopied ? (
         <TransactionStatusText>
-          <CheckCircle size="16" />
+          <CheckCircle size='16' />
           <TransactionStatusText>{t('copied')}</TransactionStatusText>
         </TransactionStatusText>
       ) : (
         <TransactionStatusText>
-          <Copy size="16" />
+          <Copy size='16' />
         </TransactionStatusText>
       )}
       {isCopied ? '' : children}

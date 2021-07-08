@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import React from 'react'
 import styled from 'styled-components'
 import NoProfileAvatar from '../../components/Svg/Icons/NoProfileAvatar'
 import { Profile } from './types'
@@ -34,9 +33,9 @@ const Avatar: React.FC<AvatarProps> = ({ profile }) => {
   const isExternal = link.startsWith('http')
   const ariaLabel = 'Link to profile'
   const icon = image ? (
-    <img src={image} alt="profile avatar" height="32px" width="32px" />
+    <img src={image} alt='profile avatar' height='32px' width='32px' />
   ) : (
-    <NoProfileAvatar width="32px" height="32px" />
+    <NoProfileAvatar width='32px' height='32px' />
   )
 
   if (isExternal) {

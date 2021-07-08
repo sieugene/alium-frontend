@@ -120,17 +120,17 @@ function NftCollectionCard({ pool, selectedCard, onSelectCard }: NftCollectionCa
 
   return (
     <NftCollectionCardWrap>
-      <FieldPool maxWidth="270px">
-        <Heading as="h3" size="lg" color="#0B1359">
+      <FieldPool maxWidth='270px'>
+        <Heading as='h3' size='lg' color='#0B1359'>
           {pool.name}
         </Heading>
         <FieldPoolDescription>
-          <Text fontSize="14" color="#8990A5">
+          <Text fontSize='14' color='#8990A5'>
             {pool.description}
           </Text>
         </FieldPoolDescription>
       </FieldPool>
-      <FieldCards ref={fieldCards} maxWidth="unset">
+      <FieldCards ref={fieldCards} maxWidth='unset'>
         <TotalCards>
           <Text>{pool.cards?.length || 0} </Text>
           <Text>cards</Text>

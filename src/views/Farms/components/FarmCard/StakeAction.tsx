@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import useI18n from 'hooks/useI18n'
 import useStake from 'hooks/useStake'
 import useUnstake from 'hooks/useUnstake'
-import React from 'react'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
 import DepositModal from '../DepositModal'
@@ -50,18 +49,18 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
       <Button onClick={onPresentDeposit}>{TranslateString(999, 'Stake LP')}</Button>
     ) : (
       <IconButtonWrapper>
-        <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
-          <MinusIcon color="primary" />
+        <IconButton variant='tertiary' onClick={onPresentWithdraw} mr='6px'>
+          <MinusIcon color='primary' />
         </IconButton>
-        <IconButton variant="tertiary" onClick={onPresentDeposit}>
-          <AddIcon color="primary" />
+        <IconButton variant='tertiary' onClick={onPresentDeposit}>
+          <AddIcon color='primary' />
         </IconButton>
       </IconButtonWrapper>
     )
   }
 
   return (
-    <Flex justifyContent="space-between" alignItems="center">
+    <Flex justifyContent='space-between' alignItems='center'>
       <Heading color={rawStakedBalance === 0 ? 'textDisabled' : 'text'}>{displayBalance}</Heading>
       {renderStakingButtons()}
     </Flex>

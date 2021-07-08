@@ -51,7 +51,7 @@ export default function ListUpdatePopup({
 
   return (
     <AutoRow>
-      <AutoColumn style={{ flex: '1' }} gap="8px">
+      <AutoColumn style={{ flex: '1' }} gap='8px'>
         {auto ? (
           <Body fontWeight={500}>
             {t('tokenListUpdated', { label: oldList.name })} <strong>{listVersionLabel(newList.version)}</strong>.
@@ -59,7 +59,7 @@ export default function ListUpdatePopup({
         ) : (
           <>
             <div>
-              <Text fontSize="14px">
+              <Text fontSize='14px'>
                 {t('popups.updateAvailable', { label: oldList.name })}({listVersionLabel(oldList.version)} to{' '}
                 {listVersionLabel(newList.version)}).
               </Text>

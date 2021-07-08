@@ -1,4 +1,3 @@
-import React from 'react'
 import Checkbox from '../../components/Checkbox/Checkbox'
 import { renderWithTheme } from '../../testHelpers'
 

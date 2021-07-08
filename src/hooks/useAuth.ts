@@ -9,7 +9,8 @@ import {
   UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
   WalletConnectConnector,
 } from '@web3-react/walletconnect-connector'
-import { ConnectorNames, removeConnectorId } from 'alium-uikit/src'
+import { ConnectorNames } from 'alium-uikit/src'
+import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { setConnectionError } from 'state/application/actions'
@@ -45,7 +46,7 @@ const useAuth = () => {
               if (hasSetup) {
                 try {
                   await activate(connector, (err) => {
-                    toastError("Unsupported chain", err.message)
+                    toastError('Unsupported chain', err.message)
                     removeConnectorId()
                     clearWalletConnect()
                   })

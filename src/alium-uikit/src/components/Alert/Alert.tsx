@@ -1,4 +1,3 @@
-import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 import { IconButton } from '../Button'
 import { Flex } from '../Flex'
@@ -72,7 +71,7 @@ const StyledAlert = styled(Flex)`
   position: relative;
   background-color: ${({ theme }) => theme.alert.background};
   border-radius: 16px;
-  box-shadow: 0px 20px 36px -8px rgba(14, 14, 44, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 20px 36px -8px rgba(14, 14, 44, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.05);
 `
 
 const Alert: React.FC<AlertProps> = ({ title, children, variant, onClick }) => {
@@ -81,16 +80,16 @@ const Alert: React.FC<AlertProps> = ({ title, children, variant, onClick }) => {
   return (
     <StyledAlert>
       <IconLabel variant={variant} hasDescription={!!children}>
-        <Icon color="currentColor" width="24px" />
+        <Icon color='currentColor' width='24px' />
       </IconLabel>
       <Details hasHandler={!!onClick}>
         <Text bold>{title}</Text>
-        {typeof children === 'string' ? <Text as="p">{children}</Text> : children}
+        {typeof children === 'string' ? <Text as='p'>{children}</Text> : children}
       </Details>
       {onClick && (
         <CloseHandler>
-          <IconButton size="sm" variant="text" onClick={onClick}>
-            <CloseIcon width="24px" color="currentColor" />
+          <IconButton size='sm' variant='text' onClick={onClick}>
+            <CloseIcon width='24px' color='currentColor' />
           </IconButton>
         </CloseHandler>
       )}

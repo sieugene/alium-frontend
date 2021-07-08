@@ -78,11 +78,11 @@ const TransactionDeadlineSetting = () => {
         <QuestionHelper text={t('questionHelperMessages.transactionRevertPending')} />
       </Label>
       <Field>
-        <Input type="number" step="1" min="1" value={value} onChange={handleChange} />
+        <Input type='number' step='1' min='1' value={value} onChange={handleChange} />
         <Text color={theme.colors.textSubtle}>{t('minutes')}</Text>
       </Field>
       {error && (
-        <Text mt="8px" color="failure">
+        <Text mt='8px' color='failure'>
           {error}
         </Text>
       )}

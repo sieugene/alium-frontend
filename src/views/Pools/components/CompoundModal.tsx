@@ -37,11 +37,11 @@ const CompoundModal: React.FC<DepositModalProps> = ({ earnings, onConfirm, onDis
         <Balance value={Number(fullBalance)} />
       </BalanceRow>
       <ModalActions>
-        <Button fullwidth variant="secondary" onClick={onDismiss}>
+        <Button fullwidth variant='secondary' onClick={onDismiss}>
           {TranslateString(462, 'Cancel')}
         </Button>
         <Button
-          id="compound-cake"
+          id='compound-cake'
           fullwidth
           disabled={pendingTx}
           onClick={async () => {

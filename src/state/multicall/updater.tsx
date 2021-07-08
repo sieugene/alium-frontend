@@ -60,14 +60,12 @@ export function activeListeningKeys(
 
     memo[callKey] = Object.keys(keyListeners)
       .filter((key) => {
-        // eslint-disable-next-line radix
-        const blocksPerFetch = parseInt(key)
+        const blocksPerFetch = parseInt(key, 10)
         if (blocksPerFetch <= 0) return false
         return keyListeners[blocksPerFetch] > 0
       })
       .reduce((previousMin, current) => {
-        // eslint-disable-next-line radix
-        return Math.min(previousMin, parseInt(current))
+        return Math.min(previousMin, parseInt(current, 10))
       }, Infinity)
     return memo
   }, {})
@@ -166,7 +164,6 @@ export default function Updater(): null {
             cancellations.current = { cancellations: [], blockNumber: latestBlockNumber }
 
             // accumulates the length of all previous indices
-            // eslint-disable-next-line max-nested-callbacks
             const firstCallKeyIndex = chunkedCalls.slice(0, index).reduce<number>((memo, curr) => memo + curr.length, 0)
             const lastCallKeyIndex = firstCallKeyIndex + returnData.length
 
@@ -174,7 +171,6 @@ export default function Updater(): null {
               chainId,
               results: outdatedCallKeys
                 .slice(firstCallKeyIndex, lastCallKeyIndex)
-                // eslint-disable-next-line max-nested-callbacks
                 .reduce<{ [callKey: string]: string | null }>((memo, callKey, i) => {
                   memo[callKey] = returnData[i] ?? null
                   return memo

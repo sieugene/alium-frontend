@@ -3,7 +3,6 @@ import { NextLink } from 'components/NextLink'
 import QuestionHelper from 'components/QuestionHelper'
 import { RowBetween } from 'components/Row'
 import { useTranslation } from 'next-i18next'
-import React from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
@@ -36,9 +35,9 @@ export function FindPoolTabs() {
   return (
     <Tabs>
       <StyledRowBetween style={{ borderBottom: '1px solid #f4f5fa' }}>
-        <Flex alignItems="center">
+        <Flex alignItems='center'>
           <NextLink href={ROUTES.pool}>
-            <ArrowBackIcon width="24px" height="24px" />
+            <ArrowBackIcon width='24px' height='24px' />
           </NextLink>
           <ActiveText>Import Pool</ActiveText>
           <QuestionHelper text={t('questionHelpers.useThisTool')} />
@@ -53,9 +52,9 @@ export function AddRemoveTabs({ adding }: { adding: boolean }) {
   return (
     <Tabs>
       <StyledRowBetween style={{ borderBottom: '1px solid #f4f5fa' }}>
-        <Flex alignItems="center">
+        <Flex alignItems='center'>
           <NextLink href={ROUTES.pool}>
-            <ArrowBackIcon width="24px" height="24px" />
+            <ArrowBackIcon width='24px' height='24px' />
           </NextLink>
           <ActiveText>
             {adding ? 'Add' : 'Remove'} {t('mainMenu.liquidity')}

@@ -3,7 +3,6 @@ export interface ColumnType<T> {
   label?: string
   hidden?: boolean
   sort?: ((a: RowType<T>, b: RowType<T>) => number) | undefined
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   render?: ({ value, row }: { value: any; row: T }) => React.ReactNode
   headerRender?: HeaderRenderType
 }
@@ -35,7 +34,6 @@ export interface HeaderType<T> {
   render: () => React.ReactNode
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface DataType {
   [key: string]: any
 }
@@ -47,7 +45,6 @@ export interface ColumnByNamesType<T> {
 export type RenderFunctionType<T> = ({ value, row }: RenderFunctionArgsType<T>) => React.ReactNode | undefined
 
 interface RenderFunctionArgsType<T> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
   row: T
 }
@@ -63,7 +60,6 @@ export interface RowType<T extends DataType> {
 }
 
 export interface CellType {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
   render: () => React.ReactNode
 }

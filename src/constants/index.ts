@@ -75,7 +75,6 @@ export const TESTWETH = new Token(
   'WETH',
   'WETH Test',
 )
-// @ts-ignore
 //  BSC Testnet Basic Tokens
 export const TEST_BSC_ALM = new Token(
   ChainId.BSCTESTNET,

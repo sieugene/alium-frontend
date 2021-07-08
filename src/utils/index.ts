@@ -16,10 +16,16 @@ export function isAddress(value: any): string | false {
     return false
   }
 }
-// @ts-ignore
+
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
-  56: '',
-  97: 'testnet.',
+  [ChainId.MAINNET]: '',
+  [ChainId.BSCTESTNET]: 'testnet',
+  [ChainId.HECOMAINNET]: '',
+  [ChainId.HECOTESTNET]: 'testnet',
+  [ChainId.ETHER_MAINNET]: '',
+  [ChainId.ETHER_TESTNET]: 'testnet',
+  [ChainId.MATIC_MAINNET]: '',
+  [ChainId.MATIC_TESTNET]: 'testnet',
 }
 
 const EXPLORER_URLS: { [chainId in ChainId]: string } = {

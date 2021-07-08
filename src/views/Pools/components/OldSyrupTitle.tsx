@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import CardTitle from './CardTitle'
 
@@ -24,8 +23,8 @@ const OldSyrupTitle: React.FC<Props> = ({ hasBalance = false }) => {
       <div>
         <Title>Action Required</Title>
         <ActionLink
-          href=" https://pancakeswap.medium.com/urgent-action-required-changes-to-syrup-pools-70b98d7b2541"
-          target="_blank"
+          href=' https://pancakeswap.medium.com/urgent-action-required-changes-to-syrup-pools-70b98d7b2541'
+          target='_blank'
         >
           What do I need to do?
         </ActionLink>

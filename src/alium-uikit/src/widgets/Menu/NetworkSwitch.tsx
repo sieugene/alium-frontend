@@ -1,8 +1,8 @@
+import { getConnectorId } from 'alium-uikit/src/util/connectorId/getConnectorId'
 import React, { useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
-import { getConnectorId, removeChainId, setChainId } from '../../util'
 import { networksDev, networksProd } from '../WalletModal/config'
 import { NetworksConfig } from '../WalletModal/types'
 
@@ -66,7 +66,7 @@ const StyledOptionsContainer = styled.div`
   margin-top: 48px;
   background: white;
   padding: 2px;
-  box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
+  box-shadow: 0 6px 12px rgba(185, 189, 208, 0.4);
   border-radius: 6px;
   @media screen and (max-width: 790px) {
     position: fixed;
@@ -107,20 +107,20 @@ interface Props {
   chainId?: number | null
 }
 const NetworkSwitch: React.FC<Props> = () => {
-  const { currentChainId: chainId, changeChainId } = useStoreNetwork()
+  const setChainId = useStoreNetwork((state) => state.setChainId)
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const [showOptions, setShowOptions] = useState(false)
 
   const isDev = process.env.APP_ENV === 'development'
 
   const networks = isDev ? networksDev : networksProd
-  const networkExist = networks.find((x) => x.chainId === chainId)
+  const networkExist = networks.find((x) => x.chainId === currentChainId)
   const { icon: Icon, label } = networkExist ?? networks[0]
 
   const [selectedOption, setSelectedOption] = useState(label)
 
   const handleClick = (item: NetworksConfig) => {
     setSelectedOption(item.label)
-    changeChainId(item.chainId)
     setChainId(item.chainId)
   }
 
@@ -133,13 +133,12 @@ const NetworkSwitch: React.FC<Props> = () => {
   }
 
   React.useEffect(() => {
-    if ((chainId && !networkExist) || (networkExist && !validSupportConnector(networkExist))) {
-      removeChainId()
+    if ((currentChainId && !networkExist) || (networkExist && !validSupportConnector(networkExist))) {
       // toastError("Can't find network", 'Please choice network')
       // If network not found, set default
       handleClick(networks[0])
     }
-  }, [chainId, networkExist])
+  }, [currentChainId, networkExist])
 
   // Update label when chainId change in modal
   React.useEffect(() => {

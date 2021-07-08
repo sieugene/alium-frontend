@@ -1,6 +1,6 @@
 import { NextLink } from 'components/NextLink'
 import { useRouter } from 'next/router'
-import React from 'react'
+import { FC, Fragment } from 'react'
 import styled from 'styled-components'
 import { SvgProps } from '../../components/Svg'
 import Accordion from './Accordion'
@@ -17,7 +17,7 @@ interface Props extends PanelProps, PushedProps {
   togglePush?: () => void
 }
 
-const Icons = IconModule as unknown as { [key: string]: React.FC<SvgProps> }
+const Icons = IconModule as unknown as { [key: string]: FC<SvgProps> }
 
 const Container = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ const StyledIcon = styled.div`
   height: 24px;
   width: 24px;
   background: linear-gradient(0deg, #ffffff, #ffffff);
-  box-shadow: 0px 6px 8px rgba(220, 224, 244, 0.56);
+  box-shadow: 0 6px 8px rgba(220, 224, 244, 0.56);
   border-radius: 40px;
   display: flex;
   position: absolute;
@@ -117,7 +117,7 @@ const LinkLabelStyled = styled(LinkLabel)<{ isPushed: boolean }>`
   color: #0b1359;
 `
 
-const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, togglePush, isDark }) => {
+const PanelBody: FC<Props> = ({ isPushed, pushNav, isMobile, links, togglePush, isDark }) => {
   const location = useRouter()
 
   // Close the menu when a user clicks a link on mobile
@@ -175,7 +175,7 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
             )
           }
           return (
-            <React.Fragment key={entry.label}>
+            <Fragment key={entry.label}>
               <MenuEntry isActive={entry.href === location.pathname} className={calloutClass}>
                 <StyledLink href={entry.href} handleClick={handleClick} isPushed={isPushed} isNew={entry?.new}>
                   {iconElement}
@@ -183,7 +183,7 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
                   <MenuNewItem isNew={entry?.new} />
                 </StyledLink>
               </MenuEntry>
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </StyledLinksPanel>

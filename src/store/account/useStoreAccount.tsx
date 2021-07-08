@@ -19,7 +19,7 @@ export const storeAccount = createVanilla<StoreAccountState>((set, get) => ({
     }
   },
   killStoreAccount: () => {
-    unsub()
+    unsubscribe()
   },
 }))
 
@@ -27,7 +27,7 @@ export const storeAccount = createVanilla<StoreAccountState>((set, get) => ({
 export const useStoreAccount = create<StoreAccountState>(storeAccount)
 
 // subscribe for changes
-const unsub = useStoreAccount.subscribe(
+const unsubscribe = useStoreAccount.subscribe(
   (currentAccountAddress, prevAccountAddress) =>
     console.log(
       `%c account changed from: "${prevAccountAddress}", to: "${currentAccountAddress}"`,

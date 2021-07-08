@@ -36,7 +36,6 @@ export * from './pages/NotFound'
 export { default as ResetCSS } from './ResetCSS'
 export * from './theme'
 // Utils
-export * from './util'
 export * from './widgets/Menu'
 // Widgets
 export * from './widgets/Modal'

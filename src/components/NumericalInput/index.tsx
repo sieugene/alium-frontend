@@ -1,6 +1,6 @@
-import React from 'react'
+import { HTMLProps, memo } from 'react'
 import styled from 'styled-components'
-import { escapeRegExp } from '../../utils'
+import { escapeRegExp } from 'utils/index'
 
 const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: string }>`
   color: ${({ error, theme }) => (error ? theme.colors.failure : theme.colors.text)};
@@ -16,7 +16,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0px;
+  padding: 0;
   -webkit-appearance: textfield;
 
   ::-webkit-search-decoration {
@@ -41,7 +41,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
 // eslint-disable-next-line prefer-regex-literals
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group
 
-export const Input = React.memo(
+export const Input = memo(
   ({
     value,
     onUserInput,
@@ -53,7 +53,7 @@ export const Input = React.memo(
     error?: boolean
     fontSize?: string
     align?: 'right' | 'left'
-  } & Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'as'>) => {
+  } & Omit<HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'as'>) => {
     const enforcer = (nextUserInput: string) => {
       if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
         onUserInput(nextUserInput)

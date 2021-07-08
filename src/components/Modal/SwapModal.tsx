@@ -1,13 +1,12 @@
 import { DialogContent, DialogOverlay } from '@reach/dialog'
 import '@reach/dialog/styles.css'
 import { transparentize } from 'polished'
-import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { animated, useTransition } from 'react-spring'
 import styled, { css } from 'styled-components'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
   &[data-reach-dialog-overlay] {
     z-index: 21;
@@ -24,7 +23,6 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
 
 const AnimatedDialogContent = animated(DialogContent)
 // destructure to not pass custom props to Dialog DOM element
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...rest }) => (
   <AnimatedDialogContent {...rest} />
 )).attrs({
@@ -35,7 +33,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
     border: 1px solid ${({ theme }) => theme.colors.invertedContrast};
     background-color: ${({ theme }) => theme.colors.invertedContrast};
     box-shadow: 0 4px 8px 0 ${transparentize(0.95, '#191326')};
-    padding: 0px;
+    padding: 0;
     width: 80%;
 
     @media screen and (max-width: 500px) {
@@ -100,15 +98,13 @@ export const SwapModal = ({
           item && (
             <StyledDialogOverlay key={key} style={props} onDismiss={onDismiss} initialFocusRef={initialFocusRef}>
               <StyledDialogContent
-                aria-label="dialog content"
+                aria-label='dialog content'
                 minHeight={minHeight}
                 maxHeight={maxHeight}
                 mobile={isMobile}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
-                {/* eslint-disable */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}
-                {/* eslint-enable */}
                 {children}
               </StyledDialogContent>
             </StyledDialogOverlay>

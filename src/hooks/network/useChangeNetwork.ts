@@ -1,6 +1,7 @@
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
-import { ConnectorNames, getConnectorId } from 'alium-uikit/src'
-import React from 'react'
+import { ConnectorNames } from 'alium-uikit/src'
+import { getConnectorId } from 'alium-uikit/src/util/connectorId/getConnectorId'
+import { useCallback, useEffect } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 
 /**
@@ -8,20 +9,20 @@ import { useStoreNetwork } from 'store/network/useStoreNetwork'
  * @param    {activate} login   login by connector name
  */
 const useChangeNetwork = (login: (connectorID: ConnectorNames) => Promise<any>) => {
-  const { currentChainId } = useStoreNetwork()
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const { active, error, activate } = useWeb3ReactCore()
-  const connect = React.useCallback(async () => {
+  const connect = useCallback(async () => {
     const currentConnectorId = getConnectorId()
     await login(currentConnectorId)
   }, [login])
-  
-  React.useEffect(() => {
+
+  useEffect(() => {
     if (currentChainId) {
       connect()
     }
   }, [connect, currentChainId])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const { ethereum } = window
     if (ethereum?.on && !active && !error) {
       ethereum.on('chainChanged', connect)

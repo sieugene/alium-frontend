@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { IconButton } from '../../components/Button'
 import Flex from '../../components/Flex/Flex'
@@ -16,7 +15,7 @@ interface Props extends InjectedProps {
 
 const StyledModal = styled.div`
   background: ${({ theme }) => theme.modal.background};
-  box-shadow: 0px 20px 36px -8px rgba(14, 14, 44, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 20px 36px -8px rgba(14, 14, 44, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.05);
   border-radius: 6px;
   width: 100%;
   z-index: ${({ theme }) => theme.zIndices.modal};
@@ -81,19 +80,19 @@ const Modal: React.FC<Props> = ({
     <ModalHeader>
       <ModalTitle>
         {onBack && (
-          <IconButton variant="text" onClick={onBack} area-label="go back" mr="8px">
-            <ArrowBackIcon color="primary" />
+          <IconButton variant='text' onClick={onBack} area-label='go back' mr='8px'>
+            <ArrowBackIcon color='primary' />
           </IconButton>
         )}
         <StyledHeading>{title}</StyledHeading>
       </ModalTitle>
       {!hideCloseButton && (
-        <StyledButton onClick={onDismiss} aria-label="Close the dialog">
-          <CloseIcon color="primary" />
+        <StyledButton onClick={onDismiss} aria-label='Close the dialog'>
+          <CloseIcon color='primary' />
         </StyledButton>
       )}
     </ModalHeader>
-    <ModalContent p={bodyPadding} flexDirection="column" style={styledModalContent}>
+    <ModalContent p={bodyPadding} flexDirection='column' style={styledModalContent}>
       {children}
     </ModalContent>
   </StyledModal>

@@ -1,6 +1,4 @@
-/* eslint-disable import/no-unresolved */
 import { Meta } from '@storybook/react/types-6-0'
-import React from 'react'
 import styled from 'styled-components'
 import Heading from '../Heading/Heading'
 import Input from './Input'
@@ -26,13 +24,13 @@ export const Default: React.FC = () => {
     <div>
       {Object.keys(scales).map((key) => (
         <>
-          <Heading mb="16px">{key}</Heading>
+          <Heading mb='16px'>{key}</Heading>
           <Row>
-            <Input type="text" scale={scales[key]} value="Value" />
-            <Input type="text" scale={scales[key]} placeholder="Placeholder..." />
-            <Input type="text" scale={scales[key]} value="Disabled" disabled />
-            <Input type="text" scale={scales[key]} value="Success" isSuccess />
-            <Input type="text" scale={scales[key]} value="Warning" isWarning />
+            <Input type='text' scale={scales[key]} value='Value' />
+            <Input type='text' scale={scales[key]} placeholder='Placeholder...' />
+            <Input type='text' scale={scales[key]} value='Disabled' disabled />
+            <Input type='text' scale={scales[key]} value='Success' isSuccess />
+            <Input type='text' scale={scales[key]} value='Warning' isWarning />
           </Row>
         </>
       ))}

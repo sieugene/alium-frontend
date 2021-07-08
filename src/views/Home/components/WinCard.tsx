@@ -1,6 +1,6 @@
 import { ArrowForwardIcon, Card, Flex, Heading } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
+
 // import useLotteryTotalPrizesUsd from 'hooks/useLotteryTotalPrizesUsd'
 
 const StyledFarmStakingCard = styled(Card)`
@@ -38,18 +38,18 @@ const WinCard = () => {
 
   return (
     <StyledFarmStakingCard>
-      <Flex justifyContent="space-between" padding="24px">
-        <Heading color="contrast" style={{ lineHeight: '24px', fontSize: '18px', letterSpacing: '0.3px' }}>
+      <Flex justifyContent='space-between' padding='24px'>
+        <Heading color='contrast' style={{ lineHeight: '24px', fontSize: '18px', letterSpacing: '0.3px' }}>
           Lottery with
         </Heading>
-        <ArrowForwardIcon color="#FF723A" />
+        <ArrowForwardIcon color='#FF723A' />
       </Flex>
       <Divider />
       <Box>
-        <CardMidContent color="#7645d9">${lotteryPrize}</CardMidContent>
-        <Flex justifyContent="space-between">
+        <CardMidContent color='#7645d9'>${lotteryPrize}</CardMidContent>
+        <Flex justifyContent='space-between'>
           <Heading
-            color="#8990A5"
+            color='#8990A5'
             style={{
               lineHeight: '20px',
               fontSize: '16px',

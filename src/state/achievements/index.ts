@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
 import { toastTypes } from 'alium-uikit/src'
 import { kebabCase } from 'lodash'

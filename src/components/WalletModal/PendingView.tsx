@@ -1,8 +1,6 @@
-/* eslint-disable global-require */
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { useTranslation } from 'next-i18next'
 import { darken } from 'polished'
-import React from 'react'
 import styled from 'styled-components'
 import { injected } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'

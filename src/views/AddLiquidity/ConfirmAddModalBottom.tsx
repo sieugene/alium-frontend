@@ -1,6 +1,6 @@
 import { Currency, CurrencyAmount, Fraction, Percent } from '@alium-official/sdk'
 import { Button } from 'alium-uikit/src'
-import React from 'react'
+import { useEffect, useMemo } from 'react'
 import { useToast } from 'state/hooks'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import CurrencyLogo from '../../components/CurrencyLogo'
@@ -28,8 +28,8 @@ export function ConfirmAddModalBottom({
   hasError?: Error | null
 }) {
   const { toastError } = useToast()
-  const error = React.useMemo(() => hasError, [hasError])
-  React.useEffect(() => {
+  const error = useMemo(() => hasError, [hasError])
+  useEffect(() => {
     if (error) {
       toastError('Errow when adding liqudity')
     }
@@ -78,7 +78,7 @@ export function ConfirmAddModalBottom({
           {noLiquidity ? '100' : poolTokenPercentage?.toSignificant(4)}%
         </Body>
       </RowBetween>
-      <Button mt="10px" mb="20px" onClick={onAdd} fullwidth disabled={Boolean(hasError)}>
+      <Button mt='10px' mb='20px' onClick={onAdd} fullwidth disabled={Boolean(hasError)}>
         {noLiquidity ? 'Create Pool & Supply' : 'Confirm Supply'}
       </Button>
     </>

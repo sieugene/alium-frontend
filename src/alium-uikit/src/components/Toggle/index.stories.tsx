@@ -17,7 +17,7 @@ export const Default: React.FC = () => {
         <Toggle checked={isChecked} onChange={toggle} />
       </div>
       <div>
-        <Toggle checked={isChecked} onChange={toggle} scale="sm" />
+        <Toggle checked={isChecked} onChange={toggle} scale='sm' />
       </div>
     </>
   )

@@ -1,10 +1,9 @@
-import React from 'react'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import Flex from '../../components/Flex/Flex'
 import { CheckmarkCircleIcon } from '../../components/Svg'
 import Text from '../../components/Text/Text'
-import { setChainId } from '../../util'
 import { NetworksConfig } from './types'
 
 const StyledNetworkSelector = styled(Button)`
@@ -58,20 +57,21 @@ interface Props {
 }
 
 const NetworkSelector: React.FC<Props> = ({ chainId, selected, networkConfig, setSelectedNetwork }) => {
+  const setChainId = useStoreNetwork((state) => state.setChainId)
   const { title, icon: Icon } = networkConfig
 
   const handleClick = () => {
     setSelectedNetwork(title)
-    setChainId(chainId)
+    setChainId(Number(chainId))
   }
 
   return (
-    <StyledFlex flexDirection="column" alignItems="center" onClick={handleClick}>
+    <StyledFlex flexDirection='column' alignItems='center' onClick={handleClick}>
       <StyledNetworkSelector>
         {selected && <StyledCheckMarkInCircle />}
         <Icon />
       </StyledNetworkSelector>
-      <Text color="#8990A5" fontSize="11px" mt="8px" style={{ userSelect: 'none' }}>
+      <Text color='#8990A5' fontSize='11px' mt='8px' style={{ userSelect: 'none' }}>
         {title}
       </Text>
     </StyledFlex>

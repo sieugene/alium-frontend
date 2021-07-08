@@ -1,5 +1,4 @@
 import { Card } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 
 export const BodyWrapper = styled(Card)`

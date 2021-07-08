@@ -1,4 +1,3 @@
-import React from 'react'
 import { ProgressBunny } from '../Svg'
 import ProgressBunnyWrapper from './ProgressBunnyWrapper'
 import StyledProgress, { Bar } from './StyledProgress'

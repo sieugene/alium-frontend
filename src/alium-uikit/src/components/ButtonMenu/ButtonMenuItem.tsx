@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import Button from '../Button/Button'
 import { sizes, variants } from '../Button/types'
@@ -28,7 +27,7 @@ const ButtonMenuItem: React.FC<ButtonMenuItemProps> = ({
       <InactiveButton
         forwardedAs={as}
         size={size}
-        variant="tertiary"
+        variant='tertiary'
         colorkey={variant === variants.PRIMARY ? 'primary' : 'textSubtle'}
         {...props}
       />

@@ -25,7 +25,7 @@ const StyledImage = styled.img<{ type?: string }>`
   border: 1px solid #f5f7ff;
   box-sizing: border-box;
   border-radius: 6px;
-  ${({ type }) => (type === 'center' ? 'display: none;' : '')}
+  ${({ type }) => (type === 'center' ? 'display: none;' : '')};
 
   @media screen and (max-width: 740px) {
     ${({ type }) => (type === 'center' ? 'display: block;height: 100%;' : 'display: none;')}
@@ -35,7 +35,7 @@ const StyledImage = styled.img<{ type?: string }>`
 const StyledImageContainer = styled.div`
   border-radius: 100%;
   object-fit: contain;
-  box-shadow: 0px 6px 12px rgb(185 189 208 / 40%);
+  box-shadow: 0 6px 12px rgb(185 189 208 / 40%);
   margin-right: 8px;
   > img {
     padding: 8px 7px;
@@ -71,7 +71,7 @@ const StyledContainerFlex = styled(Flex)`
 `
 
 const StyledDestribution = styled(Flex)<{ type?: string }>`
-  ${({ type }) => (type === 'header' ? '' : 'display: none;')}
+  ${({ type }) => (type === 'header' ? '' : 'display: none;')};
   @media screen and (max-width: 740px) {
     ${({ type }) => (type === 'header' ? 'display: none;' : 'display: flex;margin-bottom: 24px;')}
   }
@@ -132,19 +132,19 @@ const AuditItem = ({
 
   return (
     <StyledContainer>
-      <StyledContainerFlex justifyContent="space-between" style={{ height: '100%' }}>
-        <Flex flexDirection="column" justifyContent="space-between" style={{ height: '100%' }}>
-          <StyledBorderedFlex flexDirection="column" justifyContent="space-between">
-            <StyledDestribution alignItems="center" type="header">
+      <StyledContainerFlex justifyContent='space-between' style={{ height: '100%' }}>
+        <Flex flexDirection='column' justifyContent='space-between' style={{ height: '100%' }}>
+          <StyledBorderedFlex flexDirection='column' justifyContent='space-between'>
+            <StyledDestribution alignItems='center' type='header'>
               <StyledImageContainer>
-                <img src={headImg} alt="" />
+                <img src={headImg} alt='' />
               </StyledImageContainer>
-              <Text color="#8990A5" fontSize="14px">
+              <Text color='#8990A5' fontSize='14px'>
                 {distribution === 'Chainsulting' ? 'Chainsulting' : 'CertiK Security Leaderboard'}
               </Text>
             </StyledDestribution>
-            <Flex justifyContent="space-between" alignItems="center">
-              <StyledHeadline color="#0B1359" fontSize="24px">
+            <Flex justifyContent='space-between' alignItems='center'>
+              <StyledHeadline color='#0B1359' fontSize='24px'>
                 {headline}
               </StyledHeadline>
               <StyledArrowDropDownIcon
@@ -152,39 +152,39 @@ const AuditItem = ({
                 style={isOpened ? { transform: 'rotate(180deg)' } : {}}
               />
             </Flex>
-            <Text color="#8990A5" fontSize="14px">
+            <Text color='#8990A5' fontSize='14px'>
               {date}
             </Text>
           </StyledBorderedFlex>
           {isOpened && (
             <>
-              <StyledDestribution alignItems="center">
+              <StyledDestribution alignItems='center'>
                 <StyledImageContainer>
-                  <img src={headImg} alt="" />
+                  <img src={headImg} alt='' />
                 </StyledImageContainer>
-                <Text color="#8990A5" fontSize="14px">
+                <Text color='#8990A5' fontSize='14px'>
                   {distribution === 'Chainsulting' ? 'Chainsulting' : 'CertiK Security Leaderboard'}
                 </Text>
               </StyledDestribution>
-              <StyledImage src={image} alt="" type="center" />
-              <StyledFlex flexDirection="column">
+              <StyledImage src={image} alt='' type='center' />
+              <StyledFlex flexDirection='column'>
                 {gitHubCertificate && (
-                  <Flex alignItems="center">
+                  <Flex alignItems='center'>
                     <GitHubIcon style={{ marginRight: '4px' }} />
-                    <StyledText fontSize="14px">
+                    <StyledText fontSize='14px'>
                       On Github:{' '}
-                      <StyledLinkExternal paddingRight="16px" href={gitHubCertificate}>
+                      <StyledLinkExternal paddingRight='16px' href={gitHubCertificate}>
                         {gitHubCertificate ? `${gitHubCertificate.slice(0, 30)}...` : ''}
                       </StyledLinkExternal>
                     </StyledText>
                   </Flex>
                 )}
                 {bscScan && (
-                  <Flex alignItems="center">
+                  <Flex alignItems='center'>
                     <BSCScanIcon style={{ marginRight: '4px' }} />
-                    <StyledText fontSize="14px">
+                    <StyledText fontSize='14px'>
                       On BscScan:{' '}
-                      <StyledLinkExternal paddingRight="16px" href={bscScan}>
+                      <StyledLinkExternal paddingRight='16px' href={bscScan}>
                         {bscScan ? `${bscScan.slice(0, 30)}...` : ''}
                       </StyledLinkExternal>
                     </StyledText>
@@ -193,7 +193,7 @@ const AuditItem = ({
               </StyledFlex>
               <FooterFlex>
                 {gitHubCerificatePDF && (
-                  <StyledLinkExternal paddingRight="16px" href={gitHubCerificatePDF}>
+                  <StyledLinkExternal paddingRight='16px' href={gitHubCerificatePDF}>
                     GitHub Cerificate PDF
                   </StyledLinkExternal>
                 )}
@@ -203,7 +203,7 @@ const AuditItem = ({
           )}
         </Flex>
         {/* <h1>Avatar</h1> */}
-        <StyledImage src={image} alt="" />
+        <StyledImage src={image} alt='' />
       </StyledContainerFlex>
     </StyledContainer>
   )

@@ -102,20 +102,20 @@ const CardFooter: React.FC<Props> = ({
           <Row style={{ marginBottom: '4px' }}>
             <FlexFull>
               <Label>
-                <span role="img" aria-label="syrup">
+                <span role='img' aria-label='syrup'>
                   🥞{' '}
                 </span>
                 {TranslateString(408, 'Total')}
               </Label>
             </FlexFull>
-            <Balance fontSize="14px" isDisabled={isFinished} value={getBalanceNumber(totalStaked)} />
+            <Balance fontSize='14px' isDisabled={isFinished} value={getBalanceNumber(totalStaked)} />
           </Row>
           {blocksUntilStart > 0 && (
             <Row>
               <FlexFull>
                 <Label>{TranslateString(410, 'Start')}:</Label>
               </FlexFull>
-              <Balance fontSize="14px" isDisabled={isFinished} value={blocksUntilStart} decimals={0} />
+              <Balance fontSize='14px' isDisabled={isFinished} value={blocksUntilStart} decimals={0} />
             </Row>
           )}
           {blocksUntilStart === 0 && blocksRemaining > 0 && (
@@ -123,10 +123,10 @@ const CardFooter: React.FC<Props> = ({
               <FlexFull>
                 <Label>{TranslateString(410, 'End')}:</Label>
               </FlexFull>
-              <Balance fontSize="14px" isDisabled={isFinished} value={blocksRemaining} decimals={0} />
+              <Balance fontSize='14px' isDisabled={isFinished} value={blocksRemaining} decimals={0} />
             </Row>
           )}
-          <TokenLink href={projectLink} target="_blank">
+          <TokenLink href={projectLink} target='_blank'>
             {TranslateString(412, 'View project site')}
           </TokenLink>
         </Details>

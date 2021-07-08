@@ -15,8 +15,8 @@ import { useNFTPrivateContract } from 'hooks/useContract'
 import { useTranslation } from 'next-i18next'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { AppState } from 'state'
 import { PopupList } from 'state/application/reducer'
-import { AppState } from 'state/index'
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useCurrencyBalance } from 'state/wallet/hooks'
@@ -306,7 +306,6 @@ const StrategicalPartnershipHome = () => {
 
   const accountEllipsis = account ? `${account.substring(0, 8)}...${account.substring(account.length - 8)}` : null
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const handleClose = () => {}
 
   const handleTxClose = () => {
@@ -330,10 +329,10 @@ const StrategicalPartnershipHome = () => {
 
   return (
     <ContentHolder>
-      <img className="content-background" src={bgIMG} alt="background" />
+      <img className='content-background' src={bgIMG} alt='background' />
       <CardWrapper>
         <Modal isOpen={isOpenModal} onDismiss={handleClose}>
-          <Flex flexDirection="column">
+          <Flex flexDirection='column'>
             <Text
               style={{
                 textAlign: 'center',
@@ -376,7 +375,7 @@ const StrategicalPartnershipHome = () => {
                 If you have been registered for the Whitelist before, please try to connect with another address.
               </Text>
               <Text
-                mt="15px"
+                mt='15px'
                 style={{
                   textAlign: 'center',
                   fontStyle: 'normal',
@@ -387,16 +386,16 @@ const StrategicalPartnershipHome = () => {
                   color: '#0B1359',
                 }}
               >
-                If that didn&#39;t help, please contact <StyledLink href="https://t.me/akents">@Akents</StyledLink> and
+                If that didn&#39;t help, please contact <StyledLink href='https://t.me/akents'>@Akents</StyledLink> and
                 he will help you to solve this issue.
               </Text>
             </StyledTextWrapper>
           </Flex>
         </Modal>
         <Modal isOpen={isHideModalOpen} onDismiss={handleClose}>
-          <Flex flexDirection="column" style={{ margin: '0 auto' }}>
+          <Flex flexDirection='column' style={{ margin: '0 auto' }}>
             <Text
-              mb="30px"
+              mb='30px'
               style={{
                 textAlign: 'center',
                 fontWeight: 'bold',
@@ -411,18 +410,18 @@ const StrategicalPartnershipHome = () => {
             <ConnectWalletButton fullwidth />
           </Flex>
         </Modal>
-        <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding="24px" isTransparancy>
+        <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
           <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
         </Modal>
 
-        <Modal isOpen={isSucceedPopupVisible} onDismiss={handleSucceedModalClose} maxHeight={90} padding="24px">
+        <Modal isOpen={isSucceedPopupVisible} onDismiss={handleSucceedModalClose} maxHeight={90} padding='24px'>
           <TransactionSucceedContent hash={succeedHash} onDismiss={handleSucceedModalClose} />
         </Modal>
 
-        <StyledHeading as="h1" size="xl" color="heading" mb="40px" mt="20px" className="heading--desktop">
+        <StyledHeading as='h1' size='xl' color='heading' mb='40px' mt='20px' className='heading--desktop'>
           {t('strategicalPartnership')}
         </StyledHeading>
-        <StyledHeading as="h1" size="xl" color="heading" mb="40px" className="heading--mobile">
+        <StyledHeading as='h1' size='xl' color='heading' mb='40px' className='heading--mobile'>
           {t('strategicalPartnership')}
         </StyledHeading>
 
@@ -436,7 +435,7 @@ const StrategicalPartnershipHome = () => {
                   {!account ? (
                     <ConnectWalletButton fullwidth />
                   ) : (
-                    <AutoColumn gap="md">
+                    <AutoColumn gap='md'>
                       {sufficientBalance ? (
                         approval === ApprovalState.APPROVED ? (
                           !bought ? (

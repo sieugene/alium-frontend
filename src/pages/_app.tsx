@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
-import React from 'react'
+import Head from 'next/head'
 import { InitStores } from 'store/InitStores'
 import 'typeface-roboto'
 import GTM from 'utils/gtm'
@@ -25,6 +25,10 @@ BigNumber.config({
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <>
+    <Head>
+      <title>Alium Swap</title>
+      <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1' />
+    </Head>
     <InitStores />
     <GTMProvider state={GTM.params}>
       <Providers>

@@ -2,7 +2,6 @@ import { ButtonMenu, ButtonMenuItem, Text, Toggle } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -34,7 +33,7 @@ const FarmTabButtons = ({ stackedOnly, setStackedOnly }) => {
 
   return (
     <Wrapper>
-      <ButtonMenu activeIndex={isExact ? 0 : 1} size="sm" variant="subtle">
+      <ButtonMenu activeIndex={isExact ? 0 : 1} size='sm' variant='subtle'>
         <ButtonMenuItem as={Link} href={`${url}`}>
           {TranslateString(698, 'Active')}
         </ButtonMenuItem>

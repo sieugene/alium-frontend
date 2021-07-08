@@ -1,6 +1,5 @@
 import { Button } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
-import React from 'react'
 import styled from 'styled-components'
 import Input, { InputProps } from './Input'
 
@@ -45,14 +44,14 @@ const BalanceInput: React.FC<Props> = ({ max, symbol, onChange, onSelectMax, val
             <StyledTokenSymbol>{symbol}</StyledTokenSymbol>
             <StyledSpacer />
             <div>
-              <Button size="sm" onClick={onSelectMax}>
+              <Button size='sm' onClick={onSelectMax}>
                 {TranslateString(452, 'Max')}
               </Button>
             </div>
           </StyledTokenAdornmentWrapper>
         }
         onChange={onChange}
-        placeholder="0"
+        placeholder='0'
         value={value}
       />
       <StyledMaxText>{TranslateString(454, `${max.toLocaleString()} ${symbol} Available`)}</StyledMaxText>

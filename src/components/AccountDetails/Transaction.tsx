@@ -1,4 +1,3 @@
-import React from 'react'
 import { CheckCircle, Triangle } from 'react-feather'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
@@ -54,7 +53,7 @@ export default function Transaction({ hash }: { hash: string }) {
           <TransactionStatusText>{summary ?? hash} ↗</TransactionStatusText>
         </RowFixed>
         <IconWrapper pending={pending} success={success}>
-          {pending ? <Loader /> : success ? <CheckCircle size="16" /> : <Triangle size="16" />}
+          {pending ? <Loader /> : success ? <CheckCircle size='16' /> : <Triangle size='16' />}
         </IconWrapper>
       </TransactionState>
     </TransactionWrapper>

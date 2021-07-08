@@ -1,6 +1,4 @@
-// @ts-ignore
 import { AscendingIcon, Text } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 import { RowFixed } from '../Row'
 
@@ -37,7 +35,7 @@ export default function SortButton({
 }) {
   return (
     <FilterWrapper onClick={toggleSortOrder}>
-      <Text fontSize="14px">
+      <Text fontSize='14px'>
         {ascending ? (
           <StyledAscendingButton reversed>
             <AscendingIcon />

@@ -1,5 +1,4 @@
 import { Spinner } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 import Page from './layout/Page'
 

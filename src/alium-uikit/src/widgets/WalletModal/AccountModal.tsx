@@ -1,3 +1,4 @@
+import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
 import React, { useEffect, useState } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import styled from 'styled-components'
@@ -9,7 +10,6 @@ import DefaultAvatar from '../../components/Svg/Icons/DefaultAvatar'
 import InputCopy from '../../components/Svg/Icons/InputCopy'
 import MetaMask from '../../components/Svg/Icons/MetaMask'
 import Text from '../../components/Text/Text'
-import removeConnectorId from '../../util/connectorId/removeConnectorId'
 import { Modal } from '../Modal'
 
 interface Props {
@@ -103,9 +103,6 @@ const StyledFlex = styled(Flex)`
     }
   }
 `
-// <LinkExternal small href={`https://bscscan.com/address/${account}`} mr="16px">
-// {explorerName}
-// </LinkExternal>
 
 const svgString = encodeURIComponent(renderToStaticMarkup(<ModalBackgroundIcon />))
 
@@ -125,7 +122,6 @@ const AccountModal: React.FC<Props> = ({
 }) => {
   const [currentBalance, setBalance] = useState(balance)
   useEffect(() => {
-    // balanceHook().then((result)=>setBalance(result))
     balanceHook().then((result?: any) => setBalance(toSignificantCurrency(result)))
   }, [balanceHook])
 
@@ -133,28 +129,28 @@ const AccountModal: React.FC<Props> = ({
     <Modal title={title} onDismiss={onDismiss} styledModalContent={{ padding: '0 24px 32px 24px' }}>
       <StyledBackGround style={{ backgroundImage: `url("data:image/svg+xml,${svgString}")` }}>
         <StyledInfo>
-          <DefaultAvatar width="80px" height="80px" />
+          <DefaultAvatar width='80px' height='80px' />
           <StyledFlex>
-            <Flex flexDirection="column" marginLeft={40}>
-              <Text color="#CBC8EE">Balance</Text>
-              <Text color="white">
+            <Flex flexDirection='column' marginLeft={40}>
+              <Text color='#CBC8EE'>Balance</Text>
+              <Text color='white'>
                 {!currentBalance ? <p>Loading balance...</p> : `${currentBalance} ${tokenSymbol}`}
                 {/* {balance} {tokenSymbol} */}
               </Text>
             </Flex>
-            <Flex flexDirection="column" marginLeft={40}>
-              <Text color="#CBC8EE">Network</Text>
-              <Text color="white">{networkName}</Text>
+            <Flex flexDirection='column' marginLeft={40}>
+              <Text color='#CBC8EE'>Network</Text>
+              <Text color='white'>{networkName}</Text>
             </Flex>
           </StyledFlex>
         </StyledInfo>
       </StyledBackGround>
       <StyledInputContainer>
-        <MetaMask width="32" height="32" />
+        <MetaMask width='32' height='32' />
         <StyledInput value={account} />
         <InputCopy
-          height="24px"
-          width="24px"
+          height='24px'
+          width='24px'
           onClick={() => {
             if (navigator.clipboard) {
               navigator.clipboard.writeText(account)
@@ -162,18 +158,18 @@ const AccountModal: React.FC<Props> = ({
           }}
         />
       </StyledInputContainer>
-      <StyledFlex mt="16px" justifyContent="space-between">
-        <StyledButton size="md" variant="secondary" onClick={() => window.open(explorerLink)}>
+      <StyledFlex mt='16px' justifyContent='space-between'>
+        <StyledButton size='md' variant='secondary' onClick={() => window.open(explorerLink)}>
           <BSCScanIcon mr={16} />
           {explorerName}
         </StyledButton>
-        <StyledButton size="md" variant="secondary" onClick={onTransactionHistoryHandler}>
+        <StyledButton size='md' variant='secondary' onClick={onTransactionHistoryHandler}>
           <TransactionHistoryIcon mr={16} />
           Transaction History
         </StyledButton>
         <StyledButton
-          size="md"
-          variant="secondary"
+          size='md'
+          variant='secondary'
           onClick={() => {
             logout()
             removeConnectorId()

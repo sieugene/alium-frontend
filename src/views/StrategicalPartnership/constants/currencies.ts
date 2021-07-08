@@ -1,6 +1,6 @@
-import { getChainId } from 'alium-uikit/src'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 
-const chainId = getChainId()
+const { currentChainId } = storeNetwork.getState()
 
 const currencies = {
   '97': {
@@ -103,4 +103,4 @@ const currencies = {
   },
 }
 
-export default currencies[chainId]
+export default currencies[currentChainId]

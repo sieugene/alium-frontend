@@ -12,7 +12,6 @@ interface CurrencySearchModalProps {
   selectedCurrency?: Currency | null
   onCurrencySelect: (currency: Currency) => void
   otherSelectedCurrency?: Currency | null
-  // eslint-disable-next-line react/no-unused-prop-types
   showCommonBases?: boolean
   currencyList?: any
 }

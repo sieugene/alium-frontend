@@ -1,5 +1,5 @@
 import { ChainId } from '@alium-official/sdk'
-import { nodes } from './getRpcUrl'
+import { networkRpcUrlsList } from 'store/network/data/networkRpcUrlsList'
 
 const Params = {
   [ChainId.MAINNET]: [
@@ -11,7 +11,7 @@ const Params = {
         symbol: 'BNB',
         decimals: 18,
       },
-      rpcUrls: nodes[ChainId.MAINNET],
+      rpcUrls: networkRpcUrlsList[ChainId.MAINNET],
       blockExplorerUrls: ['https://bscscan.com/'],
     },
   ],
@@ -24,7 +24,7 @@ const Params = {
         symbol: 'BNB',
         decimals: 18,
       },
-      rpcUrls: nodes[ChainId.BSCTESTNET],
+      rpcUrls: networkRpcUrlsList[ChainId.BSCTESTNET],
       blockExplorerUrls: ['https://testnet.bscscan.com/'],
     },
   ],
@@ -37,7 +37,7 @@ const Params = {
         symbol: 'HT',
         decimals: 18,
       },
-      rpcUrls: nodes[ChainId.HECOMAINNET],
+      rpcUrls: networkRpcUrlsList[ChainId.HECOMAINNET],
       blockExplorerUrls: ['https://hecoinfo.com/'],
     },
   ],
@@ -50,7 +50,7 @@ const Params = {
         symbol: 'HT',
         decimals: 18,
       },
-      rpcUrls: nodes[ChainId.HECOTESTNET],
+      rpcUrls: networkRpcUrlsList[ChainId.HECOTESTNET],
       blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
     },
   ],
@@ -63,7 +63,7 @@ const Params = {
         symbol: 'MATIC',
         decimals: 18,
       },
-      rpcUrls: nodes[ChainId.MATIC_MAINNET],
+      rpcUrls: networkRpcUrlsList[ChainId.MATIC_MAINNET],
       blockExplorerUrls: ['https://polygonscan.com/'],
     },
   ],
@@ -76,7 +76,7 @@ const Params = {
         symbol: 'MATIC',
         decimals: 18,
       },
-      rpcUrls: nodes[ChainId.MATIC_TESTNET],
+      rpcUrls: networkRpcUrlsList[ChainId.MATIC_TESTNET],
       blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
     },
   ],
@@ -89,7 +89,7 @@ const Params = {
         symbol: 'ETH',
         decimals: 18,
       },
-      rpcUrls: nodes[ChainId.ETHER_MAINNET],
+      rpcUrls: networkRpcUrlsList[ChainId.ETHER_MAINNET],
       blockExplorerUrls: ['https://etherscan.io/'],
     },
   ],
@@ -102,7 +102,7 @@ const Params = {
         symbol: 'ETH',
         decimals: 18,
       },
-      rpcUrls: nodes[ChainId.ETHER_TESTNET],
+      rpcUrls: networkRpcUrlsList[ChainId.ETHER_TESTNET],
       blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
     },
   ],

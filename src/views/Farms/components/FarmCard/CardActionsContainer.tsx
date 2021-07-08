@@ -62,7 +62,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, provider, account, 
         addLiquidityUrl={addLiquidityUrl}
       />
     ) : (
-      <Button mt="8px" fullwidth disabled={requestedApproval} onClick={handleApprove}>
+      <Button mt='8px' fullwidth disabled={requestedApproval} onClick={handleApprove}>
         {TranslateString(758, 'Approve Contract')}
       </Button>
     )
@@ -71,24 +71,24 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, provider, account, 
   return (
     <Action>
       <Flex>
-        <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
+        <Text bold textTransform='uppercase' color='secondary' fontSize='12px' pr='3px'>
           {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
           CAKE
         </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
+        <Text bold textTransform='uppercase' color='textSubtle' fontSize='12px'>
           {TranslateString(1072, 'Earned')}
         </Text>
       </Flex>
       <HarvestAction earnings={earnings} pid={pid} />
       <Flex>
-        <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
+        <Text bold textTransform='uppercase' color='secondary' fontSize='12px' pr='3px'>
           {lpName}
         </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
+        <Text bold textTransform='uppercase' color='textSubtle' fontSize='12px'>
           {TranslateString(1074, 'Staked')}
         </Text>
       </Flex>
-      {!account ? <UnlockButton mt="8px" fullwidth /> : renderApprovalOrStakeButton()}
+      {!account ? <UnlockButton mt='8px' fullwidth /> : renderApprovalOrStakeButton()}
     </Action>
   )
 }

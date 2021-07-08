@@ -1,5 +1,4 @@
 import { Currency } from '@alium-official/sdk'
-import React from 'react'
 import styled from 'styled-components'
 import CurrencyLogo from '../CurrencyLogo'
 
@@ -14,11 +13,11 @@ const Wrapper = styled.div<{ margin: boolean; sizeraw: number }>`
     left: 15px;
     z-index: 2;
     border-radius: 16px;
-    box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
+    box-shadow: 0 6px 12px rgba(185, 189, 208, 0.4);
   }
 
   > *:first-child {
-    box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
+    box-shadow: 0 6px 12px rgba(185, 189, 208, 0.4);
     z-index: 4;
   }
 `

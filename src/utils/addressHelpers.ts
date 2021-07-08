@@ -1,11 +1,11 @@
-import { getChainId } from 'alium-uikit/src/util'
 import addresses from 'config/constants/contracts'
 import { Address } from 'config/constants/types'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 
 export const getAddress = (address: Address): string => {
   const mainNetChainId = 56
-  const chainId = getChainId()
-  return address[chainId] ? address[chainId] : address[mainNetChainId]
+  const { currentChainId } = storeNetwork.getState()
+  return address[currentChainId] ? address[currentChainId] : address[mainNetChainId]
 }
 
 export const getCakeAddress = () => {

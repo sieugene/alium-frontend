@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux'
 import { useActiveWeb3React } from '../../../hooks'
 import { useBlockNumber } from '../../../state/application/hooks'
 import { AppDispatch } from '../../../state/index'
-import { useStoreMulticall } from '../useStoreMulticall'
 import { Call, ListenerOptions, parseCallKey, toCallKey } from '../helpers/actions'
+import { useStoreMulticall } from '../useStoreMulticall'
 
 export interface Result extends ReadonlyArray<any> {
   readonly [key: string]: any
@@ -66,7 +66,6 @@ function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): C
   useEffect(() => {
     const callKeys: string[] = JSON.parse(serializedCallKeys)
     if (!chainId || callKeys.length === 0) return undefined
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const calls = callKeys.map((key) => parseCallKey(key))
 
     addMulticallListeners({
@@ -86,7 +85,6 @@ function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): C
 
   return useMemo(
     () =>
-      // @ts-ignore
       calls.map<CallResult>((call) => {
         if (!chainId || !call) return INVALID_RESULT
 
@@ -177,7 +175,6 @@ export function useSingleContractMultipleData(
   const latestBlockNumber = useBlockNumber()
 
   return useMemo(() => {
-    // @ts-ignore
     return results.map((result) => toCallState(result, contract?.interface, fragment, latestBlockNumber))
   }, [fragment, contract, results, latestBlockNumber])
 }
@@ -245,7 +242,6 @@ export function useSingleCallResult(
   const latestBlockNumber = useBlockNumber()
 
   return useMemo(() => {
-    // @ts-ignore
     return toCallState(result, contract?.interface, fragment, latestBlockNumber)
   }, [result, contract, fragment, latestBlockNumber])
 }

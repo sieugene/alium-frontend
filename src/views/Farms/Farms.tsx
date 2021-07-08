@@ -97,10 +97,10 @@ const Farms: React.FC = () => {
   return (
     <Page>
       <Heading
-        as="h1"
-        size="lg"
-        color="heading"
-        mb="50px"
+        as='h1'
+        size='lg'
+        color='heading'
+        mb='50px'
         style={{ textAlign: 'start', lineHeight: '56px', fontSize: '48px', marginTop: '24px' }}
       >
         {TranslateString(696, 'Stake LP tokens to earn ALM')}
@@ -117,7 +117,7 @@ const Farms: React.FC = () => {
           </Route> */}
         </FlexLayout>
       </div>
-      <Image src="/images/farms/stackem.png" alt="illustration" width={1270} height={710} responsive />
+      <Image src='/images/farms/stackem.png' alt='illustration' width={1270} height={710} responsive />
     </Page>
   )
 }

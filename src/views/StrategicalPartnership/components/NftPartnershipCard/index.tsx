@@ -1,5 +1,4 @@
 import { ArrowDropDownIcon, ArrowDropUpIcon, Flex, Text } from 'alium-uikit/src'
-// import { BigNumber } from '@ethersproject/bignumber'
 import { useTranslation } from 'next-i18next'
 import React, { useState } from 'react'
 import styled from 'styled-components'

@@ -104,7 +104,6 @@ interface CurrencyInputPanelProps {
   customHeight?: number
 }
 
-// eslint-disable-next-line complexity
 export default function CurrencyInputPanel({
   value,
   onUserInput,

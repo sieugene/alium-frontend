@@ -150,7 +150,7 @@ const AddLiquidity: React.FC<props> = React.memo(({ currencyIdA, currencyIdB }) 
 
   const addTransaction = useTransactionAdder()
   const sendDataToGTM = useGTMDispatch()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   const onAdd = async () => {
     if (!chainId || !library || !user) return
     const router = getRouterContract(chainId, library, user)

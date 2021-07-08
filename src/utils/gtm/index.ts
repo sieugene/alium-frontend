@@ -48,7 +48,6 @@ const GTM = {
   },
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 const gtmLogger = (log: string, param?: {}) => {
   if (process.env.NODE_ENV === 'development') {
     console.log(

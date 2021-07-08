@@ -1,4 +1,3 @@
-import React from 'react'
 import ButtonMenu from '../../components/ButtonMenu/ButtonMenu'
 import ButtonMenuItem from '../../components/ButtonMenu/ButtonMenuItem'
 import { renderWithTheme } from '../../testHelpers'

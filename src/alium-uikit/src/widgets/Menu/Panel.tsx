@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { SIDEBAR_WIDTH_FULL, SIDEBAR_WIDTH_REDUCED } from './config'
 import PanelBody from './PanelBody'

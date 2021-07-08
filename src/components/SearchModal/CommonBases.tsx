@@ -1,7 +1,6 @@
 import { ChainId, Currency, currencyEquals, ETHER, Token } from '@alium-official/sdk'
 import { Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React from 'react'
 import styled from 'styled-components'
 import { SUGGESTED_BASES } from '../../constants'
 import { AutoColumn } from '../Column'
@@ -36,12 +35,12 @@ export default function CommonBases({
 }) {
   const { t } = useTranslation()
   return (
-    <AutoColumn gap="md">
+    <AutoColumn gap='md'>
       <AutoRow>
-        <Text fontSize="14px">{t('commonBases')}</Text>
+        <Text fontSize='14px'>{t('commonBases')}</Text>
         <QuestionHelper text={t('pairedWithOthers')} />
       </AutoRow>
-      <AutoRow gap="4px">
+      <AutoRow gap='4px'>
         <BaseWrapper
           onClick={() => {
             if (!selectedCurrency || !currencyEquals(selectedCurrency, ETHER)) {

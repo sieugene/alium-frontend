@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import React, { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 

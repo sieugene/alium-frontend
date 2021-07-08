@@ -1,30 +1,53 @@
-import { getChainId } from 'alium-uikit/src'
+import { getCookieOptions } from 'alium-uikit/src/config/getCookieOptions'
+import { getActualChainId } from 'store/network/helpers/getActualChainId'
+import { getNetworkRpcUrl } from 'store/network/helpers/getNetworkRpcUrl'
+import Cookies from 'universal-cookie'
 import create from 'zustand'
 import createVanilla from 'zustand/vanilla'
 
-export interface StoreAccountState {
+const cookies = new Cookies()
+const chainIdCookieKey = 'chainId'
+
+const getInitialChainId = (): number => {
+  const cookieChainId = cookies.get(chainIdCookieKey)
+  return getActualChainId(cookieChainId ? Number(cookieChainId) : process.env.APP_ENV === 'production' ? 56 : 97)
+}
+const currentChainId = getInitialChainId()
+
+interface StoreAccountState {
+  // state
   currentChainId: number
-  initStoreNetwork: () => void
+  networkRpcUrl: string
+  // actions
   killStoreNetwork: () => void
-  [key: string]: any
+  initStoreNetwork: () => void
+  setChainId: (id: number) => void
 }
 
 // store for usage outside of react
 export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
-  currentChainId: getChainId(),
+  currentChainId: getInitialChainId(),
+  networkRpcUrl: getNetworkRpcUrl(currentChainId),
+  killStoreNetwork: () => {
+    storeNetwork.destroy() // destroy all store subscribes
+  },
   initStoreNetwork: () => {
+    const { setChainId } = get()
     if (typeof window !== 'undefined' && window.ethereum) {
+      // switch network from wallet
       window.ethereum.on('chainChanged', (chainId) => {
-        set({ currentChainId: parseInt(chainId, 16) })
-        // window.location.reload()
+        setChainId(parseInt(chainId, 16))
       })
     }
   },
-  changeChainId: (id: string) => {
-    set({ currentChainId: Number(id) })
-  },
-  killStoreNetwork: () => {
-    unsub()
+  setChainId: (id) => {
+    // switch network from app
+    const newChainId = getActualChainId(Number(id))
+    set({
+      currentChainId: newChainId,
+      networkRpcUrl: getNetworkRpcUrl(newChainId),
+    })
+    cookies.set(chainIdCookieKey, newChainId, getCookieOptions())
   },
 }))
 
@@ -32,7 +55,7 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
 export const useStoreNetwork = create<StoreAccountState>(storeNetwork)
 
 // subscribe for changes
-const unsub = useStoreNetwork.subscribe(
+useStoreNetwork.subscribe(
   (currentChainId, prevChainId) =>
     console.log(
       `%c chain changed from: "${prevChainId}", to: "${currentChainId}"`,

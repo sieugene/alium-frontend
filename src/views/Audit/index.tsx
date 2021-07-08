@@ -1,5 +1,4 @@
 import { Text } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 import AuditItem from './components/AuditItem'
 import audits from './constants/audits'
@@ -51,7 +50,7 @@ const AuditPage = () => {
     <StyledWrapper>
       <ContentHolder>
         <CardWrapper>
-          <StyledText fontSize="48px" style={{ fontWeight: 700, marginBottom: '24px', marginTop: '40px' }}>
+          <StyledText fontSize='48px' style={{ fontWeight: 700, marginBottom: '24px', marginTop: '40px' }}>
             Our completed audits
           </StyledText>
 

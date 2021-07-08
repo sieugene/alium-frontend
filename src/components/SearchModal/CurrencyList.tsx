@@ -116,7 +116,7 @@ function CurrencyRow({
       disabled={isSelected}
       selected={otherSelected}
     >
-      <CurrencyLogo currency={currency} size="24px" />
+      <CurrencyLogo currency={currency} size='24px' />
       <Column>
         <Text title={currency.name}>{currency.symbol}</Text>
         <FadedSpan>
@@ -200,7 +200,7 @@ export default function CurrencyList({
     <FixedSizeList
       height={height}
       ref={fixedListRef as any}
-      width="100%"
+      width='100%'
       itemData={itemData}
       itemCount={itemData.length}
       itemSize={56}

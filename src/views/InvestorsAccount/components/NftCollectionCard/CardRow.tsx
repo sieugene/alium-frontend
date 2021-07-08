@@ -99,7 +99,7 @@ function CardRow({ selectedCard, onSelectCard, cards, pool }: CardRowProps) {
             index={id}
             key={`${pool.name}-${card}`}
           >
-            <img src={imgSrc} alt="" />
+            <img src={imgSrc} alt='' />
             <span>{card}</span>
           </Card>
         )

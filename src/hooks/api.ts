@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react'
  */
 export const baseUrl = 'https://api.pancakeswap.com/api/v1'
 
-/* eslint-disable camelcase */
-
 export interface TradePair {
   swap_pair_contract: string
   base_symbol: string

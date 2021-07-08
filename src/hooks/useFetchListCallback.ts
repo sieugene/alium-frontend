@@ -1,32 +1,32 @@
 import { ChainId } from '@alium-official/sdk'
 import { nanoid } from '@reduxjs/toolkit'
 import { TokenList } from '@uniswap/token-lists'
+import { getNetworkLibrary } from 'connectors'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { getNetworkLibrary, NETWORK_CHAIN_ID } from '../connectors'
-import { AppDispatch } from '../state'
-import { fetchTokenList } from '../state/lists/actions'
-import getTokenList from '../utils/getTokenList'
-import resolveENSContentHash from '../utils/resolveENSContentHash'
+import { AppDispatch } from 'state'
+import { fetchTokenList } from 'state/lists/actions'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
+import getTokenList from 'utils/getTokenList'
+import resolveENSContentHash from 'utils/resolveENSContentHash'
 import { useActiveWeb3React } from './index'
 
 export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> {
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const { chainId, library } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
 
   const ensResolver = useCallback(
     (ensName: string) => {
       if (!library || chainId !== ChainId.MAINNET) {
-        if (NETWORK_CHAIN_ID === ChainId.MAINNET) {
+        if (currentChainId === ChainId.MAINNET) {
           const networkLibrary = getNetworkLibrary()
           if (networkLibrary) {
-            // @ts-ignore
             return resolveENSContentHash(ensName, networkLibrary)
           }
         }
         throw new Error('Could not construct mainnet ENS resolver')
       }
-      // @ts-ignore
       return resolveENSContentHash(ensName, library)
     },
     [chainId, library],

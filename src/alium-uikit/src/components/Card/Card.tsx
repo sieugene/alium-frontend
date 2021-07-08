@@ -1,4 +1,3 @@
-import React from 'react'
 import StyledCard from './StyledCard'
 import { CardProps } from './types'
 

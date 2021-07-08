@@ -38,8 +38,8 @@ export const Popup = styled.div<{ type?: boolean }>`
 `
 const Fader = styled.div`
   position: absolute;
-  bottom: 0px;
-  left: 0px;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 2px;
   background-color: ${({ theme }) => theme.colors.tertiary};

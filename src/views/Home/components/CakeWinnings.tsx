@@ -1,6 +1,5 @@
 import { BigNumber } from 'bignumber.js'
 import { useTotalClaim } from 'hooks/useTickets'
-import React from 'react'
 import { usePriceCakeBusd } from 'state/hooks'
 import { getBalanceNumber } from 'utils/formatBalance'
 import CardBusdValue from './CardBusdValue'
@@ -12,7 +11,7 @@ const CakeWinnings = () => {
 
   return (
     <>
-      <CardValue value={getBalanceNumber(claimAmount)} lineHeight="1.5" />
+      <CardValue value={getBalanceNumber(claimAmount)} lineHeight='1.5' />
       <CardBusdValue value={claimAmountBusd} />
     </>
   )

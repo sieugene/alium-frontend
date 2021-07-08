@@ -1,7 +1,6 @@
 import { Card, CardBody, Text } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
 import { /* useTotalSupply, */ useBurnedBalance } from 'hooks/useTokenBalance'
-import React from 'react'
 import styled from 'styled-components'
 import { getCakeAddress } from 'utils/addressHelpers'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -40,22 +39,22 @@ const CakeStats = () => {
         </Text>
         <Divider />
         <Row>
-          <Text fontSize="16px" color="#8990A5" style={{ fontWeight: 'normal' }}>
+          <Text fontSize='16px' color='#8990A5' style={{ fontWeight: 'normal' }}>
             {TranslateString(536, 'Total ALM Supply')}
           </Text>
-          <CardValue fontSize="16px" color="#0B1359" bold value={totalSupply} />
+          <CardValue fontSize='16px' color='#0B1359' bold value={totalSupply} />
         </Row>
         <Row>
-          <Text fontSize="16px" color="#8990A5">
+          <Text fontSize='16px' color='#8990A5'>
             {TranslateString(538, 'Total ALM Burned')}
           </Text>
-          <CardValue fontSize="16px" color="#0B1359" value={getBalanceNumber(burnedBalance)} />
+          <CardValue fontSize='16px' color='#0B1359' value={getBalanceNumber(burnedBalance)} />
         </Row>
         <Row>
-          <Text fontSize="16px" color="#8990A5">
+          <Text fontSize='16px' color='#8990A5'>
             {TranslateString(540, 'New ALM/block')}
           </Text>
-          <CardValue fontSize="16px" color="#0B1359" value={almPerBlock} />
+          <CardValue fontSize='16px' color='#0B1359' value={almPerBlock} />
         </Row>
       </CardBody>
     </StyledCakeStats>

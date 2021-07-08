@@ -1,6 +1,5 @@
 import { Text as UIKitText } from 'alium-uikit/src'
 import { AutoColumn, ColumnCenter } from 'components/Column'
-import React from 'react'
 
 export const NoLiquidity = () => {
   return (

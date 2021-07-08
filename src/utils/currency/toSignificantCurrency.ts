@@ -12,7 +12,6 @@ export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
   return currency?.toSignificant(6)
 }
 function getFlooredFixed(v: number, d: number) {
-  // eslint-disable-next-line no-restricted-properties
   return (Math.floor(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d)
 }
 const formatZero = (formatted: string, fullStr: string) => {

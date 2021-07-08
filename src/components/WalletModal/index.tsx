@@ -1,16 +1,16 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { fortmatic, injected, portis } from 'connectors'
+import { OVERLAY_READY } from 'connectors/Fortmatic'
+import { SUPPORTED_WALLETS } from 'constants/index'
 import { useTranslation } from 'next-i18next'
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
+import { useWalletModalOpen, useWalletModalToggle } from 'state/application/hooks'
 import styled from 'styled-components'
 import { CloseXIcon } from '../../../public/images/CloseXIcon'
-import { fortmatic, injected, portis } from '../../connectors'
-import { OVERLAY_READY } from '../../connectors/Fortmatic'
-import { SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
-import { useWalletModalOpen, useWalletModalToggle } from '../../state/application/hooks'
 import AccountDetails from '../AccountDetails'
 import Modal from '../Modal'
 import { ExternalLink } from '../Shared'
@@ -167,7 +167,6 @@ export default function WalletModal({
     }
   }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const tryActivation = async (connector: AbstractConnector | undefined) => {
     setPendingWallet(connector) // set wallet for pending view
     setWalletView(WALLET_VIEWS.PENDING)
@@ -268,7 +267,6 @@ export default function WalletModal({
           <Option
             id={`connect-${key}`}
             onClick={() => {
-              // eslint-disable-next-line no-unused-expressions
               option.connector === connector
                 ? setWalletView(WALLET_VIEWS.ACCOUNT)
                 : !option.href && tryActivation(option.connector)

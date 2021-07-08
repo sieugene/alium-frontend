@@ -86,7 +86,7 @@ const Select = styled.select`
   background-color: none;
   border: 1px solid #d2d6e5;
   border-radius: 6px;
-  box-shadow: inset 0px 2px 2px -1px rgb(74 74 104 / 10%);
+  box-shadow: inset 0 2px 2px -1px rgb(74 74 104 / 10%);
   color: #0b1359;
   display: block;
   font-size: 16px;

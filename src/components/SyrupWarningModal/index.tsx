@@ -39,36 +39,36 @@ export default function SyrupWarningModal({
   const handleDismiss = useCallback(() => null, [])
   return (
     <Modal isOpen={isOpen} onDismiss={handleDismiss} maxHeight={90}>
-      <WarningContainer className="token-warning-container">
-        <AutoColumn gap="lg">
-          <AutoRow gap="6px">
+      <WarningContainer className='token-warning-container'>
+        <AutoColumn gap='lg'>
+          <AutoRow gap='6px'>
             <StyledWarningIcon />
-            <Main color="failure">{t('syrupWarning')}</Main>
+            <Main color='failure'>{t('syrupWarning')}</Main>
           </AutoRow>
           {transactionType !== '' && (
             <>
-              <Body color="failure">
+              <Body color='failure'>
                 {t('beCarefulWhen')} <strong>{transactionType}</strong> {t('syrup')}.
               </Body>
-              <Body color="failure">{transactionType === 'Buying' ? t('willNotReceiveCAKE') : t('needBuyBack')}</Body>
+              <Body color='failure'>{transactionType === 'Buying' ? t('willNotReceiveCAKE') : t('needBuyBack')}</Body>
             </>
           )}
           <RowBetween>
             <div>
-              <label htmlFor="understand-checkbox" style={{ cursor: 'pointer', userSelect: 'none' }}>
+              <label htmlFor='understand-checkbox' style={{ cursor: 'pointer', userSelect: 'none' }}>
                 <input
-                  id="understand-checkbox"
-                  type="checkbox"
-                  className="understand-checkbox"
+                  id='understand-checkbox'
+                  type='checkbox'
+                  className='understand-checkbox'
                   checked={understandChecked}
                   onChange={toggleUnderstand}
                 />{' '}
-                <Text as="span">{t('iUnderstand')}</Text>
+                <Text as='span'>{t('iUnderstand')}</Text>
               </label>
             </div>
             <Button
               disabled={!understandChecked}
-              variant="danger"
+              variant='danger'
               style={{ width: '140px' }}
               onClick={() => {
                 setUnderstandChecked(false)

@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { ExternalLink } from '../Shared'
 
@@ -133,7 +132,7 @@ export default function Option({
         {subheader && <SubHeader>{subheader}</SubHeader>}
       </OptionCardLeft>
       <IconWrapper size={size}>
-        <img src={icon} alt="Icon" />
+        <img src={icon} alt='Icon' />
       </IconWrapper>
     </OptionCardClickable>
   )

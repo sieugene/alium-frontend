@@ -20,7 +20,7 @@ const StyledRangeInput = styled.input<{ size: number }>`
     height: ${({ size }) => size}px;
     width: ${({ size }) => size}px;
     background: #ffffff;
-    box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
+    box-shadow: 0 6px 12px rgba(185, 189, 208, 0.4);
     border-radius: 16px;
     border-radius: 100%;
     border: none;
@@ -38,8 +38,8 @@ const StyledRangeInput = styled.input<{ size: number }>`
 
     &:hover,
     &:focus {
-      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.08), 0px 16px 24px rgba(0, 0, 0, 0.06),
-        0px 24px 32px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08), 0 16px 24px rgba(0, 0, 0, 0.06),
+        0 24px 32px rgba(0, 0, 0, 0.04);
     }
   }
 
@@ -53,8 +53,8 @@ const StyledRangeInput = styled.input<{ size: number }>`
 
     &:hover,
     &:focus {
-      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.08), 0px 16px 24px rgba(0, 0, 0, 0.06),
-        0px 24px 32px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08), 0 16px 24px rgba(0, 0, 0, 0.06),
+        0 24px 32px rgba(0, 0, 0, 0.04);
     }
   }
 
@@ -67,8 +67,8 @@ const StyledRangeInput = styled.input<{ size: number }>`
 
     &:hover,
     &:focus {
-      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.08), 0px 16px 24px rgba(0, 0, 0, 0.06),
-        0px 24px 32px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08), 0 16px 24px rgba(0, 0, 0, 0.06),
+        0 24px 32px rgba(0, 0, 0, 0.04);
     }
   }
 

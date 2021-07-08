@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { useActivePopups } from '../../state/application/hooks'
 import { AutoColumn } from '../Column'
@@ -76,7 +75,7 @@ export default function Popups() {
   // ]
   return (
     <StyledPopupContainer>
-      <FixedPopupColumn gap="20px">
+      <FixedPopupColumn gap='20px'>
         {activePopups.map((item) => (
           <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
         ))}

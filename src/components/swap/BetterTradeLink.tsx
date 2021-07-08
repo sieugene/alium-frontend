@@ -25,8 +25,8 @@ export default function BetterTradeLink({ version }: { version: Version }) {
 
   return (
     <YellowCard style={{ marginTop: '12px', padding: '8px 4px' }}>
-      <AutoColumn gap="sm" justify="center" style={{ alignItems: 'center', textAlign: 'center' }}>
-        <Text style={{ lineHeight: '145.23%' }} fontSize="14px">
+      <AutoColumn gap='sm' justify='center' style={{ alignItems: 'center', textAlign: 'center' }}>
+        <Text style={{ lineHeight: '145.23%' }} fontSize='14px'>
           {t('betterPrice')}{' '}
           <StyledInternalLink href={linkDestination}>
             <b>Uniswap {version.toUpperCase()} ↗</b>

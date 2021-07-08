@@ -1,7 +1,6 @@
 import { Button, ButtonProps, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'next-i18next'
-import React from 'react'
 import styled from 'styled-components'
 
 const StyledButtonUnlockWallet = styled.div`

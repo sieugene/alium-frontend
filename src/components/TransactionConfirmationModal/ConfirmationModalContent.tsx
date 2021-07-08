@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { BottomSection, ContentHeader, Section, Wrapper } from './helpers'
 

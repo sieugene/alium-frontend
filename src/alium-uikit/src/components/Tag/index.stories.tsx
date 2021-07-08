@@ -1,6 +1,4 @@
-/* eslint-disable import/no-unresolved */
 import { Meta } from '@storybook/react/types-6-0'
-import React from 'react'
 import styled from 'styled-components'
 import { CommunityIcon, RemoveIcon } from '../Svg'
 import Tag from './Tag'
@@ -53,7 +51,7 @@ export const WithIcon: React.FC = () => {
       </Row>
       <Row>
         {Object.keys(variants).map((variant) => (
-          <Tag key={variant} variant={variants[variant]} endIcon={<RemoveIcon width="14px" />}>
+          <Tag key={variant} variant={variants[variant]} endIcon={<RemoveIcon width='14px' />}>
             End Icon
           </Tag>
         ))}
@@ -64,7 +62,7 @@ export const WithIcon: React.FC = () => {
             key={variant}
             variant={variants[variant]}
             startIcon={<CommunityIcon />}
-            endIcon={<RemoveIcon width="14px" />}
+            endIcon={<RemoveIcon width='14px' />}
           >
             Start & End Icon
           </Tag>

@@ -1,6 +1,5 @@
 import { Trade, TradeType } from '@alium-official/sdk'
 import { Card, CardBody, Text } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 import { Field } from '../../state/swap/actions'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
@@ -90,11 +89,11 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
       <CardBody>
         <RowBetween>
           <RowFixed>
-            <Text fontSize="14px">{isExactIn ? 'Minimum received' : 'Maximum sold'}</Text>
-            <QuestionHelper text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed." />
+            <Text fontSize='14px'>{isExactIn ? 'Minimum received' : 'Maximum sold'}</Text>
+            <QuestionHelper text='Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.' />
           </RowFixed>
           <RowFixed>
-            <Text fontSize="14px">
+            <Text fontSize='14px'>
               {isExactIn
                 ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol}` ??
                   '-'
@@ -105,18 +104,18 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
         </RowBetween>
         <RowBetween>
           <RowFixed>
-            <Text fontSize="14px">Price Impact</Text>
-            <QuestionHelper text="The difference between the market price and estimated price due to trade size." />
+            <Text fontSize='14px'>Price Impact</Text>
+            <QuestionHelper text='The difference between the market price and estimated price due to trade size.' />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
         </RowBetween>
 
         <RowBetween>
           <RowFixed>
-            <Text fontSize="14px">Liquidity Provider Fee</Text>
-            <QuestionHelper text="For each trade a 0.25% fee is paid. 0.20% goes to liquidity providers and 0.05% goes to the AliumSwap treasury." />
+            <Text fontSize='14px'>Liquidity Provider Fee</Text>
+            <QuestionHelper text='For each trade a 0.25% fee is paid. 0.20% goes to liquidity providers and 0.05% goes to the AliumSwap treasury.' />
           </RowFixed>
-          <StyledText fontSize="16px">
+          <StyledText fontSize='16px'>
             {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
           </StyledText>
         </RowBetween>
@@ -135,7 +134,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const showRoute = Boolean(trade && trade.route.path.length > 2)
 
   return (
-    <AutoColumn gap="md">
+    <AutoColumn gap='md'>
       {trade && (
         <>
           <StyledTradeSummary>
@@ -145,10 +144,10 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
             <StyledRouteContainer>
               <AutoColumn style={{ padding: '0 24px' }}>
                 <RowFixed>
-                  <Text fontSize="14px" bold>
+                  <Text fontSize='14px' bold>
                     Route
                   </Text>
-                  <QuestionHelper text="Routing through these tokens resulted in the best price for your trade." />
+                  <QuestionHelper text='Routing through these tokens resulted in the best price for your trade.' />
                 </RowFixed>
                 <SwapRoute trade={trade} />
               </AutoColumn>

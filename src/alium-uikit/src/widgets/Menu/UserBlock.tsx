@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import React from 'react'
 import styled from 'styled-components'
 import Flex from '../../components/Flex/Flex'
 import { useWalletModal } from '../WalletModal'
