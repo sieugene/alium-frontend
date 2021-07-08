@@ -1,18 +1,18 @@
-name: dev
+name: master
 
 on:
   push:
     branches:
-      - merged/tonext
+      - master
   pull_request:
     branches:
-      - merged/tonext
+      - master
 
 env:
-  VERSION: tonext
+  VERSION: master
   IMAGE_ID: ghcr.io/alium-finance/alium-frontend
 jobs:
-  build_dev:
+  build:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -21,18 +21,18 @@ jobs:
       - name: Build image
         run: |
           docker pull $IMAGE_ID:$VERSION || true
-          docker build -f Dockerfile . -t build --cache-from $IMAGE_ID:$VERSION
+          docker build -f Dockerfile.prod . -t build --cache-from $IMAGE_ID:$VERSION
       - name: Push image
         run: |
           docker tag build $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
-  deploy_dev:
+  deploy:
     needs: build_dev
     runs-on: [self-hosted, dev]
     steps:
       - uses: actions/checkout@v2
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - run: docker stack deploy --compose-file docker-compose.yml alium --with-registry-auth
+      - run: docker stack deploy --compose-file docker-compose-prod.yml alium-frontend-$VERSION --with-registry-auth
       - run: docker system prune -f
