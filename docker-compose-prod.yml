@@ -11,4 +11,4 @@ services:
     build:
       dockerfile: Dockerfile.prod
     ports:
-      - 3003:3000
+      - 3000:3000
