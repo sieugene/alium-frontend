@@ -1,5 +1,5 @@
 FROM node:14-alpine AS deps
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat git
 WORKDIR /app
 RUN apk add git
 COPY package.json yarn.lock ./
@@ -12,8 +12,6 @@ COPY --from=deps /app/node_modules ./node_modules
 RUN yarn build:as-dev
 
 FROM node:14-alpine AS runner
-
-ENV NODE_ENV production
 
 WORKDIR /app
 
