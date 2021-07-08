@@ -1,9 +1,9 @@
+import { Button, LinkExternal, Modal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
-import React, { useCallback, useMemo, useState } from 'react'
-import { Button, Modal, LinkExternal } from '@alium-official/uikit'
 import ModalActions from 'components/ModalActions'
 import ModalInput from 'components/ModalInput'
 import useI18n from 'hooks/useI18n'
+import React, { useCallback, useMemo, useState } from 'react'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 
 interface DepositModalProps {

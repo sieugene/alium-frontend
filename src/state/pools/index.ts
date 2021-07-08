@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import poolsConfig from 'config/constants/pools'
+import { Pool, PoolsState } from '../types'
 import { fetchPoolsBlockLimits, fetchPoolsTotalStatking } from './fetchPools'
 import {
   fetchPoolsAllowance,
   fetchUserBalances,
-  fetchUserStakeBalances,
   fetchUserPendingRewards,
+  fetchUserStakeBalances,
 } from './fetchPoolsUser'
-import { PoolsState, Pool } from '../types'
 
 const initialState: PoolsState = { data: [...poolsConfig] }
 

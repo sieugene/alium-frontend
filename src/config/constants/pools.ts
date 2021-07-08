@@ -1,4 +1,4 @@
-import { PoolConfig, QuoteToken, PoolCategory } from './types'
+import { PoolCategory, PoolConfig, QuoteToken } from './types'
 
 const pools: PoolConfig[] = [
   {

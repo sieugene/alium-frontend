@@ -1,8 +1,8 @@
-import { ArrowDropDownIcon,Flex,LinkExternal,Text } from '@alium-official/uikit'
-import React,{ useState } from 'react'
+import { ArrowDropDownIcon, Flex, LinkExternal, Text } from 'alium-uikit/src'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 // import { BSCScanIcon, GitHubIcon } from '../../../../assets/Icons'
-import { BSCScanIcon,GitHubIcon } from '../../svg'
+import { BSCScanIcon, GitHubIcon } from '../../svg'
 
 const StyledContainer = styled.div`
   max-width: 738px;

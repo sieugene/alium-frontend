@@ -1,10 +1,10 @@
-import React from 'react'
-import { useTotalClaim } from 'hooks/useTickets'
-import { getBalanceNumber } from 'utils/formatBalance'
-import { usePriceCakeBusd } from 'state/hooks'
 import { BigNumber } from 'bignumber.js'
-import CardValue from './CardValue'
+import { useTotalClaim } from 'hooks/useTickets'
+import React from 'react'
+import { usePriceCakeBusd } from 'state/hooks'
+import { getBalanceNumber } from 'utils/formatBalance'
 import CardBusdValue from './CardBusdValue'
+import CardValue from './CardValue'
 
 const CakeWinnings = () => {
   const { claimAmount } = useTotalClaim()

@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Image, Button } from '@alium-official/uikit'
+import { Button, Image } from 'alium-uikit/src'
 import { CommunityTag } from 'components/Tags'
 import useI18n from 'hooks/useI18n'
+import React from 'react'
+import styled from 'styled-components'
 import Card from './Card'
 import CardTitle from './CardTitle'
 

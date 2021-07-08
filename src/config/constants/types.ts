@@ -78,7 +78,7 @@ export interface PoolConfig {
   tokenDecimals: number
 }
 
-export type Images = {
+export interface Images {
   lg: string
   md: string
   sm: string
@@ -89,7 +89,7 @@ export type NftImages = {
   blur: string
 } & Images
 
-export type Nft = {
+export interface Nft {
   name: string
   description: string
   images: NftImages
@@ -101,7 +101,7 @@ export type TeamImages = {
   alt: string
 } & Images
 
-export type Team = {
+export interface Team {
   id: number
   name: string
   description: string
@@ -115,7 +115,7 @@ export type Team = {
 
 export type CampaignType = 'ifo'
 
-export type Campaign = {
+export interface Campaign {
   id: string
   type: CampaignType
   title?: TranslatableText

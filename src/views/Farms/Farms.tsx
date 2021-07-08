@@ -1,23 +1,24 @@
-import React, { useEffect, useCallback, useState } from 'react'
-import { Route, useRouteMatch } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { Image, Heading } from '@alium-official/uikit'
-import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from 'config'
+import { Heading, Image } from 'alium-uikit/src'
+import BigNumber from 'bignumber.js'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
-import { useFarms, usePriceBnbBusd, usePriceCakeBusd, usePriceEthBusd } from 'state/hooks'
-import useRefresh from 'hooks/useRefresh'
-import { fetchFarmUserDataAsync } from 'state/actions'
+import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from 'config'
 import { QuoteToken } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
+import useRefresh from 'hooks/useRefresh'
+import { useRouter } from 'next/router'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { fetchFarmUserDataAsync } from 'state/actions'
+import { useFarms, usePriceBnbBusd, usePriceCakeBusd, usePriceEthBusd } from 'state/hooks'
+import Divider from './components/Divider'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import FarmTabButtons from './components/FarmTabButtons'
-import Divider from './components/Divider'
 
 const Farms: React.FC = () => {
-  const { path } = useRouteMatch()
+  const router = useRouter()
+  const path = router.pathname
   const TranslateString = useI18n()
   const farmsLP = useFarms()
   const cakePrice = usePriceCakeBusd()
@@ -108,12 +109,12 @@ const Farms: React.FC = () => {
       <div>
         <Divider />
         <FlexLayout>
-          <Route exact path={`${path}`}>
+          {/* <Route exact path={`${path}`}>
             {stackedOnly ? farmsList(stackedOnlyFarms, false) : farmsList(activeFarms, false)}
           </Route>
           <Route exact path={`${path}/history`}>
             {farmsList(inactiveFarms, true)}
-          </Route>
+          </Route> */}
         </FlexLayout>
       </div>
       <Image src="/images/farms/stackem.png" alt="illustration" width={1270} height={710} responsive />

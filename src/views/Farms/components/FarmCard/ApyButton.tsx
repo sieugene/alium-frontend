@@ -1,6 +1,6 @@
-import React from 'react'
+import { CalculateIcon, IconButton, useModal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
-import { CalculateIcon, IconButton, useModal } from '@alium-official/uikit'
+import React from 'react'
 import ApyCalculatorModal from './ApyCalculatorModal'
 
 export interface ApyButtonProps {

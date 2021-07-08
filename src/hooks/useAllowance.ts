@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
+import BigNumber from 'bignumber.js'
+import { useEffect, useState } from 'react'
 import { Contract } from 'web3-eth-contract'
-import { useCake, useLottery } from './useContract'
 import { getAllowance } from '../utils/erc20'
+import { useCake, useLottery } from './useContract'
 
 // Retrieve lottery allowance
 export const useLotteryAllowance = () => {

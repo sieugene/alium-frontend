@@ -1,4 +1,5 @@
 import { ChainId } from '@alium-official/sdk'
+import { getChainId } from 'alium-uikit/src'
 import random from 'lodash/random'
 
 const bscNodes = [process.env.REACT_APP_NODE_1, process.env.REACT_APP_NODE_2, process.env.REACT_APP_NODE_3]
@@ -18,9 +19,14 @@ export const nodes = {
   [ChainId.MATIC_TESTNET]: maticNodes,
 }
 
-const getNodeUrl = (chainId: ChainId) => {
-  const randomIndex = random(0, nodes[chainId].length - 1)
-  return nodes[chainId][randomIndex]
+const getNodeUrl = (chainId?: ChainId) => {
+  try {
+    const id = chainId || getChainId()
+    const randomIndex = random(0, nodes[id].length - 1)
+    return nodes[id][randomIndex]
+  } catch (error) {
+    return 0
+  }
 }
 
 export default getNodeUrl

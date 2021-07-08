@@ -1,15 +1,15 @@
-import { useCallback, useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import { useLottery, useLotteryTicket } from 'hooks/useContract'
-import useRefresh from './useRefresh'
+import { useCallback, useEffect, useState } from 'react'
 import {
-  getTotalRewards,
-  getTotalClaim,
   getMatchingRewardLength,
-  getWinningNumbers,
   getTickets,
+  getTotalClaim,
+  getTotalRewards,
+  getWinningNumbers,
 } from '../utils/lotteryUtils'
+import useRefresh from './useRefresh'
 
 const useTickets = (lotteryNumber = null) => {
   const [tickets, setTickets] = useState([])

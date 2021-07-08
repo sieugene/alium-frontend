@@ -1,7 +1,7 @@
+import { Flex, Heading, Image, Tag } from 'alium-uikit/src'
+import { CommunityTag, CoreTag } from 'components/Tags'
 import React from 'react'
 import styled from 'styled-components'
-import { Tag, Flex, Heading, Image } from '@alium-official/uikit'
-import { CommunityTag, CoreTag } from 'components/Tags'
 
 export interface ExpandableSectionProps {
   lpLabel?: string

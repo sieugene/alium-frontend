@@ -1,8 +1,8 @@
-import { Campaign } from 'config/constants/types'
-import { getPointCenterIfoContract } from 'utils/contractHelpers'
-import ifosList from 'config/constants/ifo'
 import { campaignMap } from 'config/constants/campaigns'
+import ifosList from 'config/constants/ifo'
+import { Campaign } from 'config/constants/types'
 import { Achievement, TranslatableText } from 'state/types'
+import { getPointCenterIfoContract } from 'utils/contractHelpers'
 import makeBatchRequest from './makeBatchRequest'
 
 interface IfoMapResponse {

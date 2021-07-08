@@ -1,14 +1,14 @@
-// const audit1_image='../images/01_Certificate_Aliumswap.png'
-import aliumswap from '../images/01_Certificate_Aliumswap.png'
-import securityAssesmentImage from '../images/02_Certificate_Aliumswap.png'
-import jun_cert1 from '../images/1jun_cert.png'
-import cert08 from '../images/certificate_08.jpg'
-import cert15 from '../images/certificate_15.jpg'
-import certikImage from '../images/certik.png'
-import chainsultingImage from '../images/chainsulting.png'
-import smartContract from '../images/smart_contract_code.jpg'
+// const audit1_image='/images/audits/01_Certificate_Aliumswap.png'
+const aliumswap = '/images/audits/01_Certificate_Aliumswap.png'
+const securityAssesmentImage = '/images/audits/02_Certificate_Aliumswap.png'
+const jun_cert1 = '/images/audits/1jun_cert.png'
+const cert08 = '/images/audits/certificate_08.jpg'
+const cert15 = '/images/audits/certificate_15.jpg'
+const certikImage = '/images/audits/certik.png'
+const chainsultingImage = '/images/audits/chainsulting.png'
+const smartContract = '/images/audits/smart_contract_code.jpg'
 
-export type AuditType = {
+export interface AuditType {
   id: number
   headline: string
   date: string

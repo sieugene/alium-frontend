@@ -1,4 +1,4 @@
-export type DataResponse = {
+export interface DataResponse {
   lotteryNumber: number
   lotteryDate: string
   lotteryNumbers: number[]

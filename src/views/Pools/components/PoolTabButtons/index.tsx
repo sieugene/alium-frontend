@@ -1,8 +1,9 @@
+import { ButtonMenu, ButtonMenuItem, Text, Toggle } from 'alium-uikit/src'
+import useI18n from 'hooks/useI18n'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
-import { useRouteMatch, Link } from 'react-router-dom'
-import { ButtonMenu, ButtonMenuItem, Toggle, Text } from '@alium-official/uikit'
-import useI18n from 'hooks/useI18n'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +24,9 @@ const ToggleWrapper = styled.div`
 `
 
 const PoolTabButtons = ({ stackedOnly, setStackedOnly }) => {
-  const { url, isExact } = useRouteMatch()
+  const { query } = useRouter()
+  const url = query?.url
+  const isExact = query?.isExact
   const TranslateString = useI18n()
 
   return (
@@ -33,10 +36,10 @@ const PoolTabButtons = ({ stackedOnly, setStackedOnly }) => {
         <Text> {TranslateString(999, 'Staked only')}</Text>
       </ToggleWrapper>
       <ButtonMenu activeIndex={isExact ? 0 : 1} size="sm" variant="subtle">
-        <ButtonMenuItem as={Link} to={`${url}`}>
+        <ButtonMenuItem as={Link} href={`${url}`}>
           {TranslateString(698, 'Active')}
         </ButtonMenuItem>
-        <ButtonMenuItem as={Link} to={`${url}/history`}>
+        <ButtonMenuItem as={Link} href={`${url}/history`}>
           {TranslateString(700, 'Inactive')}
         </ButtonMenuItem>
       </ButtonMenu>

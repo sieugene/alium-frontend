@@ -1,23 +1,20 @@
-import React, { useState } from 'react'
-import { Route, useRouteMatch } from 'react-router-dom'
-import BigNumber from 'bignumber.js'
-import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
-import { Heading } from '@alium-official/uikit'
-import { BLOCKS_PER_YEAR } from 'config'
-import orderBy from 'lodash/orderBy'
-import partition from 'lodash/partition'
-import useI18n from 'hooks/useI18n'
-import useBlock from 'hooks/useBlock'
-import { getBalanceNumber } from 'utils/formatBalance'
-import { useFarms, usePriceBnbBusd, usePools, usePriceEthBnb } from 'state/hooks'
-import { QuoteToken, PoolCategory } from 'config/constants/types'
+import { Heading } from 'alium-uikit/src'
+import BigNumber from 'bignumber.js'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
-import Coming from './components/Coming'
-import PoolCard from './components/PoolCard'
-import PoolTabButtons from './components/PoolTabButtons'
+import { BLOCKS_PER_YEAR } from 'config'
+import { PoolCategory, QuoteToken } from 'config/constants/types'
+import useBlock from 'hooks/useBlock'
+import useI18n from 'hooks/useI18n'
+import partition from 'lodash/partition'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { useFarms, usePools, usePriceBnbBusd, usePriceEthBnb } from 'state/hooks'
+import styled from 'styled-components'
+import { getBalanceNumber } from 'utils/formatBalance'
 import Divider from './components/Divider'
+import PoolTabButtons from './components/PoolTabButtons'
 
 const Hero = styled.div`
   align-items: center;
@@ -50,7 +47,8 @@ const Hero = styled.div`
 `
 
 const Farm: React.FC = () => {
-  const { path } = useRouteMatch()
+  const router = useRouter()
+  const path = router.pathname
   const TranslateString = useI18n()
   const { account } = useWeb3React()
   const farms = useFarms()
@@ -124,7 +122,7 @@ const Farm: React.FC = () => {
       <PoolTabButtons stackedOnly={stackedOnly} setStackedOnly={setStackedOnly} />
       <Divider />
       <FlexLayout>
-        <Route exact path={`${path}`}>
+        {/* <Route exact path={`${path}`}>
           <>
             {stackedOnly
               ? orderBy(stackedOnlyPools, ['sortOrder']).map((pool) => <PoolCard key={pool.sousId} pool={pool} />)
@@ -136,7 +134,7 @@ const Farm: React.FC = () => {
           {orderBy(finishedPools, ['sortOrder']).map((pool) => (
             <PoolCard key={pool.sousId} pool={pool} />
           ))}
-        </Route>
+        </Route> */}
       </FlexLayout>
     </Page>
   )
