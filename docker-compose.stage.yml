@@ -1,0 +1,14 @@
+version: '3.5'
+
+networks:
+  net:
+    driver: overlay
+    attachable: true
+
+services:
+  frontend:
+    build:
+      dockerfile: Dockerfile.master
+    image: ghcr.io/alium-finance/alium-frontend:${VERSION}
+    ports:
+      - 3010:3000

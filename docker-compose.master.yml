@@ -7,6 +7,8 @@ networks:
 
 services:
   frontend:
+    build:
+      dockerfile: Dockerfile.master
     image: ghcr.io/alium-finance/alium-frontend:${VERSION}
     deploy:
       replicas: 2
@@ -19,5 +21,3 @@ services:
         window: 120s
     ports:
       - 3000:3000
-    build:
-      dockerfile: Dockerfile.prod
