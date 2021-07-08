@@ -9,6 +9,7 @@ module.exports = {
   env: {
     ...OTHER_ENVS,
   },
+  generateBuildId: async () => String(Math.round(Number(new Date()) / 1000)),
   distDir: 'build',
   compress: false,
   poweredByHeader: false,
