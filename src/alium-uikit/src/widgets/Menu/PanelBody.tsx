@@ -84,9 +84,37 @@ const StyledLogoIcon = styled.div`
   }
 `
 
-const LinkLabelWrap = styled.div<{ isPushed: boolean }>`
+const StyledLink = styled(NextLink.multiple)<{ isPushed: boolean; isNew: boolean }>`
+  flex-direction: ${(props) => (props.isPushed || !props.isNew ? 'inherit' : 'column')};
+  div {
+    margin-left: ${(props) => (props.isPushed || !props.isNew ? '8px' : '0px')} !important;
+    margin-top: ${(props) => (props.isPushed || !props.isNew ? '0px' : '3px')} !important;
+    transition: 0.3s all ease;
+  }
+  svg {
+    margin-right: ${(props) => (props.isPushed || !props.isNew ? '8px' : '0px')} !important;
+  }
+  &:hover {
+    div {
+      &:last-child {
+        opacity: ${(props) => (!props.isNew ? '1' : '0.7')} !important;
+      }
+    }
+  }
+`
+
+const LinkLabelStyled = styled(LinkLabel)<{ isPushed: boolean }>`
+  flex-grow: inherit !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1px;
   display: ${(props) => (props.isPushed ? 'flex' : 'none')};
-  flex-direction: row-reverse;
+
+  color: #0b1359;
 `
 
 const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, togglePush, isDark }) => {
@@ -149,15 +177,12 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links, toggle
           return (
             <React.Fragment key={entry.label}>
               <MenuEntry isActive={entry.href === location.pathname} className={calloutClass}>
-                <NextLink.multiple href={entry.href} handleClick={handleClick}>
+                <StyledLink href={entry.href} handleClick={handleClick} isPushed={isPushed} isNew={entry?.new}>
                   {iconElement}
-                  <LinkLabelWrap isPushed={isPushed}>
-                    <MenuNewItem isNew={entry?.new} />
-                    <LinkLabel isPushed={isPushed}>{entry.label}</LinkLabel>
-                  </LinkLabelWrap>
-                </NextLink.multiple>
+                  <LinkLabelStyled isPushed={isPushed}>{entry.label}</LinkLabelStyled>
+                  <MenuNewItem isNew={entry?.new} />
+                </StyledLink>
               </MenuEntry>
-              {!isPushed && <MenuNewItem isNew={entry?.new} />}
             </React.Fragment>
           )
         })}

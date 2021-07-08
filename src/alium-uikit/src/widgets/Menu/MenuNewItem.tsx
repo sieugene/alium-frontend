@@ -17,7 +17,10 @@ const Item = styled.div`
   color: #1ea76d;
   display: flex;
   align-items: center;
-  margin-left: 13px;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `
 interface Props {
   isNew: boolean
