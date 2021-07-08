@@ -21,7 +21,7 @@ jobs:
       - name: Build image
         run: |
           docker pull $IMAGE_ID:$VERSION || true
-          docker build -f Dockerfile.prod . -t build --cache-from $IMAGE_ID:$VERSION
+          docker build -f Dockerfile.master . -t build --cache-from $IMAGE_ID:$VERSION
       - name: Push image
         run: |
           docker tag build $IMAGE_ID:$VERSION
