@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: $IMAGE_ID:$VERSION
+          tags: ${{ IMAGE_ID }}:${{ VERSION }}
           file: Dockerfile.develop
       
       #- name: Log into registry
