@@ -34,7 +34,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/alium-finance/alium-frontend:develop
+          tags: ghcr.io/alium-finance/alium-frontend:${GITHUB_REF##*/}
           file: Dockerfile.develop
           cache-from: type=registry,ref=ghcr.io/alium-finance/alium-frontend:develop
           cache-to: type=inline          
