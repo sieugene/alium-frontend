@@ -1,12 +1,6 @@
 name: master
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: workflow_dispatch
 
 env:
   VERSION: master
@@ -30,16 +24,6 @@ jobs:
   deploy-1:
     needs: build
     runs-on: [self-hosted, prod]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - run: docker stack deploy --compose-file docker-compose.master.yml alium --with-registry-auth
-      - run: docker system prune -f
-
-  deploy-2:
-    needs: build
-    runs-on: [self-hosted, prod-2]
     steps:
       - uses: actions/checkout@v2
       - name: Log into registry
