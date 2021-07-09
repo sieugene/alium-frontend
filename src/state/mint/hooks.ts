@@ -1,10 +1,11 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Pair, Percent, Price, TokenAmount } from '@alium-official/sdk'
+import { Currency, CurrencyAmount, JSBI, Pair, Percent, Price, TokenAmount } from '@alium-official/sdk'
+import { PairState, usePair } from 'data/Reserves'
+import { useTotalSupply } from 'data/TotalSupply'
+import { useActiveWeb3React } from 'hooks'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { PairState, usePair } from '../../data/Reserves'
-import { useTotalSupply } from '../../data/TotalSupply'
-import { useActiveWeb3React } from '../../hooks'
-import { wrappedCurrency, wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
+import { storeNetwork } from 'store/network/useStoreNetwork'
+import { wrappedCurrency, wrappedCurrencyAmount } from 'utils/wrappedCurrency'
 import { AppDispatch, AppState } from '../index'
 import { tryParseAmount } from '../swap/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
@@ -32,6 +33,7 @@ export function useDerivedMintInfo(
   poolTokenPercentage?: Percent
   error?: string
 } {
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   const { account, chainId } = useActiveWeb3React()
 
   const { independentField, typedValue, otherTypedValue } = useMintState()
@@ -83,7 +85,9 @@ export function useDerivedMintInfo(
           dependentField === Field.CURRENCY_B
             ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
             : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
-        return dependentCurrency === ETHER ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
+        return dependentCurrency === nativeCurrency
+          ? CurrencyAmount.ether(dependentTokenAmount.raw)
+          : dependentTokenAmount
       }
       return undefined
     }

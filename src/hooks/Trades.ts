@@ -1,9 +1,9 @@
 import { Currency, CurrencyAmount, Pair, Token, Trade } from '@alium-official/sdk'
+import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from 'constants/index'
+import { PairState, usePairs } from 'data/Reserves'
 import flatMap from 'lodash.flatmap'
 import { useMemo } from 'react'
-import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from '../constants'
-import { PairState, usePairs } from '../data/Reserves'
-import { wrappedCurrency } from '../utils/wrappedCurrency'
+import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useActiveWeb3React } from './index'
 
 function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {

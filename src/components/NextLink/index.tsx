@@ -10,7 +10,7 @@ type Props = LinkProps & {
 type DuplicatedProps = Props & {
   handleClick?: () => void
 } & AnchorHTMLAttributes<HTMLAnchorElement>
-export const NextLink: FC<Props> & { multiple: FC<DuplicatedProps> } = ({ href, children, className, ...other }) => {
+export const NextLink: FC<Props> & { Multiple: FC<DuplicatedProps> } = ({ href, children, className, ...other }) => {
   return (
     <Link href={href || '/'} {...other}>
       <a href={(href as string) || '/'} className={className || ''}>
@@ -20,7 +20,7 @@ export const NextLink: FC<Props> & { multiple: FC<DuplicatedProps> } = ({ href, 
   )
 }
 // When you see error like multiple children
-NextLink.multiple = ({ handleClick, href, children, className, ...other }) => {
+NextLink.Multiple = ({ handleClick, href, children, className, ...other }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const location = useRouter()
   const link = (href as string) || '/'

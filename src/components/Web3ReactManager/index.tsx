@@ -1,10 +1,10 @@
 import { useWeb3React } from '@web3-react/core'
 import { NetworkContextName } from 'config/settings'
+import { network } from 'connectors'
+import { useEagerConnect, useInactiveListener } from 'hooks'
 import { useTranslation } from 'next-i18next'
 import { ReactChildren, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { network } from '../../connectors'
-import { useEagerConnect, useInactiveListener } from '../../hooks'
 import Loader from '../Loader'
 
 const MessageWrapper = styled.div`

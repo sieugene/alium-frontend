@@ -24,6 +24,7 @@ import { useCurrency } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCallback'
 import { useSwapCallback } from 'hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
+import { ExchangeIcon } from 'images/Exchange-icon'
 import { useTranslation } from 'next-i18next'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
@@ -35,7 +36,6 @@ import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import GTM from 'utils/gtm'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
-import { ExchangeIcon } from '../../../public/images/Exchange-icon'
 import SwapAppBody from './SwapAppBody'
 
 const { main: Main } = TYPE
@@ -117,7 +117,9 @@ const Swap = () => {
 
   // swap state
   const { independentField, typedValue, recipient } = useSwapState()
-  const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
+  const derivedSwapInfo = useDerivedSwapInfo()
+  console.log('derivedSwapInfo', derivedSwapInfo)
+  const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = derivedSwapInfo
 
   const {
     wrapType,
@@ -324,7 +326,7 @@ const Swap = () => {
                   onMax={handleMaxInput}
                   onCurrencySelect={handleInputSelect}
                   otherCurrency={currencies[Field.OUTPUT]}
-                  id='swap-currency-input'
+                  id='swap-currency-output'
                 />
                 <AutoColumn justify='space-between'>
                   <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>

@@ -84,7 +84,7 @@ const StyledLogoIcon = styled.div`
   }
 `
 
-const StyledLink = styled(NextLink.multiple)<{ isPushed: boolean; isNew: boolean }>`
+const StyledLink = styled(NextLink.Multiple)<{ isPushed: boolean; isNew: boolean }>`
   flex-direction: ${(props) => (props.isPushed || !props.isNew ? 'inherit' : 'column')};
   div {
     margin-left: ${(props) => (props.isPushed || !props.isNew ? '8px' : '0px')} !important;

@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, ETHER, ROUTER_ADDRESS, TokenAmount, WETH } from '@alium-official/sdk'
+import { Currency, currencyEquals, ROUTER_ADDRESS, TokenAmount, WETH } from '@alium-official/sdk'
 import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -19,6 +19,7 @@ import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
@@ -44,6 +45,8 @@ interface props {
 }
 
 const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
+  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
+  const { nativeCurrency } = networkProviderParams
   useLiquidityPriorityDefaultAlm()
 
   const history = useRouter()
@@ -172,8 +175,8 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
     let method: (...args: any) => Promise<TransactionResponse>
     let args: Array<string | string[] | number>
     let value: BigNumber | null
-    if (currencyA === ETHER || currencyB === ETHER) {
-      const tokenBIsETH = currencyB === ETHER
+    if (currencyA === nativeCurrency || currencyB === nativeCurrency) {
+      const tokenBIsETH = currencyB === nativeCurrency
       estimate = router.estimateGas.addLiquidityETH
       method = router.addLiquidityETH
       args = [

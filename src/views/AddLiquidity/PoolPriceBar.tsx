@@ -1,11 +1,11 @@
 import { Currency, Percent, Price } from '@alium-official/sdk'
 import { Text } from 'alium-uikit/src'
+import { AutoColumn } from 'components/Column'
+import { AutoRow } from 'components/Row'
 import { ONE_BIPS } from 'config/settings'
+import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import { AutoColumn } from '../../components/Column'
-import { AutoRow } from '../../components/Row'
-import { Field } from '../../state/mint/actions'
 
 // import { TYPE } from '../../components/Shared'
 

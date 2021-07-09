@@ -1,10 +1,10 @@
 import { Button, Flex } from 'alium-uikit/src'
+import { Dots } from 'components/swap/styleds'
+import { useActiveWeb3React } from 'hooks'
 import { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import Modal from '../../../../components/Modal'
-import { Dots } from '../../../../components/swap/styleds'
 import { TransactionSubmittedContent } from '../../../../components/TransactionConfirmationModal'
-import { useActiveWeb3React } from '../../../../hooks'
 import useNftAccountCard from '../../../../hooks/useNftAccountCard'
 import { CardType } from '../../constants/cards'
 
@@ -83,7 +83,7 @@ const Label = styled.label`
 `
 
 const Select = styled.select`
-  background-color: none;
+  background-color: transparent;
   border: 1px solid #d2d6e5;
   border-radius: 6px;
   box-shadow: inset 0 2px 2px -1px rgb(74 74 104 / 10%);

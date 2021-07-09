@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { useLottery, useLotteryTicket } from 'hooks/useContract'
 import { useCallback, useEffect, useState } from 'react'
-import { getMax, multiBuy, multiClaim } from '../utils/lotteryUtils'
+import { getMax, multiBuy, multiClaim } from 'utils/lotteryUtils'
 
 export const useMultiClaimLottery = () => {
   const { account } = useWeb3React()

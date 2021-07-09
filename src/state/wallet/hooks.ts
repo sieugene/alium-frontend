@@ -1,11 +1,12 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@alium-official/sdk'
+import { Currency, CurrencyAmount, JSBI, Token, TokenAmount } from '@alium-official/sdk'
+import { ERC20_INTERFACE } from 'config/interfaces'
+import { useActiveWeb3React } from 'hooks'
+import { useAllTokens } from 'hooks/Tokens'
+import { useMulticallContract } from 'hooks/useContract'
 import { useMemo } from 'react'
-import { ERC20_INTERFACE } from '../../config/interfaces'
-import { useActiveWeb3React } from '../../hooks'
-import { useAllTokens } from '../../hooks/Tokens'
-import { useMulticallContract } from '../../hooks/useContract'
-import { useMultipleContractSingleData, useSingleContractMultipleData } from '../../store/multicall/hooks/hooks'
-import { isAddress } from '../../utils'
+import { useMultipleContractSingleData, useSingleContractMultipleData } from 'store/multicall/hooks/hooks'
+import { storeNetwork } from 'store/network/useStoreNetwork'
+import { isAddress } from 'utils'
 
 /**
  * Returns a map of the given addresses to their eventually consistent BNB balances.
@@ -98,13 +99,17 @@ export function useCurrencyBalances(
   account?: string,
   currencies?: (Currency | undefined)[],
 ): (CurrencyAmount | undefined)[] {
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   const tokens = useMemo(
     () => currencies?.filter((currency): currency is Token => currency instanceof Token) ?? [],
     [currencies],
   )
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some((currency) => currency === ETHER) ?? false, [currencies])
+  const containsETH: boolean = useMemo(
+    () => currencies?.some((currency) => currency === nativeCurrency) ?? false,
+    [currencies],
+  )
   const ethBalance = useETHBalances(containsETH ? [account] : [])
 
   return useMemo(
@@ -112,7 +117,7 @@ export function useCurrencyBalances(
       currencies?.map((currency) => {
         if (!account || !currency) return undefined
         if (currency instanceof Token) return tokenBalances[currency.address]
-        if (currency === ETHER) return ethBalance[account]
+        if (currency === nativeCurrency) return ethBalance[account]
         return undefined
       }) ?? [],
     [account, currencies, ethBalance, tokenBalances],

@@ -1,9 +1,9 @@
+import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
+import { getExplorerLink, getExplorerName } from 'utils'
 import useENS from '../../hooks/useENS'
-import { getExplorerLink, getExplorerName } from '../../utils'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { ExternalLink, TYPE } from '../Shared'

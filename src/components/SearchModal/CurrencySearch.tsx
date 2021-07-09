@@ -1,24 +1,16 @@
-import { Currency, ETHER, Token } from '@alium-official/sdk'
+import { Currency, Token } from '@alium-official/sdk'
 import { CloseIcon, IconButton, Text } from 'alium-uikit/src'
+import { useActiveWeb3React } from 'hooks'
+import { useAllTokens, useToken } from 'hooks/Tokens'
 import { useTranslation } from 'next-i18next'
-import {
-  KeyboardEvent,
-  RefObject,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
+import { useSelectedListInfo } from 'state/lists/hooks'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled, { ThemeContext } from 'styled-components'
+import { isAddress } from 'utils'
 import { arrayElementToTop } from 'utils/arrayElementToTop'
-import { useActiveWeb3React } from '../../hooks'
-import { useAllTokens, useToken } from '../../hooks/Tokens'
-import { useSelectedListInfo } from '../../state/lists/hooks'
-import { isAddress } from '../../utils'
 import Card from '../Card'
 import Column from '../Column'
 import ListLogo from '../ListLogo'
@@ -76,6 +68,8 @@ export function CurrencySearch({
   onChangeList,
   currencyList,
 }: CurrencySearchProps) {
+  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
+  const { nativeCurrency } = networkProviderParams
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
@@ -151,7 +145,7 @@ export function CurrencySearch({
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim()
         if (s === 'bnb') {
-          handleCurrencySelect(ETHER)
+          handleCurrencySelect(nativeCurrency)
         } else if (filteredSortedTokens.length > 0) {
           if (
             filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||

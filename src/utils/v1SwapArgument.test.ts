@@ -1,6 +1,6 @@
 import { CurrencyAmount, ETHER, Percent, Route, TokenAmount, Trade } from '@alium-official/sdk'
+import { MockV1Pair } from 'data/V1'
 import { DAI, USDT as USDC } from '../constants'
-import { MockV1Pair } from '../data/V1'
 import v1SwapArguments from './v1SwapArguments'
 
 describe('v1SwapArguments', () => {

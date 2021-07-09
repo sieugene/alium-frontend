@@ -1,10 +1,11 @@
-import { Currency, currencyEquals, ETHER, Token } from '@alium-official/sdk'
+import { Currency, currencyEquals, Token } from '@alium-official/sdk'
 import { parseBytes32String } from '@ethersproject/strings'
 import { useMemo } from 'react'
-import { useSelectedTokenList } from '../state/lists/hooks'
-import { useUserAddedTokens } from '../state/user/hooks'
-import { NEVER_RELOAD, useSingleCallResult } from '../store/multicall/hooks/hooks'
-import { isAddress } from '../utils'
+import { useSelectedTokenList } from 'state/lists/hooks'
+import { useUserAddedTokens } from 'state/user/hooks'
+import { NEVER_RELOAD, useSingleCallResult } from 'store/multicall/hooks/hooks'
+import { storeNetwork } from 'store/network/useStoreNetwork'
+import { isAddress } from 'utils'
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
@@ -39,6 +40,7 @@ export function useIsUserAddedToken(currency: Currency): boolean {
 
 // parse a name or symbol from a token response
 const BYTES32_REGEX = /^0x[a-fA-F0-9]{64}$/
+
 function parseStringOrBytes32(str: string | undefined, bytes32: string | undefined, defaultValue: string): string {
   return str && str.length > 0
     ? str
@@ -51,6 +53,9 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
 // null if loading
 // otherwise returns the token
 export function useToken(tokenAddress?: string): Token | undefined | null {
+  console.log('-----------------')
+  console.log('tokenAddress', tokenAddress)
+  console.log('-----------------')
   const { chainId } = useActiveWeb3React()
   const tokens = useAllTokens()
 
@@ -102,6 +107,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
   const isETH = currencyId?.toUpperCase() === 'ETH'
-  const token = useToken(isETH ? undefined : currencyId)
-  return isETH ? ETHER : token
+  const token = useToken(isETH ? null : currencyId)
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  return isETH ? nativeCurrency : token
 }

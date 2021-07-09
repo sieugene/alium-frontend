@@ -1,12 +1,13 @@
-import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Percent, ROUTER_ADDRESS, Token } from '@alium-official/sdk'
+import { ChainId, Currency, CurrencyAmount, JSBI, Percent, ROUTER_ADDRESS, Token } from '@alium-official/sdk'
 import { getAddress } from '@ethersproject/address'
 import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Provider, Web3Provider } from '@ethersproject/providers'
 import { ROUTER_ABI } from 'config/contracts'
+import { TokenAddressMap } from 'state/lists/hooks'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 import { AliumVestingAbi, NFT_VESTING } from 'views/InvestorsAccount/constants'
-import { TokenAddressMap } from '../state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -156,7 +157,8 @@ export function escapeRegExp(string: string): string {
 }
 
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
-  if (currency === ETHER) return true
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  if (currency === nativeCurrency) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
 }
 

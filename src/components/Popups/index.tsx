@@ -1,5 +1,5 @@
+import { useActivePopups } from 'state/application/hooks'
 import styled from 'styled-components'
-import { useActivePopups } from '../../state/application/hooks'
 import { AutoColumn } from '../Column'
 import PopupItem from './PopupItem'
 

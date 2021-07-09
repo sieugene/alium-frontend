@@ -1,8 +1,9 @@
-import { ChainId, Currency, currencyEquals, ETHER, Token } from '@alium-official/sdk'
+import { ChainId, Currency, currencyEquals, Token } from '@alium-official/sdk'
 import { Text } from 'alium-uikit/src'
+import { SUGGESTED_BASES } from 'constants/index'
 import { useTranslation } from 'next-i18next'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { SUGGESTED_BASES } from '../../constants'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import QuestionHelper from '../QuestionHelper'
@@ -33,6 +34,8 @@ export default function CommonBases({
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
+  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
+  const { nativeCurrency } = networkProviderParams
   const { t } = useTranslation()
   return (
     <AutoColumn gap='md'>
@@ -43,13 +46,13 @@ export default function CommonBases({
       <AutoRow gap='4px'>
         <BaseWrapper
           onClick={() => {
-            if (!selectedCurrency || !currencyEquals(selectedCurrency, ETHER)) {
-              onSelect(ETHER)
+            if (!selectedCurrency || !currencyEquals(selectedCurrency, nativeCurrency)) {
+              onSelect(nativeCurrency)
             }
           }}
-          disable={selectedCurrency === ETHER}
+          disable={selectedCurrency === nativeCurrency}
         >
-          <CurrencyLogo currency={ETHER} style={{ marginRight: 8 }} />
+          <CurrencyLogo currency={nativeCurrency} style={{ marginRight: 8 }} />
           <Text>BNB</Text>
         </BaseWrapper>
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {

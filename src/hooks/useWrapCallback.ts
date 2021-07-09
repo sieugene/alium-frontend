@@ -1,9 +1,10 @@
-import { Currency, currencyEquals, ETHER, WETH } from '@alium-official/sdk'
+import { Currency, currencyEquals, WETH } from '@alium-official/sdk'
 import { useMemo } from 'react'
+import { tryParseAmount } from 'state/swap/hooks'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { useCurrencyBalance } from 'state/wallet/hooks'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import { tryParseAmount } from '../state/swap/hooks'
-import { useTransactionAdder } from '../state/transactions/hooks'
-import { useCurrencyBalance } from '../state/wallet/hooks'
 import { useActiveWeb3React } from './index'
 import { useWETHContract } from './useContract'
 
@@ -25,6 +26,7 @@ export default function useWrapCallback(
   outputCurrency: Currency | undefined,
   typedValue: string | undefined,
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   const { chainId, account } = useActiveWeb3React()
   const wethContract = useWETHContract()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
@@ -38,7 +40,7 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
 
-    if (inputCurrency === ETHER && currencyEquals(WETH[chainId], outputCurrency)) {
+    if (inputCurrency === nativeCurrency && currencyEquals(WETH[chainId], outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
@@ -55,7 +57,7 @@ export default function useWrapCallback(
         inputError: sufficientBalance ? undefined : 'Insufficient BNB balance',
       }
     }
-    if (currencyEquals(WETH[chainId], inputCurrency) && outputCurrency === ETHER) {
+    if (currencyEquals(WETH[chainId], inputCurrency) && outputCurrency === nativeCurrency) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:

@@ -2,21 +2,21 @@ import { Button, Flex, Heading, Text } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import Modal from 'components/Modal'
 import { NextLink } from 'components/NextLink'
+import { Dots } from 'components/swap/styleds'
 import { TransactionSubmittedContent, TransactionSucceedContent } from 'components/TransactionConfirmationModal'
 import { useActiveWeb3React } from 'hooks'
 import { useNFTPrivateContract } from 'hooks/useContract'
 import useNftPoolHook from 'hooks/useNftPool'
 import { useTranslation } from 'next-i18next'
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ROUTES } from 'routes'
+import { AppState } from 'state'
 import { removePopup } from 'state/application/actions'
 import { PopupList } from 'state/application/reducer'
-import { AppState } from 'state/index'
 import styled from 'styled-components'
-import { Dots } from '../../components/swap/styleds'
+import { getAccountTotalBalance } from 'utils'
 import useCollectionNft from '../../hooks/useCollectionNft'
-import { getAccountTotalBalance } from '../../utils'
 import AppInvestorsAccountBody from './AppInvestorsAccountBody'
 import NftAccountCard from './components/NftAccountCard'
 import NftNavTabs from './components/NftNavTabs'
@@ -308,9 +308,9 @@ const InvestorsAccount = () => {
           ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
             <NoNFT>
               <NoNFTText>You don&apos;t have NFT tokens yet, but you can purchase them on the page</NoNFTText>
-              <NextLink.multiple href={ROUTES.public} target='_blank' as='a'>
+              <NextLink.Multiple href={ROUTES.public} target='_blank' as='a'>
                 <Button>Buy NFT</Button>
-              </NextLink.multiple>
+              </NextLink.Multiple>
             </NoNFT>
           ) : (
             <>

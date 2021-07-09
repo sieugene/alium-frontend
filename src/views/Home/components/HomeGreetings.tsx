@@ -121,12 +121,12 @@ const HomeGreetings: FC = () => {
         <StyledText className='animate__animated animate__fadeInUp animate__delay-2s animate__fast'>
           {t('greetingsMessage')}
         </StyledText>
-        <NextLink.multiple
+        <NextLink.Multiple
           href={ROUTES.exchange}
           className='animate__animated animate__fadeInUp animate__delay-2s animate__fast'
         >
           <StyledButton>{t('startTrading')}</StyledButton>
-        </NextLink.multiple>
+        </NextLink.Multiple>
       </InfoWrapper>
 
       <ImageFrapper>

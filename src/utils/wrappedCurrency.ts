@@ -1,7 +1,9 @@
-import { ChainId, Currency, CurrencyAmount, ETHER, Token, TokenAmount, WETH } from '@alium-official/sdk'
+import { ChainId, Currency, CurrencyAmount, Token, TokenAmount, WETH } from '@alium-official/sdk'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
-  return chainId && currency === ETHER ? WETH[chainId] : currency instanceof Token ? currency : undefined
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  return chainId && currency === nativeCurrency ? WETH[chainId] : currency instanceof Token ? currency : undefined
 }
 
 export function wrappedCurrencyAmount(
@@ -13,6 +15,7 @@ export function wrappedCurrencyAmount(
 }
 
 export function unwrappedToken(token: Token): Currency {
-  if (token.equals(WETH[token.chainId])) return ETHER
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  if (token.equals(WETH[token.chainId])) return nativeCurrency
   return token
 }

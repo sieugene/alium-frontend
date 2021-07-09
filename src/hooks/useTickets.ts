@@ -8,7 +8,7 @@ import {
   getTotalClaim,
   getTotalRewards,
   getWinningNumbers,
-} from '../utils/lotteryUtils'
+} from 'utils/lotteryUtils'
 import useRefresh from './useRefresh'
 
 const useTickets = (lotteryNumber = null) => {

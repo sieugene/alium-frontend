@@ -5,8 +5,8 @@ import {
   ALLOWED_PRICE_IMPACT_MEDIUM,
   BLOCKED_PRICE_IMPACT_NON_EXPERT,
 } from 'config/settings'
+import { Field } from 'state/swap/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import { Field } from '../state/swap/actions'
 import { basisPointsToPercent } from './index'
 
 const BASE_FEE = new Percent(JSBI.BigInt(25), JSBI.BigInt(10000))

@@ -1,4 +1,4 @@
-import { ChainId, ETHER } from '@alium-official/sdk'
+import { ChainId } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
 import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uikit/src'
 import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
@@ -11,11 +11,14 @@ import useWeb3 from 'hooks/useWeb3'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import { ROUTES } from 'routes'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { getExplorerLink, getExplorerName } from 'utils'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
 const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
+  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
+  const { nativeCurrency } = networkProviderParams
   const { t } = useTranslation()
 
   const links: MenuEntry[] = [
@@ -63,11 +66,11 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
   const { login, logout } = useAuth()
   useChangeNetwork(login)
   const { isDark, toggleTheme } = useTheme()
-  const { balance } = useCurrencyBalance(account, ETHER)
+  const { balance } = useCurrencyBalance(account, nativeCurrency)
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
   // const useBalance = async () => {
-  //   const result = await useCurrencyBalance(account as string, ETHER)
+  //   const result = await useCurrencyBalance(account as string, nativeCurrency)
   //   return result
   // }
 

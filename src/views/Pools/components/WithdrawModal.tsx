@@ -2,9 +2,9 @@ import { Button, Modal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import ModalActions from 'components/ModalActions'
 import { FC, FormEvent, useCallback, useMemo, useState } from 'react'
+import { getFullDisplayBalance } from 'utils/formatBalance'
 import TokenInput from '../../../components/TokenInput'
 import useI18n from '../../../hooks/useI18n'
-import { getFullDisplayBalance } from '../../../utils/formatBalance'
 
 interface WithdrawModalProps {
   max: BigNumber

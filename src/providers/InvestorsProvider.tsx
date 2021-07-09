@@ -6,9 +6,9 @@ import dynamic from 'next/dynamic'
 import { FC } from 'react'
 import { Provider } from 'react-redux'
 import { IntercomProvider } from 'react-use-intercom'
+import { ThemeContextProvider } from 'ThemeContext'
 import GTM from 'utils/gtm'
 import store from '../state'
-import { ThemeContextProvider } from '../ThemeContext'
 import getLibrary from '../utils/getLibrary'
 
 const Web3ReactProviderDefault = dynamic(() => import('./Web3ReactProviderDefault'), { ssr: false })

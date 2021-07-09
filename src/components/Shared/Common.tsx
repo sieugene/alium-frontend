@@ -82,7 +82,7 @@ export const StyledInternalLink = styled(NextLink)`
   }
 `
 
-const StyledLink = styled(NextLink.multiple)`
+const StyledLink = styled(NextLink.Multiple)`
   text-decoration: none;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.primary};

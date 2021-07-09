@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { load, save } from 'redux-localstorage-simple'
-import { getThemeCache } from '../utils/theme'
+import { getThemeCache } from 'utils/theme'
 import achievements from './achievements'
 import application from './application/reducer'
 import burn from './burn/reducer'

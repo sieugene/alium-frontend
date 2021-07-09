@@ -1,14 +1,14 @@
 import { Trade, TradeType } from '@alium-official/sdk'
 import { Button, SwapIcon, Text } from 'alium-uikit/src'
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react'
+import { Field } from 'state/swap/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import { Field } from '../../state/swap/actions'
 import {
   computeSlippageAdjustedAmounts,
   computeTradePriceBreakdown,
   formatExecutionPrice,
   warningSeverity,
-} from '../../utils/prices'
+} from 'utils/prices'
 import { AutoColumn } from '../Column'
 import QuestionHelper from '../QuestionHelper'
 import { AutoRow, RowBetween, RowFixed } from '../Row'

@@ -3,7 +3,6 @@ import {
   Currency,
   CurrencyAmount,
   currencyEquals,
-  ETHER,
   JSBI,
   Pair,
   Percent,
@@ -15,13 +14,14 @@ import {
   WETH,
 } from '@alium-official/sdk'
 import { AddressZero } from '@ethersproject/constants'
+import { useActiveWeb3React } from 'hooks'
+import { useAllTokens } from 'hooks/Tokens'
+import { useV1FactoryContract } from 'hooks/useContract'
+import { Version } from 'hooks/useToggledVersion'
 import { useMemo } from 'react'
-import { useActiveWeb3React } from '../hooks'
-import { useAllTokens } from '../hooks/Tokens'
-import { useV1FactoryContract } from '../hooks/useContract'
-import { Version } from '../hooks/useToggledVersion'
-import { useETHBalances, useTokenBalance, useTokenBalances } from '../state/wallet/hooks'
-import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from '../store/multicall/hooks/hooks'
+import { useETHBalances, useTokenBalance, useTokenBalances } from 'state/wallet/hooks'
+import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from 'store/multicall/hooks/hooks'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 
 export function useV1ExchangeAddress(tokenAddress?: string): string | undefined {
   const contract = useV1FactoryContract()
@@ -39,7 +39,7 @@ export class MockV1Pair extends Pair {
 function useMockV1Pair(inputCurrency?: Currency): MockV1Pair | undefined {
   const token = inputCurrency instanceof Token ? inputCurrency : undefined
 
-  const isWETH = Boolean(token && token.equals(WETH[token.chainId]))
+  const isWETH = Boolean(token?.equals(WETH[token.chainId]))
   const v1PairAddress = useV1ExchangeAddress(isWETH ? undefined : token?.address)
   const tokenBalance = useTokenBalance(v1PairAddress, token)
   const ETHBalance = useETHBalances([v1PairAddress])[v1PairAddress ?? '']
@@ -104,12 +104,13 @@ export function useV1Trade(
   outputCurrency?: Currency,
   exactAmount?: CurrencyAmount,
 ): Trade | undefined {
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   // get the mock v1 pairs
   const inputPair = useMockV1Pair(inputCurrency)
   const outputPair = useMockV1Pair(outputCurrency)
 
-  const inputIsETH = inputCurrency === ETHER
-  const outputIsETH = outputCurrency === ETHER
+  const inputIsETH = inputCurrency === nativeCurrency
+  const outputIsETH = outputCurrency === nativeCurrency
 
   // construct a direct or through ETH v1 route
   let pairs: Pair[] = []

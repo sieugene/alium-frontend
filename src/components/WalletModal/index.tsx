@@ -4,12 +4,12 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { fortmatic, injected, portis } from 'connectors'
 import { OVERLAY_READY } from 'connectors/Fortmatic'
 import { SUPPORTED_WALLETS } from 'constants/index'
+import { CloseXIcon } from 'images/CloseXIcon'
 import { useTranslation } from 'next-i18next'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useWalletModalOpen, useWalletModalToggle } from 'state/application/hooks'
 import styled from 'styled-components'
-import { CloseXIcon } from '../../../public/images/CloseXIcon'
 import usePrevious from '../../hooks/usePrevious'
 import AccountDetails from '../AccountDetails'
 import Modal from '../Modal'
@@ -23,6 +23,7 @@ const CloseIcon = styled.div`
   position: absolute;
   right: 1rem;
   top: 14px;
+
   &:hover {
     cursor: pointer;
     opacity: 0.6;
@@ -49,6 +50,7 @@ const HeaderRow = styled.div`
   padding: 1rem 1rem;
   font-weight: 500;
   color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.colors.primary : 'inherit')};
+
   ${({ theme }) => theme.mediaQueries.lg} {
     padding: 1rem;
   }
@@ -91,6 +93,7 @@ const Blurb = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 2rem;
+
   ${({ theme }) => theme.mediaQueries.lg} {
     margin: 1rem;
     font-size: 12px;
@@ -100,6 +103,7 @@ const Blurb = styled.div`
 const OptionGrid = styled.div`
   display: grid;
   grid-gap: 10px;
+
   ${({ theme }) => theme.mediaQueries.lg} {
     grid-template-columns: 1fr;
     grid-gap: 10px;

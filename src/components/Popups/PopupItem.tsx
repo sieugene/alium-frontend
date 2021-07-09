@@ -1,10 +1,10 @@
 import { CloseIcon } from 'alium-uikit/src'
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react'
 import { animated } from 'react-spring'
 import { useSpring } from 'react-spring/web'
+import { PopupContent } from 'state/application/actions'
+import { useRemovePopup } from 'state/application/hooks'
 import styled from 'styled-components'
-import { PopupContent } from '../../state/application/actions'
-import { useRemovePopup } from '../../state/application/hooks'
 import ListUpdatePopup from './ListUpdatePopup'
 import TransactionPopup from './TransactionPopup'
 
