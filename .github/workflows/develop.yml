@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ IMAGE_ID }}:${{ VERSION }}
+          tags: ghcr.io/alium-finance/alium-frontend:${GITHUB_REF#refs/heads/}
           file: Dockerfile.develop
       
       #- name: Log into registry
