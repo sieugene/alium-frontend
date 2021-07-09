@@ -31,6 +31,8 @@ jobs:
           push: true
           tags: ghcr.io/alium-finance/alium-frontend:develop
           file: Dockerfile.develop
+          cache-from: type=registry,ref=ghcr.io/alium-finance/alium-frontend:develop
+          cache-to: type=inline          
       
      
       #- name: Log into registry
