@@ -1,5 +1,7 @@
 FROM node:14-alpine
 
+WORKDIR /app
+
 RUN apk add libc6-compat git
 
 COPY package.json yarn.lock ./
@@ -7,8 +9,6 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 RUN yarn build:as-dev
-
-WORKDIR /app
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
