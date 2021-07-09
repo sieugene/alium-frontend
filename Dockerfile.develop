@@ -9,7 +9,6 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 RUN yarn build:as-dev
-RUN rm -rf ~/.cache/
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
