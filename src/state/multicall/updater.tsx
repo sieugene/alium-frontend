@@ -108,10 +108,13 @@ export function outdatedListeningKeys(
 
 export default function Updater(): null {
   const dispatch = useDispatch<AppDispatch>()
-  const state = useStoreMulticall()
-  const { fetchingMulticallResults, updateMulticallResults, errorFetchingMulticallResults } = state
+  const callResults = useStoreMulticall((state) => state.callResults)
+  const callListeners = useStoreMulticall((state) => state.callListeners)
+  const [fetchingMulticallResults, updateMulticallResults, errorFetchingMulticallResults] = useStoreMulticall(
+    (state) => [state.fetchingMulticallResults, state.updateMulticallResults, state.errorFetchingMulticallResults],
+  )
   // wait for listeners to settle before triggering updates
-  const debouncedListeners = useDebounce(state.callListeners, 100)
+  const debouncedListeners = useDebounce(callListeners, 100)
   const latestBlockNumber = useBlockNumber()
   const { chainId } = useActiveWeb3React()
 
@@ -123,8 +126,8 @@ export default function Updater(): null {
   }, [debouncedListeners, chainId])
 
   const unserializedOutdatedCallKeys = useMemo(() => {
-    return outdatedListeningKeys(state.callResults, listeningKeys, chainId, latestBlockNumber)
-  }, [chainId, state.callResults, listeningKeys, latestBlockNumber])
+    return outdatedListeningKeys(callResults, listeningKeys, chainId, latestBlockNumber)
+  }, [chainId, callResults, listeningKeys, latestBlockNumber])
 
   const serializedOutdatedCallKeys = useMemo(
     () => JSON.stringify(unserializedOutdatedCallKeys.sort()),
