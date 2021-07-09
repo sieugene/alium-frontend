@@ -33,14 +33,14 @@ const StyledLink = styled(NextLink)`
 const Logo: FC<Props> = ({ isDark, href, isPushed }) => {
   const isAbsoluteUrl = href.startsWith('http')
   const innerLogo = (
-    <NextLink.multiple href='/'>
+    <NextLink.Multiple href='/'>
       <LogoIcon className='mobile-icon' />
       {!isPushed ? (
         <LogoWithText className='desktop-icon' isDark={isDark} />
       ) : (
         <LogoWithText className='desktop-icon' isDark={isDark} withText />
       )}
-    </NextLink.multiple>
+    </NextLink.Multiple>
   )
 
   return (

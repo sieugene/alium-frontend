@@ -308,9 +308,9 @@ const InvestorsAccount = () => {
           ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
             <NoNFT>
               <NoNFTText>You don&apos;t have NFT tokens yet, but you can purchase them on the page</NoNFTText>
-              <NextLink.multiple href={ROUTES.public} target='_blank' as='a'>
+              <NextLink.Multiple href={ROUTES.public} target='_blank' as='a'>
                 <Button>Buy NFT</Button>
-              </NextLink.multiple>
+              </NextLink.Multiple>
             </NoNFT>
           ) : (
             <>
