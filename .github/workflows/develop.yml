@@ -15,7 +15,6 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - run: echo ${GITHUB_REF##*/}
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -35,7 +34,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/alium-finance/alium-frontend:${GITHUB_REF##*/}
+          tags: ghcr.io/alium-finance/alium-frontend:develop
           file: Dockerfile.develop
           cache-from: type=registry,ref=ghcr.io/alium-finance/alium-frontend:develop
           cache-to: type=inline          
