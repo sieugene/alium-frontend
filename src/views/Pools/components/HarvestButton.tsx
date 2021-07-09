@@ -1,29 +1,23 @@
 import Link from 'next/link'
-import React, { useContext, useMemo } from 'react'
+import { FC, ReactNode, useContext, useMemo } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 
 const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;
   background: ${(props) => (!props.disabled ? props.theme.card.background : `#ddd`)};
-  border: 0;
   border-radius: 12px;
   color: ${(props) => (!props.disabled ? `#32cad7` : `#acaaaf`)};
   cursor: pointer;
   display: flex;
-  font-size: ${(props) => props.fontSize}px;
   font-weight: 700;
-  height: ${(props) => props.size}px;
   justify-content: center;
   outline: none;
-  padding-left: ${(props) => props.padding}px;
-  padding-right: ${(props) => props.padding}px;
   pointer-events: ${(props) => (!props.disabled ? undefined : 'none')};
-  width: 100%;
   border: 2px solid ${(props) => (!props.disabled ? `#33cbd7` : `#eee`)};
   width: 100px;
   height: 30px;
   font-size: 14px;
-  padding: 0px;
+  padding: 0;
 `
 
 const StyledLink = styled(Link)`
@@ -50,7 +44,7 @@ const StyledExternalLink = styled.a`
   text-decoration: none;
 `
 interface ButtonProps {
-  children?: React.ReactNode
+  children?: ReactNode
   disabled?: boolean
   href?: string
   onClick?: () => void
@@ -60,7 +54,7 @@ interface ButtonProps {
   variant?: 'default' | 'secondary' | 'tertiary'
 }
 
-const Button: React.FC<ButtonProps> = ({ children, disabled, href, onClick, size, text, to }) => {
+const Button: FC<ButtonProps> = ({ children, disabled, href, onClick, size, text, to }) => {
   const { colors, spacing } = useContext(ThemeContext)
   const buttonColor = colors.background
 
@@ -92,7 +86,7 @@ const Button: React.FC<ButtonProps> = ({ children, disabled, href, onClick, size
     }
     if (href) {
       return (
-        <StyledExternalLink href={href} target="__blank">
+        <StyledExternalLink href={href} target='__blank'>
           {text}
         </StyledExternalLink>
       )

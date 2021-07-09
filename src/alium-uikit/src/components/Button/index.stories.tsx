@@ -1,5 +1,4 @@
 import capitalize from 'lodash/capitalize'
-import React from 'react'
 import { BrowserRouter, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getMainDomain } from '../../util'
@@ -23,7 +22,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <>
       {Object.values(variants).map((variant) => (
@@ -32,7 +31,7 @@ export const Default: React.FC = () => {
           <Button variant={variant} disabled>
             Disabled
           </Button>
-          <Button variant={variant} size="sm">
+          <Button variant={variant} size='sm'>
             Small
           </Button>
         </Row>
@@ -41,17 +40,17 @@ export const Default: React.FC = () => {
   )
 }
 
-export const Variants: React.FC = () => {
+export const Variants: FC = () => {
   return (
     <BrowserRouter>
       <Row>
-        <Button as="a" href={`https://${getMainDomain()}`} target="_blank" rel="noreferrer">
+        <Button as='a' href={`https://${getMainDomain()}`} target='_blank' rel='noreferrer'>
           As an anchor
         </Button>
-        <Button as={Link} to="/router-link" variant="secondary">
+        <Button as={Link} to='/router-link' variant='secondary'>
           As an React Router link
         </Button>
-        <Button as="a" href={`https://${getMainDomain()}`} disabled>
+        <Button as='a' href={`https://${getMainDomain()}`} disabled>
           As an anchor (disabled)
         </Button>
       </Row>
@@ -59,10 +58,10 @@ export const Variants: React.FC = () => {
         <Button fullwidth>Full size</Button>
       </Row>
       <Row>
-        <Button isloading endIcon={<AutoRenewIcon spin color="currentColor" />}>
+        <Button isloading endIcon={<AutoRenewIcon spin color='currentColor' />}>
           Approving
         </Button>
-        <Button isloading variant="success">
+        <Button isloading variant='success'>
           Approving
         </Button>
       </Row>
@@ -77,23 +76,23 @@ export const Variants: React.FC = () => {
         <IconButton>
           <LogoIcon />
         </IconButton>
-        <IconButton variant="secondary">
+        <IconButton variant='secondary'>
           <AddIcon />
         </IconButton>
-        <IconButton buttonType="close" buttonSize="40px">
+        <IconButton buttonType='close' buttonSize='40px'>
           <CloseIcon />
         </IconButton>
       </Row>
       <Row>
-        <IconButton size="sm" variant="danger">
+        <IconButton size='sm' variant='danger'>
           <LogoIcon />
         </IconButton>
-        <IconButton size="sm" variant="success">
+        <IconButton size='sm' variant='success'>
           <AddIcon />
         </IconButton>
       </Row>
       <Row>
-        <Button buttonType="max">MAX</Button>
+        <Button buttonType='max'>MAX</Button>
       </Row>
     </BrowserRouter>
   )

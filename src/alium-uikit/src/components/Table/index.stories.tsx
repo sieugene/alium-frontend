@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { columns, data } from './example/const'
 import StyledTh from './example/header'
 import { ColumnType, useTable } from './index'
@@ -35,7 +35,7 @@ const Table = <T extends DataType>({ _columns, _data }: { _columns: ColumnType<T
   )
 }
 
-const TableComponent: React.FunctionComponent = () => {
+const TableComponent: FunctionComponent = () => {
   const memoColumns = useMemo(() => columns, [])
   const memoData = useMemo(() => data, [])
 
@@ -48,7 +48,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <div style={{ width: '500px' }}>
       <TableComponent />

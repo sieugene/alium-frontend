@@ -1,7 +1,6 @@
 import { ChainId } from '@alium-official/sdk'
 import { Web3Provider } from '@ethersproject/providers'
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
-// eslint-disable-next-line import/no-unresolved
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { NetworkContextName } from 'config/settings'
 import { useEffect, useState } from 'react'
@@ -55,7 +54,7 @@ export function useInactiveListener(suppress = false) {
   useEffect(() => {
     const { ethereum } = window
 
-    if (ethereum && ethereum.on && !active && !error && !suppress) {
+    if (ethereum?.on && !active && !error && !suppress) {
       const handleChainChanged = () => {
         // eat errors
         activate(injected, undefined, true).catch((e) => {

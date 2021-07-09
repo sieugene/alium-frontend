@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, ReactNode } from 'react'
 import { SpaceProps } from 'styled-system'
 import { Colors } from '../../theme/types'
 
@@ -21,5 +21,5 @@ export interface CardProps extends SpaceProps, HTMLAttributes<HTMLDivElement> {
   isSuccess?: boolean
   isWarning?: boolean
   isDisabled?: boolean
-  ribbon?: React.ReactNode
+  ribbon?: ReactNode
 }

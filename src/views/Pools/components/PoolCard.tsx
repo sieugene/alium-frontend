@@ -12,7 +12,7 @@ import { useSousHarvest } from 'hooks/useHarvest'
 import useI18n from 'hooks/useI18n'
 import { useSousStake } from 'hooks/useStake'
 import { useSousUnstake } from 'hooks/useUnstake'
-import React, { useCallback, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 import { Pool } from 'state/types'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -69,7 +69,7 @@ const StyledDetails = styled.div`
   font-size: 14px;
 `
 
-const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
+const PoolCard: FC<HarvestProps> = ({ pool }) => {
   const {
     sousId,
     image,
@@ -210,7 +210,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
                 <StyledActionSpacer />
                 {!isOldSyrup && (
                   <IconButton disabled={isFinished && sousId !== 0} onClick={onPresentDeposit}>
-                    <AddIcon color="background" />
+                    <AddIcon color='background' />
                   </IconButton>
                 )}
               </>
@@ -221,17 +221,17 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           {isFinished || isOldSyrup || !apy || apy?.isNaN() || !apy?.isFinite() ? (
             '-'
           ) : (
-            <Balance fontSize="14px" isDisabled={isFinished} value={apy?.toNumber()} decimals={2} unit="%" />
+            <Balance fontSize='14px' isDisabled={isFinished} value={apy?.toNumber()} decimals={2} unit='%' />
           )}
         </StyledDetails>
         <StyledDetails>
           <div style={{ flex: 1 }}>
-            <span role="img" aria-label={stakingTokenName}>
+            <span role='img' aria-label={stakingTokenName}>
               🥞{' '}
             </span>
             {TranslateString(384, 'Your Stake')}:
           </div>
-          <Balance fontSize="14px" isDisabled={isFinished} value={getBalanceNumber(stakedBalance)} />
+          <Balance fontSize='14px' isDisabled={isFinished} value={getBalanceNumber(stakedBalance)} />
         </StyledDetails>
       </div>
       <CardFooter

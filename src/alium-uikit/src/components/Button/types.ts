@@ -1,5 +1,5 @@
 import Link, { LinkProps } from 'next/link'
-import { ButtonHTMLAttributes, ReactNode } from 'react'
+import { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react'
 import { SpaceProps } from 'styled-system'
 
 export const sizes = {
@@ -43,7 +43,7 @@ export type ButtonProps = {
   buttonType?: Types
   buttonSize?: string
   onClick?: (...props: any) => any
-  style?: React.CSSProperties
+  style?: CSSProperties
   id?: string
 } & ButtonTypes &
   SpaceProps

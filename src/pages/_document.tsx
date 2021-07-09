@@ -6,7 +6,6 @@ export default class extends Document {
   render = () => (
     <Html lang='en' dir='ltr'>
       <Head>
-        <title>Alium Swap</title>
         <link rel='preconnect' href={process.env.REACT_APP_NODE_1} />
         <link rel='preconnect' href={process.env.REACT_APP_HECO_NODE_1} />
         <link rel='preconnect' href={process.env.REACT_APP_ETHEREUM_NODE_1} />
@@ -20,7 +19,6 @@ export default class extends Document {
         <link rel='manifest' href={`/manifest.json${v}`} />
 
         <meta charSet='utf-8' />
-        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1' />
         <meta
           name='description'
           content='Trade any assets, any blockchain. Unlimited! We revolutionize NFTs and boost them with the power of cross-blockchain integration.

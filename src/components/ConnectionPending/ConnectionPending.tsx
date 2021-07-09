@@ -1,6 +1,5 @@
 import Portal from '@reach/portal'
 import { ToastPending } from 'alium-uikit/src'
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { AppState } from 'state'
 

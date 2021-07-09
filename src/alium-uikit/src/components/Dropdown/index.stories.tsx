@@ -1,4 +1,3 @@
-import React from 'react'
 import Button from '../Button/Button'
 import Flex from '../Flex/Flex'
 import Dropdown from './Dropdown'
@@ -9,7 +8,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <div>
       <Dropdown target={<Button>Hover</Button>}>
@@ -21,15 +20,15 @@ export const Default: React.FC = () => {
   )
 }
 
-export const Top: React.FC = () => {
+export const Top: FC = () => {
   return (
-    <Flex justifyContent="space-between" style={{ marginTop: '400px' }}>
-      <Dropdown position="top-right" target={<Button>Top right</Button>}>
+    <Flex justifyContent='space-between' style={{ marginTop: '400px' }}>
+      <Dropdown position='top-right' target={<Button>Top right</Button>}>
         {[...Array(20)].map(() => (
           <div>Content</div>
         ))}
       </Dropdown>
-      <Dropdown position="top" target={<Button>Top</Button>}>
+      <Dropdown position='top' target={<Button>Top</Button>}>
         {[...Array(20)].map(() => (
           <div>Content</div>
         ))}

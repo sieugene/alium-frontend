@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import React, { AnchorHTMLAttributes } from 'react'
+import { AnchorHTMLAttributes, FC } from 'react'
 
-const MenuLink: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({ href, ...otherProps }) => {
+const MenuLink: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({ href, ...otherProps }) => {
   return <Link href={href} {...otherProps} />
 }
 

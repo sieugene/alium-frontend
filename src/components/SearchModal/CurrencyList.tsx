@@ -1,7 +1,7 @@
 import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@alium-official/sdk'
 import { Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
+import { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react';
 import { FixedSizeList } from 'react-window'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
@@ -116,7 +116,7 @@ function CurrencyRow({
       disabled={isSelected}
       selected={otherSelected}
     >
-      <CurrencyLogo currency={currency} size="24px" />
+      <CurrencyLogo currency={currency} size='24px' />
       <Column>
         <Text title={currency.name}>{currency.symbol}</Text>
         <FadedSpan>
@@ -200,7 +200,7 @@ export default function CurrencyList({
     <FixedSizeList
       height={height}
       ref={fixedListRef as any}
-      width="100%"
+      width='100%'
       itemData={itemData}
       itemCount={itemData.length}
       itemSize={56}

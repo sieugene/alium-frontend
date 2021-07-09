@@ -1,7 +1,6 @@
 import { Button, Heading, LogoIcon, Text } from 'alium-uikit/src'
 import Page from 'components/layout/Page'
 import useI18n from 'hooks/useI18n'
-import React from 'react'
 import styled from 'styled-components'
 
 const StyledNotFound = styled.div`
@@ -18,10 +17,10 @@ const NotFound = () => {
   return (
     <Page>
       <StyledNotFound>
-        <LogoIcon width="64px" mb="8px" />
-        <Heading size="xxl">404</Heading>
-        <Text mb="16px">{TranslateString(1122, 'Oops, page not found.')}</Text>
-        <Button as="a" href="/" size="sm">
+        <LogoIcon width='64px' mb='8px' />
+        <Heading size='xxl'>404</Heading>
+        <Text mb='16px'>{TranslateString(1122, 'Oops, page not found.')}</Text>
+        <Button as='a' href='/' size='sm'>
           {TranslateString(1124, 'Back Home')}
         </Button>
       </StyledNotFound>

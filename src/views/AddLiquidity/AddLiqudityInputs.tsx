@@ -2,7 +2,7 @@ import { Currency, TokenAmount } from '@alium-official/sdk'
 import { AddIcon } from 'alium-uikit/src'
 import { ColumnCenter } from 'components/Column'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
-import React, { FC } from 'react'
+import { memo, FC } from 'react';
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
 
@@ -38,7 +38,7 @@ interface Props {
   handleCurrencyBSelect: (currB: Currency) => void
 }
 
-export const AddLiqudityInputs: FC<Props> = React.memo(
+export const AddLiqudityInputs: FC<Props> = memo(
   ({
     formattedAmounts,
     onFieldAInput,

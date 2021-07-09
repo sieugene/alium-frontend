@@ -4,8 +4,8 @@ import { ERC20_INTERFACE } from '../../config/interfaces'
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
 import { useMulticallContract } from '../../hooks/useContract'
-import { isAddress } from '../../utils'
 import { useMultipleContractSingleData, useSingleContractMultipleData } from '../../store/multicall/hooks/hooks'
+import { isAddress } from '../../utils'
 
 /**
  * Returns a map of the given addresses to their eventually consistent BNB balances.

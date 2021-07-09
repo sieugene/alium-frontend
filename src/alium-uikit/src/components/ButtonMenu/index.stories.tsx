@@ -1,6 +1,5 @@
-/* eslint-disable import/no-unresolved */
 import { Meta } from '@storybook/react/types-6-0'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { getMainDomain } from '../../util'
 import ButtonMenu from './ButtonMenu'
@@ -20,13 +19,11 @@ export default {
   argTypes: {},
 } as Meta
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const [index, setIndex] = useState(0)
   const [index1, setIndex1] = useState(1)
 
-  // @ts-ignore
   const handleClick = (newIndex) => setIndex(newIndex)
-  // @ts-ignore
   const handleClick1 = (newIndex) => setIndex1(newIndex)
 
   return (
@@ -67,7 +64,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const AsLinks: React.FC = () => {
+export const AsLinks: FC = () => {
   return (
     <Row>
       <ButtonMenu activeIndex={0}>

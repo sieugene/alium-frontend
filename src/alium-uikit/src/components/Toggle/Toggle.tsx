@@ -1,13 +1,13 @@
-import React from 'react'
+import { FC } from 'react'
 import StyledToggle, { Handle, Input } from './StyledToggle'
 import { scales, ToggleProps } from './types'
 
-const Toggle: React.FC<ToggleProps> = ({ checked, scale = scales.MD, ...props }) => {
+const Toggle: FC<ToggleProps> = ({ checked, scale = scales.MD, ...props }) => {
   const isChecked = !!checked
 
   return (
     <StyledToggle checked={isChecked} scale={scale}>
-      <Input checked={checked} scale={scale} {...props} type="checkbox" />
+      <Input checked={checked} scale={scale} {...props} type='checkbox' />
       <Handle scale={scale} />
     </StyledToggle>
   )

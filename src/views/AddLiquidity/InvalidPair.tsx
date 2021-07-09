@@ -4,7 +4,7 @@ import { AutoColumn } from 'components/Column'
 import Pane from 'components/Pane'
 import { MinimalPositionCard } from 'components/PositionCard'
 import { PairState } from 'data/Reserves'
-import React, { FC } from 'react'
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'

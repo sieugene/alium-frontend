@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import Link from '../../components/Link/Link'
 import { SvgProps } from '../../components/Svg'
@@ -8,7 +8,7 @@ import { PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {}
 
-const Icons = IconModule as unknown as { [key: string]: React.FC<SvgProps> }
+const Icons = IconModule as unknown as { [key: string]: FC<SvgProps> }
 
 const Container = styled.div<{ isPushed?: boolean }>`
   flex: none;
@@ -54,7 +54,7 @@ const StyledSocial = styled.div<{ isPushed?: boolean }>`
     }
   }
 `
-const PanelFooter: React.FC<Props> = ({ isPushed }) => {
+const PanelFooter: FC<Props> = ({ isPushed }) => {
   return (
     <Container isPushed={isPushed}>
       <SocialEntry>

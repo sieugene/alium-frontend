@@ -1,8 +1,8 @@
+import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
 import { sample } from 'lodash'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { alertVariants } from '../../components/Alert'
 import Button from '../../components/Button/Button'
-import { getMainDomain } from '../../util'
 import ToastContainer from './ToastContainer'
 
 export default {
@@ -11,7 +11,7 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   const [toasts, setToasts] = useState([])
 
   const handleClick = (description = '') => {
@@ -20,28 +20,25 @@ export const Default: React.FC = () => {
       id: `id-${now}`,
       title: `Title: ${now}`,
       description,
-      // @ts-ignore
       type: alertVariants[sample(Object.keys(alertVariants))],
     }
 
-    // @ts-ignore
     setToasts((prevToasts) => [randomToast, ...prevToasts])
   }
 
   const handleRemove = (id: string) => {
-    // @ts-ignore
     setToasts((prevToasts) => prevToasts.filter((prevToast) => prevToast.id !== id))
   }
 
   return (
     <div>
-      <Button type="button" variant="secondary" onClick={() => handleClick()}>
+      <Button type='button' variant='secondary' onClick={() => handleClick()}>
         Random Toast
       </Button>
       <Button
-        type="button"
-        variant="secondary"
-        ml="8px"
+        type='button'
+        variant='secondary'
+        ml='8px'
         onClick={() => handleClick('This is a description to explain more about the toast')}
       >
         Random Toast with Description
@@ -51,7 +48,7 @@ export const Default: React.FC = () => {
   )
 }
 
-export const WithAction: React.FC = () => {
+export const WithAction: FC = () => {
   const [toasts, setToasts] = useState([])
 
   const handleClick = () => {
@@ -64,22 +61,19 @@ export const WithAction: React.FC = () => {
         text: 'Action Button',
         url: `https://${getMainDomain()}`,
       },
-      // @ts-ignore
       type: alertVariants[sample(Object.keys(alertVariants))],
     }
 
-    // @ts-ignore
     setToasts((prevToasts) => [randomToast, ...prevToasts])
   }
 
   const handleRemove = (id: string) => {
-    // @ts-ignore
     setToasts((prevToasts) => prevToasts.filter((prevToast) => prevToast.id !== id))
   }
 
   return (
     <div>
-      <Button type="button" variant="success" ml="8px" onClick={() => handleClick()}>
+      <Button type='button' variant='success' ml='8px' onClick={() => handleClick()}>
         Random Toast with Action Button
       </Button>
       <ToastContainer toasts={toasts} onRemove={handleRemove} />

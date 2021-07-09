@@ -2,7 +2,7 @@ import { Button, Flex, Heading } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import { useHarvest } from 'hooks/useHarvest'
 import useI18n from 'hooks/useI18n'
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { getBalanceNumber } from 'utils/formatBalance'
 
 interface FarmCardActionsProps {
@@ -10,7 +10,7 @@ interface FarmCardActionsProps {
   pid?: number
 }
 
-const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
+const HarvestAction: FC<FarmCardActionsProps> = ({ earnings, pid }) => {
   const TranslateString = useI18n()
   const [pendingTx, setPendingTx] = useState(false)
   const { onReward } = useHarvest(pid)
@@ -19,7 +19,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
   const displayBalance = rawEarningsBalance.toLocaleString()
 
   return (
-    <Flex mb="8px" justifyContent="space-between" alignItems="center">
+    <Flex mb='8px' justifyContent='space-between' alignItems='center'>
       <Heading color={rawEarningsBalance === 0 ? 'textDisabled' : 'text'}>{displayBalance}</Heading>
       <Button
         disabled={rawEarningsBalance === 0 || pendingTx}

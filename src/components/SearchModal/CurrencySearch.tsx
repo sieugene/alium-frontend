@@ -1,7 +1,16 @@
 import { Currency, ETHER, Token } from '@alium-official/sdk'
 import { CloseIcon, IconButton, Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  KeyboardEvent,
+  RefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import styled, { ThemeContext } from 'styled-components'
@@ -160,21 +169,21 @@ export function CurrencySearch({
 
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
-      <PaddedColumn gap="14px">
+      <PaddedColumn gap='14px'>
         <RowBetween>
           <Text style={{ display: 'flex', alignItems: 'center', fontSize: '18px' }} bold>
             {t('selectToken')}
-            <QuestionHelper text="Find a token by searching for its name or symbol or by pasting its address below." />
+            <QuestionHelper text='Find a token by searching for its name or symbol or by pasting its address below.' />
           </Text>
-          <IconButton buttonType="close" buttonSize="40px" onClick={onDismiss}>
+          <IconButton buttonType='close' buttonSize='40px' onClick={onDismiss}>
             <CloseIcon />
           </IconButton>
         </RowBetween>
         <Separator />
         <StyledSearchInput>
           <SearchInput
-            type="text"
-            id="token-search-input"
+            type='text'
+            id='token-search-input'
             placeholder={t('tokenSearchPlaceholder')}
             value={searchQuery}
             ref={inputRef as RefObject<HTMLInputElement>}
@@ -190,7 +199,7 @@ export function CurrencySearch({
         )}
         <StyledRowBetween>
           <RowBetween>
-            <Text fontSize="16px" bold>
+            <Text fontSize='16px' bold>
               <TranslatedText translationId={126}>Token name</TranslatedText>
             </Text>
             <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder((iso) => !iso)} />
@@ -228,13 +237,13 @@ export function CurrencySearch({
                       alt={`${selectedListInfo.current.name} list logo`}
                     />
                   ) : null}
-                  <Main id="currency-search-selected-list-name">{selectedListInfo.current.name}</Main>
+                  <Main id='currency-search-selected-list-name'>{selectedListInfo.current.name}</Main>
                 </Row>
               ) : null}
               <LinkStyledButton
                 style={{ fontWeight: 500, color: theme.colors.textSubtle, fontSize: 16 }}
                 onClick={onChangeList}
-                id="currency-search-change-list-button"
+                id='currency-search-change-list-button'
               >
                 {selectedListInfo.current ? 'Change' : 'Select a list'}
               </LinkStyledButton>

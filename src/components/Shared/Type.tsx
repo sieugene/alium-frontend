@@ -1,5 +1,4 @@
 import { Text } from 'alium-uikit/src'
-import React from 'react'
 
 export const TYPE = {
   main(props: any) {
@@ -15,13 +14,13 @@ export const TYPE = {
     return <Text {...props} />
   },
   largeHeader(props: any) {
-    return <Text bold fontSize="24px" {...props} />
+    return <Text bold fontSize='24px' {...props} />
   },
   mediumHeader(props: any) {
-    return <Text bold fontSize="20px" {...props} />
+    return <Text bold fontSize='20px' {...props} />
   },
   subHeader(props: any) {
-    return <Text fontSize="14px" {...props} />
+    return <Text fontSize='14px' {...props} />
   },
   blue(props: any) {
     return <Text {...props} />
@@ -30,10 +29,10 @@ export const TYPE = {
     return <Text {...props} />
   },
   italic(props: any) {
-    return <Text fontSize="12px" style={{ fontStyle: 'italic' }} {...props} />
+    return <Text fontSize='12px' style={{ fontStyle: 'italic' }} {...props} />
   },
   error(props: any) {
-    return <Text color="failure" {...props} />
+    return <Text color='failure' {...props} />
   },
 }
 

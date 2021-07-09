@@ -1,6 +1,6 @@
 import { Flex, Link, LinkExternal, Text } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 
 export interface ExpandableSectionProps {
@@ -30,7 +30,7 @@ const StyledLinkExternal = styled(LinkExternal)`
   }
 `
 
-const DetailsSection: React.FC<ExpandableSectionProps> = ({
+const DetailsSection: FC<ExpandableSectionProps> = ({
   bscScanAddress,
   removed,
   totalValueFormated,
@@ -41,17 +41,17 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
 
   return (
     <Wrapper>
-      <Flex justifyContent="space-between">
+      <Flex justifyContent='space-between'>
         <Text>{TranslateString(316, 'Stake')}:</Text>
         <StyledLinkExternal href={addLiquidityUrl}>{lpLabel}</StyledLinkExternal>
       </Flex>
       {!removed && (
-        <Flex justifyContent="space-between">
+        <Flex justifyContent='space-between'>
           <Text>{TranslateString(23, 'Total Liquidity')}:</Text>
           <Text>{totalValueFormated}</Text>
         </Flex>
       )}
-      <Flex justifyContent="flex-start">
+      <Flex justifyContent='flex-start'>
         <Link external href={bscScanAddress} bold={false}>
           {TranslateString(356, 'View on BscScan')}
         </Link>

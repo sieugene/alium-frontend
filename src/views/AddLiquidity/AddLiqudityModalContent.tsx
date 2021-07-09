@@ -5,7 +5,7 @@ import { AutoColumn } from 'components/Column'
 import DoubleCurrencyLogo from 'components/DoubleLogo'
 import Row, { RowFlat } from 'components/Row'
 import { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
-import React, { FC } from 'react'
+import { memo, FC } from 'react';
 import { Field } from 'state/mint/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
@@ -15,7 +15,7 @@ interface Props extends HeaderProps, BottomProps {
   handleDismissConfirmation: () => void
 }
 
-export const AddLiqudityModalContent: FC<Props> = React.memo(
+export const AddLiqudityModalContent: FC<Props> = memo(
   ({
     noLiquidity,
     handleDismissConfirmation,
@@ -72,7 +72,7 @@ interface HeaderProps {
   liquidityMinted: TokenAmount
   allowedSlippage: number
 }
-const ModalHeader: FC<HeaderProps> = React.memo(({ noLiquidity, currencies, liquidityMinted, allowedSlippage }) => {
+const ModalHeader: FC<HeaderProps> = memo(({ noLiquidity, currencies, liquidityMinted, allowedSlippage }) => {
   return noLiquidity ? (
     <AutoColumn gap='20px'>
       <LightCard mt='20px' borderRadius='20px' padding='0'>
@@ -129,7 +129,7 @@ interface BottomProps {
   hasError: any
   poolTokenPercentage: Percent
 }
-const ModalBottom: FC<BottomProps> = React.memo(
+const ModalBottom: FC<BottomProps> = memo(
   ({ price, currencies, parsedAmounts, noLiquidity, onAdd, hasError, poolTokenPercentage }) => {
     return (
       <ConfirmAddModalBottom

@@ -1,4 +1,3 @@
-import React from 'react'
 import Flex from '../Flex/Flex'
 import CheckmarkCircleIcon from '../Svg/Icons/CheckmarkCircle'
 import { Link, LinkExternal } from './index'
@@ -20,26 +19,26 @@ export default {
   },
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return (
     <div>
       <div>
-        <Link href="/">Default</Link>
+        <Link href='/'>Default</Link>
       </div>
       <div>
-        <Link href="/" color="text">
+        <Link href='/' color='text'>
           Custom color
         </Link>
       </div>
       <div>
-        <Link external href="/">
+        <Link external href='/'>
           External
         </Link>
       </div>
       <div>
-        <LinkExternal href="/">
+        <LinkExternal href='/'>
           <Flex>
-            <CheckmarkCircleIcon color="primaryBright" marginRight="8px" />
+            <CheckmarkCircleIcon color='primaryBright' marginRight='8px' />
             LinkExternal
           </Flex>
         </LinkExternal>

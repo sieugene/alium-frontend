@@ -2,7 +2,7 @@ import { Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react';
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import { DEFAULT_VERSION, Version } from '../../hooks/useToggledVersion'
 import { YellowCard } from '../Card'
@@ -25,8 +25,8 @@ export default function BetterTradeLink({ version }: { version: Version }) {
 
   return (
     <YellowCard style={{ marginTop: '12px', padding: '8px 4px' }}>
-      <AutoColumn gap="sm" justify="center" style={{ alignItems: 'center', textAlign: 'center' }}>
-        <Text style={{ lineHeight: '145.23%' }} fontSize="14px">
+      <AutoColumn gap='sm' justify='center' style={{ alignItems: 'center', textAlign: 'center' }}>
+        <Text style={{ lineHeight: '145.23%' }} fontSize='14px'>
           {t('betterPrice')}{' '}
           <StyledInternalLink href={linkDestination}>
             <b>Uniswap {version.toUpperCase()} ↗</b>

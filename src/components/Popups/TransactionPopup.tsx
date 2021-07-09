@@ -1,5 +1,5 @@
 import { PopupCheckIcon, PopupFailIcon } from 'alium-uikit/src'
-import React, { useContext } from 'react'
+import { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { getExplorerLink, getExplorerName } from '../../utils'
@@ -30,12 +30,12 @@ export default function TransactionPopup({
     <RowNoFlex>
       <div style={{ paddingRight: 16 }}>
         {success ? (
-          <PopupCheckIcon color={theme.colors.success} width="40px" height="40px" />
+          <PopupCheckIcon color={theme.colors.success} width='40px' height='40px' />
         ) : (
-          <PopupFailIcon color={theme.colors.failure} width="40px" height="40px" />
+          <PopupFailIcon color={theme.colors.failure} width='40px' height='40px' />
         )}
       </div>
-      <AutoColumn gap="8px">
+      <AutoColumn gap='8px'>
         <Body fontWeight={500} style={{ fontWeight: 500 }}>
           {summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}
         </Body>

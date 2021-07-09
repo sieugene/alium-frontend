@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import NoProfileAvatar from '../../components/Svg/Icons/NoProfileAvatar'
 import { Profile } from './types'
@@ -28,15 +28,15 @@ const Pip = styled.div`
   width: 8px;
 `
 
-const Avatar: React.FC<AvatarProps> = ({ profile }) => {
+const Avatar: FC<AvatarProps> = ({ profile }) => {
   const { username = 'Bunny', image, profileLink, noProfileLink, showPip = false } = profile
   const link = profile.username ? profileLink : noProfileLink
   const isExternal = link.startsWith('http')
   const ariaLabel = 'Link to profile'
   const icon = image ? (
-    <img src={image} alt="profile avatar" height="32px" width="32px" />
+    <img src={image} alt='profile avatar' height='32px' width='32px' />
   ) : (
-    <NoProfileAvatar width="32px" height="32px" />
+    <NoProfileAvatar width='32px' height='32px' />
   )
 
   if (isExternal) {

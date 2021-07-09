@@ -1,8 +1,8 @@
-import React, { createContext } from 'react'
+import { createContext, Dispatch, SetStateAction } from 'react'
 
 export interface TranslationState {
   translations: Array<any>
-  setTranslations: React.Dispatch<React.SetStateAction<Array<any>>>
+  setTranslations: Dispatch<SetStateAction<Array<any>>>
 }
 
 const defaultTranslationState: TranslationState = {

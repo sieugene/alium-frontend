@@ -1,5 +1,5 @@
 import { Flex, Text } from 'alium-uikit/src'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useCollectionNft from '../../hooks/useCollectionNft'
 import AppInvestorsAccountBody from './AppInvestorsAccountBody'
@@ -97,16 +97,16 @@ function Collection() {
 
   const poolClearedCards = poolsWithCards.filter((pool) => pool.cards?.length > 0)
 
-  const selectDefaultCard = () => {
-    if (poolClearedCards?.length && !selectedCard) {
-      const firstEl = poolClearedCards[0]
-      const firstCard = firstEl?.cards[0]
-      if (firstEl && firstCard) onSelectCard(firstEl, firstCard, 0)
-    }
-  }
   useEffect(() => {
+    const selectDefaultCard = () => {
+      if (poolClearedCards?.length && !selectedCard) {
+        const firstEl = poolClearedCards[0]
+        const firstCard = firstEl?.cards[0]
+        if (firstEl && firstCard) onSelectCard(firstEl, firstCard, 0)
+      }
+    }
+
     selectDefaultCard()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolClearedCards])
 
   return (

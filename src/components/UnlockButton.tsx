@@ -1,7 +1,6 @@
 import { Button, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import useI18n from 'hooks/useI18n'
-import React from 'react'
 
 const UnlockButton = (props) => {
   const TranslateString = useI18n()

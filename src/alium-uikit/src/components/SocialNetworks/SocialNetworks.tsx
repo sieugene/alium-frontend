@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { externalLinks } from '../../config'
 import {
@@ -41,7 +40,7 @@ const SocialNetworks = () => {
   return (
     <StyledWrapper>
       {links.map(({ href, Icon }) => (
-        <LinkItem href={href} target="_blank" rel="noopener  noreferrer" key={href}>
+        <LinkItem href={href} target='_blank' rel='noopener  noreferrer' key={href}>
           <Icon />
         </LinkItem>
       ))}

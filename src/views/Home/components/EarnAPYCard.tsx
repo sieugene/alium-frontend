@@ -1,6 +1,6 @@
 import { ArrowForwardIcon, Card, Flex, Heading } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
+
 // import useI18n from 'hooks/useI18n'
 // import BigNumber from 'bignumber.js'
 // import { QuoteToken } from 'config/constants/types'
@@ -92,15 +92,15 @@ const EarnAPYCard = () => {
 
   return (
     <StyledFarmStakingCard>
-      <Flex justifyContent="space-between" padding="24px">
-        <Heading color="contrast" style={{ lineHeight: '24px', fontSize: '18px', letterSpacing: '0.3px' }}>
+      <Flex justifyContent='space-between' padding='24px'>
+        <Heading color='contrast' style={{ lineHeight: '24px', fontSize: '18px', letterSpacing: '0.3px' }}>
           Earn up to
         </Heading>
-        <ArrowForwardIcon color="#24BA7B" />
+        <ArrowForwardIcon color='#24BA7B' />
       </Flex>
       <Divider />
       <Box>
-        <CardMidContent color="#7645d9">
+        <CardMidContent color='#7645d9'>
           {/* {getHighestAPY() ? ( */}
           {/* `${getHighestAPY()}% ${TranslateString(736, 'APR')}` */}
           {/* // ) : ( */}
@@ -108,9 +108,9 @@ const EarnAPYCard = () => {
           {/* // <Skeleton animation="pulse" variant="rect" height="44px" /> */}
           {/* // )} */}
         </CardMidContent>
-        <Flex justifyContent="space-between">
+        <Flex justifyContent='space-between'>
           <Heading
-            color="#8990A5"
+            color='#8990A5'
             style={{
               lineHeight: '20px',
               fontSize: '16px',

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { CurrencyAmount } from '@alium-official/sdk'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -18,7 +17,7 @@ import { useToken } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useVampireContract } from 'hooks/useContract'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react';
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { Field } from 'state/swap/actions'
 import { useMigrateActionHandlers, useMigrateInfo, useSwapState } from 'state/swap/hooks'
@@ -49,7 +48,7 @@ function useTokenAddress(props) {
   const Info = useToken(props)
 
   useEffect(() => {
-    if (Info && Info !== null) {
+    if (Info) {
       setTokenInfo(Info)
     }
   }, [Info])
@@ -175,7 +174,6 @@ function Migrate() {
       .then((estimatedGasLimit) => {
         vampire
           .deposit(...args, { from: account, gasLimit: estimatedGasLimit })
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           .then((resp) => {
             // setTxHash(resp.hash);
           })

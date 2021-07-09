@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import { ProgressBunny } from '../Svg'
 import ProgressBunnyWrapper from './ProgressBunnyWrapper'
 import StyledProgress, { Bar } from './StyledProgress'
@@ -16,7 +16,7 @@ const stepGuard = (step: number) => {
   return step
 }
 
-const Progress: React.FC<ProgressProps> = ({ primaryStep = 0, secondaryStep = null, showProgressBunny = false }) => {
+const Progress: FC<ProgressProps> = ({ primaryStep = 0, secondaryStep = null, showProgressBunny = false }) => {
   return (
     <StyledProgress>
       {showProgressBunny && (

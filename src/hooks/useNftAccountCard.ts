@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSingleCallResult } from '../store/multicall/hooks/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
+import { useSingleCallResult } from '../store/multicall/hooks/hooks'
 import { getContract } from '../utils'
 import {
   AliumCollectibleAbi,
@@ -113,7 +113,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
     [account, addTransaction, privateExchangerContract, publicExchangerContract],
   )
 
-  if (tokenType && parseInt(tokenType) !== cardId) {
+  if (tokenType && parseInt(tokenType, 10) !== cardId) {
     error = 'Invalid Pool ID'
   }
 

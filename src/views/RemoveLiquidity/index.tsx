@@ -6,7 +6,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { AddIcon, Button, Flex, Text } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useRouter } from 'next/router'
-import React, { FC, useCallback, useMemo, useState } from 'react'
+import { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
@@ -367,40 +367,40 @@ export const RemoveLiquidity: FC = () => {
 
   const modalHeader = () => {
     return (
-      <AutoColumn gap="md" style={{ marginTop: '0' }}>
+      <AutoColumn gap='md' style={{ marginTop: '0' }}>
         <RowBetween
           style={{ backgroundColor: '#F5F7FF', borderRadius: '6px', padding: '13px 16px' }}
-          alignItems="center"
+          alignItems='center'
         >
-          <Text fontSize="14px">{toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])}</Text>
-          <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyA} size="24px" />
-            <Text fontSize="14px" style={{ marginLeft: '10px' }}>
+          <Text fontSize='14px'>{toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])}</Text>
+          <RowFixed gap='4px'>
+            <CurrencyLogo currency={currencyA} size='24px' />
+            <Text fontSize='14px' style={{ marginLeft: '10px' }}>
               {currencyA?.symbol}
             </Text>
           </RowFixed>
         </RowBetween>
         <RowFixed>
           <StyledAddIcon>
-            <AddIcon color="#6C5DD3" width="12px" />
+            <AddIcon color='#6C5DD3' width='12px' />
           </StyledAddIcon>
         </RowFixed>
         <RowBetween
           style={{ backgroundColor: '#F5F7FF', borderRadius: '6px', padding: '13px 16px' }}
-          alignItems="center"
+          alignItems='center'
         >
-          <Text fontSize="14px">{toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])}</Text>
-          <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyB} size="24px" />
-            <Text fontSize="14px" style={{ marginLeft: '10px' }}>
+          <Text fontSize='14px'>{toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])}</Text>
+          <RowFixed gap='4px'>
+            <CurrencyLogo currency={currencyB} size='24px' />
+            <Text fontSize='14px' style={{ marginLeft: '10px' }}>
               {currencyB?.symbol}
             </Text>
           </RowFixed>
         </RowBetween>
 
-        <Text fontSize="14px" color="#8990A5">
+        <Text fontSize='14px' color='#8990A5'>
           Output is estimated. If the price changes by more than{' '}
-          <Text style={{ display: 'inline-block' }} fontSize="14px" color="#6C5DD3">
+          <Text style={{ display: 'inline-block' }} fontSize='14px' color='#6C5DD3'>
             {allowedSlippage / 100}%
           </Text>{' '}
           your transaction will revert.
@@ -419,12 +419,12 @@ export const RemoveLiquidity: FC = () => {
     return (
       <>
         <RowBetween style={{ padding: '6px 8px' }}>
-          <Text color="#8990A5" fontSize="11px">
+          <Text color='#8990A5' fontSize='11px'>
             {`${currencyA?.symbol}/${currencyB?.symbol}`} Burned
           </Text>
           <RowFixed>
             <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin size={24} />
-            <Text fontSize="11px" ml="8px">
+            <Text fontSize='11px' ml='8px'>
               {toSignificantCurrency(parsedAmounts[Field.LIQUIDITY])}
             </Text>
           </RowFixed>
@@ -432,16 +432,16 @@ export const RemoveLiquidity: FC = () => {
         {pair && (
           <StyledPriceContainer>
             <RowBetween>
-              <Text color="#8990A5" fontSize="11px">
+              <Text color='#8990A5' fontSize='11px'>
                 Price
               </Text>
-              <Text fontSize="11px" color="#6C5DD3">
+              <Text fontSize='11px' color='#6C5DD3'>
                 1 {currencyA?.symbol} = {tokenA ? toSignificantCurrency(pair.priceOf(tokenA)) : '-'} {currencyB?.symbol}
               </Text>
             </RowBetween>
             <RowBetween>
               <div />
-              <Text fontSize="11px" color="#6C5DD3">
+              <Text fontSize='11px' color='#6C5DD3'>
                 1 {currencyB?.symbol} = {tokenB ? toSignificantCurrency(pair.priceOf(tokenB)) : '-'} {currencyA?.symbol}
               </Text>
             </RowBetween>
@@ -509,7 +509,7 @@ export const RemoveLiquidity: FC = () => {
   }, [onUserInput, txHash])
 
   const [innerLiquidityPercentage, setInnerLiquidityPercentage] = useDebouncedChangeHandler(
-    Number.parseInt(parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0)),
+    Number.parseInt(parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0), 10),
     liquidityPercentChangeCallback,
   )
 
@@ -526,7 +526,7 @@ export const RemoveLiquidity: FC = () => {
         hash={txHash || ''}
         content={() => (
           <ConfirmationModalContent
-            title="You will receive"
+            title='You will receive'
             onDismiss={handleDismissConfirmation}
             topContent={modalHeader}
             bottomContent={modalBottom}
@@ -540,7 +540,7 @@ export const RemoveLiquidity: FC = () => {
           <AutoColumn>
             <Body>
               <OutlineCard>
-                <AutoColumn gap="8px">
+                <AutoColumn gap='8px'>
                   <RowBetween>
                     <Text
                       style={{
@@ -558,15 +558,15 @@ export const RemoveLiquidity: FC = () => {
                       }}
                       style={{ fontSize: '14px', fontWeight: 700, letterSpacing: '1px' }}
                     >
-                      <Flex alignItems="center">
+                      <Flex alignItems='center'>
                         {showDetailed ? 'Simple' : 'Detailed'}
-                        <ChevronDown width="16px" height="16px" />
+                        <ChevronDown width='16px' height='16px' />
                       </Flex>
                     </ClickableText>
                   </RowBetween>
-                  <Flex justifyContent="start">
+                  <Flex justifyContent='start'>
                     <Text
-                      fontSize="40px"
+                      fontSize='40px'
                       style={{
                         color: '#0B1359',
                         fontWeight: 700,
@@ -582,10 +582,10 @@ export const RemoveLiquidity: FC = () => {
                       <Flex>
                         <Slider value={innerLiquidityPercentage} onChange={setInnerLiquidityPercentage} />
                       </Flex>
-                      <Flex justifyContent="space-between">
+                      <Flex justifyContent='space-between'>
                         <Button
-                          variant="tertiary"
-                          size="sm"
+                          variant='tertiary'
+                          size='sm'
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '25')}
                           style={{
                             height: '24px',
@@ -597,8 +597,8 @@ export const RemoveLiquidity: FC = () => {
                           25%
                         </Button>
                         <Button
-                          variant="tertiary"
-                          size="sm"
+                          variant='tertiary'
+                          size='sm'
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '50')}
                           style={{
                             height: '24px',
@@ -610,8 +610,8 @@ export const RemoveLiquidity: FC = () => {
                           50%
                         </Button>
                         <Button
-                          variant="tertiary"
-                          size="sm"
+                          variant='tertiary'
+                          size='sm'
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '75')}
                           style={{
                             height: '24px',
@@ -623,8 +623,8 @@ export const RemoveLiquidity: FC = () => {
                           75%
                         </Button>
                         <Button
-                          variant="tertiary"
-                          size="sm"
+                          variant='tertiary'
+                          size='sm'
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
                           style={{
                             height: '24px',
@@ -645,19 +645,19 @@ export const RemoveLiquidity: FC = () => {
               <>
                 <ColumnCenter>
                   <StyledTextAddIcon>
-                    <ArrowDown size="12" color="#6C5DD3" />
+                    <ArrowDown size='12' color='#6C5DD3' />
                   </StyledTextAddIcon>
                 </ColumnCenter>
                 <Body>
                   <OutlineCard style={{ background: 'none', padding: '0 24px' }}>
                     <AutoColumn>
                       <RowBetween style={{ padding: '10px 16px' }}>
-                        <Text fontSize="14px" style={{ fontWeight: 500 }}>
+                        <Text fontSize='14px' style={{ fontWeight: 500 }}>
                           {formattedAmounts[Field.CURRENCY_A] || '-'}
                         </Text>
                         <RowFixed>
                           <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} />
-                          <Text fontSize="14px" id="remove-liquidity-tokena-symbol" style={{ fontWeight: 500 }}>
+                          <Text fontSize='14px' id='remove-liquidity-tokena-symbol' style={{ fontWeight: 500 }}>
                             {currencyA?.symbol}
                           </Text>
                         </RowFixed>
@@ -669,12 +669,12 @@ export const RemoveLiquidity: FC = () => {
                           borderRadius: '6px',
                         }}
                       >
-                        <Text fontSize="14px" style={{ fontWeight: 500 }}>
+                        <Text fontSize='14px' style={{ fontWeight: 500 }}>
                           {formattedAmounts[Field.CURRENCY_B] || '-'}
                         </Text>
                         <RowFixed>
                           <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} />
-                          <Text fontSize="14px" id="remove-liquidity-tokenb-symbol" style={{ fontWeight: 500 }}>
+                          <Text fontSize='14px' id='remove-liquidity-tokenb-symbol' style={{ fontWeight: 500 }}>
                             {currencyB?.symbol}
                           </Text>
                         </RowFixed>
@@ -720,13 +720,13 @@ export const RemoveLiquidity: FC = () => {
                     disableCurrencySelect
                     currency={pair?.liquidityToken}
                     pair={pair}
-                    label="From"
-                    id="liquidity-amount"
+                    label='From'
+                    id='liquidity-amount'
                     customHeight={43}
                   />
                   <ColumnCenter>
                     <StyledTextAddIcon>
-                      <ArrowDown size="12" color="#6C5DD3" />
+                      <ArrowDown size='12' color='#6C5DD3' />
                     </StyledTextAddIcon>
                   </ColumnCenter>
                   <CurrencyInputPanel
@@ -736,14 +736,14 @@ export const RemoveLiquidity: FC = () => {
                     onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
                     showMaxButton={!atMaxAmount}
                     currency={currencyA}
-                    label="Output"
+                    label='Output'
                     onCurrencySelect={handleSelectCurrencyA}
-                    id="remove-liquidity-tokena"
+                    id='remove-liquidity-tokena'
                     customHeight={43}
                   />
                   <ColumnCenter>
                     <StyledTextAddIcon>
-                      <AddIcon color="#6C5DD3" width="12px" />
+                      <AddIcon color='#6C5DD3' width='12px' />
                     </StyledTextAddIcon>
                   </ColumnCenter>
                   <CurrencyInputPanel
@@ -753,23 +753,23 @@ export const RemoveLiquidity: FC = () => {
                     onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
                     showMaxButton={!atMaxAmount}
                     currency={currencyB}
-                    label="Output"
+                    label='Output'
                     onCurrencySelect={handleSelectCurrencyB}
-                    id="remove-liquidity-tokenb"
+                    id='remove-liquidity-tokenb'
                     customHeight={43}
                   />
                 </>
               )}
               {pair && (
                 <div style={{ padding: '32px 0' }}>
-                  <Flex justifyContent="space-between" mb="8px">
+                  <Flex justifyContent='space-between' mb='8px'>
                     <Text style={{ color: '#8990A5', fontSize: '14px', fontWeight: 500 }}>Price:</Text>
                     <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
                       1 {currencyA?.symbol} = {tokenA ? toSignificantCurrency(pair.priceOf(tokenA)) : '-'}{' '}
                       {currencyB?.symbol}
                     </Text>
                   </Flex>
-                  <Flex justifyContent="space-between">
+                  <Flex justifyContent='space-between'>
                     <div />
                     <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
                       1 {currencyB?.symbol} = {tokenB ? toSignificantCurrency(pair.priceOf(tokenB)) : '-'}{' '}
@@ -787,7 +787,7 @@ export const RemoveLiquidity: FC = () => {
                       onClick={onAttemptToApprove}
                       variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'success' : 'primary'}
                       disabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
-                      mr="8px"
+                      mr='8px'
                     >
                       {approval === ApprovalState.PENDING ? (
                         <Dots>Approving</Dots>

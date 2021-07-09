@@ -4,7 +4,6 @@ import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants'
 import { useActiveWeb3React } from '../../hooks'
-// eslint-disable-next-line import/no-cycle
 import { useAllTokens } from '../../hooks/Tokens'
 import { setThemeCache } from '../../utils/theme'
 import { AppDispatch, AppState } from '../index'
@@ -45,7 +44,6 @@ export function useIsDarkMode(): boolean {
     AppState,
     { userDarkMode: boolean | null; matchesDarkMode: boolean }
   >(
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     ({ user: { matchesDarkMode, userDarkMode } }) => ({
       userDarkMode,
       matchesDarkMode,
@@ -58,7 +56,6 @@ export function useIsDarkMode(): boolean {
 export function useDarkModeManager(): [boolean, () => void] {
   const dispatch = useDispatch<AppDispatch>()
   const { userDarkMode } = useSelector<AppState, { userDarkMode: boolean | null }>(
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     ({ user: { userDarkMode } }) => ({
       userDarkMode,
     }),

@@ -1,7 +1,7 @@
 import { Button, Image } from 'alium-uikit/src'
 import { CommunityTag } from 'components/Tags'
 import useI18n from 'hooks/useI18n'
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import Card from './Card'
 import CardTitle from './CardTitle'
@@ -31,7 +31,7 @@ const Footer = styled.div`
   border-top: 1px solid ${({ theme }) => (theme.isDark ? '#524B63' : '#E9EAEB')};
   padding: 24px;
 `
-const Coming: React.FC = () => {
+const Coming: FC = () => {
   const TranslateString = useI18n()
 
   return (
@@ -39,20 +39,20 @@ const Coming: React.FC = () => {
       <div style={{ padding: '24px' }}>
         <CardTitle>
           {TranslateString(414, 'Your Project?')}{' '}
-          <span role="img" aria-label="eyes">
+          <span role='img' aria-label='eyes'>
             👀
           </span>
         </CardTitle>
-        <Image src="/images/bunny-question.svg" width={64} height={64} alt="Your project here" />
+        <Image src='/images/bunny-question.svg' width={64} height={64} alt='Your project here' />
         <Balance>???</Balance>
         <Label>{TranslateString(416, 'Create a pool for your token')}</Label>
         <Button
-          variant="secondary"
-          as="a"
-          href="https://docs.google.com/forms/d/e/1FAIpQLScGdT5rrVMr4WOWr08pvcroSeuIOtEJf1sVdQGVdcAOqryigQ/viewform"
+          variant='secondary'
+          as='a'
+          href='https://docs.google.com/forms/d/e/1FAIpQLScGdT5rrVMr4WOWr08pvcroSeuIOtEJf1sVdQGVdcAOqryigQ/viewform'
           external
           fullwidth
-          mb="16px"
+          mb='16px'
         >
           {TranslateString(418, 'Apply Now')}
         </Button>
@@ -62,7 +62,7 @@ const Coming: React.FC = () => {
         </DetailPlaceholder>
         <DetailPlaceholder>
           <div style={{ flex: 1 }}>
-            <span role="img" aria-label="syrup">
+            <span role='img' aria-label='syrup'>
               🥞{' '}
             </span>
             {TranslateString(384, 'Your Stake')}:

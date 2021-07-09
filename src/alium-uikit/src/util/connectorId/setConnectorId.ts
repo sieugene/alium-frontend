@@ -8,13 +8,11 @@ export enum ConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   BSC = 'bsc',
-  TOKENPOCKET = 'tokenpocket'
+  TOKENPOCKET = 'tokenpocket',
 }
 
 type setConnectorId = (connectorId: typeof ConnectorNames[keyof typeof ConnectorNames] | null) => void
 
-const setConnectorId: setConnectorId = (connectorId) => {
+export const setConnectorId: setConnectorId = (connectorId) => {
   cookies.set(connectorLocalStorageKey, connectorId, getCookieOptions())
 }
-
-export default setConnectorId

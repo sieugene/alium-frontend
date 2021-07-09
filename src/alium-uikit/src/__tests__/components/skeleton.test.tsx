@@ -1,4 +1,3 @@
-import React from 'react'
 import Skeleton from '../../components/Skeleton/Skeleton'
 import { renderWithTheme } from '../../testHelpers'
 
@@ -14,7 +13,7 @@ it('renders correctly', () => {
 })
 
 it('renders correctly avatar', () => {
-  const { asFragment } = renderWithTheme(<Skeleton width={50} height={50} variant="circle" />)
+  const { asFragment } = renderWithTheme(<Skeleton width={50} height={50} variant='circle' />)
   expect(asFragment()).toMatchInlineSnapshot(`
     <DocumentFragment>
       <div
@@ -27,7 +26,7 @@ it('renders correctly avatar', () => {
 })
 
 it('renders correctly waves animation', () => {
-  const { asFragment } = renderWithTheme(<Skeleton width={50} height={50} animation="waves" />)
+  const { asFragment } = renderWithTheme(<Skeleton width={50} height={50} animation='waves' />)
   expect(asFragment()).toMatchInlineSnapshot(`
     <DocumentFragment>
       <div

@@ -1,7 +1,7 @@
 import Provider from 'providers/InvestorsProvider'
-import React from 'react'
+import { FC } from 'react'
 
-const Providers: React.FC = ({ children }) => {
+const Providers: FC = ({ children }) => {
   return <Provider>{children}</Provider>
 }
 

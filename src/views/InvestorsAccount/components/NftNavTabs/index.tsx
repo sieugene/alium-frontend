@@ -1,7 +1,6 @@
 import { Button, Flex } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { AlmTokenStatsIcon } from '../../../../../public/images/account/AlmTokenStatsIcon'

@@ -1,6 +1,6 @@
 import { Button, Heading, Text } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
-import React, { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Lottie from 'react-lottie-player'
 import { ROUTES } from 'routes'
@@ -36,7 +36,7 @@ const InfoWrapper = styled.div`
     margin-top: 10%;
   }
   @media screen and (max-width: 1224px) {
-    margin-left: 0%;
+    margin-left: 0;
   }
   @media screen and (max-width: 480px) {
     position: relative;
@@ -97,11 +97,11 @@ const ImageFrapper = styled.div`
   }
 
   @media screen and (max-width: 1440px) {
-    margin-right: 0%;
+    margin-right: 0;
   }
 `
 
-const HomeGreetings: React.FC = () => {
+const HomeGreetings: FC = () => {
   const [animationInited, setAnimationInited] = useState(false)
   const { t } = useTranslation()
 
@@ -115,15 +115,15 @@ const HomeGreetings: React.FC = () => {
     <GreetingsWrapper>
       <GreetingsConfetti />
       <InfoWrapper>
-        <StyledHeading className="animate__animated animate__fadeInUp animate__delay-2s animate__fast ">
+        <StyledHeading className='animate__animated animate__fadeInUp animate__delay-2s animate__fast '>
           {t('hurray')}!
         </StyledHeading>
-        <StyledText className="animate__animated animate__fadeInUp animate__delay-2s animate__fast">
+        <StyledText className='animate__animated animate__fadeInUp animate__delay-2s animate__fast'>
           {t('greetingsMessage')}
         </StyledText>
         <NextLink.multiple
           href={ROUTES.exchange}
-          className="animate__animated animate__fadeInUp animate__delay-2s animate__fast"
+          className='animate__animated animate__fadeInUp animate__delay-2s animate__fast'
         >
           <StyledButton>{t('startTrading')}</StyledButton>
         </NextLink.multiple>

@@ -1,5 +1,5 @@
 import { CloseIcon } from 'alium-uikit/src'
-import React, { useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react';
 import { animated } from 'react-spring'
 import { useSpring } from 'react-spring/web'
 import styled from 'styled-components'
@@ -38,8 +38,8 @@ export const Popup = styled.div<{ type?: boolean }>`
 `
 const Fader = styled.div`
   position: absolute;
-  bottom: 0px;
-  left: 0px;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 2px;
   background-color: ${({ theme }) => theme.colors.tertiary};

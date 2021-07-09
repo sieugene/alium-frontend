@@ -1,4 +1,3 @@
-import React from 'react'
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs'
 import { renderWithTheme } from '../../testHelpers'
 

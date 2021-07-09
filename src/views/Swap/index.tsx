@@ -25,7 +25,7 @@ import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCall
 import { useSwapCallback } from 'hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useTranslation } from 'next-i18next'
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
@@ -237,7 +237,7 @@ const Swap = () => {
           txHash: undefined,
         }))
       })
-  }, [priceImpactWithoutFee, swapCallback, setSwapState])
+  }, [priceImpactWithoutFee, swapCallback, sendDataToGTM, trade])
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)
@@ -297,7 +297,7 @@ const Swap = () => {
       />
       <CardNav />
       <SwapAppBody>
-        <Wrapper id="swap-page">
+        <Wrapper id='swap-page'>
           <ConfirmSwapModal
             isOpen={showConfirm}
             trade={trade}
@@ -314,7 +314,7 @@ const Swap = () => {
           <PageHeader title={t('swap')} description={t('swapHeaderDescription')} />
           <StyledCardBody>
             <CardBody>
-              <AutoColumn gap="md">
+              <AutoColumn gap='md'>
                 <CurrencyInputPanel
                   label={independentField === Field.OUTPUT && !showWrap && trade ? 'From (estimated)' : t('from')}
                   value={formattedAmounts[Field.INPUT]}
@@ -324,9 +324,9 @@ const Swap = () => {
                   onMax={handleMaxInput}
                   onCurrencySelect={handleInputSelect}
                   otherCurrency={currencies[Field.OUTPUT]}
-                  id="swap-currency-input"
+                  id='swap-currency-input'
                 />
-                <AutoColumn justify="space-between">
+                <AutoColumn justify='space-between'>
                   <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
                     <ArrowWrapper clickable>
                       <StyledIconButton
@@ -339,7 +339,7 @@ const Swap = () => {
                       </StyledIconButton>
                     </ArrowWrapper>
                     {recipient === null && !showWrap && isExpertMode ? (
-                      <LinkStyledButton id="add-recipient-button" onClick={() => onChangeRecipient('')}>
+                      <LinkStyledButton id='add-recipient-button' onClick={() => onChangeRecipient('')}>
                         + Add a send (optional)
                       </LinkStyledButton>
                     ) : null}
@@ -353,29 +353,29 @@ const Swap = () => {
                   currency={currencies[Field.OUTPUT]}
                   onCurrencySelect={handleOutputSelect}
                   otherCurrency={currencies[Field.INPUT]}
-                  id="swap-currency-output"
+                  id='swap-currency-output'
                 />
 
                 {recipient !== null && !showWrap ? (
                   <>
-                    <AutoRow justify="space-between" style={{ padding: '0 1rem' }}>
+                    <AutoRow justify='space-between' style={{ padding: '0 1rem' }}>
                       <ArrowWrapper clickable={false}>
-                        <ArrowDown size="16" color={theme.colors.textSubtle} />
+                        <ArrowDown size='16' color={theme.colors.textSubtle} />
                       </ArrowWrapper>
-                      <LinkStyledButton id="remove-recipient-button" onClick={() => onChangeRecipient(null)}>
+                      <LinkStyledButton id='remove-recipient-button' onClick={() => onChangeRecipient(null)}>
                         - Remove send
                       </LinkStyledButton>
                     </AutoRow>
-                    <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
+                    <AddressInputPanel id='recipient' value={recipient} onChange={onChangeRecipient} />
                   </>
                 ) : null}
 
                 {showWrap ? null : (
-                  <Card padding="8px 0 8px 0" borderRadius="20px">
-                    <AutoColumn gap="8px">
+                  <Card padding='8px 0 8px 0' borderRadius='20px'>
+                    <AutoColumn gap='8px'>
                       {Boolean(trade) && (
-                        <AutoRow align="center">
-                          <Text fontSize="14px" paddingRight="8px" color="#8990A5">
+                        <AutoRow align='center'>
+                          <Text fontSize='14px' paddingRight='8px' color='#8990A5'>
                             Price
                           </Text>
                           <TradePrice
@@ -386,11 +386,11 @@ const Swap = () => {
                         </AutoRow>
                       )}
                       {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
-                        <Flex alignItems="center" justifyContent="flex-start">
-                          <Text fontSize="14px" color={theme.colors.basic}>
+                        <Flex alignItems='center' justifyContent='flex-start'>
+                          <Text fontSize='14px' color={theme.colors.basic}>
                             Slippage Tolerance
                           </Text>
-                          <Text fontSize="14px" style={{ marginLeft: 10, color: '#6C5DD3' }}>
+                          <Text fontSize='14px' style={{ marginLeft: 10, color: '#6C5DD3' }}>
                             {allowedSlippage / 100}%
                           </Text>
                         </Flex>
@@ -420,8 +420,8 @@ const Swap = () => {
                       variant={approval === ApprovalState.APPROVED ? 'success' : 'primary'}
                     >
                       {approval === ApprovalState.PENDING ? (
-                        <AutoRow gap="6px" justify="center">
-                          Approving <Loader stroke="white" />
+                        <AutoRow gap='6px' justify='center'>
+                          Approving <Loader stroke='white' />
                         </AutoRow>
                       ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
                         'Approved'
@@ -444,7 +444,7 @@ const Swap = () => {
                         }
                       }}
                       style={{ width: '48%' }}
-                      id="swap-button"
+                      id='swap-button'
                       disabled={
                         !isValid || approval !== ApprovalState.APPROVED || (priceImpactSeverity > 3 && !isExpertMode)
                       }
@@ -470,7 +470,7 @@ const Swap = () => {
                         })
                       }
                     }}
-                    id="swap-button"
+                    id='swap-button'
                     disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
                     variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
                   >

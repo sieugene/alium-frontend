@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 
 export interface PastLotteryDataState {
   mostRecentLotteryNumber: number
@@ -7,7 +7,7 @@ export interface PastLotteryDataState {
   historyData: Array<any>
 }
 
-export default React.createContext({
+export default createContext({
   mostRecentLotteryNumber: 0,
   historyError: false,
   historyData: [],

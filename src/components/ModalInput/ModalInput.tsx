@@ -1,5 +1,5 @@
 import { Button, Flex, Input, InputProps, Link, Text } from 'alium-uikit/src'
-import React from 'react'
+import { FC, FormEvent } from 'react'
 import styled from 'styled-components'
 import useI18n from '../../hooks/useI18n'
 
@@ -7,7 +7,7 @@ interface ModalInputProps {
   max: string
   symbol: string
   onSelectMax?: () => void
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void
+  onChange: (e: FormEvent<HTMLInputElement>) => void
   placeholder?: string
   value: string
   addLiquidityUrl?: string
@@ -56,7 +56,7 @@ const StyledErrorMessage = styled(Text)`
   }
 `
 
-const ModalInput: React.FC<ModalInputProps> = ({
+const ModalInput: FC<ModalInputProps> = ({
   max,
   symbol,
   onChange,
@@ -73,24 +73,24 @@ const ModalInput: React.FC<ModalInputProps> = ({
   return (
     <div style={{ position: 'relative' }}>
       <StyledTokenInput isWarning={isBalanceZero}>
-        <Flex justifyContent="space-between" pl="16px">
-          <Text fontSize="14px">{inputTitle}</Text>
-          <Text fontSize="14px">
+        <Flex justifyContent='space-between' pl='16px'>
+          <Text fontSize='14px'>{inputTitle}</Text>
+          <Text fontSize='14px'>
             {TranslateString(1120, 'Balance')}: {displayBalance.toLocaleString()}
           </Text>
         </Flex>
-        <Flex alignItems="flex-end" justifyContent="space-around">
-          <StyledInput onChange={onChange} placeholder="0" value={value} />
-          <Button size="sm" onClick={onSelectMax} mr="8px">
+        <Flex alignItems='flex-end' justifyContent='space-around'>
+          <StyledInput onChange={onChange} placeholder='0' value={value} />
+          <Button size='sm' onClick={onSelectMax} mr='8px'>
             {TranslateString(452, 'Max')}
           </Button>
-          <Text fontSize="16px">{symbol}</Text>
+          <Text fontSize='16px'>{symbol}</Text>
         </Flex>
       </StyledTokenInput>
       {isBalanceZero && (
-        <StyledErrorMessage fontSize="14px" color="failure">
+        <StyledErrorMessage fontSize='14px' color='failure'>
           No tokens to stake:{' '}
-          <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
+          <Link fontSize='14px' bold={false} href={addLiquidityUrl} external color='failure'>
             {TranslateString(999, 'get')} {symbol}
           </Link>
         </StyledErrorMessage>

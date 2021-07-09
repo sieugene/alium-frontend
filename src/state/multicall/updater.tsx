@@ -60,14 +60,12 @@ export function activeListeningKeys(
 
     memo[callKey] = Object.keys(keyListeners)
       .filter((key) => {
-        // eslint-disable-next-line radix
-        const blocksPerFetch = parseInt(key)
+        const blocksPerFetch = parseInt(key, 10)
         if (blocksPerFetch <= 0) return false
         return keyListeners[blocksPerFetch] > 0
       })
       .reduce((previousMin, current) => {
-        // eslint-disable-next-line radix
-        return Math.min(previousMin, parseInt(current))
+        return Math.min(previousMin, parseInt(current, 10))
       }, Infinity)
     return memo
   }, {})
@@ -110,10 +108,13 @@ export function outdatedListeningKeys(
 
 export default function Updater(): null {
   const dispatch = useDispatch<AppDispatch>()
-  const state = useStoreMulticall()
-  const { fetchingMulticallResults, updateMulticallResults, errorFetchingMulticallResults } = state
+  const callResults = useStoreMulticall((state) => state.callResults)
+  const callListeners = useStoreMulticall((state) => state.callListeners)
+  const [fetchingMulticallResults, updateMulticallResults, errorFetchingMulticallResults] = useStoreMulticall(
+    (state) => [state.fetchingMulticallResults, state.updateMulticallResults, state.errorFetchingMulticallResults],
+  )
   // wait for listeners to settle before triggering updates
-  const debouncedListeners = useDebounce(state.callListeners, 100)
+  const debouncedListeners = useDebounce(callListeners, 100)
   const latestBlockNumber = useBlockNumber()
   const { chainId } = useActiveWeb3React()
 
@@ -125,8 +126,8 @@ export default function Updater(): null {
   }, [debouncedListeners, chainId])
 
   const unserializedOutdatedCallKeys = useMemo(() => {
-    return outdatedListeningKeys(state.callResults, listeningKeys, chainId, latestBlockNumber)
-  }, [chainId, state.callResults, listeningKeys, latestBlockNumber])
+    return outdatedListeningKeys(callResults, listeningKeys, chainId, latestBlockNumber)
+  }, [chainId, callResults, listeningKeys, latestBlockNumber])
 
   const serializedOutdatedCallKeys = useMemo(
     () => JSON.stringify(unserializedOutdatedCallKeys.sort()),
@@ -166,7 +167,6 @@ export default function Updater(): null {
             cancellations.current = { cancellations: [], blockNumber: latestBlockNumber }
 
             // accumulates the length of all previous indices
-            // eslint-disable-next-line max-nested-callbacks
             const firstCallKeyIndex = chunkedCalls.slice(0, index).reduce<number>((memo, curr) => memo + curr.length, 0)
             const lastCallKeyIndex = firstCallKeyIndex + returnData.length
 
@@ -174,7 +174,6 @@ export default function Updater(): null {
               chainId,
               results: outdatedCallKeys
                 .slice(firstCallKeyIndex, lastCallKeyIndex)
-                // eslint-disable-next-line max-nested-callbacks
                 .reduce<{ [callKey: string]: string | null }>((memo, callKey, i) => {
                   memo[callKey] = returnData[i] ?? null
                   return memo
@@ -200,7 +199,16 @@ export default function Updater(): null {
         return cancel
       }),
     }
-  }, [chainId, multicallContract, dispatch, serializedOutdatedCallKeys, latestBlockNumber])
+  }, [
+    chainId,
+    multicallContract,
+    dispatch,
+    serializedOutdatedCallKeys,
+    latestBlockNumber,
+    fetchingMulticallResults,
+    updateMulticallResults,
+    errorFetchingMulticallResults,
+  ])
 
   return null
 }

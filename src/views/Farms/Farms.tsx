@@ -8,7 +8,7 @@ import { QuoteToken } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
 import useRefresh from 'hooks/useRefresh'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchFarmUserDataAsync } from 'state/actions'
 import { useFarms, usePriceBnbBusd, usePriceCakeBusd, usePriceEthBusd } from 'state/hooks'
@@ -16,7 +16,7 @@ import Divider from './components/Divider'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import FarmTabButtons from './components/FarmTabButtons'
 
-const Farms: React.FC = () => {
+const Farms: FC = () => {
   const router = useRouter()
   const path = router.pathname
   const TranslateString = useI18n()
@@ -97,10 +97,10 @@ const Farms: React.FC = () => {
   return (
     <Page>
       <Heading
-        as="h1"
-        size="lg"
-        color="heading"
-        mb="50px"
+        as='h1'
+        size='lg'
+        color='heading'
+        mb='50px'
         style={{ textAlign: 'start', lineHeight: '56px', fontSize: '48px', marginTop: '24px' }}
       >
         {TranslateString(696, 'Stake LP tokens to earn ALM')}
@@ -117,7 +117,7 @@ const Farms: React.FC = () => {
           </Route> */}
         </FlexLayout>
       </div>
-      <Image src="/images/farms/stackem.png" alt="illustration" width={1270} height={710} responsive />
+      <Image src='/images/farms/stackem.png' alt='illustration' width={1270} height={710} responsive />
     </Page>
   )
 }

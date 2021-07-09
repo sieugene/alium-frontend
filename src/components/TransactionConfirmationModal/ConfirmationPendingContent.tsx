@@ -1,5 +1,4 @@
 import { Spinner, Text } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 import { AutoColumn } from '../Column'
 import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'

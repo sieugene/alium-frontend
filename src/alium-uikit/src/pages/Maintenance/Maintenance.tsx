@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { Heading } from '../../components/Heading'
 import { SocialNetworks } from '../../components/SocialNetworks'
@@ -126,7 +126,7 @@ const StyledText = styled(Text)`
   }
 `
 
-const Maintenance: React.FC = () => {
+const Maintenance: FC = () => {
   return (
     <StyledWrapper>
       <InfoWrapper>
@@ -139,10 +139,10 @@ const Maintenance: React.FC = () => {
       </ImageWrapper>
 
       <CloudsWrapper>
-        <CloudWrapper className="left">
+        <CloudWrapper className='left'>
           <MaintenanceCloudLeft />
         </CloudWrapper>
-        <CloudWrapper className="right">
+        <CloudWrapper className='right'>
           <MaintenanceCloudRight />
         </CloudWrapper>
       </CloudsWrapper>

@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import { useEffect } from 'react'
 import { ROUTES } from 'routes'
 import AddLiquidity from './index'
 
 export const RedirectToAddLiquidity = () => {
   const router = useRouter()
-  React.useEffect(() => {
+  useEffect(() => {
     router.push(ROUTES.add)
-  }, [])
+  }, [router])
   return <div />
 }
 

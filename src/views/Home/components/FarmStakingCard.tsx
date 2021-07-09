@@ -4,7 +4,7 @@ import UnlockButton from 'components/UnlockButton'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
 import { useAllHarvest } from 'hooks/useHarvest'
 import useI18n from 'hooks/useI18n'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react';
 import styled from 'styled-components'
 import CakeHarvestBalance from './CakeHarvestBalance'
 import CakeWalletBalance from './CakeWalletBalance'
@@ -84,9 +84,9 @@ const FarmedStakingCard = () => {
           {TranslateString(542, 'Farms & Staking')}
         </Heading> */}
         <HeadingBox>
-          <CardImage src="/images/farms-icon.svg" alt="icon" width="48px" height="48px" />
+          <CardImage src='/images/farms-icon.svg' alt='icon' width='48px' height='48px' />
           <Text
-            color="white"
+            color='white'
             style={{
               marginLeft: '16px',
               lineHeight: '30px',
@@ -112,7 +112,7 @@ const FarmedStakingCard = () => {
         <Actions>
           {account ? (
             <Button
-              id="harvest-all"
+              id='harvest-all'
               disabled={balancesWithValue.length <= 0 || pendingTx}
               onClick={harvestAllFarms}
               fullwidth
@@ -122,7 +122,7 @@ const FarmedStakingCard = () => {
                 : TranslateString(532, `Harvest all (${balancesWithValue.length})`)}
             </Button>
           ) : (
-            <UnlockButton variant="tertiary" fullwidth />
+            <UnlockButton variant='tertiary' fullwidth />
           )}
         </Actions>
       </CardBody>

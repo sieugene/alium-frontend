@@ -1,10 +1,10 @@
 import { dark, light } from 'alium-uikit/src'
-import React, { useState } from 'react'
+import { createContext, useState } from 'react';
 import { ThemeProvider as SCThemeProvider } from 'styled-components'
 
 const CACHE_KEY = 'IS_DARK'
 
-const ThemeContext = React.createContext({ isDark: null, toggleTheme: () => null })
+const ThemeContext = createContext({ isDark: null, toggleTheme: () => null })
 
 const ThemeContextProvider = ({ children }) => {
   const [isDark, setIsDark] = useState(() => {

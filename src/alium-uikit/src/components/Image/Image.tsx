@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import observerOptions from './options'
 import { ImageProps } from './types'
@@ -21,7 +21,7 @@ const Placeholder = styled.div`
   height: 100%;
 `
 
-const Image: React.FC<ImageProps> = ({ src, alt, ...otherProps }) => {
+const Image: FC<ImageProps> = ({ src, alt, ...otherProps }) => {
   const imgRef = useRef(null)
   const [isLoaded, setIsLoaded] = useState(false)
 

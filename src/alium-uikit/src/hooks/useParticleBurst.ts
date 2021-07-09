@@ -88,7 +88,7 @@ const useParticleBurst = (options: Options): { initialize: () => void; teardown:
     () =>
       debounce(
         (event: MouseEvent) => {
-          const isDisabled = disableWhen && disableWhen()
+          const isDisabled = disableWhen?.()
 
           if (!isDisabled) {
             const node = event.currentTarget as HTMLElement

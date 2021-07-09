@@ -6,8 +6,6 @@ const cookies = new Cookies()
 
 type getConnectorId = () => typeof ConnectorNames[keyof typeof ConnectorNames] | null
 
-const getConnectorId: getConnectorId = () => {
+export const getConnectorId: getConnectorId = () => {
   return (cookies.get(connectorLocalStorageKey) as ConnectorNames) ?? null
 }
-
-export default getConnectorId

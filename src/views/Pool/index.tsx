@@ -1,4 +1,3 @@
-import { Pair } from '@alium-official/sdk'
 import { Button, CardBody, Text } from 'alium-uikit/src'
 import { LightCard } from 'components/Card'
 import CardNav from 'components/CardNav'
@@ -9,14 +8,12 @@ import FullPositionCard from 'components/PositionCard'
 import Question from 'components/QuestionHelper'
 import { StyledInternalLink, TYPE } from 'components/Shared'
 import { Dots } from 'components/swap/styleds'
-import { usePairs } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
+import { useAllV2PairsWithLiquidity } from 'hooks/pool/useAllV2PairsWithLiquidity'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import React, { useContext, useMemo } from 'react'
+import { useContext } from 'react';
 import { ROUTES } from 'routes'
-import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
-import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
 import styled, { ThemeContext } from 'styled-components'
 import SwapAppBody from 'views/Swap/SwapAppBody'
 
@@ -149,38 +146,12 @@ const StyledFullPositionCard = styled.div`
 `
 
 export default function Pool() {
+  const { data, loading } = useAllV2PairsWithLiquidity()
   const router = useRouter()
   const theme = useContext(ThemeContext)
   const { account /* , chainId */ } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  // fetch the user's balances of all tracked V2 LP tokens
-  const trackedTokenPairs = useTrackedTokenPairs()
-  const tokenPairsWithLiquidityTokens = useMemo(
-    () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
-    [trackedTokenPairs],
-  )
-  const liquidityTokens = useMemo(
-    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
-    [tokenPairsWithLiquidityTokens],
-  )
-  const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
-    account ?? undefined,
-    liquidityTokens,
-  )
-  // fetch the reserves for all V2 pools in which the user has a balance
-  const liquidityTokensWithBalances = useMemo(
-    () =>
-      tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
-        v2PairsBalances[liquidityToken.address]?.greaterThan('0'),
-      ),
-    [tokenPairsWithLiquidityTokens, v2PairsBalances],
-  )
-  const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
-  const v2IsLoading =
-    fetchingV2PairBalances || v2Pairs?.length < liquidityTokensWithBalances.length || v2Pairs?.some((V2Pair) => !V2Pair)
-
-  const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
   const getButton = () => {
     return (
       // chainId === 56 || chainId === 128 ?
@@ -190,7 +161,7 @@ export default function Pool() {
       //   </Button>
       // ) : (
       <Button
-        id="join-pool-button"
+        id='join-pool-button'
         onClick={() => {
           router.push(ROUTES.addByOne('ETH'))
         }}
@@ -205,10 +176,10 @@ export default function Pool() {
       <CardNav activeIndex={1} />
       <SwapAppBody>
         <PageHeader title={t('mainMenu.liquidity')} description={t('liquidityDescription')} />
-        <StyledCardBody singleBlock={allV2PairsWithLiquidity?.length > 0}>
+        <StyledCardBody singleBlock={data?.length > 0}>
           {!account ? <UnlockButton /> : getButton()}
           <StyledRightSide>
-            {allV2PairsWithLiquidity?.length === 0 && (
+            {data?.length === 0 && (
               <>
                 <StyledLiquidity>
                   <Text color={theme.colors.text}>{t('yourLiquidity')}</Text>
@@ -216,25 +187,25 @@ export default function Pool() {
                 </StyledLiquidity>
                 {!account ? (
                   <LightCard>
-                    <Body color={theme.colors.textDisabled} textAlign="center" style={{ fontSize: '14px' }}>
+                    <Body color={theme.colors.textDisabled} textAlign='center' style={{ fontSize: '14px' }}>
                       {t('liquidityConnectToWallet')}
                     </Body>
                   </LightCard>
-                ) : v2IsLoading ? (
+                ) : loading ? (
                   <LightCard>
-                    <Body color={theme.colors.textDisabled} textAlign="center">
+                    <Body color={theme.colors.textDisabled} textAlign='center'>
                       <Dots>{t('loading')}</Dots>
                     </Body>
                   </LightCard>
-                ) : allV2PairsWithLiquidity?.length > 0 ? (
+                ) : data?.length > 0 ? (
                   <>
-                    {allV2PairsWithLiquidity.map((v2Pair) => (
+                    {data.map((v2Pair) => (
                       <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                     ))}
                   </>
                 ) : (
                   <LightCard>
-                    <Body color={theme.colors.textDisabled} textAlign="center">
+                    <Body color={theme.colors.textDisabled} textAlign='center'>
                       {t('liquidityNotFound')}
                     </Body>
                   </LightCard>
@@ -243,14 +214,14 @@ export default function Pool() {
             )}
           </StyledRightSide>
         </StyledCardBody>
-        {allV2PairsWithLiquidity?.length > 0 && (
+        {data?.length > 0 && (
           <StyledYourLiquidity>
             <StyledLiquidity found>
               <Text color={theme.colors.text}>{t('yourLiquidity')}</Text>
               <Question text={t('questionHelperMessages.addLiquidity')} />
             </StyledLiquidity>
             <StyledFoundLiquidity>
-              {allV2PairsWithLiquidity.map((v2Pair) => (
+              {data.map((v2Pair) => (
                 <StyledFullPositionCard key={v2Pair.liquidityToken.address}>
                   <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                 </StyledFullPositionCard>
@@ -258,13 +229,13 @@ export default function Pool() {
             </StyledFoundLiquidity>
           </StyledYourLiquidity>
         )}
-        <AutoColumn gap="lg">
+        <AutoColumn gap='lg'>
           <CardBody>
-            <AutoColumn gap="12px" style={{ width: '100%' }}>
+            <AutoColumn gap='12px' style={{ width: '100%' }}>
               <div>
-                <Text fontSize="14px" style={{ padding: '.5rem 0 .5rem 0' }}>
+                <Text fontSize='14px' style={{ padding: '.5rem 0 .5rem 0' }}>
                   {t('noJoinedPool')}{' '}
-                  <StyledInternalLink id="import-pool-link" href="/find">
+                  <StyledInternalLink id='import-pool-link' href='/find'>
                     {t('importPoolMessage')}
                   </StyledInternalLink>
                 </Text>

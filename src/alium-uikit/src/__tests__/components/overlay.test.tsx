@@ -1,4 +1,3 @@
-import React from 'react'
 import Overlay from '../../components/Overlay/Overlay'
 import { renderWithTheme } from '../../testHelpers'
 

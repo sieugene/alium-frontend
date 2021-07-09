@@ -1,11 +1,11 @@
-import React from 'react'
+import { setConnectorId } from 'alium-uikit/src/util/connectorId/setConnectorId'
+import { FC, useState } from 'react'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import ConnectionLoad from '../../components/ConnectionLoad'
 import Flex from '../../components/Flex/Flex'
 import { CheckmarkCircleIcon } from '../../components/Svg'
 import Text from '../../components/Text/Text'
-import setConnectorId from '../../util/connectorId/setConnectorId'
 import { Login, WalletsConfig } from './types'
 
 interface Props {
@@ -68,16 +68,9 @@ const StyledCheckMarkInCircle = styled(CheckmarkCircleIcon)`
   height: 16px;
 `
 
-const WalletCard: React.FC<Props> = ({
-  login,
-  walletConfig,
-  onDismiss,
-  selected,
-  setSelectedWallet,
-  selectedNetwork,
-}) => {
+const WalletCard: FC<Props> = ({ login, walletConfig, onDismiss, selected, setSelectedWallet, selectedNetwork }) => {
   const { title, icon: Icon } = walletConfig
-  const [connectionLoad, setconnectionLoad] = React.useState(false)
+  const [connectionLoad, setconnectionLoad] = useState(false)
   const onClickHandler = async () => {
     setconnectionLoad(true)
     try {

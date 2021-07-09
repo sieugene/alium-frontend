@@ -1,9 +1,8 @@
-import React from 'react'
 import Radio from '../../components/Radio/Radio'
 import { renderWithTheme } from '../../testHelpers'
 
 it('renders correctly', () => {
-  const { asFragment } = renderWithTheme(<Radio name="radio" value="1" />)
+  const { asFragment } = renderWithTheme(<Radio name='radio' value='1' />)
   expect(asFragment()).toMatchInlineSnapshot(`
     <DocumentFragment>
       <input

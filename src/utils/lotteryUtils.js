@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import { Interface } from '@ethersproject/abi'
 import BigNumber from 'bignumber.js'
 import { LOTTERY_TICKET_PRICE } from 'config'
@@ -10,6 +9,7 @@ import { getMulticallAddress } from './addressHelpers'
 
 export const multiCall = async (abi, calls) => {
   const web3 = getWeb3NoAccount()
+
   // @ts-ignore
   const multi = new web3.eth.Contract(MULTICALL_FUNC_ABI, getMulticallAddress())
   const itf = new Interface(abi)
@@ -80,7 +80,6 @@ export const getTicketsAmount = async (ticketsContract, account) => {
 export const multiClaim = async (lotteryContract, ticketsContract, account) => {
   await lotteryContract.methods.issueIndex().call()
   const length = await getTicketsAmount(ticketsContract, account)
-  // eslint-disable-next-line prefer-spread
   const calls1 = Array.apply(null, { length }).map((a, i) => [
     ticketsContract.options.address,
     'tokenOfOwnerByIndex',
@@ -124,7 +123,6 @@ export const getTotalClaim = async (lotteryContract, ticketsContract, account) =
   try {
     const issueIndex = await lotteryContract.methods.issueIndex().call()
     const length = await getTicketsAmount(ticketsContract, account)
-    // eslint-disable-next-line prefer-spread
     const calls1 = Array.apply(null, { length }).map((a, i) => [
       ticketsContract.options.address,
       'tokenOfOwnerByIndex',
@@ -141,16 +139,17 @@ export const getTotalClaim = async (lotteryContract, ticketsContract, account) =
 
     const finalTokenids = []
     ticketIssues.forEach(async (ticketIssue, i) => {
-      // eslint-disable-next-line no-empty
-      if (!drawed && ticketIssue.toString() === issueIndex) {
-      } else if (!claimedStatus[i][0]) {
-        finalTokenids.push(tokenIds[i])
+      if (!(!drawed && ticketIssue.toString() === issueIndex)) {
+        if (!claimedStatus[i][0]) {
+          finalTokenids.push(tokenIds[i])
+        }
       }
     })
 
     const calls4 = finalTokenids.map((id) => [lotteryContract.options.address, 'getRewardView', [id]])
 
     const rewards = await multiCall(lotteryAbi, calls4)
+
     // @ts-ignore
     const claim = rewards.reduce((p, c) => BigNumber.sum(p, c), BigNumber(0))
 
@@ -158,6 +157,7 @@ export const getTotalClaim = async (lotteryContract, ticketsContract, account) =
   } catch (err) {
     console.error(err)
   }
+
   // @ts-ignore
   return BigNumber(0)
 }

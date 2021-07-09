@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import ModalActions from 'components/ModalActions'
 import ModalInput from 'components/ModalInput'
 import useI18n from 'hooks/useI18n'
-import React, { useCallback, useMemo, useState } from 'react'
+import { FC, FormEvent, useCallback, useMemo, useState } from 'react'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 
 interface DepositModalProps {
@@ -14,7 +14,7 @@ interface DepositModalProps {
   addLiquidityUrl?: string
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '', addLiquidityUrl }) => {
+const DepositModal: FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '', addLiquidityUrl }) => {
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
@@ -23,7 +23,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   }, [max])
 
   const handleChange = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
+    (e: FormEvent<HTMLInputElement>) => {
       setVal(e.currentTarget.value)
     },
     [setVal],
@@ -45,7 +45,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
         inputTitle={TranslateString(1070, 'Stake')}
       />
       <ModalActions>
-        <Button variant="secondary" onClick={onDismiss} fullwidth>
+        <Button variant='secondary' onClick={onDismiss} fullwidth>
           {TranslateString(462, 'Cancel')}
         </Button>
         <Button

@@ -1,5 +1,4 @@
 import useI18n from 'hooks/useI18n'
-import React from 'react'
 
 export interface TranslatedTextProps {
   translationId: number

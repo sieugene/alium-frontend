@@ -1,6 +1,5 @@
 import { Toast, ToastContainer } from 'alium-uikit/src'
 import useToast from 'hooks/useToast'
-import React from 'react'
 import { useSelector } from 'react-redux'
 
 const ToastListener = () => {

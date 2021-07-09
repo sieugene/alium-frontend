@@ -1,5 +1,4 @@
-/* eslint-disable prefer-destructuring */
-import React, { useContext } from 'react'
+import { FC, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 
 interface SpacerProps {
@@ -11,7 +10,7 @@ const StyledSpacer = styled.div<StyledSpacerProps>`
   width: ${(props) => props.size}px;
 `
 
-const Spacer: React.FC<SpacerProps> = ({ size = 'md' }) => {
+const Spacer: FC<SpacerProps> = ({ size = 'md' }) => {
   const { spacing } = useContext(ThemeContext)
 
   let s: number

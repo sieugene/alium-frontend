@@ -1,5 +1,4 @@
 import { Flex } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 
 const NftPoolsHeaderWrap = styled(Flex)`
@@ -36,12 +35,12 @@ const FieldEnd = styled(Field)`
 function NftPoolsHeader() {
   return (
     <NftPoolsHeaderWrap>
-      <Field maxWidth="310px">pool</Field>
-      <Field maxWidth="96px">Total ALMs</Field>
-      <Field maxWidth="96px">Locked</Field>
-      <Field maxWidth="172px">Unlocked</Field>
-      <FieldEnd maxWidth="80px">Claimed</FieldEnd>
-      <FieldEnd maxWidth="140px">Next unclocked date</FieldEnd>
+      <Field maxWidth='310px'>pool</Field>
+      <Field maxWidth='96px'>Total ALMs</Field>
+      <Field maxWidth='96px'>Locked</Field>
+      <Field maxWidth='172px'>Unlocked</Field>
+      <FieldEnd maxWidth='80px'>Claimed</FieldEnd>
+      <FieldEnd maxWidth='140px'>Next unclocked date</FieldEnd>
     </NftPoolsHeaderWrap>
   )
 }

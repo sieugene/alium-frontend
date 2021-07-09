@@ -1,5 +1,5 @@
 import { Button, Text } from 'alium-uikit/src'
-import React, { useContext } from 'react'
+import { useContext } from 'react';
 import { AlertTriangle } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { AutoColumn } from '../Column'

@@ -1,5 +1,5 @@
+import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
 import { externalLinks } from '../../config'
-import { getMainDomain } from '../../util'
 
 export const links = [
   {
@@ -9,6 +9,7 @@ export const links = [
   },
   {
     label: 'Trade',
+
     icon: 'TradeIcon',
     items: [
       {

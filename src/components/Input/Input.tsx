@@ -1,11 +1,11 @@
-import React from 'react'
+import { FC, FormEvent, ReactNode } from 'react'
 import styled from 'styled-components'
 
 export interface InputProps {
-  endAdornment?: React.ReactNode
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void
+  endAdornment?: ReactNode
+  onChange: (e: FormEvent<HTMLInputElement>) => void
   placeholder?: string
-  startAdornment?: React.ReactNode
+  startAdornment?: ReactNode
   value: string
 }
 
@@ -31,7 +31,7 @@ const StyledInput = styled.input`
   outline: none;
 `
 
-const Input: React.FC<InputProps> = ({ endAdornment, onChange, placeholder, startAdornment, value }) => {
+const Input: FC<InputProps> = ({ endAdornment, onChange, placeholder, startAdornment, value }) => {
   return (
     <StyledInputWrapper>
       {!!startAdornment && startAdornment}

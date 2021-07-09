@@ -3,7 +3,7 @@
 // import { BaseLayout } from 'alium-uikit/src'
 // import useI18n from 'hooks/useI18n'
 import Page from 'components/layout/Page'
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 // import FarmStakingCard from 'views/Home/components/FarmStakingCard'
 // import LotteryCard from 'views/Home/components/LotteryCard'
@@ -69,14 +69,14 @@ import HomeNew from './components/HomeNew'
 // `
 
 const PageWrap = styled(Page)`
-  padding-right: 0px;
+  padding-right: 0;
   overflow: hidden;
   @media screen and (max-width: 768px) {
-    padding-left: 0px;
+    padding-left: 0;
   }
 `
 
-const Home: React.FC = () => {
+const Home: FC = () => {
   return (
     <PageWrap>
       <HomeNew />

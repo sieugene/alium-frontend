@@ -1,7 +1,6 @@
-import React from 'react'
+import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
 import { Link, LinkExternal } from '../../components/Link'
 import { renderWithTheme } from '../../testHelpers'
-import { getMainDomain } from '../../util'
 
 it('renders link correctly', () => {
   const href = `https://${getMainDomain}`

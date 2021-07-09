@@ -1,4 +1,3 @@
-import React from 'react'
 import Spinner from './Spinner'
 
 export default {
@@ -7,6 +6,6 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
-  return <Spinner iconsWidth="50px" />
+export const Default: FC = () => {
+  return <Spinner iconsWidth='50px' />
 }

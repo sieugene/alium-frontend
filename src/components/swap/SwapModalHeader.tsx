@@ -1,6 +1,6 @@
 import { Trade, TradeType } from '@alium-official/sdk'
 import { Button, ColoredArrowDownIcon, Text } from 'alium-uikit/src'
-import React, { useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react';
 import { AlertTriangle } from 'react-feather'
 import styled, { ThemeContext } from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
@@ -49,9 +49,9 @@ export default function SwapModalHeader({
   const theme = useContext(ThemeContext)
 
   return (
-    <AutoColumn gap="md" style={{ marginTop: '20px' }}>
+    <AutoColumn gap='md' style={{ marginTop: '20px' }}>
       <RowBetween
-        align="flex-end"
+        align='flex-end'
         style={{
           backgroundColor: '#F5F7FF',
           borderRadius: '6px',
@@ -60,26 +60,26 @@ export default function SwapModalHeader({
           padding: '0 16px',
         }}
       >
-        <RowFixed gap="0px">
-          <CurrencyLogo currency={trade.inputAmount.currency} size="24px" style={{ marginRight: '12px' }} />
+        <RowFixed gap='0px'>
+          <CurrencyLogo currency={trade.inputAmount.currency} size='24px' style={{ marginRight: '12px' }} />
           <Text
-            fontSize="14px"
+            fontSize='14px'
             color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? theme.colors.primary : 'text'}
           >
             {toSignificantCurrency(trade.inputAmount)}
           </Text>
         </RowFixed>
-        <RowFixed gap="0px">
-          <Text fontSize="14px" style={{ marginLeft: '10px', fontWeight: 500 }}>
+        <RowFixed gap='0px'>
+          <Text fontSize='14px' style={{ marginLeft: '10px', fontWeight: 500 }}>
             {trade.inputAmount.currency.symbol}
           </Text>
         </RowFixed>
       </RowBetween>
       <RowFixed>
-        <ColoredArrowDownIcon width="24px" style={{ marginLeft: '16px' }} />
+        <ColoredArrowDownIcon width='24px' style={{ marginLeft: '16px' }} />
       </RowFixed>
       <RowBetween
-        align="flex-end"
+        align='flex-end'
         style={{
           backgroundColor: '#F5F7FF',
           borderRadius: '6px',
@@ -88,10 +88,10 @@ export default function SwapModalHeader({
           padding: '0 16px',
         }}
       >
-        <RowFixed gap="0px">
-          <CurrencyLogo currency={trade.outputAmount.currency} size="24px" style={{ marginRight: '12px' }} />
+        <RowFixed gap='0px'>
+          <CurrencyLogo currency={trade.outputAmount.currency} size='24px' style={{ marginRight: '12px' }} />
           <Text
-            fontSize="14px"
+            fontSize='14px'
             style={{ marginLeft: '10px', fontWeight: 500 }}
             color={
               priceImpactSeverity > 2
@@ -104,14 +104,14 @@ export default function SwapModalHeader({
             {toSignificantCurrency(trade.outputAmount)}
           </Text>
         </RowFixed>
-        <RowFixed gap="0px">
-          <Text fontSize="14px" style={{ marginLeft: '10px', fontWeight: 500 }}>
+        <RowFixed gap='0px'>
+          <Text fontSize='14px' style={{ marginLeft: '10px', fontWeight: 500 }}>
             {trade.outputAmount.currency.symbol}
           </Text>
         </RowFixed>
       </RowBetween>
       {showAcceptChanges ? (
-        <SwapShowAcceptChanges justify="flex-start" gap="0px">
+        <SwapShowAcceptChanges justify='flex-start' gap='0px'>
           <RowBetween>
             <RowFixed>
               <AlertTriangle size={20} style={{ marginRight: '8px', minWidth: 24 }} />
@@ -124,7 +124,7 @@ export default function SwapModalHeader({
           </RowBetween>
         </SwapShowAcceptChanges>
       ) : null}
-      <AutoColumn justify="flex-start" gap="sm" style={{ padding: '16px 0 0' }}>
+      <AutoColumn justify='flex-start' gap='sm' style={{ padding: '16px 0 0' }}>
         {trade.tradeType === TradeType.EXACT_INPUT ? (
           <PriceInfoText>
             {`Output is estimated. You will receive at least `}
@@ -144,7 +144,7 @@ export default function SwapModalHeader({
         )}
       </AutoColumn>
       {recipient !== null ? (
-        <AutoColumn justify="flex-start" gap="sm" style={{ padding: '16px 0 0' }}>
+        <AutoColumn justify='flex-start' gap='sm' style={{ padding: '16px 0 0' }}>
           <Main>
             Output will be sent to{' '}
             <b title={recipient}>{isAddress(recipient) ? shortenAddress(recipient) : recipient}</b>

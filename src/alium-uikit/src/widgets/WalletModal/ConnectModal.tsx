@@ -1,5 +1,4 @@
-import { setChainId } from 'alium-uikit/src/util'
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
@@ -75,12 +74,13 @@ const StyledWalletFlex = styled(StyledFlex)`
   }
 `
 
-const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, title = 'Connect to a wallet' }) => {
-  const { currentChainId: chainId, changeChainId } = useStoreNetwork()
+const ConnectModal: FC<Props> = ({ login, onDismiss = () => null, title = 'Connect to a wallet' }) => {
+  const setChainId = useStoreNetwork((state) => state.setChainId)
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const isDev = process.env.APP_ENV === 'development'
   const networks = isDev ? networksDev : networksProd
 
-  const networkConfig = networks.find((x) => x.chainId === chainId) ?? { title: '???' }
+  const networkConfig = networks.find((x) => x.chainId === currentChainId) ?? { title: '???' }
   const [selectedNetwork, setSelectedNetwork] = useState(networkConfig.title)
   const [selectedWallet, setSelectedWallet] = useState('')
 
@@ -104,7 +104,6 @@ const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, title = 
             selected={entry.title === selectedNetwork}
             networkConfig={entry}
             setSelectedNetwork={(wallet) => {
-              changeChainId(entry.chainId)
               setChainId(entry.chainId)
               setSelectedNetwork(wallet)
             }}

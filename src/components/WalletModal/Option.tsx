@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { ExternalLink } from '../Shared'
 
@@ -109,8 +109,8 @@ export default function Option({
   size?: number | null
   onClick?: null | (() => void)
   color: string
-  header: React.ReactNode
-  subheader: React.ReactNode | null
+  header: ReactNode
+  subheader: ReactNode | null
   icon: string
   active?: boolean
   id: string
@@ -133,7 +133,7 @@ export default function Option({
         {subheader && <SubHeader>{subheader}</SubHeader>}
       </OptionCardLeft>
       <IconWrapper size={size}>
-        <img src={icon} alt="Icon" />
+        <img src={icon} alt='Icon' />
       </IconWrapper>
     </OptionCardClickable>
   )

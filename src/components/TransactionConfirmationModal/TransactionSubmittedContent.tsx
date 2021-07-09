@@ -1,7 +1,7 @@
 import { ChainId } from '@alium-official/sdk'
 import { Button, LinkExternal } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import React, { useContext } from 'react'
+import { useContext } from 'react';
 import { ArrowUpCircle } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { getExplorerLink, getExplorerName } from '../../utils'

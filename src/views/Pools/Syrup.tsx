@@ -9,7 +9,7 @@ import useBlock from 'hooks/useBlock'
 import useI18n from 'hooks/useI18n'
 import partition from 'lodash/partition'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { useFarms, usePools, usePriceBnbBusd, usePriceEthBnb } from 'state/hooks'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -46,7 +46,7 @@ const Hero = styled.div`
   }
 `
 
-const Farm: React.FC = () => {
+const Farm: FC = () => {
   const router = useRouter()
   const path = router.pathname
   const TranslateString = useI18n()
@@ -108,7 +108,7 @@ const Farm: React.FC = () => {
     <Page>
       <Hero>
         <div>
-          <Heading as="h1" size="xxl" mb="16px">
+          <Heading as='h1' size='xxl' mb='16px'>
             {TranslateString(738, 'Syrup Pool')}
           </Heading>
           <ul>
@@ -117,7 +117,7 @@ const Farm: React.FC = () => {
             <li>{TranslateString(406, 'Rewards are calculated per block.')}</li>
           </ul>
         </div>
-        <img src="/images/syrup.png" alt="SYRUP POOL icon" width={410} height={191} />
+        <img src='/images/syrup.png' alt='SYRUP POOL icon' width={410} height={191} />
       </Hero>
       <PoolTabButtons stackedOnly={stackedOnly} setStackedOnly={setStackedOnly} />
       <Divider />

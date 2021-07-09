@@ -3,7 +3,7 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { ModalProvider } from 'alium-uikit/src'
 import { LanguageContextProvider } from 'contexts/Localisation/languageContext'
 import dynamic from 'next/dynamic'
-import React from 'react'
+import { FC } from 'react'
 import { Provider } from 'react-redux'
 import { IntercomProvider } from 'react-use-intercom'
 import GTM from 'utils/gtm'
@@ -15,7 +15,7 @@ const Web3ReactProviderDefault = dynamic(() => import('./Web3ReactProviderDefaul
 
 // this modified version provider, merged with main provider
 
-const InvestorsProvider: React.FC = ({ children }) => {
+const InvestorsProvider: FC = ({ children }) => {
   const sendDataToGTM = useGTMDispatch()
   return (
     <IntercomProvider

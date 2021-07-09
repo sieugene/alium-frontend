@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import CountUp from 'react-countup'
 import styled from 'styled-components'
 
@@ -8,7 +8,7 @@ interface ValueProps {
   fontSize?: string | number
 }
 
-const Value: React.FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => {
+const Value: FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => {
   const [start, updateStart] = useState(0)
   const [end, updateEnd] = useState(0)
 
@@ -27,10 +27,7 @@ const Value: React.FC<ValueProps> = ({ value, decimals, fontSize = '30px' }) => 
         <CountUp
           start={start}
           end={end}
-          decimals={
-            // eslint-disable-next-line no-nested-ternary
-            decimals !== undefined ? decimals : end < 0 ? 4 : end > 1e5 ? 0 : 3
-          }
+          decimals={decimals !== undefined ? decimals : end < 0 ? 4 : end > 1e5 ? 0 : 3}
           duration={1}
           separator=','
         />

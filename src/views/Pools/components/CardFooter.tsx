@@ -3,7 +3,7 @@ import Balance from 'components/Balance'
 import { BinanceTag, CommunityTag, CoreTag } from 'components/Tags'
 import { PoolCategory } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
-import React, { useState } from 'react'
+import { FC, memo, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -72,7 +72,7 @@ const TokenLink = styled.a`
   color: #12aab5;
 `
 
-const CardFooter: React.FC<Props> = ({
+const CardFooter: FC<Props> = ({
   projectLink,
   totalStaked,
   blocksRemaining,
@@ -102,20 +102,20 @@ const CardFooter: React.FC<Props> = ({
           <Row style={{ marginBottom: '4px' }}>
             <FlexFull>
               <Label>
-                <span role="img" aria-label="syrup">
+                <span role='img' aria-label='syrup'>
                   🥞{' '}
                 </span>
                 {TranslateString(408, 'Total')}
               </Label>
             </FlexFull>
-            <Balance fontSize="14px" isDisabled={isFinished} value={getBalanceNumber(totalStaked)} />
+            <Balance fontSize='14px' isDisabled={isFinished} value={getBalanceNumber(totalStaked)} />
           </Row>
           {blocksUntilStart > 0 && (
             <Row>
               <FlexFull>
                 <Label>{TranslateString(410, 'Start')}:</Label>
               </FlexFull>
-              <Balance fontSize="14px" isDisabled={isFinished} value={blocksUntilStart} decimals={0} />
+              <Balance fontSize='14px' isDisabled={isFinished} value={blocksUntilStart} decimals={0} />
             </Row>
           )}
           {blocksUntilStart === 0 && blocksRemaining > 0 && (
@@ -123,10 +123,10 @@ const CardFooter: React.FC<Props> = ({
               <FlexFull>
                 <Label>{TranslateString(410, 'End')}:</Label>
               </FlexFull>
-              <Balance fontSize="14px" isDisabled={isFinished} value={blocksRemaining} decimals={0} />
+              <Balance fontSize='14px' isDisabled={isFinished} value={blocksRemaining} decimals={0} />
             </Row>
           )}
-          <TokenLink href={projectLink} target="_blank">
+          <TokenLink href={projectLink} target='_blank'>
             {TranslateString(412, 'View project site')}
           </TokenLink>
         </Details>
@@ -135,4 +135,4 @@ const CardFooter: React.FC<Props> = ({
   )
 }
 
-export default React.memo(CardFooter)
+export default memo(CardFooter)

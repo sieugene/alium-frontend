@@ -1,7 +1,6 @@
 import { ArrowDropDownIcon, ArrowDropUpIcon, Flex, Text } from 'alium-uikit/src'
-// import { BigNumber } from '@ethersproject/bignumber'
 import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
+import { ComponentProps, useState } from 'react'
 import styled from 'styled-components'
 import cardList, { CardType } from '../../constants/cards'
 import currencies from '../../constants/currencies'
@@ -212,7 +211,7 @@ const StyledCardInfo = styled(Flex)`
   }
 `
 
-type TextPropsType = React.ComponentProps<typeof Text>
+type TextPropsType = ComponentProps<typeof Text>
 
 const StyledHeading = (props: TextPropsType) => (
   <Text
@@ -294,8 +293,8 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
               {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
               {showOptions && (
                 <StyledOptionsContainer>
-                  {currencies.stablecoins.map((item) => (
-                    <StyledOption onClick={() => handleClick(item)}>
+                  {currencies.stablecoins.map((item, key) => (
+                    <StyledOption key={key} onClick={() => handleClick(item)}>
                       {`${Number(cardList[0]?.price).toLocaleString()} ${item}`}
                     </StyledOption>
                   ))}
@@ -312,8 +311,11 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
         {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
         {showOptions && (
           <StyledOptionsContainer>
-            {currencies.stablecoins.map((item) => (
-              <StyledOption onClick={() => setSelectedOption(`${Number(cardList[0]?.price).toLocaleString()} ${item}`)}>
+            {currencies.stablecoins.map((item, key) => (
+              <StyledOption
+                key={key}
+                onClick={() => setSelectedOption(`${Number(cardList[0]?.price).toLocaleString()} ${item}`)}
+              >
                 {`${Number(cardList[0]?.price).toLocaleString()} ${item}`}
               </StyledOption>
             ))}

@@ -1,6 +1,6 @@
 import { Button, Flex, Heading, Text } from 'alium-uikit/src'
 import { BigNumber, ethers } from 'ethers'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { PoolsTypes } from '../../constants/pools'
 
@@ -139,7 +139,7 @@ const getTimeFormat = (timestamp: string | undefined) => {
     return 'completed'
   }
   if (timestamp) {
-    const date = new Date(parseInt(`${timestamp}000`))
+    const date = new Date(parseInt(`${timestamp}000`, 10))
     return `${date.getDate()}th ${month[date.getMonth()]} ${date.getFullYear()}`
   }
   return 'loading'
@@ -150,7 +150,7 @@ const unlockedByTimestamp = (timestamp: string | undefined) => {
     return true
   }
   if (timestamp) {
-    const date = new Date(parseInt(`${timestamp}000`))
+    const date = new Date(parseInt(`${timestamp}000`, 10))
     return new Date() > date
   }
   return false
@@ -194,36 +194,36 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
 
   return (
     <NftPoolCardWrap>
-      <FieldPool maxWidth="310px">
-        <Heading as="h3" size="lg" color="#0B1359">
+      <FieldPool maxWidth='310px'>
+        <Heading as='h3' size='lg' color='#0B1359'>
           {pool.name}
         </Heading>
         <FieldPoolDescription>
-          <Text fontSize="14" color="#8990A5">
+          <Text fontSize='14' color='#8990A5'>
             {pool.description}
           </Text>
         </FieldPoolDescription>
       </FieldPool>
-      <Field maxWidth="96px">
+      <Field maxWidth='96px'>
         <FieldName>Total ALMs</FieldName>
         {total}
       </Field>
-      <Field maxWidth="96px">
+      <Field maxWidth='96px'>
         <FieldName>Locked</FieldName>
         {locked}
       </Field>
-      <Field maxWidth="80px">
+      <Field maxWidth='80px'>
         <FieldName>Unlocked</FieldName>
         {unlocked}
       </Field>
-      <FieldClaim maxWidth="172px">
+      <FieldClaim maxWidth='172px'>
         <FieldName>Claimed</FieldName>
         <FieldValue>
           {claimed}
           {isUnlocked && (
             <Button
-              variant="secondary"
-              size="sm"
+              variant='secondary'
+              size='sm'
               disabled={pending || isLoading || isLoadingLocal}
               onClick={() => {
                 onClaim(pool.id)
@@ -234,7 +234,7 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
           )}
         </FieldValue>
       </FieldClaim>
-      <Field maxWidth="140px">
+      <Field maxWidth='140px'>
         <FieldName>Next unclocked date</FieldName>
         {/* {getTimeFormat(pool.timestamp)} */}
         {getTimeFormat(extensionUpToAWeekTimeStamp)}

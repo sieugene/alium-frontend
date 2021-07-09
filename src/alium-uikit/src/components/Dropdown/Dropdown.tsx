@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { DropdownProps, Position, PositionProps } from './types'
 
@@ -40,7 +40,7 @@ const Container = styled.div`
   }
 `
 
-const Dropdown: React.FC<DropdownProps> = ({ target, position = 'bottom', children }) => {
+const Dropdown: FC<DropdownProps> = ({ target, position = 'bottom', children }) => {
   return (
     <Container>
       {target}

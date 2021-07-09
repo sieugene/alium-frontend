@@ -1,10 +1,10 @@
-import React from 'react'
+import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { Heading } from '../../components/Heading'
 import { SocialNetworks } from '../../components/SocialNetworks'
 import { Text } from '../../components/Text'
-import { getMainDomain } from '../../util'
 import CloudLeft from './assets/background-cloud-left'
 import CloudRight from './assets/background-cloud-right'
 import NotfoundPreview from './assets/notfound-preview'
@@ -149,7 +149,7 @@ interface PropsType {
   redirectURL?: string
 }
 
-const NotFound: React.FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` }) => {
+const NotFound: FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` }) => {
   return (
     <StyledWrapper>
       <InfoWrapper>

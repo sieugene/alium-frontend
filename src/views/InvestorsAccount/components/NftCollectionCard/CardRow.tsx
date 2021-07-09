@@ -1,5 +1,5 @@
 import { Flex } from 'alium-uikit/src'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components'
 import { PoolsTypes } from '../../constants/pools'
 const card1One = '/images/collection/Card-01.png'
@@ -99,7 +99,7 @@ function CardRow({ selectedCard, onSelectCard, cards, pool }: CardRowProps) {
             index={id}
             key={`${pool.name}-${card}`}
           >
-            <img src={imgSrc} alt="" />
+            <img src={imgSrc} alt='' />
             <span>{card}</span>
           </Card>
         )

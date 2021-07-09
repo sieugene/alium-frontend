@@ -1,12 +1,13 @@
-import { Flex, getChainId, Skeleton, Text } from 'alium-uikit/src'
+import { Flex, Skeleton, Text } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import { communityFarms } from 'config/constants'
 import { QuoteToken } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
-import React, { useMemo, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { Farm } from 'state/types'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled, { keyframes } from 'styled-components'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import { provider as ProviderType } from 'web3-core'
@@ -21,13 +22,13 @@ export interface FarmWithStakedValue extends Farm {
 
 const RainbowLight = keyframes`
 	0% {
-		background-position: 0% 50%;
+		background-position: 0 50%;
 	}
 	50% {
 		background-position: 100% 50%;
 	}
 	100% {
-		background-position: 0% 50%;
+		background-position: 0 50%;
 	}
 `
 
@@ -62,7 +63,7 @@ const FCard = styled.div`
   align-self: baseline;
   background: ${(props) => props.theme.card.background};
   border-radius: 32px;
-  box-shadow: 0px 2px 12px -8px rgba(25, 19, 38, 0.1), 0px 1px 1px rgba(25, 19, 38, 0.05);
+  box-shadow: 0 2px 12px -8px rgba(25, 19, 38, 0.1), 0px 1px 1px rgba(25, 19, 38, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -93,7 +94,7 @@ interface FarmCardProps {
   account?: string
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethPrice, provider, account }) => {
+const FarmCard: FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethPrice, provider, account }) => {
   const TranslateString = useI18n()
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)
@@ -123,14 +124,14 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
     ? `$${Number(totalValue).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
     : '-'
 
-  const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('PANCAKE', '')
-  const earnLabel = farm.dual ? farm.dual.earnLabel : 'CAKE'
-  const farmAPY = farm.apy && farm.apy.times(new BigNumber(100)).toNumber().toLocaleString('en-US').slice(0, -1)
+  const lpLabel = farm.lpSymbol?.toUpperCase().replace('PANCAKE', '')
+  const earnLabel = farm.dual?.earnLabel ?? 'CAKE'
+  const farmAPY = farm.apy?.times(new BigNumber(100)).toNumber().toLocaleString('en-US').slice(0, -1)
 
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm
   const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAdresses, quoteTokenSymbol, tokenAddresses })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
-  const chainId = getChainId()
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
 
   return (
     <FCard>
@@ -170,7 +171,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          bscScanAddress={`https://bscscan.com/address/${farm.lpAddresses[chainId]}`}
+          bscScanAddress={`https://bscscan.com/address/${farm.lpAddresses[currentChainId]}`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}

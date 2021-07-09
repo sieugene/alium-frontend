@@ -1,4 +1,3 @@
-import React from 'react'
 import NotFound from './NotFound'
 
 export default {
@@ -7,6 +6,6 @@ export default {
   argTypes: {},
 }
 
-export const Default: React.FC = () => {
+export const Default: FC = () => {
   return <NotFound />
 }

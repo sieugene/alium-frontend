@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import observerOptions from './options'
 import { ImageProps } from './types'
 import Wrapper from './Wrapper'
 
-const BackgroundImage: React.FC<ImageProps> = ({ src, ...otherProps }) => {
+const BackgroundImage: FC<ImageProps> = ({ src, ...otherProps }) => {
   const imgRef = useRef(null)
 
   useEffect(() => {

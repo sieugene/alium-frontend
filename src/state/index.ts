@@ -17,9 +17,7 @@ import transactions from './transactions/reducer'
 import user from './user/reducer'
 
 interface MergedState {
-  user: {
-    [key: string]: any
-  }
+  user: any
   transactions: {
     [key: string]: any
   }
@@ -48,7 +46,7 @@ const store = configureStore({
     lists,
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), save({ states: PERSISTED_KEYS })],
-  // @ts-ignore
+
   preloadedState: {
     ...loadedState,
   },

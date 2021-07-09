@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ColoredCopyIcon, Flex, Heading, Text } from 'alium-uikit/src'
 import { NFT_COLLECTIBLE_ADDRESS } from 'constants/abis/nftPrivate'
 import { useTranslation } from 'next-i18next'
-import React, { useState } from 'react'
+import { ComponentProps, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { PopupList } from 'state/application/reducer'
 import { AppState } from 'state/index'
@@ -17,13 +16,13 @@ interface TransactionSucceedContentProps {
   hash: string | undefined
 }
 
-const StyledDetailsLabel = (props: React.ComponentProps<typeof Text>) => (
+const StyledDetailsLabel = (props: ComponentProps<typeof Text>) => (
   <Text
     style={{ fontSize: '14px', lineHeight: '20px', letterSpacing: '0.3px', color: '#8990A5', textAlign: 'center' }}
     {...props}
   />
 )
-const StyledDetailsText = (props: React.ComponentProps<typeof Text>) => (
+const StyledDetailsText = (props: ComponentProps<typeof Text>) => (
   <Text
     style={{
       fontSize: '14px',
@@ -142,12 +141,11 @@ const TransactionSucceedContent = ({ onDismiss, hash }: TransactionSucceedConten
   const popupList = useSelector<AppState, PopupList | any>((s) => s.application.popupList)
   const filteredPopups = popupList.filter((popup) => popup.key === hash)
 
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  let popupSummary = { count: 0, card: {}, price: undefined } as {
+  let popupSummary: {
     count: number
-    card: CardType
+    card: CardType | any
     price: undefined | string
-  }
+  } = { count: 0, card: {}, price: undefined }
   if (filteredPopups[0]) {
     popupSummary = filteredPopups[0].content.txn.additionalData
   }

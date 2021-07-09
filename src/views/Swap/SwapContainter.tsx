@@ -1,5 +1,5 @@
 const backgroundImage = '/images/trade-background.svg'
-import React from 'react'
+
 import styled from 'styled-components'
 import ApplicationUpdater from '../../state/application/updater'
 import ListsUpdater from '../../state/lists/updater'

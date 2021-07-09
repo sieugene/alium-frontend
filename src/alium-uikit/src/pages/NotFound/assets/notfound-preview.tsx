@@ -1,7 +1,7 @@
-import React from 'react'
+import { FC } from 'react'
 import { SvgProps } from '../../../components/Svg/types'
 
-const Icon: React.FC<SvgProps> = () => {
+const Icon: FC<SvgProps> = () => {
   return (
     <svg width='788' height='617' viewBox='0 0 788 617' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <ellipse opacity='0.1' cx='352.216' cy='597.658' rx='277.409' ry='18.6196' fill='url(#paint0_linear)' />

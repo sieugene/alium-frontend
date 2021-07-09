@@ -1,5 +1,4 @@
 import { CheckMarkDoneIcon } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
@@ -68,14 +67,13 @@ interface ProgressCirclesProps {
 // CheckMarkDoneIcon
 export default function ProgressCircles({ steps }: ProgressCirclesProps) {
   return (
-    <Wrapper justify="center">
+    <Wrapper justify='center'>
       <Grouping>
         {steps.map((step, i) => {
           return (
-            // eslint-disable-next-line react/no-array-index-key
             <CircleRow key={i}>
               <Circle confirmed={step} disabled={!steps[i - 1] && i !== 0}>
-                {step && <StyledCheckMark width="12" height="12" />}
+                {step && <StyledCheckMark width='12' height='12' />}
                 {i + 1}
               </Circle>
               <Connector prevConfirmed={step} />

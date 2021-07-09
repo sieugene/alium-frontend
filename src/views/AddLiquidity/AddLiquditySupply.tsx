@@ -5,7 +5,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import Loader from 'components/Loader'
 import { AutoRow, RowBetween } from 'components/Row'
 import { ApprovalState } from 'hooks/useApproveCallback'
-import React, { FC } from 'react'
+import { FC, memo, SetStateAction } from 'react'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
 
@@ -23,7 +23,7 @@ interface Props {
   approveBCallback: () => Promise<void>
   approvalSubmittedB: boolean
   expertMode: boolean
-  setShowConfirm: (value: React.SetStateAction<boolean>) => void
+  setShowConfirm: (value: SetStateAction<boolean>) => void
   parsedAmounts: {
     CURRENCY_A?: CurrencyAmount
     CURRENCY_B?: CurrencyAmount
@@ -38,7 +38,7 @@ const StyledButton = styled(Button)`
   }
 `
 
-export const AddLiquditySupply: FC<Props> = React.memo(
+export const AddLiquditySupply: FC<Props> = memo(
   ({
     user,
     approvalA,

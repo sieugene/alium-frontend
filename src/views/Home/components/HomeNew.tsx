@@ -1,7 +1,7 @@
 import { useModal } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
 import { motion } from 'framer-motion'
-import React, { FC, useState } from 'react'
+import { FC, FormEvent, useState } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { dbMailListCreateEmail } from 'utils/firebase'
@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-direction: row;
   @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
-    margin: 0 auto 0px auto;
+    margin: 0 auto 0 auto;
   }
 `
 
@@ -37,7 +37,7 @@ const LeftColumn = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 0px auto 0 auto;
+    margin: 0 auto 0 auto;
   }
 `
 
@@ -114,7 +114,7 @@ const H1 = styled.h1`
 
     span {
       display: block;
-      margin-left: 0px;
+      margin-left: 0;
     }
   }
   @media screen and (max-width: 768px) {
@@ -182,7 +182,7 @@ const ActionButton = styled.div`
   }
 
   @media screen and (max-width: 414px) {
-    margin-left: 0px;
+    margin-left: 0;
   }
 `
 
@@ -280,7 +280,7 @@ const CardLiquidity = styled(Card)`
 
 const MarketPlace = styled(motion.div)`
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   right: -50px;
   width: 675px;
   height: 526px;
@@ -440,7 +440,7 @@ const HomeNew = () => {
 
   const [openModal, closeModal] = useModal(<CongratsModal handleClose={handleCloseModal} />)
 
-  const handleChangeEmail = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleChangeEmail = (e: FormEvent<HTMLInputElement>) => {
     setEmail(e.currentTarget.value)
     setEmailError(null)
   }
@@ -497,7 +497,7 @@ const HomeNew = () => {
 
               <ActionButton onClick={handleSubmitEmail}>{isLoading ? <StyledLoader /> : 'Send'}</ActionButton>
             </EmailContainer> */}
-            <a href="https://alium.art/" target="_blank">
+            <a href='https://alium.art/' target='_blank'>
               <ActionButton>Join In</ActionButton>
             </a>
           </MotionLeftColumn>
@@ -515,16 +515,16 @@ const HomeNew = () => {
           <NextLink href={ROUTES.exchange}>
             <MotionLeftColumn opacityDelay={0.3} xInitial={-80} xDuration={1.4}>
               <CardExchange>
-                <div className="title">Exchange</div>
-                <div className="button" />
+                <div className='title'>Exchange</div>
+                <div className='button' />
               </CardExchange>
             </MotionLeftColumn>
           </NextLink>
           <NextLink href={ROUTES.pool}>
             <MotionLeftColumn opacityDelay={0.5} xInitial={-100} xDuration={1.5}>
               <CardLiquidity>
-                <div className="title">Liquidity</div>
-                <div className="button" />
+                <div className='title'>Liquidity</div>
+                <div className='button' />
               </CardLiquidity>
             </MotionLeftColumn>
           </NextLink>

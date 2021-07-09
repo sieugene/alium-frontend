@@ -1,5 +1,5 @@
 import { Button } from 'alium-uikit/src'
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import useI18n from '../../hooks/useI18n'
 import Input, { InputProps } from '../Input'
@@ -11,7 +11,7 @@ interface TokenInputProps extends InputProps {
   onSelectMax?: () => void
 }
 
-const TicketInput: React.FC<TokenInputProps> = ({ max, symbol, availableSymbol, onChange, onSelectMax, value }) => {
+const TicketInput: FC<TokenInputProps> = ({ max, symbol, availableSymbol, onChange, onSelectMax, value }) => {
   const TranslateString = useI18n()
 
   return (
@@ -22,14 +22,14 @@ const TicketInput: React.FC<TokenInputProps> = ({ max, symbol, availableSymbol, 
             <StyledTokenSymbol>{symbol}</StyledTokenSymbol>
             <StyledSpacer />
             <div>
-              <Button size="sm" onClick={onSelectMax}>
+              <Button size='sm' onClick={onSelectMax}>
                 {TranslateString(452, 'Max')}
               </Button>
             </div>
           </StyledTokenAdornmentWrapper>
         }
         onChange={onChange}
-        placeholder="0"
+        placeholder='0'
         value={value}
       />
       <StyledMaxText>{TranslateString(454, `${max.toLocaleString()} ${availableSymbol} Available`)}</StyledMaxText>

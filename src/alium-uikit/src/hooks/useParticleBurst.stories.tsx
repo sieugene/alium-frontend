@@ -1,4 +1,3 @@
-import React from 'react'
 import Button from '../components/Button/Button'
 import Text from '../components/Text/Text'
 import useParticleBurst from './useParticleBurst'
@@ -10,25 +9,25 @@ export default {
   argTypes: {},
 }
 
-export const WithSelector: React.FC = () => {
+export const WithSelector: FC = () => {
   useParticleBurst({ imgSrc: imagePath, selector: 'button' })
 
   return (
     <div style={{ padding: '32px' }}>
-      <Button type="button" mr="16px">
+      <Button type='button' mr='16px'>
         Click Me
       </Button>
-      <Button type="button" variant="secondary" mr="16px">
+      <Button type='button' variant='secondary' mr='16px'>
         Or Me
       </Button>
-      <Button type="button" variant="tertiary">
+      <Button type='button' variant='tertiary'>
         Or Me
       </Button>
     </div>
   )
 }
 
-export const Document: React.FC = () => {
+export const Document: FC = () => {
   useParticleBurst({ imgSrc: imagePath })
 
   return (
@@ -38,7 +37,7 @@ export const Document: React.FC = () => {
   )
 }
 
-export const AdjustDistance: React.FC = () => {
+export const AdjustDistance: FC = () => {
   useParticleBurst({ imgSrc: imagePath, particleOptions: { distance: 800 } })
 
   return (
@@ -48,7 +47,7 @@ export const AdjustDistance: React.FC = () => {
   )
 }
 
-export const AdjustSize: React.FC = () => {
+export const AdjustSize: FC = () => {
   useParticleBurst({ imgSrc: imagePath, particleOptions: { size: 80 } })
 
   return (
@@ -58,7 +57,7 @@ export const AdjustSize: React.FC = () => {
   )
 }
 
-export const AdjustNumberOfParticles: React.FC = () => {
+export const AdjustNumberOfParticles: FC = () => {
   useParticleBurst({ imgSrc: imagePath, numberOfParticles: 100 })
 
   return (
@@ -68,7 +67,7 @@ export const AdjustNumberOfParticles: React.FC = () => {
   )
 }
 
-export const DisableUnderCondition: React.FC = () => {
+export const DisableUnderCondition: FC = () => {
   const disableWhen = () => {
     const date = new Date()
     const currentMinutes = date.getMinutes()
@@ -79,13 +78,13 @@ export const DisableUnderCondition: React.FC = () => {
 
   return (
     <div style={{ padding: '32px' }}>
-      <Text mb="8px">Will only burst when current minute is even</Text>
-      <Button variant="success">Click Me</Button>
+      <Text mb='8px'>Will only burst when current minute is even</Text>
+      <Button variant='success'>Click Me</Button>
     </div>
   )
 }
 
-export const StopAndStart: React.FC = () => {
+export const StopAndStart: FC = () => {
   const { initialize, teardown } = useParticleBurst({ imgSrc: imagePath })
 
   const handleInitialize = () => initialize()
@@ -93,11 +92,11 @@ export const StopAndStart: React.FC = () => {
 
   return (
     <div style={{ padding: '32px' }}>
-      <Text mb="8px">100 particles (beware of performance)</Text>
-      <Button variant="secondary" onClick={handleInitialize} mr="8px">
+      <Text mb='8px'>100 particles (beware of performance)</Text>
+      <Button variant='secondary' onClick={handleInitialize} mr='8px'>
         Start Bursts
       </Button>
-      <Button variant="tertiary" onClick={handleTeardown}>
+      <Button variant='tertiary' onClick={handleTeardown}>
         Stop Bursts
       </Button>
     </div>

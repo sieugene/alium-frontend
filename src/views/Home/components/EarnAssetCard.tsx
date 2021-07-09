@@ -1,7 +1,6 @@
 import { ArrowForwardIcon, Card, Flex, Heading } from 'alium-uikit/src'
 import pools from 'config/constants/pools'
 import orderBy from 'lodash/orderBy'
-import React from 'react'
 import { Pool } from 'state/types'
 import styled from 'styled-components'
 
@@ -42,18 +41,18 @@ const EarnAssetCard = () => {
 
   return (
     <StyledFarmStakingCard>
-      <Flex justifyContent="space-between" padding="24px">
-        <Heading color="contrast" style={{ lineHeight: '24px', fontSize: '18px', letterSpacing: '0.3px' }}>
+      <Flex justifyContent='space-between' padding='24px'>
+        <Heading color='contrast' style={{ lineHeight: '24px', fontSize: '18px', letterSpacing: '0.3px' }}>
           Earn
         </Heading>
-        <ArrowForwardIcon color="#FF72AC" />
+        <ArrowForwardIcon color='#FF72AC' />
       </Flex>
       <Divider />
       <Box>
         <CardMidContent>{assets}</CardMidContent>
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex justifyContent='space-between' alignItems='center'>
           <Heading
-            color="#8990A5"
+            color='#8990A5'
             style={{
               lineHeight: '20px',
               fontSize: '16px',

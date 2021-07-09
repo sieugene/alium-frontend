@@ -1,5 +1,4 @@
 import { Text } from 'alium-uikit/src'
-import React from 'react'
 import styled from 'styled-components'
 
 const Card = styled.div<any>`
@@ -48,7 +47,7 @@ const BlueCardStyled = styled(Card)`
 export const BlueCard = ({ children, ...rest }: any) => {
   return (
     <BlueCardStyled {...rest}>
-      <Text color="#24c7d6">{children}</Text>
+      <Text color='#24c7d6'>{children}</Text>
     </BlueCardStyled>
   )
 }

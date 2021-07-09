@@ -3,7 +3,7 @@ import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { Button } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
 import { darken, lighten } from 'polished'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react';
 import { Activity } from 'react-feather'
 import styled, { css } from 'styled-components'
 import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../../connectors'
@@ -126,12 +126,11 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
 }
 
 const SOCK = (
-  <span role="img" aria-label="has socks emoji" style={{ marginTop: -4, marginBottom: -4 }}>
+  <span role='img' aria-label='has socks emoji' style={{ marginTop: -4, marginBottom: -4 }}>
     🧦
   </span>
 )
 
-// eslint-disable-next-line react/prop-types
 function StatusIcon({ connector }: { connector: AbstractConnector }) {
   if (connector === injected || connector === bsc) {
     return <Identicon />
@@ -139,28 +138,28 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
   if (connector === walletconnect) {
     return (
       <IconWrapper size={16}>
-        <img src={WalletConnectIcon} alt="" />
+        <img src={WalletConnectIcon} alt='' />
       </IconWrapper>
     )
   }
   if (connector === walletlink) {
     return (
       <IconWrapper size={16}>
-        <img src={CoinbaseWalletIcon} alt="" />
+        <img src={CoinbaseWalletIcon} alt='' />
       </IconWrapper>
     )
   }
   if (connector === fortmatic) {
     return (
       <IconWrapper size={16}>
-        <img src={FortmaticIcon} alt="" />
+        <img src={FortmaticIcon} alt='' />
       </IconWrapper>
     )
   }
   if (connector === portis) {
     return (
       <IconWrapper size={16}>
-        <img src={PortisIcon} alt="" />
+        <img src={PortisIcon} alt='' />
       </IconWrapper>
     )
   }
@@ -188,10 +187,10 @@ function Web3StatusInner() {
 
   if (account) {
     return (
-      <Web3StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
+      <Web3StatusConnected id='web3-status-connected' onClick={toggleWalletModal} pending={hasPendingTransactions}>
         {hasPendingTransactions ? (
           <RowBetween>
-            <Text>{pending?.length} Pending</Text> <Loader stroke="white" />
+            <Text>{pending?.length} Pending</Text> <Loader stroke='white' />
           </RowBetween>
         ) : (
           <>
@@ -212,7 +211,7 @@ function Web3StatusInner() {
     )
   }
   return (
-    <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
+    <Web3StatusConnect id='connect-wallet' onClick={toggleWalletModal} faded={!account}>
       <Text>{t('Connect to a wallet')}</Text>
     </Web3StatusConnect>
   )

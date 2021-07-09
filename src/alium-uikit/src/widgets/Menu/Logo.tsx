@@ -1,5 +1,5 @@
 import { NextLink } from 'components/NextLink'
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import Flex from '../../components/Flex/Flex'
 import { LogoIcon } from '../../components/Svg'
@@ -30,15 +30,15 @@ const StyledLink = styled(NextLink)`
   }
 `
 
-const Logo: React.FC<Props> = ({ isDark, href, isPushed }) => {
+const Logo: FC<Props> = ({ isDark, href, isPushed }) => {
   const isAbsoluteUrl = href.startsWith('http')
   const innerLogo = (
-    <NextLink.multiple href="/">
-      <LogoIcon className="mobile-icon" />
+    <NextLink.multiple href='/'>
+      <LogoIcon className='mobile-icon' />
       {!isPushed ? (
-        <LogoWithText className="desktop-icon" isDark={isDark} />
+        <LogoWithText className='desktop-icon' isDark={isDark} />
       ) : (
-        <LogoWithText className="desktop-icon" isDark={isDark} withText />
+        <LogoWithText className='desktop-icon' isDark={isDark} withText />
       )}
     </NextLink.multiple>
   )
@@ -46,11 +46,11 @@ const Logo: React.FC<Props> = ({ isDark, href, isPushed }) => {
   return (
     <Flex>
       {isAbsoluteUrl ? (
-        <StyledLink as="a" href={href} aria-label="Alium home page">
+        <StyledLink as='a' href={href} aria-label='Alium home page'>
           {innerLogo}
         </StyledLink>
       ) : (
-        <StyledLink href={href} aria-label="Alium home page">
+        <StyledLink href={href} aria-label='Alium home page'>
           {innerLogo}
         </StyledLink>
       )}

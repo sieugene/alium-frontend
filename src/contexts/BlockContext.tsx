@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { createContext, useEffect, useRef, useState } from 'react';
 import { getWeb3NoAccount } from 'utils/web3'
 
-const BlockContext = React.createContext(0)
+const BlockContext = createContext(0)
 
 const BlockContextProvider = ({ children }) => {
   const previousBlock = useRef(0)

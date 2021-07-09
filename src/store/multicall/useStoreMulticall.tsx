@@ -61,7 +61,7 @@ export const storeMulticall = createVanilla<StoreMulticallState>((set, get) => (
         listeners[chainId][callKey][blocksPerFetch]--
       }
     })
-	// debugger
+    // debugger
     set({ callListeners: listeners })
   },
   fetchingMulticallResults: ({ chainId, fetchingBlockNumber, calls }) => {
@@ -79,7 +79,7 @@ export const storeMulticall = createVanilla<StoreMulticallState>((set, get) => (
         state.callResults[chainId][callKey].fetchingBlockNumber = fetchingBlockNumber
       }
     })
-	// debugger
+    // debugger
     set({ callResults: state.callResults })
   },
   errorFetchingMulticallResults: ({ fetchingBlockNumber, chainId, calls }) => {
@@ -95,7 +95,7 @@ export const storeMulticall = createVanilla<StoreMulticallState>((set, get) => (
         current.blockNumber = fetchingBlockNumber
       }
     })
-	// debugger
+    // debugger
     set({ callResults: state.callResults })
   },
   updateMulticallResults: ({ chainId, results, blockNumber }) => {
@@ -109,7 +109,7 @@ export const storeMulticall = createVanilla<StoreMulticallState>((set, get) => (
         blockNumber,
       }
     })
-	// debugger
+    // debugger
     set({ callResults: state.callResults })
   },
 }))

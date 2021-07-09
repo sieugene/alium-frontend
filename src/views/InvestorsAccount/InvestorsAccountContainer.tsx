@@ -1,5 +1,5 @@
 import 'inter-ui'
-import React from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import ApplicationUpdater from '../../state/application/updater'
 import ListsUpdater from '../../state/lists/updater'
@@ -40,7 +40,7 @@ const Marginer = styled.div`
   margin-top: 5rem;
 `
 const WrapInvestorsAccounComponent = ({ children }) => {
-  React.useEffect(() => {
+  useEffect(() => {
     if ('ethereum' in window) {
       ;(window.ethereum as any).autoRefreshOnNetworkChange = false
     }

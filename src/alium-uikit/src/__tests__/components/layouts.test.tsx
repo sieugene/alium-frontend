@@ -1,4 +1,3 @@
-import React from 'react'
 import { BaseLayout, CardsLayout } from '../../components/Layouts'
 import { renderWithTheme } from '../../testHelpers'
 
