@@ -42,7 +42,7 @@ export const useAllV2PairsWithLiquidity = () => {
     loading: v2IsLoading,
   }
 }
-// for starting flow search pool, REMOVE IN FUTURE
+// TODO: for starting flow search pool, REMOVE IN FUTURE
 const useTriggerPairAdder = () => {
   // const cachedPairs = useSelector((state: AppState) => state.user.pairs)
   const globalTokenList = useAllTokens()
