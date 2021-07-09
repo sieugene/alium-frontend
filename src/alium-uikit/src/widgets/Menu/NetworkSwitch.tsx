@@ -4,23 +4,25 @@ import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
 import { networksDev, networksProd } from '../WalletModal/config'
+import { FailureNetwork } from '../WalletModal/icons/FailureNetwork'
 import { NetworksConfig } from '../WalletModal/types'
 
-const StyledDropDown = styled.div`
+const StyledDropDown = styled.div<{ hasError: boolean }>`
   width: 232px;
-  border: 1px solid #6c5dd3;
+  border: 1px solid ${(props) => (props.hasError ? 'transparent' : '#6c5dd3')};
   box-sizing: border-box;
   border-radius: 6px;
   height: 48px;
   position: relative;
   cursor: pointer;
   margin-right: 24px;
+  background: ${(props) => (props.hasError ? '#FF4D00' : 'transparent;')};
   transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
   > svg * {
     transition: stroke 200ms ease-in-out;
   }
   :hover {
-    background-color: #6c5dd3;
+    background-color: ${(props) => (props.hasError ? '#ff4d00cf' : '#6c5dd3;')};
     > * {
       color: white;
     }
@@ -30,7 +32,10 @@ const StyledDropDown = styled.div`
   }
 
   > svg {
-    fill: #6c5dd3;
+    fill: ${(props) => (props.hasError ? '#fff' : '#6c5dd3;')};
+    path {
+      stroke: ${(props) => (props.hasError ? '#fff' : '#6c5dd3;')};
+    }
     position: absolute;
     right: 23px;
     top: 18px;
@@ -46,6 +51,20 @@ const StyledDropDown = styled.div`
   }
 `
 
+const StyledDropDownMessage = styled.p`
+  position: absolute;
+  padding-left: 47px;
+  margin-top: 28px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+  @media screen and (max-width: 967px) {
+    display: none;
+  }
+`
+
 const StyledSelectedOption = styled.p`
   position: absolute;
   padding-left: 47px;
@@ -53,6 +72,21 @@ const StyledSelectedOption = styled.p`
   letter-spacing: 0.3px;
   color: #6c5dd3;
   font-size: 14px;
+
+  @media screen and (max-width: 967px) {
+    display: none;
+  }
+`
+const StyledSelectedOptionError = styled.p`
+  position: absolute;
+  padding-left: 47px;
+  margin-top: 9px;
+  letter-spacing: 0.3px;
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
 
   @media screen and (max-width: 967px) {
     display: none;
@@ -109,6 +143,8 @@ interface Props {
 const NetworkSwitch: FC<Props> = () => {
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const connectIsFailed = useStoreNetwork((state) => state.connectIsFailed)
+  const hasError = Boolean(connectIsFailed)
   const [showOptions, setShowOptions] = useState(false)
 
   const isDev = process.env.APP_ENV === 'development'
@@ -148,9 +184,16 @@ const NetworkSwitch: FC<Props> = () => {
   }, [selectedOption, networkExist])
 
   return (
-    <StyledDropDown onClick={() => setShowOptions(!showOptions)}>
-      <StyledIconContainer>{Icon && <Icon />}</StyledIconContainer>
-      <StyledSelectedOption>{selectedOption}</StyledSelectedOption>
+    <StyledDropDown hasError={hasError} onClick={() => setShowOptions(!showOptions)}>
+      <StyledIconContainer>{hasError ? <FailureNetwork /> : Icon && <Icon />}</StyledIconContainer>
+      {hasError ? (
+        <>
+          <StyledSelectedOptionError>{selectedOption}</StyledSelectedOptionError>
+          <StyledDropDownMessage>Invalid network</StyledDropDownMessage>
+        </>
+      ) : (
+        <StyledSelectedOption>{selectedOption}</StyledSelectedOption>
+      )}
       {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
       {showOptions && (
         <StyledOptionsContainer>

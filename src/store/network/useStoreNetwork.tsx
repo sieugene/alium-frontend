@@ -1,4 +1,5 @@
 import { getCookieOptions } from 'alium-uikit/src/config/getCookieOptions'
+import { WEB3NetworkErrors } from 'constants/network/NetworkErrors.contanst'
 import { getActualChainId } from 'store/network/helpers/getActualChainId'
 import { getNetworkProviderParams } from 'store/network/helpers/getNetworkProviderParams'
 import { getNetworkRpcUrl } from 'store/network/helpers/getNetworkRpcUrl'
@@ -27,6 +28,8 @@ interface StoreAccountState {
   initStoreNetwork: () => void
   setChainId: (id: number) => void
   setupNetwork: () => Promise<boolean>
+  setConnectionError: (error: WEB3NetworkErrors | null) => void
+  connectIsFailed: WEB3NetworkErrors | null
 }
 
 // store for usage outside of react
@@ -34,6 +37,7 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   currentChainId,
   networkRpcUrl: getNetworkRpcUrl(currentChainId),
   networkProviderParams: getNetworkProviderParams(currentChainId),
+  connectIsFailed: null,
   killStoreNetwork: () => {
     storeNetwork.destroy() // destroy all store subscribes
   },
@@ -75,6 +79,11 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
       console.error("Can't setup the network on metamask because window.ethereum is undefined")
     }
     return false
+  },
+  setConnectionError: (error: WEB3NetworkErrors | null) => {
+    set({
+      connectIsFailed: error,
+    })
   },
 }))
 
