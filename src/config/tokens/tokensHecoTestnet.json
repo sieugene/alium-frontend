@@ -16,7 +16,7 @@
       "address": "0x54a472C96b01f8639326D49Ef3eD4B9a78C3ba63",
       "chainId": 256,
       "decimals": 18,
-      "logoURI": "https://github.com/Alium-Finance/alium-swap-interface/blob/master/public/images/coins/ALM.png?raw=true"
+      "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11/logo.png"
     },
     {
       "name": "Wrapped Heco",

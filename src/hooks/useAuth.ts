@@ -15,11 +15,11 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { setConnectionError } from 'state/application/actions'
 import { useToast } from 'state/hooks'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 import { checkSupportConnect } from 'utils/connection/notifyWeb3'
 import { clearWalletConnect } from 'utils/connection/walletConnect'
 import GTM from 'utils/gtm'
-import { setupNetwork } from '../utils/wallet'
-import { getConnectorsByName } from '../utils/web3React'
+import { getConnectorsByName } from 'utils/web3React'
 
 const useAuth = () => {
   const { activate, deactivate } = useWeb3React()
@@ -42,7 +42,7 @@ const useAuth = () => {
         if (connector) {
           await activate(connector, async (error: Error) => {
             if (error instanceof UnsupportedChainIdError) {
-              const hasSetup = await setupNetwork(chainId)
+              const hasSetup = await storeNetwork.getState().setupNetwork()
               if (hasSetup) {
                 try {
                   await activate(connector, (err) => {

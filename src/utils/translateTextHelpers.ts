@@ -1,5 +1,5 @@
+import { TranslationsContext } from 'hooks/TranslationsContext'
 import { useContext } from 'react'
-import { TranslationsContext } from '../hooks/TranslationsContext'
 
 const variableRegex = /%(.*?)%/
 

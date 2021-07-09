@@ -1,7 +1,8 @@
-import { CurrencyAmount, ETHER, SwapParameters, Token, Trade, TradeOptions, TradeType } from '@alium-official/sdk'
+import { CurrencyAmount, SwapParameters, Token, Trade, TradeOptions, TradeType } from '@alium-official/sdk'
 import { MaxUint256 } from '@ethersproject/constants'
-import { getTradeVersion } from '../data/V1'
-import { Version } from '../hooks/useToggledVersion'
+import { getTradeVersion } from 'data/V1'
+import { Version } from 'hooks/useToggledVersion'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 
 function toHex(currencyAmount: CurrencyAmount): string {
   return `0x${currencyAmount.raw.toString(16)}`
@@ -17,6 +18,7 @@ function deadlineFromNow(ttl: number): string {
  * @param options options for swapping
  */
 export default function v1SwapArguments(trade: Trade, options: Omit<TradeOptions, 'feeOnTransfer'>): SwapParameters {
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   if (getTradeVersion(trade) !== Version.v1) {
     throw new Error('invalid trade version')
   }
@@ -24,8 +26,8 @@ export default function v1SwapArguments(trade: Trade, options: Omit<TradeOptions
     throw new Error('too many pairs')
   }
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const inputETH = trade.inputAmount.currency === ETHER
-  const outputETH = trade.outputAmount.currency === ETHER
+  const inputETH = trade.inputAmount.currency === nativeCurrency
+  const outputETH = trade.outputAmount.currency === nativeCurrency
   if (inputETH && outputETH) throw new Error('ETHER to ETHER')
   const minimumAmountOut = toHex(trade.minimumAmountOut(options.allowedSlippage))
   const maximumAmountIn = toHex(trade.maximumAmountIn(options.allowedSlippage))

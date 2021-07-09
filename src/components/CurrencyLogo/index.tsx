@@ -1,4 +1,4 @@
-import { ChainId, Currency, ETHER, Token } from '@alium-official/sdk'
+import { ChainId, Currency, Token } from '@alium-official/sdk'
 import PolygonMaticLogo from 'assets/images/polygon-matic-logo.png'
 import { useActiveWeb3React } from 'hooks'
 import { CSSProperties, useMemo } from 'react'
@@ -47,6 +47,8 @@ export default function CurrencyLogo({
   size?: string
   style?: CSSProperties
 }) {
+  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
+  const { nativeCurrency } = networkProviderParams
   let { chainId } = useActiveWeb3React()
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   if (currentChainId) {
@@ -56,7 +58,7 @@ export default function CurrencyLogo({
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
 
   const srcs: string[] = useMemo(() => {
-    if (currency === ETHER) return []
+    if (currency === nativeCurrency) return []
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
@@ -72,7 +74,7 @@ export default function CurrencyLogo({
     return <StyledEthereumLogo src={BNBLogo} size={size} style={style} />
   }
 
-  if (currency === ETHER) {
+  if (currency === nativeCurrency) {
     return <StyledEthereumLogo src={chainId && BaseLogo[chainId]} size={size} style={style} />
   }
 

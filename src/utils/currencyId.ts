@@ -1,7 +1,9 @@
-import { Currency, ETHER, Token } from '@alium-official/sdk'
+import { Currency, Token } from '@alium-official/sdk'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 
 export function currencyId(currency: Currency): string {
-  if (currency === ETHER) return 'ETH'
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  if (currency === nativeCurrency) return 'ETH'
   if (currency instanceof Token) return currency.address
   throw new Error('invalid currency')
 }

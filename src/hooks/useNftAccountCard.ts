@@ -1,8 +1,8 @@
 import { Contract } from '@ethersproject/contracts'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTransactionAdder } from '../state/transactions/hooks'
-import { useSingleCallResult } from '../store/multicall/hooks/hooks'
-import { getContract } from '../utils'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { useSingleCallResult } from 'store/multicall/hooks/hooks'
+import { getContract } from 'utils'
 import {
   AliumCollectibleAbi,
   NFTPrivateExchangerAbi,

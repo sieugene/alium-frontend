@@ -1,11 +1,11 @@
 import { diffTokenLists, TokenList } from '@uniswap/token-lists'
 import { Button, Text } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import { Fragment, useCallback, useMemo } from 'react';
+import { Fragment, useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../state'
-import { useRemovePopup } from '../../state/application/hooks'
-import { acceptListUpdate } from '../../state/lists/actions'
+import { AppDispatch } from 'state'
+import { useRemovePopup } from 'state/application/hooks'
+import { acceptListUpdate } from 'state/lists/actions'
 import listVersionLabel from '../../utils/listVersionLabel'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
@@ -105,5 +105,5 @@ export default function ListUpdatePopup({
         )}
       </AutoColumn>
     </AutoRow>
-  );
+  )
 }

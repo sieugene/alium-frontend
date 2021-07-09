@@ -1,7 +1,7 @@
 import { ChainId, JSBI, Percent, Token, WETH } from '@alium-official/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 // import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
-import { bsc, injected } from '../connectors'
+import { bsc, injected } from 'connectors'
 
 // TODO
 // export const ROUTER_ADDRESS = '0x05fF2B0DB69458A0750badebc4f9e13aDd608C7F' // router of cake

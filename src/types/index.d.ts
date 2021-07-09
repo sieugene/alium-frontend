@@ -14,10 +14,11 @@ interface Window {
   BinanceChain?: BinanceChain
 }
 
-interface WindowChain {
+export interface WindowChain {
   ethereum?: {
     isMetaMask?: true
     request?: (...args: any[]) => void
+    on?: (...args: any[]) => void
   }
   BinanceChain?: BinanceChain
 }

@@ -1,6 +1,9 @@
 import { getCookieOptions } from 'alium-uikit/src/config/getCookieOptions'
 import { getActualChainId } from 'store/network/helpers/getActualChainId'
+import { getNetworkProviderParams } from 'store/network/helpers/getNetworkProviderParams'
 import { getNetworkRpcUrl } from 'store/network/helpers/getNetworkRpcUrl'
+import { WindowChain } from 'types'
+import { AddEthereumChainParameter } from 'types/AddEthereumChainParameter'
 import Cookies from 'universal-cookie'
 import create from 'zustand'
 import createVanilla from 'zustand/vanilla'
@@ -18,16 +21,19 @@ interface StoreAccountState {
   // state
   currentChainId: number
   networkRpcUrl: string
+  networkProviderParams: AddEthereumChainParameter
   // actions
   killStoreNetwork: () => void
   initStoreNetwork: () => void
   setChainId: (id: number) => void
+  setupNetwork: () => Promise<boolean>
 }
 
 // store for usage outside of react
 export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
-  currentChainId: getInitialChainId(),
+  currentChainId,
   networkRpcUrl: getNetworkRpcUrl(currentChainId),
+  networkProviderParams: getNetworkProviderParams(currentChainId),
   killStoreNetwork: () => {
     storeNetwork.destroy() // destroy all store subscribes
   },
@@ -35,7 +41,7 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     const { setChainId } = get()
     if (typeof window !== 'undefined' && window.ethereum) {
       // switch network from wallet
-      window.ethereum.on('chainChanged', (chainId) => {
+      ;(window as WindowChain).ethereum.on('chainChanged', (chainId) => {
         setChainId(parseInt(chainId, 16))
       })
     }
@@ -46,8 +52,29 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     set({
       currentChainId: newChainId,
       networkRpcUrl: getNetworkRpcUrl(newChainId),
+      networkProviderParams: getNetworkProviderParams(newChainId),
     })
     cookies.set(chainIdCookieKey, newChainId, getCookieOptions())
+  },
+  setupNetwork: async () => {
+    /**
+     * Prompt the user to add BSC as a network on Metamask, or switch to BSC if the wallet is on a different network
+     * @returns {boolean} true if the setup succeeded, false otherwise
+     */
+    if (typeof window !== 'undefined' && window.ethereum) {
+      try {
+        await (window as WindowChain).ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [get().networkProviderParams],
+        })
+        return true
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      console.error("Can't setup the network on metamask because window.ethereum is undefined")
+    }
+    return false
   },
 }))
 

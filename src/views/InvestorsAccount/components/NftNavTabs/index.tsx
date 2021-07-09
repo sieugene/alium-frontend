@@ -1,10 +1,10 @@
 import { Button, Flex } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
+import { AlmTokenStatsIcon } from 'images/account/AlmTokenStatsIcon'
+import { MyCollectionIcon } from 'images/account/MyCollectionIcon'
 import { useRouter } from 'next/router'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
-import { AlmTokenStatsIcon } from '../../../../../public/images/account/AlmTokenStatsIcon'
-import { MyCollectionIcon } from '../../../../../public/images/account/MyCollectionIcon'
 
 const NavWrap = styled(Flex)`
   padding: 8px 16px;
