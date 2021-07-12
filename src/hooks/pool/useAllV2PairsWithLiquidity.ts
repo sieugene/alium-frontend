@@ -1,14 +1,12 @@
-import { ETHER, Pair } from '@alium-official/sdk'
-import { usePair, usePairs } from 'data/Reserves'
+import { Pair } from '@alium-official/sdk'
+import { usePairs } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
-import { useAllTokens } from 'hooks/Tokens'
-import { useEffect, useMemo, useState } from 'react'
-import { toV2LiquidityToken, usePairAdder, useTrackedTokenPairs } from 'state/user/hooks'
+import { useMemo } from 'react'
+import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
 import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
 
 // for swap pool page
 export const useAllV2PairsWithLiquidity = () => {
-  useTriggerPairAdder()
   const { account } = useActiveWeb3React()
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -41,30 +39,4 @@ export const useAllV2PairsWithLiquidity = () => {
     data: allV2PairsWithLiquidity,
     loading: v2IsLoading,
   }
-}
-// TODO: for starting flow search pool, REMOVE IN FUTURE
-const useTriggerPairAdder = () => {
-  // const cachedPairs = useSelector((state: AppState) => state.user.pairs)
-  const globalTokenList = useAllTokens()
-  const addPair = usePairAdder()
-  const [once, setOnce] = useState(false)
-
-  const currency0 = ETHER
-  const currency1 = useMemo(() => {
-    const tokens = Object.values(globalTokenList)
-    if (tokens?.length) {
-      return tokens[0]
-    }
-    return null
-  }, [globalTokenList])
-
-  const [_, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
-
-  useEffect(() => {
-    if (pair && !once) {
-      addPair(pair)
-      setOnce(true)
-      console.log('------- Trigger add pair end work -------')
-    }
-  }, [pair, addPair, once])
 }

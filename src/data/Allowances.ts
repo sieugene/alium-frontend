@@ -1,7 +1,7 @@
 import { Token, TokenAmount } from '@alium-official/sdk'
 import { useTokenContract } from 'hooks/useContract'
 import { useMemo } from 'react'
-import { useSingleCallResult } from 'store/multicall/hooks/hooks'
+import { useSingleCallResult } from 'state/multicall/hooks'
 
 export function useTokenAllowance(token?: Token, owner?: string, spender?: string): TokenAmount | undefined {
   const contract = useTokenContract(token?.address, false)
