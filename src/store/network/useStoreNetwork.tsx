@@ -27,7 +27,7 @@ interface StoreAccountState {
   killStoreNetwork: () => void
   initStoreNetwork: () => void
   setChainId: (id: number) => void
-  setupNetwork: () => Promise<boolean>
+  setupNetwork: (id: number) => Promise<boolean>
   setConnectionError: (error: WEB3NetworkErrors | null) => void
   connectIsFailed: WEB3NetworkErrors | null
 }
@@ -60,16 +60,23 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     })
     cookies.set(chainIdCookieKey, newChainId, getCookieOptions())
   },
-  setupNetwork: async () => {
+  setupNetwork: async (id) => {
     /**
      * Prompt the user to add BSC as a network on Metamask, or switch to BSC if the wallet is on a different network
      * @returns {boolean} true if the setup succeeded, false otherwise
      */
+    const newChainId = getActualChainId(Number(id))
+    const newNetworkProviderParams = getNetworkProviderParams(newChainId)
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
         await (window as WindowChain).ethereum.request({
           method: 'wallet_addEthereumChain',
-          params: [get().networkProviderParams],
+          params: [newNetworkProviderParams],
+        })
+        set({
+          currentChainId: newChainId,
+          networkRpcUrl: getNetworkRpcUrl(newChainId),
+          networkProviderParams: newNetworkProviderParams,
         })
         return true
       } catch (error) {
