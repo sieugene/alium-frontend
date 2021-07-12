@@ -22,7 +22,7 @@ jobs:
           docker tag build $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
-  deploy-1:
+  deploy:
     needs: build
     runs-on: [self-hosted, prod]
     steps:
