@@ -10,7 +10,7 @@ import {
   WalletConnectConnector,
 } from '@web3-react/walletconnect-connector'
 import { ConnectorNames } from 'alium-uikit/src'
-import removeConnectorId from 'alium-uikit/src/util/connectorId/removeConnectorId'
+import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { useToast } from 'state/hooks'
@@ -86,6 +86,7 @@ const useAuth = () => {
   )
 
   const logout = async () => {
+    clearWalletConnect()
     await deactivate()
   }
   return { login, logout }
