@@ -9,11 +9,9 @@ on:
       - develop
 
 env:
-  VERSION: develop
-  IMAGE_ID: ghcr.io/alium-finance/alium-frontend
+  VERSION: ${GITHUB_REF##*/}
 jobs:
   build:
-    #runs-on: ubuntu-18.04
     runs-on: [self-hosted, dev]  
     steps:
       -
@@ -39,18 +37,6 @@ jobs:
           file: Dockerfile.develop
           cache-from: type=registry,ref=ghcr.io/alium-finance/alium-frontend:develop
           cache-to: type=inline          
-      
-      
-      #- name: Log into registry
-      #  run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      #- name: Build image
-      #  run: |
-      #    docker pull $IMAGE_ID:$VERSION || true
-      #    docker build -f Dockerfile.develop . -t build --cache-from $IMAGE_ID:$VERSION
-      #- name: Push image
-      #  run: |
-      #    docker tag build $IMAGE_ID:$VERSION
-      #    docker push $IMAGE_ID:$VERSION
 
   deploy:
     needs: build
