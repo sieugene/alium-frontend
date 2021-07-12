@@ -9,6 +9,6 @@ services:
   frontend:
     build:
       dockerfile: Dockerfile.develop
-    image: ghcr.io/alium-finance/alium-frontend:${VERSION}
+    image: ghcr.io/alium-finance/alium-frontend:develop
     ports:
       - 3020:3000
