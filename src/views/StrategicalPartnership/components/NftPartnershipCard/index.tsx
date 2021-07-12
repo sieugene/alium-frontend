@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next'
 import { ComponentProps, useState } from 'react'
 import styled from 'styled-components'
 import cardList, { CardType } from '../../constants/cards'
-import currencies from '../../constants/currencies'
+import { getCurrencies } from '../../constants/currencies'
 
 const NFTWrapper = styled.button`
   border: none;
@@ -259,6 +259,7 @@ interface PropsType {
 
 const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
   const { t } = useTranslation()
+  const currencies = getCurrencies()
 
   const ID = card.id.toString()
 

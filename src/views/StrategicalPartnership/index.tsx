@@ -25,7 +25,7 @@ import AppBody from '../AppBody'
 import { Dots } from '../Pool/styleds'
 import NftPartnershipCard from './components/NftPartnershipCard'
 import cardList from './constants/cards'
-import currencies from './constants/currencies'
+import { getCurrencies } from './constants/currencies'
 import emails from './constants/membersList'
 
 const bgIMG = 'images/home/background-img.svg'
@@ -195,6 +195,7 @@ const NotifyMembers = (hash, currency) => {
 }
 
 const StrategicalPartnershipHome = () => {
+  const currencies = getCurrencies()
   const [isOpenModal] = useState(false)
   const [isHideModalOpen, setHideModalOpen] = useState(false)
   const { account, chainId } = useActiveWeb3React()
