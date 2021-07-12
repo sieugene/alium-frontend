@@ -12,7 +12,6 @@ import {
 import { ConnectorNames } from 'alium-uikit/src'
 import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
 import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import { useToast } from 'state/hooks'
 import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import { clearWalletConnect } from 'utils/connection/walletConnect'
@@ -23,7 +22,6 @@ import { WEB3NetworkErrors } from './../constants/network/NetworkErrors.contanst
 const useAuth = () => {
   const { activate, deactivate } = useWeb3React()
   const { toastError } = useToast()
-  const dispatch = useDispatch()
   const sendDataToGTM = useGTMDispatch()
   const { setConnectionError } = useStoreNetwork()
 
@@ -42,6 +40,8 @@ const useAuth = () => {
                     toastError(WEB3NetworkErrors.UNSUPPORTED_CHAIN, err.message)
                     removeConnectorId()
                     clearWalletConnect()
+                    setConnectionError(WEB3NetworkErrors.UNSUPPORTED_CHAIN)
+                    deactivate()
                   })
                 } catch (err) {
                   console.error('err :>> ', err)
@@ -82,7 +82,7 @@ const useAuth = () => {
         // dispatch(setConnectionError({ error }))
       }
     },
-    [toastError, activate, sendDataToGTM, deactivate, dispatch],
+    [activate, sendDataToGTM, setConnectionError, toastError, deactivate],
   )
 
   const logout = async () => {

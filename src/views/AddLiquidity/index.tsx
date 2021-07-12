@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Currency, currencyEquals, ROUTER_ADDRESS, TokenAmount, WETH } from '@alium-official/sdk'
 import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -205,6 +206,9 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
     }
 
     const gasPrice = await calculateGasPrice(router.provider)
+    // args[1] = '98756854102'
+    // args[2] = '0'
+    // args[3] = '0'
 
     setAttemptingTxn(true)
     await estimate(...args, value ? { value } : {})
@@ -226,7 +230,10 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
         })
       })
       .catch((e) => {
-        setError(e)
+        const isLowPrice = e?.data?.message === 'execution reverted: ds-math-sub-underflow'
+        if (isLowPrice) {
+          setError(e)
+        }
         setAttemptingTxn(false)
         console.log('-----Error when adding liqudity-----', e)
 

@@ -3,6 +3,8 @@ import { getConnectorId } from 'alium-uikit/src/util/connectorId/getConnectorId'
 import useAuth from 'hooks/useAuth'
 import { useEffect } from 'react'
 import { storeNetwork } from 'store/network/useStoreNetwork'
+import useChangeNetwork from './network/useChangeNetwork'
+import { useReloadSwap } from './network/useReloadSwap'
 
 const _binanceChainListener = async () =>
   new Promise<void>((resolve) => {
@@ -19,7 +21,9 @@ const _binanceChainListener = async () =>
   })
 
 const useEagerConnect = () => {
-  const { login } = useAuth()
+  const { login, logout } = useAuth()
+  useChangeNetwork(login)
+  useReloadSwap(logout)
 
   useEffect(() => {
     const connectorId = getConnectorId()

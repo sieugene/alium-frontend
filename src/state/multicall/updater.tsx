@@ -65,12 +65,12 @@ export function activeListeningKeys(
 
     memo[callKey] = Object.keys(keyListeners)
       .filter((key) => {
-        const blocksPerFetch = parseInt(key)
+        const blocksPerFetch = parseInt(key, 10)
         if (blocksPerFetch <= 0) return false
         return keyListeners[blocksPerFetch] > 0
       })
       .reduce((previousMin, current) => {
-        return Math.min(previousMin, parseInt(current))
+        return Math.min(previousMin, parseInt(current, 10))
       }, Infinity)
     return memo
   }, {})

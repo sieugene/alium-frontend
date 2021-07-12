@@ -8,7 +8,11 @@ export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
   if (currency?.raw) {
     const RawBN = new BigNumber(Number(`${currency.raw}`))
     const balance = getBalanceNumber(RawBN)
-    return formatDigits(balance)
+    const data = formatDigits(balance)
+    if (isNaN(Number(data))) {
+      return '-'
+    }
+    return data
     // old method
     // return currency?.toSignificant(6)
   }

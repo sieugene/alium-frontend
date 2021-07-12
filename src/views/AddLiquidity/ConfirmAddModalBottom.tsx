@@ -31,7 +31,7 @@ export function ConfirmAddModalBottom({
   const error = useMemo(() => hasError, [hasError])
   useEffect(() => {
     if (error) {
-      toastError('Errow when adding liqudity')
+      toastError('Low price')
     }
   }, [error, toastError])
 
