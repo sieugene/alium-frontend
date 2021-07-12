@@ -20,7 +20,7 @@ import { useV1FactoryContract } from 'hooks/useContract'
 import { Version } from 'hooks/useToggledVersion'
 import { useMemo } from 'react'
 import { useETHBalances, useTokenBalance, useTokenBalances } from 'state/wallet/hooks'
-import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from 'store/multicall/hooks/hooks'
+import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from 'state/multicall/hooks'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 
 export function useV1ExchangeAddress(tokenAddress?: string): string | undefined {

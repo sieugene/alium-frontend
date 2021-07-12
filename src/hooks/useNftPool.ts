@@ -2,7 +2,7 @@ import { Contract } from '@ethersproject/contracts'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import { useSingleContractMultipleData } from 'store/multicall/hooks/hooks'
+import { useSingleContractMultipleData } from 'state/multicall/hooks'
 import { getContract } from 'utils'
 import { cardListPrivate, cardListPublic, cardListStrategical } from 'views/InvestorsAccount/constants/cards'
 import {

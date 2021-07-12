@@ -4,7 +4,7 @@ import { useActiveWeb3React } from 'hooks'
 import { useAllTokens } from 'hooks/Tokens'
 import { useMulticallContract } from 'hooks/useContract'
 import { useMemo } from 'react'
-import { useMultipleContractSingleData, useSingleContractMultipleData } from 'store/multicall/hooks/hooks'
+import { useMultipleContractSingleData, useSingleContractMultipleData } from 'state/multicall/hooks'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import { isAddress } from 'utils'
 
