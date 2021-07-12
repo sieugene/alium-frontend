@@ -5,7 +5,6 @@ export enum ConnectorNames {
   Injected = 'injected',
   WalletConnect = 'walletconnect',
   BSC = 'bsc',
-  TOKENPOCKET = 'tokenpocket',
 }
 
 export type Login = (connectorId: ConnectorNames) => Promise<void>

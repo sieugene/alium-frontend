@@ -10,12 +10,11 @@ import {
   WalletConnectConnector,
 } from '@web3-react/walletconnect-connector'
 import { ConnectorNames } from 'alium-uikit/src'
-import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
+import removeConnectorId from 'alium-uikit/src/util/connectorId/removeConnectorId'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { useToast } from 'state/hooks'
 import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
-import { checkSupportConnect } from 'utils/connection/notifyWeb3'
 import { clearWalletConnect } from 'utils/connection/walletConnect'
 import GTM from 'utils/gtm'
 import { getConnectorsByName } from 'utils/web3React'
@@ -32,13 +31,6 @@ const useAuth = () => {
     async (connectorID: ConnectorNames) => {
       try {
         const { chainId, connector } = getConnectorsByName(connectorID)
-        // Remove Later
-        const support = checkSupportConnect(connectorID)
-        if (!support) {
-          toastError(WEB3NetworkErrors.NOPROVIDER)
-          return null
-        }
-        //
 
         if (connector) {
           await activate(connector, async (error: Error) => {
