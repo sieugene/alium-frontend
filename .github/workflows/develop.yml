@@ -8,8 +8,6 @@ on:
     branches:
       - develop
 
-env:
-  VERSION: ${GITHUB_REF##*/}
 jobs:
   build:
     runs-on: [self-hosted, dev]  
