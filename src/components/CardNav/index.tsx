@@ -1,6 +1,6 @@
 import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
+import { FC, useEffect, useState } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
@@ -41,9 +41,21 @@ const StyledNav = styled.div`
   }
 `
 
-const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
+interface props {
+  activeIndex?: number
+  isWithMigrate?: boolean
+}
+
+export const CardNav: FC<props> = ({ activeIndex = 0, isWithMigrate = false }) => {
   const { t } = useTranslation()
-  const router = useRouter()
+  const [state, setState] = useState([
+    { href: ROUTES.exchange, title: t('swap') },
+    { href: ROUTES.pool, title: t('mainMenu.liquidity') },
+  ])
+
+  useEffect(() => {
+    isWithMigrate && setState((prevState) => [...prevState, { href: ROUTES.migrate, title: 'Migrate' }])
+  }, [])
 
   return (
     <Flex alignItems='flex-start'>
@@ -52,20 +64,13 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
           {t('mainMenu.trade')}
         </Heading>
         <ButtonMenu size='md' variant='primary' activeIndex={activeIndex}>
-          <ButtonMenuItem id='swap-nav-link' href={ROUTES.exchange} as='a'>
-            {t('swap')}
-          </ButtonMenuItem>
-          <ButtonMenuItem id='pool-nav-link' href={ROUTES.pool} as='a'>
-            {t('mainMenu.liquidity')}
-          </ButtonMenuItem>
-
-          {/* <ButtonMenuItem id="migrate-nav-link" to="/migrate" as={Link}>
-          Migrate
-        </ButtonMenuItem> */}
+          {state.map(({ href, title }) => (
+            <ButtonMenuItem href={href} key={href} as='a'>
+              {title}
+            </ButtonMenuItem>
+          ))}
         </ButtonMenu>
       </StyledNav>
     </Flex>
   )
 }
-
-export default Nav

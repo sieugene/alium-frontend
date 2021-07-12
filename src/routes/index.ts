@@ -6,6 +6,7 @@ export const ROUTES = {
   exchange: '/swap',
   pool: '/pool',
   add: '/add',
+  migrate: '/migrate',
   addWithCurrencyA: '/add/:currencyIdA',
   addWithMultipleCurrency: '/add/:currencyIdA/:currencyIdB',
   removeTokens: '/remove/:tokens',
