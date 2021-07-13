@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import styled from 'styled-components'
 
 export const Root = styled.div`
@@ -12,6 +12,7 @@ export const Root = styled.div`
     line-height: 24px;
     letter-spacing: 0.3px;
     color: #0b1359;
+    margin: 0 0 8px 0;
   }
 
   .title2 {
@@ -20,7 +21,6 @@ export const Root = styled.div`
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
-    margin: 8px 0 0 0;
   }
 
   header {
@@ -82,8 +82,20 @@ export const Root = styled.div`
     color: #6c5dd3;
   }
 
+  .action {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 768px) {
+    .action {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
   .button {
-    margin: 12px 0;
+    margin: 16px 24px 16px 0;
     width: fit-content;
     display: flex;
     justify-content: center;
@@ -101,9 +113,33 @@ export const Root = styled.div`
     line-height: 20px;
     letter-spacing: 1px;
   }
+
+  .balance {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    color: #8990a5;
+    margin: 20px 0 4px 0;
+  }
+  .balance span {
+    color: #6c5dd3;
+  }
 `
 
-export const Step2YourLiquidity: FC = () => {
+interface props {
+  from?: string
+  pair?: string
+}
+
+export const Step2YourLiquidity: FC<props> = ({ from, pair }) => {
+  const [tokensAmount, setTokensAmount] = useState(0.123)
+  const [balance, setBalance] = useState(3.722)
+
+  const handleMigrate = () => {
+    console.log('handleMigrate')
+  }
+
   return (
     <Root>
       <header>
@@ -119,10 +155,19 @@ export const Step2YourLiquidity: FC = () => {
         </div>
         <div className='tokens-amount'>
           <div className='label'>Amount of Tokens</div>
-          <span>0000.123</span>
+          <span>{tokensAmount}</span>
         </div>
-        <div>Balance: 3.722</div>
-        <div className='button'>Migrate</div>
+        <div className='balance'>
+          Balance: <span>{balance}</span>
+        </div>
+        <div className='action'>
+          <div className='button' onClick={handleMigrate}>
+            Migrate
+          </div>
+          <div className='title2'>
+            You {from} {pair} liquidity will become AliumSwap {pair} liquidity
+          </div>
+        </div>
       </main>
     </Root>
   )

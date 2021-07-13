@@ -115,17 +115,17 @@ export const Root = styled.div`
 `
 
 interface props {
-  isSuccessful: boolean
   from?: string
   pair?: string
+  isSuccessful: boolean
   contract?: string
   explorerLink?: string
 }
 
 export const Step4MigrationResult: FC<props> = ({
-  isSuccessful,
   from = '',
   pair = '',
+  isSuccessful,
   contract = '',
   explorerLink = '/',
 }) => {

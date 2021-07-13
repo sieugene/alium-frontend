@@ -13,9 +13,16 @@ const Root = styled.div``
 const ViewMigrate: FC = () => {
   const { account } = useWeb3React()
   const [step, setStep] = useState(1)
+  const [from, setFrom] = useState('AnySwap')
+  const [pair, setPair] = useState('ALM/WBNB')
+  const [isSuccessful, setIsSuccessful] = useState(true)
+  const [contract, setContract] = useState('0xF92dC46ccbC7Dacb0A02F37348003C4a2c23ea78')
+  const [explorerLink, setExplorerLink] = useState(
+    'https://mumbai.polygonscan.com/address/0xF92dC46ccbC7Dacb0A02F37348003C4a2c23ea78',
+  )
 
   useEffect(() => {
-    account && step === 1 && setStep(4)
+    account && step === 1 && setStep(2)
     !account && setStep(1)
   }, [account])
 
@@ -24,15 +31,15 @@ const ViewMigrate: FC = () => {
       <CardNav activeIndex={2} isWithMigrate={true} />
       <SwapAppBody>
         {step === 1 && <Step1Connect />}
-        {step === 2 && <Step2YourLiquidity />}
+        {step === 2 && <Step2YourLiquidity from={from} pair={pair} />}
         {step === 3 && <Step3Migrating />}
         {step === 4 && (
           <Step4MigrationResult
-            isSuccessful={true}
-            from='AnySwap'
-            pair='ALM-WBNB'
-            contract='0xF92dC46ccbC7Dacb0A02F37348003C4a2c23ea78'
-            explorerLink='https://mumbai.polygonscan.com/address/0xF92dC46ccbC7Dacb0A02F37348003C4a2c23ea78'
+            from={from}
+            pair={pair}
+            isSuccessful={isSuccessful}
+            contract={contract}
+            explorerLink={explorerLink}
           />
         )}
       </SwapAppBody>
