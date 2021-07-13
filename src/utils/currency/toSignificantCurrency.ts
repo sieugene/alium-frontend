@@ -6,18 +6,17 @@ import { getBalanceNumber } from './../formatBalance'
 export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
   return formatCurrency(currency)
 }
-const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 7) => {
+
+const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6) => {
   const RawBN = currency?.raw && new BigNumber(Number(`${currency.raw}`))
   // Dont use toString but '1.245000' make to '1.245'
-  const amount = RawBN && `${getBalanceNumber(RawBN)}`.substring(0, maxSub)
+  const balance = RawBN && `${getBalanceNumber(RawBN)}`?.split('.')
+  const amount = fromSplitBalance(balance, maxSub)
+
   const firstMin = '0.0010'
 
-  if (isNaN(getBalanceNumber(RawBN))) {
-    return '-'
-  }
-
   // Undefined condition
-  if (!amount || !currency) {
+  if (isNaN(getBalanceNumber(RawBN)) || !amount || !currency) {
     return '-'
   }
 
@@ -36,6 +35,17 @@ const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 7) => {
   }
   // Make '1.245000' to '1.245'
   return dropZero(amount) || '-'
+}
+
+// Split by "." max size after "." 6
+const fromSplitBalance = (balance: string[], maxSub: number) => {
+  if (balance?.length >= 2) {
+    return `${balance[0]}.${balance[1].substring(0, maxSub)}`
+  }
+  if (balance?.length === 1) {
+    return `${balance[0]}`
+  }
+  return balance?.length ? balance[0] : ''
 }
 
 const isMinimalAmount = (amount: string, min: string) => {
