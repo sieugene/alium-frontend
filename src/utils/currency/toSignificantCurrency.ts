@@ -1,62 +1,69 @@
-import { CurrencyAmount, Price } from '@alium-official/sdk'
+import { CurrencyAmount, Fraction, JSBI, Price } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from './../formatBalance'
 
-// toSignificant like metamask
-
+// toSignificant like uniswap
 export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
-  if (currency?.raw) {
-    const RawBN = new BigNumber(Number(`${currency.raw}`))
-    const balance = getBalanceNumber(RawBN)
-    const data = formatDigits(balance)
-    if (isNaN(Number(data))) {
-      return '-'
-    }
-    return data
-    // old method
-    // return currency?.toSignificant(6)
-  }
-  return ''
+  return formatCurrency(currency)
 }
-const formatDigits = (balance: number) => {
-  const text = balance.toString()
-  const splitted = text.split('.')
-  const half = splitted?.length > 1 && splitted[1].split('')
-  const firstIsZero = half?.length >= 2 && half[0] + half[1] + half[2] === '000'
-  if (firstIsZero) {
-    return NonZero(half)
-  } else {
-    const replaced = getFlooredFixed(Number(balance), 3)
-    return formatZero(replaced, balance.toString())
+const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 7) => {
+  const RawBN = currency?.raw && new BigNumber(Number(`${currency.raw}`))
+  // Dont use toString but '1.245000' make to '1.245'
+  const amount = RawBN && `${getBalanceNumber(RawBN)}`.substring(0, maxSub)
+  const firstMin = '0.0010'
+
+  // Undefined condition
+  if (!amount || !currency) {
+    return '-'
   }
+
+  // Zero condition
+  // if (JSBI.equal(currency.quotient, JSBI.BigInt(0))) {
+  //   return '0'
+  // }
+
+  // Minimal zeros is 0.001, checkout - 0.0011 is false and  0.0010 is true
+  if (isMinimalAmount(amount, firstMin)) {
+    return firstMin.slice(0, -1)
+  }
+  // Less
+  if (Number(amount) < 0.00001) {
+    return '<0.00001'
+  }
+  // Make '1.245000' to '1.245'
+  return dropZero(amount)
 }
-// Оставляет нули, заполняя последним отличным от нуля
-const NonZero = (words: string[]) => {
-  let word = ''
-  let breaked = false
-  words.forEach((symbol) => {
-    const asNumber = Number(symbol)
-    if (!breaked) {
-      if (asNumber === 0) {
-        word += symbol
-      } else {
-        word += symbol
-        breaked = true
-      }
+
+const isMinimalAmount = (amount: string, min: string) => {
+  const splitted = amount.split('')
+  const zero = min.split('')
+  let coincidence = 0
+  zero.forEach((z, index) => {
+    if (splitted[index] === z) {
+      coincidence += 1
     }
   })
-  return word
+  return coincidence === 6
 }
 
-function getFlooredFixed(v: number, d: number) {
-  return (Math.floor(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d)
+const dropZero = (str: string) => {
+  const numbered = Number(str)
+  return numbered ? numbered.toString() : str
 }
-const formatZero = (formatted: string, fullStr: string) => {
-  const isZero = formatted[formatted.length - 1] === '0'
-  if (isZero && formatted.length > 2 && fullStr.length > 2) {
-    const shiftedValue = fullStr[fullStr.length - 2]
-    const shift = (shiftedValue !== '.' && shiftedValue !== '0' && fullStr[fullStr.length - 2]) || ''
-    return formatted.substring(0, formatted.length - 1) + shift
+
+// Uniswap formatter from uniswap-interface
+export function formatCurrencyAmount(amount: CurrencyAmount | Price, sigFigs = 4) {
+  if (!amount) {
+    return '-'
   }
-  return formatted
+
+  if (JSBI.equal(amount.quotient, JSBI.BigInt(0))) {
+    return '0'
+  }
+
+  if (amount.divide(amount).lessThan(new Fraction(JSBI.BigInt(1), JSBI.BigInt(1000)))) {
+    return '<0.00001'
+  }
+
+  return amount.toSignificant(sigFigs)
 }
