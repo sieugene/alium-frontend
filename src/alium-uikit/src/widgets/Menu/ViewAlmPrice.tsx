@@ -70,10 +70,10 @@ const TextWrapper = styled.div`
 `
 
 interface props {
-  isPushed: boolean
+  ispushed: boolean
 }
 
-const ViewAlmPrice: FC<props> = ({ isPushed }) => {
+const ViewAlmPrice: FC<props> = ({ ispushed }) => {
   const [price, setPrice] = useState<null | string>(null)
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const ViewAlmPrice: FC<props> = ({ isPushed }) => {
   }, [])
 
   return (
-    <Styled className={`${price ? 'visible' : ''} ${isPushed ? 'with-indent' : ''}`}>
+    <Styled className={`${price ? 'visible' : ''} ${ispushed ? 'with-indent' : ''}`}>
       <IconWrapper>
         <IconTokenAlm />
       </IconWrapper>

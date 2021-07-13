@@ -5,6 +5,7 @@ import { useCurrency } from 'hooks/Tokens'
 import { useTradeExactIn, useTradeExactOut } from 'hooks/Trades'
 import { useAlmToken } from 'hooks/useAlm'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -390,16 +391,23 @@ export function useDefaultsFromURLSearch():
   // for set alm token as default
   const ALMCurrencyId = useAlmToken()?.address
 
+  const { query } = useRouter()
+
+  const currencyIdA = query?.currencyIdA as string
+  const currencyIdB = query?.currencyIdB as string
+
   useEffect(() => {
     if (!chainId) return
     const parsed = queryParametersToSwapState(parsedQs)
-    const outpudId = parsed[Field.OUTPUT].currencyId || ALMCurrencyId
+    const inputId = currencyIdA || parsed[Field.INPUT].currencyId
+    const outpudId = parsed[Field.OUTPUT].currencyId || currencyIdB || ALMCurrencyId
+
     dispatch(
       replaceSwapState({
         typedValue: parsed.typedValue,
         field: parsed.independentField,
-        inputCurrencyId: parsed[Field.INPUT].currencyId,
-        outputCurrencyId: outpudId,
+        inputCurrencyId: inputId,
+        outputCurrencyId: outpudId !== inputId ? outpudId : parsed[Field.OUTPUT].currencyId,
         recipient: parsed.recipient,
       }),
     )

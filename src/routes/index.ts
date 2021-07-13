@@ -11,6 +11,8 @@ export const ROUTES = {
   addWithMultipleCurrency: '/add/:currencyIdA/:currencyIdB',
   removeTokens: '/remove/:tokens',
   removeMultiple: '/remove/:currencyIdA/:currencyIdB',
+  exchangeByOne: (currencyId) => `/swap/${currencyId}`,
+  exchangeByMultiple: (currencyIdA: string, currencyIdB: string) => `/swap/${currencyIdA}/${currencyIdB}`,
   addByOne: (currencyId) => `/add/${currencyId}`,
   addByMultiple: (currencyIdA: string, currencyIdB: string) => `/add/${currencyIdA}/${currencyIdB}`,
   removeByMultiple: (currencyIdA: string, currencyIdB: string) => `/remove/${currencyIdA}/${currencyIdB}`,

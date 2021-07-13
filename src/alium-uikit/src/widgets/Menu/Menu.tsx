@@ -44,7 +44,7 @@ const BodyWrapper = styled.div`
   display: flex;
 `
 
-const Inner = styled.div<{ isPushed: boolean; showMenu: boolean }>`
+const Inner = styled.div<{ ispushed: boolean; showMenu: boolean }>`
   flex-grow: 1;
   margin-top: ${MENU_HEIGHT}px;
   transition: margin-top 0.2s;
@@ -52,8 +52,8 @@ const Inner = styled.div<{ isPushed: boolean; showMenu: boolean }>`
   max-width: 100%;
 
   ${({ theme }) => theme.mediaQueries.nav} {
-    margin-left: ${({ isPushed }) => `${isPushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px`};
-    max-width: ${({ isPushed }) => `calc(100% - ${isPushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px)`};
+    margin-left: ${({ ispushed }) => `${ispushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px`};
+    max-width: ${({ ispushed }) => `calc(100% - ${ispushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px)`};
   }
 `
 
@@ -88,11 +88,11 @@ const StyledLogoWithoutText = styled.div`
   }
 `
 
-const StyledBetaIcon = styled.div<{ isPushed?: boolean }>`
+const StyledBetaIcon = styled.div<{ ispushed?: boolean }>`
   display: flex;
   align-items: center;
   margin-left: -20px;
-  ${({ isPushed }) => isPushed && 'margin-left: 152px;'}
+  ${({ ispushed }) => ispushed && 'margin-left: 152px;'}
 
   svg {
     margin-right: 10px;
@@ -183,7 +183,7 @@ const Menu: FC<NavProps> = ({
 }) => {
   const { isXl } = useMatchBreakpoints()
   const isMobile = isXl === false
-  const [isPushed, setIsPushed] = useState(!isMobile)
+  const [ispushed, setIsPushed] = useState(!isMobile)
   const [showMenu, setShowMenu] = useState(true)
 
   useEffect(() => {
@@ -219,7 +219,7 @@ const Menu: FC<NavProps> = ({
             <Logo width='40px' height='40px' />
           </StyledLogoWithoutText>
           {false && betaText && (
-            <StyledBetaIcon isPushed={isPushed}>
+            <StyledBetaIcon ispushed={ispushed}>
               {/* <BetaIcon height="28px" width="43px" /> */}
               <StyledText color='#8990A5'>
                 {betaText.slice(0, betaText?.lastIndexOf('here'))}
@@ -230,7 +230,7 @@ const Menu: FC<NavProps> = ({
           )}
         </Flex>
         <TopWrapper>
-          <ViewAlmPrice isPushed={isPushed} />
+          <ViewAlmPrice ispushed={ispushed} />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {loginBlockVisible && (
               <UserBlock
@@ -247,14 +247,14 @@ const Menu: FC<NavProps> = ({
               />
             )}
             <MenuButton2 aria-label='Toggle menu' onClick={() => setIsPushed((prevState: boolean) => !prevState)}>
-              {isPushed ? <CloseIcon color='primary' width='24' height='25' /> : <BurgerIcon width='24' height='24' />}
+              {ispushed ? <CloseIcon color='primary' width='24' height='25' /> : <BurgerIcon width='24' height='24' />}
             </MenuButton2>
           </div>
         </TopWrapper>
       </StyledNav>
       <BodyWrapper>
         <Panel
-          isPushed={isPushed}
+          ispushed={ispushed}
           isMobile={isMobile}
           showMenu={showMenu}
           isDark={isDark}
@@ -263,10 +263,10 @@ const Menu: FC<NavProps> = ({
           links={links}
           togglePush={() => setIsPushed((prevState: boolean) => !prevState)}
         />
-        <Inner isPushed={isPushed} showMenu={showMenu}>
+        <Inner ispushed={ispushed} showMenu={showMenu}>
           {children}
         </Inner>
-        <MobileOnlyOverlay show={isPushed} onClick={() => setIsPushed(false)} role='presentation' />
+        <MobileOnlyOverlay show={ispushed} onClick={() => setIsPushed(false)} role='presentation' />
       </BodyWrapper>
     </Wrapper>
   )

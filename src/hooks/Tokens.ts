@@ -53,9 +53,9 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
 // null if loading
 // otherwise returns the token
 export function useToken(tokenAddress?: string): Token | undefined | null {
-  console.log('-----------------')
-  console.log('tokenAddress', tokenAddress)
-  console.log('-----------------')
+  // console.log('-----------------')
+  // console.log('tokenAddress', tokenAddress)
+  // console.log('-----------------')
   const { chainId } = useActiveWeb3React()
   const tokens = useAllTokens()
 
