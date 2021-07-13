@@ -68,6 +68,9 @@ const MenuEntry = styled.div<Props>`
 
   & a {
     transition: color 200ms ease-in-out;
+    div {
+      color: ${({ theme, isActive }) => (isActive ? '#24BA7B' : theme.colors.textSubtle)};
+    }
   }
 
   &:hover a {

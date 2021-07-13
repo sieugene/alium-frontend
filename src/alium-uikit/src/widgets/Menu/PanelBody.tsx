@@ -10,7 +10,7 @@ import Logo from './Logo'
 import MenuButton from './MenuButton'
 import { LinkLabel, MenuEntry } from './MenuEntry'
 import { MenuNewItem } from './MenuNewItem'
-import { PanelProps, PushedProps } from './types'
+import { MenuSubEntry, PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {
   isMobile?: boolean
@@ -124,6 +124,10 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, 
   const handleClick = isMobile ? () => pushNav(false) : undefined
   const homeLink = links.find((link) => link.label === 'Home')
 
+  const isActive = (item: MenuSubEntry) => {
+    return item.href === location.pathname || location.pathname.includes(`${item.href}/`)
+  }
+
   return (
     <Container>
       <StyledLogoIcon>
@@ -147,7 +151,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, 
           const calloutClass = entry.calloutClass ? entry.calloutClass : undefined
 
           if (entry.items) {
-            const itemsMatchIndex = entry.items.findIndex((item) => item.href === location.pathname)
+            const itemsMatchIndex = entry.items.findIndex(isActive)
             const initialOpenState = entry.initialOpenState === true ? entry.initialOpenState : itemsMatchIndex >= 0
 
             return (
@@ -162,12 +166,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, 
               >
                 {ispushed &&
                   entry.items.map((item) => (
-                    <MenuEntry
-                      key={item.href}
-                      secondary
-                      isActive={item.href === location.pathname}
-                      onClick={handleClick}
-                    >
+                    <MenuEntry key={item.href} secondary isActive={isActive(item)} onClick={handleClick}>
                       <NextLink href={item.href}>{item.label}</NextLink>
                     </MenuEntry>
                   ))}
@@ -176,7 +175,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, 
           }
           return (
             <Fragment key={entry.label}>
-              <MenuEntry isActive={entry.href === location.pathname} className={calloutClass}>
+              <MenuEntry isActive={isActive(entry)} className={calloutClass}>
                 <StyledLink href={entry.href} handleClick={handleClick} ispushed={ispushed} isnew={entry?.new}>
                   {iconElement}
                   <LinkLabelStyled ispushed={ispushed}>{entry.label}</LinkLabelStyled>
