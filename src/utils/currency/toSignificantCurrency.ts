@@ -12,6 +12,10 @@ const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 7) => {
   const amount = RawBN && `${getBalanceNumber(RawBN)}`.substring(0, maxSub)
   const firstMin = '0.0010'
 
+  if (isNaN(getBalanceNumber(RawBN))) {
+    return '-'
+  }
+
   // Undefined condition
   if (!amount || !currency) {
     return '-'
@@ -31,7 +35,7 @@ const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 7) => {
     return '<0.00001'
   }
   // Make '1.245000' to '1.245'
-  return dropZero(amount)
+  return dropZero(amount) || '-'
 }
 
 const isMinimalAmount = (amount: string, min: string) => {
