@@ -11,9 +11,10 @@ interface Props extends PushedProps {
   icon: ReactElement
   initialOpenState?: boolean
   className?: string
+  active?: boolean
 }
 
-const Container = styled.div<{ isOpen: boolean }>`
+const Container = styled.div<{ isOpen: boolean; active: boolean }>`
   display: flex;
   flex-direction: column;
   // Safari fix
@@ -21,11 +22,11 @@ const Container = styled.div<{ isOpen: boolean }>`
   div:first-child > div {
     margin-left: 8px;
     padding-bottom: 2px;
-    ${({ isOpen }) => isOpen && `color: #24BA7B;`}
+    ${({ isOpen, active }) => Boolean(isOpen || active) && `color: #24BA7B;`}
   }
 
   div:first-child > svg * {
-    ${({ isOpen }) => isOpen && `stroke: #24BA7B;`}
+    ${({ isOpen, active }) => Boolean(isOpen || active) && `stroke: #24BA7B;`}
   }
 
   @media screen and (max-width: 968px) {
@@ -50,7 +51,16 @@ const AccordionContent = styled.div<{ isOpen: boolean; ispushed: boolean; maxHei
   }
 `
 
-const Accordion: FC<Props> = ({ label, icon, ispushed, pushNav, initialOpenState = false, children, className }) => {
+const Accordion: FC<Props> = ({
+  label,
+  icon,
+  active,
+  ispushed,
+  pushNav,
+  initialOpenState = false,
+  children,
+  className,
+}) => {
   const accordRef = useRef()
   const [isOpen, setIsOpen] = useState(initialOpenState)
 
@@ -67,7 +77,7 @@ const Accordion: FC<Props> = ({ label, icon, ispushed, pushNav, initialOpenState
     setIsOpen(false)
   })
   return (
-    <Container isOpen={isOpen} ref={accordRef}>
+    <Container isOpen={isOpen} ref={accordRef} active={active}>
       <MenuEntry onClick={handleClick} className={className}>
         {icon}
         <LinkLabel ispushed={ispushed}>{label}</LinkLabel>

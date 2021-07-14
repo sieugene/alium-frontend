@@ -29,6 +29,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
     {
       label: t('mainMenu.trade'),
       icon: 'TradeIcon',
+      triggers: [ROUTES.pool, ROUTES.exchange],
       items: [
         { label: t('swap'), href: ROUTES.exchange },
         { label: t('mainMenu.liquidity'), href: ROUTES.pool },
@@ -47,6 +48,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
     {
       label: t('mainMenu.more'),
       icon: 'MoreIcon',
+      triggers: [ROUTES.audits],
       items: [
         { label: 'Audits', href: ROUTES.audits },
         // { label: 'Voting', href: 'https://voting.dev.alium.finance' },

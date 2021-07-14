@@ -10,7 +10,7 @@ import Logo from './Logo'
 import MenuButton from './MenuButton'
 import { LinkLabel, MenuEntry } from './MenuEntry'
 import { MenuNewItem } from './MenuNewItem'
-import { MenuSubEntry, PanelProps, PushedProps } from './types'
+import { MenuEntry as MenuEntryType, MenuSubEntry, PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {
   isMobile?: boolean
@@ -71,7 +71,7 @@ const StyledLinksPanel = styled.div`
       font-weight: 500;
     }
     & > div > div:not(:first-child) > div > a {
-      color: #8990a5 !important;
+      /* color: #8990a5 !important; */
       font-weight: 500;
     }
   }
@@ -86,11 +86,13 @@ const StyledLogoIcon = styled.div`
 
 const StyledLink = styled(NextLink.Multiple)<{ ispushed: boolean; isnew: boolean }>`
   flex-direction: ${(props) => (props.ispushed || !props.isnew ? 'inherit' : 'column')};
-  div {
+  div,
+  span {
     margin-left: ${(props) => (props.ispushed || !props.isnew ? '8px' : '0px')} !important;
     margin-top: ${(props) => (props.ispushed || !props.isnew ? '0px' : '3px')} !important;
     transition: 0.3s all ease;
   }
+
   svg {
     margin-right: ${(props) => (props.ispushed || !props.isnew ? '8px' : '0px')} !important;
   }
@@ -128,6 +130,17 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, 
     return item.href === location.pathname || location.pathname.includes(`${item.href}/`)
   }
 
+  const isAssociated = (entry: MenuEntryType) => {
+    const isHome = location.pathname === '/'
+    return (
+      !isHome &&
+      entry?.triggers?.length &&
+      Boolean(
+        entry?.triggers.find((trigger) => location.pathname.includes(trigger) || trigger.includes(location.pathname)),
+      )
+    )
+  }
+
   return (
     <Container>
       <StyledLogoIcon>
@@ -151,6 +164,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, 
           const calloutClass = entry.calloutClass ? entry.calloutClass : undefined
 
           if (entry.items) {
+            const linkTriggered = isAssociated(entry)
             const itemsMatchIndex = entry.items.findIndex(isActive)
             const initialOpenState = entry.initialOpenState === true ? entry.initialOpenState : itemsMatchIndex >= 0
 
@@ -163,6 +177,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, 
                 label={entry.label}
                 initialOpenState={initialOpenState}
                 className={calloutClass}
+                active={linkTriggered}
               >
                 {ispushed &&
                   entry.items.map((item) => (
