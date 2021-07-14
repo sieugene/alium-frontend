@@ -1,8 +1,8 @@
 import useOnClickOutside from 'hooks/useOnClickOutside'
-import { Children, FC, ReactElement, useRef, useState } from 'react'
+import { FC, ReactElement, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
-import { MENU_ENTRY_HEIGHT } from './config'
+// import { MENU_ENTRY_HEIGHT } from './config'
 import { LinkLabel, MenuEntry } from './MenuEntry'
 import { PushedProps } from './types'
 
@@ -14,7 +14,7 @@ interface Props extends PushedProps {
   active?: boolean
 }
 
-const Container = styled.div<{ isOpen: boolean; active: boolean }>`
+const Container = styled.div<{ isOpen: boolean; active: boolean; ispushed: boolean }>`
   display: flex;
   flex-direction: column;
   // Safari fix
@@ -23,6 +23,9 @@ const Container = styled.div<{ isOpen: boolean; active: boolean }>`
     margin-left: 8px;
     padding-bottom: 2px;
     ${({ isOpen, active }) => Boolean(isOpen || active) && `color: #24BA7B;`}
+  }
+  div:first-child {
+    ${({ isOpen, active, ispushed }) => Boolean(isOpen || active) && ispushed && `padding-bottom: 10px;`}
   }
 
   div:first-child > svg * {
@@ -34,16 +37,51 @@ const Container = styled.div<{ isOpen: boolean; active: boolean }>`
       display: none;
     }
   }
+
+  background: #ffffff;
+  box-shadow: ${({ isOpen, active }) => Boolean(isOpen || active) && `0px 6px 12px rgba(185, 189, 208, 0.4);`};
+  border-radius: 6px;
+  @media screen and (max-width: 968px) {
+    box-shadow: none !important;
+  }
 `
 
 const AccordionContent = styled.div<{ isOpen: boolean; ispushed: boolean; maxHeight: number }>`
-  max-height: ${({ isOpen, maxHeight }) => (isOpen ? `${maxHeight}px` : 0)};
+  max-height: ${({ isOpen }) => (isOpen ? `auto` : 0)};
+  @media screen and (max-width: 968px) {
+    max-height: fit-content !important;
+  }
   transition: max-height 0.3s ease-out;
   overflow: hidden;
+  /* margin-top: ${({ isOpen }) => (isOpen ? `10px` : 0)}; */
 
   > div > a {
     padding-left: 25px;
     color: #8990a5;
+    margin-top: 10px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    height: auto;
+  }
+
+  div {
+    height: auto;
+    padding-top: 0px;
+    padding-bottom: 0px !important;
+
+    &:first-child {
+      a {
+        margin-top: 0;
+      }
+    }
+    &:last-child {
+      a {
+        margin-bottom: 14px;
+      }
+    }
   }
 
   @media screen and (max-width: 968px) {
@@ -77,13 +115,18 @@ const Accordion: FC<Props> = ({
     setIsOpen(false)
   })
   return (
-    <Container isOpen={isOpen} ref={accordRef} active={active}>
+    <Container isOpen={isOpen} ref={accordRef} active={active} ispushed={ispushed}>
       <MenuEntry onClick={handleClick} className={className}>
         {icon}
         <LinkLabel ispushed={ispushed}>{label}</LinkLabel>
         {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </MenuEntry>
-      <AccordionContent isOpen={isOpen} ispushed={ispushed} maxHeight={Children.count(children) * MENU_ENTRY_HEIGHT}>
+      <AccordionContent
+        isOpen={isOpen}
+        ispushed={ispushed}
+        // maxHeight={Children.count(children) * MENU_ENTRY_HEIGHT}
+        maxHeight={0}
+      >
         {children}
       </AccordionContent>
     </Container>

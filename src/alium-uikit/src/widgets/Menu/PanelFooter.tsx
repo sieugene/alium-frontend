@@ -12,7 +12,7 @@ const Icons = IconModule as unknown as { [key: string]: FC<SvgProps> }
 
 const Container = styled.div<{ ispushed?: boolean }>`
   flex: none;
-  padding: 8px 4px;
+  padding: 0px 16px 0px 16px;
 
   @media screen and (max-width: 967px) {
     position: absolute;
@@ -27,13 +27,14 @@ const SocialEntry = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0 28px;
+  /* flex-wrap: wrap; */
   @media screen and (max-width: 967px) {
     padding: 0;
   }
 `
 
 const StyledExternalLink = styled(Link)`
-  margin-bottom: 25px;
+  margin-bottom: 17px;
   svg * {
     transition: fill 100ms ease-in-out;
   }
@@ -48,7 +49,7 @@ const StyledSocial = styled.div<{ ispushed?: boolean }>`
   display: flex;
   flex-wrap: ${(props) => (props.ispushed ? 'inherit' : 'wrap')};
   a {
-    margin-left: 16px;
+    margin-left: 11px;
     &:last-child {
       margin-right: 16px;
     }
