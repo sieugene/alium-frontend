@@ -1,4 +1,4 @@
-import { ChainId, Currency, currencyEquals, Percent, ROUTER_ADDRESS, WETH } from '@alium-official/sdk'
+import { ChainId, Currency, currencyEquals, Pair, Percent, ROUTER_ADDRESS, WETH } from '@alium-official/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
@@ -16,7 +16,7 @@ import { useCurrency } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { usePairContract } from 'hooks/useContract'
 import { useRouter } from 'next/router'
-import { FC, useCallback, useMemo, useState } from 'react'
+import React, { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
 import { ROUTES } from 'routes'
 import { Field } from 'state/burn/actions'
@@ -88,6 +88,10 @@ const Receive = styled(StyledInternalLink)`
   letter-spacing: 1px;
   color: #6c5dd3;
   margin-top: 16px;
+`
+
+const StyledWrapper = styled(Wrapper)`
+  margin-top: 0;
 `
 
 export const RemoveLiquidity: FC = () => {
@@ -516,10 +520,6 @@ export const RemoveLiquidity: FC = () => {
     liquidityPercentChangeCallback,
   )
 
-  const StyledWrapper = styled(Wrapper)`
-    margin-top: 0;
-  `
-
   return (
     <>
       <TransactionConfirmationModal
@@ -711,58 +711,20 @@ export const RemoveLiquidity: FC = () => {
               </>
             )}
             <Body style={{ padding: '24px' }}>
-              {showDetailed && (
-                <>
-                  <CurrencyInputPanel
-                    value={formattedAmounts[Field.LIQUIDITY]}
-                    onUserInput={onLiquidityInput}
-                    onMax={() => {
-                      onUserInput(Field.LIQUIDITY_PERCENT, '100')
-                    }}
-                    showMaxButton={!atMaxAmount}
-                    disableCurrencySelect
-                    currency={pair?.liquidityToken}
-                    pair={pair}
-                    label='From'
-                    id='liquidity-amount'
-                    customHeight={43}
-                  />
-                  <ColumnCenter>
-                    <StyledTextAddIcon>
-                      <ArrowDown size='12' color='#6C5DD3' />
-                    </StyledTextAddIcon>
-                  </ColumnCenter>
-                  <CurrencyInputPanel
-                    hideBalance
-                    value={formattedAmounts[Field.CURRENCY_A]}
-                    onUserInput={onCurrencyAInput}
-                    onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
-                    showMaxButton={!atMaxAmount}
-                    currency={currencyA}
-                    label='Output'
-                    onCurrencySelect={handleSelectCurrencyA}
-                    id='remove-liquidity-tokena'
-                    customHeight={43}
-                  />
-                  <ColumnCenter>
-                    <StyledTextAddIcon>
-                      <AddIcon color='#6C5DD3' width='12px' />
-                    </StyledTextAddIcon>
-                  </ColumnCenter>
-                  <CurrencyInputPanel
-                    hideBalance
-                    value={formattedAmounts[Field.CURRENCY_B]}
-                    onUserInput={onCurrencyBInput}
-                    onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
-                    showMaxButton={!atMaxAmount}
-                    currency={currencyB}
-                    label='Output'
-                    onCurrencySelect={handleSelectCurrencyB}
-                    id='remove-liquidity-tokenb'
-                    customHeight={43}
-                  />
-                </>
-              )}
+              <Detailed
+                showDetailed={showDetailed}
+                formattedAmounts={formattedAmounts}
+                onLiquidityInput={onLiquidityInput}
+                onUserInput={onUserInput}
+                atMaxAmount={atMaxAmount}
+                pair={pair}
+                currencyA={currencyA}
+                handleSelectCurrencyA={handleSelectCurrencyA}
+                onCurrencyBInput={onCurrencyBInput}
+                onCurrencyAInput={onCurrencyAInput}
+                currencyB={currencyB}
+                handleSelectCurrencyB={handleSelectCurrencyB}
+              />
               {pair && (
                 <div style={{ padding: '32px 0' }}>
                   <Flex justifyContent='space-between' mb='8px'>
@@ -829,3 +791,97 @@ export const RemoveLiquidity: FC = () => {
     </>
   )
 }
+
+interface DetailedProps {
+  showDetailed: boolean
+  formattedAmounts: {
+    LIQUIDITY_PERCENT: string
+    LIQUIDITY: string
+    CURRENCY_A: string
+    CURRENCY_B: string
+  }
+  onLiquidityInput: (val: string) => void
+  onUserInput: (field: Field, val: string) => void
+  atMaxAmount: boolean
+  pair: Pair
+  onCurrencyAInput: (val: string) => void
+  currencyA: Currency
+  handleSelectCurrencyA: (currency: Currency) => void
+  onCurrencyBInput: (val: string) => void
+  currencyB: Currency
+  handleSelectCurrencyB: (currency: Currency) => void
+}
+const Detailed: FC<DetailedProps> = React.memo(
+  ({
+    showDetailed,
+    formattedAmounts,
+    onLiquidityInput,
+    onUserInput,
+    atMaxAmount,
+    pair,
+    currencyA,
+    handleSelectCurrencyA,
+    onCurrencyBInput,
+    onCurrencyAInput,
+    currencyB,
+    handleSelectCurrencyB,
+  }) => {
+    return (
+      <>
+        {showDetailed && (
+          <>
+            <CurrencyInputPanel
+              value={formattedAmounts[Field.LIQUIDITY]}
+              onUserInput={onLiquidityInput}
+              onMax={() => {
+                onUserInput(Field.LIQUIDITY_PERCENT, '100')
+              }}
+              showMaxButton={!atMaxAmount}
+              disableCurrencySelect
+              currency={pair?.liquidityToken}
+              pair={pair}
+              label='From'
+              id='liquidity-amount'
+              customHeight={43}
+              key='liquidity-amount'
+            />
+            <ColumnCenter>
+              <StyledTextAddIcon>
+                <ArrowDown size='12' color='#6C5DD3' />
+              </StyledTextAddIcon>
+            </ColumnCenter>
+            <CurrencyInputPanel
+              hideBalance
+              value={formattedAmounts[Field.CURRENCY_A]}
+              onUserInput={onCurrencyAInput}
+              onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
+              showMaxButton={!atMaxAmount}
+              currency={currencyA}
+              label='Output'
+              onCurrencySelect={handleSelectCurrencyA}
+              id='remove-liquidity-tokena'
+              customHeight={43}
+            />
+            <ColumnCenter>
+              <StyledTextAddIcon>
+                <AddIcon color='#6C5DD3' width='12px' />
+              </StyledTextAddIcon>
+            </ColumnCenter>
+            <CurrencyInputPanel
+              hideBalance
+              value={formattedAmounts[Field.CURRENCY_B]}
+              onUserInput={onCurrencyBInput}
+              onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
+              showMaxButton={!atMaxAmount}
+              currency={currencyB}
+              label='Output'
+              onCurrencySelect={handleSelectCurrencyB}
+              id='remove-liquidity-tokenb'
+              customHeight={43}
+            />
+          </>
+        )}
+      </>
+    )
+  },
+)

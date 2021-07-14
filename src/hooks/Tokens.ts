@@ -3,7 +3,7 @@ import { parseBytes32String } from '@ethersproject/strings'
 import { useMemo } from 'react'
 import { useSelectedTokenList } from 'state/lists/hooks'
 import { useUserAddedTokens } from 'state/user/hooks'
-import { NEVER_RELOAD, useSingleCallResult } from 'store/multicall/hooks/hooks'
+import { NEVER_RELOAD, useSingleCallResult } from 'state/multicall/hooks'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import { isAddress } from 'utils'
 import { useActiveWeb3React } from './index'
@@ -53,9 +53,9 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
 // null if loading
 // otherwise returns the token
 export function useToken(tokenAddress?: string): Token | undefined | null {
-  console.log('-----------------')
-  console.log('tokenAddress', tokenAddress)
-  console.log('-----------------')
+  // console.log('-----------------')
+  // console.log('tokenAddress', tokenAddress)
+  // console.log('-----------------')
   const { chainId } = useActiveWeb3React()
   const tokens = useAllTokens()
 

@@ -1,7 +1,7 @@
 import { Currency, JSBI, TokenAmount } from '@alium-official/sdk'
 import { AddIcon, Button, CardBody, ChevronDownIcon, Text } from 'alium-uikit/src'
 import { LightCard } from 'components/Card'
-import CardNav from 'components/CardNav'
+import { CardNav } from 'components/CardNav'
 import { AutoColumn, ColumnCenter } from 'components/Column'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { FindPoolTabs } from 'components/NavigationTabs'

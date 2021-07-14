@@ -3,7 +3,7 @@ import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { Button, CardBody, Flex, Text } from 'alium-uikit/src'
 import AddressInputPanel from 'components/AddressInputPanel'
 import Card, { GreyCard } from 'components/Card'
-import CardNav from 'components/CardNav'
+import { CardNav } from 'components/CardNav'
 import { AutoColumn } from 'components/Column'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
@@ -29,13 +29,14 @@ import { useTranslation } from 'next-i18next'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import { Field } from 'state/swap/actions'
-import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
+import { useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { useExpertModeManager, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import styled, { ThemeContext } from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import GTM from 'utils/gtm'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
+import { useExchangeInputsRedirect } from 'utils/redirects/swap/SwapRedirects'
 import SwapAppBody from './SwapAppBody'
 
 const { main: Main } = TYPE
@@ -88,7 +89,7 @@ const StyledRowBetween = styled(RowBetween)`
 `
 
 const Swap = () => {
-  const loadedUrlParams = useDefaultsFromURLSearch()
+  const loadedUrlParams = useExchangeInputsRedirect()
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [

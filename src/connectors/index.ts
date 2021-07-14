@@ -8,22 +8,21 @@ import { BscConnector } from './bsc/bscConnector'
 import { FortmaticConnector } from './Fortmatic'
 import { NetworkConnector } from './NetworkConnector'
 
-const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
 const FORMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 const PORTIS_ID = process.env.REACT_APP_PORTIS_ID
 
-const { currentChainId } = storeNetwork.getState()
-
-if (typeof NETWORK_URL === 'undefined') {
-  throw new Error(`REACT_APP_NETWORK_URL must be a defined environment variable`)
+export const getCurrentNetwork = () => {
+  const { currentChainId, networkProviderParams } = storeNetwork.getState()
+  const network = new NetworkConnector({
+    urls: { [currentChainId]: networkProviderParams.rpcUrls[0] },
+    defaultChainId: currentChainId,
+  })
+  return network
 }
-
-export const network = new NetworkConnector({
-  urls: { [currentChainId]: NETWORK_URL },
-})
 
 let networkLibrary: Web3Provider | undefined
 export function getNetworkLibrary(): Web3Provider {
+  const network = getCurrentNetwork()
   networkLibrary = networkLibrary ?? new Web3Provider(network.provider as any)
   return networkLibrary
 }
@@ -33,7 +32,7 @@ export const bsc = new BscConnector({ supportedChainIds: [1, 4, 56, 97, 128, 137
 
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
-  rpc: { 1: NETWORK_URL },
+  rpc: { 1: process.env.REACT_APP_NODE_1 },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
   pollingInterval: 15000,
@@ -53,7 +52,7 @@ export const portis = new PortisConnector({
 
 // mainnet only
 export const walletlink = new WalletLinkConnector({
-  url: NETWORK_URL,
+  url: process.env.REACT_APP_NODE_1,
   appName: 'AliumSwap',
   appLogoUrl:
     'https://mpng.pngfly.com/20181202/bex/kisspng-emoji-domain-unicorn-pin-badges-sticker-unicorn-tumblr-emoji-unicorn-iphoneemoji-5c046729264a77.5671679315437924251569.jpg',

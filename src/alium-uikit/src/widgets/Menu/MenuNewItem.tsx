@@ -23,10 +23,10 @@ const Item = styled.div`
   }
 `
 interface Props {
-  isNew: boolean
+  isnew: boolean
 }
-export const MenuNewItem: FC<Props> = ({ isNew }) => {
-  if (!isNew) {
+export const MenuNewItem: FC<Props> = ({ isnew }) => {
+  if (!isnew) {
     return null
   }
   return <Item>New</Item>

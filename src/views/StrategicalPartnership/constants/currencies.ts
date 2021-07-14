@@ -1,7 +1,5 @@
 import { storeNetwork } from 'store/network/useStoreNetwork'
 
-const { currentChainId } = storeNetwork.getState()
-
 const currencies = {
   '97': {
     stablecoins: ['USDT', 'BUSD', 'USDC'],
@@ -103,4 +101,7 @@ const currencies = {
   },
 }
 
-export default currencies[currentChainId]
+export const getCurrencies = () => {
+  const { currentChainId } = storeNetwork.getState()
+  return currencies[currentChainId]
+}

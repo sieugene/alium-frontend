@@ -1,33 +1,37 @@
 name: master
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: workflow_dispatch
 
-env:
-  VERSION: master
-  IMAGE_ID: ghcr.io/alium-finance/alium-frontend
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    if: github.ref == 'refs/heads/master'    
+    runs-on: [self-hosted, dev]  
     steps:
-      - uses: actions/checkout@v2
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: Build image
-        run: |
-          docker pull $IMAGE_ID:$VERSION || true
-          docker build -f Dockerfile.master . -t build --cache-from $IMAGE_ID:$VERSION
-      - name: Push image
-        run: |
-          docker tag build $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
-
-  deploy-1:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io        
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/alium-finance/alium-frontend:master
+          file: Dockerfile.master
+          cache-from: type=registry,ref=ghcr.io/alium-finance/alium-frontend:master
+          cache-to: type=inline  
+          
+  deploy:
     needs: build
     runs-on: [self-hosted, prod]
     steps:
@@ -36,13 +40,5 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - run: docker stack deploy --compose-file docker-compose.master.yml alium --with-registry-auth
       - run: docker system prune -f
-
-  deploy-2:
-    needs: build
-    runs-on: [self-hosted, prod-2]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - run: docker stack deploy --compose-file docker-compose.master.yml alium --with-registry-auth
-      - run: docker system prune -f
+      - name: Purge cache
+        run: ~/purgecache.sh

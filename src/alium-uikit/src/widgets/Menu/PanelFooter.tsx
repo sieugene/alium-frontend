@@ -10,14 +10,14 @@ interface Props extends PanelProps, PushedProps {}
 
 const Icons = IconModule as unknown as { [key: string]: FC<SvgProps> }
 
-const Container = styled.div<{ isPushed?: boolean }>`
+const Container = styled.div<{ ispushed?: boolean }>`
   flex: none;
   padding: 8px 4px;
 
   @media screen and (max-width: 967px) {
     position: absolute;
     bottom: 90px;
-    left: ${({ isPushed }) => (!isPushed ? '100px' : '20px')};
+    left: ${({ ispushed }) => (!ispushed ? '100px' : '20px')};
     width: 70%;
   }
 `
@@ -44,9 +44,9 @@ const StyledExternalLink = styled(Link)`
     }
   }
 `
-const StyledSocial = styled.div<{ isPushed?: boolean }>`
+const StyledSocial = styled.div<{ ispushed?: boolean }>`
   display: flex;
-  flex-wrap: ${(props) => (props.isPushed ? 'inherit' : 'wrap')};
+  flex-wrap: ${(props) => (props.ispushed ? 'inherit' : 'wrap')};
   a {
     margin-left: 16px;
     &:last-child {
@@ -54,11 +54,11 @@ const StyledSocial = styled.div<{ isPushed?: boolean }>`
     }
   }
 `
-const PanelFooter: FC<Props> = ({ isPushed }) => {
+const PanelFooter: FC<Props> = ({ ispushed }) => {
   return (
-    <Container isPushed={isPushed}>
+    <Container ispushed={ispushed}>
       <SocialEntry>
-        <StyledSocial isPushed={isPushed}>
+        <StyledSocial ispushed={ispushed}>
           {socials.map((social, index) => {
             const Icon = Icons[social.icon]
             const iconProps = { width: '16px', color: 'textSubtle', style: { cursor: 'pointer' } }

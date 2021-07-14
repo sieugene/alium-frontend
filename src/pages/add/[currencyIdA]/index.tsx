@@ -1,21 +1,15 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
+import { RedirectOldAddLiquidityPathStructure } from 'utils/redirects/swap/SwapRedirects'
 
 const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
   ssr: false,
 })
 
-const RedirectOldAddLiquidityPathStructure = dynamic(
-  () => import('views/AddLiquidity/redirects').then((module) => module.RedirectOldAddLiquidityPathStructure),
-  {
-    ssr: false,
-  },
-)
-
 const SwapAddCurrencyIdA = () => {
   return (
     <WrapSwapComponent>
-      <RedirectOldAddLiquidityPathStructure />
+      <RedirectOldAddLiquidityPathStructure type='add' />
     </WrapSwapComponent>
   )
 }

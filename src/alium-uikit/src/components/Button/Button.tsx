@@ -6,18 +6,18 @@ import { ButtonProps, sizes, variants } from './types'
 
 const LinkWrapped: FC<{ as: ButtonProps['as']; href?: string; id?: string }> = ({ as, href, children }) => {
   if (as === 'a') {
-    return <NextLink.multiple href={href}>{children}</NextLink.multiple>
+    return <NextLink.Multiple href={href}>{children}</NextLink.Multiple>
   }
   return <>{children}</>
 }
 
-const Button: FC<ButtonProps> = ({ startIcon, endIcon, children, external, isloading, disabled, ...props }) => {
+const Button: FC<ButtonProps> = ({ startIcon, endIcon, children, external, as, isloading, disabled, ...props }) => {
   const internalProps = external ? getExternalLinkProps() : {}
   const isDisabled = isloading || disabled
 
   return (
-    <StyledButton {...internalProps} {...props} isloading={isloading} disabled={isDisabled} as={null}>
-      <LinkWrapped as={props.as} href={props.href}>
+    <StyledButton {...internalProps} {...props} isloading={isloading} disabled={isDisabled} as={as || null}>
+      <LinkWrapped as={as} href={props.href}>
         {isValidElement(startIcon) &&
           cloneElement(startIcon, {
             mr: '0.5rem',

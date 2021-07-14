@@ -1,5 +1,4 @@
-import { ChainId, Currency, Token } from '@alium-official/sdk'
-import PolygonMaticLogo from 'assets/images/polygon-matic-logo.png'
+import { Currency, Token } from '@alium-official/sdk'
 import { useActiveWeb3React } from 'hooks'
 import { CSSProperties, useMemo } from 'react'
 import { WrappedTokenInfo } from 'state/lists/hooks'
@@ -8,20 +7,6 @@ import styled from 'styled-components'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import CoinLogo from '../alium/CoinLogo'
 import Logo from '../Logo'
-
-const HTlogo = '/images/heco-logo.png'
-const BNBLogo = '/images/binance-logo.png'
-
-const BaseLogo: { [chainId in ChainId]: any } = {
-  [ChainId.MAINNET]: BNBLogo,
-  [ChainId.BSCTESTNET]: BNBLogo,
-  [ChainId.HECOMAINNET]: HTlogo,
-  [ChainId.HECOTESTNET]: HTlogo,
-  [ChainId.ETHER_MAINNET]: HTlogo,
-  [ChainId.ETHER_TESTNET]: HTlogo,
-  [ChainId.MATIC_MAINNET]: PolygonMaticLogo,
-  [ChainId.MATIC_TESTNET]: PolygonMaticLogo,
-}
 
 const getTokenLogoURL = (address: string) =>
   `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/${address}/logo.png`
@@ -70,17 +55,25 @@ export default function CurrencyLogo({
     return []
   }, [currency, uriLocations])
 
-  if (currency?.symbol === 'BNB') {
-    return <StyledEthereumLogo src={BNBLogo} size={size} style={style} />
+  const natives = ['BNB', 'WBNB', 'ETH', 'WETH', 'MATIC', 'WMATIC', 'HT', 'WHT']
+  const current = currency?.symbol?.toUpperCase()
+  const isNative = natives.includes(current)
+  const nativesLogos = {
+    BNB: '/images/binance-logo.png',
+    WBNB: '/images/binance-logo.png',
+    ETH: '/images/coins/ETH.png',
+    WETH: '/images/coins/ETH.png',
+    MATIC: '/images/coins/matic.png',
+    WMATIC: '/images/coins/matic.png',
+    HT: '/images/heco-logo.png',
+    WHT: '/images/heco-logo.png',
   }
 
-  if (currency === nativeCurrency) {
-    return <StyledEthereumLogo src={chainId && BaseLogo[chainId]} size={size} style={style} />
-  }
+  if (isNative) return <StyledEthereumLogo src={nativesLogos[current]} size={size} style={style} />
+  if (currency?.symbol)
+    return <CoinLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
 
-  return (currency as any)?.symbol ? (
-    <CoinLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
-  ) : (
+  return (
     // <FilledHelp height="24px" width="24px" mr="8px" />
     <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
   )
