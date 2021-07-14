@@ -1,5 +1,4 @@
 import styled, { DefaultTheme, keyframes } from 'styled-components'
-import { MENU_ENTRY_HEIGHT } from './config'
 
 export interface Props {
   secondary?: boolean
@@ -29,9 +28,11 @@ const MenuEntry = styled.div<Props>`
   cursor: pointer;
   display: flex;
   align-items: center;
-  height: ${MENU_ENTRY_HEIGHT}px;
-  padding: ${({ secondary }) => (secondary ? '0 32px' : '0 16px')};
+  height: auto;
+  padding: ${({ secondary }) => (secondary ? '0 30px' : '0 14px')};
   font-size: ${({ secondary }) => (secondary ? '14px' : '16px')};
+  padding-top: 18px;
+  padding-bottom: 14px;
 
   font-style: normal;
   font-weight: 500;
