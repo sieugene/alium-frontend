@@ -35,7 +35,7 @@ const Container = styled.div<{ isOpen: boolean }>`
   }
 `
 
-const AccordionContent = styled.div<{ isOpen: boolean; isPushed: boolean; maxHeight: number }>`
+const AccordionContent = styled.div<{ isOpen: boolean; ispushed: boolean; maxHeight: number }>`
   max-height: ${({ isOpen, maxHeight }) => (isOpen ? `${maxHeight}px` : 0)};
   transition: max-height 0.3s ease-out;
   overflow: hidden;
@@ -50,12 +50,12 @@ const AccordionContent = styled.div<{ isOpen: boolean; isPushed: boolean; maxHei
   }
 `
 
-const Accordion: FC<Props> = ({ label, icon, isPushed, pushNav, initialOpenState = false, children, className }) => {
+const Accordion: FC<Props> = ({ label, icon, ispushed, pushNav, initialOpenState = false, children, className }) => {
   const accordRef = useRef()
   const [isOpen, setIsOpen] = useState(initialOpenState)
 
   const handleClick = () => {
-    if (isPushed) {
+    if (ispushed) {
       setIsOpen((prevState) => !prevState)
     } else {
       pushNav(true)
@@ -70,10 +70,10 @@ const Accordion: FC<Props> = ({ label, icon, isPushed, pushNav, initialOpenState
     <Container isOpen={isOpen} ref={accordRef}>
       <MenuEntry onClick={handleClick} className={className}>
         {icon}
-        <LinkLabel isPushed={isPushed}>{label}</LinkLabel>
+        <LinkLabel ispushed={ispushed}>{label}</LinkLabel>
         {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </MenuEntry>
-      <AccordionContent isOpen={isOpen} isPushed={isPushed} maxHeight={Children.count(children) * MENU_ENTRY_HEIGHT}>
+      <AccordionContent isOpen={isOpen} ispushed={ispushed} maxHeight={Children.count(children) * MENU_ENTRY_HEIGHT}>
         {children}
       </AccordionContent>
     </Container>

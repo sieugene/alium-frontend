@@ -1,17 +1,19 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from '@alium-official/sdk'
+import { Currency, CurrencyAmount, JSBI, Token, TokenAmount, Trade } from '@alium-official/sdk'
 import { parseUnits } from '@ethersproject/units'
+import { useActiveWeb3React } from 'hooks'
+import { useCurrency } from 'hooks/Tokens'
+import { useTradeExactIn, useTradeExactOut } from 'hooks/Trades'
 import { useAlmToken } from 'hooks/useAlm'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useActiveWeb3React } from '../../hooks'
-import { useCurrency } from '../../hooks/Tokens'
-import { useTradeExactIn, useTradeExactOut } from '../../hooks/Trades'
+import { storeNetwork } from 'store/network/useStoreNetwork'
+import { isAddress } from 'utils'
+import { computeSlippageAdjustedAmounts } from 'utils/prices'
 import useENS from '../../hooks/useENS'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
-import { isAddress } from '../../utils'
-import { computeSlippageAdjustedAmounts } from '../../utils/prices'
 import { AppDispatch, AppState } from '../index'
 import { useUserSlippageTolerance } from '../user/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
@@ -28,13 +30,14 @@ export function useSwapActionHandlers(): {
   onUserInput: (field: Field, typedValue: string) => void
   onChangeRecipient: (recipient: string | null) => void
 } {
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   const dispatch = useDispatch<AppDispatch>()
   const onCurrencySelection = useCallback(
     (field: Field, currency: Currency) => {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === ETHER ? 'ETH' : '',
+          currencyId: currency instanceof Token ? currency.address : currency === nativeCurrency ? 'ETH' : '',
         }),
       )
     },
@@ -71,13 +74,14 @@ export function useMigrateActionHandlers(): {
   onCurrencySelection: (field: Field, currency: Currency) => void
   onUserInput: (field: Field, typedValue: string) => void
 } {
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   const dispatch = useDispatch<AppDispatch>()
   const onCurrencySelection = useCallback(
     (field: Field, currency: Currency) => {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === ETHER ? 'ETH' : '',
+          currencyId: currency instanceof Token ? currency.address : currency === nativeCurrency ? 'ETH' : '',
         }),
       )
     },
@@ -149,7 +153,9 @@ export function useDerivedSwapInfo(): {
     recipient,
   } = useSwapState()
 
+  console.log('>> inputCurrencyId', inputCurrencyId) // ETH
   const inputCurrency = useCurrency(inputCurrencyId)
+  console.log('inputCurrency', inputCurrency) // BNB
   const { t } = useTranslation()
   const outputCurrency = useCurrency(outputCurrencyId)
   const recipientLookup = useENS(recipient ?? undefined)
@@ -385,16 +391,23 @@ export function useDefaultsFromURLSearch():
   // for set alm token as default
   const ALMCurrencyId = useAlmToken()?.address
 
+  const { query } = useRouter()
+
+  const currencyIdA = query?.currencyIdA as string
+  const currencyIdB = query?.currencyIdB as string
+
   useEffect(() => {
     if (!chainId) return
     const parsed = queryParametersToSwapState(parsedQs)
-    const outpudId = parsed[Field.OUTPUT].currencyId || ALMCurrencyId
+    const inputId = currencyIdA || parsed[Field.INPUT].currencyId
+    const outpudId = parsed[Field.OUTPUT].currencyId || currencyIdB || ALMCurrencyId
+
     dispatch(
       replaceSwapState({
         typedValue: parsed.typedValue,
         field: parsed.independentField,
-        inputCurrencyId: parsed[Field.INPUT].currencyId,
-        outputCurrencyId: outpudId,
+        inputCurrencyId: inputId,
+        outputCurrencyId: outpudId !== inputId ? outpudId : parsed[Field.OUTPUT].currencyId,
         recipient: parsed.recipient,
       }),
     )

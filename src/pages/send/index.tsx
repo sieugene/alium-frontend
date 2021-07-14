@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
-import { RedirectPathToSwapOnly } from 'views/Swap/redirects'
+import { RedirectPathToSwapOnly } from 'utils/redirects/swap/SwapRedirects'
 
 const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
   ssr: false,

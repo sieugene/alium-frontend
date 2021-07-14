@@ -1,11 +1,11 @@
 import { ChainId, Pair, Token } from '@alium-official/sdk'
+import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from 'constants/index'
+import { useActiveWeb3React } from 'hooks'
+import { useAllTokens } from 'hooks/Tokens'
 import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants'
-import { useActiveWeb3React } from '../../hooks'
-import { useAllTokens } from '../../hooks/Tokens'
-import { setThemeCache } from '../../utils/theme'
+import { setThemeCache } from 'utils/theme'
 import { AppDispatch, AppState } from '../index'
 import {
   addSerializedPair,

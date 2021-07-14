@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
+/* eslint-disable @typescript-eslint/member-ordering */
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { AbstractConnectorArguments, ConnectorUpdate } from '@web3-react/types'
 import warning from 'tiny-warning'

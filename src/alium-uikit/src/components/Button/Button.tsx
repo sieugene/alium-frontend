@@ -6,7 +6,7 @@ import { ButtonProps, sizes, variants } from './types'
 
 const LinkWrapped: FC<{ as: ButtonProps['as']; href?: string; id?: string }> = ({ as, href, children }) => {
   if (as === 'a') {
-    return <NextLink.multiple href={href}>{children}</NextLink.multiple>
+    return <NextLink.Multiple href={href}>{children}</NextLink.Multiple>
   }
   return <>{children}</>
 }

@@ -1,18 +1,18 @@
 import { Button, Text } from 'alium-uikit/src'
-import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { useFetchListCallback } from 'hooks/useFetchListCallback'
+import { useOnClickOutside } from 'hooks/useOnClickOutside'
+import { Dropdown } from 'images/Dropdown'
+import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { ArrowLeft } from 'react-feather'
 import { usePopper } from 'react-popper'
 import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, AppState } from 'state'
+import { acceptListUpdate, removeList, selectList } from 'state/lists/actions'
+import { useSelectedListUrl } from 'state/lists/hooks'
 import styled from 'styled-components'
-import { Dropdown } from '../../../public/images/Dropdown'
-import { useFetchListCallback } from '../../hooks/useFetchListCallback'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
+import { parseENSAddress } from 'utils/parseENSAddress'
 import useToggle from '../../hooks/useToggle'
-import { AppDispatch, AppState } from '../../state'
-import { acceptListUpdate, removeList, selectList } from '../../state/lists/actions'
-import { useSelectedListUrl } from '../../state/lists/hooks'
 import listVersionLabel from '../../utils/listVersionLabel'
-import { parseENSAddress } from '../../utils/parseENSAddress'
 import uriToHttp from '../../utils/uriToHttp'
 import Column from '../Column'
 import ListLogo from '../ListLogo'
@@ -85,7 +85,7 @@ function ListOrigin({ listUrl }: { listUrl: string }) {
 }
 
 function listUrlRowHTMLId(listUrl: string) {
-  return `list-row-${listUrl.replace(/\./g, '-')}`;
+  return `list-row-${listUrl.replace(/\./g, '-')}`
 }
 
 const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void }) => {

@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { load, save } from 'redux-localstorage-simple'
-import { getThemeCache } from '../utils/theme'
+import { getThemeCache } from 'utils/theme'
 import achievements from './achievements'
 import application from './application/reducer'
 import burn from './burn/reducer'
@@ -8,6 +8,7 @@ import farms from './farms'
 import { updateVersion } from './global/actions'
 import lists from './lists/reducer'
 import mint from './mint/reducer'
+import multicall from './multicall/reducer'
 import pools from './pools'
 import profile from './profile'
 import swap from './swap/reducer'
@@ -40,6 +41,7 @@ const store = configureStore({
     application,
     user,
     transactions,
+    multicall,
     swap,
     mint,
     burn,

@@ -4,7 +4,7 @@ import schema from '@uniswap/token-lists/src/tokenlist.schema.json'
 import Ajv from 'ajv'
 import defaultTokenJson from 'config/tokens'
 // bakeryswap defaultTokenJson
-import { DEFAULT_TOKEN_LIST_URL } from '../constants/lists'
+import { DEFAULT_TOKEN_LIST_URL } from 'constants/lists'
 import contenthashToUri from './contenthashToUri'
 import { parseENSAddress } from './parseENSAddress'
 import uriToHttp from './uriToHttp'

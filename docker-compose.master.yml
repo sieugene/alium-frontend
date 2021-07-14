@@ -9,7 +9,7 @@ services:
   frontend:
     build:
       dockerfile: Dockerfile.master
-    image: ghcr.io/alium-finance/alium-frontend:${VERSION}
+    image: ghcr.io/alium-finance/alium-frontend:master
     deploy:
       replicas: 2
       update_config:

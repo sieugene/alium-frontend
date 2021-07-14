@@ -17,8 +17,8 @@ const rainbowAnimation = keyframes`
   }
 `
 
-const LinkLabel = styled.div<{ isPushed: boolean }>`
-  color: ${({ isPushed, theme }) => (isPushed ? theme.colors.textSubtle : 'transparent !important')};
+const LinkLabel = styled.div<{ ispushed: boolean }>`
+  color: ${({ ispushed, theme }) => (ispushed ? theme.colors.textSubtle : 'transparent !important')};
   transition: color 0.4s;
   flex-grow: 1;
   font-size: 14px;
@@ -68,6 +68,9 @@ const MenuEntry = styled.div<Props>`
 
   & a {
     transition: color 200ms ease-in-out;
+    div {
+      color: ${({ theme, isActive }) => (isActive ? '#24BA7B' : theme.colors.textSubtle)};
+    }
   }
 
   &:hover a {

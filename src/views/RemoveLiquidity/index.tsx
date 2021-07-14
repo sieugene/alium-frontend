@@ -1,40 +1,41 @@
-import { ChainId, Currency, currencyEquals, ETHER, Percent, ROUTER_ADDRESS, WETH } from '@alium-official/sdk'
+import { ChainId, Currency, currencyEquals, Percent, ROUTER_ADDRESS, WETH } from '@alium-official/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
 import { AddIcon, Button, Flex, Text } from 'alium-uikit/src'
+import { AutoColumn, ColumnCenter } from 'components/Column'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import { AddRemoveTabs } from 'components/NavigationTabs'
+import { MinimalPositionCard } from 'components/PositionCard'
+import { RowBetween, RowFixed } from 'components/Row'
+import { StyledInternalLink } from 'components/Shared'
+import { Dots } from 'components/swap/styleds'
+import { useActiveWeb3React } from 'hooks'
+import { useCurrency } from 'hooks/Tokens'
+import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import { usePairContract } from 'hooks/useContract'
 import { useRouter } from 'next/router'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
 import { ROUTES } from 'routes'
+import { Field } from 'state/burn/actions'
+import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from 'state/burn/hooks'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
+import { currencyId } from 'utils/currencyId'
+import { wrappedCurrency } from 'utils/wrappedCurrency'
 import SwapAppBody from 'views/Swap/SwapAppBody'
-import { AutoColumn, ColumnCenter } from '../../components/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
-import { AddRemoveTabs } from '../../components/NavigationTabs'
-import { MinimalPositionCard } from '../../components/PositionCard'
-import { RowBetween, RowFixed } from '../../components/Row'
-import { StyledInternalLink } from '../../components/Shared'
 import Slider from '../../components/Slider'
-import { Dots } from '../../components/swap/styleds'
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
-import { useActiveWeb3React } from '../../hooks'
-import { useCurrency } from '../../hooks/Tokens'
-import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
-import { usePairContract } from '../../hooks/useContract'
-import { Field } from '../../state/burn/actions'
-import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks'
-import { useTransactionAdder } from '../../state/transactions/hooks'
-import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
-import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from '../../utils'
-import { currencyId } from '../../utils/currencyId'
 import useDebouncedChangeHandler from '../../utils/useDebouncedChangeHandler'
-import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import { ClickableText, Wrapper } from '../Pool/styleds'
 
 const OutlineCard = styled.div`
@@ -90,6 +91,8 @@ const Receive = styled(StyledInternalLink)`
 `
 
 export const RemoveLiquidity: FC = () => {
+  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
+  const { nativeCurrency } = networkProviderParams
   const history = useRouter()
   const { query } = history
   const currencyIdA = query?.tokens as string
@@ -243,8 +246,8 @@ export const RemoveLiquidity: FC = () => {
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsETH = currencyB === ETHER
-    const oneCurrencyIsETH = currencyA === ETHER || currencyBIsETH
+    const currencyBIsETH = currencyB === nativeCurrency
+    const oneCurrencyIsETH = currencyA === nativeCurrency || currencyBIsETH
     const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline
 
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -470,7 +473,7 @@ export const RemoveLiquidity: FC = () => {
     [onUserInput],
   )
 
-  const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER
+  const oneCurrencyIsETH = currencyA === nativeCurrency || currencyB === nativeCurrency
   const oneCurrencyIsWETH = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WETH[chainId], currencyA)) ||
@@ -684,8 +687,8 @@ export const RemoveLiquidity: FC = () => {
                           {oneCurrencyIsETH ? (
                             <Receive
                               href={ROUTES.removeByMultiple(
-                                currencyA === ETHER ? WETH[chainId].address : currencyIdA,
-                                currencyB === ETHER ? WETH[chainId].address : currencyIdB,
+                                currencyA === nativeCurrency ? WETH[chainId].address : currencyIdA,
+                                currencyB === nativeCurrency ? WETH[chainId].address : currencyIdB,
                               )}
                             >
                               Receive WBNB

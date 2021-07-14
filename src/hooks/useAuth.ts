@@ -12,43 +12,36 @@ import {
 import { ConnectorNames } from 'alium-uikit/src'
 import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
 import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
-import { setConnectionError } from 'state/application/actions'
 import { useToast } from 'state/hooks'
-import { checkSupportConnect } from 'utils/connection/notifyWeb3'
+import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import { clearWalletConnect } from 'utils/connection/walletConnect'
 import GTM from 'utils/gtm'
-import { setupNetwork } from '../utils/wallet'
-import { getConnectorsByName } from '../utils/web3React'
+import { getConnectorsByName } from 'utils/web3React'
+import { WEB3NetworkErrors } from './../constants/network/NetworkErrors.contanst'
 
 const useAuth = () => {
   const { activate, deactivate } = useWeb3React()
   const { toastError } = useToast()
-  const dispatch = useDispatch()
   const sendDataToGTM = useGTMDispatch()
+  const { setConnectionError } = useStoreNetwork()
 
   const login = useCallback(
     async (connectorID: ConnectorNames) => {
       try {
         const { chainId, connector } = getConnectorsByName(connectorID)
-        // Remove Later
-        const support = checkSupportConnect(connectorID)
-        if (!support) {
-          toastError('Provider Error', 'No provider was found. Please change provider')
-          return null
-        }
-        //
 
         if (connector) {
           await activate(connector, async (error: Error) => {
             if (error instanceof UnsupportedChainIdError) {
-              const hasSetup = await setupNetwork(chainId)
+              const hasSetup = await storeNetwork.getState().setupNetwork(chainId)
               if (hasSetup) {
                 try {
                   await activate(connector, (err) => {
-                    toastError('Unsupported chain', err.message)
+                    toastError(WEB3NetworkErrors.UNSUPPORTED_CHAIN, err.message)
                     removeConnectorId()
                     clearWalletConnect()
+                    setConnectionError(WEB3NetworkErrors.UNSUPPORTED_CHAIN)
+                    deactivate()
                   })
                 } catch (err) {
                   console.error('err :>> ', err)
@@ -56,14 +49,15 @@ const useAuth = () => {
               } else {
                 // if ethereum change network in wallet
                 const messageErr =
-                  chainId === 1 || chainId === 4 ? 'Please change network in your wallet' : 'Please change network'
-                toastError(`Can't setup connect`, messageErr)
+                  chainId === 1 || chainId === 4 ? WEB3NetworkErrors.CANTSETUP_IN_WALLET : WEB3NetworkErrors.CANTSETUP
+                toastError(messageErr)
+                setConnectionError(messageErr)
                 deactivate()
               }
             } else {
               removeConnectorId()
               if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
-                toastError('Provider Error', 'No provider was found')
+                toastError(WEB3NetworkErrors.NOPROVIDER)
               } else if (
                 error instanceof UserRejectedRequestErrorInjected ||
                 error instanceof UserRejectedRequestErrorWalletConnect
@@ -72,25 +66,27 @@ const useAuth = () => {
                   const walletConnector = connector as WalletConnectConnector
                   walletConnector.walletConnectProvider = null
                 }
-                toastError('Authorization Error', 'Please authorize to access your account')
+                toastError(WEB3NetworkErrors.NOAUTH)
               } else {
-                dispatch(setConnectionError({ error }))
+                // dispatch(setConnectionError({ error }))
                 // toastError(error.name, error.message)
               }
             }
           })
           GTM.connectWallet(sendDataToGTM, chainId)
+          setConnectionError(null)
         } else {
           // toastError("Can't find connector", 'The connector config is wrong')
         }
       } catch (error) {
-        dispatch(setConnectionError({ error }))
+        // dispatch(setConnectionError({ error }))
       }
     },
-    [toastError, activate, sendDataToGTM, deactivate, dispatch],
+    [activate, sendDataToGTM, setConnectionError, toastError, deactivate],
   )
 
   const logout = async () => {
+    clearWalletConnect()
     await deactivate()
   }
   return { login, logout }

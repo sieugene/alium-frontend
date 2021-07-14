@@ -1,7 +1,7 @@
-import { Currency, ETHER, JSBI, TokenAmount } from '@alium-official/sdk'
+import { Currency, JSBI, TokenAmount } from '@alium-official/sdk'
 import { AddIcon, Button, CardBody, ChevronDownIcon, Text } from 'alium-uikit/src'
 import { LightCard } from 'components/Card'
-import CardNav from 'components/CardNav'
+import { CardNav } from 'components/CardNav'
 import { AutoColumn, ColumnCenter } from 'components/Column'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { FindPoolTabs } from 'components/NavigationTabs'
@@ -11,14 +11,15 @@ import { StyledInternalLink } from 'components/Shared'
 import { PairState, usePair } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react'
 import { ROUTES } from 'routes'
 import { usePairAdder } from 'state/user/hooks'
 import { useTokenBalance } from 'state/wallet/hooks'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { currencyId } from 'utils/currencyId'
+import { Dots } from 'views/Pool/styleds'
 import SwapAppBody from 'views/Swap/SwapAppBody'
-import { Dots } from '../../views/Pool/styleds'
 
 enum Fields {
   TOKEN0 = 0,
@@ -38,12 +39,13 @@ const StyledAddIcon = styled.div`
 `
 
 export default function PoolFinder() {
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   const { account } = useActiveWeb3React()
 
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
-  const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
+  const [currency0, setCurrency0] = useState<Currency | null>(nativeCurrency)
   const [currency1, setCurrency1] = useState<Currency | null>(null)
   const { t } = useTranslation()
 

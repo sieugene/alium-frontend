@@ -1,9 +1,9 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
+import { injected } from 'connectors'
+import { SUPPORTED_WALLETS } from 'constants/index'
 import { useTranslation } from 'next-i18next'
 import { darken } from 'polished'
 import styled from 'styled-components'
-import { injected } from '../../connectors'
-import { SUPPORTED_WALLETS } from '../../constants'
 import Loader from '../Loader'
 import Option from './Option'
 
@@ -13,6 +13,7 @@ const PendingSection = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+
   & > * {
     width: 100%;
   }

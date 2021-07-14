@@ -1,15 +1,16 @@
-import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@alium-official/sdk'
+import { Currency, CurrencyAmount, currencyEquals, Token } from '@alium-official/sdk'
 import { Text } from 'alium-uikit/src'
+import { useActiveWeb3React } from 'hooks'
+import { useIsUserAddedToken } from 'hooks/Tokens'
 import { useTranslation } from 'next-i18next'
-import { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react';
+import { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
+import { useSelectedTokenList, WrappedTokenInfo } from 'state/lists/hooks'
+import { useAddUserToken, useRemoveUserAddedToken } from 'state/user/hooks'
+import { useCurrencyBalance } from 'state/wallet/hooks'
+import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
-import { useIsUserAddedToken } from '../../hooks/Tokens'
-import { useSelectedTokenList, WrappedTokenInfo } from '../../state/lists/hooks'
-import { useAddUserToken, useRemoveUserAddedToken } from '../../state/user/hooks'
-import { useCurrencyBalance } from '../../state/wallet/hooks'
-import { isTokenOnList } from '../../utils'
+import { isTokenOnList } from 'utils'
 import Column from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import Loader from '../Loader'
@@ -21,7 +22,8 @@ import { FadedSpan, MenuItem } from './styleds'
 const { main: Main } = TYPE
 
 function currencyKey(currency: Currency): string {
-  return currency instanceof Token ? currency.address : currency === ETHER ? 'ETHER' : ''
+  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  return currency instanceof Token ? currency.address : currency === nativeCurrency ? 'ETHER' : ''
 }
 
 const StyledBalanceText = styled(Text)`
@@ -173,7 +175,9 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  const itemData = useMemo(() => (showETH ? [...currencies, ETHER] : [...currencies]), [currencies, showETH])
+  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
+  const { nativeCurrency } = networkProviderParams
+  const itemData = useMemo(() => (showETH ? [...currencies, nativeCurrency] : [...currencies]), [currencies, showETH])
 
   const Row = useCallback(
     ({ data, index, style }) => {

@@ -1,6 +1,6 @@
 import DEFAULT_LIST from 'config/tokens/index'
+import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from 'constants/lists'
 import { createStore, Store } from 'redux'
-import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
 import { acceptListUpdate, addList, fetchTokenList, removeList, selectList } from './actions'
 import reducer, { ListsState } from './reducer'

@@ -10,7 +10,7 @@ import Logo from './Logo'
 import MenuButton from './MenuButton'
 import { LinkLabel, MenuEntry } from './MenuEntry'
 import { MenuNewItem } from './MenuNewItem'
-import { PanelProps, PushedProps } from './types'
+import { MenuSubEntry, PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {
   isMobile?: boolean
@@ -84,26 +84,26 @@ const StyledLogoIcon = styled.div`
   }
 `
 
-const StyledLink = styled(NextLink.multiple)<{ isPushed: boolean; isNew: boolean }>`
-  flex-direction: ${(props) => (props.isPushed || !props.isNew ? 'inherit' : 'column')};
+const StyledLink = styled(NextLink.Multiple)<{ ispushed: boolean; isnew: boolean }>`
+  flex-direction: ${(props) => (props.ispushed || !props.isnew ? 'inherit' : 'column')};
   div {
-    margin-left: ${(props) => (props.isPushed || !props.isNew ? '8px' : '0px')} !important;
-    margin-top: ${(props) => (props.isPushed || !props.isNew ? '0px' : '3px')} !important;
+    margin-left: ${(props) => (props.ispushed || !props.isnew ? '8px' : '0px')} !important;
+    margin-top: ${(props) => (props.ispushed || !props.isnew ? '0px' : '3px')} !important;
     transition: 0.3s all ease;
   }
   svg {
-    margin-right: ${(props) => (props.isPushed || !props.isNew ? '8px' : '0px')} !important;
+    margin-right: ${(props) => (props.ispushed || !props.isnew ? '8px' : '0px')} !important;
   }
   &:hover {
     div {
       &:last-child {
-        opacity: ${(props) => (!props.isNew ? '1' : '0.7')} !important;
+        opacity: ${(props) => (!props.isnew ? '1' : '0.7')} !important;
       }
     }
   }
 `
 
-const LinkLabelStyled = styled(LinkLabel)<{ isPushed: boolean }>`
+const LinkLabelStyled = styled(LinkLabel)<{ ispushed: boolean }>`
   flex-grow: inherit !important;
   font-style: normal;
   font-weight: 500;
@@ -112,25 +112,29 @@ const LinkLabelStyled = styled(LinkLabel)<{ isPushed: boolean }>`
   display: flex;
   align-items: center;
   letter-spacing: 0.1px;
-  display: ${(props) => (props.isPushed ? 'flex' : 'none')};
+  display: ${(props) => (props.ispushed ? 'flex' : 'none')};
 
   color: #0b1359;
 `
 
-const PanelBody: FC<Props> = ({ isPushed, pushNav, isMobile, links, togglePush, isDark }) => {
+const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, isDark }) => {
   const location = useRouter()
 
   // Close the menu when a user clicks a link on mobile
   const handleClick = isMobile ? () => pushNav(false) : undefined
   const homeLink = links.find((link) => link.label === 'Home')
 
+  const isActive = (item: MenuSubEntry) => {
+    return item.href === location.pathname || location.pathname.includes(`${item.href}/`)
+  }
+
   return (
     <Container>
       <StyledLogoIcon>
-        <Logo isDark={isDark} href={homeLink?.href ?? '/'} isPushed={isPushed} />
+        <Logo isDark={isDark} href={homeLink?.href ?? '/'} ispushed={ispushed} />
       </StyledLogoIcon>
       <MenuButton aria-label='Toggle menu' onClick={togglePush}>
-        {isPushed ? (
+        {ispushed ? (
           <StyledIcon>
             <HamburgerCloseIcon width='6px' />
           </StyledIcon>
@@ -147,27 +151,22 @@ const PanelBody: FC<Props> = ({ isPushed, pushNav, isMobile, links, togglePush, 
           const calloutClass = entry.calloutClass ? entry.calloutClass : undefined
 
           if (entry.items) {
-            const itemsMatchIndex = entry.items.findIndex((item) => item.href === location.pathname)
+            const itemsMatchIndex = entry.items.findIndex(isActive)
             const initialOpenState = entry.initialOpenState === true ? entry.initialOpenState : itemsMatchIndex >= 0
 
             return (
               <Accordion
                 key={entry.label}
-                isPushed={isPushed}
+                ispushed={ispushed}
                 pushNav={pushNav}
                 icon={iconElement}
                 label={entry.label}
                 initialOpenState={initialOpenState}
                 className={calloutClass}
               >
-                {isPushed &&
+                {ispushed &&
                   entry.items.map((item) => (
-                    <MenuEntry
-                      key={item.href}
-                      secondary
-                      isActive={item.href === location.pathname}
-                      onClick={handleClick}
-                    >
+                    <MenuEntry key={item.href} secondary isActive={isActive(item)} onClick={handleClick}>
                       <NextLink href={item.href}>{item.label}</NextLink>
                     </MenuEntry>
                   ))}
@@ -176,11 +175,11 @@ const PanelBody: FC<Props> = ({ isPushed, pushNav, isMobile, links, togglePush, 
           }
           return (
             <Fragment key={entry.label}>
-              <MenuEntry isActive={entry.href === location.pathname} className={calloutClass}>
-                <StyledLink href={entry.href} handleClick={handleClick} isPushed={isPushed} isNew={entry?.new}>
+              <MenuEntry isActive={isActive(entry)} className={calloutClass}>
+                <StyledLink href={entry.href} handleClick={handleClick} ispushed={ispushed} isnew={entry?.new}>
                   {iconElement}
-                  <LinkLabelStyled isPushed={isPushed}>{entry.label}</LinkLabelStyled>
-                  <MenuNewItem isNew={entry?.new} />
+                  <LinkLabelStyled ispushed={ispushed}>{entry.label}</LinkLabelStyled>
+                  <MenuNewItem isnew={entry?.new} />
                 </StyledLink>
               </MenuEntry>
             </Fragment>

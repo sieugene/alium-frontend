@@ -2,12 +2,18 @@ import { FunctionFragment, Interface } from '@ethersproject/abi'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
-import { useActiveWeb3React } from '../../../hooks'
-import { useBlockNumber } from '../../../state/application/hooks'
-import { AppDispatch } from '../../../state/index'
-import { Call, ListenerOptions, parseCallKey, toCallKey } from '../helpers/actions'
-import { useStoreMulticall } from '../useStoreMulticall'
+import { useDispatch, useSelector } from 'react-redux'
+import { useActiveWeb3React } from '../../hooks'
+import { useBlockNumber } from '../application/hooks'
+import { AppDispatch, AppState } from '../index'
+import {
+  addMulticallListeners,
+  Call,
+  ListenerOptions,
+  parseCallKey,
+  removeMulticallListeners,
+  toCallKey,
+} from './actions'
 
 export interface Result extends ReadonlyArray<any> {
   readonly [key: string]: any
@@ -45,8 +51,9 @@ export const NEVER_RELOAD: ListenerOptions = {
 // the lowest level call for subscribing to contract data
 function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): CallResult[] {
   const { chainId } = useActiveWeb3React()
-  const callResults = useStoreMulticall((state) => state.callResults)
-
+  const callResults = useSelector<AppState, AppState['multicall']['callResults']>(
+    (state) => state.multicall.callResults,
+  )
   const dispatch = useDispatch<AppDispatch>()
 
   const serializedCallKeys: string = useMemo(
@@ -60,30 +67,34 @@ function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): C
     [calls],
   )
 
-  const { addMulticallListeners, removeMulticallListeners } = useStoreMulticall()
   // update listeners when there is an actual change that persists for at least 100ms
   useEffect(() => {
     const callKeys: string[] = JSON.parse(serializedCallKeys)
     if (!chainId || callKeys.length === 0) return undefined
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const calls = callKeys.map((key) => parseCallKey(key))
-
-    addMulticallListeners({
-      chainId,
-      calls,
-      options,
-    })
-
-    return () => {
-      removeMulticallListeners({
+    dispatch(
+      addMulticallListeners({
         chainId,
         calls,
         options,
-      })
+      }),
+    )
+
+    return () => {
+      dispatch(
+        removeMulticallListeners({
+          chainId,
+          calls,
+          options,
+        }),
+      )
     }
-  }, [addMulticallListeners, chainId, dispatch, options, removeMulticallListeners, serializedCallKeys])
+  }, [chainId, dispatch, options, serializedCallKeys])
 
   return useMemo(
     () =>
+      // @ts-ignore
       calls.map<CallResult>((call) => {
         if (!chainId || !call) return INVALID_RESULT
 
@@ -174,6 +185,7 @@ export function useSingleContractMultipleData(
   const latestBlockNumber = useBlockNumber()
 
   return useMemo(() => {
+    // @ts-ignore
     return results.map((result) => toCallState(result, contract?.interface, fragment, latestBlockNumber))
   }, [fragment, contract, results, latestBlockNumber])
 }
@@ -241,6 +253,7 @@ export function useSingleCallResult(
   const latestBlockNumber = useBlockNumber()
 
   return useMemo(() => {
+    // @ts-ignore
     return toCallState(result, contract?.interface, fragment, latestBlockNumber)
   }, [result, contract, fragment, latestBlockNumber])
 }

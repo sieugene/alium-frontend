@@ -2,8 +2,8 @@ import { createReducer } from '@reduxjs/toolkit'
 import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
 import { TokenList } from '@uniswap/token-lists/dist/types'
 import DEFAULT_LIST from 'config/tokens'
+import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from 'constants/lists'
 import { storeNetwork } from 'store/network/useStoreNetwork'
-import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
 import { acceptListUpdate, addList, fetchTokenList, removeList, selectList } from './actions'
 
@@ -31,8 +31,6 @@ const NEW_LIST_STATE: ListsState['byUrl'][string] = {
 
 type Mutable<T> = { -readonly [P in keyof T]: T[P] extends ReadonlyArray<infer U> ? U[] : T[P] }
 
-const { currentChainId } = storeNetwork.getState()
-
 const initialState: ListsState = {
   lastInitializedDefaultListOfLists: DEFAULT_LIST_OF_LISTS,
   byUrl: {
@@ -42,7 +40,7 @@ const initialState: ListsState = {
     }, {}),
     [DEFAULT_TOKEN_LIST_URL]: {
       error: null,
-      current: DEFAULT_LIST[currentChainId],
+      current: DEFAULT_LIST[storeNetwork.getState().currentChainId],
       loadingRequestId: null,
       pendingUpdate: null,
     },

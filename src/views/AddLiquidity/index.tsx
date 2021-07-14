@@ -1,9 +1,10 @@
-import { Currency, currencyEquals, ETHER, ROUTER_ADDRESS, TokenAmount, WETH } from '@alium-official/sdk'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Currency, currencyEquals, ROUTER_ADDRESS, TokenAmount, WETH } from '@alium-official/sdk'
 import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { CardBody } from 'alium-uikit/src'
-import CardNav from 'components/CardNav'
+import { CardNav } from 'components/CardNav'
 import { AutoColumn } from 'components/Column'
 import { AddRemoveTabs } from 'components/NavigationTabs'
 import TransactionConfirmationModal from 'components/TransactionConfirmationModal'
@@ -19,6 +20,7 @@ import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
@@ -44,6 +46,8 @@ interface props {
 }
 
 const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
+  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
+  const { nativeCurrency } = networkProviderParams
   useLiquidityPriorityDefaultAlm()
 
   const history = useRouter()
@@ -172,8 +176,8 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
     let method: (...args: any) => Promise<TransactionResponse>
     let args: Array<string | string[] | number>
     let value: BigNumber | null
-    if (currencyA === ETHER || currencyB === ETHER) {
-      const tokenBIsETH = currencyB === ETHER
+    if (currencyA === nativeCurrency || currencyB === nativeCurrency) {
+      const tokenBIsETH = currencyB === nativeCurrency
       estimate = router.estimateGas.addLiquidityETH
       method = router.addLiquidityETH
       args = [
@@ -202,6 +206,9 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
     }
 
     const gasPrice = await calculateGasPrice(router.provider)
+    // args[1] = '98756854102'
+    // args[2] = '0'
+    // args[3] = '0'
 
     setAttemptingTxn(true)
     await estimate(...args, value ? { value } : {})
@@ -223,7 +230,10 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
         })
       })
       .catch((e) => {
-        setError(e)
+        const isLowPrice = e?.data?.message === 'execution reverted: ds-math-sub-underflow'
+        if (isLowPrice) {
+          setError(e)
+        }
         setAttemptingTxn(false)
         console.log('-----Error when adding liqudity-----', e)
 

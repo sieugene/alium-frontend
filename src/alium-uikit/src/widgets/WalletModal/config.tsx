@@ -10,6 +10,7 @@ import TrustWallet from './icons/TrustWallet'
 import WalletConnect from './icons/WalletConnect'
 import { ConnectorNames, NetworksConfig, WalletsConfig } from './types'
 
+
 const isMobileWallet = (anotherWallet: ConnectorNames) => {
   return isMobile ? ConnectorNames.WalletConnect : anotherWallet
 }
@@ -39,8 +40,7 @@ export const wallets: WalletsConfig[] = [
   {
     title: 'Token Pocket',
     icon: TokenPocket,
-    // Remove Later to  ConnectorNames.WalletConnect
-    connectorId: isMobileWallet(ConnectorNames.TOKENPOCKET),
+    connectorId: isMobile && isWeb3Detect() ? ConnectorNames.Injected : ConnectorNames.WalletConnect,
   },
   {
     title: 'Wallet Connect',

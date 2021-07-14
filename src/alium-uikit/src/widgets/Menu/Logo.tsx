@@ -8,7 +8,7 @@ import { LogoIcon as LogoWithText } from './icons'
 interface Props {
   isDark: boolean
   href: string
-  isPushed?: boolean
+  ispushed?: boolean
 }
 
 const StyledLink = styled(NextLink)`
@@ -30,17 +30,17 @@ const StyledLink = styled(NextLink)`
   }
 `
 
-const Logo: FC<Props> = ({ isDark, href, isPushed }) => {
+const Logo: FC<Props> = ({ isDark, href, ispushed }) => {
   const isAbsoluteUrl = href.startsWith('http')
   const innerLogo = (
-    <NextLink.multiple href='/'>
+    <NextLink.Multiple href='/'>
       <LogoIcon className='mobile-icon' />
-      {!isPushed ? (
+      {!ispushed ? (
         <LogoWithText className='desktop-icon' isDark={isDark} />
       ) : (
         <LogoWithText className='desktop-icon' isDark={isDark} withText />
       )}
-    </NextLink.multiple>
+    </NextLink.Multiple>
   )
 
   return (

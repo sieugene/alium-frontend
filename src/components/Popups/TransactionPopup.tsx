@@ -1,8 +1,8 @@
 import { PopupCheckIcon, PopupFailIcon } from 'alium-uikit/src'
-import { useContext } from 'react';
+import { useActiveWeb3React } from 'hooks'
+import { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
-import { getExplorerLink, getExplorerName } from '../../utils'
+import { getExplorerLink, getExplorerName } from 'utils'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
 import { ExternalLink, TYPE } from '../Shared'

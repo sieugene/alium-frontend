@@ -1,25 +1,83 @@
-import { CurrencyAmount, Price } from '@alium-official/sdk'
-// toSignificant like metamask
-// export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
-//   if (currency && currency?.toSignificant) {
-//     const total = Number(currency.toSignificant(1000))
-//     const replaced = getFlooredFixed(total, 3)
-//     return formatZero(replaced, total.toString())
-//   }
-//   return ''
-// }
+import { CurrencyAmount, Fraction, JSBI, Price } from '@alium-official/sdk'
+import BigNumber from 'bignumber.js'
+import { getBalanceNumber } from './../formatBalance'
+
+// toSignificant like uniswap
 export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
-  return currency?.toSignificant(6)
+  return formatCurrency(currency)
 }
-function getFlooredFixed(v: number, d: number) {
-  return (Math.floor(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d)
-}
-const formatZero = (formatted: string, fullStr: string) => {
-  const isZero = formatted[formatted.length - 1] === '0'
-  if (isZero && formatted.length > 2 && fullStr.length > 2) {
-    const shiftedValue = fullStr[fullStr.length - 2]
-    const shift = (shiftedValue !== '.' && shiftedValue !== '0' && fullStr[fullStr.length - 2]) || ''
-    return formatted.substring(0, formatted.length - 1) + shift
+
+const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6) => {
+  const RawBN = currency?.raw && new BigNumber(Number(`${currency.raw}`))
+  // Dont use toString but '1.245000' make to '1.245'
+  const balance = RawBN && `${getBalanceNumber(RawBN)}`?.split('.')
+  const amount = fromSplitBalance(balance, maxSub)
+
+  const firstMin = '0.0010'
+
+  // Undefined condition
+  if (isNaN(getBalanceNumber(RawBN)) || !amount || !currency) {
+    return '-'
   }
-  return formatted
+
+  // Zero condition
+  // if (JSBI.equal(currency.quotient, JSBI.BigInt(0))) {
+  //   return '0'
+  // }
+
+  // Minimal zeros is 0.001, checkout - 0.0011 is false and  0.0010 is true
+  if (isMinimalAmount(amount, firstMin)) {
+    return firstMin.slice(0, -1)
+  }
+  // Less
+  if (Number(amount) < 0.00001) {
+    return '<0.00001'
+  }
+  // Make '1.245000' to '1.245'
+  return dropZero(amount) || '-'
+}
+
+// Split by "." max size after "." 6
+const fromSplitBalance = (balance: string[], maxSub: number) => {
+  if (balance?.length >= 2) {
+    return `${balance[0]}.${balance[1].substring(0, maxSub)}`
+  }
+  if (balance?.length === 1) {
+    return `${balance[0]}`
+  }
+  return balance?.length ? balance[0] : ''
+}
+
+const isMinimalAmount = (amount: string, min: string) => {
+  const splitted = amount.split('')
+  const zero = min.split('')
+  let coincidence = 0
+  zero.forEach((z, index) => {
+    if (splitted[index] === z) {
+      coincidence += 1
+    }
+  })
+  return coincidence === 6
+}
+
+const dropZero = (str: string) => {
+  const numbered = Number(str)
+  return numbered ? numbered.toString() : str
+}
+
+// Uniswap formatter from uniswap-interface
+export function formatCurrencyAmount(amount: CurrencyAmount | Price, sigFigs = 4) {
+  if (!amount) {
+    return '-'
+  }
+
+  if (JSBI.equal(amount.quotient, JSBI.BigInt(0))) {
+    return '0'
+  }
+
+  if (amount.divide(amount).lessThan(new Fraction(JSBI.BigInt(1), JSBI.BigInt(1000)))) {
+    return '<0.00001'
+  }
+
+  return amount.toSignificant(sigFigs)
 }

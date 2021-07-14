@@ -1,12 +1,12 @@
 import { Currency, CurrencyAmount, Fraction, Percent } from '@alium-official/sdk'
 import { Button } from 'alium-uikit/src'
+import { RowBetween, RowFixed } from 'components/Row'
+import { TYPE } from 'components/Shared'
 import { useEffect, useMemo } from 'react'
 import { useToast } from 'state/hooks'
+import { Field } from 'state/mint/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import CurrencyLogo from '../../components/CurrencyLogo'
-import { RowBetween, RowFixed } from '../../components/Row'
-import { TYPE } from '../../components/Shared'
-import { Field } from '../../state/mint/actions'
 
 const { body: Body } = TYPE
 
@@ -31,7 +31,7 @@ export function ConfirmAddModalBottom({
   const error = useMemo(() => hasError, [hasError])
   useEffect(() => {
     if (error) {
-      toastError('Errow when adding liqudity')
+      toastError('Low price')
     }
   }, [error, toastError])
 

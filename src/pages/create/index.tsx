@@ -6,7 +6,7 @@ const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
 })
 
 const RedirectToAddLiquidity = dynamic(
-  () => import('views/AddLiquidity/redirects').then((module) => module.RedirectToAddLiquidity),
+  () => import('utils/redirects/swap/SwapRedirects').then((module) => module.RedirectToAddLiquidity),
   {
     ssr: false,
   },

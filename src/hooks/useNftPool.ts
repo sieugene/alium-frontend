@@ -1,9 +1,10 @@
 import { Contract } from '@ethersproject/contracts'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
-import { useTransactionAdder } from '../state/transactions/hooks'
-import { useSingleContractMultipleData } from '../store/multicall/hooks/hooks'
-import { getContract } from '../utils'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { useSingleContractMultipleData } from 'state/multicall/hooks'
+import { getContract } from 'utils'
+import { cardListPrivate, cardListPublic, cardListStrategical } from 'views/InvestorsAccount/constants/cards'
 import {
   AliumVestingAbi,
   NFTPrivateExchangerAbi,
@@ -12,7 +13,6 @@ import {
   NFT_EXCHANGER_PUBLIC,
   NFT_VESTING,
 } from '../views/InvestorsAccount/constants'
-import { cardListPrivate, cardListPublic, cardListStrategical } from '../views/InvestorsAccount/constants/cards'
 import pools, { PoolsTypes } from '../views/InvestorsAccount/constants/pools'
 import { useActiveWeb3React } from './index'
 
