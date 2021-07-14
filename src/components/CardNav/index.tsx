@@ -14,11 +14,11 @@ const StyledNav = styled.div`
   > div {
     padding: 8px;
   }
-  > div > a {
+  /* > div > a {
     height: 40px;
     width: 140px;
     font-size: 14px;
-  }
+  } */
 
   @media screen and (max-width: 768px) {
     > h1 {
