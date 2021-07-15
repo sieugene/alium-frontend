@@ -96,7 +96,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   // get formatted amounts
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: noLiquidity ? otherTypedValue : toSignificantCurrency(parsedAmounts[dependentField]) ?? '',
+    [dependentField]: noLiquidity ? otherTypedValue : toSignificantCurrency(parsedAmounts[dependentField],"0.0") ?? '',
   }
 
   // get the max amounts user can add
