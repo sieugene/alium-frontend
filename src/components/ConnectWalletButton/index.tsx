@@ -32,6 +32,7 @@ const StyledButtonUnlockWallet = styled.div`
 // @ts-ignore
 interface props extends ButtonProps {
   alt?: boolean
+  fullwidth?: boolean
 }
 
 const UnlockButton: FC<props> = (props) => {
