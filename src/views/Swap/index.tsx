@@ -177,7 +177,7 @@ const Swap = () => {
     [independentField]: typedValue,
     [dependentField]: showWrap
       ? parsedAmounts[independentField]?.toExact() ?? ''
-      : toSignificantCurrency(parsedAmounts[dependentField]) ?? '',
+      : toSignificantCurrency(parsedAmounts[dependentField], "0.0") ?? '',
   }
 
   const route = trade?.route
