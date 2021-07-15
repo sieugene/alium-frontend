@@ -11,7 +11,7 @@ import { RowBetween } from 'components/Row'
 import { TYPE } from 'components/Shared'
 import AdvancedSwapDetailsDropdown from 'components/swap/AdvancedSwapDetailsDropdown'
 import { BottomGrouping, Wrapper } from 'components/swap/styleds'
-import { VAMPIRE_ADDRESS } from 'config/contracts'
+import { VAMPIRE_ADDRESS } from 'config/vampiring/VAMPIRE_ADDRESS'
 import { useActiveWeb3React } from 'hooks'
 import { useToken } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
@@ -149,6 +149,7 @@ const MigrateZero: FC = () => {
     parsedAmounts[Field.INPUT],
     chainId && VAMPIRE_ADDRESS[chainId],
   )
+
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
 

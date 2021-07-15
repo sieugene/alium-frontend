@@ -1,7 +1,6 @@
 import copy from 'copy-to-clipboard'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
-import { ROUTES } from 'routes'
 import styled from 'styled-components'
 import { IconClose } from 'views/Migrate/components/IconClose'
 import { IconCopy } from 'views/Migrate/components/IconCopy'
@@ -115,19 +114,21 @@ export const Root = styled.div`
 `
 
 interface props {
-  from?: string
-  pair?: string
+  pair?: { title: string; symbolA: string; symbolB: string; addressLP: string; exchange: string; balance: number }
   isSuccessful: boolean
   contract?: string
-  explorerLink?: string
+  explorer?: string
+  setStep1: () => void
+  handleTryAgain: () => void
 }
 
 export const Step4MigrationResult: FC<props> = ({
-  from = '',
-  pair = '',
+  pair = {},
   isSuccessful,
   contract = '',
-  explorerLink = '/',
+  explorer = '',
+  setStep1,
+  handleTryAgain,
 }) => {
   const [isCopied, setIsCopied] = useState(false)
 
@@ -150,25 +151,23 @@ export const Step4MigrationResult: FC<props> = ({
   return (
     <>
       <Root>
-        <Link href={ROUTES.migrate}>
-          <a className='close'>
-            <IconClose />
-          </a>
-        </Link>
+        <div className='close' onClick={setStep1}>
+          <IconClose />
+        </div>
         {isSuccessful ? (
           <>
             <IconSuccessful />
             <div className='title'>
-              Migrate {from} {pair} liquidity to AliumSwap
+              Migrate {pair.exchange} {pair.title} liquidity to AliumSwap
             </div>
             <div className='copy'>
-              <span>Contract: </span>
+              <span>Transaction: </span>
               <input type='text' value={inputValue} />
               <div onClick={handleCopy}>
                 <IconCopy />
               </div>
             </div>
-            <Link href={explorerLink}>
+            <Link href={`${explorer}tx/${contract}`}>
               <a className='view-on-explorer' target='_blank'>
                 {'View on explorer >'}
               </a>
@@ -179,9 +178,9 @@ export const Step4MigrationResult: FC<props> = ({
             <IconNotSuccessful />
             <div className='title error'>Migration failed</div>
 
-            <Link href={ROUTES.migrate}>
-              <a className='button'>Try again</a>
-            </Link>
+            <div className='button' onClick={handleTryAgain}>
+              Try again
+            </div>
           </>
         )}
       </Root>

@@ -1,6 +1,7 @@
 import { getCookieOptions } from 'alium-uikit/src/config/getCookieOptions'
 import { WEB3NetworkErrors } from 'constants/network/NetworkErrors.contanst'
 import { getActualChainId } from 'store/network/helpers/getActualChainId'
+import { currentNetwork, getCurrentNetwork } from 'store/network/helpers/getCurrentNetwork'
 import { getNetworkProviderParams } from 'store/network/helpers/getNetworkProviderParams'
 import { getNetworkRpcUrl } from 'store/network/helpers/getNetworkRpcUrl'
 import { WindowChain } from 'types'
@@ -21,20 +22,22 @@ const currentChainId = getInitialChainId()
 interface StoreAccountState {
   // state
   currentChainId: number
+  currentNetwork: currentNetwork
   networkRpcUrl: string
   networkProviderParams: AddEthereumChainParameter
+  connectIsFailed: WEB3NetworkErrors | null
   // actions
   killStoreNetwork: () => void
   initStoreNetwork: () => void
   setChainId: (id: number) => void
   setupNetwork: (id: number) => Promise<boolean>
   setConnectionError: (error: WEB3NetworkErrors | null) => void
-  connectIsFailed: WEB3NetworkErrors | null
 }
 
 // store for usage outside of react
 export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   currentChainId,
+  currentNetwork: getCurrentNetwork(currentChainId),
   networkRpcUrl: getNetworkRpcUrl(currentChainId),
   networkProviderParams: getNetworkProviderParams(currentChainId),
   connectIsFailed: null,
@@ -42,11 +45,10 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     storeNetwork.destroy() // destroy all store subscribes
   },
   initStoreNetwork: () => {
-    const { setChainId } = get()
     if (typeof window !== 'undefined' && window.ethereum) {
       // switch network from wallet
       ;(window as WindowChain).ethereum.on('chainChanged', (chainId) => {
-        setChainId(parseInt(chainId, 16))
+        get().setChainId(parseInt(chainId, 16))
       })
     }
   },
@@ -55,6 +57,7 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     const newChainId = getActualChainId(Number(id))
     set({
       currentChainId: newChainId,
+      currentNetwork: getCurrentNetwork(newChainId),
       networkRpcUrl: getNetworkRpcUrl(newChainId),
       networkProviderParams: getNetworkProviderParams(newChainId),
     })
@@ -73,11 +76,7 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
           method: 'wallet_addEthereumChain',
           params: [newNetworkProviderParams],
         })
-        set({
-          currentChainId: newChainId,
-          networkRpcUrl: getNetworkRpcUrl(newChainId),
-          networkProviderParams: newNetworkProviderParams,
-        })
+        get().setChainId(newChainId)
         return true
       } catch (error) {
         console.error(error)
@@ -88,9 +87,7 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     return false
   },
   setConnectionError: (error: WEB3NetworkErrors | null) => {
-    set({
-      connectIsFailed: error,
-    })
+    set({ connectIsFailed: error })
   },
 }))
 

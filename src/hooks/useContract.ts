@@ -2,10 +2,13 @@ import { ChainId, WETH } from '@alium-official/sdk'
 import { Contract } from '@ethersproject/contracts'
 import MULTICALL_ABI from 'config/abis/MULTICALL_ABI.json'
 import MULTICALL_ADDRESS from 'config/addresses/MULTICALL_ADDRESS'
+import { VAMPIRE_ABI } from 'config/vampiring/VAMPIRE_ABI'
+import ERC20_ABI from 'constants/abis/erc20'
 import { MIGRATOR_ABI, MIGRATOR_ADDRESS } from 'constants/abis/migrator'
 import { NFT_ABI, NFT_COLLECTIBLE_ABI, NFT_COLLECTIBLE_ADDRESS, NFT_PRIVATE_ADDRESS } from 'constants/abis/nftPrivate'
 import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from 'constants/v1'
 import { useMemo } from 'react'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { getContract } from 'utils'
 import {
   getBep20Contract,
@@ -19,8 +22,7 @@ import {
   getProfileContract,
   getSouschefContract,
 } from 'utils/contractHelpers'
-import { ENS_ABI, ENS_PUBLIC_RESOLVER_ABI, ERC20_ABI, ERC20_BYTES32_ABI, IPAIR_ABI, WETH_ABI } from '../config/abis'
-import { VAMPIRE_ABI, VAMPIRE_ADDRESS } from '../config/contracts'
+import { ENS_ABI, ENS_PUBLIC_RESOLVER_ABI, ERC20_BYTES32_ABI, IPAIR_ABI, WETH_ABI } from '../config/abis'
 import UNISOCKS_ABI from '../constants/abis/unisocks.json'
 import { useActiveWeb3React } from './index'
 import useWeb3 from './useWeb3'
@@ -41,8 +43,8 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
 }
 
 export function useVampireContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
-  return useContract(chainId && VAMPIRE_ADDRESS[chainId], VAMPIRE_ABI, true)
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  return useContract(currentNetwork.address.vampiring, VAMPIRE_ABI, true)
 }
 
 export function useV1FactoryContract(): Contract | null {
