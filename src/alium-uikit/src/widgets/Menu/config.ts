@@ -20,6 +20,10 @@ export const links = [
         label: 'Liquidity',
         href: `https://exchange.${getMainDomain()}/#/pool`,
       },
+      {
+        label: 'Liquidity',
+        href: `https://exchange.${getMainDomain()}/#/pool`,
+      },
     ],
   },
   {

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import erc20ABI from 'config/abi/erc20.json'
+import ERC20_ABI from 'config/abi/erc20.json'
 import masterChefABI from 'config/abi/masterchef.json'
 import sousChefABI from 'config/abi/sousChef.json'
 import poolsConfig from 'config/constants/pools'
@@ -24,7 +24,7 @@ export const fetchPoolsAllowance = async (account) => {
     params: [account, getAddress(p.contractAddress)],
   }))
 
-  const allowances = await multicall(erc20ABI, calls)
+  const allowances = await multicall(ERC20_ABI, calls)
   return nonBnbPools.reduce(
     (acc, pool, index) => ({ ...acc, [pool.sousId]: new BigNumber(allowances[index]).toJSON() }),
     {},
@@ -38,7 +38,7 @@ export const fetchUserBalances = async (account) => {
     name: 'balanceOf',
     params: [account],
   }))
-  const tokenBalancesRaw = await multicall(erc20ABI, calls)
+  const tokenBalancesRaw = await multicall(ERC20_ABI, calls)
   const tokenBalances = nonBnbPools.reduce(
     (acc, pool, index) => ({ ...acc, [pool.sousId]: new BigNumber(tokenBalancesRaw[index]).toJSON() }),
     {},
