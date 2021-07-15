@@ -1,6 +1,6 @@
 import { CurrencyAmount, Fraction, JSBI, Price } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from './../formatBalance'
+import { getFullDisplayBalance } from './../formatBalance'
 
 // toSignificant like uniswap
 export const toSignificantCurrency = (currency: CurrencyAmount | Price, defaultValue?: string) => {
@@ -11,13 +11,14 @@ const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6, defVal?: s
   const defaultValue = defVal || '-'
   const RawBN = currency?.raw && new BigNumber(Number(`${currency.raw}`))
   // Dont use toString but '1.245000' make to '1.245'
-  const balance = RawBN && `${getBalanceNumber(RawBN)}`?.split('.')
+
+  const balance = RawBN && `${getFullDisplayBalance(RawBN)}`?.split('.')
   const amount = fromSplitBalance(balance, maxSub)
 
   const firstMin = '0.0010'
 
   // Undefined condition
-  if (isNaN(getBalanceNumber(RawBN)) || !amount || !currency) {
+  if ((RawBN && isNaN(Number(getFullDisplayBalance(RawBN)))) || !amount || !currency) {
     return defaultValue
   }
 
