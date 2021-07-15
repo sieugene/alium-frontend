@@ -1,5 +1,7 @@
-import { FC, useState } from 'react'
+import CoinLogo from 'alium-uikit/src/components/Svg/Icons/CoinLogo'
+import { ChangeEvent, FC, useState } from 'react'
 import styled from 'styled-components'
+import { IconChevron } from 'views/Migrate/components/IconChevron'
 
 export const Root = styled.div`
   display: flex;
@@ -33,6 +35,7 @@ export const Root = styled.div`
   }
 
   .tokens {
+    user-select: none;
     width: 100%;
     margin: 16px 0;
     position: relative;
@@ -45,27 +48,91 @@ export const Root = styled.div`
     line-height: 16px;
     letter-spacing: 0.1px;
     color: #0b1359;
+
+    border: 1px solid #d2d6e5;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .tokens-list {
+    margin: -16px 0 16px 0;
+    width: 100%;
+    padding: 2px;
+    border-radius: 6px;
+    background: #ffffff;
+    box-shadow: 0 6px 12px rgba(185, 189, 208, 0.4);
+  }
+
+  .tokens-list-item {
+    user-select: none;
+    cursor: pointer;
+    height: 48px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.1px;
+    color: #0b1359;
+  }
+
+  .tokens-list-item:hover {
+    background: #f5f7ff;
+  }
+
+  .tokens-amount {
+    margin-top: 24px;
+    width: 100%;
+    position: relative;
+    padding: 0 8px 0 16px;
+    display: flex;
+    align-items: center;
 
     border: 1px solid #d2d6e5;
     border-radius: 6px;
   }
 
-  .tokens-amount {
+  .tokens-amount input {
+    border: none;
+    outline: none;
     width: 100%;
-    margin: 16px 0;
-    position: relative;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-
+    padding: 16px 0;
     font-family: Roboto, sans-serif;
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0.1px;
     color: #0b1359;
+  }
 
-    border: 1px solid #d2d6e5;
+  .tokens-amount .max {
+    padding: 10px 8px;
+    background: #e6e6f6;
     border-radius: 6px;
+    font-family: Roboto, sans-serif;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 1px;
+    color: #6c5dd3;
+    cursor: pointer;
+  }
+
+  .tokens-amount .max:hover {
+    background: #6c5cd1;
+    color: white;
+  }
+
+  .tokens-amount.false {
+    user-select: none;
+    background: #f5f7ff;
+    border: 1px solid transparent;
+  }
+
+  .tokens-amount.false input {
+    background: #f5f7ff;
   }
 
   .label {
@@ -112,6 +179,20 @@ export const Root = styled.div`
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 1px;
+    user-select: none;
+  }
+
+  .button:hover {
+    background: #8677f0;
+  }
+
+  .button.false {
+    cursor: default;
+    background: #cbc8ee;
+  }
+
+  .button.false:hover {
+    background: #cbc8ee;
   }
 
   .balance {
@@ -122,22 +203,55 @@ export const Root = styled.div`
     color: #8990a5;
     margin: 20px 0 4px 0;
   }
+
   .balance span {
     color: #6c5dd3;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
   }
 `
 
 interface props {
-  from?: string
-  pair?: string
+  pairs?: { title: string; symbolA: string; symbolB: string; addressLP: string; exchange: string; balance: number }[]
+  selectedPairKey: number
+  setSelectedPairKey: (key: number) => void
+  tokensAmount: string | number
+  setTokensAmount: (tokensAmount: string | number) => void
+  handleMigrate: () => void
 }
 
-export const Step2YourLiquidity: FC<props> = ({ from, pair }) => {
-  const [tokensAmount, setTokensAmount] = useState(0.123)
-  const [balance, setBalance] = useState(3.722)
+export const Step2YourLiquidity: FC<props> = ({
+  pairs,
+  selectedPairKey,
+  setSelectedPairKey,
+  tokensAmount,
+  setTokensAmount,
+  handleMigrate,
+}) => {
+  const [viewTokens, setViewTokens] = useState(false)
+  const { title, symbolA, symbolB, exchange, balance } = pairs[selectedPairKey] ?? {
+    title: 'Token not selected',
+    exchange: '',
+    balance: 0,
+  }
 
-  const handleMigrate = () => {
-    console.log('handleMigrate')
+  const handleTokensAmount = (event: ChangeEvent<HTMLInputElement>) => {
+    // todo: need to improve for zero after dot, like "0.01"
+    let value = event.target.value
+    value = value.replace(/[^0-9.]/g, '')
+    let split = value.split('.')
+    if (split.length > 2 && split[1].length > 1) value = `${split[0]}.${split[1]}`
+
+    split = value.split('.')
+    if (split.length > 1) value = `${split[0]}.${split[1].slice(0, 18)}`
+    value[value.length - 1] === '.' ? setTokensAmount(value) : setTokensAmount(Number(value))
+  }
+
+  const handleMax = () => {
+    setTokensAmount(balance)
   }
 
   return (
@@ -149,24 +263,82 @@ export const Step2YourLiquidity: FC<props> = ({ from, pair }) => {
         </div>
       </header>
       <main>
-        <div className='tokens'>
+        <div className='tokens' onClick={() => setViewTokens((current) => !current)}>
           <div className='label'>Tokens</div>
-          <span>BNB/ALM</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {symbolA ? (
+                <img src={`/images/coins/${symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+              ) : (
+                <CoinLogo />
+              )}
+              <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
+                {symbolB ? <img src={`/images/coins/${symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
+              </div>
+
+              {title}
+              <div style={{ margin: '0 0 0 8px', display: 'flex', alignItems: 'center' }}>
+                {exchange && <img src={`/images/exchanges/${exchange}.png`} alt='' />}
+              </div>
+            </div>
+            <IconChevron inverted={viewTokens} />
+          </div>
         </div>
-        <div className='tokens-amount'>
+        {viewTokens && (
+          <div className='tokens-list'>
+            {!pairs.length && <div className='title2'>You do not have liquidity available for migration</div>}
+            {pairs.map((pair, key) => (
+              <div
+                className='tokens-list-item'
+                key={pair.title}
+                onClick={() => {
+                  setSelectedPairKey(key)
+                  setViewTokens(false)
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {pair.symbolA ? (
+                    <img src={`/images/coins/${pair.symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+                  ) : (
+                    <CoinLogo />
+                  )}
+                  <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
+                    {pair.symbolB ? <img src={`/images/coins/${pair.symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
+                  </div>
+
+                  {pair.title}
+                  <div style={{ margin: '0 0 0 8px', display: 'flex', alignItems: 'center' }}>
+                    {pair.exchange && <img src={`/images/exchanges/${pair.exchange}.png`} alt='' />}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className={`tokens-amount ${selectedPairKey !== -1}`}>
           <div className='label'>Amount of Tokens</div>
-          <span>{tokensAmount}</span>
+          <input type='text' value={tokensAmount} onChange={handleTokensAmount} disabled={selectedPairKey === -1} />
+          {tokensAmount !== balance && (
+            <div className='max' onClick={handleMax}>
+              MAX
+            </div>
+          )}
         </div>
         <div className='balance'>
           Balance: <span>{balance}</span>
         </div>
         <div className='action'>
-          <div className='button' onClick={handleMigrate}>
+          <div
+            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) > 0}`}
+            onClick={handleMigrate}
+          >
             Migrate
           </div>
-          <div className='title2'>
-            You {from} {pair} liquidity will become AliumSwap {pair} liquidity
-          </div>
+          {selectedPairKey !== -1 && (
+            <div className='title2'>
+              You {exchange} {title} liquidity will become AliumSwap {title} liquidity
+            </div>
+          )}
         </div>
       </main>
     </Root>

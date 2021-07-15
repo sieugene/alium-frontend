@@ -18,6 +18,7 @@ import styled from 'styled-components'
 import { getAccountTotalBalance } from 'utils'
 import useCollectionNft from '../../hooks/useCollectionNft'
 import AppInvestorsAccountBody from './AppInvestorsAccountBody'
+import AvailableAccount from './components/AvailableAccount'
 import NftAccountCard from './components/NftAccountCard'
 import NftNavTabs from './components/NftNavTabs'
 import NftPoolCard from './components/NftPoolCard'
@@ -256,129 +257,133 @@ const InvestorsAccount = () => {
 
   return (
     <ContentHolder>
-      <CardWrapper>
-        <Text fontSize='48px' style={{ fontWeight: 700, marginBottom: '32px' }}>
-          Your NFT deck
-        </Text>
-        <Modal
-          isOpen={isHideModalOpen}
-          onDismiss={() => {
-            setHideModalOpen(false)
-          }}
-        >
-          <Flex flexDirection='column' style={{ margin: '0 auto' }}>
-            <Text
-              mb='30px'
-              style={{
-                textAlign: 'center',
-                fontWeight: 'bold',
-                fontSize: '16px',
-                lineHeight: '22px',
-                letterSpacing: '0.3px',
-                color: '#0B1359',
-              }}
-            >
-              {t('pleaseUnlockWallet')}
-            </Text>
-            <ConnectWalletButton fullwidth />
-          </Flex>
-        </Modal>
-        <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
-          <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
-        </Modal>
+      <AvailableAccount>
+        <CardWrapper>
+          <Text fontSize='48px' style={{ fontWeight: 700, marginBottom: '32px' }}>
+            Your NFT deck
+          </Text>
+          <Modal
+            isOpen={isHideModalOpen}
+            onDismiss={() => {
+              setHideModalOpen(false)
+            }}
+          >
+            <Flex flexDirection='column' style={{ margin: '0 auto' }}>
+              <Text
+                mb='30px'
+                style={{
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  lineHeight: '22px',
+                  letterSpacing: '0.3px',
+                  color: '#0B1359',
+                }}
+              >
+                {t('pleaseUnlockWallet')}
+              </Text>
+              <ConnectWalletButton fullwidth />
+            </Flex>
+          </Modal>
+          <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
+            <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
+          </Modal>
 
-        <Modal isOpen={isSucceedPopupVisible} onDismiss={handleSucceedModalClose} maxHeight={90} padding='24px'>
-          <TransactionSucceedContent hash={succeedHash} onDismiss={handleSucceedModalClose} />
-        </Modal>
+          <Modal isOpen={isSucceedPopupVisible} onDismiss={handleSucceedModalClose} maxHeight={90} padding='24px'>
+            <TransactionSucceedContent hash={succeedHash} onDismiss={handleSucceedModalClose} />
+          </Modal>
 
-        <StyledHeading as='h1' size='xl' color='heading' mb='40px' mt='20px' className='heading--desktop'>
-          {t('strategicalPartnership')}
-        </StyledHeading>
-        <StyledHeading as='h1' size='xl' color='heading' mb='40px' className='heading--mobile'>
-          {t('strategicalPartnership')}
-        </StyledHeading>
+          <StyledHeading as='h1' size='xl' color='heading' mb='40px' mt='20px' className='heading--desktop'>
+            {t('strategicalPartnership')}
+          </StyledHeading>
+          <StyledHeading as='h1' size='xl' color='heading' mb='40px' className='heading--mobile'>
+            {t('strategicalPartnership')}
+          </StyledHeading>
 
-        <AppInvestorsAccountBody>
-          {!account ? (
-            'Please connect to your wallet first.'
-          ) : balanceAccount === undefined || accountTotalBalance === -1 ? (
-            <Dots>
-              <span style={{ fontSize: '20px' }}>Loading please wait</span>
-            </Dots>
-          ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
-            <NoNFT>
-              <NoNFTText>You don&apos;t have NFT tokens yet, but you can purchase them on the page</NoNFTText>
-              <NextLink.Multiple href={ROUTES.public} target='_blank' as='a'>
-                <Button>Buy NFT</Button>
-              </NextLink.Multiple>
-            </NoNFT>
-          ) : (
-            <>
-              {privateCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
-                <>
-                  <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                    Private Pool Cards
-                  </StyledHeading>
-                  <NftCardsContainer>
-                    {privateCardsWithCount
-                      .filter((pool) => pool.cardsCount > 0)
-                      .map((card, index) => {
-                        return <NftAccountCard key={`cardListPrivate-${card.id}/${index.toString()}`} card={card} />
-                      })}
-                  </NftCardsContainer>
-                </>
-              )}
-              {strategicalCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
-                <>
-                  <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                    Strategical Pool Cards
-                  </StyledHeading>
-                  <NftCardsContainer>
-                    {strategicalCardsWithCount
-                      .filter((pool) => pool.cardsCount > 0)
-                      .map((card, index) => {
-                        return <NftAccountCard key={`cardListStrategical-${card.id}/${index.toString()}`} card={card} />
-                      })}
-                  </NftCardsContainer>
-                </>
-              )}
-              {publicCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
-                <>
-                  <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                    Public Pool Cards
-                  </StyledHeading>
-                  <NftCardsContainer>
-                    {publicCardsWithCount
-                      .filter((pool) => pool.cardsCount > 0)
-                      .map((card, index) => {
-                        return <NftAccountCard key={`cardListPublic-${card.id}/${index.toString()}`} card={card} />
-                      })}
-                  </NftCardsContainer>
-                </>
-              )}
-              <HelperDiv>
-                <span>*</span>
-                Please note that converting Private NFTs to ALMs is an irreversible action.
-              </HelperDiv>
-              <NftNavTabs />
-              <NftTable>
-                <NftPoolsHeader />
-                <NftTableContent>
-                  {poolsWithData.filter(filterPools).map((pool) => (
-                    <NftPoolCard
-                      key={`Pool-Nft-${pool.id}`}
-                      pool={pool}
-                      onClaim={onClaimHandler}
-                      pending={Boolean(pendingClaimResult?.[0] === pool.id)}
-                      isLoading={isTransactionLoading}
-                    />
-                  ))}
-                </NftTableContent>
-              </NftTable>
-            </>
-          )}
-        </AppInvestorsAccountBody>
-      </CardWrapper>
+          <AppInvestorsAccountBody>
+            {!account ? (
+              'Please connect to your wallet first.'
+            ) : balanceAccount === undefined || accountTotalBalance === -1 ? (
+              <Dots>
+                <span style={{ fontSize: '20px' }}>Loading please wait</span>
+              </Dots>
+            ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
+              <NoNFT>
+                <NoNFTText>You don&apos;t have NFT tokens yet, but you can purchase them on the page</NoNFTText>
+                <NextLink.Multiple href={ROUTES.public} target='_blank' as='a'>
+                  <Button>Buy NFT</Button>
+                </NextLink.Multiple>
+              </NoNFT>
+            ) : (
+              <>
+                {privateCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
+                  <>
+                    <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
+                      Private Pool Cards
+                    </StyledHeading>
+                    <NftCardsContainer>
+                      {privateCardsWithCount
+                        .filter((pool) => pool.cardsCount > 0)
+                        .map((card, index) => {
+                          return <NftAccountCard key={`cardListPrivate-${card.id}/${index.toString()}`} card={card} />
+                        })}
+                    </NftCardsContainer>
+                  </>
+                )}
+                {strategicalCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
+                  <>
+                    <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
+                      Strategical Pool Cards
+                    </StyledHeading>
+                    <NftCardsContainer>
+                      {strategicalCardsWithCount
+                        .filter((pool) => pool.cardsCount > 0)
+                        .map((card, index) => {
+                          return (
+                            <NftAccountCard key={`cardListStrategical-${card.id}/${index.toString()}`} card={card} />
+                          )
+                        })}
+                    </NftCardsContainer>
+                  </>
+                )}
+                {publicCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
+                  <>
+                    <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
+                      Public Pool Cards
+                    </StyledHeading>
+                    <NftCardsContainer>
+                      {publicCardsWithCount
+                        .filter((pool) => pool.cardsCount > 0)
+                        .map((card, index) => {
+                          return <NftAccountCard key={`cardListPublic-${card.id}/${index.toString()}`} card={card} />
+                        })}
+                    </NftCardsContainer>
+                  </>
+                )}
+                <HelperDiv>
+                  <span>*</span>
+                  Please note that converting Private NFTs to ALMs is an irreversible action.
+                </HelperDiv>
+                <NftNavTabs />
+                <NftTable>
+                  <NftPoolsHeader />
+                  <NftTableContent>
+                    {poolsWithData.filter(filterPools).map((pool) => (
+                      <NftPoolCard
+                        key={`Pool-Nft-${pool.id}`}
+                        pool={pool}
+                        onClaim={onClaimHandler}
+                        pending={Boolean(pendingClaimResult?.[0] === pool.id)}
+                        isLoading={isTransactionLoading}
+                      />
+                    ))}
+                  </NftTableContent>
+                </NftTable>
+              </>
+            )}
+          </AppInvestorsAccountBody>
+        </CardWrapper>
+      </AvailableAccount>
     </ContentHolder>
   )
 }

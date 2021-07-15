@@ -7,6 +7,8 @@ import {
 } from 'config/settings'
 import { Field } from 'state/swap/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
+import { storeNetwork } from './../store/network/useStoreNetwork'
+import { getCurrencyEther } from './common/getCurrencyEther'
 import { basisPointsToPercent } from './index'
 
 const BASE_FEE = new Percent(JSBI.BigInt(25), JSBI.BigInt(10000))
@@ -37,13 +39,16 @@ export function computeTradePriceBreakdown(trade?: Trade): {
     ? new Percent(priceImpactWithoutFeeFraction?.numerator, priceImpactWithoutFeeFraction?.denominator)
     : undefined
 
+  const chainId = storeNetwork.getState().currentChainId
+  const Ether = getCurrencyEther(chainId)
+
   // the amount of the input that accrues to LPs
   const realizedLPFeeAmount =
     realizedLPFee &&
     trade &&
     (trade.inputAmount instanceof TokenAmount
       ? new TokenAmount(trade.inputAmount.token, realizedLPFee.multiply(trade.inputAmount.raw).quotient)
-      : CurrencyAmount.ether(realizedLPFee.multiply(trade.inputAmount.raw).quotient))
+      : new TokenAmount(Ether, realizedLPFee.multiply(trade.inputAmount.raw).quotient))
 
   return { priceImpactWithoutFee: priceImpactWithoutFeePercent, realizedLPFee: realizedLPFeeAmount }
 }

@@ -20,6 +20,10 @@ export const links = [
         label: 'Liquidity',
         href: `https://exchange.${getMainDomain()}/#/pool`,
       },
+      {
+        label: 'Liquidity',
+        href: `https://exchange.${getMainDomain()}/#/pool`,
+      },
     ],
   },
   {
@@ -110,6 +114,6 @@ export const socials = [
 ]
 
 export const MENU_HEIGHT = 97
-export const MENU_ENTRY_HEIGHT = 53
+// export const MENU_ENTRY_HEIGHT = 53
 export const SIDEBAR_WIDTH_FULL = 256
 export const SIDEBAR_WIDTH_REDUCED = 88
