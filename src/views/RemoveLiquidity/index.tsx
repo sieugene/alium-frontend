@@ -94,6 +94,12 @@ const StyledWrapper = styled(Wrapper)`
   margin-top: 0;
 `
 
+const StyledPriceContainer = styled.div`
+  background-color: #f4f5fa;
+  border-radius: 6px;
+  padding: 6px 8px;
+`
+
 export const RemoveLiquidity: FC = () => {
   const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
   const { nativeCurrency } = networkProviderParams
@@ -415,12 +421,6 @@ export const RemoveLiquidity: FC = () => {
       </AutoColumn>
     )
   }
-
-  const StyledPriceContainer = styled.div`
-    background-color: #f4f5fa;
-    border-radius: 6px;
-    padding: 6px 8px;
-  `
 
   const modalBottom = () => {
     return (
