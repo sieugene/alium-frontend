@@ -5,8 +5,9 @@ import { useAllTokens } from 'hooks/Tokens'
 import { useMulticallContract } from 'hooks/useContract'
 import { useMemo } from 'react'
 import { useMultipleContractSingleData, useSingleContractMultipleData } from 'state/multicall/hooks'
-import { storeNetwork } from 'store/network/useStoreNetwork'
+import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import { isAddress } from 'utils'
+import { getCurrencyEther } from './../../utils/common/getCurrencyEther'
 
 /**
  * Returns a map of the given addresses to their eventually consistent BNB balances.
@@ -32,12 +33,15 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
     'getEthBalance',
     addresses.map((address) => [address]),
   )
+  const chainId = useStoreNetwork((state) => state.currentChainId)
+  const Ether = getCurrencyEther(chainId)
 
   return useMemo(
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0]
-        if (value) memo[address] = CurrencyAmount.ether(JSBI.BigInt(value.toString()))
+
+        if (value) memo[address] = new TokenAmount(Ether, JSBI.BigInt(value.toString()))
         return memo
       }, {}),
     [addresses, results],
