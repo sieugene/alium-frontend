@@ -85,6 +85,7 @@ const StyledButton = styled(Button)`
   svg * {
     transition: stroke 200ms ease-in-out;
   }
+  max-width: 225px;
   :hover {
     svg * {
       stroke: white;
