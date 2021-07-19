@@ -97,7 +97,7 @@ export const useStoreNetwork = create<StoreAccountState>(storeNetwork)
 // subscribe for changes
 useStoreNetwork.subscribe(
   (currentChainId, prevChainId) =>
-    console.log(
+    console.info(
       `%c chain changed from: "${prevChainId}", to: "${currentChainId}"`,
       'background: #006297; color: #c4ff5c',
     ),

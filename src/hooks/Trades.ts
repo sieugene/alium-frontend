@@ -95,7 +95,7 @@ export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?:
       }
       return null
     } catch (error) {
-      console.log('bestTradeExactIn', error)
+      console.error('bestTradeExactIn', error)
       return null
     }
   }, [allowedPairs, currencyAmountIn, currencyOut])
@@ -117,7 +117,7 @@ export function useTradeExactOut(currencyIn?: Currency, currencyAmountOut?: Curr
       }
       return null
     } catch (error) {
-      console.log('bestTradeExactOut', error)
+      console.error('bestTradeExactOut', error)
       return null
     }
   }, [allowedPairs, currencyIn, currencyAmountOut])

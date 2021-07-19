@@ -119,7 +119,7 @@ const Swap = () => {
   // swap state
   const { independentField, typedValue, recipient } = useSwapState()
   const derivedSwapInfo = useDerivedSwapInfo()
-  console.log('derivedSwapInfo', derivedSwapInfo)
+
   const {
     v2Trade,
     currencyBalances,

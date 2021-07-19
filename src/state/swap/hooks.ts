@@ -160,9 +160,7 @@ export function useDerivedSwapInfo(): {
     recipient,
   } = useSwapState()
 
-  console.log('>> inputCurrencyId', inputCurrencyId) // ETH
   const inputCurrency = useCurrency(inputCurrencyId)
-  console.log('inputCurrency', inputCurrency) // BNB
   const { t } = useTranslation()
   const outputCurrency = useCurrency(outputCurrencyId)
   const recipientLookup = useENS(recipient ?? undefined)

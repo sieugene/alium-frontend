@@ -73,7 +73,7 @@ const ViewMigrate: FC = () => {
           ]
         }
       })
-      console.log('--newPairs', newPairs)
+
       if (newPairs.length) {
         setPairs(newPairs)
         setSelectedPairKey(-1)
@@ -102,8 +102,6 @@ const ViewMigrate: FC = () => {
           gasPrice,
         })
         .then((response) => {
-          console.log('TransactionResponse', response)
-
           addTransaction(response, {
             summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
             approval: { tokenAddress: currentPair.addressLP, spender: account },
