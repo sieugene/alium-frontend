@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 
 const StyledRangeInput = styled.input<{ size: number }>`
@@ -109,6 +109,11 @@ interface InputSliderProps {
 
 export default function Slider({ value, onChange, min = 0, step = 1, max = 100, size = 28 }: InputSliderProps) {
   const [range, setRange] = useState(value)
+  const rangeFromLiqudity = React.useMemo(() => value, [value])
+  React.useEffect(() => {
+    setRange(rangeFromLiqudity)
+  }, [rangeFromLiqudity])
+
   const updateRange = (e: ChangeEvent<HTMLInputElement>) => {
     setRange(parseInt(e.target.value, 10))
   }
@@ -123,6 +128,7 @@ export default function Slider({ value, onChange, min = 0, step = 1, max = 100, 
       type='range'
       value={range}
       style={{ width: '100%', padding: '15px 0' }}
+      // if you need hot update when slide change updateRange to changeCallback
       onChange={updateRange}
       onMouseUp={changeCallback}
       onPointerUp={changeCallback}

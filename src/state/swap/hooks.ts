@@ -144,7 +144,8 @@ function involvesAddress(trade: Trade, checksummedAddress: string): boolean {
 export function useDerivedSwapInfo(): {
   currencies: { [field in Field]?: Currency }
   currencyBalances: { [field in Field]?: CurrencyAmount }
-  parsedAmount: CurrencyAmount | undefined
+  inputAmount: CurrencyAmount | undefined
+  outputAmount: CurrencyAmount | undefined
   v2Trade: Trade | undefined
   inputError?: string
 } {
@@ -173,10 +174,12 @@ export function useDerivedSwapInfo(): {
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(chainId, typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
-  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
-  const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
+  const inputAmount = tryParseAmount(chainId, typedValue, inputCurrency ?? undefined)
+  const outputAmount = tryParseAmount(chainId, typedValue, outputCurrency ?? undefined)
+
+  const bestTradeExactIn = useTradeExactIn(isExactIn ? inputAmount : undefined, outputAmount?.currency ?? undefined)
+  const bestTradeExactOut = useTradeExactOut(inputAmount?.currency ?? undefined, !isExactIn ? outputAmount : undefined)
 
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut
 
@@ -195,7 +198,7 @@ export function useDerivedSwapInfo(): {
     inputError = 'Connect Wallet'
   }
 
-  if (!parsedAmount) {
+  if (!inputAmount || !outputAmount) {
     inputError = inputError ?? 'Enter an amount'
   }
 
@@ -231,7 +234,8 @@ export function useDerivedSwapInfo(): {
   return {
     currencies,
     currencyBalances,
-    parsedAmount,
+    inputAmount,
+    outputAmount,
     v2Trade: v2Trade ?? undefined,
     inputError,
   }
@@ -240,7 +244,8 @@ export function useDerivedSwapInfo(): {
 export function useMigrateInfo(): {
   currencies: { [field in Field]?: Currency }
   currencyBalances: { [field in Field]?: CurrencyAmount }
-  parsedAmount: CurrencyAmount | undefined
+  inputAmount: CurrencyAmount | undefined
+  outputAmount: CurrencyAmount | undefined
   v2Trade: Trade | undefined
   inputError?: string
 } {
@@ -266,10 +271,11 @@ export function useMigrateInfo(): {
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(chainId, typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  const inputAmount = tryParseAmount(chainId, typedValue, inputCurrency ?? undefined)
+  const outputAmount = tryParseAmount(chainId, typedValue, outputCurrency ?? undefined)
 
-  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
-  const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
+  const bestTradeExactIn = useTradeExactIn(isExactIn ? inputAmount : undefined, outputAmount?.currency ?? undefined)
+  const bestTradeExactOut = useTradeExactOut(inputAmount?.currency ?? undefined, !isExactIn ? outputAmount : undefined)
 
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut
 
@@ -288,7 +294,7 @@ export function useMigrateInfo(): {
     inputError = 'Connect Wallet'
   }
 
-  if (!parsedAmount) {
+  if (!inputAmount || !outputAmount) {
     inputError = inputError ?? 'Enter an amount'
   }
 
@@ -317,14 +323,19 @@ export function useMigrateInfo(): {
     slippageAdjustedAmounts ? slippageAdjustedAmounts[Field.INPUT] : null,
   ]
 
-  if (balanceIn && parsedAmount && balanceIn.lessThan(parsedAmount)) {
+  if (balanceIn && outputAmount && balanceIn.lessThan(outputAmount)) {
+    inputError = `Insufficient balance`
+  }
+
+  if (balanceIn && inputAmount && balanceIn.lessThan(inputAmount)) {
     inputError = `Insufficient balance`
   }
 
   return {
     currencies,
     currencyBalances,
-    parsedAmount,
+    inputAmount,
+    outputAmount,
     v2Trade: v2Trade ?? undefined,
     inputError,
   }

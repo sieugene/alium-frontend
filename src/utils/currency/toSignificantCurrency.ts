@@ -1,23 +1,25 @@
 import { CurrencyAmount, Fraction, JSBI, Price } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from './../formatBalance'
+import { getFullDisplayBalance } from './../formatBalance'
 
 // toSignificant like uniswap
-export const toSignificantCurrency = (currency: CurrencyAmount | Price) => {
-  return formatCurrency(currency)
+export const toSignificantCurrency = (currency: CurrencyAmount | Price, defaultValue?: string) => {
+  return formatCurrency(currency, 6, defaultValue)
 }
 
-const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6) => {
+const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6, defVal?: string) => {
+  const defaultValue = defVal || '-'
   const RawBN = currency?.raw && new BigNumber(Number(`${currency.raw}`))
   // Dont use toString but '1.245000' make to '1.245'
-  const balance = RawBN && `${getBalanceNumber(RawBN)}`?.split('.')
+
+  const balance = RawBN && `${getFullDisplayBalance(RawBN)}`?.split('.')
   const amount = fromSplitBalance(balance, maxSub)
 
   const firstMin = '0.0010'
 
   // Undefined condition
-  if (isNaN(getBalanceNumber(RawBN)) || !amount || !currency) {
-    return '-'
+  if ((RawBN && isNaN(Number(getFullDisplayBalance(RawBN)))) || !amount || !currency) {
+    return defaultValue
   }
 
   // Zero condition
@@ -34,7 +36,7 @@ const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6) => {
     return '<0.00001'
   }
   // Make '1.245000' to '1.245'
-  return dropZero(amount) || '-'
+  return dropZero(amount) || defaultValue
 }
 
 // Split by "." max size after "." 6

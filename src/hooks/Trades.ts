@@ -86,12 +86,18 @@ export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?:
   const allowedPairs = useAllCommonPairs(currencyAmountIn?.currency, currencyOut)
 
   return useMemo(() => {
-    if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
-      return (
-        Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, { maxHops: 3, maxNumResults: 1 })[0] ?? null
-      )
+    try {
+      if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
+        return (
+          Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, { maxHops: 3, maxNumResults: 1 })[0] ??
+          null
+        )
+      }
+      return null
+    } catch (error) {
+      console.log('bestTradeExactIn', error)
+      return null
     }
-    return null
   }, [allowedPairs, currencyAmountIn, currencyOut])
 }
 
@@ -102,12 +108,17 @@ export function useTradeExactOut(currencyIn?: Currency, currencyAmountOut?: Curr
   const allowedPairs = useAllCommonPairs(currencyIn, currencyAmountOut?.currency)
 
   return useMemo(() => {
-    if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
-      return (
-        Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, { maxHops: 3, maxNumResults: 1 })[0] ??
-        null
-      )
+    try {
+      if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
+        return (
+          Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, { maxHops: 3, maxNumResults: 1 })[0] ??
+          null
+        )
+      }
+      return null
+    } catch (error) {
+      console.log('bestTradeExactOut', error)
+      return null
     }
-    return null
   }, [allowedPairs, currencyIn, currencyAmountOut])
 }

@@ -22,7 +22,7 @@ const farms: FarmConfig[] = [
     lpSymbol: 'CAKE-BNB LP',
     lpAddresses: {
       97: '0xe70b7523f4bffa1f2e88d2ba709afd026030f412',
-      56: '0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6',
+      56: '0x0ed7e52944161450477ee417de9cd3a859b14fd0',
     },
     tokenSymbol: 'CAKE',
     tokenAddresses: {
@@ -358,7 +358,7 @@ const farms: FarmConfig[] = [
   //   lpSymbol: 'USDC-BUSD LP',
   //   lpAddresses: {
   //     97: '',
-  //     56: '0x680dd100e4b394bda26a59dd5c119a391e747d18',
+  //     56: '0x2354ef4DF11afacb85a5C7f98B624072ECcddbB1',
   //   },
   //   tokenSymbol: 'USDC',
   //   tokenAddresses: {
@@ -615,7 +615,7 @@ const farms: FarmConfig[] = [
     lpSymbol: 'BUSD-BNB LP',
     lpAddresses: {
       97: '0x2f7682b64b88149ba3250aee32db712964de5fa9',
-      56: '0x1b96b92314c44b159149f7e0303511fb2fc4774f',
+      56: '0x58f876857a02d6762e0101bb5c46a8c1ed44dc16',
     },
     tokenSymbol: 'BUSD',
     tokenAddresses: {
@@ -705,7 +705,7 @@ const farms: FarmConfig[] = [
   //   lpSymbol: 'USDT-BUSD LP',
   //   lpAddresses: {
   //     97: '0xE66790075ad839978fEBa15D4d8bB2b415556a1D',
-  //     56: '0xc15fa3E22c912A276550F3E5FE3b0Deb87B55aCd',
+  //     56: '0x7EFaEf62fDdCCa950418312c6C91Aef321375A00',
   //   },
   //   tokenSymbol: 'USDT',
   //   tokenAddresses: {
@@ -750,7 +750,7 @@ const farms: FarmConfig[] = [
     lpSymbol: 'ETH-BNB LP',
     lpAddresses: {
       97: '0xE66790075ad839978fEBa15D4d8bB2b415556a1D',
-      56: '0x70D8929d04b60Af4fb9B58713eBcf18765aDE422',
+      56: '0x74E4716E431f45807DCF19f284c7aA99F18a4fbc',
     },
     tokenSymbol: 'ETH',
     tokenAddresses: {
@@ -765,7 +765,7 @@ const farms: FarmConfig[] = [
   //   lpSymbol: 'BTCB-BNB LP',
   //   lpAddresses: {
   //     97: '0xE66790075ad839978fEBa15D4d8bB2b415556a1D',
-  //     56: '0x7561EEe90e24F3b348E1087A005F78B4c8453524',
+  //     56: '0x61EB789d75A95CAa3fF50ed7E47b96c132fEc082',
   //   },
   //   tokenSymbol: 'BTC',
   //   tokenAddresses: {
@@ -795,7 +795,7 @@ const farms: FarmConfig[] = [
   //   lpSymbol: 'USDT-BNB LP',
   //   lpAddresses: {
   //     97: '0xE66790075ad839978fEBa15D4d8bB2b415556a1D',
-  //     56: '0x20bcc3b8a0091ddac2d0bc30f68e6cbb97de59cd',
+  //     56: '0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE',
   //   },
   //   tokenSymbol: 'USDT',
   //   tokenAddresses: {

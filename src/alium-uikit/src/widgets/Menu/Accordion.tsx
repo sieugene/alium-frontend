@@ -112,7 +112,10 @@ const Accordion: FC<Props> = ({
   }
 
   useOnClickOutside(accordRef, () => {
-    setIsOpen(false)
+    // timeout when click another item in menu
+    setTimeout(() => {
+      setIsOpen(false)
+    }, 150)
   })
   return (
     <Container isOpen={isOpen} ref={accordRef} active={active} ispushed={ispushed}>
