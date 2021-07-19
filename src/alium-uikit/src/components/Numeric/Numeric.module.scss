@@ -1,0 +1,24 @@
+.numeric {
+  span {
+    height: 100% !important;
+  }
+}
+.controls {
+  b {
+    // right: 10px !important;
+    // width: 20px !important;
+    // height: 20px !important;
+    // width: 2ex !important;
+    height: 15px !important;
+    width: 15px !important;
+  }
+  b {
+    right: 16px !important;
+  }
+  b:first-of-type {
+    top: 10px !important;
+  }
+  b:last-of-type {
+    top: 25px !important;
+  }
+}

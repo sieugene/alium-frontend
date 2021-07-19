@@ -1,4 +1,5 @@
-import { Input, Text } from 'alium-uikit/src'
+import { Text } from 'alium-uikit/src'
+import Numeric from 'alium-uikit/src/components/Numeric'
 import { useTranslation } from 'next-i18next'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useUserDeadline } from 'state/user/hooks'
@@ -31,11 +32,6 @@ const Label = styled.div`
 const Field = styled.div`
   display: flex;
   align-items: center;
-  & > ${Input} {
-    width: 100%;
-    max-width: 301.7px;
-    height: 48px;
-  }
 
   & > ${Text} {
     min-width: 52px;
@@ -78,7 +74,18 @@ const TransactionDeadlineSetting = () => {
         <QuestionHelper text={t('questionHelperMessages.transactionRevertPending')} />
       </Label>
       <Field>
-        <Input type='number' step='1' min='1' value={value} onChange={handleChange} />
+        <Numeric
+          type='number'
+          step='1'
+          min='1'
+          value={value}
+          onChange={handleChange}
+          style={{
+            width: '100%',
+            maxWidth: '301.7px',
+            height: '48px',
+          }}
+        />
         <Text color={theme.colors.textSubtle}>{t('minutes')}</Text>
       </Field>
       {error && (
