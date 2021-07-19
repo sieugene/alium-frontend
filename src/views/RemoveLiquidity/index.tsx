@@ -443,13 +443,13 @@ export const RemoveLiquidity: FC = () => {
                 Price
               </Text>
               <Text fontSize='11px' color='#6C5DD3'>
-                1 {currencyA?.symbol} = {tokenA ? toSignificantCurrency(pair.priceOf(tokenA)) : '-'} {currencyB?.symbol}
+                1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
               </Text>
             </RowBetween>
             <RowBetween>
               <div />
               <Text fontSize='11px' color='#6C5DD3'>
-                1 {currencyB?.symbol} = {tokenB ? toSignificantCurrency(pair.priceOf(tokenB)) : '-'} {currencyA?.symbol}
+                1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
               </Text>
             </RowBetween>
           </StyledPriceContainer>
@@ -725,20 +725,19 @@ export const RemoveLiquidity: FC = () => {
                 currencyB={currencyB}
                 handleSelectCurrencyB={handleSelectCurrencyB}
               />
+
               {pair && (
                 <div style={{ padding: '32px 0' }}>
                   <Flex justifyContent='space-between' mb='8px'>
                     <Text style={{ color: '#8990A5', fontSize: '14px', fontWeight: 500 }}>Price:</Text>
                     <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
-                      1 {currencyA?.symbol} = {tokenA ? toSignificantCurrency(pair.priceOf(tokenA)) : '-'}{' '}
-                      {currencyB?.symbol}
+                      1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
                     </Text>
                   </Flex>
                   <Flex justifyContent='space-between'>
                     <div />
                     <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
-                      1 {currencyB?.symbol} = {tokenB ? toSignificantCurrency(pair.priceOf(tokenB)) : '-'}{' '}
-                      {currencyA?.symbol}
+                      1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
                     </Text>
                   </Flex>
                 </div>
