@@ -120,7 +120,14 @@ const Swap = () => {
   const { independentField, typedValue, recipient } = useSwapState()
   const derivedSwapInfo = useDerivedSwapInfo()
   console.log('derivedSwapInfo', derivedSwapInfo)
-  const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = derivedSwapInfo
+  const {
+    v2Trade,
+    currencyBalances,
+    inputAmount,
+    outputAmount,
+    currencies,
+    inputError: swapInputError,
+  } = derivedSwapInfo
 
   const {
     wrapType,
@@ -133,12 +140,12 @@ const Swap = () => {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
+        [Field.INPUT]: inputAmount,
+        [Field.OUTPUT]: outputAmount,
       }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+        [Field.INPUT]: independentField === Field.INPUT ? inputAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? outputAmount : trade?.outputAmount,
       }
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
@@ -177,7 +184,7 @@ const Swap = () => {
     [independentField]: typedValue,
     [dependentField]: showWrap
       ? parsedAmounts[independentField]?.toExact() ?? ''
-      : toSignificantCurrency(parsedAmounts[dependentField], "0.0") ?? '',
+      : toSignificantCurrency(parsedAmounts[dependentField], '0.0') ?? '',
   }
 
   const route = trade?.route
