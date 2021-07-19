@@ -163,8 +163,6 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
   const TEMP_CONDITION_FOR_21_JULY = formattedTime === '21th July 2021'
   const addingAWeek = Number(original_timestamp) + 604800
   const extensionUpToAWeekTimeStamp = TEMP_CONDITION_FOR_21_JULY ? addingAWeek.toString() : original_timestamp
-  // console.log('TIMESTAMP_ORIGINAL', original_timestamp)
-  // console.log('TIMESTAMP_CHANGED', extensionUpToAWeekTimeStamp)
   // end
   const total = ethers.utils.formatEther(pool.total || BigNumber.from(0))
   const locked = ethers.utils.formatEther(pool.locked || BigNumber.from(0))

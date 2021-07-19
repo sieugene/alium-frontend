@@ -50,15 +50,16 @@ const ViewMigrate: FC = () => {
     const fetchAllBalances = async () => {
       const lpt = currentNetwork.liquidityProviderTokens
       const calls = lpt.map(({ tokenLP }) => ({
-        address: currentNetwork.address.vampiring,
+        address: tokenLP.address,
         name: 'balanceOf',
-        params: [tokenLP.address],
+        params: [account],
       }))
       const res = await multicall(ERC20_ABI, calls)
 
       let newPairs = []
       res?.returnData?.forEach((el, key) => {
-        if (el !== '0x') {
+        const balance = el === '0x' ? 0 : parseInt(el, 16) * 0.000000000000000001
+        if (balance > 0) {
           newPairs = [
             ...newPairs,
             {
@@ -67,11 +68,12 @@ const ViewMigrate: FC = () => {
               symbolB: lpt[key].tokenB.symbol.toUpperCase(),
               addressLP: lpt[key].tokenLP.address,
               exchange: lpt[key].exchange,
-              balance: parseInt(el, 16),
+              balance,
             },
           ]
         }
       })
+
       if (newPairs.length) {
         setPairs(newPairs)
         setSelectedPairKey(-1)
@@ -100,8 +102,6 @@ const ViewMigrate: FC = () => {
           gasPrice,
         })
         .then((response) => {
-          console.log('TransactionResponse', response)
-
           addTransaction(response, {
             summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
             approval: { tokenAddress: currentPair.addressLP, spender: account },

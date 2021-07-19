@@ -50,7 +50,7 @@ const GTM = {
 
 const gtmLogger = (log: string, param?: {}) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(
+    console.info(
       '%c GTM ',
       'background: #222; color: #bada55',
       `EVENT - ${log} - PARAM / ${JSON.stringify(param) || ''}`,

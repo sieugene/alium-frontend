@@ -146,7 +146,7 @@ export function useDerivedMintInfo(
       try {
         return pair.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
       } catch (error) {
-        console.log(error)
+        console.error(error)
         return undefined
       }
     }
