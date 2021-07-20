@@ -145,21 +145,23 @@ const ViewMigrate: FC = () => {
                     setIsSuccessful(true)
                     setStep(4)
                   })
-                  .catch((err) => {
+                  .catch((err: Error) => {
+                    setIsSuccessful(false)
+                    setStep(4)
                     console.error(err)
-                    setIsSuccessful(true)
-                    setStep(3)
                   })
               })
-              .catch((err) => {
+              .catch((err: Error) => {
+                setIsSuccessful(false)
+                setStep(4)
                 console.error(err)
-                setIsSuccessful(true)
-                setStep(3)
               })
           })
-          .catch((error: Error) => {
-            console.error('Failed to approve token', error)
-            throw error
+          .catch((err: Error) => {
+            setIsSuccessful(false)
+            setStep(4)
+            console.error(err)
+            throw err
           })
       }
     }
