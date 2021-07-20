@@ -1,10 +1,10 @@
 import { BscConnector } from '@binance-chain/bsc-connector'
-import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { ConnectorNames } from 'alium-uikit/src'
 import { networksDev, networksProd } from 'alium-uikit/src/widgets/WalletModal/config'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import Web3 from 'web3'
+import { Web3InjectedConnector } from '../connectors/injected/Web3InjectedConnector'
 
 export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const POLLING_INTERVAL = 12000
@@ -16,7 +16,7 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const supported = networks.find((network) => network.chainId === currentChainId)
   const supportedId = supported?.chainId
 
-  const injected = new InjectedConnector({ supportedChainIds: [supportedId] })
+  const injected = new Web3InjectedConnector({ supportedChainIds: [supportedId] })
 
   const walletconnect = new WalletConnectConnector({
     rpc: { [supportedId]: networkRpcUrl as string },
@@ -30,7 +30,7 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const connectorsByName: { [connectorName in ConnectorNames]: any } = {
     [ConnectorNames.Injected]: injected,
     [ConnectorNames.WalletConnect]: walletconnect,
-    [ConnectorNames.BSC]: bscConnector
+    [ConnectorNames.BSC]: bscConnector,
   }
 
   return { chainId: supportedId, connector: connectorsByName[connectorID] }

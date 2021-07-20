@@ -48,8 +48,7 @@ const useAuth = () => {
                 }
               } else {
                 // if ethereum change network in wallet
-                const messageErr =
-                  chainId === 1 || chainId === 4 ? WEB3NetworkErrors.CANTSETUP_IN_WALLET : WEB3NetworkErrors.CANTSETUP
+                const messageErr = WEB3NetworkErrors.CANTSETUP
                 toastError(messageErr)
                 setConnectionError(messageErr)
                 deactivate()
