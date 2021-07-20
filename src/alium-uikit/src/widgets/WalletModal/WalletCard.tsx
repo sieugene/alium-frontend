@@ -79,7 +79,7 @@ const WalletCard: FC<Props> = ({ login, walletConfig, onDismiss, selected, setSe
       setSelectedWallet(title)
       onDismiss()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     } finally {
       setconnectionLoad(false)
     }

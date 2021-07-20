@@ -1,4 +1,4 @@
-import { ChainId, Currency, currencyEquals, Percent, ROUTER_ADDRESS, WETH } from '@alium-official/sdk'
+import { ChainId, Currency, currencyEquals, Pair, Percent, ROUTER_ADDRESS, WETH } from '@alium-official/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
@@ -16,7 +16,7 @@ import { useCurrency } from 'hooks/Tokens'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { usePairContract } from 'hooks/useContract'
 import { useRouter } from 'next/router'
-import { FC, useCallback, useMemo, useState } from 'react'
+import React, { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
 import { ROUTES } from 'routes'
 import { Field } from 'state/burn/actions'
@@ -88,6 +88,16 @@ const Receive = styled(StyledInternalLink)`
   letter-spacing: 1px;
   color: #6c5dd3;
   margin-top: 16px;
+`
+
+const StyledWrapper = styled(Wrapper)`
+  margin-top: 0;
+`
+
+const StyledPriceContainer = styled.div`
+  background-color: #f4f5fa;
+  border-radius: 6px;
+  padding: 6px 8px;
 `
 
 export const RemoveLiquidity: FC = () => {
@@ -412,12 +422,6 @@ export const RemoveLiquidity: FC = () => {
     )
   }
 
-  const StyledPriceContainer = styled.div`
-    background-color: #f4f5fa;
-    border-radius: 6px;
-    padding: 6px 8px;
-  `
-
   const modalBottom = () => {
     return (
       <>
@@ -439,13 +443,13 @@ export const RemoveLiquidity: FC = () => {
                 Price
               </Text>
               <Text fontSize='11px' color='#6C5DD3'>
-                1 {currencyA?.symbol} = {tokenA ? toSignificantCurrency(pair.priceOf(tokenA)) : '-'} {currencyB?.symbol}
+                1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
               </Text>
             </RowBetween>
             <RowBetween>
               <div />
               <Text fontSize='11px' color='#6C5DD3'>
-                1 {currencyB?.symbol} = {tokenB ? toSignificantCurrency(pair.priceOf(tokenB)) : '-'} {currencyA?.symbol}
+                1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
               </Text>
             </RowBetween>
           </StyledPriceContainer>
@@ -515,10 +519,6 @@ export const RemoveLiquidity: FC = () => {
     Number.parseInt(parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0), 10),
     liquidityPercentChangeCallback,
   )
-
-  const StyledWrapper = styled(Wrapper)`
-    margin-top: 0;
-  `
 
   return (
     <>
@@ -711,72 +711,33 @@ export const RemoveLiquidity: FC = () => {
               </>
             )}
             <Body style={{ padding: '24px' }}>
-              {showDetailed && (
-                <>
-                  <CurrencyInputPanel
-                    value={formattedAmounts[Field.LIQUIDITY]}
-                    onUserInput={onLiquidityInput}
-                    onMax={() => {
-                      onUserInput(Field.LIQUIDITY_PERCENT, '100')
-                    }}
-                    showMaxButton={!atMaxAmount}
-                    disableCurrencySelect
-                    currency={pair?.liquidityToken}
-                    pair={pair}
-                    label='From'
-                    id='liquidity-amount'
-                    customHeight={43}
-                  />
-                  <ColumnCenter>
-                    <StyledTextAddIcon>
-                      <ArrowDown size='12' color='#6C5DD3' />
-                    </StyledTextAddIcon>
-                  </ColumnCenter>
-                  <CurrencyInputPanel
-                    hideBalance
-                    value={formattedAmounts[Field.CURRENCY_A]}
-                    onUserInput={onCurrencyAInput}
-                    onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
-                    showMaxButton={!atMaxAmount}
-                    currency={currencyA}
-                    label='Output'
-                    onCurrencySelect={handleSelectCurrencyA}
-                    id='remove-liquidity-tokena'
-                    customHeight={43}
-                  />
-                  <ColumnCenter>
-                    <StyledTextAddIcon>
-                      <AddIcon color='#6C5DD3' width='12px' />
-                    </StyledTextAddIcon>
-                  </ColumnCenter>
-                  <CurrencyInputPanel
-                    hideBalance
-                    value={formattedAmounts[Field.CURRENCY_B]}
-                    onUserInput={onCurrencyBInput}
-                    onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
-                    showMaxButton={!atMaxAmount}
-                    currency={currencyB}
-                    label='Output'
-                    onCurrencySelect={handleSelectCurrencyB}
-                    id='remove-liquidity-tokenb'
-                    customHeight={43}
-                  />
-                </>
-              )}
+              <Detailed
+                showDetailed={showDetailed}
+                formattedAmounts={formattedAmounts}
+                onLiquidityInput={onLiquidityInput}
+                onUserInput={onUserInput}
+                atMaxAmount={atMaxAmount}
+                pair={pair}
+                currencyA={currencyA}
+                handleSelectCurrencyA={handleSelectCurrencyA}
+                onCurrencyBInput={onCurrencyBInput}
+                onCurrencyAInput={onCurrencyAInput}
+                currencyB={currencyB}
+                handleSelectCurrencyB={handleSelectCurrencyB}
+              />
+
               {pair && (
                 <div style={{ padding: '32px 0' }}>
                   <Flex justifyContent='space-between' mb='8px'>
                     <Text style={{ color: '#8990A5', fontSize: '14px', fontWeight: 500 }}>Price:</Text>
                     <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
-                      1 {currencyA?.symbol} = {tokenA ? toSignificantCurrency(pair.priceOf(tokenA)) : '-'}{' '}
-                      {currencyB?.symbol}
+                      1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
                     </Text>
                   </Flex>
                   <Flex justifyContent='space-between'>
                     <div />
                     <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
-                      1 {currencyB?.symbol} = {tokenB ? toSignificantCurrency(pair.priceOf(tokenB)) : '-'}{' '}
-                      {currencyA?.symbol}
+                      1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
                     </Text>
                   </Flex>
                 </div>
@@ -829,3 +790,97 @@ export const RemoveLiquidity: FC = () => {
     </>
   )
 }
+
+interface DetailedProps {
+  showDetailed: boolean
+  formattedAmounts: {
+    LIQUIDITY_PERCENT: string
+    LIQUIDITY: string
+    CURRENCY_A: string
+    CURRENCY_B: string
+  }
+  onLiquidityInput: (val: string) => void
+  onUserInput: (field: Field, val: string) => void
+  atMaxAmount: boolean
+  pair: Pair
+  onCurrencyAInput: (val: string) => void
+  currencyA: Currency
+  handleSelectCurrencyA: (currency: Currency) => void
+  onCurrencyBInput: (val: string) => void
+  currencyB: Currency
+  handleSelectCurrencyB: (currency: Currency) => void
+}
+const Detailed: FC<DetailedProps> = React.memo(
+  ({
+    showDetailed,
+    formattedAmounts,
+    onLiquidityInput,
+    onUserInput,
+    atMaxAmount,
+    pair,
+    currencyA,
+    handleSelectCurrencyA,
+    onCurrencyBInput,
+    onCurrencyAInput,
+    currencyB,
+    handleSelectCurrencyB,
+  }) => {
+    return (
+      <>
+        {showDetailed && (
+          <>
+            <CurrencyInputPanel
+              value={formattedAmounts[Field.LIQUIDITY]}
+              onUserInput={onLiquidityInput}
+              onMax={() => {
+                onUserInput(Field.LIQUIDITY_PERCENT, '100')
+              }}
+              showMaxButton={!atMaxAmount}
+              disableCurrencySelect
+              currency={pair?.liquidityToken}
+              pair={pair}
+              label='From'
+              id='liquidity-amount'
+              customHeight={43}
+              key='liquidity-amount'
+            />
+            <ColumnCenter>
+              <StyledTextAddIcon>
+                <ArrowDown size='12' color='#6C5DD3' />
+              </StyledTextAddIcon>
+            </ColumnCenter>
+            <CurrencyInputPanel
+              hideBalance
+              value={formattedAmounts[Field.CURRENCY_A]}
+              onUserInput={onCurrencyAInput}
+              onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
+              showMaxButton={!atMaxAmount}
+              currency={currencyA}
+              label='Output'
+              onCurrencySelect={handleSelectCurrencyA}
+              id='remove-liquidity-tokena'
+              customHeight={43}
+            />
+            <ColumnCenter>
+              <StyledTextAddIcon>
+                <AddIcon color='#6C5DD3' width='12px' />
+              </StyledTextAddIcon>
+            </ColumnCenter>
+            <CurrencyInputPanel
+              hideBalance
+              value={formattedAmounts[Field.CURRENCY_B]}
+              onUserInput={onCurrencyBInput}
+              onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
+              showMaxButton={!atMaxAmount}
+              currency={currencyB}
+              label='Output'
+              onCurrencySelect={handleSelectCurrencyB}
+              id='remove-liquidity-tokenb'
+              customHeight={43}
+            />
+          </>
+        )}
+      </>
+    )
+  },
+)

@@ -3,7 +3,15 @@ import { storeNetwork } from 'store/network/useStoreNetwork'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
   const { nativeCurrency } = storeNetwork.getState().networkProviderParams
-  return chainId && currency === nativeCurrency ? WETH[chainId] : currency instanceof Token ? currency : undefined
+  // currency === nativeCurrency, not be equal but Object and instance not equal, check by symbol
+  // const token =
+  //   chainId && currency?.symbol === nativeCurrency?.symbol
+  //     ? WETH[chainId]
+  //     : currency instanceof Token
+  //     ? currency
+  //     : undefined
+  const isEth = Boolean(currency?.symbol === nativeCurrency?.symbol) || Boolean(currency === nativeCurrency)
+  return chainId && isEth ? WETH[chainId] : currency instanceof Token ? currency : undefined
 }
 
 export function wrappedCurrencyAmount(
@@ -11,7 +19,8 @@ export function wrappedCurrencyAmount(
   chainId: ChainId | undefined,
 ): TokenAmount | undefined {
   const token = currencyAmount && chainId ? wrappedCurrency(currencyAmount.currency, chainId) : undefined
-  return token && currencyAmount ? new TokenAmount(token, currencyAmount.raw) : undefined
+  const wrapped = token && currencyAmount ? new TokenAmount(token, currencyAmount.raw) : undefined
+  return wrapped
 }
 
 export function unwrappedToken(token: Token): Currency {

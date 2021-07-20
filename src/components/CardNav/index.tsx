@@ -1,6 +1,6 @@
 import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
@@ -14,11 +14,11 @@ const StyledNav = styled.div`
   > div {
     padding: 8px;
   }
-  > div > a {
+  /* > div > a {
     height: 40px;
     width: 140px;
     font-size: 14px;
-  }
+  } */
 
   @media screen and (max-width: 768px) {
     > h1 {
@@ -43,19 +43,15 @@ const StyledNav = styled.div`
 
 interface props {
   activeIndex?: number
-  isWithMigrate?: boolean
 }
 
-export const CardNav: FC<props> = ({ activeIndex = 0, isWithMigrate = false }) => {
+export const CardNav: FC<props> = ({ activeIndex = 0 }) => {
   const { t } = useTranslation()
-  const [state, setState] = useState([
+  const routes = [
     { href: ROUTES.exchange, title: t('swap') },
     { href: ROUTES.pool, title: t('mainMenu.liquidity') },
-  ])
-
-  useEffect(() => {
-    isWithMigrate && setState((prevState) => [...prevState, { href: ROUTES.migrate, title: 'Migrate' }])
-  }, [])
+    // { href: ROUTES.migrate, title: 'Migrate' },
+  ]
 
   return (
     <Flex alignItems='flex-start'>
@@ -64,7 +60,7 @@ export const CardNav: FC<props> = ({ activeIndex = 0, isWithMigrate = false }) =
           {t('mainMenu.trade')}
         </Heading>
         <ButtonMenu size='md' variant='primary' activeIndex={activeIndex}>
-          {state.map(({ href, title }) => (
+          {routes.map(({ href, title }) => (
             <ButtonMenuItem href={href} key={href} as='a'>
               {title}
             </ButtonMenuItem>

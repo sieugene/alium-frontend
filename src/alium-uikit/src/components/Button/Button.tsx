@@ -11,13 +11,13 @@ const LinkWrapped: FC<{ as: ButtonProps['as']; href?: string; id?: string }> = (
   return <>{children}</>
 }
 
-const Button: FC<ButtonProps> = ({ startIcon, endIcon, children, external, isloading, disabled, ...props }) => {
+const Button: FC<ButtonProps> = ({ startIcon, endIcon, children, external, as, isloading, disabled, ...props }) => {
   const internalProps = external ? getExternalLinkProps() : {}
   const isDisabled = isloading || disabled
 
   return (
-    <StyledButton {...internalProps} {...props} isloading={isloading} disabled={isDisabled} as={null}>
-      <LinkWrapped as={props.as} href={props.href}>
+    <StyledButton {...internalProps} {...props} isloading={isloading} disabled={isDisabled} as={as || null}>
+      <LinkWrapped as={as} href={props.href}>
         {isValidElement(startIcon) &&
           cloneElement(startIcon, {
             mr: '0.5rem',

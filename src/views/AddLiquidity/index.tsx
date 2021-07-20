@@ -96,7 +96,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   // get formatted amounts
   const formattedAmounts = {
     [independentField]: typedValue,
-    [dependentField]: noLiquidity ? otherTypedValue : toSignificantCurrency(parsedAmounts[dependentField]) ?? '',
+    [dependentField]: noLiquidity ? otherTypedValue : toSignificantCurrency(parsedAmounts[dependentField], '0.0') ?? '',
   }
 
   // get the max amounts user can add
@@ -235,7 +235,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           setError(e)
         }
         setAttemptingTxn(false)
-        console.log('-----Error when adding liqudity-----', e)
+        console.error('-----Error when adding liqudity-----', e)
 
         // we only care if the error is something _other_ than the user rejected the tx
         if (e?.code !== 4001) {

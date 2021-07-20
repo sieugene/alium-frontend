@@ -2,10 +2,10 @@ import { Currency, currencyEquals, Token } from '@alium-official/sdk'
 import { parseBytes32String } from '@ethersproject/strings'
 import { useMemo } from 'react'
 import { useSelectedTokenList } from 'state/lists/hooks'
-import { useUserAddedTokens } from 'state/user/hooks'
 import { NEVER_RELOAD, useSingleCallResult } from 'state/multicall/hooks'
-import { storeNetwork } from 'store/network/useStoreNetwork'
+import { useUserAddedTokens } from 'state/user/hooks'
 import { isAddress } from 'utils'
+import { useStoreNetwork } from './../store/network/useStoreNetwork'
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
@@ -53,9 +53,6 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
 // null if loading
 // otherwise returns the token
 export function useToken(tokenAddress?: string): Token | undefined | null {
-  // console.log('-----------------')
-  // console.log('tokenAddress', tokenAddress)
-  // console.log('-----------------')
   const { chainId } = useActiveWeb3React()
   const tokens = useAllTokens()
 
@@ -108,6 +105,6 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
   const isETH = currencyId?.toUpperCase() === 'ETH'
   const token = useToken(isETH ? null : currencyId)
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const nativeCurrency = useStoreNetwork((state) => state.networkProviderParams?.nativeCurrency)
   return isETH ? nativeCurrency : token
 }

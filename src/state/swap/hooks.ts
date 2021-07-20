@@ -17,6 +17,8 @@ import useParsedQueryString from '../../hooks/useParsedQueryString'
 import { AppDispatch, AppState } from '../index'
 import { useUserSlippageTolerance } from '../user/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
+import { useStoreNetwork } from './../../store/network/useStoreNetwork'
+import { getCurrencyEther } from './../../utils/common/getCurrencyEther'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { SwapState } from './reducer'
 
@@ -102,16 +104,19 @@ export function useMigrateActionHandlers(): {
 }
 
 // try to parse a user entered amount for a given token
-export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmount | undefined {
+export function tryParseAmount(chainId: number, value?: string, currency?: Currency): CurrencyAmount | undefined {
   if (!value || !currency) {
     return undefined
   }
   try {
     const typedValueParsed = parseUnits(value, currency.decimals).toString()
     if (typedValueParsed !== '0') {
-      return currency instanceof Token
-        ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
-        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed))
+      const ether = getCurrencyEther(chainId)
+      const token =
+        currency instanceof Token
+          ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
+          : new TokenAmount(ether, JSBI.BigInt(typedValueParsed))
+      return token
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
@@ -139,11 +144,13 @@ function involvesAddress(trade: Trade, checksummedAddress: string): boolean {
 export function useDerivedSwapInfo(): {
   currencies: { [field in Field]?: Currency }
   currencyBalances: { [field in Field]?: CurrencyAmount }
-  parsedAmount: CurrencyAmount | undefined
+  inputAmount: CurrencyAmount | undefined
+  outputAmount: CurrencyAmount | undefined
   v2Trade: Trade | undefined
   inputError?: string
 } {
   const { account } = useActiveWeb3React()
+  const chainId = useStoreNetwork((state) => state.currentChainId)
 
   const {
     independentField,
@@ -153,9 +160,7 @@ export function useDerivedSwapInfo(): {
     recipient,
   } = useSwapState()
 
-  console.log('>> inputCurrencyId', inputCurrencyId) // ETH
   const inputCurrency = useCurrency(inputCurrencyId)
-  console.log('inputCurrency', inputCurrency) // BNB
   const { t } = useTranslation()
   const outputCurrency = useCurrency(outputCurrencyId)
   const recipientLookup = useENS(recipient ?? undefined)
@@ -167,10 +172,12 @@ export function useDerivedSwapInfo(): {
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
-  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
-  const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
+  const inputAmount = tryParseAmount(chainId, typedValue, inputCurrency ?? undefined)
+  const outputAmount = tryParseAmount(chainId, typedValue, outputCurrency ?? undefined)
+
+  const bestTradeExactIn = useTradeExactIn(isExactIn ? inputAmount : undefined, outputAmount?.currency ?? undefined)
+  const bestTradeExactOut = useTradeExactOut(inputAmount?.currency ?? undefined, !isExactIn ? outputAmount : undefined)
 
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut
 
@@ -189,7 +196,7 @@ export function useDerivedSwapInfo(): {
     inputError = 'Connect Wallet'
   }
 
-  if (!parsedAmount) {
+  if (!inputAmount || !outputAmount) {
     inputError = inputError ?? 'Enter an amount'
   }
 
@@ -225,7 +232,8 @@ export function useDerivedSwapInfo(): {
   return {
     currencies,
     currencyBalances,
-    parsedAmount,
+    inputAmount,
+    outputAmount,
     v2Trade: v2Trade ?? undefined,
     inputError,
   }
@@ -234,11 +242,13 @@ export function useDerivedSwapInfo(): {
 export function useMigrateInfo(): {
   currencies: { [field in Field]?: Currency }
   currencyBalances: { [field in Field]?: CurrencyAmount }
-  parsedAmount: CurrencyAmount | undefined
+  inputAmount: CurrencyAmount | undefined
+  outputAmount: CurrencyAmount | undefined
   v2Trade: Trade | undefined
   inputError?: string
 } {
   const { account } = useActiveWeb3React()
+  const chainId = useStoreNetwork((state) => state.currentChainId)
 
   const {
     independentField,
@@ -259,10 +269,11 @@ export function useMigrateInfo(): {
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  const inputAmount = tryParseAmount(chainId, typedValue, inputCurrency ?? undefined)
+  const outputAmount = tryParseAmount(chainId, typedValue, outputCurrency ?? undefined)
 
-  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
-  const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
+  const bestTradeExactIn = useTradeExactIn(isExactIn ? inputAmount : undefined, outputAmount?.currency ?? undefined)
+  const bestTradeExactOut = useTradeExactOut(inputAmount?.currency ?? undefined, !isExactIn ? outputAmount : undefined)
 
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut
 
@@ -281,7 +292,7 @@ export function useMigrateInfo(): {
     inputError = 'Connect Wallet'
   }
 
-  if (!parsedAmount) {
+  if (!inputAmount || !outputAmount) {
     inputError = inputError ?? 'Enter an amount'
   }
 
@@ -310,14 +321,19 @@ export function useMigrateInfo(): {
     slippageAdjustedAmounts ? slippageAdjustedAmounts[Field.INPUT] : null,
   ]
 
-  if (balanceIn && parsedAmount && balanceIn.lessThan(parsedAmount)) {
+  if (balanceIn && outputAmount && balanceIn.lessThan(outputAmount)) {
+    inputError = `Insufficient balance`
+  }
+
+  if (balanceIn && inputAmount && balanceIn.lessThan(inputAmount)) {
     inputError = `Insufficient balance`
   }
 
   return {
     currencies,
     currencyBalances,
-    parsedAmount,
+    inputAmount,
+    outputAmount,
     v2Trade: v2Trade ?? undefined,
     inputError,
   }

@@ -4,11 +4,12 @@ import { useTotalSupply } from 'data/TotalSupply'
 import { useActiveWeb3React } from 'hooks'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeNetwork } from 'store/network/useStoreNetwork'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { wrappedCurrency, wrappedCurrencyAmount } from 'utils/wrappedCurrency'
 import { AppDispatch, AppState } from '../index'
 import { tryParseAmount } from '../swap/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
+import { getCurrencyEther } from './../../utils/common/getCurrencyEther'
 import { Field, typeInput } from './actions'
 
 const ZERO = JSBI.BigInt(0)
@@ -33,8 +34,9 @@ export function useDerivedMintInfo(
   poolTokenPercentage?: Percent
   error?: string
 } {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
-  const { account, chainId } = useActiveWeb3React()
+  const nativeCurrency = useStoreNetwork((state) => state.networkProviderParams?.nativeCurrency)
+  const { account } = useActiveWeb3React()
+  const chainId = useStoreNetwork((state) => state.currentChainId)
 
   const { independentField, typedValue, otherTypedValue } = useMintState()
 
@@ -67,11 +69,17 @@ export function useDerivedMintInfo(
   }
 
   // amounts
-  const independentAmount: CurrencyAmount | undefined = tryParseAmount(typedValue, currencies[independentField])
+  const independentAmount: CurrencyAmount | undefined = tryParseAmount(
+    chainId,
+    typedValue,
+    currencies[independentField],
+  )
+
+  // check?
   const dependentAmount: CurrencyAmount | undefined = useMemo(() => {
     if (noLiquidity) {
       if (otherTypedValue && currencies[dependentField]) {
-        return tryParseAmount(otherTypedValue, currencies[dependentField])
+        return tryParseAmount(chainId, otherTypedValue, currencies[dependentField])
       }
       return undefined
     }
@@ -79,25 +87,41 @@ export function useDerivedMintInfo(
       // we wrap the currencies just to get the price in terms of the other token
       const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId)
       const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
+
       if (tokenA && tokenB && wrappedIndependentAmount && pair) {
+        const Ether = getCurrencyEther(chainId)
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
         const dependentTokenAmount =
           dependentField === Field.CURRENCY_B
             ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
             : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
         return dependentCurrency === nativeCurrency
-          ? CurrencyAmount.ether(dependentTokenAmount.raw)
+          ? new TokenAmount(Ether, dependentTokenAmount.raw)
           : dependentTokenAmount
       }
       return undefined
     }
     return undefined
-  }, [noLiquidity, otherTypedValue, currencies, dependentField, independentAmount, currencyA, chainId, currencyB, pair])
+  }, [
+    noLiquidity,
+    independentAmount,
+    otherTypedValue,
+    currencies,
+    dependentField,
+    chainId,
+    currencyA,
+    currencyB,
+    pair,
+    nativeCurrency,
+  ])
 
-  const parsedAmounts: { [field in Field]: CurrencyAmount | undefined } = {
-    [Field.CURRENCY_A]: independentField === Field.CURRENCY_A ? independentAmount : dependentAmount,
-    [Field.CURRENCY_B]: independentField === Field.CURRENCY_A ? dependentAmount : independentAmount,
-  }
+  const parsedAmounts: { [field in Field]: CurrencyAmount | undefined } = useMemo(
+    () => ({
+      [Field.CURRENCY_A]: independentField === Field.CURRENCY_A ? independentAmount : dependentAmount,
+      [Field.CURRENCY_B]: independentField === Field.CURRENCY_A ? dependentAmount : independentAmount,
+    }),
+    [dependentAmount, independentAmount, independentField],
+  )
 
   const price = useMemo(() => {
     if (noLiquidity) {
@@ -122,7 +146,7 @@ export function useDerivedMintInfo(
       try {
         return pair.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
       } catch (error) {
-        console.log(error)
+        console.error(error)
         return undefined
       }
     }

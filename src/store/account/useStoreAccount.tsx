@@ -29,7 +29,7 @@ export const useStoreAccount = create<StoreAccountState>(storeAccount)
 // subscribe for changes
 const unsubscribe = useStoreAccount.subscribe(
   (currentAccountAddress, prevAccountAddress) =>
-    console.log(
+    console.info(
       `%c account changed from: "${prevAccountAddress}", to: "${currentAccountAddress}"`,
       'background: #006297; color: #c4ff5c',
     ),

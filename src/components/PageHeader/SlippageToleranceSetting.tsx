@@ -1,4 +1,5 @@
-import { ButtonMenu, ButtonMenuItem, Flex, Input, Text } from 'alium-uikit/src'
+import { ButtonMenu, ButtonMenuItem, Flex, Text } from 'alium-uikit/src'
+import Numeric from 'alium-uikit/src/components/Numeric'
 import { useTranslation } from 'next-i18next'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useUserSlippageTolerance } from 'state/user/hooks'
@@ -16,11 +17,6 @@ const StyledSlippageToleranceSettings = styled.div`
 const Field = styled.div`
   display: flex;
   align-items: center;
-
-  & > ${Input} {
-    max-width: 325.7px;
-    width: 100%;
-  }
 
   & > ${Text} {
     width: 52px;
@@ -157,7 +153,7 @@ const SlippageToleranceSettings = () => {
         <PercentInputWrapper>
           <Flex alignItems='center'>
             <Field style={{ width: '100%' }}>
-              <Input
+              <Numeric
                 type='number'
                 scale='lg'
                 step={0.1}
@@ -166,6 +162,11 @@ const SlippageToleranceSettings = () => {
                 value={value}
                 onChange={handleChange}
                 isWarning={error !== null}
+                style={{
+                  maxWidth: '325.7px',
+                  width: '100%',
+                  height: '48px',
+                }}
               />
               <Text color={theme.colors.textSubtle} fontSize='18px' style={{ width: 'auto' }}>
                 %
