@@ -50,7 +50,7 @@ export const CardNav: FC<props> = ({ activeIndex = 0 }) => {
   const routes = [
     { href: ROUTES.exchange, title: t('swap') },
     { href: ROUTES.pool, title: t('mainMenu.liquidity') },
-    { href: ROUTES.migrate, title: 'Migrate' },
+    // { href: ROUTES.migrate, title: 'Migrate' },
   ]
 
   return (

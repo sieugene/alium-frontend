@@ -33,7 +33,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
       items: [
         { label: t('swap'), href: ROUTES.exchange },
         { label: t('mainMenu.liquidity'), href: ROUTES.pool },
-        { label: 'Migrate', href: ROUTES.migrate },
+        // { label: 'Migrate', href: ROUTES.migrate },
       ],
     },
     { label: 'Token holder area', icon: 'PrivateRoundIcon', href: ROUTES.tokenHolderArea },
