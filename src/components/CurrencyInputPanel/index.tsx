@@ -40,6 +40,7 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
 
 const LabelRow = styled.div`
   width: -webkit-fill-available;
+  width: -moz-available;
   position: absolute;
   padding: 4px 0.75rem;
   top: -17px;
