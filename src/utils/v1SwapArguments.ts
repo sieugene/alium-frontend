@@ -19,6 +19,7 @@ function deadlineFromNow(ttl: number): string {
  */
 export default function v1SwapArguments(trade: Trade, options: Omit<TradeOptions, 'feeOnTransfer'>): SwapParameters {
   const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const chainId = storeNetwork.getState().currentChainId
   if (getTradeVersion(trade) !== Version.v1) {
     throw new Error('invalid trade version')
   }
@@ -29,8 +30,8 @@ export default function v1SwapArguments(trade: Trade, options: Omit<TradeOptions
   const inputETH = trade.inputAmount.currency === nativeCurrency
   const outputETH = trade.outputAmount.currency === nativeCurrency
   if (inputETH && outputETH) throw new Error('ETHER to ETHER')
-  const minimumAmountOut = toHex(trade.minimumAmountOut(options.allowedSlippage))
-  const maximumAmountIn = toHex(trade.maximumAmountIn(options.allowedSlippage))
+  const minimumAmountOut = toHex(trade.minimumAmountOut(chainId, options.allowedSlippage))
+  const maximumAmountIn = toHex(trade.maximumAmountIn(chainId, options.allowedSlippage))
   const deadline = deadlineFromNow(options.ttl)
   if (isExactIn) {
     if (inputETH) {

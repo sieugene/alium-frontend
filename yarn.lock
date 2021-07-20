@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@alium-official/sdk@^1.1.21":
-  version "1.1.21"
-  resolved "https://registry.yarnpkg.com/@alium-official/sdk/-/sdk-1.1.21.tgz#4e368c5f3f312e50e5948c7524f58d41987d6f3a"
-  integrity sha512-nDBSUSsfO+Rt40/N2iKIGSLASEG57HvMTVOOs8edpOQWV52otKhj2h2pEojGfZcvUX0mJO/34J05gYhYezN3rw==
+"@alium-official/sdk@^1.1.23":
+  version "1.1.23"
+  resolved "https://registry.yarnpkg.com/@alium-official/sdk/-/sdk-1.1.23.tgz#1eed5327446e7b234a3fedb684bcab6de48ecb48"
+  integrity sha512-l5HT3nwnmclu72VTCJmbomQsVa763kxkbbwukHYpby76iRB8y40R3HTT7a/FXC+9UQmDebRXi5v0hOoq+mD4nQ==
   dependencies:
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"

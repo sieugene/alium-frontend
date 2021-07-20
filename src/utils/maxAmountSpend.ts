@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, TokenAmount } from '@alium-official/sdk'
+import { CurrencyAmount, JSBI } from '@alium-official/sdk'
 import { MIN_ETH } from 'config/settings'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import { getCurrencyEther } from './common/getCurrencyEther'
@@ -12,11 +12,11 @@ export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount 
   const chainId = storeNetwork.getState().currentChainId
   if (!currencyAmount) return undefined
   if (currencyAmount.currency === nativeCurrency) {
-    const Ether = getCurrencyEther(chainId)
+    const { calcAmount } = getCurrencyEther(chainId)
     if (JSBI.greaterThan(currencyAmount.raw, MIN_ETH)) {
-      return new TokenAmount(Ether, JSBI.subtract(currencyAmount.raw, MIN_ETH))
+      return calcAmount(JSBI.subtract(currencyAmount.raw, MIN_ETH))
     }
-    return new TokenAmount(Ether, JSBI.BigInt(0))
+    return calcAmount(JSBI.BigInt(0))
   }
   return currencyAmount
 }
