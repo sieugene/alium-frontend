@@ -4,7 +4,7 @@ import { useTotalSupply } from 'data/TotalSupply'
 import { useActiveWeb3React } from 'hooks'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useStoreNetwork } from 'store/network/useStoreNetwork'
+import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import { wrappedCurrency, wrappedCurrencyAmount } from 'utils/wrappedCurrency'
 import { AppDispatch, AppState } from '../index'
 import { tryParseAmount } from '../swap/hooks'
@@ -77,6 +77,7 @@ export function useDerivedMintInfo(
 
   // check?
   const dependentAmount: CurrencyAmount | undefined = useMemo(() => {
+    const chainId = storeNetwork.getState().currentChainId
     if (noLiquidity) {
       if (otherTypedValue && currencies[dependentField]) {
         return tryParseAmount(chainId, otherTypedValue, currencies[dependentField])
@@ -93,8 +94,8 @@ export function useDerivedMintInfo(
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
         const dependentTokenAmount =
           dependentField === Field.CURRENCY_B
-            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
-            : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
+            ? pair.priceOf(tokenA).quote(chainId, wrappedIndependentAmount)
+            : pair.priceOf(tokenB).quote(chainId, wrappedIndependentAmount)
         return dependentCurrency === nativeCurrency ? calcAmount(dependentTokenAmount.raw) : dependentTokenAmount
       }
       return undefined

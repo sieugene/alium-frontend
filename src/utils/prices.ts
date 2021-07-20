@@ -58,10 +58,11 @@ export function computeSlippageAdjustedAmounts(
   trade: Trade | undefined,
   allowedSlippage: number,
 ): { [field in Field]?: CurrencyAmount } {
+  const chainId = storeNetwork.getState().currentChainId
   const pct = basisPointsToPercent(allowedSlippage)
   return {
-    [Field.INPUT]: trade?.maximumAmountIn(pct),
-    [Field.OUTPUT]: trade?.minimumAmountOut(pct),
+    [Field.INPUT]: trade?.maximumAmountIn(chainId, pct),
+    [Field.OUTPUT]: trade?.minimumAmountOut(chainId, pct),
   }
 }
 
