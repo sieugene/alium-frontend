@@ -1,9 +1,11 @@
 import { CurrencyAmount, JSBI } from '@alium-official/sdk'
 import { useEffect, useState } from 'react'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 import web3NoAccount from 'utils/web3'
 import Web3 from 'web3'
 
 const useCurrencyBalance: any = (account: string, web3: Web3) => {
+  const chainId = storeNetwork.getState().currentChainId
   const [balance, setBalance] = useState<CurrencyAmount | '0'>()
   const _web3 = web3 ?? web3NoAccount
   useEffect(() => {
@@ -11,7 +13,7 @@ const useCurrencyBalance: any = (account: string, web3: Web3) => {
     ;(async () => {
       try {
         const resBalance = await _web3?.eth?.getBalance(account)
-        const currencyBalance = CurrencyAmount?.ether(JSBI.BigInt(resBalance?.toString() || '0'))
+        const currencyBalance = CurrencyAmount?.ether(JSBI.BigInt(resBalance?.toString() || '0'), chainId)
         setBalance(currencyBalance)
       } catch (error) {
         setBalance('0')
