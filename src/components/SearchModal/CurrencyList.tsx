@@ -11,6 +11,7 @@ import { useCurrencyBalance } from 'state/wallet/hooks'
 import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { isTokenOnList } from 'utils'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import Column from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import Loader from '../Loader'
@@ -48,7 +49,7 @@ const Tag = styled.div`
 `
 
 function Balance({ balance }: { balance: CurrencyAmount }) {
-  return <StyledBalanceText title={balance.toExact()}>{balance.toSignificant(4)}</StyledBalanceText>
+  return <StyledBalanceText title={balance.toExact()}>{toSignificantCurrency(balance)}</StyledBalanceText>
 }
 
 const TagContainer = styled.div`
