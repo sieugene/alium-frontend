@@ -1,4 +1,3 @@
-import { BigNumber } from '@ethersproject/bignumber'
 import { MaxUint256 } from '@ethersproject/constants'
 import { useWeb3React } from '@web3-react/core'
 import { CardNav } from 'components/CardNav'
@@ -85,56 +84,84 @@ const ViewMigrate: FC = () => {
     if (account) fetchAllBalances()
   }, [account, currentNetwork.id])
 
+  // Еще такой момент по работе с контрактом
+  // Метод депозит
+  // deposit(uint256 _pid, uint256 _amount)
+  // он принимает pid - pair id - Это индекс по нему можно получить LP токен
+  // и _amount - к-во LP токена
+  // т.е. также нужно связать в конфигах LP адрес с pid что бы взаимодействовать с контрактом
+
+  // Можете дергнуть метод lpTokensInfo по циклу с первым аргументом от 0 до 100 например,
+  // что бы получить актуальный lpToken в результате
+
   const handleMigrate = async () => {
     if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) > 0) {
-      let useExact = false
-      const estimatedGas = await tokenContract.estimateGas.approve(account, MaxUint256).catch(() => {
-        // general fallback for tokens who restrict approval amounts
-        useExact = true
-        return tokenContract.estimateGas.approve(account, BigNumber.from(tokensAmount))
-      })
+      setStep(3)
+      let pairId
+      for (let i = 0; i <= 999; i++) {
+        try {
+          const res = await vampireContract.lpTokensInfo(i)
+          if (res?.lpToken?.toLowerCase() === currentPair.addressLP.toLowerCase()) {
+            pairId = i
+            break
+          }
+        } catch (e) {
+          console.error(e)
+        }
+      }
 
-      const gasPrice = await calculateGasPrice(tokenContract.provider)
-
-      await tokenContract
-        .approve(account, useExact ? BigNumber.from(tokensAmount) : MaxUint256, {
-          gasLimit: calculateGasMargin(estimatedGas),
-          gasPrice,
+      if (pairId === undefined) {
+        setStep(2)
+      } else {
+        let useExact = false
+        const estimatedGas = await tokenContract.estimateGas.approve(account, MaxUint256).catch(() => {
+          // general fallback for tokens who restrict approval amounts
+          useExact = true
+          return tokenContract.estimateGas.approve(account, tokensAmount)
         })
-        .then((response) => {
-          addTransaction(response, {
-            summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
-            approval: { tokenAddress: currentPair.addressLP, spender: account },
+
+        const gasPrice = await calculateGasPrice(tokenContract.provider)
+
+        await tokenContract
+          .approve(account, useExact ? tokensAmount : MaxUint256, {
+            gasLimit: calculateGasMargin(estimatedGas),
+            gasPrice,
           })
-
-          setStep(3)
-          setIsSuccessful(false)
-
-          const args = [currentPair.balance, BigNumber.from(tokensAmount)]
-          vampireContract.estimateGas
-            .deposit(...args, { from: account })
-            .then((estimatedGasLimit) => {
-              vampireContract
-                .deposit(...args, { from: account, gasLimit: estimatedGasLimit })
-                .then((resp) => {
-                  setContract(resp.hash)
-                  setIsSuccessful(true)
-                  setStep(4)
-                })
-                .catch((err) => {
-                  console.error(err)
-                  setStep(4)
-                })
+          .then(async (response) => {
+            addTransaction(response, {
+              summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
+              approval: { tokenAddress: currentPair.addressLP, spender: account },
             })
-            .catch((err) => {
-              console.error(err)
-              setStep(4)
-            })
-        })
-        .catch((error: Error) => {
-          console.error('Failed to approve token', error)
-          throw error
-        })
+
+            setIsSuccessful(false)
+
+            await vampireContract.estimateGas
+              .deposit(pairId, tokensAmount, { from: account })
+              .then(async (estimatedGasLimit) => {
+                await vampireContract
+                  .deposit(pairId, tokensAmount, { from: account, gasLimit: estimatedGasLimit })
+                  .then((resp) => {
+                    setContract(resp.hash)
+                    setIsSuccessful(true)
+                    setStep(4)
+                  })
+                  .catch((err) => {
+                    console.error(err)
+                    setIsSuccessful(true)
+                    setStep(3)
+                  })
+              })
+              .catch((err) => {
+                console.error(err)
+                setIsSuccessful(true)
+                setStep(3)
+              })
+          })
+          .catch((error: Error) => {
+            console.error('Failed to approve token', error)
+            throw error
+          })
+      }
     }
   }
 
