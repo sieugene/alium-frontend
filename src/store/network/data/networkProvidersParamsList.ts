@@ -7,8 +7,8 @@ const nativeCurrencies = {
   [ChainId.BSCTESTNET]: new Currency(18, 'BNB', 'Binance'),
   [ChainId.HECOMAINNET]: new Currency(18, 'HT', 'Huobi'),
   [ChainId.HECOTESTNET]: new Currency(18, 'HT', 'Huobi'),
-  [ChainId.ETHER_MAINNET]: new Currency(18, 'ETH', '@alium-official/sdk'),
-  [ChainId.ETHER_TESTNET]: new Currency(18, 'ETH', '@alium-official/sdk'),
+  [ChainId.ETHER_MAINNET]: new Currency(18, 'ETH', 'Ether'),
+  [ChainId.ETHER_TESTNET]: new Currency(18, 'ETH', 'Ether'),
   [ChainId.MATIC_MAINNET]: new Currency(18, 'MATIC', 'Polygon'),
   [ChainId.MATIC_TESTNET]: new Currency(18, 'MATIC', 'Polygon'),
 }
