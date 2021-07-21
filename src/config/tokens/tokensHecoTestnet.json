@@ -29,7 +29,7 @@
     {
       "name": "USDT",
       "symbol": "USDT",
-      "address": "0x6e4Dc12aF5477fCE40F87841dAfdf7156722635e",
+      "address": "0x4D3D711853a4A25AE1D17347a97253A66Ed63D18",
       "chainId": 256,
       "decimals": 6,
       "logoURI": "/images/coins/USDT.png"

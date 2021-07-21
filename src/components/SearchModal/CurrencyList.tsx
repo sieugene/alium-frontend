@@ -30,7 +30,7 @@ function currencyKey(currency: Currency): string {
 const StyledBalanceText = styled(Text)`
   white-space: nowrap;
   overflow: hidden;
-  max-width: 5rem;
+  max-width: 141px;
   text-overflow: ellipsis;
 `
 
