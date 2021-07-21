@@ -85,6 +85,7 @@ const ViewMigrate: FC = () => {
 
   const handleMigrate = async () => {
     if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01) {
+      const tokensAmountWei = Number(tokensAmount) * 1000000000000000000
       setStep(3)
       let pairId
       for (let i = 0; i <= 999; i++) {
@@ -106,13 +107,13 @@ const ViewMigrate: FC = () => {
         const estimatedGas = await tokenContract.estimateGas.approve(account, MaxUint256).catch(() => {
           // general fallback for tokens who restrict approval amounts
           useExact = true
-          return tokenContract.estimateGas.approve(account, tokensAmount)
+          return tokenContract.estimateGas.approve(account, tokensAmountWei)
         })
 
         const gasPrice = await calculateGasPrice(tokenContract.provider)
 
         await tokenContract
-          .approve(account, useExact ? tokensAmount : MaxUint256, {
+          .approve(account, useExact ? tokensAmountWei : MaxUint256, {
             gasLimit: calculateGasMargin(estimatedGas),
             gasPrice,
           })
@@ -125,10 +126,10 @@ const ViewMigrate: FC = () => {
             setIsSuccessful(false)
 
             await vampireContract.estimateGas
-              .deposit(pairId, tokensAmount, { from: account })
+              .deposit(pairId, tokensAmountWei, { from: account })
               .then(async (estimatedGasLimit) => {
                 await vampireContract
-                  .deposit(pairId, tokensAmount, { from: account, gasLimit: estimatedGasLimit })
+                  .deposit(pairId, tokensAmountWei, { from: account, gasLimit: estimatedGasLimit })
                   .then((resp) => {
                     setContract(resp.hash)
                     setIsSuccessful(true)
