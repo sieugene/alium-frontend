@@ -196,11 +196,21 @@ export const Root = styled.div`
   }
 
   .balance {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     font-family: Roboto, sans-serif;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
+
+    @media screen and (min-width: 1024px) {
+      flex-direction: row;
+    }
+  }
+
+  .balance > div {
     margin: 20px 0 4px 0;
   }
 
@@ -327,11 +337,14 @@ export const Step2YourLiquidity: FC<props> = ({
           )}
         </div>
         <div className='balance'>
-          Balance: <span>{balance}</span>
+          <div>
+            Balance: <span>{balance}</span>
+          </div>
+          <div>The minimum amount of tokens required for migration: 0.01</div>
         </div>
         <div className='action'>
           <div
-            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) > 0}`}
+            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01}`}
             onClick={handleMigrate}
           >
             Migrate

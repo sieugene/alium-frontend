@@ -84,7 +84,7 @@ const ViewMigrate: FC = () => {
   }, [account, currentNetworkId])
 
   const handleMigrate = async () => {
-    if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) > 0) {
+    if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01) {
       setStep(3)
       let pairId
       for (let i = 0; i <= 999; i++) {
