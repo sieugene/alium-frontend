@@ -40,7 +40,7 @@ export function PoolPriceBar({
         <AutoRow justify='space-around' gap='4px'>
           <AutoColumn justify='center'>
             <Text color='#6c5dd3' fontSize='14px' style={{ fontWeight: 500 }}>
-              {toSignificantCurrency(price) ?? '—'}
+              {price?.toSignificant(6) ?? '—'}
             </Text>
             <Text fontSize='14px' color='#8990a5' pt={1}>
               {currencies[Field.CURRENCY_B]?.symbol} per {currencies[Field.CURRENCY_A]?.symbol}
@@ -48,7 +48,7 @@ export function PoolPriceBar({
           </AutoColumn>
           <AutoColumn justify='center'>
             <Text color='#6c5dd3' fontSize='14px' style={{ fontWeight: 500 }}>
-              {toSignificantCurrency(price?.invert()) ?? '—'}
+              {price?.invert()?.toSignificant(6) ?? '—'}
             </Text>
             <Text fontSize='14px' color='#8990a5' pt={1}>
               {currencies[Field.CURRENCY_A]?.symbol} per {currencies[Field.CURRENCY_B]?.symbol}
