@@ -125,6 +125,9 @@ const Numeric: FC<StyledInputProps> = ({ ...other }) => {
   }
   const controlDown = () => {
     const value = Number(other?.value) - step
+    if (value < 0) {
+      return
+    }
     return change(value.toFixed(1))
   }
   return (
