@@ -49,6 +49,7 @@ const TransactionDeadlineSetting = () => {
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue } = evt.target
+
     setValue(parseInt(inputValue, 10))
   }
 
@@ -78,6 +79,7 @@ const TransactionDeadlineSetting = () => {
           type='number'
           step='1'
           min='1'
+          placeholder='1'
           value={value}
           onChange={handleChange}
           style={{
