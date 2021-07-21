@@ -92,6 +92,7 @@ const SlippageToleranceSettings = () => {
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue } = evt.target
+
     setValue(parseFloat(inputValue))
   }
 
@@ -158,7 +159,7 @@ const SlippageToleranceSettings = () => {
                 scale='lg'
                 step={0.1}
                 min={0.1}
-                placeholder='5%'
+                placeholder='0.1'
                 value={value}
                 onChange={handleChange}
                 isWarning={error !== null}
