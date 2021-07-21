@@ -155,5 +155,8 @@
   },
   "hurray": "Hurray",
   "greetingsMessage": "We're up and running. Join us now to get the maximum benefit from the very beginning!",
-  "startTrading": "Start trading"
+  "startTrading": "Start trading",
+  "errors": {
+    "enterValidPercentage": "Enter valid percentage"
+  }
 }
