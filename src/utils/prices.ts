@@ -40,7 +40,7 @@ export function computeTradePriceBreakdown(trade?: Trade): {
     : undefined
 
   const chainId = storeNetwork.getState().currentChainId
-  const Ether = getCurrencyEther(chainId)
+  const { calcAmount } = getCurrencyEther(chainId)
 
   // the amount of the input that accrues to LPs
   const realizedLPFeeAmount =
@@ -48,7 +48,7 @@ export function computeTradePriceBreakdown(trade?: Trade): {
     trade &&
     (trade.inputAmount instanceof TokenAmount
       ? new TokenAmount(trade.inputAmount.token, realizedLPFee.multiply(trade.inputAmount.raw).quotient)
-      : new TokenAmount(Ether, realizedLPFee.multiply(trade.inputAmount.raw).quotient))
+      : calcAmount(realizedLPFee.multiply(trade.inputAmount.raw).quotient))
 
   return { priceImpactWithoutFee: priceImpactWithoutFeePercent, realizedLPFee: realizedLPFeeAmount }
 }
@@ -58,10 +58,11 @@ export function computeSlippageAdjustedAmounts(
   trade: Trade | undefined,
   allowedSlippage: number,
 ): { [field in Field]?: CurrencyAmount } {
+  const chainId = storeNetwork.getState().currentChainId
   const pct = basisPointsToPercent(allowedSlippage)
   return {
-    [Field.INPUT]: trade?.maximumAmountIn(pct),
-    [Field.OUTPUT]: trade?.minimumAmountOut(pct),
+    [Field.INPUT]: trade?.maximumAmountIn(chainId, pct),
+    [Field.OUTPUT]: trade?.minimumAmountOut(chainId, pct),
   }
 }
 

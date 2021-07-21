@@ -1,18 +1,34 @@
 import { Currency, TokenAmount } from '@alium-official/sdk'
-import { AddIcon } from 'alium-uikit/src'
 import { ColumnCenter } from 'components/Column'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
-import { memo, FC } from 'react';
+import { ExchangeIcon } from 'images/Exchange-icon'
+import { FC, memo } from 'react'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
 
 const StyledAddIcon = styled.div`
-  border: 1.5px solid #6c5dd3;
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
+  border: none;
+  outline: none;
+  cursor: pointer;
   display: flex;
 
+  align-items: center;
+  margin-bottom: 7px;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 12px;
+  background: #fff;
+  transition: 0.4s;
+  svg {
+    outline: none;
+  }
+  :hover {
+    background: ${({ theme }) => theme.colors.primary};
+
+    & svg path {
+      stroke: #fff;
+    }
+  }
   > * {
     margin: auto;
   }
@@ -49,6 +65,12 @@ export const AddLiqudityInputs: FC<Props> = memo(
     onFieldBInput,
     handleCurrencyBSelect,
   }) => {
+    const onSwitchTokens = () => {
+      handleCurrencyASelect(currencies[Field.CURRENCY_B])
+      onFieldAInput(formattedAmounts[Field.CURRENCY_B])
+      handleCurrencyBSelect(currencies[Field.CURRENCY_A])
+      onFieldBInput(formattedAmounts[Field.CURRENCY_A])
+    }
     return (
       <>
         <CurrencyInputPanel
@@ -65,8 +87,12 @@ export const AddLiqudityInputs: FC<Props> = memo(
           showCommonBases={false}
         />
         <ColumnCenter>
-          <StyledAddIcon>
-            <AddIcon color='#6C5DD3' width='12px' />
+          <StyledAddIcon
+            onClick={() => {
+              onSwitchTokens()
+            }}
+          >
+            <ExchangeIcon />
           </StyledAddIcon>
         </ColumnCenter>
         <CurrencyInputPanel
