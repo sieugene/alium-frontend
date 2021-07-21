@@ -1,7 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants'
-import { useWeb3React } from '@web3-react/core'
 import { CardNav } from 'components/CardNav'
 import ERC20_ABI from 'config/abi/erc20.json'
+import { useActiveWeb3React } from 'hooks'
 import { useTokenContract, useVampireContract } from 'hooks/useContract'
 import { FC, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
@@ -19,10 +19,12 @@ const Root = styled.div``
 
 const ViewMigrate: FC = () => {
   // --- STORE ---
-  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  const currentNetworkId = useStoreNetwork((state) => state.currentNetwork.id)
+  const liquidityProviderTokens = useStoreNetwork((state) => state.currentNetwork.liquidityProviderTokens)
+  const blockExplorerUrl = useStoreNetwork((state) => state.currentNetwork.providerParams.blockExplorerUrls[0])
 
   // --- STATE ---
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(2)
   const [pairs, setPairs] = useState<
     { title: string; symbolA: string; symbolB: string; addressLP: string; exchange: string; balance: number }[]
   >([])
@@ -31,11 +33,11 @@ const ViewMigrate: FC = () => {
   const [isSuccessful, setIsSuccessful] = useState(false)
   const [contract, setContract] = useState()
 
-  // ---
+  // --- DESTRUCTURING
   const currentPair = pairs[selectedPairKey]
 
   // --- HOOKS ---
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
   const tokenContract = useTokenContract(currentPair?.addressLP)
   const vampireContract = useVampireContract()
@@ -43,11 +45,13 @@ const ViewMigrate: FC = () => {
   useEffect(() => {
     account && step === 1 && setStep(2)
     !account && setStep(1)
-  }, [account])
+    setSelectedPairKey(-1)
+    setTokensAmount(0)
+    setIsSuccessful(false)
+    setPairs([])
 
-  useEffect(() => {
     const fetchAllBalances = async () => {
-      const lpt = currentNetwork.liquidityProviderTokens
+      const lpt = liquidityProviderTokens
       const calls = lpt.map(({ tokenLP }) => ({
         address: tokenLP.address,
         name: 'balanceOf',
@@ -73,26 +77,11 @@ const ViewMigrate: FC = () => {
         }
       })
 
-      if (newPairs.length) {
-        setPairs(newPairs)
-        setSelectedPairKey(-1)
-        setTokensAmount(0)
-        setIsSuccessful(false)
-      }
+      setPairs(newPairs)
     }
 
     if (account) fetchAllBalances()
-  }, [account, currentNetwork.id])
-
-  // Еще такой момент по работе с контрактом
-  // Метод депозит
-  // deposit(uint256 _pid, uint256 _amount)
-  // он принимает pid - pair id - Это индекс по нему можно получить LP токен
-  // и _amount - к-во LP токена
-  // т.е. также нужно связать в конфигах LP адрес с pid что бы взаимодействовать с контрактом
-
-  // Можете дергнуть метод lpTokensInfo по циклу с первым аргументом от 0 до 100 например,
-  // что бы получить актуальный lpToken в результате
+  }, [account, currentNetworkId])
 
   const handleMigrate = async () => {
     if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) > 0) {
@@ -174,6 +163,7 @@ const ViewMigrate: FC = () => {
         {step === 1 && <Step1Connect />}
         {step === 2 && (
           <Step2YourLiquidity
+            key={currentNetworkId}
             pairs={pairs}
             selectedPairKey={selectedPairKey}
             setSelectedPairKey={setSelectedPairKey}
@@ -188,7 +178,7 @@ const ViewMigrate: FC = () => {
             pair={currentPair}
             isSuccessful={isSuccessful}
             contract={contract}
-            explorer={currentNetwork.providerParams.blockExplorerUrls[0]}
+            explorer={blockExplorerUrl}
             setStep1={() => setStep(1)}
             handleTryAgain={handleMigrate}
           />

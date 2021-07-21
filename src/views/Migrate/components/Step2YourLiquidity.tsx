@@ -239,15 +239,17 @@ export const Step2YourLiquidity: FC<props> = ({
   }
 
   const handleTokensAmount = (event: ChangeEvent<HTMLInputElement>) => {
-    // todo: need to improve for zero after dot, like "0.01"
     let value = event.target.value
     value = value.replace(/[^0-9.]/g, '')
+
     let split = value.split('.')
+
     if (split.length > 2 && split[1].length > 1) value = `${split[0]}.${split[1]}`
 
     split = value.split('.')
-    if (split.length > 1) value = `${split[0]}.${split[1].slice(0, 18)}`
-    value[value.length - 1] === '.' ? setTokensAmount(value) : setTokensAmount(Number(value))
+    if (split.length > 1) value = `${Number(split[0])}.${split[1].slice(0, 18)}`
+
+    isNaN(Number(value)) ? setTokensAmount('0') : setTokensAmount(value)
   }
 
   const handleMax = () => {
