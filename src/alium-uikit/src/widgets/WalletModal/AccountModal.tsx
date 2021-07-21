@@ -1,6 +1,7 @@
 import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
-import { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { useStoreAccount } from 'store/account/useStoreAccount'
 import styled from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import Button from '../../components/Button/Button'
@@ -113,18 +114,21 @@ const AccountModal: FC<Props> = ({
   onDismiss = () => null,
   title = 'Account',
   logoutTitle = 'Disconnect',
-  balance,
   explorerName = 'View on BscScan',
   explorerLink,
   tokenSymbol = 'BNB',
   networkName = 'Binance Smart Chain',
   onTransactionHistoryHandler,
-  balanceHook,
 }) => {
-  const [currentBalance, setBalance] = useState(balance)
-  useEffect(() => {
-    balanceHook().then((result?: any) => setBalance(toSignificantCurrency(result)))
-  }, [balanceHook])
+  const balance = useStoreAccount((state) => state.balance)
+  const [etherBalance] = useStoreAccount((state) => [state.etherBalance])
+  const currentBalance = toSignificantCurrency(balance?.currencyBalance)
+
+  React.useEffect(() => {
+    ;(async () => {
+      await etherBalance()
+    })()
+  }, [])
 
   return (
     <Modal title={title} onDismiss={onDismiss} styledModalContent={{ padding: '0 24px 32px 24px' }}>
@@ -135,7 +139,11 @@ const AccountModal: FC<Props> = ({
             <Flex flexDirection='column' marginLeft={40}>
               <Text color='#CBC8EE'>Balance</Text>
               <Text color='white'>
-                {!currentBalance ? <p>Loading balance...</p> : `${currentBalance} ${tokenSymbol}`}
+                {!currentBalance || currentBalance === '-' ? (
+                  <p>Loading balance...</p>
+                ) : (
+                  `${currentBalance} ${tokenSymbol}`
+                )}
                 {/* {balance} {tokenSymbol} */}
               </Text>
             </Flex>

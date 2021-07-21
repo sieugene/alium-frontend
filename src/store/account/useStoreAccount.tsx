@@ -1,3 +1,6 @@
+import { CurrencyAmount, JSBI } from '@alium-official/sdk'
+import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
+import { getWeb3NoAccount } from 'utils/web3'
 import create from 'zustand'
 import createVanilla from 'zustand/vanilla'
 
@@ -5,18 +8,47 @@ export interface StoreAccountState {
   currentAccountAddress: string
   initStoreAccount: () => void
   killStoreAccount: () => void
+  balance: {
+    currencyBalance: CurrencyAmount
+    onChain: number
+  } | null
   [key: string]: any
+  etherBalance: () => Promise<StoreAccountState['balance']>
 }
+
+const accountInWeb3 = () => process.browser && window?.ethereum?.selectedAddress
 
 // store for usage outside of react
 export const storeAccount = createVanilla<StoreAccountState>((set, get) => ({
-  currentAccountAddress: null,
+  balance: null,
+  currentAccountAddress: accountInWeb3(),
   initStoreAccount: () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       window.ethereum.on('accountsChanged', (accounts) => {
         set({ currentAccountAddress: accounts[0] })
+        storeAccount.getState().clearBalance()
       })
     }
+  },
+  async etherBalance() {
+    const account = get().currentAccountAddress || accountInWeb3()
+    const chainId = storeNetwork.getState().currentChainId
+    const currentBalance = get().balance
+
+    if (account && chainId && (!currentBalance || currentBalance?.onChain !== chainId)) {
+      const resBalance = await getWeb3NoAccount()?.eth?.getBalance(account)
+      const currencyBalance = CurrencyAmount?.ether(JSBI.BigInt(resBalance?.toString() || '0'), chainId)
+      const balance = {
+        currencyBalance,
+        onChain: chainId,
+      }
+      set({ balance })
+      return balance
+    }
+    return currentBalance
+  },
+  clearBalance() {
+    set({ balance: null })
   },
   killStoreAccount: () => {
     unsubscribe()
@@ -34,4 +66,11 @@ const unsubscribe = useStoreAccount.subscribe(
       'background: #006297; color: #c4ff5c',
     ),
   (state) => state.currentAccountAddress,
+)
+
+useStoreNetwork.subscribe(
+  (currentChainId, prevChainId) => {
+    storeAccount.getState().clearBalance()
+  },
+  (state) => state.currentChainId,
 )

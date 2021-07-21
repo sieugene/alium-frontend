@@ -1,3 +1,4 @@
+import React from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { ConnectorNames } from '../../util/connectorId/setConnectorId'
 import { useModal } from '../Modal'
@@ -17,11 +18,9 @@ const useWalletModal = (
   account?: string,
   title?: string,
   logoutTitle?: string,
-  balance?: string,
   explorerName?: string,
   explorerLink?: string,
   onTransactionHistoryHandler?: () => void,
-  balanceHook?: () => void,
 ): ReturnType => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
 
@@ -75,18 +74,16 @@ const useWalletModal = (
       logout={logout}
       title={title}
       logoutTitle={logoutTitle}
-      balance={balance}
       explorerName={explorerName}
       explorerLink={explorerLink}
       tokenSymbol={chainIdData[currentChainId]?.tokenSymbol ?? 'Undefined Token'}
       networkName={chainIdData[currentChainId]?.networkName ?? `Undefined Chain (ID: ${currentChainId})`}
       onTransactionHistoryHandler={onTransactionHistoryHandler}
-      balanceHook={balanceHook}
     />,
   )
-  // useEffect(()=>{
+  // React.useEffect(() => {
   //   onPresentAccountModal()
-  // }, [balance])
+  // }, [currentChainId])
   return { onPresentConnectModal, onPresentAccountModal, chainId: currentChainId }
 }
 
