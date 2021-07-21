@@ -4,9 +4,7 @@ import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uik
 import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
 import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'
-import useCurrencyBalance from 'hooks/useCurrencyBalance'
 import useTheme from 'hooks/useTheme'
-import useWeb3 from 'hooks/useWeb3'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import { ROUTES } from 'routes'
@@ -63,20 +61,14 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
   ]
 
   const { account } = useWeb3React()
-  const web3 = useWeb3()
+
   const { chainId } = useActiveWeb3React()
   const { login, logout } = useAuth()
 
   const { isDark, toggleTheme } = useTheme()
-  const { balance } = useCurrencyBalance(account, nativeCurrency)
+
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
-  // const useBalance = async () => {
-  //   const result = await useCurrencyBalance(account as string, nativeCurrency)
-  //   return result
-  // }
-
-  // useBalance().then((result)=>console.log(result))
 
   const [transactionsHistoryModal] = useModal(<RecentTransactionsModal />)
 
@@ -93,7 +85,6 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
         toggleTheme={toggleTheme}
         loginBlockVisible={loginBlockVisible}
         buttonTitle={t('connect')}
-        balance={toSignificantCurrency(balance)}
         explorerName={explorerName}
         explorerLink={explorerLink}
         options={{
@@ -106,7 +97,6 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
         onTransactionHistoryHandler={transactionsHistoryModal}
         betaText='This is the main version. Press here to switch to Beta.'
         betaLink='https://beta.exchange.alium.finance'
-        balanceHook={async () => null}
         {...props}
       />
     </>

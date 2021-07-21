@@ -55,23 +55,20 @@ const UserBlock: FC<Props> = (props) => {
     buttonTitle,
     modalTitle,
     modelLogout,
-    balance,
     explorerName,
     explorerLink,
     onTransactionHistoryHandler,
-    balanceHook,
   } = props
+
   const { onPresentConnectModal, onPresentAccountModal, chainId } = useWalletModal(
     login,
     logout,
     account,
     modalTitle,
     modelLogout,
-    balance,
     explorerName,
     explorerLink,
     onTransactionHistoryHandler,
-    balanceHook,
   )
   const accountEllipsis = account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : null
   return (
