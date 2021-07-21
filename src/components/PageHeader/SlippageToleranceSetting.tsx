@@ -177,7 +177,7 @@ const SlippageToleranceSettings = () => {
         </PercentInputWrapper>
       </Options>
       {error && (
-        <Text mt='8px' color='failure'>
+        <Text mt='8px' color='failure' style={{ height: '0px' }}>
           {error}
         </Text>
       )}
