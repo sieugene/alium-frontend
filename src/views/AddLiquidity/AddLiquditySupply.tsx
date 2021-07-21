@@ -58,6 +58,7 @@ export const AddLiquditySupply: FC<Props> = memo(
     if (!user) {
       return <ConnectWalletButton fullwidth />
     }
+
     return (
       <AutoColumn gap='md'>
         {(approvalA === ApprovalState.NOT_APPROVED ||
@@ -106,8 +107,8 @@ export const AddLiquditySupply: FC<Props> = memo(
               setShowConfirm(true)
             }
           }}
-          // disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
-          disabled={!isValid}
+          disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+          // disabled={!isValid}
           variant={
             !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B] ? 'danger' : 'primary'
           }
