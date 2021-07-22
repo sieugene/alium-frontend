@@ -10,26 +10,54 @@ import TrustWallet from './icons/TrustWallet'
 import WalletConnect from './icons/WalletConnect'
 import { ConnectorNames, NetworksConfig, WalletsConfig } from './types'
 
-
-const isMobileWallet = (anotherWallet: ConnectorNames) => {
-  return isMobile ? ConnectorNames.WalletConnect : anotherWallet
-}
-
 const isWeb3Detect = () => {
   const global: any = process.browser && window
   return Boolean(global?.web3)
 }
 
-export const wallets: WalletsConfig[] = [
+interface ConnectorArgs {
+  browserConnector?: ConnectorNames
+  mobileConnector?: ConnectorNames
+  mobileAlternativeConnector?: ConnectorNames
+}
+
+const connector = (args: ConnectorArgs = {}) => {
+  const {
+    browserConnector = ConnectorNames.Injected,
+    mobileConnector = ConnectorNames.Injected,
+    mobileAlternativeConnector = ConnectorNames.WalletConnect,
+  } = args
+
+  const web3 = isWeb3Detect()
+  const browser = !isMobile && web3
+  const mobileWithWeb3 = isMobile && web3
+  const mobileWithoutWeb3 = isMobile && !web3
+
+  if (browser) {
+    return browserConnector
+  }
+  if (mobileWithWeb3) {
+    // can't detect wallet name, for mobile only walletconnect
+    return ConnectorNames.WalletConnect
+    // return mobileConnector
+  }
+  if (mobileWithoutWeb3) {
+    return mobileAlternativeConnector
+  }
+  return null
+}
+
+// When load isMobile not working, bad init, fix wallets as function
+export const wallets = (): WalletsConfig[] => [
   {
     title: 'Metamask',
     icon: Metamask,
-    connectorId: ConnectorNames.Injected,
+    connectorId: connector(),
   },
   {
     title: 'Trust Wallet',
     icon: TrustWallet,
-    connectorId: isWeb3Detect() ? ConnectorNames.Injected : isMobileWallet(ConnectorNames.Injected),
+    connectorId: connector(),
     mobile: true,
   },
   // {
@@ -40,7 +68,10 @@ export const wallets: WalletsConfig[] = [
   {
     title: 'Token Pocket',
     icon: TokenPocket,
-    connectorId: isMobile && isWeb3Detect() ? ConnectorNames.Injected : ConnectorNames.WalletConnect,
+    connectorId: connector({
+      mobileConnector: ConnectorNames.Injected,
+      browserConnector: ConnectorNames.WalletConnect,
+    }),
   },
   {
     title: 'Wallet Connect',
@@ -50,7 +81,11 @@ export const wallets: WalletsConfig[] = [
   {
     title: 'Binance Chain Wallet',
     icon: BinanceChain,
-    connectorId: ConnectorNames.BSC,
+    connectorId: connector({
+      mobileConnector: ConnectorNames.WalletConnect,
+      mobileAlternativeConnector: ConnectorNames.WalletConnect,
+      browserConnector: ConnectorNames.BSC,
+    }),
   },
 ]
 
