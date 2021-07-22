@@ -2,7 +2,7 @@ import { Currency, TokenAmount } from '@alium-official/sdk'
 import { ColumnCenter } from 'components/Column'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { ExchangeIcon } from 'images/Exchange-icon'
-import { FC, memo } from 'react'
+import { FC, memo, useState } from 'react'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
 
@@ -65,20 +65,50 @@ export const AddLiqudityInputs: FC<Props> = memo(
     onFieldBInput,
     handleCurrencyBSelect,
   }) => {
+    // Use local inputs, but formattedAmounts recalculate and give wrong values
+    const [inputs, setInputs] = useState({
+      a: '',
+      b: '',
+    })
+
+    const updateInputs = (a: string, b: string) => {
+      setInputs({ a, b })
+    }
+    // clear when you start type (this unblock your typing)
+    const clearInputs = () => {
+      updateInputs('', '')
+    }
+
     const onSwitchTokens = () => {
       handleCurrencyASelect(currencies[Field.CURRENCY_B])
-      onFieldAInput(formattedAmounts[Field.CURRENCY_B])
       handleCurrencyBSelect(currencies[Field.CURRENCY_A])
-      onFieldBInput(formattedAmounts[Field.CURRENCY_A])
+
+      // reverts
+      if (inputs.a && inputs.b) {
+        updateInputs(inputs.b, inputs.a)
+      } else {
+        updateInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
+      }
     }
+
+    const onInputA = (value: string) => {
+      onFieldAInput(value)
+      clearInputs()
+    }
+
+    const onInputB = (value: string) => {
+      onFieldBInput(value)
+      clearInputs()
+    }
+
     return (
       <>
         <CurrencyInputPanel
           label='From'
-          value={formattedAmounts[Field.CURRENCY_A]}
-          onUserInput={onFieldAInput}
+          value={inputs.a || formattedAmounts[Field.CURRENCY_A]}
+          onUserInput={onInputA}
           onMax={() => {
-            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+            onInputA(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
           }}
           onCurrencySelect={handleCurrencyASelect}
           showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
@@ -97,11 +127,11 @@ export const AddLiqudityInputs: FC<Props> = memo(
         </ColumnCenter>
         <CurrencyInputPanel
           label='To (estimated)'
-          value={formattedAmounts[Field.CURRENCY_B]}
-          onUserInput={onFieldBInput}
+          value={inputs.b || formattedAmounts[Field.CURRENCY_B]}
+          onUserInput={onInputB}
           onCurrencySelect={handleCurrencyBSelect}
           onMax={() => {
-            onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+            onInputB(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
           }}
           showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
           currency={currencies[Field.CURRENCY_B]}
