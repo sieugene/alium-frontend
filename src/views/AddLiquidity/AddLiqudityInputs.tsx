@@ -79,14 +79,21 @@ export const AddLiqudityInputs: FC<Props> = memo(
       updateInputs('', '')
     }
 
+    const updateFormattedInputs = (a: string, b: string) => {
+      onFieldAInput(a)
+      onFieldBInput(b)
+    }
+
     const onSwitchTokens = () => {
       handleCurrencyASelect(currencies[Field.CURRENCY_B])
       handleCurrencyBSelect(currencies[Field.CURRENCY_A])
 
       // reverts
       if (inputs.a && inputs.b) {
+        updateFormattedInputs(inputs.b, inputs.a)
         updateInputs(inputs.b, inputs.a)
       } else {
+        updateFormattedInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
         updateInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
       }
     }
