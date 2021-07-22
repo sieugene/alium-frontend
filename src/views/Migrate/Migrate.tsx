@@ -1,4 +1,5 @@
 import { MaxUint256 } from '@ethersproject/constants'
+import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
 import ERC20_ABI from 'config/abi/erc20.json'
 import { useActiveWeb3React } from 'hooks'
@@ -85,10 +86,11 @@ const ViewMigrate: FC = () => {
 
   const handleMigrate = async () => {
     if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01) {
-      const tokensAmountWei = Number(tokensAmount) * 1000000000000000000
+      const tokensAmountWei = parseEther(String(tokensAmount))
+
       setStep(3)
       let pairId
-      for (let i = 0; i <= 999; i++) {
+      for (let i = 0; i <= 99; i++) {
         try {
           const res = await vampireContract.lpTokensInfo(i)
           if (res?.lpToken?.toLowerCase() === currentPair.addressLP.toLowerCase()) {
