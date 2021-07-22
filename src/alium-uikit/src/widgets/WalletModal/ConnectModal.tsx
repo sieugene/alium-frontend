@@ -69,8 +69,13 @@ const StyledFlexPoint = styled(Flex)`
 `
 
 const StyledWalletFlex = styled(StyledFlex)`
-  > div:last-child {
+  /* > div:last-child {
     margin-right: 64px;
+  }
+  */
+  flex-wrap: nowrap;
+  @media screen and (max-width: 420px) {
+    flex-wrap: wrap;
   }
 `
 

@@ -92,6 +92,10 @@ const StyledButton = styled(Button)`
       stroke: white;
     }
   }
+  @media screen and (max-width: 800px) {
+    max-width: none;
+    width: 100%;
+  }
 `
 
 const StyledFlex = styled(Flex)`
