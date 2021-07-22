@@ -3,12 +3,12 @@ import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
 import ERC20_ABI from 'config/abi/erc20.json'
 import { useActiveWeb3React } from 'hooks'
-import { useTokenContract, useVampireContract } from 'hooks/useContract'
+import { useLPTokenContract, useTokenContract, useVampireContract } from 'hooks/useContract'
 import { FC, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { calculateGasMargin, calculateGasPrice } from 'utils'
+import { calculateGasPrice } from 'utils'
 import multicall from 'utils/multicall'
 import { Step1Connect } from 'views/Migrate/components/Step1Connect'
 import { Step2YourLiquidity } from 'views/Migrate/components/Step2YourLiquidity'
@@ -21,6 +21,7 @@ const Root = styled.div``
 const ViewMigrate: FC = () => {
   // --- STORE ---
   const currentNetworkId = useStoreNetwork((state) => state.currentNetwork.id)
+  const vampiringAddress = useStoreNetwork((state) => state.currentNetwork.address.vampiring)
   const liquidityProviderTokens = useStoreNetwork((state) => state.currentNetwork.liquidityProviderTokens)
   const blockExplorerUrl = useStoreNetwork((state) => state.currentNetwork.providerParams.blockExplorerUrls[0])
 
@@ -41,7 +42,8 @@ const ViewMigrate: FC = () => {
   const { account } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
   const tokenContract = useTokenContract(currentPair?.addressLP)
-  const vampireContract = useVampireContract()
+  const lpTokenContract = useLPTokenContract(currentPair?.addressLP)
+  const vampireContract = useVampireContract(vampiringAddress)
 
   useEffect(() => {
     account && step === 1 && setStep(2)
@@ -106,19 +108,15 @@ const ViewMigrate: FC = () => {
         setStep(2)
       } else {
         let useExact = false
-        const estimatedGas = await tokenContract.estimateGas.approve(account, MaxUint256).catch(() => {
-          // general fallback for tokens who restrict approval amounts
+        const gasLimit = await lpTokenContract.estimateGas.approve(vampiringAddress, MaxUint256).catch(() => {
           useExact = true
-          return tokenContract.estimateGas.approve(account, tokensAmountWei)
+          return lpTokenContract.estimateGas.approve(vampiringAddress, tokensAmountWei)
         })
 
         const gasPrice = await calculateGasPrice(tokenContract.provider)
 
-        await tokenContract
-          .approve(account, useExact ? tokensAmountWei : MaxUint256, {
-            gasLimit: calculateGasMargin(estimatedGas),
-            gasPrice,
-          })
+        lpTokenContract
+          .approve(vampiringAddress, tokensAmountWei, { gasLimit, gasPrice, from: account })
           .then(async (response) => {
             addTransaction(response, {
               summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
@@ -129,13 +127,15 @@ const ViewMigrate: FC = () => {
 
             await vampireContract.estimateGas
               .deposit(pairId, tokensAmountWei, { from: account })
-              .then(async (estimatedGasLimit) => {
-                await vampireContract
-                  .deposit(pairId, tokensAmountWei, { from: account, gasLimit: estimatedGasLimit })
+              .then(async (gasLimit2) => {
+                vampireContract
+                  .deposit(pairId, tokensAmountWei, { from: account, gasLimit: gasLimit2 })
                   .then((resp) => {
                     setContract(resp.hash)
-                    setIsSuccessful(true)
-                    setStep(4)
+                    resp.wait().then(() => {
+                      setIsSuccessful(true)
+                      setStep(4)
+                    })
                   })
                   .catch((err: Error) => {
                     setIsSuccessful(false)
@@ -153,7 +153,6 @@ const ViewMigrate: FC = () => {
             setIsSuccessful(false)
             setStep(4)
             console.error(err)
-            throw err
           })
       }
     }
