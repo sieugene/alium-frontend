@@ -122,7 +122,7 @@ const ConnectModal: FC<Props> = ({ login, onDismiss = () => null, title = 'Conne
         <Text style={{ fontSize: '14px', color: '#0B1359', marginLeft: '16px' }}>Choose Wallet</Text>
       </StyledFlexPoint>
       <StyledWalletFlex>
-        {wallets.map((entry) => {
+        {wallets().map((entry) => {
           return entry.mobile ? (
             isMobile && (
               <WalletCard
