@@ -1,13 +1,10 @@
 const { i18n } = require('./next-i18next.config')
 
-const { NODE_ENV, __NEXT_PROCESSED_ENV, __CF_USER_TEXT_ENCODING, __CFBundleIdentifier, NODE_VERSION, ...OTHER_ENVS } =
-  process.env
-
 module.exports = {
   i18n,
-  env: {
-    ...OTHER_ENVS,
-  },
+  env: Object.keys(process.env).reduce((acc, val) =>
+    val.slice(0, 4) === 'APP_' || val.slice(0, 10) === 'REACT_APP_' ? { ...acc, [val]: process.env[val] } : acc,
+  ),
   generateBuildId: async () => String(Math.round(Number(new Date()) / 1000)),
   distDir: 'build',
   compress: false,
