@@ -2,10 +2,7 @@ import ERC20_ABI from 'config/abi/erc20.json'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import multicall from 'utils/multicall'
 
-type getReadyToMigrateTokens = (
-  account: string,
-  chainId: any,
-) => Promise<
+type getReadyToMigrateTokens = (account: string) => Promise<
   {
     title: string
     symbolA: string
