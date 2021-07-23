@@ -160,16 +160,16 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
   // Temp formatter date
   const original_timestamp = pool?.timestamp || '0'
   const formattedTime = getTimeFormat(original_timestamp)
-  const TEMP_CONDITION_FOR_21_JULY = formattedTime === '21th July 2021'
+  const TEMP_CONDITION_21 = formattedTime.includes('21th')
   const addingAWeek = Number(original_timestamp) + 604800
-  const extensionUpToAWeekTimeStamp = TEMP_CONDITION_FOR_21_JULY ? addingAWeek.toString() : original_timestamp
+  const extensionUpToAWeekTimeStamp = TEMP_CONDITION_21 ? addingAWeek.toString() : original_timestamp
   // end
   const total = ethers.utils.formatEther(pool.total || BigNumber.from(0))
   const locked = ethers.utils.formatEther(pool.locked || BigNumber.from(0))
   const unlocked = ethers.utils.formatEther(pool.unlocked || BigNumber.from(0))
   const claimed = ethers.utils.formatEther(pool.claimed || BigNumber.from(0))
   // unlock with timestamp
-  const unlockWithTimestamp = TEMP_CONDITION_FOR_21_JULY
+  const unlockWithTimestamp = TEMP_CONDITION_21
     ? unlockedByTimestamp(extensionUpToAWeekTimeStamp) || !!Number(unlocked)
     : !!Number(unlocked)
   //
