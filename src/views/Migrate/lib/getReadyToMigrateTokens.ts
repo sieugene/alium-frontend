@@ -46,7 +46,7 @@ export const getReadyToMigrateTokens: getReadyToMigrateTokens = async (account, 
           symbolB: lpt[key].tokenB.symbol.toUpperCase(),
           addressLP: lpt[key].tokenLP.address,
           exchange: lpt[key].exchange,
-          balance,
+          balance: balance.toFixed(18),
         },
       ]
     }
