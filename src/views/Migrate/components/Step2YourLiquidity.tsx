@@ -196,11 +196,21 @@ export const Root = styled.div`
   }
 
   .balance {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     font-family: Roboto, sans-serif;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
+
+    @media screen and (min-width: 1024px) {
+      flex-direction: row;
+    }
+  }
+
+  .balance > div {
     margin: 20px 0 4px 0;
   }
 
@@ -239,15 +249,17 @@ export const Step2YourLiquidity: FC<props> = ({
   }
 
   const handleTokensAmount = (event: ChangeEvent<HTMLInputElement>) => {
-    // todo: need to improve for zero after dot, like "0.01"
     let value = event.target.value
     value = value.replace(/[^0-9.]/g, '')
+
     let split = value.split('.')
+
     if (split.length > 2 && split[1].length > 1) value = `${split[0]}.${split[1]}`
 
     split = value.split('.')
-    if (split.length > 1) value = `${split[0]}.${split[1].slice(0, 18)}`
-    value[value.length - 1] === '.' ? setTokensAmount(value) : setTokensAmount(Number(value))
+    if (split.length > 1) value = `${Number(split[0])}.${split[1].slice(0, 18)}`
+
+    isNaN(Number(value)) ? setTokensAmount('0') : setTokensAmount(value)
   }
 
   const handleMax = () => {
@@ -325,11 +337,15 @@ export const Step2YourLiquidity: FC<props> = ({
           )}
         </div>
         <div className='balance'>
-          Balance: <span>{balance}</span>
+          <div>
+            Balance: <span>{balance}</span>
+          </div>
+          <div>The minimum amount of tokens required for migration: 0.01</div>
         </div>
         <div className='action'>
           <div
-            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) > 0}`}
+            // className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01}`}
+            className={`button ${balance >= Number(tokensAmount)}`}
             onClick={handleMigrate}
           >
             Migrate

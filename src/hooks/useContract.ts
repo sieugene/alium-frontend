@@ -2,13 +2,13 @@ import { ChainId, WETH } from '@alium-official/sdk'
 import { Contract } from '@ethersproject/contracts'
 import MULTICALL_ABI from 'config/abis/MULTICALL_ABI.json'
 import MULTICALL_ADDRESS from 'config/addresses/MULTICALL_ADDRESS'
+import LP_ABI from 'config/vampiring/LP_ABI.json'
 import { VAMPIRE_ABI } from 'config/vampiring/VAMPIRE_ABI'
 import ERC20_ABI from 'constants/abis/erc20'
 import { MIGRATOR_ABI, MIGRATOR_ADDRESS } from 'constants/abis/migrator'
 import { NFT_ABI, NFT_COLLECTIBLE_ABI, NFT_COLLECTIBLE_ADDRESS, NFT_PRIVATE_ADDRESS } from 'constants/abis/nftPrivate'
 import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from 'constants/v1'
 import { useMemo } from 'react'
-import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { getContract } from 'utils'
 import {
   getBep20Contract,
@@ -42,9 +42,8 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
   }, [address, ABI, library, withSignerIfPossible, account])
 }
 
-export function useVampireContract(): Contract | null {
-  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
-  return useContract(currentNetwork.address.vampiring, VAMPIRE_ABI, true)
+export function useVampireContract(address: string): Contract | null {
+  return useContract(address, VAMPIRE_ABI, true)
 }
 
 export function useV1FactoryContract(): Contract | null {
@@ -70,6 +69,10 @@ export function useV1ExchangeContract(address?: string, withSignerIfPossible?: b
 
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible)
+}
+
+export function useLPTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(tokenAddress, LP_ABI, withSignerIfPossible)
 }
 
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
