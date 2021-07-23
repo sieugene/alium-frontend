@@ -33,6 +33,7 @@ const ViewMigrate: FC = () => {
   >([])
   const [selectedPairKey, setSelectedPairKey] = useState(-1)
   const [tokensAmount, setTokensAmount] = useState<string | number>(0)
+  const [isLoadingPairs, setIsLoadingPairs] = useState(false)
   const [isSuccessful, setIsSuccessful] = useState(false)
   const [contract, setContract] = useState()
 
@@ -53,8 +54,10 @@ const ViewMigrate: FC = () => {
     setTokensAmount(0)
     setIsSuccessful(false)
     setPairs([])
+    setIsLoadingPairs(true)
 
-    setPairs(await getReadyToMigrateTokens(account, chainId))
+    await setPairs(await getReadyToMigrateTokens(account, chainId))
+    setIsLoadingPairs(false)
   }
 
   useEffect(() => {
@@ -148,6 +151,7 @@ const ViewMigrate: FC = () => {
             tokensAmount={tokensAmount}
             setTokensAmount={setTokensAmount}
             handleMigrate={handleMigrate}
+            isLoadingPairs={isLoadingPairs}
           />
         )}
         {step === 3 && <Step3Migrating />}

@@ -1,5 +1,6 @@
 import CoinLogo from 'alium-uikit/src/components/Svg/Icons/CoinLogo'
 import { ChangeEvent, FC, useState } from 'react'
+import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import { IconChevron } from 'views/Migrate/components/IconChevron'
 
@@ -231,6 +232,7 @@ interface props {
   tokensAmount: string | number
   setTokensAmount: (tokensAmount: string | number) => void
   handleMigrate: () => void
+  isLoadingPairs: boolean
 }
 
 export const Step2YourLiquidity: FC<props> = ({
@@ -240,6 +242,7 @@ export const Step2YourLiquidity: FC<props> = ({
   tokensAmount,
   setTokensAmount,
   handleMigrate,
+  isLoadingPairs,
 }) => {
   const [viewTokens, setViewTokens] = useState(false)
   const { title, symbolA, symbolB, exchange, balance } = pairs[selectedPairKey] ?? {
@@ -275,30 +278,55 @@ export const Step2YourLiquidity: FC<props> = ({
         </div>
       </header>
       <main>
-        <div className='tokens' onClick={() => setViewTokens((current) => !current)}>
+        <div
+          className='tokens'
+          onClick={() => setViewTokens((current) => !current)}
+          style={{
+            minHeight: '54px',
+          }}
+        >
           <div className='label'>Tokens</div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {symbolA ? (
-                <img src={`/images/coins/${symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+              {isLoadingPairs ? (
+                <div style={{ position: 'absolute', margin: '5px 16px 0px 0px' }}>
+                  <Loader width='24px' type='TailSpin' color='#6C5DD3' />
+                </div>
               ) : (
-                <CoinLogo />
-              )}
-              <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
-                {symbolB ? <img src={`/images/coins/${symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
-              </div>
+                <>
+                  {symbolA ? (
+                    <img src={`/images/coins/${symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+                  ) : (
+                    <CoinLogo />
+                  )}
 
-              {title}
-              <div style={{ margin: '0 0 0 8px', display: 'flex', alignItems: 'center' }}>
-                {exchange && <img src={`/images/exchanges/${exchange}.png`} alt='' />}
-              </div>
+                  <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
+                    {symbolB ? <img src={`/images/coins/${symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
+                  </div>
+                  {title}
+                  <div style={{ margin: '0 0 0 8px', display: 'flex', alignItems: 'center' }}>
+                    {exchange && <img src={`/images/exchanges/${exchange}.png`} alt='' />}
+                  </div>
+                </>
+              )}
             </div>
             <IconChevron inverted={viewTokens} />
           </div>
         </div>
         {viewTokens && (
           <div className='tokens-list'>
-            {!pairs.length && <div className='title2'>You do not have liquidity available for migration</div>}
+            {!pairs.length && (
+              <div className='title2' style={{ padding: '12px 16px' }}>
+                You do not have liquidity available for migration
+              </div>
+            )}
             {pairs.map((pair, key) => (
               <div
                 className='tokens-list-item'
