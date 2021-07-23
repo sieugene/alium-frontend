@@ -46,7 +46,9 @@ export const getReadyToMigrateTokens: getReadyToMigrateTokens = async (account, 
           symbolB: lpt[key].tokenB.symbol.toUpperCase(),
           addressLP: lpt[key].tokenLP.address,
           exchange: lpt[key].exchange,
-          balance: balance.toFixed(18),
+          balance: Number(balance)
+            .toFixed(18)
+            .replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, '$1'),
         },
       ]
     }
