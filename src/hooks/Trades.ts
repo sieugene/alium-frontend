@@ -1,8 +1,9 @@
-import { Currency, CurrencyAmount, Pair, Token, Trade } from '@alium-official/sdk'
+import { Currency, CurrencyAmount, Pair, Token } from '@alium-official/sdk'
 import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from 'constants/index'
 import { PairState, usePairs } from 'data/Reserves'
 import flatMap from 'lodash.flatmap'
 import { useMemo } from 'react'
+import { Trade } from 'utils/swap/trade'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useActiveWeb3React } from './index'
 
