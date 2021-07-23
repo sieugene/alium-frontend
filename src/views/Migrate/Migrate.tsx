@@ -1,7 +1,6 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
-import ERC20_ABI from 'config/abi/erc20.json'
 import { useActiveWeb3React } from 'hooks'
 import { useLPTokenContract, useTokenContract, useVampireContract } from 'hooks/useContract'
 import { FC, useEffect, useState } from 'react'
@@ -9,21 +8,24 @@ import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasPrice } from 'utils'
-import multicall from 'utils/multicall'
 import { Step1Connect } from 'views/Migrate/components/Step1Connect'
 import { Step2YourLiquidity } from 'views/Migrate/components/Step2YourLiquidity'
 import { Step3Migrating } from 'views/Migrate/components/Step3Migrating'
 import { Step4MigrationResult } from 'views/Migrate/components/Step4MigrationResult'
+import { getReadyToMigrateTokens } from 'views/Migrate/lib/getReadyToMigrateTokens'
 import SwapAppBody from 'views/Swap/SwapAppBody'
 
 const Root = styled.div``
 
 const ViewMigrate: FC = () => {
   // --- STORE ---
-  const currentNetworkId = useStoreNetwork((state) => state.currentNetwork.id)
-  const vampiringAddress = useStoreNetwork((state) => state.currentNetwork.address.vampiring)
-  const liquidityProviderTokens = useStoreNetwork((state) => state.currentNetwork.liquidityProviderTokens)
-  const blockExplorerUrl = useStoreNetwork((state) => state.currentNetwork.providerParams.blockExplorerUrls[0])
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+
+  // --- DESTRUCTURING STORE ---
+  const currentNetworkId = currentNetwork.id
+  const vampiringAddress = currentNetwork.address.vampiring
+  const liquidityProviderTokens = currentNetwork.liquidityProviderTokens
+  const blockExplorerUrl = currentNetwork.providerParams.blockExplorerUrls[0]
 
   // --- STATE ---
   const [step, setStep] = useState(2)
@@ -35,17 +37,17 @@ const ViewMigrate: FC = () => {
   const [isSuccessful, setIsSuccessful] = useState(false)
   const [contract, setContract] = useState()
 
-  // --- DESTRUCTURING
+  // --- DESTRUCTURING STATE ---
   const currentPair = pairs[selectedPairKey]
 
   // --- HOOKS ---
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
   const tokenContract = useTokenContract(currentPair?.addressLP)
   const lpTokenContract = useLPTokenContract(currentPair?.addressLP)
   const vampireContract = useVampireContract(vampiringAddress)
 
-  useEffect(() => {
+  const handleGetReadyToMigrateTokens = async () => {
     account && step === 1 && setStep(2)
     !account && setStep(1)
     setSelectedPairKey(-1)
@@ -53,38 +55,12 @@ const ViewMigrate: FC = () => {
     setIsSuccessful(false)
     setPairs([])
 
-    const fetchAllBalances = async () => {
-      const lpt = liquidityProviderTokens
-      const calls = lpt.map(({ tokenLP }) => ({
-        address: tokenLP.address,
-        name: 'balanceOf',
-        params: [account],
-      }))
-      const res = await multicall(ERC20_ABI, calls)
+    setPairs(await getReadyToMigrateTokens(account, chainId))
+  }
 
-      let newPairs = []
-      res?.returnData?.forEach((el, key) => {
-        const balance = el === '0x' ? 0 : parseInt(el, 16) * 0.000000000000000001
-        if (balance > 0) {
-          newPairs = [
-            ...newPairs,
-            {
-              title: `${lpt[key].tokenA.symbol.toUpperCase()}/${lpt[key].tokenB.symbol.toUpperCase()}`,
-              symbolA: lpt[key].tokenA.symbol.toUpperCase(),
-              symbolB: lpt[key].tokenB.symbol.toUpperCase(),
-              addressLP: lpt[key].tokenLP.address,
-              exchange: lpt[key].exchange,
-              balance,
-            },
-          ]
-        }
-      })
-
-      setPairs(newPairs)
-    }
-
-    if (account) fetchAllBalances()
-  }, [account, currentNetworkId])
+  useEffect(() => {
+    ;(async () => await handleGetReadyToMigrateTokens())()
+  }, [account, currentNetwork])
 
   const handleMigrate = async () => {
     if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01) {
@@ -131,9 +107,9 @@ const ViewMigrate: FC = () => {
                 vampireContract
                   .deposit(pairId, tokensAmountWei, { from: account, gasLimit: gasLimit2 })
                   .then((resp) => {
-                    setContract(resp.hash)
                     resp.wait().then(() => {
                       setIsSuccessful(true)
+                      setContract(resp.hash)
                       setStep(4)
                     })
                   })
