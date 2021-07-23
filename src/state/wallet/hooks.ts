@@ -34,14 +34,14 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
     addresses.map((address) => [address]),
   )
   const chainId = useStoreNetwork((state) => state.currentChainId)
-  const Ether = getCurrencyEther(chainId)
+  const { calcAmount } = getCurrencyEther(chainId)
 
   return useMemo(
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0]
 
-        if (value) memo[address] = new TokenAmount(Ether, JSBI.BigInt(value.toString()))
+        if (value) memo[address] = calcAmount(JSBI.BigInt(value.toString()))
         return memo
       }, {}),
     [addresses, results],

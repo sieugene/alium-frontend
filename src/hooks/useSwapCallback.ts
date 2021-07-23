@@ -1,3 +1,4 @@
+/* eslint-disable func-name-matching */
 import { JSBI, Percent, Router, SwapParameters, Trade, TradeType } from '@alium-official/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
@@ -61,7 +62,7 @@ function useSwapCallArguments(
     const swapMethods = []
 
     swapMethods.push(
-      Router.swapCallParameters(trade, {
+      Router.swapCallParameters(chainId, trade, {
         feeOnTransfer: false,
         allowedSlippage: new Percent(JSBI.BigInt(Math.floor(allowedSlippage)), BIPS_BASE),
         recipient,
@@ -71,7 +72,7 @@ function useSwapCallArguments(
 
     if (trade.tradeType === TradeType.EXACT_INPUT) {
       swapMethods.push(
-        Router.swapCallParameters(trade, {
+        Router.swapCallParameters(chainId, trade, {
           feeOnTransfer: true,
           allowedSlippage: new Percent(JSBI.BigInt(Math.floor(allowedSlippage)), BIPS_BASE),
           recipient,

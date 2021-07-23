@@ -111,11 +111,13 @@ export function tryParseAmount(chainId: number, value?: string, currency?: Curre
   try {
     const typedValueParsed = parseUnits(value, currency.decimals).toString()
     if (typedValueParsed !== '0') {
-      const ether = getCurrencyEther(chainId)
+      const { calcAmount } = getCurrencyEther(chainId)
+
       const token =
         currency instanceof Token
           ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
-          : new TokenAmount(ether, JSBI.BigInt(typedValueParsed))
+          : calcAmount(typedValueParsed)
+
       return token
     }
   } catch (error) {
@@ -175,6 +177,10 @@ export function useDerivedSwapInfo(): {
 
   const inputAmount = tryParseAmount(chainId, typedValue, inputCurrency ?? undefined)
   const outputAmount = tryParseAmount(chainId, typedValue, outputCurrency ?? undefined)
+
+  console.log('test input', { inputCurrency, inputAmount })
+  console.log('test --------------------')
+  console.log('test output', { outputCurrency, outputAmount })
 
   const bestTradeExactIn = useTradeExactIn(isExactIn ? inputAmount : undefined, outputAmount?.currency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputAmount?.currency ?? undefined, !isExactIn ? outputAmount : undefined)

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 import {
   BigintIsh,
   Currency,
@@ -19,8 +20,8 @@ import { useAllTokens } from 'hooks/Tokens'
 import { useV1FactoryContract } from 'hooks/useContract'
 import { Version } from 'hooks/useToggledVersion'
 import { useMemo } from 'react'
-import { useETHBalances, useTokenBalance, useTokenBalances } from 'state/wallet/hooks'
 import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from 'state/multicall/hooks'
+import { useETHBalances, useTokenBalance, useTokenBalances } from 'state/wallet/hooks'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 
 export function useV1ExchangeAddress(tokenAddress?: string): string | undefined {
@@ -104,6 +105,7 @@ export function useV1Trade(
   outputCurrency?: Currency,
   exactAmount?: CurrencyAmount,
 ): Trade | undefined {
+  const chainId = storeNetwork.getState().currentChainId
   const { nativeCurrency } = storeNetwork.getState().networkProviderParams
   // get the mock v1 pairs
   const inputPair = useMockV1Pair(inputCurrency)
@@ -124,12 +126,12 @@ export function useV1Trade(
     pairs = [inputPair, outputPair]
   }
 
-  const route = inputCurrency && pairs && pairs.length > 0 && new Route(pairs, inputCurrency, outputCurrency)
+  const route = inputCurrency && pairs && pairs.length > 0 && new Route(chainId, pairs, inputCurrency, outputCurrency)
   let v1Trade: Trade | undefined
   try {
     v1Trade =
       route && exactAmount
-        ? new Trade(route, exactAmount, isExactIn ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT)
+        ? new Trade(chainId, route, exactAmount, isExactIn ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT)
         : undefined
   } catch (error) {
     console.error('Failed to create V1 trade', error)
