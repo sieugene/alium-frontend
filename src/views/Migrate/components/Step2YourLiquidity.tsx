@@ -302,13 +302,21 @@ export const Step2YourLiquidity: FC<props> = ({
               ) : (
                 <>
                   {symbolA ? (
-                    <img src={`/images/coins/${symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+                    <img
+                      src={`/images/coins-new/${symbolA?.toLocaleLowerCase() ?? 'link'}.png`}
+                      alt=''
+                      style={{ zIndex: 1 }}
+                    />
                   ) : (
                     <CoinLogo />
                   )}
 
                   <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
-                    {symbolB ? <img src={`/images/coins/${symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
+                    {symbolB ? (
+                      <img src={`/images/coins-new/${symbolB?.toLocaleLowerCase() ?? 'link'}.png`} alt='' />
+                    ) : (
+                      <CoinLogo />
+                    )}
                   </div>
                   {title}
                   <div style={{ margin: '0 0 0 8px', display: 'flex', alignItems: 'center' }}>

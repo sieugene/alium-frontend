@@ -10,7 +10,6 @@ import { FC } from 'react'
 import { ROUTES } from 'routes'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { getExplorerLink, getExplorerName } from 'utils'
-import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
 const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
@@ -31,7 +30,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
       items: [
         { label: t('swap'), href: ROUTES.exchange },
         { label: t('mainMenu.liquidity'), href: ROUTES.pool },
-        { label: 'Migrate', href: ROUTES.migrate },
+        // { label: 'Migrate', href: ROUTES.migrate },
       ],
     },
     { label: 'Token holder area', icon: 'PrivateRoundIcon', href: ROUTES.tokenHolderArea },
