@@ -16,10 +16,9 @@ type getReadyToMigrateTokens = (
   }[]
 >
 
-export const getReadyToMigrateTokens: getReadyToMigrateTokens = async (account, chainId) => {
-  const { liquidityProviderTokens: lpt, id } = storeNetwork.getState().currentNetwork
+export const getReadyToMigrateTokens: getReadyToMigrateTokens = async (account) => {
+  const { liquidityProviderTokens: lpt } = storeNetwork.getState().currentNetwork
   if (!account) return []
-  if (chainId !== id) return []
 
   const calls = lpt.map(({ tokenLP }) => ({
     address: tokenLP.address,
