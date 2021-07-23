@@ -83,11 +83,11 @@ const MATIC: liquidityProviderTokensItem[] = [
 
 export const VAMPIRE_LP_TOKENS: { [chainId in ChainId]: liquidityProviderTokensItem[] } = {
   [ChainId.MAINNET]: BSC,
-  [ChainId.BSCTESTNET]: BSC,
+  [ChainId.BSCTESTNET]: [],
   [ChainId.HECOMAINNET]: HECO,
-  [ChainId.HECOTESTNET]: HECO,
+  [ChainId.HECOTESTNET]: [],
   [ChainId.ETHER_MAINNET]: ETHER,
-  [ChainId.ETHER_TESTNET]: ETHER,
+  [ChainId.ETHER_TESTNET]: [],
   [ChainId.MATIC_MAINNET]: MATIC,
-  [ChainId.MATIC_TESTNET]: MATIC,
+  [ChainId.MATIC_TESTNET]: [],
 }
