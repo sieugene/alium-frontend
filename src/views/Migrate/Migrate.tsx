@@ -24,7 +24,6 @@ const ViewMigrate: FC = () => {
   // --- DESTRUCTURING STORE ---
   const currentNetworkId = currentNetwork.id
   const vampiringAddress = currentNetwork.address.vampiring
-  const liquidityProviderTokens = currentNetwork.liquidityProviderTokens
   const blockExplorerUrl = currentNetwork.providerParams.blockExplorerUrls[0]
 
   // --- STATE ---
@@ -63,7 +62,8 @@ const ViewMigrate: FC = () => {
   }, [account, currentNetwork])
 
   const handleMigrate = async () => {
-    if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01) {
+    // if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01) {
+    if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount)) {
       const tokensAmountWei = parseEther(String(tokensAmount))
 
       setStep(3)
