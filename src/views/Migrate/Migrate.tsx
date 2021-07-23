@@ -161,7 +161,7 @@ const ViewMigrate: FC = () => {
             isSuccessful={isSuccessful}
             contract={contract}
             explorer={blockExplorerUrl}
-            setStep1={() => setStep(1)}
+            setStep1={() => setStep(account ? 2 : 1)}
             handleTryAgain={handleMigrate}
           />
         )}
