@@ -1,15 +1,15 @@
 import { Currency, TokenAmount } from '@alium-official/sdk'
 import { ColumnCenter } from 'components/Column'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
-import { ExchangeIcon } from 'images/Exchange-icon'
-import { FC, memo } from 'react'
+import { LiqudityIcon } from 'images/Liqudity-icon'
+import { FC, memo, useState } from 'react'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
 
 const StyledAddIcon = styled.div`
   border: none;
   outline: none;
-  cursor: pointer;
+  /* cursor: pointer; */
   display: flex;
 
   align-items: center;
@@ -22,7 +22,7 @@ const StyledAddIcon = styled.div`
   svg {
     outline: none;
   }
-  :hover {
+  /* :hover {
     background: ${({ theme }) => theme.colors.primary};
 
     & svg path {
@@ -31,7 +31,7 @@ const StyledAddIcon = styled.div`
   }
   > * {
     margin: auto;
-  }
+  } */
 `
 
 interface Props {
@@ -65,20 +65,56 @@ export const AddLiqudityInputs: FC<Props> = memo(
     onFieldBInput,
     handleCurrencyBSelect,
   }) => {
-    const onSwitchTokens = () => {
-      handleCurrencyASelect(currencies[Field.CURRENCY_B])
-      onFieldAInput(formattedAmounts[Field.CURRENCY_B])
-      handleCurrencyBSelect(currencies[Field.CURRENCY_A])
-      onFieldBInput(formattedAmounts[Field.CURRENCY_A])
+    // Use local inputs, but formattedAmounts recalculate and give wrong values
+    const [inputs, setInputs] = useState({
+      a: '',
+      b: '',
+    })
+
+    const updateInputs = (a: string, b: string) => {
+      setInputs({ a, b })
     }
+    // clear when you start type (this unblock your typing)
+    const clearInputs = () => {
+      updateInputs('', '')
+    }
+
+    const updateFormattedInputs = (a: string, b: string) => {
+      onFieldAInput(a)
+      onFieldBInput(b)
+    }
+
+    const onSwitchTokens = () => {
+      // handleCurrencyASelect(currencies[Field.CURRENCY_B])
+      // handleCurrencyBSelect(currencies[Field.CURRENCY_A])
+      // // reverts
+      // if (inputs.a && inputs.b) {
+      //   updateFormattedInputs(inputs.b, inputs.a)
+      //   updateInputs(inputs.b, inputs.a)
+      // } else {
+      //   updateFormattedInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
+      //   updateInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
+      // }
+    }
+
+    const onInputA = (value: string) => {
+      onFieldAInput(value)
+      clearInputs()
+    }
+
+    const onInputB = (value: string) => {
+      onFieldBInput(value)
+      clearInputs()
+    }
+
     return (
       <>
         <CurrencyInputPanel
           label='From'
-          value={formattedAmounts[Field.CURRENCY_A]}
-          onUserInput={onFieldAInput}
+          value={inputs.a || formattedAmounts[Field.CURRENCY_A]}
+          onUserInput={onInputA}
           onMax={() => {
-            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+            onInputA(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
           }}
           onCurrencySelect={handleCurrencyASelect}
           showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
@@ -92,16 +128,16 @@ export const AddLiqudityInputs: FC<Props> = memo(
               onSwitchTokens()
             }}
           >
-            <ExchangeIcon />
+            <LiqudityIcon />
           </StyledAddIcon>
         </ColumnCenter>
         <CurrencyInputPanel
           label='To (estimated)'
-          value={formattedAmounts[Field.CURRENCY_B]}
-          onUserInput={onFieldBInput}
+          value={inputs.b || formattedAmounts[Field.CURRENCY_B]}
+          onUserInput={onInputB}
           onCurrencySelect={handleCurrencyBSelect}
           onMax={() => {
-            onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+            onInputB(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
           }}
           showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
           currency={currencies[Field.CURRENCY_B]}

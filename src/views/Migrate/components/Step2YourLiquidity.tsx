@@ -1,5 +1,6 @@
 import CoinLogo from 'alium-uikit/src/components/Svg/Icons/CoinLogo'
 import { ChangeEvent, FC, useState } from 'react'
+import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import { IconChevron } from 'views/Migrate/components/IconChevron'
 
@@ -196,11 +197,21 @@ export const Root = styled.div`
   }
 
   .balance {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     font-family: Roboto, sans-serif;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
+
+    @media screen and (min-width: 1024px) {
+      flex-direction: row;
+    }
+  }
+
+  .balance > div {
     margin: 20px 0 4px 0;
   }
 
@@ -221,6 +232,7 @@ interface props {
   tokensAmount: string | number
   setTokensAmount: (tokensAmount: string | number) => void
   handleMigrate: () => void
+  isLoadingPairs: boolean
 }
 
 export const Step2YourLiquidity: FC<props> = ({
@@ -230,6 +242,7 @@ export const Step2YourLiquidity: FC<props> = ({
   tokensAmount,
   setTokensAmount,
   handleMigrate,
+  isLoadingPairs,
 }) => {
   const [viewTokens, setViewTokens] = useState(false)
   const { title, symbolA, symbolB, exchange, balance } = pairs[selectedPairKey] ?? {
@@ -239,15 +252,17 @@ export const Step2YourLiquidity: FC<props> = ({
   }
 
   const handleTokensAmount = (event: ChangeEvent<HTMLInputElement>) => {
-    // todo: need to improve for zero after dot, like "0.01"
     let value = event.target.value
     value = value.replace(/[^0-9.]/g, '')
+
     let split = value.split('.')
+
     if (split.length > 2 && split[1].length > 1) value = `${split[0]}.${split[1]}`
 
     split = value.split('.')
-    if (split.length > 1) value = `${split[0]}.${split[1].slice(0, 18)}`
-    value[value.length - 1] === '.' ? setTokensAmount(value) : setTokensAmount(Number(value))
+    if (split.length > 1) value = `${Number(split[0])}.${split[1].slice(0, 18)}`
+
+    isNaN(Number(value)) ? setTokensAmount('0') : setTokensAmount(value)
   }
 
   const handleMax = () => {
@@ -263,30 +278,55 @@ export const Step2YourLiquidity: FC<props> = ({
         </div>
       </header>
       <main>
-        <div className='tokens' onClick={() => setViewTokens((current) => !current)}>
+        <div
+          className='tokens'
+          onClick={() => setViewTokens((current) => !current)}
+          style={{
+            minHeight: '54px',
+          }}
+        >
           <div className='label'>Tokens</div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {symbolA ? (
-                <img src={`/images/coins/${symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+              {isLoadingPairs ? (
+                <div style={{ position: 'absolute', margin: '5px 16px 0px 0px' }}>
+                  <Loader width='24px' type='TailSpin' color='#6C5DD3' />
+                </div>
               ) : (
-                <CoinLogo />
-              )}
-              <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
-                {symbolB ? <img src={`/images/coins/${symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
-              </div>
+                <>
+                  {symbolA ? (
+                    <img src={`/images/coins/${symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+                  ) : (
+                    <CoinLogo />
+                  )}
 
-              {title}
-              <div style={{ margin: '0 0 0 8px', display: 'flex', alignItems: 'center' }}>
-                {exchange && <img src={`/images/exchanges/${exchange}.png`} alt='' />}
-              </div>
+                  <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
+                    {symbolB ? <img src={`/images/coins/${symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
+                  </div>
+                  {title}
+                  <div style={{ margin: '0 0 0 8px', display: 'flex', alignItems: 'center' }}>
+                    {exchange && <img src={`/images/exchanges/${exchange}.png`} alt='' />}
+                  </div>
+                </>
+              )}
             </div>
             <IconChevron inverted={viewTokens} />
           </div>
         </div>
         {viewTokens && (
           <div className='tokens-list'>
-            {!pairs.length && <div className='title2'>You do not have liquidity available for migration</div>}
+            {!pairs.length && (
+              <div className='title2' style={{ padding: '12px 16px' }}>
+                You do not have liquidity available for migration
+              </div>
+            )}
             {pairs.map((pair, key) => (
               <div
                 className='tokens-list-item'
@@ -325,11 +365,15 @@ export const Step2YourLiquidity: FC<props> = ({
           )}
         </div>
         <div className='balance'>
-          Balance: <span>{balance}</span>
+          <div>
+            Balance: <span>{balance}</span>
+          </div>
+          {/* <div>The minimum amount of tokens required for migration: 0.01</div> */}
         </div>
         <div className='action'>
           <div
-            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) > 0}`}
+            // className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01}`}
+            className={`button ${balance >= Number(tokensAmount)}`}
             onClick={handleMigrate}
           >
             Migrate

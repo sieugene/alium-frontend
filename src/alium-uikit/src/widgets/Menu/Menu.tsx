@@ -173,13 +173,11 @@ const Menu: FC<NavProps> = ({
   buttonTitle = 'Connect',
   options,
   children,
-  balance,
   explorerName,
   explorerLink,
   onTransactionHistoryHandler,
   betaText = "This is the Beta version. You can't add liquidity here anymore. Press here to switch to the main version.",
   betaLink,
-  balanceHook,
 }) => {
   const { isXl } = useMatchBreakpoints()
   const isMobile = isXl === false
@@ -238,11 +236,9 @@ const Menu: FC<NavProps> = ({
                 login={login}
                 logout={logout}
                 buttonTitle={buttonTitle}
-                balance={balance}
                 explorerName={explorerName}
                 explorerLink={explorerLink}
                 onTransactionHistoryHandler={onTransactionHistoryHandler}
-                balanceHook={balanceHook}
                 {...options}
               />
             )}

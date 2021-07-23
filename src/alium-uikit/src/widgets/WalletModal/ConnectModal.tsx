@@ -69,8 +69,13 @@ const StyledFlexPoint = styled(Flex)`
 `
 
 const StyledWalletFlex = styled(StyledFlex)`
-  > div:last-child {
+  /* > div:last-child {
     margin-right: 64px;
+  }
+  */
+  flex-wrap: nowrap;
+  @media screen and (max-width: 420px) {
+    flex-wrap: wrap;
   }
 `
 
@@ -117,7 +122,7 @@ const ConnectModal: FC<Props> = ({ login, onDismiss = () => null, title = 'Conne
         <Text style={{ fontSize: '14px', color: '#0B1359', marginLeft: '16px' }}>Choose Wallet</Text>
       </StyledFlexPoint>
       <StyledWalletFlex>
-        {wallets.map((entry) => {
+        {wallets().map((entry) => {
           return entry.mobile ? (
             isMobile && (
               <WalletCard

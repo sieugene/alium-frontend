@@ -371,6 +371,11 @@ const InvestorsAccount = () => {
                     {poolsWithData.filter(filterPools).map((pool) => (
                       <NftPoolCard
                         key={`Pool-Nft-${pool.id}`}
+                        // price emulate
+                        // pool={{
+                        //   ...pool,
+                        //   unlocked: 4445
+                        // }}
                         pool={pool}
                         onClaim={onClaimHandler}
                         pending={Boolean(pendingClaimResult?.[0] === pool.id)}
