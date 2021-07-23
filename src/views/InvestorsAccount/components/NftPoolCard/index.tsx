@@ -3,7 +3,7 @@ import { BigNumber, ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { PoolsTypes } from '../../constants/pools'
-import { getExtensionUpToAWeekTimeStamp, getTimeFormatNft } from './NftPoolCard.functions'
+import { getTimeFormatNft } from './NftPoolCard.functions'
 
 interface NftPoolCardProps {
   pool: PoolsTypes
@@ -127,12 +127,13 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
   const claimed = ethers.utils.formatEther(pool.claimed || BigNumber.from(0))
   // Temp formatter date
   const original_timestamp = pool?.timestamp || '0'
-  const { extensionUpToAWeekTimeStamp, TEMP_CONDITION_21, canClaim } = getExtensionUpToAWeekTimeStamp(
-    original_timestamp,
-    unlocked,
-  )
+  // const { extensionUpToAWeekTimeStamp, TEMP_CONDITION_21, canClaim } = getExtensionUpToAWeekTimeStamp(
+  //   original_timestamp,
+  //   unlocked,
+  // )
   // unlock with timestamp
-  const unlockWithTimestamp = TEMP_CONDITION_21 ? canClaim : !!Number(unlocked)
+  // unlockWithTimestamp = TEMP_CONDITION_21 ? canClaim : !!Number(unlocked)
+  const unlockWithTimestamp = !!Number(unlocked)
   //
   const isUnlocked = unlockWithTimestamp
   const [isLoadingLocal, setIsLoadingLocal] = useState(false)
@@ -196,7 +197,7 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
       <Field maxWidth='140px'>
         <FieldName>Next unclocked date</FieldName>
         {/* {getTimeFormat(pool.timestamp)} */}
-        {getTimeFormatNft(extensionUpToAWeekTimeStamp)}
+        {getTimeFormatNft(original_timestamp)}
       </Field>
     </NftPoolCardWrap>
   )

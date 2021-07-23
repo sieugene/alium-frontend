@@ -1,7 +1,7 @@
 import { Currency, TokenAmount } from '@alium-official/sdk'
 import { ColumnCenter } from 'components/Column'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
-import { ExchangeIcon } from 'images/Exchange-icon'
+import { LiqudityIcon } from 'images/Liqudity-icon'
 import { FC, memo, useState } from 'react'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
@@ -9,7 +9,7 @@ import styled from 'styled-components'
 const StyledAddIcon = styled.div`
   border: none;
   outline: none;
-  cursor: pointer;
+  /* cursor: pointer; */
   display: flex;
 
   align-items: center;
@@ -22,7 +22,7 @@ const StyledAddIcon = styled.div`
   svg {
     outline: none;
   }
-  :hover {
+  /* :hover {
     background: ${({ theme }) => theme.colors.primary};
 
     & svg path {
@@ -31,7 +31,7 @@ const StyledAddIcon = styled.div`
   }
   > * {
     margin: auto;
-  }
+  } */
 `
 
 interface Props {
@@ -85,17 +85,16 @@ export const AddLiqudityInputs: FC<Props> = memo(
     }
 
     const onSwitchTokens = () => {
-      handleCurrencyASelect(currencies[Field.CURRENCY_B])
-      handleCurrencyBSelect(currencies[Field.CURRENCY_A])
-
-      // reverts
-      if (inputs.a && inputs.b) {
-        updateFormattedInputs(inputs.b, inputs.a)
-        updateInputs(inputs.b, inputs.a)
-      } else {
-        updateFormattedInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
-        updateInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
-      }
+      // handleCurrencyASelect(currencies[Field.CURRENCY_B])
+      // handleCurrencyBSelect(currencies[Field.CURRENCY_A])
+      // // reverts
+      // if (inputs.a && inputs.b) {
+      //   updateFormattedInputs(inputs.b, inputs.a)
+      //   updateInputs(inputs.b, inputs.a)
+      // } else {
+      //   updateFormattedInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
+      //   updateInputs(formattedAmounts[Field.CURRENCY_B], formattedAmounts[Field.CURRENCY_A])
+      // }
     }
 
     const onInputA = (value: string) => {
@@ -129,7 +128,7 @@ export const AddLiqudityInputs: FC<Props> = memo(
               onSwitchTokens()
             }}
           >
-            <ExchangeIcon />
+            <LiqudityIcon />
           </StyledAddIcon>
         </ColumnCenter>
         <CurrencyInputPanel
