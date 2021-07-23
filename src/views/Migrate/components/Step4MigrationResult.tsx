@@ -161,8 +161,8 @@ export const Step4MigrationResult: FC<props> = ({
               Migrate {pair.exchange} {pair.title} liquidity to AliumSwap
             </div>
             <div className='copy'>
-              <span>Transaction: </span>
-              <input type='text' value={inputValue} />
+              <span>Token Alium-LP: </span>
+              <input type='text' value='0x15577fe532359695362822fc58016e796f750a8d' />
               <div onClick={handleCopy}>
                 <IconCopy />
               </div>
