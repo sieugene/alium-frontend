@@ -340,7 +340,7 @@ export const Step2YourLiquidity: FC<props> = ({
           <div>
             Balance: <span>{balance}</span>
           </div>
-          <div>The minimum amount of tokens required for migration: 0.01</div>
+          {/* <div>The minimum amount of tokens required for migration: 0.01</div> */}
         </div>
         <div className='action'>
           <div
