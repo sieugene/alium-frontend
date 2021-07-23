@@ -41,7 +41,7 @@ const ViewMigrate: FC = () => {
   const currentPair = pairs[selectedPairKey]
 
   // --- HOOKS ---
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
   const tokenContract = useTokenContract(currentPair?.addressLP)
   const lpTokenContract = useLPTokenContract(currentPair?.addressLP)
@@ -56,7 +56,7 @@ const ViewMigrate: FC = () => {
     setPairs([])
     setIsLoadingPairs(true)
 
-    await setPairs(await getReadyToMigrateTokens(account, chainId))
+    await setPairs(await getReadyToMigrateTokens(account))
     setIsLoadingPairs(false)
   }
 
