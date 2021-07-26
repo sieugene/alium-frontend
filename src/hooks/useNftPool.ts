@@ -1,8 +1,9 @@
 import { Contract } from '@ethersproject/contracts'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
-import { useTransactionAdder } from 'state/transactions/hooks'
+import { useTranslation } from 'react-i18next'
 import { useSingleContractMultipleData } from 'state/multicall/hooks'
+import { useTransactionAdder } from 'state/transactions/hooks'
 import { getContract } from 'utils'
 import { cardListPrivate, cardListPublic, cardListStrategical } from 'views/InvestorsAccount/constants/cards'
 import {
@@ -23,6 +24,8 @@ export default function useNftPool() {
   const [publicExchangerContract, setPublicExchangerContract] = useState<Contract | null>(null)
   const { account, library } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (library && account) {
@@ -105,7 +108,7 @@ export default function useNftPool() {
         .claim(pid, { from: account })
         .then((response: any) => {
           addTransaction(response, {
-            summary: 'boughtCards',
+            summary: t('boughtCards', { count: '1' }),
             additionalData: {
               count: '1',
               card: cards.filter((card) => card.id === pid)?.[0],
