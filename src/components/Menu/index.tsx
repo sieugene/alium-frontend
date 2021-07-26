@@ -8,13 +8,10 @@ import useTheme from 'hooks/useTheme'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import { ROUTES } from 'routes'
-import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { getExplorerLink, getExplorerName } from 'utils'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
 const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
-  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
-  const { nativeCurrency } = networkProviderParams
   const { t } = useTranslation()
 
   const links: MenuEntry[] = [
