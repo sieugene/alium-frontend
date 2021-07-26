@@ -1,5 +1,6 @@
 import { ChainId, WETH } from '@alium-official/sdk'
 import { Contract } from '@ethersproject/contracts'
+import AbiAliumFactory from 'config/abi/AbiAliumFactory.json'
 import MULTICALL_ABI from 'config/abis/MULTICALL_ABI.json'
 import MULTICALL_ADDRESS from 'config/addresses/MULTICALL_ADDRESS'
 import LP_ABI from 'config/vampiring/LP_ABI.json'
@@ -40,6 +41,10 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
       return null
     }
   }, [address, ABI, library, withSignerIfPossible, account])
+}
+
+export function useFactoryContract(address: string): Contract | null {
+  return useContract(address, AbiAliumFactory)
 }
 
 export function useVampireContract(address: string): Contract | null {

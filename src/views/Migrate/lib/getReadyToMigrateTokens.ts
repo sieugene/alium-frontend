@@ -7,6 +7,8 @@ type getReadyToMigrateTokens = (account: string) => Promise<
     title: string
     symbolA: string
     symbolB: string
+    addressA: string
+    addressB: string
     addressLP: string
     exchange: string
     balance: number
@@ -40,6 +42,8 @@ export const getReadyToMigrateTokens: getReadyToMigrateTokens = async (account) 
           title: `${lpt[key].tokenA.symbol.toUpperCase()}/${lpt[key].tokenB.symbol.toUpperCase()}`,
           symbolA: lpt[key].tokenA.symbol.toUpperCase(),
           symbolB: lpt[key].tokenB.symbol.toUpperCase(),
+          addressA: lpt[key].tokenA.address,
+          addressB: lpt[key].tokenB.address,
           addressLP: lpt[key].tokenLP.address,
           exchange: lpt[key].exchange,
           balance: Number(balance)
