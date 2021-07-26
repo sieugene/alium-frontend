@@ -1,6 +1,7 @@
 import copy from 'copy-to-clipboard'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { IconClose } from 'views/Migrate/components/IconClose'
 import { IconCopy } from 'views/Migrate/components/IconCopy'
@@ -16,6 +17,7 @@ export const Root = styled.div`
   @media screen and (min-width: 768px) {
     padding: 90px 0;
   }
+
   .close {
     position: absolute;
     right: 0;
@@ -25,9 +27,11 @@ export const Root = styled.div`
     cursor: pointer;
     border-radius: 6px;
   }
+
   .close:hover {
     background: #eeeeee;
   }
+
   .title {
     font-family: Roboto, sans-serif;
     font-size: 16px;
@@ -37,10 +41,12 @@ export const Root = styled.div`
     margin: 24px 8px 10px 8px;
     text-align: center;
   }
+
   .title.error {
     margin: 24px 0 36px 0;
     color: #ff4d00;
   }
+
   .button {
     display: flex;
     justify-content: center;
@@ -56,9 +62,11 @@ export const Root = styled.div`
     line-height: 20px;
     letter-spacing: 1px;
   }
+
   .button:hover {
     background: #8677f0;
   }
+
   .copy {
     padding: 12px 16px;
     width: 100%;
@@ -74,6 +82,7 @@ export const Root = styled.div`
     border: 1px solid #d2d6e5;
     border-radius: 6px;
   }
+
   .copy input {
     border: none;
     outline: none;
@@ -84,9 +93,11 @@ export const Root = styled.div`
     letter-spacing: 0.1px;
     color: #8990a5;
   }
+
   .copy svg {
     cursor: pointer;
   }
+
   .view-on-explorer {
     padding: 12px;
     font-family: Roboto, sans-serif;
@@ -115,6 +126,7 @@ export const Step4MigrationResult: FC<props> = ({
   setStep1,
   handleTryAgain,
 }) => {
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
   const [isCopied, setIsCopied] = useState(false)
 
   const handleCopy = (str: string) => {
@@ -145,11 +157,22 @@ export const Step4MigrationResult: FC<props> = ({
             <div className='title'>
               Migrate {pair.exchange} {pair.title} liquidity to AliumSwap
             </div>
-            <div className='copy'>
-              <span>Token Alium-LP: </span>
-              <input type='text' value='0x15577fe532359695362822fc58016e796f750a8d' />
-              <div onClick={() => handleCopy(`${contract}`)}>
-                <IconCopy />
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '8px 0',
+                padding: '0 16px',
+              }}
+            >
+              <div style={{ marginRight: '12px' }}>Alium-LP Token: </div>
+              <div className='copy'>
+                <input type='text' value={currentNetwork.address.aliumLP} />
+                <div onClick={() => handleCopy(currentNetwork.address.aliumLP)}>
+                  <IconCopy />
+                </div>
               </div>
             </div>
             <Link href={`${explorer}tx/${contract}`}>

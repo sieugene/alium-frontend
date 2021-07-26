@@ -46,8 +46,8 @@ interface props {
 }
 
 const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
-  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
-  const { nativeCurrency } = networkProviderParams
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  const { nativeCurrency } = currentNetwork.providerParams
   useLiquidityPriorityDefaultAlm()
 
   const history = useRouter()

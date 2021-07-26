@@ -12,9 +12,9 @@ const FORMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 const PORTIS_ID = process.env.REACT_APP_PORTIS_ID
 
 export const getCurrentNetwork = () => {
-  const { currentChainId, networkProviderParams } = storeNetwork.getState()
+  const { currentChainId, currentNetwork } = storeNetwork.getState()
   const network = new NetworkConnector({
-    urls: { [currentChainId]: networkProviderParams.rpcUrls[0] },
+    urls: { [currentChainId]: currentNetwork.providerParams.rpcUrls[0] },
     defaultChainId: currentChainId,
   })
   return network

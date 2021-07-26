@@ -1,11 +1,9 @@
 import { getCookieOptions } from 'alium-uikit/src/config/getCookieOptions'
 import { WEB3NetworkErrors } from 'constants/network/NetworkErrors.contanst'
 import { getActualChainId } from 'store/network/helpers/getActualChainId'
-import { currentNetwork, getCurrentNetwork } from 'store/network/helpers/getCurrentNetwork'
+import { getCurrentNetwork, ICurrentNetwork } from 'store/network/helpers/getCurrentNetwork'
 import { getNetworkProviderParams } from 'store/network/helpers/getNetworkProviderParams'
-import { getNetworkRpcUrl } from 'store/network/helpers/getNetworkRpcUrl'
 import { WindowChain } from 'types'
-import { AddEthereumChainParameter } from 'types/AddEthereumChainParameter'
 import Cookies from 'universal-cookie'
 import create from 'zustand'
 import createVanilla from 'zustand/vanilla'
@@ -18,13 +16,12 @@ const getInitialChainId = (): number => {
   return getActualChainId(cookieChainId ? Number(cookieChainId) : process.env.APP_ENV === 'production' ? 56 : 97)
 }
 const currentChainId = getInitialChainId()
+const currentNetwork = getCurrentNetwork(currentChainId)
 
 interface StoreAccountState {
   // state
   currentChainId: number
-  currentNetwork: currentNetwork
-  networkRpcUrl: string
-  networkProviderParams: AddEthereumChainParameter
+  currentNetwork: ICurrentNetwork
   connectIsFailed: WEB3NetworkErrors | null
   // actions
   killStoreNetwork: () => void
@@ -37,9 +34,7 @@ interface StoreAccountState {
 // store for usage outside of react
 export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   currentChainId,
-  currentNetwork: getCurrentNetwork(currentChainId),
-  networkRpcUrl: getNetworkRpcUrl(currentChainId),
-  networkProviderParams: getNetworkProviderParams(currentChainId),
+  currentNetwork,
   connectIsFailed: null,
   killStoreNetwork: () => {
     storeNetwork.destroy() // destroy all store subscribes
@@ -58,8 +53,6 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     set({
       currentChainId: newChainId,
       currentNetwork: getCurrentNetwork(newChainId),
-      networkRpcUrl: getNetworkRpcUrl(newChainId),
-      networkProviderParams: getNetworkProviderParams(newChainId),
     })
     cookies.set(chainIdCookieKey, newChainId, getCookieOptions())
   },

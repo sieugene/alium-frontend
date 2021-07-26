@@ -39,7 +39,7 @@ const StyledAddIcon = styled.div`
 `
 
 export default function PoolFinder() {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   const { account } = useActiveWeb3React()
 
   const [showSearch, setShowSearch] = useState<boolean>(false)

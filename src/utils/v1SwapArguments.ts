@@ -18,7 +18,7 @@ function deadlineFromNow(ttl: number): string {
  * @param options options for swapping
  */
 export default function v1SwapArguments(trade: Trade, options: Omit<TradeOptions, 'feeOnTransfer'>): SwapParameters {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   const chainId = storeNetwork.getState().currentChainId
   if (getTradeVersion(trade) !== Version.v1) {
     throw new Error('invalid trade version')

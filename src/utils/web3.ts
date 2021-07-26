@@ -4,9 +4,9 @@ import { HttpProviderOptions } from 'web3-core-helpers'
 
 // always return current
 export const getWeb3NoAccount = () => {
-  const { networkRpcUrl } = storeNetwork.getState()
+  const { currentNetwork } = storeNetwork.getState()
   const httpProviderOptions: HttpProviderOptions = { timeout: 10000 }
-  const httpProvider = new Web3.providers.HttpProvider(networkRpcUrl, httpProviderOptions)
+  const httpProvider = new Web3.providers.HttpProvider(currentNetwork.rpcUrl, httpProviderOptions)
   const web3NoAccount = new Web3(httpProvider)
   return web3NoAccount
 }

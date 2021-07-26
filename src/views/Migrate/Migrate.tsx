@@ -27,14 +27,14 @@ const ViewMigrate: FC = () => {
   const blockExplorerUrl = currentNetwork.providerParams.blockExplorerUrls[0]
 
   // --- STATE ---
-  const [step, setStep] = useState(2)
+  const [step, setStep] = useState(4)
   const [pairs, setPairs] = useState<
     { title: string; symbolA: string; symbolB: string; addressLP: string; exchange: string; balance: number }[]
   >([])
   const [selectedPairKey, setSelectedPairKey] = useState(-1)
   const [tokensAmount, setTokensAmount] = useState<string | number>(0)
   const [isLoadingPairs, setIsLoadingPairs] = useState(false)
-  const [isSuccessful, setIsSuccessful] = useState(false)
+  const [isSuccessful, setIsSuccessful] = useState(true)
   const [contract, setContract] = useState()
 
   // --- DESTRUCTURING STATE ---
@@ -48,11 +48,11 @@ const ViewMigrate: FC = () => {
   const vampireContract = useVampireContract(vampiringAddress)
 
   const handleGetReadyToMigrateTokens = async () => {
-    account && step === 1 && setStep(2)
-    !account && setStep(1)
+    account && step === 1 && setStep(4)
+    !account && setStep(4)
     setSelectedPairKey(-1)
     setTokensAmount(0)
-    setIsSuccessful(false)
+    setIsSuccessful(true)
     setPairs([])
     setIsLoadingPairs(true)
 
