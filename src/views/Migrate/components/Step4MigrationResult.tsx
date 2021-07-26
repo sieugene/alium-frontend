@@ -1,7 +1,6 @@
 import copy from 'copy-to-clipboard'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
-import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { IconClose } from 'views/Migrate/components/IconClose'
 import { IconCopy } from 'views/Migrate/components/IconCopy'
@@ -114,6 +113,7 @@ interface props {
   isSuccessful: boolean
   contract?: string
   explorer?: string
+  aliumLPTokenForPair?: string
   setStep1: () => void
   handleTryAgain: () => void
 }
@@ -123,10 +123,10 @@ export const Step4MigrationResult: FC<props> = ({
   isSuccessful,
   contract = '',
   explorer = '',
+  aliumLPTokenForPair = '',
   setStep1,
   handleTryAgain,
 }) => {
-  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
   const [isCopied, setIsCopied] = useState(false)
 
   const handleCopy = (str: string) => {
@@ -143,7 +143,7 @@ export const Step4MigrationResult: FC<props> = ({
     }
   }, [isCopied])
 
-  const inputValue = isCopied ? 'Copied' : contract
+  const inputValue = isCopied ? 'Copied' : aliumLPTokenForPair
 
   return (
     <>
@@ -167,10 +167,10 @@ export const Step4MigrationResult: FC<props> = ({
                 padding: '0 16px',
               }}
             >
-              <div style={{ marginRight: '12px' }}>Alium-LP Token: </div>
+              <div style={{ marginRight: '12px' }}>Alium-LP Token:</div>
               <div className='copy'>
-                <input type='text' value={currentNetwork.address.aliumLP} />
-                <div onClick={() => handleCopy(currentNetwork.address.aliumLP)}>
+                <input type='text' value={inputValue} />
+                <div onClick={() => handleCopy(aliumLPTokenForPair)}>
                   <IconCopy />
                 </div>
               </div>

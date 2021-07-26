@@ -7,8 +7,8 @@ const coingecko = {}
 
 const download = function (uri, filename, callback) {
   request.head(uri, (err, res) => {
-    console.log('content-type:', res.headers['content-type'])
-    console.log('content-length:', res.headers['content-length'])
+    console.info('content-type:', res.headers['content-type'])
+    console.info('content-length:', res.headers['content-length'])
 
     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback)
   })
@@ -56,10 +56,10 @@ const handler = async (req, res) => {
       },
     ).then((responseRaw) => {
       responseRaw.json().then((response) => {
-        console.log('response', response.image)
+        console.info('response', response.image)
 
         download(response.image.large, `./public/images/coins-new/${symbol}.png`, () => {
-          console.log('done')
+          console.info('done')
         })
       })
     })

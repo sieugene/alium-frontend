@@ -33,11 +33,6 @@ const connector = (args: ConnectorArgs = {}) => {
   const browser = !isMobile && web3
   const mobileWithWeb3 = isMobile && web3
   const mobileWithoutWeb3 = isMobile && !web3
-  console.log('-------------------')
-  console.log('browser?', browser)
-  console.log('mobileWithWeb3?', mobileWithWeb3)
-  console.log('mobileWithoutWeb3?', mobileWithoutWeb3)
-  console.log('-------------------')
 
   if (browser) {
     return browserConnector

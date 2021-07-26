@@ -2,7 +2,7 @@ import { ChainId } from '@alium-official/sdk'
 import { VAMPIRE_ADDRESS } from 'config/vampiring/VAMPIRE_ADDRESS'
 import { liquidityProviderTokensItem, VAMPIRE_LP_TOKENS } from 'config/vampiring/VAMPIRE_LP_TOKENS'
 import random from 'lodash/random'
-import { networkAddressAliumLPToken } from 'store/network/data/networkAddressAliumLPToken'
+import { networkAddressFactory } from 'store/network/data/networkAddressFactory'
 import { networkProvidersParamsList } from 'store/network/data/networkProvidersParamsList'
 import { networkRpcUrlsList } from 'store/network/data/networkRpcUrlsList'
 import { AddEthereumChainParameter } from 'types/AddEthereumChainParameter'
@@ -12,8 +12,8 @@ export interface ICurrentNetwork {
   rpcUrl: string
   providerParams: AddEthereumChainParameter
   address: {
+    factory: string
     vampiring: string
-    aliumLP: string
   }
   liquidityProviderTokens: liquidityProviderTokensItem[]
 }
@@ -26,8 +26,8 @@ export const getCurrentNetwork = (currentChainId: number): ICurrentNetwork => {
     rpcUrl: networkRpcUrlsList[id][random(0, networkRpcUrlsList[id].length - 1)],
     providerParams: networkProvidersParamsList[id],
     address: {
+      factory: networkAddressFactory[id],
       vampiring: VAMPIRE_ADDRESS[id],
-      aliumLP: networkAddressAliumLPToken[id],
     },
     liquidityProviderTokens: VAMPIRE_LP_TOKENS[id],
   }
