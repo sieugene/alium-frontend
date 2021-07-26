@@ -3,7 +3,7 @@ import { ChainId } from '@alium-official/sdk'
 export const networkAddressAliumLPToken = {
   [ChainId.MAINNET]: '0x15577fe532359695362822fc58016e796f750a8d',
   [ChainId.BSCTESTNET]: '',
-  [ChainId.HECOMAINNET]: '0x574dd0617c5057b4d1eef216ec1f34ff270c47e0',
+  [ChainId.HECOMAINNET]: '0x3c9ab89d64f18594136b654012034e753fa67d0a',
   [ChainId.HECOTESTNET]: '',
   [ChainId.ETHER_MAINNET]: '0x????????????????????????????????????????',
   [ChainId.ETHER_TESTNET]: '',
