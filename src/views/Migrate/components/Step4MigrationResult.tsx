@@ -132,7 +132,7 @@ export const Step4MigrationResult: FC<props> = ({
 }) => {
   const [isCopied, setIsCopied] = useState(false)
 
-  const handleCopy = (str) => {
+  const handleCopy = (str: string) => {
     setIsCopied(copy(str))
   }
 
@@ -163,7 +163,7 @@ export const Step4MigrationResult: FC<props> = ({
             <div className='copy'>
               <span>Token Alium-LP: </span>
               <input type='text' value='0x15577fe532359695362822fc58016e796f750a8d' />
-              <div onClick={handleCopy}>
+              <div onClick={() => handleCopy(`${contract}`)}>
                 <IconCopy />
               </div>
             </div>
