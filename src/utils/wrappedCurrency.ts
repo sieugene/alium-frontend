@@ -2,7 +2,7 @@ import { ChainId, Currency, CurrencyAmount, Token, TokenAmount, WETH } from '@al
 import { storeNetwork } from 'store/network/useStoreNetwork'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   // currency === nativeCurrency, not be equal but Object and instance not equal, check by symbol
   // const token =
   //   chainId && currency?.symbol === nativeCurrency?.symbol
@@ -24,7 +24,7 @@ export function wrappedCurrencyAmount(
 }
 
 export function unwrappedToken(token: Token): Currency {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   if (token.equals(WETH[token.chainId])) return nativeCurrency
   return token
 }

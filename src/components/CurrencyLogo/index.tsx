@@ -32,8 +32,8 @@ export default function CurrencyLogo({
   size?: string
   style?: CSSProperties
 }) {
-  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
-  const { nativeCurrency } = networkProviderParams
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  const { nativeCurrency } = currentNetwork.providerParams
   let { chainId } = useActiveWeb3React()
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   if (currentChainId) {

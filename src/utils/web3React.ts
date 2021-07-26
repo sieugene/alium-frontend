@@ -8,7 +8,7 @@ import { Web3InjectedConnector } from '../connectors/injected/Web3InjectedConnec
 
 export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const POLLING_INTERVAL = 12000
-  const { currentChainId, networkRpcUrl } = storeNetwork.getState()
+  const { currentChainId, currentNetwork } = storeNetwork.getState()
 
   const isDev = process.env.APP_ENV === 'development'
   const networks = isDev ? networksDev : networksProd
@@ -19,7 +19,7 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const injected = new Web3InjectedConnector({ supportedChainIds: [supportedId] })
 
   const walletconnect = new WalletConnectConnector({
-    rpc: { [supportedId]: networkRpcUrl as string },
+    rpc: { [supportedId]: currentNetwork.rpcUrl as string },
     bridge: 'https://bridge.walletconnect.org',
     qrcode: true,
     pollingInterval: POLLING_INTERVAL,

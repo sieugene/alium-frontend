@@ -106,7 +106,7 @@ export function useV1Trade(
   exactAmount?: CurrencyAmount,
 ): Trade | undefined {
   const chainId = storeNetwork.getState().currentChainId
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   // get the mock v1 pairs
   const inputPair = useMockV1Pair(inputCurrency)
   const outputPair = useMockV1Pair(outputCurrency)

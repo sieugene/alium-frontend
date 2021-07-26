@@ -23,7 +23,7 @@ import { FadedSpan, MenuItem } from './styleds'
 const { main: Main } = TYPE
 
 function currencyKey(currency: Currency): string {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   return currency instanceof Token ? currency.address : currency === nativeCurrency ? 'ETHER' : ''
 }
 
@@ -177,12 +177,9 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
-  const { nativeCurrency } = networkProviderParams
-  const itemData = useMemo(
-    () => (showETH ? [...currencies, nativeCurrency] : [...currencies]),
-    [currencies, showETH, nativeCurrency],
-  )
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  const { nativeCurrency } = currentNetwork.providerParams
+  const itemData = useMemo(() => (showETH ? [...currencies, nativeCurrency] : [...currencies]), [currencies, showETH])
 
   const Row = useCallback(
     ({ data, index, style }) => {
