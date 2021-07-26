@@ -8,7 +8,7 @@ import PolygonMatic from './icons/PolygonMatic'
 import TokenPocket from './icons/TokenPocket'
 import TrustWallet from './icons/TrustWallet'
 import WalletConnect from './icons/WalletConnect'
-import { ConnectorNames, NetworksConfig, WalletsConfig } from './types'
+import { ConnectorNames, NetworksConfig, WalletsConfig, WalletShowOn } from './types'
 
 const isWeb3Detect = () => {
   const global: any = process.browser && window
@@ -29,6 +29,7 @@ const connector = (args: ConnectorArgs = {}) => {
   } = args
 
   const web3 = isWeb3Detect()
+
   const browser = !isMobile && web3
   const mobileWithWeb3 = isMobile && web3
   const mobileWithoutWeb3 = isMobile && !web3
@@ -63,7 +64,7 @@ export const wallets = (): WalletsConfig[] => [
     title: 'Trust Wallet',
     icon: TrustWallet,
     connectorId: connector(),
-    mobile: true,
+    showOn: WalletShowOn.mobile,
   },
   // {
   //   title: 'Math Wallet',
@@ -91,6 +92,7 @@ export const wallets = (): WalletsConfig[] => [
       mobileAlternativeConnector: ConnectorNames.WalletConnect,
       browserConnector: ConnectorNames.BSC,
     }),
+    showOn: WalletShowOn.desktop,
   },
 ]
 
