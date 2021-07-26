@@ -30,7 +30,7 @@ const ViewMigrate: FC = () => {
   const [step, setStep] = useState(2)
   const [pairs, setPairs] = useState<
     { title: string; symbolA: string; symbolB: string; addressLP: string; exchange: string; balance: number }[]
-    >([])
+  >([])
   const [selectedPairKey, setSelectedPairKey] = useState(-1)
   const [tokensAmount, setTokensAmount] = useState<string | number>(0)
   const [isLoadingPairs, setIsLoadingPairs] = useState(false)
