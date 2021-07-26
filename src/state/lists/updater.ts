@@ -9,6 +9,7 @@ import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { addPopup } from '../application/actions'
 import { AppDispatch, AppState } from '../index'
 import { acceptListUpdate } from './actions'
+import { useUpdateListTokensWhenChainChanged } from './hooks'
 
 export default function Updater(): null {
   const { library } = useActiveWeb3React()
@@ -28,6 +29,9 @@ export default function Updater(): null {
 
   // fetch all lists every 10 minutes, but only after we initialize library
   useInterval(fetchAllListsCallback, library ? 1000 * 60 * 10 : null)
+
+  // Chain was changed, but list not updated
+  useUpdateListTokensWhenChainChanged()
 
   // whenever a list is not loaded and not loading, try again to load it
   useEffect(() => {
@@ -51,6 +55,7 @@ export default function Updater(): null {
             throw new Error('unexpected no version bump')
           case VersionUpgrade.PATCH:
           case VersionUpgrade.MINOR:
+            // eslint-disable-next-line no-case-declarations
             const min = minVersionBump(list.current.tokens, list.pendingUpdate.tokens)
             // automatically update minor/patch as long as bump matches the min update
             if (bump >= min) {

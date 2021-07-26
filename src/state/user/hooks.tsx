@@ -5,6 +5,7 @@ import { useAllTokens } from 'hooks/Tokens'
 import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { setThemeCache } from 'utils/theme'
 import { AppDispatch, AppState } from '../index'
 import {
@@ -139,7 +140,7 @@ export function useRemoveUserAddedToken(): (chainId: number, address: string) =>
 }
 
 export function useUserAddedTokens(): Token[] {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useStoreNetwork ((state) => state.currentChainId)
   const serializedTokensMap = useSelector<AppState, AppState['user']['tokens']>(({ user: { tokens } }) => tokens)
 
   return useMemo(() => {

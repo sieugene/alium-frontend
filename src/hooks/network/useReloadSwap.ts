@@ -11,9 +11,9 @@ export const useReloadSwap = (logout: () => Promise<void>) => {
         const isSwapRoutes = router.pathname.includes(ROUTES.add) || router.pathname.includes(ROUTES.exchange)
         if (isSwapRoutes) {
           logout()
-          setTimeout(() => {
-            window.location.reload()
-          }, 150)
+          // setTimeout(() => {
+          //   window.location.reload()
+          // }, 150)
         }
       },
       (state) => state.currentChainId,

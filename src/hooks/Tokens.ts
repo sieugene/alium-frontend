@@ -10,7 +10,7 @@ import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
 export function useAllTokens(): { [address: string]: Token } {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useStoreNetwork((state) => state.currentChainId)
   const userAddedTokens = useUserAddedTokens()
   const allTokens = useSelectedTokenList()
 

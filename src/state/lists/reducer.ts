@@ -1,3 +1,4 @@
+import { ChainId } from '@alium-official/sdk'
 import { createReducer } from '@reduxjs/toolkit'
 import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
 import { TokenList } from '@uniswap/token-lists/dist/types'
@@ -31,7 +32,7 @@ const NEW_LIST_STATE: ListsState['byUrl'][string] = {
 
 type Mutable<T> = { -readonly [P in keyof T]: T[P] extends ReadonlyArray<infer U> ? U[] : T[P] }
 
-const initialState: ListsState = {
+const initialState = (chainId: ChainId): ListsState => ({
   lastInitializedDefaultListOfLists: DEFAULT_LIST_OF_LISTS,
   byUrl: {
     ...DEFAULT_LIST_OF_LISTS.reduce<Mutable<ListsState['byUrl']>>((memo, listUrl) => {
@@ -40,15 +41,15 @@ const initialState: ListsState = {
     }, {}),
     [DEFAULT_TOKEN_LIST_URL]: {
       error: null,
-      current: DEFAULT_LIST[storeNetwork.getState().currentChainId],
+      current: DEFAULT_LIST[chainId],
       loadingRequestId: null,
       pendingUpdate: null,
     },
   },
   selectedListUrl: DEFAULT_TOKEN_LIST_URL,
-}
+})
 
-export default createReducer(initialState, (builder) =>
+export default createReducer(initialState(storeNetwork.getState().currentChainId), (builder) =>
   builder
     .addCase(fetchTokenList.pending, (state, { payload: { requestId, url } }) => {
       state.byUrl[url] = {
@@ -131,9 +132,11 @@ export default createReducer(initialState, (builder) =>
       }
     })
     .addCase(updateVersion, (state) => {
+      const chainId = storeNetwork.getState().currentChainId
+      // init or change chainId, update url lists
+      state.byUrl = initialState(chainId).byUrl
       // state loaded from localStorage, but new lists have never been initialized
       if (!state.lastInitializedDefaultListOfLists) {
-        state.byUrl = initialState.byUrl
         state.selectedListUrl = undefined
       } else if (state.lastInitializedDefaultListOfLists) {
         const lastInitializedSet = state.lastInitializedDefaultListOfLists.reduce<Set<string>>(
