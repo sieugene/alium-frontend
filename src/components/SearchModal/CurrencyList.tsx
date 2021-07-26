@@ -99,7 +99,8 @@ function CurrencyRow({
   otherSelected: boolean
   style: CSSProperties
 }) {
-  const { account, chainId } = useActiveWeb3React()
+  const chainId = useStoreNetwork((state) => state.currentChainId)
+  const { account } = useActiveWeb3React()
   const key = currencyKey(currency)
   const selectedTokenList = useSelectedTokenList()
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
@@ -178,7 +179,10 @@ export default function CurrencyList({
 }) {
   const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
   const { nativeCurrency } = networkProviderParams
-  const itemData = useMemo(() => (showETH ? [...currencies, nativeCurrency] : [...currencies]), [currencies, showETH])
+  const itemData = useMemo(
+    () => (showETH ? [...currencies, nativeCurrency] : [...currencies]),
+    [currencies, showETH, nativeCurrency],
+  )
 
   const Row = useCallback(
     ({ data, index, style }) => {
