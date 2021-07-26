@@ -335,7 +335,6 @@ export const Step2YourLiquidity: FC<props> = ({
                 You do not have liquidity available for migration
               </div>
             )}
-            // `/images/coins-new/${symbolA?.toLocaleLowerCase() ?? 'link'}.png`
             {pairs.map((pair, key) => (
               <div
                 className='tokens-list-item'
