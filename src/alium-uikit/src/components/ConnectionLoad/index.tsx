@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import Portal from '@reach/portal'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { Spinner } from '../Spinner'
 
@@ -23,9 +24,11 @@ const ConnectionLoad: FC<Props> = ({ load }) => {
     return null
   }
   return (
-    <WrapConnection>
-      <Spinner />
-    </WrapConnection>
+    <Portal>
+      <WrapConnection>
+        <Spinner />
+      </WrapConnection>
+    </Portal>
   )
 }
 export default ConnectionLoad

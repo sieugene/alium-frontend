@@ -23,12 +23,14 @@ interface StoreAccountState {
   currentChainId: number
   currentNetwork: ICurrentNetwork
   connectIsFailed: WEB3NetworkErrors | null
+  loadConnection: boolean
   // actions
   killStoreNetwork: () => void
   initStoreNetwork: () => void
   setChainId: (id: number) => void
   setupNetwork: (id: number) => Promise<boolean>
   setConnectionError: (error: WEB3NetworkErrors | null) => void
+  toggleLoadConnection: (load: boolean) => void
 }
 
 // store for usage outside of react
@@ -36,6 +38,12 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   currentChainId,
   currentNetwork,
   connectIsFailed: null,
+  loadConnection: false,
+  toggleLoadConnection: (load: boolean) => {
+    set({
+      loadConnection: load,
+    })
+  },
   killStoreNetwork: () => {
     storeNetwork.destroy() // destroy all store subscribes
   },
