@@ -22,13 +22,15 @@ const useAuth = () => {
   const web3 = process.browser && window.web3
   const { toastError } = useToast()
   const sendDataToGTM = useGTMDispatch()
-  const { setConnectionError } = useStoreNetwork()
+  const { setConnectionError, toggleLoadConnection } = useStoreNetwork()
 
   const login = useCallback(
     // offIndicate for eager connect
     async (connectorID: ConnectorNames, offIndicate?: boolean) => {
       try {
         const { chainId, connector } = getConnectorsByName(connectorID)
+        toggleLoadConnection(true)
+
         if (connector) {
           await activate(connector, async (error: Error) => {
             await errorHandlerWithRetry(error, chainId, connector)
@@ -41,6 +43,8 @@ const useAuth = () => {
       } catch (error) {
         // toastError(WEB3NetworkErrors.NOPROVIDER)
         // dispatch(setConnectionError({ error }))
+      } finally {
+        toggleLoadConnection(false)
       }
     },
     [activate, sendDataToGTM, setConnectionError, toastError, deactivate],
@@ -94,8 +98,10 @@ const useAuth = () => {
   }
 
   const logout = async () => {
+    toggleLoadConnection(true)
     clearWalletConnect()
     await deactivate()
+    toggleLoadConnection(false)
   }
   return { login, logout }
 }
