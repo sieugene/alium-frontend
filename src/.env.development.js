@@ -1,5 +1,4 @@
 module.exports = {
-  APP_ENV: 'development',
   APP_NODES_BSC: [
     'https://data-seed-prebsc-1-s1.binance.org:8545',
     'https://data-seed-prebsc-2-s1.binance.org:8545',

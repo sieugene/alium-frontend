@@ -1,5 +1,4 @@
 module.exports = {
-  APP_ENV: 'production',
   APP_NODES_BSC: [
     'https://bsc-dataseed.binance.org',
     'https://bsc-dataseed1.defibit.io',
