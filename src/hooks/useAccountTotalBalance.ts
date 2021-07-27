@@ -4,7 +4,7 @@ import AliumVestingAbi from '../config/abi/AliumVesting.json'
 
 const getAccountTotalBalance = async (account, library): Promise<number> => {
   try {
-    const contract = getContract(process.env.REACT_APP_NFT_VESTING, AliumVestingAbi, library, account)
+    const contract = getContract(process.env.APP_NFT_VESTING, AliumVestingAbi, library, account)
     const { 0: totalBalanceRaw } = await contract.getTotalBalanceOf(account)
     return Number(totalBalanceRaw.toString())
   } catch (err) {

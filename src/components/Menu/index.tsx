@@ -72,7 +72,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
     <>
       <ConnectionPending />
       <UikitMenu
-        // isProduction={process.env.NODE_ENV === "production"}
+        // isProduction={process.env.APP_ENV !== 'development'}
         links={links}
         account={account as string}
         login={login}

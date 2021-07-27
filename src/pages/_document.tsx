@@ -6,10 +6,10 @@ export default class extends Document {
   render = () => (
     <Html lang='en' dir='ltr'>
       <Head>
-        <link rel='preconnect' href={process.env.REACT_APP_NODE_1} />
-        <link rel='preconnect' href={process.env.REACT_APP_HECO_NODE_1} />
-        <link rel='preconnect' href={process.env.REACT_APP_ETHEREUM_NODE_1} />
-        <link rel='preconnect' href={process.env.REACT_APP_MATIC_1} />
+        <link rel='preconnect' href={process.env.APP_NODES_BSC[0]} />
+        <link rel='preconnect' href={process.env.APP_NODES_HECO[0]} />
+        <link rel='preconnect' href={process.env.APP_NODES_ETHEREUM[0]} />
+        <link rel='preconnect' href={process.env.APP_NODES_MATIC[0]} />
         <link rel='preconnect' href='https://fonts.gstatic.com' />
         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap' />
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css' />

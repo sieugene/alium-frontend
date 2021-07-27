@@ -25,9 +25,9 @@ const LanguageContext = createContext({
 } as LanguageState)
 
 const fileId = 8
-const projectId = parseInt(process.env.REACT_APP_CROWDIN_PROJECTID, 10)
+const projectId = parseInt(process.env.APP_CROWDIN_PROJECTID, 10)
 const stringTranslationsApi = new StringTranslations({
-  token: process.env.REACT_APP_CROWDIN_APIKEY,
+  token: process.env.APP_CROWDIN_APIKEY,
 })
 
 const fetchTranslationsForSelectedLanguage = (selectedLanguage) => {

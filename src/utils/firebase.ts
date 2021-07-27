@@ -23,7 +23,7 @@ type dbMailListCreateEmail = (email: string) => Promise<boolean | null>
 
 export const dbMailListCreateEmail: dbMailListCreateEmail = async (email) => {
   try {
-    const collectionPath = process.env.REACT_APP_NODE_ENV === 'development' ? 'maillist-dev' : 'maillist'
+    const collectionPath = process.env.APP_ENV === 'development' ? 'maillist-dev' : 'maillist'
     const docRef = db.collection(collectionPath).doc(email)
     return docRef
       .get()
