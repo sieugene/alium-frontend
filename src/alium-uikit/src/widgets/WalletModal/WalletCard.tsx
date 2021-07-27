@@ -1,8 +1,7 @@
 import { setConnectorId } from 'alium-uikit/src/util/connectorId/setConnectorId'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
-import ConnectionLoad from '../../components/ConnectionLoad'
 import Flex from '../../components/Flex/Flex'
 import { CheckmarkCircleIcon } from '../../components/Svg'
 import Text from '../../components/Text/Text'
@@ -78,9 +77,7 @@ const WalletCard: FC<Props> = ({
   availableConnectors,
 }) => {
   const { title, icon: Icon } = walletConfig
-  const [connectionLoad, setconnectionLoad] = useState(false)
   const onClickHandler = async () => {
-    setconnectionLoad(true)
     try {
       setConnectorId(walletConfig.connectorId)
       await login(walletConfig.connectorId)
@@ -88,8 +85,6 @@ const WalletCard: FC<Props> = ({
       onDismiss()
     } catch (error) {
       console.error(error)
-    } finally {
-      setconnectionLoad(false)
     }
   }
 
@@ -102,7 +97,6 @@ const WalletCard: FC<Props> = ({
       onClick={!isBlurred ? undefined : onClickHandler}
       isBlurred={!isBlurred}
     >
-      <ConnectionLoad load={connectionLoad} />
       <StyledButton
         fullwidth
         variant='tertiary'
