@@ -1,8 +1,16 @@
+/* App nodes are taken from here:
+https://docs.binance.org/smart-chain/developer/rpc.html
+https://www.hecochain.com/developer-en.9d3e5b2.pdf
+https://docs.matic.network/docs/develop/network-details/network/
+https://docs.linkpool.io/docs/public_rpc */
 module.exports = {
   APP_NODES_BSC: [
     'https://data-seed-prebsc-1-s1.binance.org:8545',
     'https://data-seed-prebsc-2-s1.binance.org:8545',
     'https://data-seed-prebsc-1-s2.binance.org:8545',
+    'https://data-seed-prebsc-2-s2.binance.org:8545',
+    'https://data-seed-prebsc-1-s3.binance.org:8545',
+    'https://data-seed-prebsc-2-s3.binance.org:8545',
   ],
   APP_NODES_HECO: ['https://http-testnet.hecochain.com'],
   APP_NODES_ETHEREUM: ['https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
