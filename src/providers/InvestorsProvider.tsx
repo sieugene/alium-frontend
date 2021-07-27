@@ -19,9 +19,9 @@ const InvestorsProvider: FC = ({ children }) => {
   const sendDataToGTM = useGTMDispatch()
   return (
     <IntercomProvider
-      appId={process.env.REACT_APP_INTERCOM_APP_ID}
+      appId={process.env.APP_INTERCOM_APP_ID}
       autoBoot
-      shouldInitialize={!!process.env.REACT_APP_INTERCOM_APP_ID}
+      shouldInitialize={!!process.env.APP_INTERCOM_APP_ID}
       onShow={() => {
         GTM.clickIntercom(sendDataToGTM)
       }}

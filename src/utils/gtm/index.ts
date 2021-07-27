@@ -49,7 +49,7 @@ const GTM = {
 }
 
 const gtmLogger = (log: string, param?: {}) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.APP_ENV === 'development') {
     console.info(
       '%c GTM ',
       'background: #222; color: #bada55',
