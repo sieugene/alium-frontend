@@ -3,5 +3,6 @@ export enum WEB3NetworkErrors {
 	CANTSETUP = "Please change network",
 	CANTSETUP_IN_WALLET = "Please change network in your wallet",
 	NOAUTH = "Please authorize to access your account",
-	UNSUPPORTED_CHAIN = "Unsupported chain"
+	UNSUPPORTED_CHAIN = "Unsupported chain",
+	WEB3NOTEXIST = "No provider was found."
 }

@@ -180,7 +180,7 @@ const StyledTextWrapper = styled.div`
 
 const NotifyMembers = (hash, currency) => {
   const explorer = 'https://bscscan.com/tx'
-  if (process.env.NODE_ENV !== 'development') {
+  if (process.env.APP_ENV !== 'development') {
     emails.forEach((email) => {
       const obj = {
         to: email,

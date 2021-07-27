@@ -8,7 +8,7 @@ import { transformProfileResponse } from './helpers'
 
 const profileContract = getProfileContract()
 const rabbitContract = getPancakeRabbitContract()
-const profileApi = process.env.REACT_APP_API_PROFILE
+const profileApi = process.env.APP_API_PROFILE
 
 export interface GetProfileResponse {
   hasRegistered: boolean

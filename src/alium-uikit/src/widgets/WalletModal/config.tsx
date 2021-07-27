@@ -104,21 +104,21 @@ export const networksProd: NetworksConfig[] = [
     icon: Huobi,
     label: 'Huobi ECO Chain',
     chainId: 128,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
   {
     title: 'Polygon',
     icon: PolygonMatic,
     label: 'Polygon Matic Chain',
     chainId: 137,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
   {
     title: 'Ethereum',
     icon: EtherIcon,
     label: 'Ethereum Chain',
     chainId: 1,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
 ]
 
@@ -135,20 +135,20 @@ export const networksDev: NetworksConfig[] = [
     icon: Huobi,
     label: 'Huobi ECO Chain',
     chainId: 256,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
   {
     title: 'Polygon',
     icon: PolygonMatic,
     label: 'Polygon Matic Chain',
     chainId: 80001,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
   {
     title: 'Ethereum',
     icon: EtherIcon,
     label: 'Ethereum Chain',
     chainId: 4,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
 ]

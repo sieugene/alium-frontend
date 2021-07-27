@@ -8,8 +8,8 @@ You can start by reading our [Contribution guidelines](https://docs.alium.financ
 Create a `.env.development.local` file at the root of the project. Add the following lines inside :
 
 ```
-REACT_APP_CROWDIN_APIKEY = ""
-REACT_APP_CROWDIN_PROJECTID = ""
+APP_CROWDIN_APIKEY = ""
+APP_CROWDIN_PROJECTID = ""
 ```
 
 You'll need this in order to get the i18n system to work. Contact a dev if you need these values.
@@ -39,7 +39,7 @@ Run tests with `yarn test`.
 
 ## Localisation
 
-_In order for the Crowdin API queries to work - you will need `REACT_APP_CROWDIN_APIKEY` & `REACT_APP_CROWDIN_PROJECTID` env variables set in your root `.env.development.local` file_
+_In order for the Crowdin API queries to work - you will need `APP_CROWDIN_APIKEY` & `APP_CROWDIN_PROJECTID` env variables set in your root `.env.development.local` file_
 
 ### Adding translations
 

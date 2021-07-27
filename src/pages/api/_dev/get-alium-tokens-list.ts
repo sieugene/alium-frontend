@@ -15,7 +15,7 @@ const download = function (uri, filename, callback) {
 }
 
 const handler = async (req, res) => {
-  if (process.env.NODE_ENV !== 'development') {
+  if (process.env.APP_ENV !== 'development') {
     res.end()
     return
   }
