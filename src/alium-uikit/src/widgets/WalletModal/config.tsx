@@ -24,7 +24,7 @@ interface ConnectorArgs {
 const connector = (args: ConnectorArgs = {}) => {
   const {
     browserConnector = ConnectorNames.Injected,
-    mobileConnector = ConnectorNames.Injected,
+    mobileConnector,
     mobileAlternativeConnector = ConnectorNames.WalletConnect,
   } = args
 
@@ -39,8 +39,8 @@ const connector = (args: ConnectorArgs = {}) => {
   }
   if (mobileWithWeb3) {
     // can't detect wallet name, for mobile only walletconnect
-    return ConnectorNames.WalletConnect
-    // return mobileConnector
+    // return ConnectorNames.WalletConnect
+    return mobileConnector || ConnectorNames.WalletConnect
   }
   if (mobileWithoutWeb3) {
     return mobileAlternativeConnector
@@ -58,7 +58,10 @@ export const wallets = (): WalletsConfig[] => [
   {
     title: 'Trust Wallet',
     icon: TrustWallet,
-    connectorId: connector(),
+    connectorId: connector({
+      mobileConnector: ConnectorNames.Injected,
+      browserConnector: ConnectorNames.WalletConnect,
+    }),
     showOn: WalletShowOn.mobile,
   },
   // {

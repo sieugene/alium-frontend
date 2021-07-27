@@ -26,6 +26,7 @@ const useChangeNetwork = (login: (connectorID: ConnectorNames, offIndicate?: boo
     const { ethereum } = window
     if (ethereum?.on && !active && !error) {
       ethereum.on('chainChanged', connect)
+
       return () => {
         if (ethereum.removeListener) {
           ethereum.removeListener('chainChanged', connect)
