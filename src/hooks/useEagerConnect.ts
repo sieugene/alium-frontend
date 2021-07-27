@@ -35,13 +35,13 @@ const useEagerConnect = () => {
         // We must check to see if it exists, and if not, wait for it before proceeding.
         const isBinanceChainDefined = Reflect.has(window, 'BinanceChain')
         if (!isBinanceChainDefined) {
-          _binanceChainListener().then(() => login(connectorId))
+          _binanceChainListener().then(() => login(connectorId, true))
 
           return
         }
       }
 
-      login(connectorId)
+      login(connectorId, true)
     }
   }, [login])
 }

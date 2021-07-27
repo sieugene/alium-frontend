@@ -9,7 +9,7 @@ import Text from '../../components/Text/Text'
 import { Modal } from '../Modal'
 import { networksDev, networksProd, wallets } from './config'
 import NetworkSelector from './NetworkSelector'
-import { Login, WalletShowOn } from './types'
+import { Login, NetworksConfig, WalletShowOn } from './types'
 import WalletCard from './WalletCard'
 
 interface Props {
@@ -128,6 +128,9 @@ const ConnectModal: FC<Props> = ({ login, onDismiss = () => null, title = 'Conne
       </StyledFlexPoint>
       <StyledWalletFlex>
         {walletsList.map((entry) => {
+          const config = networkConfig as NetworksConfig
+          const availableConnectors = config?.supportConnectors
+
           return (
             <WalletDisplay key={entry.title} showOn={entry.showOn}>
               <WalletCard
@@ -137,6 +140,7 @@ const ConnectModal: FC<Props> = ({ login, onDismiss = () => null, title = 'Conne
                 onDismiss={onDismiss}
                 setSelectedWallet={setSelectedWallet}
                 selectedNetwork={selectedNetwork}
+                availableConnectors={availableConnectors}
               />
             </WalletDisplay>
           )
