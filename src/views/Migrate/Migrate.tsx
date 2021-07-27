@@ -103,51 +103,58 @@ const ViewMigrate: FC = () => {
         const gasPrice = await calculateGasPrice(tokenContract.provider)
 
         lpTokenContract
-          .approve(currentNetwork.address.vampiring, tokensAmountWei, { gasLimit, gasPrice, from: account })
-          .then(async (response) => {
+          .approve(currentNetwork.address.vampiring, MaxUint256, { gasLimit, gasPrice, from: account })
+          .then((response) => {
             addTransaction(response, {
               summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
               approval: { tokenAddress: currentPair.addressLP, spender: account },
             })
 
-            setIsSuccessful(false)
-
-            await vampireContract.estimateGas
+            vampireContract.estimateGas
               .deposit(pairId, tokensAmountWei, { from: account })
-              .then(async (gasLimit2) => {
+              .then((gasLimit2) => {
                 vampireContract
                   .deposit(pairId, tokensAmountWei, { from: account, gasLimit: gasLimit2 })
                   .then((resp) => {
-                    resp.wait().then(async () => {
-                      await factoryContract
-                        .getPair(currentPair?.addressA, currentPair?.addressB)
-                        .then((response) => {
-                          setAliumLPTokenForPair(response)
-                        })
-                        .catch((err: Error) => {
-                          console.error('factoryContract.getPair:', err)
-                        })
-                      setContract(resp.hash)
-                      setIsSuccessful(true)
-                      setStep(4)
-                    })
+                    resp
+                      .wait()
+                      .then(() => {
+                        factoryContract
+                          .getPair(currentPair?.addressA, currentPair?.addressB)
+                          .then((response) => {
+                            setAliumLPTokenForPair(response)
+                            setContract(resp.hash)
+                            setIsSuccessful(true)
+                            setStep(4)
+                          })
+                          .catch((err: Error) => {
+                            setIsSuccessful(false)
+                            setStep(4)
+                            console.error('*** factoryContract.getPair:', err)
+                          })
+                      })
+                      .catch((err: Error) => {
+                        setIsSuccessful(false)
+                        setStep(4)
+                        console.error('*** resp.wait():', err)
+                      })
                   })
                   .catch((err: Error) => {
                     setIsSuccessful(false)
                     setStep(4)
-                    console.error(err)
+                    console.error('*** vampireContract.deposit:', err)
                   })
               })
               .catch((err: Error) => {
                 setIsSuccessful(false)
                 setStep(4)
-                console.error(err)
+                console.error('*** vampireContract.estimateGas.deposit:', err)
               })
           })
           .catch((err: Error) => {
             setIsSuccessful(false)
             setStep(4)
-            console.error(err)
+            console.error('*** lpTokenContract.approve:', err)
           })
       }
     }
