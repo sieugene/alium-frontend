@@ -13,7 +13,6 @@ export const Root = styled.div`
   align-items: center;
   padding: 40px 0;
   position: relative;
-
   @media screen and (min-width: 768px) {
     padding: 90px 0;
   }
@@ -56,7 +55,6 @@ export const Root = styled.div`
     background: #6c5dd3;
     color: #ffffff;
     cursor: pointer;
-
     font-family: Roboto, sans-serif;
     font-weight: bold;
     font-size: 14px;
@@ -75,13 +73,11 @@ export const Root = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
     font-family: Roboto, sans-serif;
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0.1px;
     color: #0b1359;
-
     border: 1px solid #d2d6e5;
     border-radius: 6px;
   }
@@ -90,7 +86,6 @@ export const Root = styled.div`
     border: none;
     outline: none;
     width: 100%;
-
     font-family: Roboto, sans-serif;
     font-size: 14px;
     line-height: 16px;
@@ -118,6 +113,7 @@ interface props {
   isSuccessful: boolean
   contract?: string
   explorer?: string
+  aliumLPTokenForPair?: string
   setStep1: () => void
   handleTryAgain: () => void
 }
@@ -127,12 +123,13 @@ export const Step4MigrationResult: FC<props> = ({
   isSuccessful,
   contract = '',
   explorer = '',
+  aliumLPTokenForPair = '',
   setStep1,
   handleTryAgain,
 }) => {
   const [isCopied, setIsCopied] = useState(false)
 
-  const handleCopy = (str) => {
+  const handleCopy = (str: string) => {
     setIsCopied(copy(str))
   }
 
@@ -146,7 +143,7 @@ export const Step4MigrationResult: FC<props> = ({
     }
   }, [isCopied])
 
-  const inputValue = isCopied ? 'Copied' : contract
+  const inputValue = isCopied ? 'Copied' : aliumLPTokenForPair
 
   return (
     <>
@@ -160,11 +157,22 @@ export const Step4MigrationResult: FC<props> = ({
             <div className='title'>
               Migrate {pair.exchange} {pair.title} liquidity to AliumSwap
             </div>
-            <div className='copy'>
-              <span>Token Alium-LP: </span>
-              <input type='text' value='0x15577fe532359695362822fc58016e796f750a8d' />
-              <div onClick={handleCopy}>
-                <IconCopy />
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '8px 0',
+                padding: '0 16px',
+              }}
+            >
+              <div style={{ marginRight: '12px' }}>Alium-LP Token:</div>
+              <div className='copy'>
+                <input type='text' value={inputValue} />
+                <div onClick={() => handleCopy(aliumLPTokenForPair)}>
+                  <IconCopy />
+                </div>
               </div>
             </div>
             <Link href={`${explorer}tx/${contract}`}>

@@ -68,8 +68,7 @@ export function CurrencySearch({
   onChangeList,
   currencyList,
 }: CurrencySearchProps) {
-  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
-  const { nativeCurrency } = networkProviderParams
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
@@ -145,7 +144,7 @@ export function CurrencySearch({
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim()
         if (s === 'bnb') {
-          handleCurrencySelect(nativeCurrency)
+          handleCurrencySelect(currentNetwork.providerParams.nativeCurrency)
         } else if (filteredSortedTokens.length > 0) {
           if (
             filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||

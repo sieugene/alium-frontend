@@ -8,7 +8,7 @@ import PolygonMatic from './icons/PolygonMatic'
 import TokenPocket from './icons/TokenPocket'
 import TrustWallet from './icons/TrustWallet'
 import WalletConnect from './icons/WalletConnect'
-import { ConnectorNames, NetworksConfig, WalletsConfig } from './types'
+import { ConnectorNames, NetworksConfig, WalletsConfig, WalletShowOn } from './types'
 
 const isWeb3Detect = () => {
   const global: any = process.browser && window
@@ -24,27 +24,23 @@ interface ConnectorArgs {
 const connector = (args: ConnectorArgs = {}) => {
   const {
     browserConnector = ConnectorNames.Injected,
-    mobileConnector = ConnectorNames.Injected,
+    mobileConnector,
     mobileAlternativeConnector = ConnectorNames.WalletConnect,
   } = args
 
   const web3 = isWeb3Detect()
+
   const browser = !isMobile && web3
   const mobileWithWeb3 = isMobile && web3
   const mobileWithoutWeb3 = isMobile && !web3
-  console.log('-------------------')
-  console.log('browser?', browser)
-  console.log('mobileWithWeb3?', mobileWithWeb3)
-  console.log('mobileWithoutWeb3?', mobileWithoutWeb3)
-  console.log('-------------------')
 
   if (browser) {
     return browserConnector
   }
   if (mobileWithWeb3) {
     // can't detect wallet name, for mobile only walletconnect
-    return ConnectorNames.WalletConnect
-    // return mobileConnector
+    // return ConnectorNames.WalletConnect
+    return mobileConnector || ConnectorNames.WalletConnect
   }
   if (mobileWithoutWeb3) {
     return mobileAlternativeConnector
@@ -62,8 +58,11 @@ export const wallets = (): WalletsConfig[] => [
   {
     title: 'Trust Wallet',
     icon: TrustWallet,
-    connectorId: connector(),
-    mobile: true,
+    connectorId: connector({
+      mobileConnector: ConnectorNames.Injected,
+      browserConnector: ConnectorNames.WalletConnect,
+    }),
+    showOn: WalletShowOn.mobile,
   },
   // {
   //   title: 'Math Wallet',
@@ -91,6 +90,7 @@ export const wallets = (): WalletsConfig[] => [
       mobileAlternativeConnector: ConnectorNames.WalletConnect,
       browserConnector: ConnectorNames.BSC,
     }),
+    showOn: WalletShowOn.desktop,
   },
 ]
 
@@ -107,21 +107,21 @@ export const networksProd: NetworksConfig[] = [
     icon: Huobi,
     label: 'Huobi ECO Chain',
     chainId: 128,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
   {
     title: 'Polygon',
     icon: PolygonMatic,
     label: 'Polygon Matic Chain',
     chainId: 137,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
   {
     title: 'Ethereum',
     icon: EtherIcon,
     label: 'Ethereum Chain',
     chainId: 1,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
 ]
 
@@ -138,20 +138,20 @@ export const networksDev: NetworksConfig[] = [
     icon: Huobi,
     label: 'Huobi ECO Chain',
     chainId: 256,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
   {
     title: 'Polygon',
     icon: PolygonMatic,
     label: 'Polygon Matic Chain',
     chainId: 80001,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
   {
     title: 'Ethereum',
     icon: EtherIcon,
     label: 'Ethereum Chain',
     chainId: 4,
-    supportConnectors: [ConnectorNames.Injected],
+    supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
 ]

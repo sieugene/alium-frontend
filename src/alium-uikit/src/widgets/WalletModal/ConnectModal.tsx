@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
@@ -9,7 +9,7 @@ import Text from '../../components/Text/Text'
 import { Modal } from '../Modal'
 import { networksDev, networksProd, wallets } from './config'
 import NetworkSelector from './NetworkSelector'
-import { Login } from './types'
+import { Login, NetworksConfig, WalletShowOn } from './types'
 import WalletCard from './WalletCard'
 
 interface Props {
@@ -93,6 +93,11 @@ const ConnectModal: FC<Props> = ({ login, onDismiss = () => null, title = 'Conne
     onDismiss()
   }
 
+  const [walletsList, setWalletsList] = useState([])
+  React.useEffect(() => {
+    setWalletsList(wallets())
+  }, [])
+
   return (
     <Modal title={title} onDismiss={handleClose}>
       <StyledFlexPoint alignItems='center' marginBottom='5px'>
@@ -122,29 +127,22 @@ const ConnectModal: FC<Props> = ({ login, onDismiss = () => null, title = 'Conne
         <Text style={{ fontSize: '14px', color: '#0B1359', marginLeft: '16px' }}>Choose Wallet</Text>
       </StyledFlexPoint>
       <StyledWalletFlex>
-        {wallets().map((entry) => {
-          return entry.mobile ? (
-            isMobile && (
+        {walletsList.map((entry) => {
+          const config = networkConfig as NetworksConfig
+          const availableConnectors = config?.supportConnectors
+
+          return (
+            <WalletDisplay key={entry.title} showOn={entry.showOn}>
               <WalletCard
-                key={entry.title}
                 login={login}
                 selected={entry.title === selectedWallet}
                 walletConfig={entry}
                 onDismiss={onDismiss}
                 setSelectedWallet={setSelectedWallet}
                 selectedNetwork={selectedNetwork}
+                availableConnectors={availableConnectors}
               />
-            )
-          ) : (
-            <WalletCard
-              key={entry.title}
-              login={login}
-              selected={entry.title === selectedWallet}
-              walletConfig={entry}
-              onDismiss={onDismiss}
-              setSelectedWallet={setSelectedWallet}
-              selectedNetwork={selectedNetwork}
-            />
+            </WalletDisplay>
           )
         })}
       </StyledWalletFlex>
@@ -156,6 +154,24 @@ const ConnectModal: FC<Props> = ({ login, onDismiss = () => null, title = 'Conne
       </HelpLink>
     </Modal>
   )
+}
+
+const WalletDisplay = ({ children, showOn }: { showOn: WalletShowOn; children: React.ReactNode }) => {
+  let component: React.ReactNode
+  switch (showOn) {
+    case WalletShowOn.mobile:
+      component = isMobile && children
+      break
+    case WalletShowOn.desktop:
+      component = !isMobile && children
+      break
+    case WalletShowOn.anywhere:
+      component = children
+      break
+    default:
+      component = children
+  }
+  return <> {component || null}</>
 }
 
 export default ConnectModal

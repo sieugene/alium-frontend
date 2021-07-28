@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { getFullDisplayBalance } from './../formatBalance'
 
 // toSignificant like uniswap
-export const toSignificantCurrency = (currency: CurrencyAmount | Price, defaultValue?: string) => {
+export const toSignificantCurrency = (currency: CurrencyAmount | Price, defaultValue?: string): string => {
   return formatCurrency(currency, 6, defaultValue)
 }
 
@@ -23,9 +23,10 @@ const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6, defVal?: s
   }
 
   // Zero condition
-  // if (JSBI.equal(currency.quotient, JSBI.BigInt(0))) {
-  //   return '0'
-  // }
+  // @ts-ignore
+  if (currency && !JSBI.greaterThan(currency?.raw, JSBI.BigInt(0))) {
+    return '0'
+  }
 
   // Minimal zeros is 0.001, checkout - 0.0011 is false and  0.0010 is true
   if (isMinimalAmount(amount, firstMin)) {

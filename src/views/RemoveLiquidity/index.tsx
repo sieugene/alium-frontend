@@ -101,8 +101,8 @@ const StyledPriceContainer = styled.div`
 `
 
 export const RemoveLiquidity: FC = () => {
-  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
-  const { nativeCurrency } = networkProviderParams
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  const { nativeCurrency } = currentNetwork.providerParams
   const history = useRouter()
   const { query } = history
   const currencyIdA = query?.tokens as string

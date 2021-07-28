@@ -302,13 +302,21 @@ export const Step2YourLiquidity: FC<props> = ({
               ) : (
                 <>
                   {symbolA ? (
-                    <img src={`/images/coins/${symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+                    <img
+                      src={`/images/coins-new/${symbolA?.toLocaleLowerCase() ?? 'link'}.png`}
+                      alt=''
+                      style={{ zIndex: 1 }}
+                    />
                   ) : (
                     <CoinLogo />
                   )}
 
                   <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
-                    {symbolB ? <img src={`/images/coins/${symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
+                    {symbolB ? (
+                      <img src={`/images/coins-new/${symbolB?.toLocaleLowerCase() ?? 'link'}.png`} alt='' />
+                    ) : (
+                      <CoinLogo />
+                    )}
                   </div>
                   {title}
                   <div style={{ margin: '0 0 0 8px', display: 'flex', alignItems: 'center' }}>
@@ -338,12 +346,20 @@ export const Step2YourLiquidity: FC<props> = ({
               >
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   {pair.symbolA ? (
-                    <img src={`/images/coins/${pair.symbolA ?? 'token'}.png`} alt='' style={{ zIndex: 1 }} />
+                    <img
+                      src={`/images/coins-new/${pair?.symbolA?.toLocaleLowerCase() ?? 'link'}.png`}
+                      alt=''
+                      style={{ zIndex: 1 }}
+                    />
                   ) : (
                     <CoinLogo />
                   )}
                   <div style={{ margin: '0 8px 0 -8px', display: 'flex', alignItems: 'center' }}>
-                    {pair.symbolB ? <img src={`/images/coins/${pair.symbolB ?? 'token'}.png`} alt='' /> : <CoinLogo />}
+                    {pair.symbolB ? (
+                      <img src={`/images/coins-new/${pair?.symbolB?.toLocaleLowerCase() ?? 'link'}.png`} alt='' />
+                    ) : (
+                      <CoinLogo />
+                    )}
                   </div>
 
                   {pair.title}
@@ -372,8 +388,7 @@ export const Step2YourLiquidity: FC<props> = ({
         </div>
         <div className='action'>
           <div
-            // className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01}`}
-            className={`button ${balance >= Number(tokensAmount)}`}
+            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) > 0}  `}
             onClick={handleMigrate}
           >
             Migrate

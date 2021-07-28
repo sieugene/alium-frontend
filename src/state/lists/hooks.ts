@@ -1,7 +1,9 @@
 import { ChainId, Token } from '@alium-official/sdk'
 import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists'
-import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateVersion } from 'state/global/actions'
+import { storeNetwork } from 'store/network/useStoreNetwork'
 import { AppState } from '../index'
 
 type TagDetails = Tags[keyof Tags]
@@ -121,4 +123,16 @@ export function useAllLists(): TokenList[] {
         .filter((l): l is TokenList => Boolean(l)),
     [lists],
   )
+}
+
+export const useUpdateListTokensWhenChainChanged = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    storeNetwork.subscribe(
+      (currentChainId, prevChainId) => {
+        dispatch(updateVersion())
+      },
+      (state) => state.currentChainId,
+    )
+  }, [])
 }

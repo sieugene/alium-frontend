@@ -26,7 +26,7 @@ export default function useWrapCallback(
   outputCurrency: Currency | undefined,
   typedValue: string | undefined,
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   const { chainId, account } = useActiveWeb3React()
   const wethContract = useWETHContract()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)

@@ -23,7 +23,7 @@ import { FadedSpan, MenuItem } from './styleds'
 const { main: Main } = TYPE
 
 function currencyKey(currency: Currency): string {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   return currency instanceof Token ? currency.address : currency === nativeCurrency ? 'ETHER' : ''
 }
 
@@ -99,7 +99,8 @@ function CurrencyRow({
   otherSelected: boolean
   style: CSSProperties
 }) {
-  const { account, chainId } = useActiveWeb3React()
+  const chainId = useStoreNetwork((state) => state.currentChainId)
+  const { account } = useActiveWeb3React()
   const key = currencyKey(currency)
   const selectedTokenList = useSelectedTokenList()
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
@@ -176,8 +177,8 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
-  const { nativeCurrency } = networkProviderParams
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  const { nativeCurrency } = currentNetwork.providerParams
   const itemData = useMemo(() => (showETH ? [...currencies, nativeCurrency] : [...currencies]), [currencies, showETH])
 
   const Row = useCallback(

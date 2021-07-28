@@ -2,7 +2,7 @@ import { MaxUint256 } from '@ethersproject/constants'
 import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
 import { useActiveWeb3React } from 'hooks'
-import { useLPTokenContract, useTokenContract, useVampireContract } from 'hooks/useContract'
+import { useFactoryContract, useLPTokenContract, useTokenContract, useVampireContract } from 'hooks/useContract'
 import { FC, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -21,21 +21,26 @@ const ViewMigrate: FC = () => {
   // --- STORE ---
   const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
 
-  // --- DESTRUCTURING STORE ---
-  const currentNetworkId = currentNetwork.id
-  const vampiringAddress = currentNetwork.address.vampiring
-  const blockExplorerUrl = currentNetwork.providerParams.blockExplorerUrls[0]
-
   // --- STATE ---
   const [step, setStep] = useState(2)
   const [pairs, setPairs] = useState<
-    { title: string; symbolA: string; symbolB: string; addressLP: string; exchange: string; balance: number }[]
+    {
+      title: string
+      symbolA: string
+      symbolB: string
+      addressA: string
+      addressB: string
+      addressLP: string
+      exchange: string
+      balance: number
+    }[]
   >([])
   const [selectedPairKey, setSelectedPairKey] = useState(-1)
   const [tokensAmount, setTokensAmount] = useState<string | number>(0)
   const [isLoadingPairs, setIsLoadingPairs] = useState(false)
   const [isSuccessful, setIsSuccessful] = useState(false)
-  const [contract, setContract] = useState()
+  const [contract, setContract] = useState('')
+  const [aliumLPTokenForPair, setAliumLPTokenForPair] = useState('')
 
   // --- DESTRUCTURING STATE ---
   const currentPair = pairs[selectedPairKey]
@@ -45,7 +50,8 @@ const ViewMigrate: FC = () => {
   const addTransaction = useTransactionAdder()
   const tokenContract = useTokenContract(currentPair?.addressLP)
   const lpTokenContract = useLPTokenContract(currentPair?.addressLP)
-  const vampireContract = useVampireContract(vampiringAddress)
+  const vampireContract = useVampireContract(currentNetwork.address.vampiring)
+  const factoryContract = useFactoryContract(currentNetwork.address.factory)
 
   const handleGetReadyToMigrateTokens = async () => {
     account && step === 1 && setStep(2)
@@ -57,6 +63,7 @@ const ViewMigrate: FC = () => {
     setIsLoadingPairs(true)
 
     await setPairs(await getReadyToMigrateTokens(account))
+
     setIsLoadingPairs(false)
   }
 
@@ -65,7 +72,6 @@ const ViewMigrate: FC = () => {
   }, [account, currentNetwork])
 
   const handleMigrate = async () => {
-    // if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount) && Number(tokensAmount) >= 0.01) {
     if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount)) {
       const tokensAmountWei = parseEther(String(tokensAmount))
 
@@ -87,51 +93,68 @@ const ViewMigrate: FC = () => {
         setStep(2)
       } else {
         let useExact = false
-        const gasLimit = await lpTokenContract.estimateGas.approve(vampiringAddress, MaxUint256).catch(() => {
-          useExact = true
-          return lpTokenContract.estimateGas.approve(vampiringAddress, tokensAmountWei)
-        })
+        const gasLimit = await lpTokenContract.estimateGas
+          .approve(currentNetwork.address.vampiring, MaxUint256)
+          .catch(() => {
+            useExact = true
+            return lpTokenContract.estimateGas.approve(currentNetwork.address.vampiring, tokensAmountWei)
+          })
 
         const gasPrice = await calculateGasPrice(tokenContract.provider)
 
         lpTokenContract
-          .approve(vampiringAddress, tokensAmountWei, { gasLimit, gasPrice, from: account })
-          .then(async (response) => {
+          .approve(currentNetwork.address.vampiring, MaxUint256, { gasLimit, gasPrice, from: account })
+          .then((response) => {
             addTransaction(response, {
               summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
               approval: { tokenAddress: currentPair.addressLP, spender: account },
             })
 
-            setIsSuccessful(false)
-
-            await vampireContract.estimateGas
+            vampireContract.estimateGas
               .deposit(pairId, tokensAmountWei, { from: account })
-              .then(async (gasLimit2) => {
+              .then((gasLimit2) => {
                 vampireContract
                   .deposit(pairId, tokensAmountWei, { from: account, gasLimit: gasLimit2 })
                   .then((resp) => {
-                    resp.wait().then(() => {
-                      setIsSuccessful(true)
-                      setContract(resp.hash)
-                      setStep(4)
-                    })
+                    resp
+                      .wait()
+                      .then(() => {
+                        factoryContract
+                          .getPair(currentPair?.addressA, currentPair?.addressB)
+                          .then((response) => {
+                            setAliumLPTokenForPair(response)
+                            setContract(resp.hash)
+                            setIsSuccessful(true)
+                            setStep(4)
+                          })
+                          .catch((err: Error) => {
+                            setIsSuccessful(false)
+                            setStep(4)
+                            console.error('*** factoryContract.getPair:', err)
+                          })
+                      })
+                      .catch((err: Error) => {
+                        setIsSuccessful(false)
+                        setStep(4)
+                        console.error('*** resp.wait():', err)
+                      })
                   })
                   .catch((err: Error) => {
                     setIsSuccessful(false)
                     setStep(4)
-                    console.error(err)
+                    console.error('*** vampireContract.deposit:', err)
                   })
               })
               .catch((err: Error) => {
                 setIsSuccessful(false)
                 setStep(4)
-                console.error(err)
+                console.error('*** vampireContract.estimateGas.deposit:', err)
               })
           })
           .catch((err: Error) => {
             setIsSuccessful(false)
             setStep(4)
-            console.error(err)
+            console.error('*** lpTokenContract.approve:', err)
           })
       }
     }
@@ -144,7 +167,6 @@ const ViewMigrate: FC = () => {
         {step === 1 && <Step1Connect />}
         {step === 2 && (
           <Step2YourLiquidity
-            key={currentNetworkId}
             pairs={pairs}
             selectedPairKey={selectedPairKey}
             setSelectedPairKey={setSelectedPairKey}
@@ -160,7 +182,8 @@ const ViewMigrate: FC = () => {
             pair={currentPair}
             isSuccessful={isSuccessful}
             contract={contract}
-            explorer={blockExplorerUrl}
+            explorer={currentNetwork.providerParams.blockExplorerUrls[0]}
+            aliumLPTokenForPair={aliumLPTokenForPair}
             setStep1={() => setStep(account ? 2 : 1)}
             handleTryAgain={handleMigrate}
           />

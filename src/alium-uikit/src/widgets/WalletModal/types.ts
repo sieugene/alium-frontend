@@ -9,11 +9,16 @@ export enum ConnectorNames {
 
 export type Login = (connectorId: ConnectorNames) => Promise<void>
 
+export enum WalletShowOn {
+  anywhere = 'anywhere',
+  mobile = 'mobile',
+  desktop = 'desktop',
+}
 export interface WalletsConfig {
   title: string
   icon: FC<SvgProps>
   connectorId: ConnectorNames
-  mobile?: boolean
+  showOn?: WalletShowOn
 }
 
 export interface NetworksConfig {

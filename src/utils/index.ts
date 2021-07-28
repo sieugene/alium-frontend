@@ -157,7 +157,7 @@ export function escapeRegExp(string: string): string {
 }
 
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   if (currency === nativeCurrency) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
 }

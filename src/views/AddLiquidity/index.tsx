@@ -19,7 +19,7 @@ import { ROUTES } from 'routes'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
+import { useIsExpertMode, usePairAdder, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
@@ -46,8 +46,8 @@ interface props {
 }
 
 const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
-  const networkProviderParams = useStoreNetwork((state) => state.networkProviderParams)
-  const { nativeCurrency } = networkProviderParams
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  const { nativeCurrency } = currentNetwork.providerParams
   useLiquidityPriorityDefaultAlm()
 
   const history = useRouter()
@@ -155,6 +155,14 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   const addTransaction = useTransactionAdder()
   const sendDataToGTM = useGTMDispatch()
 
+  // for display in liqudity list after add
+  const addPair = usePairAdder()
+  const findPairAfterAdd = () => {
+    if (pair) {
+      addPair(pair)
+    }
+  }
+
   const onAdd = async () => {
     if (!chainId || !library || !user) return
     const router = getRouterContract(chainId, library, user)
@@ -219,7 +227,9 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           gasPrice,
         }).then((response) => {
           setAttemptingTxn(false)
-          GTM.addLiquidity(sendDataToGTM, { liquidityMinted, currencies })
+
+          GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
+          findPairAfterAdd()
           addTransaction(response, {
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencies[Field.CURRENCY_A]?.symbol

@@ -158,5 +158,6 @@
   "startTrading": "Start trading",
   "errors": {
     "enterValidPercentage": "Enter valid percentage"
-  }
+  },
+  "boughtCards": "Claim ALM tokens {{count}}"
 }

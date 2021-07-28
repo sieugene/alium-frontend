@@ -32,7 +32,7 @@ export function useSwapActionHandlers(): {
   onUserInput: (field: Field, typedValue: string) => void
   onChangeRecipient: (recipient: string | null) => void
 } {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   const dispatch = useDispatch<AppDispatch>()
   const onCurrencySelection = useCallback(
     (field: Field, currency: Currency) => {
@@ -76,7 +76,7 @@ export function useMigrateActionHandlers(): {
   onCurrencySelection: (field: Field, currency: Currency) => void
   onUserInput: (field: Field, typedValue: string) => void
 } {
-  const { nativeCurrency } = storeNetwork.getState().networkProviderParams
+  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   const dispatch = useDispatch<AppDispatch>()
   const onCurrencySelection = useCallback(
     (field: Field, currency: Currency) => {
@@ -177,10 +177,6 @@ export function useDerivedSwapInfo(): {
 
   const inputAmount = tryParseAmount(chainId, typedValue, inputCurrency ?? undefined)
   const outputAmount = tryParseAmount(chainId, typedValue, outputCurrency ?? undefined)
-
-  console.log('test input', { inputCurrency, inputAmount })
-  console.log('test --------------------')
-  console.log('test output', { outputCurrency, outputAmount })
 
   const bestTradeExactIn = useTradeExactIn(isExactIn ? inputAmount : undefined, outputAmount?.currency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputAmount?.currency ?? undefined, !isExactIn ? outputAmount : undefined)

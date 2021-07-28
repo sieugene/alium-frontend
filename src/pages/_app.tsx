@@ -1,5 +1,6 @@
 import { GTMProvider } from '@elgorditosalsero/react-gtm-hook'
 import BigNumber from 'bignumber.js'
+import Loaders from 'components/Loaders'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
@@ -34,6 +35,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
       <Providers>
         <EagerConnectContainer />
         <Popups />
+        <Loaders />
         <ResetCSS />
         <GlobalStyle />
         <MenuWrappedRoute loginBlockVisible>

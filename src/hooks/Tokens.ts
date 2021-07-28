@@ -4,13 +4,13 @@ import { useMemo } from 'react'
 import { useSelectedTokenList } from 'state/lists/hooks'
 import { NEVER_RELOAD, useSingleCallResult } from 'state/multicall/hooks'
 import { useUserAddedTokens } from 'state/user/hooks'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { isAddress } from 'utils'
-import { useStoreNetwork } from './../store/network/useStoreNetwork'
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
 export function useAllTokens(): { [address: string]: Token } {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useStoreNetwork((state) => state.currentChainId)
   const userAddedTokens = useUserAddedTokens()
   const allTokens = useSelectedTokenList()
 
@@ -105,6 +105,6 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
   const isETH = currencyId?.toUpperCase() === 'ETH'
   const token = useToken(isETH ? null : currencyId)
-  const nativeCurrency = useStoreNetwork((state) => state.networkProviderParams?.nativeCurrency)
-  return isETH ? nativeCurrency : token
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  return isETH ? currentNetwork.providerParams.nativeCurrency : token
 }

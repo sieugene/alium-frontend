@@ -34,7 +34,7 @@ export function useDerivedMintInfo(
   poolTokenPercentage?: Percent
   error?: string
 } {
-  const nativeCurrency = useStoreNetwork((state) => state.networkProviderParams?.nativeCurrency)
+  const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
   const { account } = useActiveWeb3React()
   const chainId = useStoreNetwork((state) => state.currentChainId)
 
@@ -96,7 +96,9 @@ export function useDerivedMintInfo(
           dependentField === Field.CURRENCY_B
             ? pair.priceOf(tokenA).quote(chainId, wrappedIndependentAmount)
             : pair.priceOf(tokenB).quote(chainId, wrappedIndependentAmount)
-        return dependentCurrency === nativeCurrency ? calcAmount(dependentTokenAmount.raw) : dependentTokenAmount
+        return dependentCurrency === currentNetwork.providerParams.nativeCurrency
+          ? calcAmount(dependentTokenAmount.raw)
+          : dependentTokenAmount
       }
       return undefined
     }
@@ -111,7 +113,7 @@ export function useDerivedMintInfo(
     currencyA,
     currencyB,
     pair,
-    nativeCurrency,
+    currentNetwork,
   ])
 
   const parsedAmounts: { [field in Field]: CurrencyAmount | undefined } = useMemo(

@@ -8,12 +8,12 @@ import { useStoreNetwork } from 'store/network/useStoreNetwork'
  * useChangeNetwork - when network be changed in wallet, retry login
  * @param    {activate} login   login by connector name
  */
-const useChangeNetwork = (login: (connectorID: ConnectorNames) => Promise<any>) => {
+const useChangeNetwork = (login: (connectorID: ConnectorNames, offIndicate?: boolean) => Promise<any>) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const { active, error, activate } = useWeb3ReactCore()
   const connect = useCallback(async () => {
     const currentConnectorId = getConnectorId()
-    await login(currentConnectorId)
+    await login(currentConnectorId, true)
   }, [login])
 
   useEffect(() => {
@@ -26,6 +26,7 @@ const useChangeNetwork = (login: (connectorID: ConnectorNames) => Promise<any>) 
     const { ethereum } = window
     if (ethereum?.on && !active && !error) {
       ethereum.on('chainChanged', connect)
+
       return () => {
         if (ethereum.removeListener) {
           ethereum.removeListener('chainChanged', connect)

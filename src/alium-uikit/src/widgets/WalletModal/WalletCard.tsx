@@ -1,12 +1,11 @@
 import { setConnectorId } from 'alium-uikit/src/util/connectorId/setConnectorId'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
-import ConnectionLoad from '../../components/ConnectionLoad'
 import Flex from '../../components/Flex/Flex'
 import { CheckmarkCircleIcon } from '../../components/Svg'
 import Text from '../../components/Text/Text'
-import { Login, WalletsConfig } from './types'
+import { ConnectorNames, Login, WalletsConfig } from './types'
 
 interface Props {
   walletConfig: WalletsConfig
@@ -15,6 +14,7 @@ interface Props {
   selected?: boolean
   setSelectedWallet: (arg0: string) => void
   selectedNetwork: string
+  availableConnectors: ConnectorNames[]
 }
 
 const StyledButton = styled(Button)`
@@ -68,11 +68,16 @@ const StyledCheckMarkInCircle = styled(CheckmarkCircleIcon)`
   height: 16px;
 `
 
-const WalletCard: FC<Props> = ({ login, walletConfig, onDismiss, selected, setSelectedWallet, selectedNetwork }) => {
+const WalletCard: FC<Props> = ({
+  login,
+  walletConfig,
+  onDismiss,
+  selected,
+  setSelectedWallet,
+  availableConnectors,
+}) => {
   const { title, icon: Icon } = walletConfig
-  const [connectionLoad, setconnectionLoad] = useState(false)
   const onClickHandler = async () => {
-    setconnectionLoad(true)
     try {
       setConnectorId(walletConfig.connectorId)
       await login(walletConfig.connectorId)
@@ -80,21 +85,18 @@ const WalletCard: FC<Props> = ({ login, walletConfig, onDismiss, selected, setSe
       onDismiss()
     } catch (error) {
       console.error(error)
-    } finally {
-      setconnectionLoad(false)
     }
   }
+
+  const isBlurred = availableConnectors.includes(walletConfig.connectorId)
 
   return (
     <StyledFlex
       flexDirection='column'
       alignItems='center'
-      onClick={
-        title !== 'Metamask' && ['Huobi', 'Polygon', 'Ethereum'].includes(selectedNetwork) ? undefined : onClickHandler
-      }
-      isBlurred={title !== 'Metamask' && ['Huobi', 'Polygon', 'Ethereum'].includes(selectedNetwork)}
+      onClick={!isBlurred ? undefined : onClickHandler}
+      isBlurred={!isBlurred}
     >
-      <ConnectionLoad load={connectionLoad} />
       <StyledButton
         fullwidth
         variant='tertiary'
