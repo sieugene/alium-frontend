@@ -7,7 +7,7 @@ import { FC, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { calculateGasPrice } from 'utils'
+import { calculateGasMargin, calculateGasPrice } from 'utils'
 import { Step1Connect } from 'views/Migrate/components/Step1Connect'
 import { Step2YourLiquidity } from 'views/Migrate/components/Step2YourLiquidity'
 import { Step3Migrating } from 'views/Migrate/components/Step3Migrating'
@@ -93,7 +93,7 @@ const ViewMigrate: FC = () => {
         setStep(2)
       } else {
         let useExact = false
-        const gasLimit = await lpTokenContract.estimateGas
+        const gasEstimate = await lpTokenContract.estimateGas
           .approve(currentNetwork.address.vampiring, MaxUint256)
           .catch(() => {
             useExact = true
@@ -103,7 +103,11 @@ const ViewMigrate: FC = () => {
         const gasPrice = await calculateGasPrice(tokenContract.provider)
 
         lpTokenContract
-          .approve(currentNetwork.address.vampiring, MaxUint256, { gasLimit, gasPrice, from: account })
+          .approve(currentNetwork.address.vampiring, MaxUint256, {
+            gasLimit: calculateGasMargin(gasEstimate),
+            gasPrice,
+            from: account,
+          })
           .then((response) => {
             addTransaction(response, {
               summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
@@ -112,9 +116,9 @@ const ViewMigrate: FC = () => {
 
             vampireContract.estimateGas
               .deposit(pairId, tokensAmountWei, { from: account })
-              .then((gasLimit2) => {
+              .then((gasEstimate2) => {
                 vampireContract
-                  .deposit(pairId, tokensAmountWei, { from: account, gasLimit: gasLimit2 })
+                  .deposit(pairId, tokensAmountWei, { from: account, gasLimit: calculateGasMargin(gasEstimate2) })
                   .then((resp) => {
                     resp
                       .wait()
