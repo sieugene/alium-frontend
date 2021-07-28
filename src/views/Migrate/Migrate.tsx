@@ -37,10 +37,10 @@ const ViewMigrate: FC = () => {
   >([])
   const [selectedPairKey, setSelectedPairKey] = useState(-1)
   const [tokensAmount, setTokensAmount] = useState<string | number>(0)
-  const [isLoadingPairs, setIsLoadingPairs] = useState(false)
-  const [isSuccessful, setIsSuccessful] = useState(false)
   const [contract, setContract] = useState('')
   const [aliumLPTokenForPair, setAliumLPTokenForPair] = useState('')
+  const [isSuccessful, setIsSuccessful] = useState(false)
+  const [isLoadingPairs, setIsLoadingPairs] = useState(false)
 
   // --- DESTRUCTURING STATE ---
   const currentPair = pairs[selectedPairKey]
@@ -53,22 +53,28 @@ const ViewMigrate: FC = () => {
   const vampireContract = useVampireContract(currentNetwork.address.vampiring)
   const factoryContract = useFactoryContract(currentNetwork.address.factory)
 
-  const handleGetReadyToMigrateTokens = async () => {
-    account && step === 1 && setStep(2)
-    !account && setStep(1)
+  const setDefaultState = async () => {
+    setStep(account ? 2 : 1)
+    setPairs([])
     setSelectedPairKey(-1)
     setTokensAmount(0)
+    setContract('')
+    setAliumLPTokenForPair('')
     setIsSuccessful(false)
-    setPairs([])
-    setIsLoadingPairs(true)
-
-    await setPairs(await getReadyToMigrateTokens(account))
-
     setIsLoadingPairs(false)
   }
 
+  const handleGetReadyToMigrateTokens = async () => {
+    await setIsLoadingPairs(true)
+    await setPairs(await getReadyToMigrateTokens(account))
+    await setIsLoadingPairs(false)
+  }
+
   useEffect(() => {
-    ;(async () => await handleGetReadyToMigrateTokens())()
+    ;(async () => {
+      await setDefaultState()
+      await handleGetReadyToMigrateTokens()
+    })()
   }, [account, currentNetwork])
 
   const handleMigrate = async () => {
