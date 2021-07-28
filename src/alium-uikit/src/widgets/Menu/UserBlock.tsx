@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
-import { FC } from 'react'
+import React, { FC } from 'react'
+import { useStoreAccount } from 'store/account/useStoreAccount'
 import styled from 'styled-components'
 import Flex from '../../components/Flex/Flex'
 import { useWalletModal } from '../WalletModal'
@@ -48,6 +49,7 @@ const StyledButtonTitle = styled.div`
 `
 
 const UserBlock: FC<Props> = (props) => {
+  const modalConnect = useStoreAccount((state) => state.modalConnect)
   const {
     account,
     login,
@@ -71,6 +73,12 @@ const UserBlock: FC<Props> = (props) => {
     onTransactionHistoryHandler,
   )
   const accountEllipsis = account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : null
+
+  React.useEffect(() => {
+    if (modalConnect) {
+      onPresentConnectModal()
+    }
+  }, [modalConnect])
   return (
     <Flex alignItems='center'>
       <NetworkSwitch />
