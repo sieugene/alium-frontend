@@ -1,8 +1,10 @@
-/* App nodes are taken from here:
-https://docs.binance.org/smart-chain/developer/rpc.html
-https://www.hecochain.com/developer-en.9d3e5b2.pdf
-https://docs.matic.network/docs/develop/network-details/network/
-https://docs.linkpool.io/docs/public_rpc */
+/*
+Public PRC nodes can be taken from here:
+BSC: https://docs.binance.org/smart-chain/developer/rpc.html
+HECO: https://www.hecochain.com/developer-en.9d3e5b2.pdf
+MATIC: https://docs.matic.network/docs/develop/network-details/network/
+ETHEREUM: https://docs.linkpool.io/docs/public_rpc
+*/
 module.exports = {
   APP_NODES_BSC: [
     'https://data-seed-prebsc-1-s1.binance.org:8545',
