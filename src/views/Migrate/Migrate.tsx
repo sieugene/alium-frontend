@@ -7,7 +7,7 @@ import { FC, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { calculateGasPrice } from 'utils'
+import { calculateGasMargin, calculateGasPrice } from 'utils'
 import { Step1Connect } from 'views/Migrate/components/Step1Connect'
 import { Step2YourLiquidity } from 'views/Migrate/components/Step2YourLiquidity'
 import { Step3Migrating } from 'views/Migrate/components/Step3Migrating'
@@ -37,10 +37,10 @@ const ViewMigrate: FC = () => {
   >([])
   const [selectedPairKey, setSelectedPairKey] = useState(-1)
   const [tokensAmount, setTokensAmount] = useState<string | number>(0)
-  const [isLoadingPairs, setIsLoadingPairs] = useState(false)
-  const [isSuccessful, setIsSuccessful] = useState(false)
   const [contract, setContract] = useState('')
   const [aliumLPTokenForPair, setAliumLPTokenForPair] = useState('')
+  const [isSuccessful, setIsSuccessful] = useState(false)
+  const [isLoadingPairs, setIsLoadingPairs] = useState(false)
 
   // --- DESTRUCTURING STATE ---
   const currentPair = pairs[selectedPairKey]
@@ -53,22 +53,28 @@ const ViewMigrate: FC = () => {
   const vampireContract = useVampireContract(currentNetwork.address.vampiring)
   const factoryContract = useFactoryContract(currentNetwork.address.factory)
 
-  const handleGetReadyToMigrateTokens = async () => {
-    account && step === 1 && setStep(2)
-    !account && setStep(1)
+  const setDefaultState = async () => {
+    setStep(account ? 2 : 1)
+    setPairs([])
     setSelectedPairKey(-1)
     setTokensAmount(0)
+    setContract('')
+    setAliumLPTokenForPair('')
     setIsSuccessful(false)
-    setPairs([])
-    setIsLoadingPairs(true)
-
-    await setPairs(await getReadyToMigrateTokens(account))
-
     setIsLoadingPairs(false)
   }
 
+  const handleGetReadyToMigrateTokens = async () => {
+    await setIsLoadingPairs(true)
+    await setPairs(await getReadyToMigrateTokens(account))
+    await setIsLoadingPairs(false)
+  }
+
   useEffect(() => {
-    ;(async () => await handleGetReadyToMigrateTokens())()
+    ;(async () => {
+      await setDefaultState()
+      await handleGetReadyToMigrateTokens()
+    })()
   }, [account, currentNetwork])
 
   const handleMigrate = async () => {
@@ -93,7 +99,7 @@ const ViewMigrate: FC = () => {
         setStep(2)
       } else {
         let useExact = false
-        const gasLimit = await lpTokenContract.estimateGas
+        const gasEstimate = await lpTokenContract.estimateGas
           .approve(currentNetwork.address.vampiring, MaxUint256)
           .catch(() => {
             useExact = true
@@ -103,7 +109,11 @@ const ViewMigrate: FC = () => {
         const gasPrice = await calculateGasPrice(tokenContract.provider)
 
         lpTokenContract
-          .approve(currentNetwork.address.vampiring, MaxUint256, { gasLimit, gasPrice, from: account })
+          .approve(currentNetwork.address.vampiring, MaxUint256, {
+            gasLimit: calculateGasMargin(gasEstimate),
+            gasPrice,
+            from: account,
+          })
           .then((response) => {
             addTransaction(response, {
               summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
@@ -112,9 +122,9 @@ const ViewMigrate: FC = () => {
 
             vampireContract.estimateGas
               .deposit(pairId, tokensAmountWei, { from: account })
-              .then((gasLimit2) => {
+              .then((gasEstimate2) => {
                 vampireContract
-                  .deposit(pairId, tokensAmountWei, { from: account, gasLimit: gasLimit2 })
+                  .deposit(pairId, tokensAmountWei, { from: account, gasLimit: calculateGasMargin(gasEstimate2) })
                   .then((resp) => {
                     resp
                       .wait()
