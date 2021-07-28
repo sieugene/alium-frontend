@@ -11,6 +11,7 @@ export interface StoreBridgeState {
   killStoreBridge: () => void
   setFromNetwork: (chainId?: number) => void
   setToNetwork: (chainId?: number) => void
+  toggleNetworks: () => void
 }
 // Storage
 const storage = bridgeStorage()
@@ -34,6 +35,16 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     set({
       toNetwork: chainId,
     })
+    storage.save()
+  },
+  toggleNetworks: () => {
+    const { fromNetwork, toNetwork } = storeBridge.getState()
+    const setChainId = storeNetwork.getState().setChainId
+    set({
+      fromNetwork: toNetwork,
+      toNetwork: fromNetwork,
+    })
+    setChainId(toNetwork)
   },
   initStoreBridge: () => {
     const setFromNetwork = get().setFromNetwork

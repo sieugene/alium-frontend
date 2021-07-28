@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import DropdownBridgeNetworks from '../DropdownBridgeNetworks'
 
 const Network = styled.div`
   width: 100%;
@@ -21,7 +22,7 @@ const Network = styled.div`
   .network {
     display: flex;
     align-items: center;
-    p {
+    .title {
       padding-left: 9px;
       font-family: Roboto;
       font-style: normal;
@@ -30,7 +31,9 @@ const Network = styled.div`
       line-height: 16px;
       letter-spacing: 0.1px;
       color: #0b1359;
+      margin-right: 27px;
     }
+
     padding-bottom: 10px;
   }
   .token {
@@ -68,7 +71,8 @@ const BridgeNetwork: FC<Props> = ({ type }) => {
       <div className='left-column'>
         <div className='network'>
           {Icon ? <Icon /> : <img />}
-          <p>{network?.title}</p>
+          <p className='title'>{network?.title}</p>
+          <DropdownBridgeNetworks type={type} />
         </div>
         <div className='token'>0 {token?.symbol}</div>
       </div>

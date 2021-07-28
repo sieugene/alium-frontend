@@ -1,6 +1,7 @@
 import { useAlmToken } from 'hooks/useAlm'
 import { ExchangeIcon } from 'images/Exchange-icon'
 import { useState } from 'react'
+import { storeBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import AdvancedInput from '../AdvancedInput'
 import { BridgeTransferButton } from '../BridgeTransferButton'
@@ -39,6 +40,7 @@ const SwitchIcon = styled.div`
 `
 
 const BridgeInput = () => {
+  const toggleNetworks = storeBridge.getState().toggleNetworks
   const [value, setvalue] = useState('0')
   const token = useAlmToken()
   const onUserInput = (value: string) => {
@@ -68,11 +70,7 @@ const BridgeInput = () => {
         </AdvancedInput>
       </div>
       <div className='right-column'>
-        <SwitchIcon
-          onClick={() => {
-            // onSwitchTokens()
-          }}
-        >
+        <SwitchIcon onClick={toggleNetworks}>
           <ExchangeIcon />
         </SwitchIcon>
       </div>
