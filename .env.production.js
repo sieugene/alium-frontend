@@ -5,7 +5,7 @@ module.exports = {
     'https://bsc-dataseed1.ninicoin.io',
   ],
   APP_NODES_HECO: ['https://http-mainnet.hecochain.com'],
-  APP_NODES_ETHEREUM: ['https://main-light.eth.linkpool.io'],
+  APP_NODES_ETHEREUM: ['https://mainnet.infura.io/v3/d32640fa3a7f4a149068228024a399e4'],
   APP_NODES_MATIC: [
     // 'https://rpc-mainnet.matic.network',
     'https://matic-mainnet.chainstacklabs.com',

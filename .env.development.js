@@ -13,7 +13,7 @@ module.exports = {
     'https://data-seed-prebsc-2-s3.binance.org:8545',
   ],
   APP_NODES_HECO: ['https://http-testnet.hecochain.com'],
-  APP_NODES_ETHEREUM: ['https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
+  APP_NODES_ETHEREUM: ['https://rinkeby.infura.io/v3/d32640fa3a7f4a149068228024a399e4'],
   APP_NODES_MATIC: ['https://rpc-mumbai.matic.today'],
   APP_NFT_PUBLIC_SELLER_ADDRESS: '0xF92dC46c2F373480cbC7Dacb0A003C4a2c23ea78',
   APP_NFT_COLLECTIBLE_ADDRESS: '0xD06E646C1bf3fA870875A375C58A6b5326b6bC49',
