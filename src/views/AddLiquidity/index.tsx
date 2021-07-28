@@ -227,7 +227,8 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           gasPrice,
         }).then((response) => {
           setAttemptingTxn(false)
-          GTM.addLiquidity(sendDataToGTM, { liquidityMinted, currencies })
+
+          GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
           findPairAfterAdd()
           addTransaction(response, {
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${

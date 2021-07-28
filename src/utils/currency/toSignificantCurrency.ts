@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { getFullDisplayBalance } from './../formatBalance'
 
 // toSignificant like uniswap
-export const toSignificantCurrency = (currency: CurrencyAmount | Price, defaultValue?: string) => {
+export const toSignificantCurrency = (currency: CurrencyAmount | Price, defaultValue?: string): string => {
   return formatCurrency(currency, 6, defaultValue)
 }
 
