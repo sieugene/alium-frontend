@@ -1,6 +1,7 @@
 import { Trade } from '@alium-official/sdk'
+import BigNumber from 'bignumber.js'
 import { addLiquidityCurrencyFormat, addLiquidityCurrencyFormatPayload } from 'utils/swap/addLiquidityCurrencyFormat'
-import { swapTradeFormat } from '../swap/swapTradeFormat'
+import { swapTradeFormatGtm } from '../swap/swapTradeFormat'
 
 type GtmDispatchType = (...params: any) => void
 
@@ -11,40 +12,29 @@ const GTM = {
       click_intercom: 'click_intercom',
     },
   },
-  clickIntercom: (useGTMDispatch: GtmDispatchType) => {
+  clickIntercom: (GTMDispatch: GtmDispatchType) => {
     const event = 'click_intercom'
     gtmLogger(event)
-    return useGTMDispatch({ event })
+    return GTMDispatch({ event })
   },
-  connectWallet: (useGTMDispatch: GtmDispatchType, network: number) => {
+  connectWallet: (GTMDispatch: GtmDispatchType, network: number) => {
     const event = 'connect_wallet'
     const value = { wallet_network: network }
     gtmLogger(event, value)
-    return useGTMDispatch({ event, value })
+    return GTMDispatch({ event, value })
   },
-  swap: (useGTMDispatch: GtmDispatchType, trade: Trade) => {
-    const formattedTrade = swapTradeFormat(trade)
+  swap: (GTMDispatch: GtmDispatchType, trade: Trade) => {
     const event = 'swap'
-    const value = {
-      token: formattedTrade.token,
-      value: formattedTrade.value,
-    }
+    const value = swapTradeFormatGtm(trade)
     gtmLogger(event, value)
-    return useGTMDispatch({ event, value })
+    return GTMDispatch({ event, value })
   },
-  addLiquidity: (
-    useGTMDispatch: GtmDispatchType,
-    { liquidityMinted, currencies }: addLiquidityCurrencyFormatPayload,
-  ) => {
-    const formattedAddLiquidity = addLiquidityCurrencyFormat({ liquidityMinted, currencies })
+  addLiquidity: (GTMDispatch: GtmDispatchType, data: addLiquidityCurrencyFormatPayload) => {
+    const formattedAddLiquidity = addLiquidityCurrencyFormat(data)
     const event = 'add_liquidity'
-    const value = {
-      token1: formattedAddLiquidity.token1,
-      token2: formattedAddLiquidity.token2,
-      value: formattedAddLiquidity.value,
-    }
+    const value = formattedAddLiquidity
     gtmLogger(event, value)
-    return useGTMDispatch({ event, value })
+    return GTMDispatch({ event, value })
   },
 }
 
@@ -56,6 +46,10 @@ const gtmLogger = (log: string, param?: {}) => {
       `EVENT - ${log} - PARAM / ${JSON.stringify(param) || ''}`,
     )
   }
+}
+
+export const gtmValueToUnitsOfThousands = (value: string) => {
+  return `${new BigNumber(value).multipliedBy(10000).toNumber()}`
 }
 
 export default GTM
