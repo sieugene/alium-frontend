@@ -32,6 +32,10 @@ const BodyWrapper = styled.div`
 
   padding: 48px 18.6% 32px 18.6%;
 
+  @media screen and (max-width: 1200px) {
+    padding: 48px 13.6% 32px 13.6%;
+  }
+
   @media screen and (max-width: 1024px) {
     padding: 48px 25px 25px 25px;
   }

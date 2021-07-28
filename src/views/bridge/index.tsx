@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import BridgeContainer from './BridgeContainer'
+import BridgeCard from './components/BridgeCard'
 import BridgeConnectWallet from './components/BridgeConnectWallet'
 
 const H2 = styled.h2`
@@ -16,7 +17,7 @@ const H2 = styled.h2`
   @media screen and (max-width: 500px) {
     font-size: 28px;
     line-height: 36px;
-	text-align: center;
+    text-align: center;
   }
 `
 
@@ -36,7 +37,9 @@ const Bridge = () => {
     <BridgeContainer>
       <H2>Bridge</H2>
       <Card>
-        <BridgeConnectWallet>content</BridgeConnectWallet>
+        <BridgeConnectWallet>
+          <BridgeCard />
+        </BridgeConnectWallet>
       </Card>
     </BridgeContainer>
   )
