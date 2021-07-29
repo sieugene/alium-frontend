@@ -61,6 +61,7 @@ const View = styled.div`
 const TransferStep = () => {
   const [loading, setLoading] = useState(true)
   const changeStep = storeBridge.getState().changeStep
+  const updateStepStatus = storeBridge.getState().updateStepStatus
   const emulateApproveProcess = async () => {
     await new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -75,6 +76,7 @@ const TransferStep = () => {
   React.useEffect(() => {
     if (!loading) {
       changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+      updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
     }
   }, [loading])
   return (

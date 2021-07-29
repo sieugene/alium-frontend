@@ -49,6 +49,7 @@ const BridgeStepsHeader = () => {
   const changeStep = storeBridge.getState().changeStep
   const currentStep = useStoreBridge((state) => state.step)
   const stepStatuses = useStoreBridge((state) => state.stepStatuses)
+
   const steps = [
     {
       step: BRIDGE_STEPS.TRANSFER,
