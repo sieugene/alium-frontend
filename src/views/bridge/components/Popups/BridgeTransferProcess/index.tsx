@@ -2,6 +2,7 @@ import BridgeModal from 'components/Modal/BridgeModal'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import BridgeStepsHeader from '../../BridgeStepsHeader'
+import ClaimTokenStep from '../../Steps/ClaimTokenStep'
 import SwitchNetworkStep from '../../Steps/SwitchNetworkStep'
 import TransferStep from '../../Steps/TransferStep'
 
@@ -30,6 +31,7 @@ const BridgeTransferProcess = () => {
         <BridgeStepsHeader />
         {currentStep === BRIDGE_STEPS.TRANSFER && <TransferStep />}
         {currentStep === BRIDGE_STEPS.SWITCH_NETWORK && <SwitchNetworkStep />}
+        {currentStep === BRIDGE_STEPS.CLAIM_TOKEN && <ClaimTokenStep />}
       </Wrapper>
     </BridgeModal>
   )

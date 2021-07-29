@@ -67,7 +67,7 @@ const TransferStep = () => {
       setTimeout(() => {
         resolve(true)
         setLoading(false)
-      }, 5000)
+      }, 2000)
     })
   }
   React.useEffect(() => {

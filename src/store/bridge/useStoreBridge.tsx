@@ -9,6 +9,7 @@ export enum BRIDGE_STEPS {
   'TRANSFER' = 1,
   'SWITCH_NETWORK' = 2,
   'CLAIM_TOKEN' = 3,
+  'SUCCESS' = 4,
 }
 export interface StoreBridgeState {
   step: BRIDGE_STEPS
@@ -49,6 +50,7 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     [BRIDGE_STEPS.TRANSFER]: false,
     [BRIDGE_STEPS.SWITCH_NETWORK]: false,
     [BRIDGE_STEPS.CLAIM_TOKEN]: false,
+    [BRIDGE_STEPS.SUCCESS]: false,
   },
   bridgeInputs: storage.get()?.bridgeInputs || {
     main: '0',
