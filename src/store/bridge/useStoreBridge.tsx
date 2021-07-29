@@ -12,9 +12,13 @@ export enum BRIDGE_STEPS {
 }
 export interface StoreBridgeState {
   step: BRIDGE_STEPS
+  stepStatuses: {
+    [key in BRIDGE_STEPS]: boolean
+  }
   fromNetwork: number
   toNetwork: number
   modalOpen: boolean
+  updateStepStatus: (step: BRIDGE_STEPS, status: boolean) => void
   toggleModal: (show: boolean) => void
   changeStep: (step: BRIDGE_STEPS) => void
   initStoreBridge: () => void
@@ -40,9 +44,20 @@ export const networkFinder = (chainId: number) => {
 export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
   modalOpen: false,
   step: BRIDGE_STEPS.CONFIRM_TRANSFER,
+  stepStatuses: {
+    [BRIDGE_STEPS.CONFIRM_TRANSFER]: false,
+    [BRIDGE_STEPS.TRANSFER]: false,
+    [BRIDGE_STEPS.SWITCH_NETWORK]: false,
+    [BRIDGE_STEPS.CLAIM_TOKEN]: false,
+  },
   bridgeInputs: storage.get()?.bridgeInputs || {
     main: '0',
     advanced: '',
+  },
+  updateStepStatus: (step: BRIDGE_STEPS, status: boolean) => {
+    const stepStatuses = storeBridge.getState().stepStatuses
+    stepStatuses[step] = status
+    set({ stepStatuses })
   },
   fromNetwork: storage.get()?.fromNetwork || storeNetwork.getState().currentChainId || 56,
   toNetwork: storage.get()?.toNetwork || getNetworks()[1]?.chainId || null,

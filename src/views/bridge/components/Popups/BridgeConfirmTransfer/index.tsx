@@ -3,7 +3,7 @@ import { BridgeWarningInDetail } from 'images/bridge/BridgeWarningInDetail'
 import { ChevronRight } from 'react-feather'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
-import BridgeModal, { CloseItem } from '../../../../components/Modal/BridgeModal'
+import BridgeModal, { CloseItem } from '../../../../../components/Modal/BridgeModal'
 
 const Wrapper = styled.div`
   max-width: 500px;
