@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import BridgeContainer from './BridgeContainer'
 import BridgeCard from './components/BridgeCard'
 import BridgeConnectWallet from './components/BridgeConnectWallet'
+import PopupsBridge from './components/Popups'
 
 const H2 = styled.h2`
   font-family: Roboto;
@@ -35,6 +36,7 @@ const Card = styled.div`
 const Bridge = () => {
   return (
     <BridgeContainer>
+      <PopupsBridge />
       <H2>Bridge</H2>
       <Card>
         <BridgeConnectWallet>

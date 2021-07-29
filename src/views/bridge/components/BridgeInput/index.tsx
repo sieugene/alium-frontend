@@ -1,7 +1,6 @@
 import { useAlmToken } from 'hooks/useAlm'
 import { ExchangeIcon } from 'images/Exchange-icon'
-import { useState } from 'react'
-import { storeBridge } from 'store/bridge/useStoreBridge'
+import { storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import AdvancedInput from '../AdvancedInput'
 import { BridgeTransferButton } from '../BridgeTransferButton'
@@ -40,12 +39,19 @@ const SwitchIcon = styled.div`
 `
 
 const BridgeInput = () => {
+  const toggleModal = storeBridge.getState().toggleModal
   const toggleNetworks = storeBridge.getState().toggleNetworks
-  const [value, setvalue] = useState('0')
+  const updateInput = storeBridge.getState().updateBridgeInputs
+  const value = useStoreBridge((state) => state.bridgeInputs.main)
   const token = useAlmToken()
   const onUserInput = (value: string) => {
-    setvalue(value)
+    updateInput('main', value)
   }
+
+  const transfer = () => {
+    toggleModal(true)
+  }
+
   return (
     <InputWrapper>
       <div className='left-column'>
@@ -58,13 +64,13 @@ const BridgeInput = () => {
             currency={token}
             disableCurrencySelect
           />
-          <BridgeTransferButton desktop disabled={Boolean(Number(value) <= 0)}>
+          <BridgeTransferButton onClick={transfer} desktop disabled={Boolean(Number(value) <= 0)}>
             Transfer
           </BridgeTransferButton>
         </div>
 
         <AdvancedInput>
-          <BridgeTransferButton mobile disabled={Boolean(Number(value) <= 0)}>
+          <BridgeTransferButton onClick={transfer} mobile disabled={Boolean(Number(value) <= 0)}>
             Transfer
           </BridgeTransferButton>
         </AdvancedInput>
@@ -76,10 +82,6 @@ const BridgeInput = () => {
       </div>
     </InputWrapper>
   )
-}
-
-const CurrencyInput = () => {
-  return
 }
 
 export default BridgeInput

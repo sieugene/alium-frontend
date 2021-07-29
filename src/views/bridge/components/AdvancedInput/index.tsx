@@ -2,6 +2,7 @@ import { Input } from 'alium-uikit/src'
 import { BridgeAdvancedMinus } from 'images/bridge/BridgeAdvancedMinus'
 import { BridgeAdvancedPlus } from 'images/bridge/BridgeAdvancedPlus'
 import React, { FC, useState } from 'react'
+import { storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 
 const AdvanceWrapper = styled.div`
@@ -63,10 +64,20 @@ const StyledInput = styled(Input)`
 `
 
 const AdvancedInput: FC<{ children: React.ReactNode }> = ({ children }) => {
+  const updateInput = storeBridge.getState().updateBridgeInputs
+  const value = useStoreBridge((state) => state.bridgeInputs.advanced)
   const [showInput, setShowInput] = useState(false)
   return (
     <>
-      {showInput && <StyledInput placeholder='Recipient Address' />}
+      {showInput && (
+        <StyledInput
+          placeholder='Recipient Address'
+          value={value}
+          onChange={({ target }) => {
+            updateInput('advanced', target?.value)
+          }}
+        />
+      )}
       <AdvanceWrapper>
         {children && children}
         <Advanced onClick={() => setShowInput(!showInput)}>
