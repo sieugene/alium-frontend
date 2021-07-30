@@ -32,25 +32,17 @@ const Container = styled.div<{ isOpen: boolean; active: boolean; ispushed: boole
     ${({ isOpen, active }) => Boolean(isOpen || active) && `stroke: #24BA7B;`}
   }
 
-  @media screen and (max-width: 968px) {
-    > div > svg:last-child {
-      display: none;
-    }
-  }
-
   background: #ffffff;
   box-shadow: ${({ isOpen, active }) => Boolean(isOpen || active) && `0px 6px 12px rgba(185, 189, 208, 0.4);`};
   border-radius: 6px;
-  @media screen and (max-width: 968px) {
-    box-shadow: none !important;
-  }
 `
 
-const AccordionContent = styled.div<{ isOpen: boolean; ispushed: boolean; maxHeight: number }>`
-  max-height: ${({ isOpen }) => (isOpen ? `auto` : 0)};
-  @media screen and (max-width: 968px) {
-    max-height: fit-content !important;
-  }
+const AccordionContent = styled.div<{
+  isOpen: boolean
+  ispushed: boolean
+}>`
+  max-height: ${({ isOpen }) => (isOpen ? `fit-content` : 0)};
+
   transition: max-height 0.3s ease-out;
   overflow: hidden;
   /* margin-top: ${({ isOpen }) => (isOpen ? `10px` : 0)}; */
@@ -82,10 +74,6 @@ const AccordionContent = styled.div<{ isOpen: boolean; ispushed: boolean; maxHei
         margin-bottom: 14px;
       }
     }
-  }
-
-  @media screen and (max-width: 968px) {
-    max-height: ${({ maxHeight }) => `${maxHeight}px`};
   }
 `
 
@@ -128,7 +116,6 @@ const Accordion: FC<Props> = ({
         isOpen={isOpen}
         ispushed={ispushed}
         // maxHeight={Children.count(children) * MENU_ENTRY_HEIGHT}
-        maxHeight={0}
       >
         {children}
       </AccordionContent>
