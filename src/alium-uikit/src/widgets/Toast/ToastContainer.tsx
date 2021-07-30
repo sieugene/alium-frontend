@@ -5,7 +5,7 @@ import Toast from './Toast'
 import { ToastContainerProps } from './types'
 
 const ZINDEX = 1000
-const TOP_POSITION = 0 // Initial position from the top
+const TOP_POSITION = 100 // Initial position from the top
 
 const StyledToastContainer = styled.div`
   .enter,
