@@ -419,12 +419,12 @@ const StrategicalPartnershipHome = () => {
           <TransactionSucceedContent hash={succeedHash} onDismiss={handleSucceedModalClose} />
         </Modal>
 
-        <StyledHeading as='h1' size='xl' color='heading' mb='40px' mt='20px' className='heading--desktop'>
+        {/* <StyledHeading as='h1' size='xl' color='heading' mb='40px' mt='20px' className='heading--desktop'>
           {t('strategicalPartnership')}
         </StyledHeading>
         <StyledHeading as='h1' size='xl' color='heading' mb='40px' className='heading--mobile'>
           {t('strategicalPartnership')}
-        </StyledHeading>
+        </StyledHeading> */}
 
         <AppBody>
           {cardList.map((card, key) => (
