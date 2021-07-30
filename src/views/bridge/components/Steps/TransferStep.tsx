@@ -1,9 +1,12 @@
 import { useAlmToken } from 'hooks/useAlm'
+import { BridgeConfirmIcon } from 'images/bridge/BridgeConfirmIcon'
 import React, { useState } from 'react'
 import { ChevronRight } from 'react-feather'
 import Loader from 'react-loader-spinner'
 import { BRIDGE_STEPS, storeBridge } from 'store/bridge/useStoreBridge'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 
 const Wrapper = styled.div`
   display: flex;
@@ -62,37 +65,95 @@ export const View = styled.div`
 `
 
 const TransferStep = () => {
+  const [loading, setLoading] = useState(false)
   const token = useAlmToken()
-  const [loading, setLoading] = useState(true)
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const setChainId = useStoreNetwork((state) => state.setChainId)
+  const connected = useStoreNetwork((state) => state.connected)
+  const { networkFrom } = useBridgeNetworks()
+
+  const wrongCurrentNetwork = React.useMemo(
+    () => networkFrom?.chainId !== currentChainId,
+    [currentChainId, networkFrom],
+  )
+
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
+
   const emulateApproveProcess = async () => {
     await new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(true)
-        setLoading(false)
+        updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
+        changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
       }, 2000)
     })
   }
+
+  const networkOrAccountErrors = wrongCurrentNetwork || !connected
+  const showLoading = loading && !networkOrAccountErrors
+
+  // If network valid and connected call approve
   React.useEffect(() => {
-    emulateApproveProcess()
-  }, [])
-  React.useEffect(() => {
-    if (!loading) {
-      changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
-      updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
+    if (!networkOrAccountErrors && !loading) {
+      setLoading(true)
+      emulateApproveProcess().finally(() => {
+        setLoading(false)
+      })
     }
-  }, [loading])
+  }, [networkOrAccountErrors])
+
+  // Validate chainId if current not equal "from" chainId
+  React.useEffect(() => {
+    if (wrongCurrentNetwork) {
+      setChainId(networkFrom?.chainId)
+    }
+  }, [wrongCurrentNetwork])
+
   return (
     <Wrapper>
-      <StyledLoader type='TailSpin' color='#6C5DD3' />
+      {showLoading ? (
+        <>
+          <StyledLoader type='TailSpin' color='#6C5DD3' />
 
-      <h2>Transfer 0.05 {token?.symbol} pending...</h2>
-      <p>Transaction is pending...</p>
-      <View>
-        View on explorer <ChevronRight />
-      </View>
+          <h2>Transfer 0.05 {token?.symbol} pending...</h2>
+          <p>Transaction is pending...</p>
+          <View>
+            View on explorer <ChevronRight />
+          </View>
+        </>
+      ) : (
+        <ConfirmMessage />
+      )}
     </Wrapper>
+  )
+}
+
+const StyledConfirm = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 40px;
+  p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+
+    text-align: center;
+    letter-spacing: 0.3px;
+
+    color: #0b1359;
+  }
+`
+const ConfirmMessage = () => {
+  return (
+    <StyledConfirm>
+      <BridgeConfirmIcon />
+      <p>Confirm the transaction in your wallet</p>
+    </StyledConfirm>
   )
 }
 

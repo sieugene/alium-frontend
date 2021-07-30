@@ -56,7 +56,8 @@ const toNetworkBalancer = (from: number, to: number) => {
 
 export const storeBridgeDefault = () => {
   return {
-    fromNetwork: storeNetwork.getState().currentChainId,
+    // fromNetwork: storeNetwork.getState().currentChainId,
+    fromNetwork: getNetworks()[0]?.chainId,
     toNetwork: getNetworks()[1]?.chainId || null,
     modalOpen: false,
     step: BRIDGE_STEPS.CONFIRM_TRANSFER,

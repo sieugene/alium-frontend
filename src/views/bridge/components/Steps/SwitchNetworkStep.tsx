@@ -4,7 +4,7 @@ import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
 import React from 'react'
 import { BRIDGE_STEPS, storeBridge } from 'store/bridge/useStoreBridge'
-import { storeNetwork } from 'store/network/useStoreNetwork'
+import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import BridgeBtnWithIcon from '../BridgeBtnWithIcon'
@@ -75,10 +75,21 @@ const SwitchNetworkStep = () => {
   const setChainId = storeNetwork.getState().setChainId
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const connected = useStoreNetwork((state) => state.connected)
+
+  const networksEqual = React.useMemo(() => networkTo?.chainId === currentChainId, [currentChainId, networkTo])
+  const equalAndConnected = React.useMemo(() => networksEqual && connected, [connected, networksEqual])
+
+  React.useEffect(() => {
+    if (equalAndConnected) {
+      updateStepStatus(BRIDGE_STEPS.SWITCH_NETWORK, true)
+      changeStep(BRIDGE_STEPS.CLAIM_TOKEN)
+    }
+  }, [equalAndConnected])
+
   const changeNetwork = () => {
     setChainId(networkTo?.chainId)
-    changeStep(BRIDGE_STEPS.CLAIM_TOKEN)
-    updateStepStatus(BRIDGE_STEPS.SWITCH_NETWORK, true)
   }
 
   return (

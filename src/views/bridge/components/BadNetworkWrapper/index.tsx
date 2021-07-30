@@ -4,6 +4,7 @@ import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'
 import { BridgeBadNetworkIcon } from 'images/bridge/BridgeBadNetworkIcon'
 import React, { FC } from 'react'
+import { storeAccount } from 'store/account/useStoreAccount'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { useBridge } from 'views/bridge/hooks/useBridge'
@@ -82,15 +83,21 @@ const BadNetworkWrapper: FC<Props> = ({ children }) => {
   const { account } = useActiveWeb3React()
 
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const connected = useStoreNetwork((state) => state.connected)
 
   const { nativeFrom, nativeTo, networkFrom, networkTo, availableNetworksBridge } = useBridgeNetworks()
 
   const IconFrom = networkFrom?.icon
   const IconTo = networkTo?.icon
+  const showModalConnect = storeAccount.getState().showModalConnect
 
-  const disconnect = async () => {
-    await logout()
-    cancel()
+  const resolveConnection = async () => {
+    if (!connected) {
+      showModalConnect()
+    } else {
+      await logout()
+      cancel()
+    }
   }
 
   if (!availableNetworksBridge.includes(currentChainId) || !account) {
@@ -115,7 +122,7 @@ const BadNetworkWrapper: FC<Props> = ({ children }) => {
               {IconTo && <IconTo />} <p>{networkTo?.label}</p>
             </Variant>
           </StyledVariants>
-          <Button onClick={disconnect}>Disconnect</Button>
+          <Button onClick={resolveConnection}>{!connected ? 'Connect' : 'Disconnect'}</Button>
         </Content>
       </Wrapper>
     )

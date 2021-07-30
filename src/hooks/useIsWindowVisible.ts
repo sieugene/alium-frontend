@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-const VISIBILITY_STATE_SUPPORTED = 'visibilityState' in document
+const VISIBILITY_STATE_SUPPORTED = process.browser && 'visibilityState' in document
 
 function isWindowVisible() {
   return !VISIBILITY_STATE_SUPPORTED || document.visibilityState !== 'hidden'

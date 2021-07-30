@@ -9,7 +9,8 @@ import {
 import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@web3-react/walletconnect-connector'
 import { ConnectorNames } from 'alium-uikit/src'
 import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
-import { useCallback } from 'react'
+import { useActiveWeb3React } from 'hooks'
+import React, { useCallback } from 'react'
 import { useToast } from 'state/hooks'
 import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import { clearWalletConnect } from 'utils/connection/walletConnect'
@@ -23,6 +24,18 @@ const useAuth = () => {
   const { toastError } = useToast()
   const sendDataToGTM = useGTMDispatch()
   const { setConnectionError, toggleLoadConnection } = useStoreNetwork()
+
+  // Observe success connection (Refactor later)
+  const { account, chainId } = useActiveWeb3React()
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const load = useStoreNetwork((state) => state.loadConnection)
+  const loginSuccess = React.useMemo(() => !load && account && currentChainId === chainId, [load, account, chainId])
+  React.useEffect(() => {
+    if (loginSuccess) {
+      toggleLoadConnection(load, account)
+    }
+  }, [loginSuccess])
+  // end
 
   const login = useCallback(
     // offIndicate for eager connect
