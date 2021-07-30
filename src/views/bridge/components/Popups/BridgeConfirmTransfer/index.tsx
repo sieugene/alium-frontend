@@ -1,10 +1,13 @@
 import { Button } from 'alium-uikit/src'
+import { useAlmToken } from 'hooks/useAlm'
 import { BridgeWarningInDetail } from 'images/bridge/BridgeWarningInDetail'
 import { ChevronRight } from 'react-feather'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
-import { useInitBridge } from 'views/bridge/hooks/useInitBridge'
+import { useBridge } from 'views/bridge/hooks/useBridge'
+import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import BridgeModal, { CloseItem } from '../../../../../components/Modal/BridgeModal'
+import BadNetworkWrapper from '../../BadNetworkWrapper'
 
 const Wrapper = styled.div`
   max-width: 500px;
@@ -144,9 +147,11 @@ const Footer = styled.div`
 `
 
 const BridgeConfirmTransfer = () => {
-  const { install } = useInitBridge()
+  const token = useAlmToken()
+  const { install } = useBridge()
   const toggleModal = storeBridge.getState().toggleModal
   const modalOpen = useStoreBridge((state) => state.modalOpen)
+  const { networkFrom, networkTo } = useBridgeNetworks()
 
   const onDismiss = () => {
     toggleModal(false)
@@ -156,50 +161,54 @@ const BridgeConfirmTransfer = () => {
   }
   return (
     <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
-      <Wrapper>
-        <Header>
-          <h2 className='title'>Confirm Transfer</h2>
-          <div onClick={onDismiss}>
-            <CloseItem />
-          </div>
-        </Header>
-        <Content>
-          <TokensBridge>
-            <Token align='left' justify='start'>
-              <div className='text'>
-                <h3 className='count'>1</h3>
-                <div className='symbol'>ALM</div>
-              </div>
-            </Token>
-            <Fees>
-              <div className='chevron'>
-                <ChevronRight />
-              </div>
-              <p>Bridge Fees 2%</p>
-            </Fees>
-            <Token align='right' justify='end'>
-              <div className='text'>
-                <h3 className='count'>0.98</h3>
-                <div className='symbol'>ALM</div>
-              </div>
-            </Token>
-          </TokensBridge>
-          <Detail>
-            Please confirm that you would like to send <b>1 ALM</b> from BSC testnet and receive <b>0.98 ALM</b> on HECO
-            testnet
-          </Detail>
-          <Info>
-            <BridgeWarningInDetail />
-            <p>The claim process requires 2 transactions, one on Binance Smart Chain Testnet and one on HECO testnet</p>
-          </Info>
-        </Content>
-        <Footer>
-          <Button variant='secondary' onClick={onDismiss}>
-            cancel
-          </Button>
-          <Button onClick={confirm}>continue</Button>
-        </Footer>
-      </Wrapper>
+      <BadNetworkWrapper>
+        <Wrapper>
+          <Header>
+            <h2 className='title'>Confirm Transfer</h2>
+            <div onClick={onDismiss}>
+              <CloseItem />
+            </div>
+          </Header>
+          <Content>
+            <TokensBridge>
+              <Token align='left' justify='start'>
+                <div className='text'>
+                  <h3 className='count'>1</h3>
+                  <div className='symbol'>{token?.symbol}</div>
+                </div>
+              </Token>
+              <Fees>
+                <div className='chevron'>
+                  <ChevronRight />
+                </div>
+                <p>Bridge Fees 2%</p>
+              </Fees>
+              <Token align='right' justify='end'>
+                <div className='text'>
+                  <h3 className='count'>0.98</h3>
+                  <div className='symbol'>{token?.symbol}</div>
+                </div>
+              </Token>
+            </TokensBridge>
+            <Detail>
+              Please confirm that you would like to send <b>1 ALM</b> from {networkFrom?.label} and receive{' '}
+              <b>0.98 ALM</b> on {networkTo?.label}
+            </Detail>
+            <Info>
+              <BridgeWarningInDetail />
+              <p>
+                The claim process requires 2 transactions, one on {networkFrom?.label} and one on {networkTo?.label}
+              </p>
+            </Info>
+          </Content>
+          <Footer>
+            <Button variant='secondary' onClick={onDismiss}>
+              cancel
+            </Button>
+            <Button onClick={confirm}>continue</Button>
+          </Footer>
+        </Wrapper>
+      </BadNetworkWrapper>
     </BridgeModal>
   )
 }

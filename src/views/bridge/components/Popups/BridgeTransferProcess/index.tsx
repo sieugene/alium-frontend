@@ -1,7 +1,8 @@
 import BridgeModal from 'components/Modal/BridgeModal'
 import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
-import { useInitBridge } from 'views/bridge/hooks/useInitBridge'
+import { useBridge } from 'views/bridge/hooks/useBridge'
+import BadNetworkWrapper from '../../BadNetworkWrapper'
 import BridgeStepsHeader from '../../BridgeStepsHeader'
 import ClaimTokenStep from '../../Steps/ClaimTokenStep'
 import SuccessStep from '../../Steps/SuccessStep'
@@ -16,7 +17,7 @@ const Wrapper = styled.div`
 
 const BridgeTransferProcess = () => {
   const currentStep = useStoreBridge((state) => state.step)
-  const { cancel } = useInitBridge()
+  const { cancel } = useBridge()
   const modalOpen = useStoreBridge((state) => state.modalOpen)
 
   const onDismiss = () => {
@@ -25,15 +26,17 @@ const BridgeTransferProcess = () => {
 
   return (
     <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
-      {currentStep !== BRIDGE_STEPS.SUCCESS && (
-        <Wrapper>
-          <BridgeStepsHeader />
-          {currentStep === BRIDGE_STEPS.TRANSFER && <TransferStep />}
-          {currentStep === BRIDGE_STEPS.SWITCH_NETWORK && <SwitchNetworkStep />}
-          {currentStep === BRIDGE_STEPS.CLAIM_TOKEN && <ClaimTokenStep />}
-        </Wrapper>
-      )}
-      {currentStep === BRIDGE_STEPS.SUCCESS && <SuccessStep />}
+      <BadNetworkWrapper>
+        {currentStep !== BRIDGE_STEPS.SUCCESS && (
+          <Wrapper>
+            <BridgeStepsHeader />
+            {currentStep === BRIDGE_STEPS.TRANSFER && <TransferStep />}
+            {currentStep === BRIDGE_STEPS.SWITCH_NETWORK && <SwitchNetworkStep />}
+            {currentStep === BRIDGE_STEPS.CLAIM_TOKEN && <ClaimTokenStep />}
+          </Wrapper>
+        )}
+        {currentStep === BRIDGE_STEPS.SUCCESS && <SuccessStep />}
+      </BadNetworkWrapper>
     </BridgeModal>
   )
 }

@@ -71,7 +71,7 @@ const BridgeNetwork: FC<Props> = ({ type }) => {
       <div className='left-column'>
         <div className='network'>
           {Icon ? <Icon /> : <img />}
-          <p className='title'>{network?.title}</p>
+          <p className='title'>{network?.label}</p>
           <DropdownBridgeNetworks type={type} />
         </div>
         <div className='token'>0 {token?.symbol}</div>

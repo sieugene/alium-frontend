@@ -1,3 +1,4 @@
+import { useAlmToken } from 'hooks/useAlm'
 import React, { useState } from 'react'
 import { ChevronRight } from 'react-feather'
 import Loader from 'react-loader-spinner'
@@ -61,6 +62,7 @@ export const View = styled.div`
 `
 
 const TransferStep = () => {
+  const token = useAlmToken()
   const [loading, setLoading] = useState(true)
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
@@ -85,7 +87,7 @@ const TransferStep = () => {
     <Wrapper>
       <StyledLoader type='TailSpin' color='#6C5DD3' />
 
-      <h2>Transfer 0.05 DAI pending...</h2>
+      <h2>Transfer 0.05 {token?.symbol} pending...</h2>
       <p>Transaction is pending...</p>
       <View>
         View on explorer <ChevronRight />

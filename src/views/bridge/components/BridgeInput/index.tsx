@@ -1,7 +1,10 @@
+import { useActiveWeb3React } from 'hooks'
 import { useAlmToken } from 'hooks/useAlm'
 import { ExchangeIcon } from 'images/Exchange-icon'
+import { useCurrencyBalance } from 'state/wallet/hooks'
 import { storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import AdvancedInput from '../AdvancedInput'
 import { BridgeTransferButton } from '../BridgeTransferButton'
 import BridgeCurrencyInput from './BridgeCurrencyInput'
@@ -39,17 +42,25 @@ const SwitchIcon = styled.div`
 `
 
 const BridgeInput = () => {
+  const { account } = useActiveWeb3React()
   const toggleModal = storeBridge.getState().toggleModal
   const toggleNetworks = storeBridge.getState().toggleNetworks
   const updateInput = storeBridge.getState().updateBridgeInputs
   const value = useStoreBridge((state) => state.bridgeInputs.main)
   const token = useAlmToken()
+  const tokenBalance = useCurrencyBalance(account ?? undefined, token ?? undefined)
+
   const onUserInput = (value: string) => {
     updateInput('main', value)
   }
 
   const transfer = () => {
     toggleModal(true)
+  }
+
+  const onMax = () => {
+    const balance = toSignificantCurrency(tokenBalance)
+    updateInput('main', balance)
   }
 
   return (
@@ -61,6 +72,7 @@ const BridgeInput = () => {
             showMaxButton={true}
             onUserInput={onUserInput}
             value={value}
+            onMax={onMax}
             currency={token}
             disableCurrencySelect
           />

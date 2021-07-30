@@ -17,7 +17,7 @@ interface Params {
 /**
  * Init bridge with store, make install with input params or default from store and uninstall
  */
-export const useInitBridge = () => {
+export const useBridge = () => {
   // Store
   const toggleModal = storeBridge.getState().toggleModal
   const changeStep = storeBridge.getState().changeStep
@@ -28,7 +28,7 @@ export const useInitBridge = () => {
   const stepStatuses = useStoreBridge((state) => state.stepStatuses)
   const fromNetwork = useStoreBridge((state) => state.fromNetwork)
   const toNetwork = useStoreBridge((state) => state.toNetwork)
-  // Init
+  // Actions
   const install = ({ step, showModal, statuses, from, to }: Params) => {
     // Params
     const modalActive = showModal !== undefined ? showModal : modalOpen
@@ -57,7 +57,7 @@ export const useInitBridge = () => {
       modalOpen: showModal,
     } = storeBridgeDefault()
 
-    install({ step, statuses, from, to, showModal })
+    install({ step, statuses, showModal })
   }
   return { install, uninstall, cancel }
 }

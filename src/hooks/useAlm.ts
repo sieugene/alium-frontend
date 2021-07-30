@@ -6,7 +6,9 @@ import { useAllTokens } from './Tokens'
 
 export const useSearchToken = (symbol: string) => {
   const { chainId } = useActiveWeb3React()
-  const TOKEN = Object.values(useAllTokens()).find((token) => token.symbol === symbol && token.chainId === chainId)
+  const tokens = useAllTokens()
+
+  const TOKEN = Object.values(tokens).find((token) => token.symbol === symbol && token.chainId === chainId)
   return TOKEN
 }
 export const useAlmToken = () => {

@@ -1,6 +1,9 @@
 const backgroundImage = '/images/trade-background.svg'
-
 import styled from 'styled-components'
+import ApplicationUpdater from '../../state/application/updater'
+import ListsUpdater from '../../state/lists/updater'
+import MulticallUpdater from '../../state/multicall/updater'
+import TransactionUpdater from '../../state/transactions/updater'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -54,10 +57,10 @@ const BodyWrapper = styled.div`
 const BridgeContainer = ({ children }) => {
   return (
     <>
-      {/* <ListsUpdater />
+      <ListsUpdater />
       <ApplicationUpdater />
       <TransactionUpdater />
-      <MulticallUpdater /> */}
+      <MulticallUpdater />
       <AppWrapper>
         <BodyWrapper>{children}</BodyWrapper>
       </AppWrapper>

@@ -1,10 +1,11 @@
 import { CloseItem } from 'components/Modal/BridgeModal'
+import { useAlmToken } from 'hooks/useAlm'
 import { BridgeSuccessIcon } from 'images/bridge/BridgeSuccessIcon'
 import React from 'react'
 import { ChevronRight } from 'react-feather'
 import { storeBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
-import { useInitBridge } from 'views/bridge/hooks/useInitBridge'
+import { useBridge } from 'views/bridge/hooks/useBridge'
 import AddTokenBtn from '../AddTokenBtn'
 import { View } from './TransferStep'
 
@@ -43,7 +44,8 @@ const Content = styled.div`
 `
 
 const SuccessStep = () => {
-  const { cancel } = useInitBridge()
+  const token = useAlmToken()
+  const { cancel } = useBridge()
   const toggleModal = storeBridge.getState().toggleModal
 
   const onDismiss = () => {
@@ -59,7 +61,7 @@ const SuccessStep = () => {
         <BridgeSuccessIcon />
         <h2 className='title'>Transaction completed</h2>
         <p className='amount'>
-          Amount: <b>0.01ALM</b>
+          Amount: <b>0.01{token?.symbol}</b>
         </p>
         <View>
           View on explorer <ChevronRight />

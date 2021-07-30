@@ -1,10 +1,12 @@
 import CopyInput from 'alium-uikit/src/components/CopyInput'
+import { useAlmToken } from 'hooks/useAlm'
 import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
 import React from 'react'
-import { BRIDGE_STEPS, networkFinder, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
+import { BRIDGE_STEPS, storeBridge } from 'store/bridge/useStoreBridge'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import BridgeBtnWithIcon from '../BridgeBtnWithIcon'
 
 const Wrapper = styled.div`
@@ -65,14 +67,16 @@ const Info = styled.div`
 `
 
 const SwitchNetworkStep = () => {
-  const toNetwork = useStoreBridge((state) => state.toNetwork)
-  const network = networkFinder(toNetwork)
-  const Icon = network?.icon
+  const token = useAlmToken()
+  const { networkTo } = useBridgeNetworks()
+  // const toNetwork = useStoreBridge((state) => state.toNetwork)
+  // const network = networkFinder(toNetwork)
+  const Icon = networkTo?.icon
   const setChainId = storeNetwork.getState().setChainId
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
   const changeNetwork = () => {
-    setChainId(toNetwork)
+    setChainId(networkTo?.chainId)
     changeStep(BRIDGE_STEPS.CLAIM_TOKEN)
     updateStepStatus(BRIDGE_STEPS.SWITCH_NETWORK, true)
   }
@@ -81,18 +85,19 @@ const SwitchNetworkStep = () => {
     <Wrapper>
       <BridgeSwitchNetworkIcon />
       <p className='message'>
-        Please copy the hash of the transaction and switch the network in your wallet to <b>{network?.label}</b>
+        Please copy the hash of the transaction and switch the network in your wallet to <b>{networkTo?.label}</b>
       </p>
       <p className='title'>Transaction Hash:</p>
       <CopyInput value='123e783hds78129000a0192ead123e783hds78129' />
       <BridgeBtnWithIcon onClick={changeNetwork} variant='secondary'>
         <Icon />
-        <p className='text'>{network?.label}</p>
+        <p className='text'>{networkTo?.label}</p>
       </BridgeBtnWithIcon>
       <Info>
         <BridgeInfoIcon />
         <p>
-          After you switch networks, you will complete a second transaction on HECO testnet to claim your ALM tokens.
+          After you switch networks, you will complete a second transaction on {networkTo?.label} to claim your 
+          {token?.symbol} tokens.
         </p>
       </Info>
     </Wrapper>

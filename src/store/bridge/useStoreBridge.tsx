@@ -123,19 +123,19 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     setChainId(toNetwork)
   },
   initStoreBridge: () => {
-    const setFromNetwork = get().setFromNetwork
+    // const setFromNetwork = get().setFromNetwork
     storage.migrate()
     storage.save()
-
-    storeNetwork.subscribe(
-      (currentChainId: number, prevChainId: number) => {
-        if (currentChainId !== prevChainId) {
-          storage.save()
-          setFromNetwork(currentChainId)
-        }
-      },
-      (state) => state.currentChainId,
-    )
+    // not need every change update?
+    // storeNetwork.subscribe(
+    //   (currentChainId: number, prevChainId: number) => {
+    //     if (currentChainId !== prevChainId) {
+    //       storage.save()
+    //       setFromNetwork(currentChainId)
+    //     }
+    //   },
+    //   (state) => state.currentChainId,
+    // )
   },
   killStoreBridge: () => {
     storeBridge.destroy()
