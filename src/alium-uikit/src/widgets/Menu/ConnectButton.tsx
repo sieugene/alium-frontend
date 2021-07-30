@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from 'react'
 import styled from 'styled-components'
 import { AddIcon } from '../../components/Svg'
 
@@ -48,8 +48,12 @@ export const StyledButton = styled.div`
   @media screen and (min-width: 768px) {
     .icon {
       border: 1.5px solid rgb(255, 255, 255);
-      padding: 0 0 0.5px 0.5px;
+      /* padding: 0 0 0.5px 0.5px; */
       display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
       border-radius: 6px;
       margin-right: 14px;
     }
