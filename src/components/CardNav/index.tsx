@@ -4,6 +4,16 @@ import { FC } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
+const ButtonMenuStyled = styled(ButtonMenu)`
+  & a {
+    width: 140px;
+    text-align: center;
+    @media screen and (max-width: 480px) {
+      width: 106px;
+    }
+  }
+`
+
 const StyledNav = styled.div`
   margin-bottom: 32px;
   > h1 {
@@ -59,13 +69,13 @@ export const CardNav: FC<props> = ({ activeIndex = 0 }) => {
         <Heading as='h1' size='xl' color='heading' mb='40px' mt='20px'>
           {t('mainMenu.trade')}
         </Heading>
-        <ButtonMenu size='md' variant='primary' activeIndex={activeIndex}>
+        <ButtonMenuStyled size='md' variant='primary' activeIndex={activeIndex}>
           {routes.map(({ href, title }) => (
             <ButtonMenuItem href={href} key={href} as='a'>
               {title}
             </ButtonMenuItem>
           ))}
-        </ButtonMenu>
+        </ButtonMenuStyled>
       </StyledNav>
     </Flex>
   )
