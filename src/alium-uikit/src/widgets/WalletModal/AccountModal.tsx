@@ -55,10 +55,13 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   border-radius: 6px;
   color: #8990a5;
-
   overflow: hidden;
   padding-right: 50px;
-
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.1;
+  text-align: left;
   :focus {
     border: 1px solid #d2d6e5;
     outline: none;
