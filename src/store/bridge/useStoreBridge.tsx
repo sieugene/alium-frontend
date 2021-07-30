@@ -19,6 +19,7 @@ export interface StoreBridgeState {
   fromNetwork: number
   toNetwork: number
   modalOpen: boolean
+  setStepStatuses: (stepStatuses: StoreBridgeState['stepStatuses']) => void
   updateStepStatus: (step: BRIDGE_STEPS, status: boolean) => void
   toggleModal: (show: boolean) => void
   changeStep: (step: BRIDGE_STEPS) => void
@@ -41,28 +42,49 @@ export const networkFinder = (chainId: number) => {
   return chainId && networks && networks.find((n) => n.chainId === chainId)
 }
 
+// if networks equal
+const toNetworkBalancer = (from: number, to: number) => {
+  const networks = getNetworks()
+  const currentTo = networkFinder(to)
+  const index = networks.findIndex((network) => network?.chainId === currentTo?.chainId)
+  if (from === to) {
+    const nextChain = networks[index + 1] || networks[index - 1] || networks[0]
+    return nextChain.chainId
+  }
+  return to
+}
+
+export const storeBridgeDefault = () => {
+  return {
+    fromNetwork: storeNetwork.getState().currentChainId,
+    toNetwork: getNetworks()[1]?.chainId || null,
+    modalOpen: false,
+    step: BRIDGE_STEPS.CONFIRM_TRANSFER,
+    stepStatuses: {
+      [BRIDGE_STEPS.CONFIRM_TRANSFER]: false,
+      [BRIDGE_STEPS.TRANSFER]: false,
+      [BRIDGE_STEPS.SWITCH_NETWORK]: false,
+      [BRIDGE_STEPS.CLAIM_TOKEN]: false,
+      [BRIDGE_STEPS.SUCCESS]: false,
+    },
+    bridgeInputs: {
+      main: '0',
+      advanced: '',
+    },
+  }
+}
+
 // store for usage outside of react
 export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
-  modalOpen: false,
-  step: BRIDGE_STEPS.CONFIRM_TRANSFER,
-  stepStatuses: {
-    [BRIDGE_STEPS.CONFIRM_TRANSFER]: false,
-    [BRIDGE_STEPS.TRANSFER]: false,
-    [BRIDGE_STEPS.SWITCH_NETWORK]: false,
-    [BRIDGE_STEPS.CLAIM_TOKEN]: false,
-    [BRIDGE_STEPS.SUCCESS]: false,
-  },
-  bridgeInputs: storage.get()?.bridgeInputs || {
-    main: '0',
-    advanced: '',
+  ...storeBridgeDefault(),
+  setStepStatuses: (stepStatuses) => {
+    set({ stepStatuses })
   },
   updateStepStatus: (step: BRIDGE_STEPS, status: boolean) => {
     const stepStatuses = storeBridge.getState().stepStatuses
     stepStatuses[step] = status
     set({ stepStatuses })
   },
-  fromNetwork: storage.get()?.fromNetwork || storeNetwork.getState().currentChainId || 56,
-  toNetwork: storage.get()?.toNetwork || getNetworks()[1]?.chainId || null,
   toggleModal: (show: boolean) => {
     set({ modalOpen: show })
   },

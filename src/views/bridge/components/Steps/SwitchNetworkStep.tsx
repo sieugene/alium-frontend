@@ -1,4 +1,3 @@
-import { Button } from 'alium-uikit/src'
 import CopyInput from 'alium-uikit/src/components/CopyInput'
 import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
@@ -6,6 +5,7 @@ import React from 'react'
 import { BRIDGE_STEPS, networkFinder, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import BridgeBtnWithIcon from '../BridgeBtnWithIcon'
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,14 +40,6 @@ const Wrapper = styled.div`
     margin-top: 16px;
     margin-bottom: 8px;
   }
-`
-
-const StyledButton = styled(Button)`
-  margin-top: 16px;
-  svg {
-    margin-right: 20px;
-  }
-  /* max-width: 184px; */
 `
 
 const Info = styled.div`
@@ -93,10 +85,10 @@ const SwitchNetworkStep = () => {
       </p>
       <p className='title'>Transaction Hash:</p>
       <CopyInput value='123e783hds78129000a0192ead123e783hds78129' />
-      <StyledButton onClick={changeNetwork} variant='secondary'>
+      <BridgeBtnWithIcon onClick={changeNetwork} variant='secondary'>
         <Icon />
         <p className='text'>{network?.label}</p>
-      </StyledButton>
+      </BridgeBtnWithIcon>
       <Info>
         <BridgeInfoIcon />
         <p>

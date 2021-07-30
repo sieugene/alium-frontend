@@ -1,8 +1,10 @@
 import BridgeModal from 'components/Modal/BridgeModal'
-import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
+import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import { useInitBridge } from 'views/bridge/hooks/useInitBridge'
 import BridgeStepsHeader from '../../BridgeStepsHeader'
 import ClaimTokenStep from '../../Steps/ClaimTokenStep'
+import SuccessStep from '../../Steps/SuccessStep'
 import SwitchNetworkStep from '../../Steps/SwitchNetworkStep'
 import TransferStep from '../../Steps/TransferStep'
 
@@ -14,25 +16,24 @@ const Wrapper = styled.div`
 
 const BridgeTransferProcess = () => {
   const currentStep = useStoreBridge((state) => state.step)
-  const toggleModal = storeBridge.getState().toggleModal
-  const changeStep = storeBridge.getState().changeStep
+  const { cancel } = useInitBridge()
   const modalOpen = useStoreBridge((state) => state.modalOpen)
 
   const onDismiss = () => {
-    toggleModal(false)
-  }
-  const confirm = () => {
-    changeStep(BRIDGE_STEPS.TRANSFER)
+    cancel()
   }
 
   return (
     <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
-      <Wrapper>
-        <BridgeStepsHeader />
-        {currentStep === BRIDGE_STEPS.TRANSFER && <TransferStep />}
-        {currentStep === BRIDGE_STEPS.SWITCH_NETWORK && <SwitchNetworkStep />}
-        {currentStep === BRIDGE_STEPS.CLAIM_TOKEN && <ClaimTokenStep />}
-      </Wrapper>
+      {currentStep !== BRIDGE_STEPS.SUCCESS && (
+        <Wrapper>
+          <BridgeStepsHeader />
+          {currentStep === BRIDGE_STEPS.TRANSFER && <TransferStep />}
+          {currentStep === BRIDGE_STEPS.SWITCH_NETWORK && <SwitchNetworkStep />}
+          {currentStep === BRIDGE_STEPS.CLAIM_TOKEN && <ClaimTokenStep />}
+        </Wrapper>
+      )}
+      {currentStep === BRIDGE_STEPS.SUCCESS && <SuccessStep />}
     </BridgeModal>
   )
 }

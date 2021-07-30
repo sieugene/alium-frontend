@@ -3,6 +3,7 @@ import { BridgeWarningInDetail } from 'images/bridge/BridgeWarningInDetail'
 import { ChevronRight } from 'react-feather'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import { useInitBridge } from 'views/bridge/hooks/useInitBridge'
 import BridgeModal, { CloseItem } from '../../../../../components/Modal/BridgeModal'
 
 const Wrapper = styled.div`
@@ -143,15 +144,15 @@ const Footer = styled.div`
 `
 
 const BridgeConfirmTransfer = () => {
+  const { install } = useInitBridge()
   const toggleModal = storeBridge.getState().toggleModal
-  const changeStep = storeBridge.getState().changeStep
   const modalOpen = useStoreBridge((state) => state.modalOpen)
 
   const onDismiss = () => {
     toggleModal(false)
   }
   const confirm = () => {
-    changeStep(BRIDGE_STEPS.TRANSFER)
+    install({ step: BRIDGE_STEPS.TRANSFER })
   }
   return (
     <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>

@@ -2,7 +2,8 @@ import { Button } from 'alium-uikit/src'
 import InputWithLabel from 'components/InputWithLabel'
 import React, { FC, useState } from 'react'
 import Loader from 'react-loader-spinner'
-import { BRIDGE_STEPS, storeBridge } from 'store/bridge/useStoreBridge'
+import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -44,6 +45,8 @@ const ClaimTokenStep = () => {
   const [loading, setloading] = useState(false)
   const updateStepStatus = storeBridge.getState().updateStepStatus
   const changeStep = storeBridge.getState().changeStep
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const toNetwork = useStoreBridge((state) => state.toNetwork)
 
   const onClaim = async () => {
     setloading(true)
@@ -56,6 +59,13 @@ const ClaimTokenStep = () => {
       }, 2000)
     })
   }
+  // If network changed
+  React.useEffect(() => {
+    if (currentChainId !== toNetwork) {
+      updateStepStatus(BRIDGE_STEPS.SWITCH_NETWORK, false)
+      changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+    }
+  }, [currentChainId, toNetwork])
 
   return (
     <ClaimLoadWrap loading={loading}>

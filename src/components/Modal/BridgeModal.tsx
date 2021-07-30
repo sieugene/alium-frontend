@@ -1,7 +1,7 @@
 import { DialogContent, DialogOverlay } from '@reach/dialog'
 import '@reach/dialog/styles.css'
 import { transparentize } from 'polished'
-import { FC, ReactNode, RefObject } from 'react'
+import React, { FC, HTMLAttributes, ReactNode, RefObject } from 'react'
 import { isMobile } from 'react-device-detect'
 import { animated, useTransition } from 'react-spring'
 import styled, { css } from 'styled-components'
@@ -116,10 +116,10 @@ const Close = styled.div`
     opacity: 0.5;
   }
 `
-interface CloseProps {}
+type CloseProps = HTMLAttributes<HTMLDivElement> & {}
 export const CloseItem: FC<CloseProps> = (props) => {
   return (
-    <Close>
+    <Close {...props}>
       <IconClose />
     </Close>
   )

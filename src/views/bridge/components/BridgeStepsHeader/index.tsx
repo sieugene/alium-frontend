@@ -41,6 +41,7 @@ const Step = styled.div<{ active: boolean; success: boolean }>`
   transition: 0.3s all ease;
   border-bottom: 1px solid ${(props) => (props.active ? '#6c5dd3' : 'transparent')};
 `
+import { BridgeCheckIcon } from 'images/bridge/BridgeCheckIcon'
 import React from 'react'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
@@ -78,25 +79,11 @@ const BridgeStepsHeader = () => {
           <p>{step} STEP</p>
           <div className='title'>
             <h2>{title}</h2>
-            {stepStatuses[step] && <CheckIcon />}
+            {stepStatuses[step] && <BridgeCheckIcon />}
           </div>
         </Step>
       ))}
     </Header>
-  )
-}
-
-const CheckIcon = () => {
-  return (
-    <svg width='14' height='10' viewBox='0 0 14 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path
-        d='M12.3283 0.975891L5.0302 8.27397L1.71289 4.95666'
-        stroke='#1EA76D'
-        strokeWidth='1.5'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
-    </svg>
   )
 }
 

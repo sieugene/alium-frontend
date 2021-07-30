@@ -38,7 +38,7 @@ const StyledLoader = styled(Loader)`
   width: 80px;
   height: 80px;
 `
-const View = styled.div`
+export const View = styled.div`
   cursor: pointer;
   margin-top: 8px;
   font-family: Roboto;
@@ -52,6 +52,8 @@ const View = styled.div`
   color: #6c5dd3;
   svg {
     stroke: #6c5dd3;
+    width: 18px;
+    height: 16px;
   }
   display: flex;
   justify-content: center;
