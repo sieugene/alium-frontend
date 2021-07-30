@@ -145,6 +145,12 @@ const StyledFullPositionCard = styled.div`
   }
 `
 
+const AddLiquidityBtn = styled(Button)`
+  width: 143px;
+  padding: 0 21px;
+  flex-shrink: 0;
+`
+
 export default function Pool() {
   const { data, loading } = useAllV2PairsWithLiquidity()
   const router = useRouter()
@@ -160,14 +166,14 @@ export default function Pool() {
       //     {t('addLiquidity')}
       //   </Button>
       // ) : (
-      <Button
+      <AddLiquidityBtn
         id='join-pool-button'
         onClick={() => {
           router.push(ROUTES.addByOne('ETH'))
         }}
       >
         {t('addLiquidity')}
-      </Button>
+      </AddLiquidityBtn>
       // )
     )
   }

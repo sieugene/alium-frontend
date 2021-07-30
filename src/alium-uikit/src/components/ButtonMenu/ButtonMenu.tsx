@@ -9,9 +9,10 @@ const ButtonMenu: FC<ButtonMenuProps> = ({
   variant = variants.PRIMARY,
   onClick,
   children,
+  className,
 }) => {
   return (
-    <StyledButtonMenu variant={variant}>
+    <StyledButtonMenu variant={variant} className={className}>
       {Children.map(children, (child: ReactElement<ButtonMenuItemProps>, index) => {
         return cloneElement(child, {
           isActive: activeIndex === index,

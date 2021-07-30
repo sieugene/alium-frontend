@@ -7,6 +7,8 @@ import { getNetworks } from '../WalletModal/config'
 import { FailureNetwork } from '../WalletModal/icons/FailureNetwork'
 import { NetworksConfig } from '../WalletModal/types'
 
+const MOBILE_SCREEN = '630px'
+
 const StyledDropDown = styled.div<{ hasError: boolean }>`
   width: 232px;
   border: 1px solid ${(props) => (props.hasError ? 'transparent' : '#6c5dd3')};
@@ -40,7 +42,7 @@ const StyledDropDown = styled.div<{ hasError: boolean }>`
     right: 23px;
     top: 18px;
   }
-  @media screen and (max-width: 967px) {
+  @media screen and (max-width: ${MOBILE_SCREEN}) {
     margin-right: 6px;
     width: 40px;
     height: 40px;
@@ -60,7 +62,7 @@ const StyledDropDownMessage = styled.p`
   font-size: 11px;
   letter-spacing: 0.3px;
   color: #ffffff;
-  @media screen and (max-width: 967px) {
+  @media screen and (max-width: ${MOBILE_SCREEN}) {
     display: none;
   }
 `
@@ -73,7 +75,7 @@ const StyledSelectedOption = styled.p`
   color: #6c5dd3;
   font-size: 14px;
 
-  @media screen and (max-width: 967px) {
+  @media screen and (max-width: ${MOBILE_SCREEN}) {
     display: none;
   }
 `
@@ -88,7 +90,7 @@ const StyledSelectedOptionError = styled.p`
   font-weight: 500;
   line-height: 20px;
 
-  @media screen and (max-width: 967px) {
+  @media screen and (max-width: ${MOBILE_SCREEN}) {
     display: none;
   }
 `
@@ -106,7 +108,7 @@ const StyledOptionsContainer = styled.div`
     position: fixed;
     width: calc(100vw - 54px);
   }
-  @media screen and (max-width: 967px) {
+  @media screen and (max-width: ${MOBILE_SCREEN}) {
     position: absolute;
     left: 0;
     width: 180px;
@@ -130,7 +132,7 @@ const StyledIconContainer = styled.div`
   position: absolute;
   top: 12px;
   left: 14px;
-  @media screen and (max-width: 967px) {
+  @media screen and (max-width: ${MOBILE_SCREEN}) {
     margin: auto;
     position: initial;
     width: 24px;
