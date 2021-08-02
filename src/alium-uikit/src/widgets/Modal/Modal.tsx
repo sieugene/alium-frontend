@@ -26,6 +26,7 @@ const StyledModal = styled.div`
     width: auto;
     min-width: 360px;
     max-width: 100%;
+    margin: 0 10px;
   }
 `
 
