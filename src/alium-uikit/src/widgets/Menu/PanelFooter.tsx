@@ -17,8 +17,13 @@ const Container = styled.div<{ ispushed?: boolean }>`
   @media screen and (max-width: 967px) {
     position: absolute;
     bottom: 90px;
-    left: ${({ ispushed }) => (!ispushed ? '100px' : '20px')};
+    padding: 0px 16px 0px 5px;
+
+    left: ${({ ispushed }) => (!ispushed ? '100px' : '0px')};
     width: 70%;
+    @media screen and (max-width: 967px) {
+      width: 100%;
+    }
   }
 `
 
@@ -30,6 +35,7 @@ const SocialEntry = styled.div`
   /* flex-wrap: wrap; */
   @media screen and (max-width: 967px) {
     padding: 0;
+    width: 100%;
   }
 `
 
@@ -48,6 +54,10 @@ const StyledExternalLink = styled(Link)`
 const StyledSocial = styled.div<{ ispushed?: boolean }>`
   display: flex;
   flex-wrap: ${(props) => (props.ispushed ? 'inherit' : 'wrap')};
+  @media screen and (max-width: 967px) {
+    width: 100%;
+    justify-content: space-around;
+  }
   a {
     margin-left: 11px;
     &:last-child {

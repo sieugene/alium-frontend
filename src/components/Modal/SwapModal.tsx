@@ -65,6 +65,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
     ${({ theme }) => theme.mediaQueries.sm} {
       width: 85vw;
     }
+    margin: 0 10px;
   }
 `
 
