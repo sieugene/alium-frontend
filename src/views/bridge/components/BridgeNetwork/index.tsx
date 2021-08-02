@@ -1,10 +1,11 @@
 import { useAlmToken } from 'hooks/useAlm'
 import { BridgeMoreIcon } from 'images/bridge/BridgeMoreIcon'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import DropdownBridgeNetworks from '../DropdownBridgeNetworks'
+import BridgeScan from '../Popups/BridgeScan'
 
 const Network = styled.div`
   width: 100%;
@@ -62,12 +63,17 @@ interface Props {
 }
 
 const BridgeNetwork: FC<Props> = ({ type }) => {
+  const [modalOpen, setModalOpen] = useState(false)
   const token = useAlmToken()
   const chainId = useStoreBridge((state) => state[type])
   const network = networkFinder(chainId)
   const Icon = network?.icon
+  const onShow = () => {
+    setModalOpen(true)
+  }
   return (
     <Network>
+      {modalOpen && <BridgeScan type={type} modalOpen={modalOpen} setModalOpen={setModalOpen} />}
       <div className='left-column'>
         <div className='network'>
           {Icon ? <Icon /> : <img />}
@@ -77,7 +83,9 @@ const BridgeNetwork: FC<Props> = ({ type }) => {
         <div className='token'>0 {token?.symbol}</div>
       </div>
       <div className='right-column'>
-        <BridgeMoreIcon />
+        <div onClick={onShow}>
+          <BridgeMoreIcon />
+        </div>
       </div>
     </Network>
   )
