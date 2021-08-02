@@ -4,6 +4,7 @@ import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { getExplorerLink, getExplorerName } from 'utils'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { useBridgeTokens } from 'views/bridge/hooks/useBridgeTokens'
 
 const Wrapper = styled.div`
@@ -99,8 +100,9 @@ interface Props {
 }
 const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
   const chainId = useStoreBridge((state) => state[type])
-  const { tokens } = useBridgeTokens('ALM')
+  const { tokens, balances } = useBridgeTokens('ALM')
   const token = tokens[type]
+  const balance = balances[type]
 
   const network = networkFinder(chainId)
   const explorer = getExplorerName(chainId)
@@ -148,7 +150,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       title: `Your ${token?.symbol} Balance`,
       content: (
         <Text>
-          {0} {token?.symbol}
+          {toSignificantCurrency(balance)} {token?.symbol}
         </Text>
       ),
     },

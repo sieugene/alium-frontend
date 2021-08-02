@@ -1,7 +1,9 @@
-import { Token } from '@alium-official/sdk'
+import { Token, TokenAmount } from '@alium-official/sdk'
 import DEFAULT_LIST from 'config/tokens'
 import { useActiveWeb3React } from 'hooks'
+import React from 'react'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
+import { fetchTokenBalance } from '../components/utils'
 
 export const useBridgeTokens = (addressOrName: string) => {
   const { account } = useActiveWeb3React()
@@ -17,15 +19,15 @@ export const useBridgeTokens = (addressOrName: string) => {
     toNetwork: searchToken(allLists, addressOrName, toNetwork),
   }
 
-  //   const fromBalance = useBalanceAnotherChain(fromNetwork, account, tokens.fromNetwork)
-  //   const toBalance = useBalanceAnotherChain(toNetwork, account, tokens.toNetwork)
+  const { balancedToken: fromBalance } = useBalanceToken(tokens.fromNetwork, account)
+  const { balancedToken: toBalance } = useBalanceToken(tokens.toNetwork, account)
 
-  //   const balances = {
-  //     fromNetwork: fromBalance,
-  //     toNetwork: toBalance,
-  //   }
+  const balances = {
+    fromNetwork: fromBalance,
+    toNetwork: toBalance,
+  }
 
-  return { tokens }
+  return { tokens, balances }
 }
 
 const searchToken = (list: Token[], search: string, chainId: number) => {
@@ -33,26 +35,19 @@ const searchToken = (list: Token[], search: string, chainId: number) => {
   return token && new Token(token.chainId, token.address, token.decimals, token.symbol, token.name)
 }
 
-// const useBalanceAnotherChain = (chainId: number, account: string, token: Token) => {
-//   const [balancedToken, setBalancedToken] = React.useState(null)
-//   const validatedToken: Token = token && isAddress(token?.address) && token
-//   const validatedTokenAddress = validatedToken?.address
-//   const calls = [
-//     {
-//       address: validatedTokenAddress,
-//       name: 'balanceOf',
-//       params: [account],
-//     },
-//   ]
+const useBalanceToken = (token: Token, account: string) => {
+  const [balancedToken, setBalancedToken] = React.useState<TokenAmount>(null)
+  const [loading, setLoading] = React.useState(false)
+  if (!balancedToken && !loading) {
+    setLoading(true)
+    fetchTokenBalance(token, account)
+      .then((value) => {
+        setBalancedToken(new TokenAmount(token, value || 0))
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
 
-//   const multicallFetch = async () => {
-//     if (!balancedToken) {
-//       const result = await multicall(ERC20_ABI, calls, chainId)
-//       const balance = result?.returnData.map((el) => (el === '0x' ? 0 : el))
-//       setBalancedToken(new TokenAmount(token, balance || 0))
-//     }
-//   }
-//   multicallFetch()
-
-//   return balancedToken
-// }
+  return { balancedToken, loading }
+}
