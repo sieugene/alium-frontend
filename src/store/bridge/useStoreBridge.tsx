@@ -31,6 +31,8 @@ export interface StoreBridgeState {
   bridgeInputs: {
     main: string
     advanced: string
+    from: string
+    to: string
   }
   updateBridgeInputs: (key: keyof StoreBridgeState['bridgeInputs'], value: string) => void
 }
@@ -71,6 +73,8 @@ export const storeBridgeDefault = () => {
     bridgeInputs: {
       main: '0',
       advanced: '',
+      from: '0',
+      to: '0',
     },
   }
 }

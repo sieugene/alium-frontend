@@ -74,6 +74,8 @@ const BridgeNetwork: FC<Props> = ({ type }) => {
   const onShow = () => {
     setModalOpen(true)
   }
+
+  const value = useStoreBridge((state) => (type === 'fromNetwork' ? state.bridgeInputs.from : state.bridgeInputs.to))
   return (
     <Network>
       {modalOpen && <BridgeScan type={type} modalOpen={modalOpen} setModalOpen={setModalOpen} />}
@@ -83,7 +85,9 @@ const BridgeNetwork: FC<Props> = ({ type }) => {
           <p className='title'>{network?.label}</p>
           <DropdownBridgeNetworks type={type} />
         </div>
-        <div className='token'>0 {token?.symbol}</div>
+        <div className='token'>
+          {value || 0} {token?.symbol}
+        </div>
       </div>
       <div className='right-column'>
         <div onClick={onShow}>

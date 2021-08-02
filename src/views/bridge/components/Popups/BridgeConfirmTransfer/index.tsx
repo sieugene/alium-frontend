@@ -175,6 +175,8 @@ const BridgeConfirmTransfer = () => {
   const { install } = useBridge()
   const toggleModal = storeBridge.getState().toggleModal
   const modalOpen = useStoreBridge((state) => state.modalOpen)
+  const from = useStoreBridge((state) => state.bridgeInputs.from)
+  const to = useStoreBridge((state) => state.bridgeInputs.to)
   const { networkFrom, networkTo } = useBridgeNetworks()
 
   const onDismiss = () => {
@@ -197,7 +199,7 @@ const BridgeConfirmTransfer = () => {
             <TokensBridge>
               <Token align='left' justify='start'>
                 <div className='text'>
-                  <h3 className='count'>1</h3>
+                  <h3 className='count'>{from}</h3>
                   <div className='symbol'>{token?.symbol}</div>
                 </div>
               </Token>
@@ -209,7 +211,7 @@ const BridgeConfirmTransfer = () => {
               </Fees>
               <Token align='right' justify='end'>
                 <div className='text'>
-                  <h3 className='count'>0.98</h3>
+                  <h3 className='count'>{to}</h3>
                   <div className='symbol'>{token?.symbol}</div>
                 </div>
               </Token>
