@@ -7,7 +7,7 @@ import { storeBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import AddTokenBtn from '../AddTokenBtn'
-import { View } from './TransferStep'
+import { View } from '../Loaders/TransferLoader'
 
 const Wrapper = styled.div`
   width: 500px;
