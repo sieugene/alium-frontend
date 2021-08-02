@@ -13,6 +13,10 @@ const Wrapper = styled.div`
   width: 500px;
   min-height: 473px;
   padding: 40px 24px 24px 24px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    max-width: 354px;
+  }
 `
 
 const BridgeTransferProcess = () => {

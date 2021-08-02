@@ -13,6 +13,10 @@ const Wrapper = styled.div`
   width: 500px;
   min-height: 363px;
   padding: 8px;
+
+  @media screen and (max-width: 768px) {
+    max-width: 354px;
+  }
 `
 const Header = styled.div`
   display: flex;

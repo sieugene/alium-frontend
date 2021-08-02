@@ -44,6 +44,14 @@ const Wrapper = styled.div`
   }
 `
 
+const NetworksIcon = styled.div`
+  svg {
+    @media screen and (max-width: 768px) {
+      width: 147px;
+    }
+  }
+`
+
 const Info = styled.div`
   background: #e6e6f6;
   border-radius: 6px;
@@ -94,7 +102,10 @@ const SwitchNetworkStep = () => {
 
   return (
     <Wrapper>
-      <BridgeSwitchNetworkIcon />
+      <NetworksIcon>
+        <BridgeSwitchNetworkIcon />
+      </NetworksIcon>
+
       <p className='message'>
         Please copy the hash of the transaction and switch the network in your wallet to <b>{networkTo?.label}</b>
       </p>

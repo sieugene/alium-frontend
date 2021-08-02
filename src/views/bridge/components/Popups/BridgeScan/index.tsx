@@ -10,6 +10,9 @@ const Wrapper = styled.div`
   width: 450px;
   padding: 32px 32px 0px 32px;
   position: relative;
+  @media screen and (max-width: 480px) {
+    max-width: 354px;
+  }
 `
 const Header = styled.div`
   position: absolute;
@@ -99,8 +102,6 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
   const { tokens } = useBridgeTokens('ALM')
   const token = tokens[type]
 
-  const tokenBalance = 0
-
   const network = networkFinder(chainId)
   const explorer = getExplorerName(chainId)
   const Icon = network?.icon
@@ -119,7 +120,9 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
     },
     {
       title: 'Token Address',
-      content: <TextLink link={getExplorerLink(chainId, token?.address, 'token')} text={token?.address} />,
+      content: (
+        <TextLink link={getExplorerLink(chainId, token?.address, 'token')} text={textEllipsis(token?.address)} />
+      ),
     },
     {
       title: 'Token Name',
@@ -171,6 +174,10 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       </Wrapper>
     </BridgeModal>
   )
+}
+
+const textEllipsis = (text: string) => {
+  return text ? `${text.substring(0, 6)}...${text.substring(text.length - 4)}` : null
 }
 
 export default BridgeScan

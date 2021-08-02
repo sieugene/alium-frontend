@@ -22,6 +22,7 @@ const Step = styled.div<{ active: boolean; success: boolean }>`
     padding-bottom: 4px;
   }
   .title {
+    white-space: nowrap;
     display: flex;
     align-items: center;
     h2 {
@@ -58,7 +59,7 @@ const BridgeStepsHeader = () => {
     },
     {
       step: BRIDGE_STEPS.SWITCH_NETWORK,
-      title: 'Switch the network',
+      title: 'Switch network',
     },
     {
       step: BRIDGE_STEPS.CLAIM_TOKEN,

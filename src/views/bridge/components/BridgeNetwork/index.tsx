@@ -33,6 +33,9 @@ const Network = styled.div`
       letter-spacing: 0.1px;
       color: #0b1359;
       margin-right: 27px;
+      @media screen and (max-width: 768px) {
+        margin-right: 9px;
+      }
     }
 
     padding-bottom: 10px;

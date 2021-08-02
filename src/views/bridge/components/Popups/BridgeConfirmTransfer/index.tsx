@@ -37,7 +37,15 @@ const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
   border-radius: 12px;
   display: flex;
   align-items: center;
+
   ${(props) => `padding-${props.align}: 24px`};
+  @media screen and (max-width: 768px) {
+    ${(props) => `padding-${props.align}: 16px`};
+  }
+  @media screen and (max-width: 480px) {
+    ${(props) => `padding-${props.align}: 10px`};
+  }
+
   ${(props) => `justify-content: flex-${props.justify}`};
   .count {
     font-family: Roboto;
@@ -48,6 +56,13 @@ const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
     letter-spacing: 0.3px;
     color: #0b1359;
     margin-right: 8px;
+    @media screen and (max-width: 768px) {
+      font-size: 24px;
+    }
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   .symbol {
     font-family: Roboto;
@@ -63,6 +78,14 @@ const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
   .text {
     display: flex;
     align-items: flex-end;
+    max-width: 150px;
+    @media screen and (max-width: 768px) {
+      max-width: 165px;
+      flex-wrap: wrap-reverse;
+    }
+    @media screen and (max-width: 480px) {
+      max-width: 80px;
+    }
   }
 `
 const Fees = styled.div`
@@ -118,7 +141,7 @@ const Detail = styled.div`
 
 const Info = styled.div`
   width: 100%;
-  height: 72px;
+  height: auto;
 
   p {
     font-family: Roboto;
@@ -129,13 +152,14 @@ const Info = styled.div`
     letter-spacing: 0.3px;
     color: #0b1359;
     max-width: 360px;
+    padding-left: 18px;
   }
   display: flex;
   padding: 16px;
   svg {
-    margin-right: 18px;
+    min-width: 24px;
+    min-height: 24px;
   }
-
   background: rgba(255, 77, 0, 0.1);
   border-radius: 6px;
 `
