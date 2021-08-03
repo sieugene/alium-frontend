@@ -217,8 +217,15 @@ const BridgeConfirmTransfer = () => {
               </Token>
             </TokensBridge>
             <Detail>
-              Please confirm that you would like to send <b>1 ALM</b> from {networkFrom?.label} and receive{' '}
-              <b>0.98 ALM</b> on {networkTo?.label}
+              Please confirm that you would like to send{' '}
+              <b>
+                {from} {token?.symbol}
+              </b>{' '}
+              from {networkFrom?.label} and receive{' '}
+              <b>
+                {to} {token?.symbol}
+              </b>{' '}
+              on {networkTo?.label}
             </Detail>
             <Info>
               <BridgeWarningInDetail />
