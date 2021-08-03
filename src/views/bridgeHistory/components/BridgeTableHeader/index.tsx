@@ -5,6 +5,7 @@ const Header = styled.div`
   display: grid;
   grid-template-columns: 2fr 3fr 1.5fr 1.5fr 1.5fr 1.5fr;
   grid-gap: 16px;
+  padding: 16px;
   @media screen and (max-width: 1240px) {
     grid-template-columns: 1.5fr 2.5fr 1.5fr 1.5fr 1.5fr 1.5fr;
   }
@@ -13,6 +14,25 @@ const Header = styled.div`
     .direction {
       display: none;
     }
+  }
+  div:last-child {
+    text-align: right;
+  }
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 0px;
+    grid-template-columns: none;
+    justify-content: space-between;
+    padding: 0;
+    .direction {
+      display: block;
+    }
+    div {
+      text-align: left !important;
+      margin-bottom: 8px;
+    }
+    background: transparent;
   }
 
   background: #ebedf9;
@@ -25,12 +45,7 @@ const Header = styled.div`
   letter-spacing: 0.8px;
   text-transform: uppercase;
   color: #0b1359;
-  padding: 16px;
   white-space: nowrap;
-
-  div:last-child {
-    text-align: right;
-  }
 `
 interface Props {
   items: string[]

@@ -6,9 +6,13 @@ import BridgeTableHeader from '../BridgeTableHeader'
 
 const Table = styled.div`
   padding: 24px;
+  @media screen and (max-width: 768px) {
+    padding: 16px;
+  }
+  /* @media screen and (max-width: 375px) {
+    padding: 6px;
+  } */
 `
-
-const Content = styled.div``
 
 const Desktop = styled.div`
   @media screen and (max-width: 768px) {
@@ -20,6 +24,14 @@ const Mobile = styled.div`
   @media screen and (max-width: 768px) {
     display: block;
   }
+`
+
+const Content = styled.div`
+  display: flex;
+  border-bottom: 1px solid #ebedf9;
+  justify-content: space-between;
+  padding-bottom: 21px;
+  padding-top: 16px;
 `
 
 const BridgeTable = () => {
@@ -74,18 +86,17 @@ const BridgeTable = () => {
     <Table>
       <Desktop>
         <BridgeTableHeader items={headers} />
-        <Content>
-          {items?.map((item, index) => (
-            <BridgeTableCol item={item} key={index.toString()} />
-          ))}
-        </Content>
+
+        {items?.map((item, index) => (
+          <BridgeTableCol item={item} key={index.toString()} />
+        ))}
       </Desktop>
       <Mobile>
         {items?.map((item, index) => (
-          <React.Fragment key={index.toString()}>
+          <Content key={index.toString()}>
             <BridgeTableHeader items={headers} />
             <BridgeTableCol item={item} />
-          </React.Fragment>
+          </Content>
         ))}
       </Mobile>
     </Table>

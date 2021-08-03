@@ -18,6 +18,15 @@ const Row = styled.div`
   min-height: 64px;
   align-items: center;
   padding: 16px;
+  @media screen and (max-width: 768px) {
+    border-bottom: none;
+    display: flex;
+    grid-template-columns: none;
+    grid-gap: 0px;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0;
+  }
   div {
     font-family: Roboto;
     font-style: normal;
@@ -28,6 +37,9 @@ const Row = styled.div`
   }
   &:hover {
     background: #f4f5fa;
+    @media screen and (max-width: 768px) {
+      background: transparent;
+    }
   }
 `
 
@@ -43,6 +55,10 @@ const Date = styled.div`
   @media screen and (max-width: 1024px) {
     width: auto;
   }
+  @media screen and (max-width: 768px) {
+    align-items: flex-end;
+    margin-bottom: 8px;
+  }
 `
 
 const Direction = styled.div<{ desktop: boolean }>`
@@ -54,6 +70,9 @@ const Direction = styled.div<{ desktop: boolean }>`
   }
   @media screen and (max-width: 1024px) {
     ${(props) => (props.desktop ? 'display: none' : 'display: flex')};
+  }
+  @media screen and (max-width: 768px) {
+    ${(props) => (props.desktop ? 'display: flex' : 'display: none')};
   }
   div {
     width: auto;
@@ -80,24 +99,36 @@ const Direction = styled.div<{ desktop: boolean }>`
     color: #6c5dd3;
     background: #e9e7f8;
   }
+  @media screen and (max-width: 768px) {
+    margin-bottom: 8px;
+  }
 `
 
 const Sending = styled.div`
   color: #6c5dd3;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 8px;
+  }
 `
 
 const Receiving = styled.div`
   color: #6c5dd3;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 8px;
+  }
 `
 
 const Amount = styled.div`
   color: #0b1359;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 8px;
+  }
 `
 
 export interface RowItem {
