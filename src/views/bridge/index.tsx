@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import BridgeContainer from './BridgeContainer'
 import BridgeCard from './components/BridgeCard'
@@ -24,6 +24,7 @@ const H2 = styled.h2`
 
 const Card = styled.div`
   width: 100%;
+  /* width: 900px; */
 
   @media screen and (max-width: 1440px) {
     /* width: 100%; */
@@ -33,17 +34,26 @@ const Card = styled.div`
   border-radius: 6px;
 `
 
-const Bridge = () => {
+export const BridgeWrapper: FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
   return (
-    <BridgeContainer>
+    <BridgeContainer className={className}>
       <PopupsBridge />
       <H2>Bridge</H2>
       <Card>
-        <BridgeConnectWallet>
-          <BridgeCard />
-        </BridgeConnectWallet>
+        <BridgeConnectWallet>{children}</BridgeConnectWallet>
       </Card>
     </BridgeContainer>
+  )
+}
+
+const Bridge = () => {
+  return (
+    <>
+      <PopupsBridge />
+      <BridgeWrapper>
+        <BridgeCard />
+      </BridgeWrapper>
+    </>
   )
 }
 

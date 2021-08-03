@@ -1,4 +1,5 @@
 import { BridgeHistoryIcon } from 'images/bridge/BridgeHistoryIcon'
+import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import BridgeInput from '../BridgeInput'
@@ -20,9 +21,10 @@ const BridgeCard = () => {
   )
 }
 
-const History = styled.div`
+const History = styled.a`
   display: flex;
   align-items: center;
+  width: fit-content;
   p {
     font-family: Roboto;
     font-style: normal;
@@ -42,10 +44,12 @@ const History = styled.div`
 
 const HistoryText = () => {
   return (
-    <History>
-      <BridgeHistoryIcon />
-      <p>History</p>
-    </History>
+    <Link href='/bridge/history'>
+      <History href='/bridge/history'>
+        <BridgeHistoryIcon />
+        <p>History</p>
+      </History>
+    </Link>
   )
 }
 
