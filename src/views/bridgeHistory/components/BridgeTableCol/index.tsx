@@ -1,7 +1,8 @@
 import { ArrowRight } from 'images/ArrowRight'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import { BridgeHistoryStatuses } from 'views/bridgeHistory/bridgeHistory.types'
+import BridgeStatusItem from '../BridgeStatusItem'
 
 const Row = styled.div`
   border-bottom: 1px solid #ebedf9;
@@ -166,36 +167,9 @@ const BridgeTableCol: FC<Props> = ({ item }) => {
       <Sending>{item.sendingTx}</Sending>
       <Receiving>{item.receivingTx}</Receiving>
       <Amount>{item.amount}</Amount>
-      <Status status={item.status} />
+      <BridgeStatusItem status={item.status} />
     </Row>
   )
-}
-
-const StyledStatus = styled.div<{ status: BridgeHistoryStatuses }>`
-  text-align: right;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: ${(props) => {
-    switch (props.status) {
-      case BridgeHistoryStatuses.Transferred:
-        return '#24BA7B'
-      case BridgeHistoryStatuses.Cancellation:
-        return '#FF4D00'
-      case BridgeHistoryStatuses.ClaimToken:
-      case BridgeHistoryStatuses.Transfer:
-        return '#FFA100'
-      default:
-        return '#FF4D00'
-    }
-  }};
-`
-
-const Status: FC<{ status: BridgeHistoryStatuses }> = ({ status }) => {
-  return <StyledStatus status={status}>{status}</StyledStatus>
 }
 
 export default BridgeTableCol

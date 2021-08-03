@@ -9,9 +9,6 @@ const Table = styled.div`
   @media screen and (max-width: 768px) {
     padding: 16px;
   }
-  /* @media screen and (max-width: 375px) {
-    padding: 6px;
-  } */
 `
 
 const Desktop = styled.div`
