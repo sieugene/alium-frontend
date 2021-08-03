@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { BridgeWrapper } from 'views/bridge'
+import BridgeBackItem from './components/BridgeBackItem'
 import BridgeTable from './components/BridgeTable'
 
 const Wrapper = styled.div`
@@ -19,7 +20,7 @@ const BridgeHistory = () => {
   return (
     <Wrapper>
       <BridgeWrapper className='bridge__container'>
-        <p>back</p>
+        <BridgeBackItem />
         <BridgeTable />
       </BridgeWrapper>
     </Wrapper>
