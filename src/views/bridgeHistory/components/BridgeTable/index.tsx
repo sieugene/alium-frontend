@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BridgeHistoryStatuses } from 'views/bridgeHistory/bridgeHistory.types'
+import { useBridgePaginate } from 'views/bridgeHistory/hooks/useBridgePaginate'
+import BridgePaginate from '../BridgePaginate'
 import BridgeTableCol, { RowItem } from '../BridgeTableCol'
 import BridgeTableHeader from '../BridgeTableHeader'
 
@@ -33,7 +35,7 @@ const Content = styled.div`
 
 const BridgeTable = () => {
   const headers = ['Date', 'Direction', 'Sending tx', 'Receiving tx', 'Amount', 'Status']
-  const items: RowItem[] = [
+  let historyItems: RowItem[] = [
     {
       date: '29 Jun 2021, 12:54',
       direction: {
@@ -79,23 +81,25 @@ const BridgeTable = () => {
       status: BridgeHistoryStatuses.Transfer,
     },
   ]
+  historyItems = [...historyItems, ...historyItems, ...historyItems, ...historyItems]
+  const { items, ...paginate } = useBridgePaginate({ items: historyItems, pageLimit: 10 })
   return (
     <Table>
       <Desktop>
         <BridgeTableHeader items={headers} />
 
-        {items?.map((item, index) => (
-          <BridgeTableCol item={item} key={index.toString()} />
-        ))}
+        {items?.length && items?.map((item, index) => <BridgeTableCol item={item} key={index.toString()} />)}
       </Desktop>
       <Mobile>
-        {items?.map((item, index) => (
-          <Content key={index.toString()}>
-            <BridgeTableHeader items={headers} />
-            <BridgeTableCol item={item} />
-          </Content>
-        ))}
+        {items?.length &&
+          items?.map((item, index) => (
+            <Content key={index.toString()}>
+              <BridgeTableHeader items={headers} />
+              <BridgeTableCol item={item} />
+            </Content>
+          ))}
       </Mobile>
+      <BridgePaginate {...paginate} />
     </Table>
   )
 }
