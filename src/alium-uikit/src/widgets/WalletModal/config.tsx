@@ -155,3 +155,8 @@ export const networksDev: NetworksConfig[] = [
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
   },
 ]
+
+export const getNetworks = () => {
+  const isDev = process.env.APP_ENV === 'development'
+  return isDev ? networksDev : networksProd
+}
