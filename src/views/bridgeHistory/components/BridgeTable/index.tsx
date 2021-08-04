@@ -5,6 +5,7 @@ import { useBridgePaginate } from 'views/bridgeHistory/hooks/useBridgePaginate'
 import BridgePaginate from '../BridgePaginate'
 import BridgeTableCol, { RowItem } from '../BridgeTableCol'
 import BridgeTableHeader from '../BridgeTableHeader'
+import BridgeEmptyTable from './BridgeEmptyTable'
 
 const Table = styled.div`
   padding: 24px;
@@ -81,8 +82,15 @@ const BridgeTable = () => {
       status: BridgeHistoryStatuses.Transfer,
     },
   ]
-  historyItems = [...historyItems, ...historyItems, ...historyItems, ...historyItems]
+  historyItems = [...historyItems, ...historyItems, ...historyItems, ...historyItems].map((item, index) => ({
+    ...item,
+    amount: index + ' DAI',
+  }))
   const { items, ...paginate } = useBridgePaginate({ items: historyItems, pageLimit: 10 })
+
+  if (items?.length === 0 || !items?.length) {
+    return <BridgeEmptyTable />
+  }
   return (
     <Table>
       <Desktop>

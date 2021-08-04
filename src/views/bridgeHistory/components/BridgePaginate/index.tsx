@@ -63,6 +63,10 @@ const BridgePaginate: FC<PaginateProps> = ({ currentPage, totalPages, onPageChan
   // The index of the next page
   const nextPage = currentPage + 1
 
+  if (totalPages <= 1) {
+    return <></>
+  }
+
   return (
     <Pagination>
       <Control onClick={() => allowPrevious && onPageChanged(previousPage)}>
