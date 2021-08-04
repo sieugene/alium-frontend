@@ -8,6 +8,8 @@ export interface StoreAccountState {
   currentAccountAddress: string
   initStoreAccount: () => void
   killStoreAccount: () => void
+  showModalConnect: () => void
+  modalConnect: boolean
   balance: {
     currencyBalance: CurrencyAmount
     onChain: number
@@ -22,6 +24,14 @@ const accountInWeb3 = () => process.browser && window?.ethereum?.selectedAddress
 export const storeAccount = createVanilla<StoreAccountState>((set, get) => ({
   balance: null,
   currentAccountAddress: accountInWeb3(),
+  modalConnect: false,
+  // callback for fn in userBlock
+  showModalConnect: () => {
+    set({ modalConnect: true })
+    setTimeout(() => {
+      set({ modalConnect: false })
+    }, 150)
+  },
   initStoreAccount: () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       window.ethereum.on('accountsChanged', (accounts) => {

@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
-import { networksDev, networksProd } from '../WalletModal/config'
+import { getNetworks } from '../WalletModal/config'
 import { FailureNetwork } from '../WalletModal/icons/FailureNetwork'
 import { NetworksConfig } from '../WalletModal/types'
 
@@ -149,9 +149,7 @@ const NetworkSwitch: FC<Props> = () => {
   const hasError = Boolean(connectIsFailed)
   const [showOptions, setShowOptions] = useState(false)
 
-  const isDev = process.env.APP_ENV === 'development'
-
-  const networks = isDev ? networksDev : networksProd
+  const networks = getNetworks()
   const networkExist = networks.find((x) => x.chainId === currentChainId)
   const { icon: Icon, label } = networkExist ?? networks[0]
 

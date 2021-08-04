@@ -24,13 +24,14 @@ interface StoreAccountState {
   currentNetwork: ICurrentNetwork
   connectIsFailed: WEB3NetworkErrors | null
   loadConnection: boolean
+  connected: boolean
   // actions
   killStoreNetwork: () => void
   initStoreNetwork: () => void
   setChainId: (id: number) => void
   setupNetwork: (id: number) => Promise<boolean>
   setConnectionError: (error: WEB3NetworkErrors | null) => void
-  toggleLoadConnection: (load: boolean) => void
+  toggleLoadConnection: (load: boolean, account?: string) => void
 }
 
 // store for usage outside of react
@@ -38,8 +39,18 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   currentChainId,
   currentNetwork,
   connectIsFailed: null,
+  connected: false,
   loadConnection: false,
-  toggleLoadConnection: (load: boolean) => {
+  toggleLoadConnection: (load: boolean, account?: string) => {
+    // TODO : Need refactor this
+    if (load && !account) {
+      set({ connected: false })
+    }
+    if (!load && account) {
+      set({ connected: true })
+    }
+    // end
+
     set({
       loadConnection: load,
     })
@@ -56,13 +67,17 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     }
   },
   setChainId: (id) => {
-    // switch network from app
-    const newChainId = getActualChainId(Number(id))
-    set({
-      currentChainId: newChainId,
-      currentNetwork: getCurrentNetwork(newChainId),
-    })
-    cookies.set(chainIdCookieKey, newChainId, getCookieOptions())
+    set({ connected: false })
+    // but bad sync with checkout connection, make timeout
+    setTimeout(() => {
+      // switch network from app
+      const newChainId = getActualChainId(Number(id))
+      set({
+        currentChainId: newChainId,
+        currentNetwork: getCurrentNetwork(newChainId),
+      })
+      cookies.set(chainIdCookieKey, newChainId, getCookieOptions())
+    }, 0)
   },
   setupNetwork: async (id) => {
     /**
