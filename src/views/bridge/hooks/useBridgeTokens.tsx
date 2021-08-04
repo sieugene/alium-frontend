@@ -31,5 +31,6 @@ export const useBridgeTokens = (addressOrName: string) => {
 
 const searchToken = (list: Token[], search: string, chainId: number) => {
   const token = list.find((token) => (token.symbol === search || token.address === search) && token.chainId === chainId)
+
   return token && new Token(token.chainId, token.address, token.decimals, token.symbol, token.name)
 }
