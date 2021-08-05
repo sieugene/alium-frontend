@@ -3,7 +3,8 @@ import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import BridgeInput from '../BridgeInput'
-import BridgeNetwork from '../BridgeNetwork'
+import { FromToken } from '../FromToken'
+import { ToToken } from '../ToToken'
 const CardContent = styled.div`
   /* height: 424px; */
   height: auto;
@@ -14,9 +15,9 @@ const BridgeCard = () => {
   return (
     <CardContent>
       <HistoryText />
-      <BridgeNetwork type='fromNetwork' />
+      <FromToken />
       <BridgeInput />
-      <BridgeNetwork type='toNetwork' />
+      <ToToken />
     </CardContent>
   )
 }

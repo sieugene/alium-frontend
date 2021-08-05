@@ -120,6 +120,7 @@ interface CurrencyInputPanelProps {
   showCommonBases?: boolean
   currencyList?: any
   customHeight?: number
+  onKeyUp?: any
 }
 
 export default function BridgeCurrencyInput({
@@ -139,6 +140,7 @@ export default function BridgeCurrencyInput({
   showCommonBases,
   currencyList,
   customHeight,
+  onKeyUp,
 }: CurrencyInputPanelProps) {
   const theme = useTheme()
   const { t } = useTranslation()
@@ -188,6 +190,7 @@ export default function BridgeCurrencyInput({
                   onUserInput(val)
                 }}
                 style={{ fontSize: '14px' }}
+                onKeyUp={onKeyUp}
               />
             </>
           )}

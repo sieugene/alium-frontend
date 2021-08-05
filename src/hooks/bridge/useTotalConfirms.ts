@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react'
 import { fetchConfirmations } from 'utils/bridge/amb'
 import { logError } from 'utils/bridge/helpers'
-import { useEffect, useState } from 'react'
 import { useBridgeDirection } from './useBridgeDirection'
 import { useWeb3Context } from './useWeb3Context'
 
@@ -25,7 +25,7 @@ export const useTotalConfirms = () => {
           setloading(false)
         })
     }
-  }, [ethersProvider, failed, foreignAmbAddress, homeAmbAddress, homeChainId, loading, providerChainId, totalConfirms])
+  }, [])
 
   return totalConfirms
 }

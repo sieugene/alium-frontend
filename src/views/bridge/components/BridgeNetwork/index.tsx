@@ -1,4 +1,5 @@
-import { useAlmToken } from 'hooks/useAlm'
+import { Token } from '@alium-official/sdk'
+import { Spinner } from 'alium-uikit/src'
 import { BridgeMoreIcon } from 'images/bridge/BridgeMoreIcon'
 import React, { FC, useState } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
@@ -63,11 +64,13 @@ const Network = styled.div`
 `
 interface Props {
   type: BridgeNetworks
+  value: string
+  token: Token
+  balanceLoading: boolean
 }
 
-const BridgeNetwork: FC<Props> = ({ type }) => {
+const BridgeNetwork: FC<Props> = ({ type, value, token, balanceLoading }) => {
   const [modalOpen, setModalOpen] = useState(false)
-  const token = useAlmToken()
   const chainId = useStoreBridge((state) => state[type])
   const network = networkFinder(chainId)
   const Icon = network?.icon
@@ -75,9 +78,9 @@ const BridgeNetwork: FC<Props> = ({ type }) => {
     setModalOpen(true)
   }
 
-  const value = useStoreBridge((state) => (type === 'fromNetwork' ? state.bridgeInputs.from : state.bridgeInputs.to))
   return (
     <Network>
+      {balanceLoading && <Spinner />}
       {modalOpen && <BridgeScan type={type} modalOpen={modalOpen} setModalOpen={setModalOpen} />}
       <div className='left-column'>
         <div className='network'>

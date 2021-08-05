@@ -19,11 +19,11 @@ export const useApproval = (fromToken: Token, fromAmount: BigNumber, txHash: str
     } else {
       setAllowance(BigNumber.from(0))
     }
-  }, [ethersProvider, account, fromToken, providerChainId, txHash])
+  }, [])
 
   useEffect(() => {
     setAllowed((fromToken && ['NATIVE', 'erc677'].includes(fromToken.mode)) || allowance.gte(fromAmount))
-  }, [fromAmount, allowance, fromToken])
+  }, [])
 
   const [unlockLoading, setUnlockLoading] = useState(false)
   const [approvalTxHash, setApprovalTxHash] = useState('')

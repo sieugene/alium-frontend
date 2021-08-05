@@ -31,7 +31,7 @@ export const useClaimableTransfers = () => {
     return () => {
       isSubscribed = false
     }
-  }, [account, txHash, homeChainId, foreignChainId, getGraphEndpoint])
+  }, [])
 
   return { transfers, loading }
 }

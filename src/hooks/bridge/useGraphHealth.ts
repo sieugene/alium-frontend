@@ -1,11 +1,11 @@
+import { useActiveWeb3React } from 'hooks'
 import useToast from 'hooks/useToast'
+import { useEffect, useRef, useState } from 'react'
 import { getHealthStatus } from 'utils/bridge/graphHealth'
 import { logDebug, logError } from 'utils/bridge/helpers'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { useEffect, useRef, useState } from 'react'
 import { REACT_APP_GRAPH_HEALTH_THRESHOLD_BLOCKS } from '../../lib/env'
 import { useBridgeDirection } from './useBridgeDirection'
-import { useWeb3Context } from './useWeb3Context'
 
 const DEFAULT_GRAPH_HEALTH_UPDATE_INTERVAL = 60000
 
@@ -18,7 +18,7 @@ const THRESHOLD_BLOCKS = REACT_APP_GRAPH_HEALTH_THRESHOLD_BLOCKS || DEFAULT_GRAP
 export const useGraphHealth = (description, options = { onlyHome: false, disableAlerts: false }) => {
   const { onlyHome, disableAlerts } = options
   const { bridgeDirection, homeChainId, foreignChainId } = useBridgeDirection()
-  const { providerChainId } = useWeb3Context()
+  const { chainId: providerChainId } = useActiveWeb3React()
 
   const isHome = providerChainId === homeChainId
 
@@ -94,7 +94,7 @@ export const useGraphHealth = (description, options = { onlyHome: false, disable
       isSubscribed = false
       unsubscribe()
     }
-  }, [bridgeDirection, foreignChainId, homeChainId])
+  }, [])
 
   const { toastError: toast } = useToast()
   const toastIdRef = useRef()
@@ -109,7 +109,7 @@ export const useGraphHealth = (description, options = { onlyHome: false, disable
         toast('Subgraph Error')
       }
     }
-  }, [homeHealthy, foreignHealthy, loading, toast, onlyHome, isHome, disableAlerts, description])
+  }, [])
 
   return { homeHealthy, foreignHealthy }
 }

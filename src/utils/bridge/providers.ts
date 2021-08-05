@@ -59,7 +59,13 @@ export const getEthersProvider = async (chainId) => {
 
   const provider =
     (await checkRPCHealth(sessionStorage.getItem(sessionHealthyURL))) ||
-    (await Promise.all(rpcURLs.map(checkRPCHealth))).filter((p) => !!p)[0]
+    (
+      await Promise.all(
+        rpcURLs.map((item) => {
+          return checkRPCHealth(item)
+        }),
+      )
+    ).filter((p) => !!p)[0]
   sessionStorage.setItem(sessionHealthyURL, provider.connection.url)
   return provider || null
 }

@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react'
 import { getNetworkLabel, logError } from 'utils/bridge/helpers'
 import { requiredSignatures as fetchRequiredSignatures } from 'utils/bridge/message'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { useEffect, useState } from 'react'
 
 export const useRequiredSignatures = (homeChainId: number, homeAmbAddress: string) => {
   const [homeRequiredSignatures, setHomeRequiredSignatures] = useState(0)
@@ -28,7 +28,7 @@ export const useRequiredSignatures = (homeChainId: number, homeAmbAddress: strin
     } else {
       setHomeRequiredSignatures(Number.parseInt(version, 10))
     }
-  }, [homeAmbAddress, homeChainId, fetching])
+  }, [])
 
   return homeRequiredSignatures
 }

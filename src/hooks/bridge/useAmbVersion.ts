@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react'
 import { fetchAmbVersion } from 'utils/bridge/amb'
 import { getNetworkLabel, logError } from 'utils/bridge/helpers'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { useEffect, useState } from 'react'
 
 export const useAmbVersion = (foreignChainId: number, foreignAmbAddress: string) => {
   const [foreignAmbVersion, setForeignAmbVersion] = useState('')
@@ -27,7 +27,7 @@ export const useAmbVersion = (foreignChainId: number, foreignAmbAddress: string)
     } else {
       setForeignAmbVersion(version)
     }
-  }, [foreignAmbAddress, foreignChainId, fetching])
+  }, [])
 
   return foreignAmbVersion
 }

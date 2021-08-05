@@ -16,7 +16,7 @@ export const useCopyToClipboard = (delay = DEFAULT_DELAY) => {
     return () => {
       clearTimeout(id);
     };
-  }, [delay, copied]);
+  }, []);
 
   const handleCopy = useCallback(text => {
     setCopied(true);

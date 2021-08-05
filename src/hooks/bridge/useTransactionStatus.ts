@@ -1,9 +1,9 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
+import { useCallback, useEffect, useState } from 'react'
 import { POLLING_INTERVAL } from 'utils/bridge/env'
 import { logError } from 'utils/bridge/helpers'
 import { getMessage, getMessageData, messageCallStatus, NOT_ENOUGH_COLLECTED_SIGNATURES } from 'utils/bridge/message'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { useCallback, useEffect, useState } from 'react'
 import { useBridgeDirection } from './useBridgeDirection'
 import { useWeb3Context } from './useWeb3Context'
 
@@ -31,7 +31,7 @@ export const useTransactionStatus = (setMessage) => {
       setLoadingText('')
       setConfirmations(0)
     }
-  }, [loading])
+  }, [])
 
   const getStatus = useCallback(async () => {
     try {
@@ -119,11 +119,11 @@ export const useTransactionStatus = (setMessage) => {
       isSubscribed = false
       unsubscribe()
     }
-  }, [loading, txHash, ethersProvider, getStatus])
+  }, [])
 
   useEffect(() => {
     setNeedsConfirmation((needs) => chainId === homeChainId && needs)
-  }, [homeChainId, chainId])
+  }, [])
 
   return {
     loadingText,

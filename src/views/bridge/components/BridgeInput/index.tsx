@@ -1,10 +1,12 @@
+import { useBridgeContext } from 'contexts/BridgeContext'
 import { ExchangeIcon } from 'images/Exchange-icon'
+import { useCallback } from 'react'
 import { storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
-import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import { useBridgeTokens } from 'views/bridge/hooks/useBridgeTokens'
+import { formatValue } from 'utils/bridge/helpers'
 import AdvancedInput from '../AdvancedInput'
 import { BridgeTransferButton } from '../BridgeTransferButton'
+import { useDelay } from '../FromToken'
 import BridgeCurrencyInput from './BridgeCurrencyInput'
 
 const InputWrapper = styled.div`
@@ -45,25 +47,37 @@ const BridgeInput = () => {
   const updateInput = storeBridge.getState().updateBridgeInputs
   const value = useStoreBridge((state) => state.bridgeInputs.main)
 
-  const { tokens, balances } = useBridgeTokens('ALM')
-  const token = tokens.fromNetwork
-  const tokenBalance = balances.fromNetwork
+  const {
+    fromToken: token,
+    setAmount,
+    fromBalance: balance,
+    amountInput: input,
+    setAmountInput: setInput,
+  } = useBridgeContext()
 
-  const onUserInput = (value: string) => {
-    updateInput('main', value)
-    updateInput('from', value)
-    updateInput('to', value)
-  }
+  const tokenBalance = balance
+
+  const updateAmount = useCallback(() => {
+    setAmount(input)
+  }, [input, setAmount])
+  const delayedSetAmount = useDelay(updateAmount, 500)
+
+  // const onUserInput = (value: string) => {
+  //   updateInput('main', value)
+  //   updateInput('from', value)
+  //   updateInput('to', value)
+  // }
 
   const transfer = () => {
     toggleModal(true)
   }
 
   const onMax = () => {
-    const balance = toSignificantCurrency(tokenBalance)
-    updateInput('main', balance)
-    updateInput('from', balance)
-    updateInput('to', balance)
+    const balance = formatValue(tokenBalance, token?.decimals)
+    setInput(balance)
+    // updateInput('main', balance)
+    // updateInput('from', balance)
+    // updateInput('to', balance)
   }
 
   return (
@@ -73,11 +87,12 @@ const BridgeInput = () => {
           <BridgeCurrencyInput
             id='bridge-input'
             showMaxButton={true}
-            onUserInput={onUserInput}
-            value={value}
+            onUserInput={setInput}
+            value={input}
             onMax={onMax}
             currency={token}
             disableCurrencySelect
+            onKeyUp={delayedSetAmount}
           />
           <BridgeTransferButton onClick={transfer} desktop disabled={Boolean(Number(value) <= 0)}>
             Transfer

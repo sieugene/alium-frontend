@@ -1,11 +1,11 @@
-import { combineRequestsWithExecutions, getExecutions, getRequests } from 'utils/bridge/history'
+import { useActiveWeb3React } from 'hooks'
 import { useEffect, useState } from 'react'
+import { combineRequestsWithExecutions, getExecutions, getRequests } from 'utils/bridge/history'
 import { useBridgeDirection } from './useBridgeDirection'
-import { useWeb3Context } from './useWeb3Context'
 
 export const useUserHistory = () => {
   const { homeChainId, foreignChainId, getGraphEndpoint } = useBridgeDirection()
-  const { account } = useWeb3Context()
+  const { account } = useActiveWeb3React()
   const [transfers, setTransfers] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -42,7 +42,7 @@ export const useUserHistory = () => {
     return () => {
       isSubscribed = false
     }
-  }, [homeChainId, foreignChainId, account, getGraphEndpoint])
+  }, [])
 
   return { transfers, loading }
 }

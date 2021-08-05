@@ -1,7 +1,7 @@
 import { Contract } from 'ethers'
+import { useEffect, useState } from 'react'
 import { logError } from 'utils/bridge/helpers'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { useEffect, useState } from 'react'
 import { useBridgeDirection } from './useBridgeDirection'
 import { useWeb3Context } from './useWeb3Context'
 
@@ -15,7 +15,7 @@ export const useMediatorInfo = () => {
   useEffect(() => {
     const processMediatorData = async () => {
       setloading(true)
-      if (!account || !homeChainId || !homeMediatorAddress) return
+      if (!account || !homeChainId || !homeMediatorAddress || loading) return
       const ethersProvider = await getEthersProvider(homeChainId)
       const abi = [
         'function getCurrentDay() view returns (uint256)',
@@ -50,7 +50,7 @@ export const useMediatorInfo = () => {
         .catch((currentDayError) => logError({ currentDayError }))
     }
     processMediatorData()
-  }, [account, homeMediatorAddress, homeChainId])
+  }, [])
 
   return {
     currentDay,

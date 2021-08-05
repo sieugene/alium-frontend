@@ -1,14 +1,14 @@
 import { Contract } from 'ethers'
+import { useActiveWeb3React } from 'hooks'
+import { useEffect, useState } from 'react'
 import { logError } from 'utils/bridge/helpers'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { useEffect, useState } from 'react'
 import { useBridgeDirection } from './useBridgeDirection'
 import { useMediatorInfo } from './useMediatorInfo'
-import { useWeb3Context } from './useWeb3Context'
 
 export const useFeeManager = () => {
   const { homeChainId } = useBridgeDirection()
-  const { account } = useWeb3Context()
+  const { account } = useActiveWeb3React()
   const { feeManagerAddress } = useMediatorInfo()
   const [isRewardAddress, setRewardAddress] = useState(false)
   const [homeToForeignFeeType, setHomeToForeignFeeType] = useState(
@@ -40,7 +40,7 @@ export const useFeeManager = () => {
     }
 
     calculateFees()
-  }, [feeManagerAddress, homeChainId])
+  }, [])
 
   useEffect(() => {
     if (!account) return
@@ -55,7 +55,7 @@ export const useFeeManager = () => {
         .catch((rewardAddressError) => logError({ rewardAddressError }))
     }
     checkRewardAddress()
-  }, [account, feeManagerAddress, homeChainId])
+  }, [])
 
   return {
     isRewardAddress,

@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react'
 import { logDebug, logError } from 'utils/bridge/helpers'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { useEffect, useState } from 'react'
 import { useBridgeDirection } from './useBridgeDirection'
 
 const DEFAULT_RPC_HEALTH_UPDATE_INTERVAL = 60000
@@ -60,7 +60,7 @@ export const useRPCHealth = () => {
       isSubscribed = false
       unsubscribe()
     }
-  }, [foreignChainId, homeChainId])
+  }, [])
 
   return { homeHealthy, foreignHealthy }
 }
