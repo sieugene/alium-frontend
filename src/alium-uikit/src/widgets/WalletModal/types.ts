@@ -27,4 +27,5 @@ export interface NetworksConfig {
   chainId: any
   icon: FC<SvgProps>
   supportConnectors: ConnectorNames[]
+  direction: string
 }
