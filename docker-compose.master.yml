@@ -11,10 +11,10 @@ services:
       dockerfile: Dockerfile.master
     image: ghcr.io/alium-finance/alium-frontend:master
     deploy:
-      replicas: 2
+      replicas: 4
       update_config:
         order: start-first
-        parallelism: 2
+        parallelism: 4
       restart_policy:
         condition: any
         delay: 5s
