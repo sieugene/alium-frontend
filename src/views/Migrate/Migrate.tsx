@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
+import { BigNumber } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
 import { useFactoryContract, useLPTokenContract, useTokenContract, useVampireContract } from 'hooks/useContract'
 import { FC, useEffect, useState } from 'react'
@@ -99,6 +100,26 @@ const ViewMigrate: FC = () => {
         setStep(2)
       } else {
         let useExact = false
+
+        const canApprove = await lpTokenContract
+          .allowance(account, currentNetwork.address.vampiring)
+          .then((res: BigNumber) => {
+            const allowanceWei = parseEther(String(res))
+            if (allowanceWei > tokensAmountWei) {
+              return false
+            }
+            return true
+          })
+          .catch(() => {
+            return false
+          })
+
+        if (!canApprove) {
+          setIsSuccessful(false)
+          setStep(4)
+          return null
+        }
+
         const gasEstimate = await lpTokenContract.estimateGas
           .approve(currentNetwork.address.vampiring, MaxUint256)
           .catch(() => {
