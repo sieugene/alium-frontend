@@ -116,14 +116,14 @@ export const fetchTokenDetails = async (bridgeDirection: ENABLED_BRIDGES_ENUMS_T
     fetchMode(bridgeDirection, token),
   ])
 
-  return {
+  return new BridgeToken({
     ...token,
     name,
     symbol,
     decimals: Number(decimals),
     mode,
     mediator: mediatorAddress,
-  }
+  })
 }
 
 export const approveToken = async (

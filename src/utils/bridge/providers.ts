@@ -68,7 +68,8 @@ export const getEthersProvider = async (chainId: number): Promise<EtherProvider 
       )
     ).filter((p) => !!p)[0] as EtherProvider)
   sessionStorage.setItem(sessionHealthyURL, provider?.connection?.url)
-  return provider || null
+  const providerExist = provider?.connection?.url && provider?.connection?.url !== 'undefined'
+  return providerExist ? provider : null
 }
 
 export const isEIP1193 = (ethersProvider: EtherProvider) => ethersProvider?.connection?.url?.includes('eip-1193')

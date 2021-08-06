@@ -29,6 +29,20 @@ export class BridgeToken extends Token {
     this.mode = mode
     this.helperContractAddress = helperContractAddress
   }
+
+  // return all default fields
+  get raw(): BridgeTokenObject {
+    return {
+      name: this.name,
+      address: this.address,
+      chainId: this.chainId,
+      decimals: this.decimals,
+      mediator: this.mediator,
+      mode: this.mode,
+      symbol: this.symbol,
+      helperContractAddress: this.helperContractAddress,
+    }
+  }
 }
 
 export class BridgeTokenAmount extends TokenAmount {

@@ -17,6 +17,7 @@ export const useMediatorInfo = () => {
       setloading(true)
       if (!account || !homeChainId || !homeMediatorAddress || loading) return
       const ethersProvider = await getEthersProvider(homeChainId)
+      if (!ethersProvider) return
       const abi = [
         'function getCurrentDay() view returns (uint256)',
         'function feeManager() public view returns (address)',

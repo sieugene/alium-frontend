@@ -40,7 +40,7 @@ const fetchToTokenDetails = async (
   bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
   fromToken: BridgeToken,
   toChainId: number,
-) => {
+): Promise<BridgeToken> => {
   const { chainId: fromChainId, address: fromAddress, mode: fromMode } = fromToken
   if (
     isOverridden(bridgeDirection, {
@@ -79,13 +79,15 @@ const fetchToTokenDetails = async (
       isHome ? fromMediatorAddress : toMediatorAddress,
     )
     const toName = await getToName(fromToken, toChainId, toAddress)
-    return {
+    return new BridgeToken({
       name: toName,
       chainId: toChainId,
       address: toAddress,
       mode: isHome ? 'erc20' : 'erc677',
       mediator: toMediatorAddress,
-    }
+      decimals: 18,
+      symbol: '',
+    })
   }
 
   const fromEthersProvider = await getEthersProvider(fromChainId)
@@ -104,24 +106,28 @@ const fetchToTokenDetails = async (
     const toAddress = await toMediatorContract.bridgedTokenAddress(fromAddress)
 
     const toName = await getToName(fromToken, toChainId, toAddress)
-    return {
+    return new BridgeToken({
       name: toName,
       chainId: toChainId,
       address: toAddress,
       mode: 'erc677',
       mediator: toMediatorAddress,
-    }
+      decimals: 18,
+      symbol: '',
+    })
   }
   const toAddress = await fromMediatorContract.nativeTokenAddress(fromAddress)
 
   const toName = await getToName(fromToken, toChainId, toAddress)
-  return {
+  return new BridgeToken({
     name: toName,
     chainId: toChainId,
     address: toAddress,
     mode: 'erc20',
     mediator: toMediatorAddress,
-  }
+    decimals: 18,
+    symbol: '',
+  })
 }
 
 export const fetchToToken = async (

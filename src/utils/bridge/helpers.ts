@@ -25,12 +25,12 @@ import {
   KOVAN_SOKOL_BRIDGE,
   networks,
 } from 'utils/bridge/networks'
-import { BridgeToken, BridgeTokenOrParams } from './entities/BridgeToken'
+import { BridgeToken } from './entities/BridgeToken'
 import { getOverriddenMediator, isOverridden } from './overrides'
 
 export const getWalletProviderName = (provider: Web3Provider) => provider?.connection?.url || null
 
-export const getNativeCurrency = (chainId: number) => nativeCurrencies[chainId || 1]
+export const getNativeCurrency = (chainId: number): BridgeTokenObject => nativeCurrencies[chainId || 1]
 
 export const getNetworkName = (chainId: number) => networkNames[chainId] || 'Unknown Network'
 
@@ -192,7 +192,7 @@ export const getRPCKeys = (bridgeDirection) => {
   }
 }
 
-export const getHelperContract = (chainId: number) => nativeCurrencyMediators[chainId || 1]
+export const getHelperContract = (chainId: number): string => nativeCurrencyMediators[chainId || 1]
 
 export const getMediatorAddressWithoutOverride = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, chainId: number) => {
   if (!bridgeDirection || !chainId) return null
@@ -200,7 +200,7 @@ export const getMediatorAddressWithoutOverride = (bridgeDirection: ENABLED_BRIDG
   return homeChainId === chainId ? homeMediatorAddress.toLowerCase() : foreignMediatorAddress.toLowerCase()
 }
 
-export const getMediatorAddress = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, token: BridgeTokenOrParams) => {
+export const getMediatorAddress = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, token: BridgeToken) => {
   console.log(bridgeDirection)
   console.log(token)
   if (!token || !token.chainId || !token.address) return null

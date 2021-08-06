@@ -122,15 +122,16 @@ export const BridgeProvider = ({ children }) => {
     try {
       const [token, gotToToken] = await Promise.all([
         tokenWithoutMode?.address === ADDRESS_ZERO
-          ? {
+          ? new BridgeToken({
               ...getNativeCurrency(tokenWithoutMode.chainId),
               mediator: getMediatorAddress(bridgeDirection, tokenWithoutMode),
               helperContractAddress: getHelperContract(tokenWithoutMode.chainId),
-            }
+            })
           : fetchTokenDetails(bridgeDirection, tokenWithoutMode),
         fetchToToken(bridgeDirection, tokenWithoutMode, getBridgeChainId(tokenWithoutMode.chainId)),
       ])
-      setTokens({ fromToken: new BridgeToken(token), toToken: new BridgeToken({ ...token, ...gotToToken }) })
+
+      setTokens({ fromToken: token, toToken: new BridgeToken({ ...token?.raw, ...gotToToken?.raw }) })
       const label = getNetworkLabel(token.chainId).toUpperCase()
       const storageKey = `${bridgeDirection.toUpperCase()}-${label}-FROM-TOKEN`
       localStorage.setItem(storageKey, JSON.stringify(token))
