@@ -2,6 +2,7 @@ import { ethers } from 'ethers'
 import memoize from 'fast-memoize'
 import { LOCAL_STORAGE_KEYS } from 'utils/bridge/constants'
 import { getNetworkLabel, getRPCUrl, logError } from 'utils/bridge/helpers'
+import { EtherProvider } from 'views/bridge/components/utils'
 
 const {
   MAINNET_RPC_URL,
@@ -33,7 +34,7 @@ const NETWORK_TIMEOUT = 1000
 
 const memoized = memoize((url) => new ethers.providers.StaticJsonRpcProvider(url))
 
-const checkRPCHealth = async (url) => {
+const checkRPCHealth = async (url: string) => {
   if (!url) return null
   const tempProvider = memoized(url)
   if (!tempProvider) return null
@@ -50,7 +51,7 @@ const checkRPCHealth = async (url) => {
   }
 }
 
-export const getEthersProvider = async (chainId) => {
+export const getEthersProvider = async (chainId: number): Promise<EtherProvider | null> => {
   const label = getNetworkLabel(chainId).toUpperCase()
   const sessionHealthyURL = `HEALTHY-RPC-URL-${label}`
   const localRPCUrl = window.localStorage.getItem(RPC_URL[chainId])
@@ -59,15 +60,15 @@ export const getEthersProvider = async (chainId) => {
 
   const provider =
     (await checkRPCHealth(sessionStorage.getItem(sessionHealthyURL))) ||
-    (
+    ((
       await Promise.all(
         rpcURLs.map((item) => {
           return checkRPCHealth(item)
         }),
       )
-    ).filter((p) => !!p)[0]
-  sessionStorage.setItem(sessionHealthyURL, provider.connection.url)
+    ).filter((p) => !!p)[0] as EtherProvider)
+  sessionStorage.setItem(sessionHealthyURL, provider?.connection?.url)
   return provider || null
 }
 
-export const isEIP1193 = (ethersProvider) => ethersProvider?.connection?.url?.includes('eip-1193')
+export const isEIP1193 = (ethersProvider: EtherProvider) => ethersProvider?.connection?.url?.includes('eip-1193')

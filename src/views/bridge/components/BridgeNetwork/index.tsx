@@ -1,10 +1,10 @@
-import { Token } from '@alium-official/sdk'
 import { Spinner } from 'alium-uikit/src'
 import { BridgeMoreIcon } from 'images/bridge/BridgeMoreIcon'
 import React, { FC, useState } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import DropdownBridgeNetworks from '../DropdownBridgeNetworks'
 import BridgeScan from '../Popups/BridgeScan'
 
@@ -65,7 +65,7 @@ const Network = styled.div`
 interface Props {
   type: BridgeNetworks
   value: string
-  token: Token
+  token: BridgeToken
   balanceLoading: boolean
 }
 

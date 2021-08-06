@@ -1,4 +1,3 @@
-import { Token } from '@alium-official/sdk'
 import { BigNumber } from 'ethers'
 import { useApproval } from 'hooks/bridge/useApprovalBridge'
 import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
@@ -10,6 +9,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { useToast } from 'state/hooks'
 import { fetchToAmount, fetchTokenLimits, fetchToToken, relayTokens } from 'utils/bridge/bridge'
 import { ADDRESS_ZERO } from 'utils/bridge/constants'
+import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import {
   getDefaultToken,
   getHelperContract,
@@ -26,10 +26,10 @@ export const BridgeContext = React.createContext({
   toAmount: BigNumber.from(0),
   toAmountLoading: false,
   setAmount: async (inputAmount: any) => {},
-  fromToken: null,
-  toToken: null,
-  setToToken: (newToToken: Token) => {},
-  setToken: async (tokenWithoutMode: Token, isQueryToken?: any) => true,
+  fromToken: null as BridgeToken | null,
+  toToken: null as BridgeToken | null,
+  setToToken: (newToToken: BridgeToken) => {},
+  setToken: async (tokenWithoutMode: BridgeToken, isQueryToken?: any) => true,
   setDefaultToken: async (chainId: number) => {},
   allowed: false,
   approve: async () => {},
@@ -68,7 +68,7 @@ export const BridgeProvider = ({ children }) => {
 
   const [receiver, setReceiver] = useState('')
   const [amountInput, setAmountInput] = useState('')
-  const [{ fromToken, toToken }, setTokens] = useState({
+  const [{ fromToken, toToken }, setTokens] = useState<{ fromToken: BridgeToken | null; toToken: BridgeToken | null }>({
     fromToken: null,
     toToken: null,
   })
@@ -111,14 +111,14 @@ export const BridgeProvider = ({ children }) => {
     [fromToken, getToAmount, toToken],
   )
 
-  const setToToken = useCallback((newToToken: Token) => {
+  const setToToken = useCallback((newToToken: BridgeToken) => {
     setTokens((prevTokens) => ({
       fromToken: prevTokens.fromToken,
-      toToken: { ...newToToken },
+      toToken: newToToken,
     }))
   }, [])
 
-  const setToken = useCallback(async (tokenWithoutMode: Token, isQueryToken = false) => {
+  const setToken = useCallback(async (tokenWithoutMode: BridgeToken, isQueryToken = false) => {
     try {
       const [token, gotToToken] = await Promise.all([
         tokenWithoutMode?.address === ADDRESS_ZERO
@@ -130,7 +130,7 @@ export const BridgeProvider = ({ children }) => {
           : fetchTokenDetails(bridgeDirection, tokenWithoutMode),
         fetchToToken(bridgeDirection, tokenWithoutMode, getBridgeChainId(tokenWithoutMode.chainId)),
       ])
-      setTokens({ fromToken: token, toToken: { ...token, ...gotToToken } })
+      setTokens({ fromToken: new BridgeToken(token), toToken: new BridgeToken({ ...token, ...gotToToken }) })
       const label = getNetworkLabel(token.chainId).toUpperCase()
       const storageKey = `${bridgeDirection.toUpperCase()}-${label}-FROM-TOKEN`
       localStorage.setItem(storageKey, JSON.stringify(token))
@@ -201,7 +201,8 @@ export const BridgeProvider = ({ children }) => {
         toToken.chainId === getBridgeChainId(providerChainId)
       )
     ) {
-      const isQueryTokenSet = await setToken(queryToken, true)
+      // const isQueryTokenSet = await setToken(queryToken, true)
+      const isQueryTokenSet = false
       if (!isQueryTokenSet) {
         await setDefaultToken(providerChainId)
       }

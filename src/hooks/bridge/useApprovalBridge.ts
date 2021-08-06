@@ -1,14 +1,14 @@
-import { Token } from '@alium-official/sdk'
 import { BigNumber } from 'ethers'
+import { useCallback, useEffect, useState } from 'react'
 import { LARGEST_UINT256, LOCAL_STORAGE_KEYS } from 'utils/bridge/constants'
+import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import { logError } from 'utils/bridge/helpers'
 import { approveToken, fetchAllowance } from 'utils/bridge/token'
-import { useCallback, useEffect, useState } from 'react'
 import { useWeb3Context } from './useWeb3Context'
 
 const { INFINITE_UNLOCK } = LOCAL_STORAGE_KEYS
 
-export const useApproval = (fromToken: Token, fromAmount: BigNumber, txHash: string) => {
+export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHash: string) => {
   const { account, ethersProvider, providerChainId } = useWeb3Context()
   const [allowance, setAllowance] = useState(BigNumber.from(0))
   const [allowed, setAllowed] = useState(true)
@@ -45,7 +45,7 @@ export const useApproval = (fromToken: Token, fromAmount: BigNumber, txHash: str
       })
       throw approveError
     } finally {
-      setApprovalTxHash()
+      setApprovalTxHash('')
       setUnlockLoading(false)
     }
   }, [fromAmount, fromToken, ethersProvider, account])

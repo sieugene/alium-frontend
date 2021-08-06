@@ -1,12 +1,14 @@
+import { StaticJsonRpcProvider } from '@ethersproject/providers'
 import { BigNumber, Contract } from 'ethers'
 import { ADDRESS_ZERO, nativeCurrencies } from 'utils/bridge/constants'
 import { getHelperContract, getMediatorAddressWithoutOverride, getNetworkLabel, logError } from 'utils/bridge/helpers'
 import { getOverriddenToToken, isOverridden } from 'utils/bridge/overrides'
 import { getEthersProvider } from 'utils/bridge/providers'
 import { fetchTokenDetails, fetchTokenName } from 'utils/bridge/token'
-import { networks } from './networks'
+import { BridgeToken } from './entities/BridgeToken'
+import { ENABLED_BRIDGES_ENUMS_TYPE, networks } from './networks'
 
-const getToName = async (fromToken, toChainId, toAddress) => {
+const getToName = async (fromToken: BridgeToken, toChainId: number, toAddress: string) => {
   const { name } = fromToken
   if (toAddress === ADDRESS_ZERO) {
     const fromName = name || (await fetchTokenName(fromToken))
@@ -15,7 +17,12 @@ const getToName = async (fromToken, toChainId, toAddress) => {
   return fetchTokenName({ chainId: toChainId, address: toAddress })
 }
 
-const fetchToTokenAddress = async (isHome, homeChainId, tokenAddress, homeMediatorAddress) => {
+const fetchToTokenAddress = async (
+  isHome: boolean,
+  homeChainId: number,
+  tokenAddress: string,
+  homeMediatorAddress: string,
+): Promise<string> => {
   const ethersProvider = await getEthersProvider(homeChainId)
   const abi = [
     'function foreignTokenAddress(address) view returns (address)',
@@ -29,7 +36,11 @@ const fetchToTokenAddress = async (isHome, homeChainId, tokenAddress, homeMediat
   return mediatorContract.homeTokenAddress(tokenAddress)
 }
 
-const fetchToTokenDetails = async (bridgeDirection, fromToken, toChainId) => {
+const fetchToTokenDetails = async (
+  bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
+  fromToken: BridgeToken,
+  toChainId: number,
+) => {
   const { chainId: fromChainId, address: fromAddress, mode: fromMode } = fromToken
   if (
     isOverridden(bridgeDirection, {
@@ -113,12 +124,23 @@ const fetchToTokenDetails = async (bridgeDirection, fromToken, toChainId) => {
   }
 }
 
-export const fetchToToken = async (bridgeDirection, fromToken, toChainId) => {
+export const fetchToToken = async (
+  bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
+  fromToken: BridgeToken,
+  toChainId: number,
+) => {
   const toToken = await fetchToTokenDetails(bridgeDirection, fromToken, toChainId)
   return toToken
 }
 
-export const fetchToAmount = async (bridgeDirection, feeType, fromToken, toToken, fromAmount, feeManagerAddress) => {
+export const fetchToAmount = async (
+  bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
+  feeType: string,
+  fromToken: BridgeToken,
+  toToken: BridgeToken,
+  fromAmount: BigNumber,
+  feeManagerAddress: string,
+) => {
   if (fromAmount.lte(0) || !fromToken || !toToken) return BigNumber.from(0)
 
   const { homeChainId, homeMediatorAddress } = networks[bridgeDirection]
@@ -180,7 +202,17 @@ const getDefaultTokenLimits = async (decimals, mediatorContract, toMediatorContr
   }
 }
 
-export const fetchTokenLimits = async (bridgeDirection, ethersProvider, token, toToken, currentDay) => {
+export const fetchTokenLimits = async (
+  bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
+  ethersProvider: StaticJsonRpcProvider,
+  token: BridgeToken,
+  toToken: BridgeToken,
+  currentDay: string,
+): Promise<{
+  minPerTx: BigNumber
+  maxPerTx: BigNumber
+  dailyLimit: BigNumber
+}> => {
   const isDedicatedMediatorToken = token.mediator !== getMediatorAddressWithoutOverride(bridgeDirection, token.chainId)
 
   const abi = isDedicatedMediatorToken
@@ -235,10 +267,10 @@ export const fetchTokenLimits = async (bridgeDirection, ethersProvider, token, t
 }
 
 export const relayTokens = async (
-  ethersProvider,
-  token,
-  receiver,
-  amount,
+  ethersProvider: StaticJsonRpcProvider,
+  token: BridgeToken,
+  receiver: string,
+  amount: BigNumber,
   { shouldReceiveNativeCur, foreignChainId },
 ) => {
   const signer = ethersProvider.getSigner()

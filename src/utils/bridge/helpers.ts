@@ -1,3 +1,4 @@
+import { Web3Provider } from '@ethersproject/providers'
 import { BigNumber, utils } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
 import {
@@ -10,6 +11,7 @@ import {
   networkLabels,
   networkNames,
 } from 'utils/bridge/constants'
+import { BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
 import {
   BSC_HECO_BRIDGE,
   BSC_POLYGON_BRIDGE,
@@ -17,37 +19,40 @@ import {
   BSC_ROPSTEN_BRIDGE,
   BSC_XDAI_BRIDGE,
   defaultTokens,
+  ENABLED_BRIDGES_ENUMS_TYPE,
   ETH_BSC_BRIDGE,
   ETH_XDAI_BRIDGE,
   KOVAN_SOKOL_BRIDGE,
   networks,
 } from 'utils/bridge/networks'
+import { BridgeToken, BridgeTokenOrParams } from './entities/BridgeToken'
 import { getOverriddenMediator, isOverridden } from './overrides'
 
-export const getWalletProviderName = (provider) => provider?.connection?.url || null
+export const getWalletProviderName = (provider: Web3Provider) => provider?.connection?.url || null
 
-export const getNativeCurrency = (chainId) => nativeCurrencies[chainId || 1]
+export const getNativeCurrency = (chainId: number) => nativeCurrencies[chainId || 1]
 
-export const getNetworkName = (chainId) => networkNames[chainId] || 'Unknown Network'
+export const getNetworkName = (chainId: number) => networkNames[chainId] || 'Unknown Network'
 
-export const getNetworkLabel = (chainId) => networkLabels[chainId] || 'Unknown'
+export const getNetworkLabel = (chainId: number) => networkLabels[chainId] || 'Unknown'
 
-export const getNetworkCurrency = (chainId) => networkCurrencies[chainId] || { name: 'Unknown', symbol: 'Unknown' }
+export const getNetworkCurrency = (chainId: number) =>
+  networkCurrencies[chainId] || { name: 'Unknown', symbol: 'Unknown' }
 
-export const getRPCUrl = (chainId, returnAsArray = false) =>
+export const getRPCUrl = (chainId: number, returnAsArray = false) =>
   returnAsArray ? chainUrls[chainId || 1].rpc : chainUrls[chainId || 1].rpc[0]
 
-export const getExplorerUrl = (chainId) => (chainUrls[chainId] || chainUrls[1]).explorer
+export const getExplorerUrl = (chainId: number) => (chainUrls[chainId] || chainUrls[1]).explorer
 
-export const getTokenListUrl = (chainId) => defaultTokensUrl[chainId] || defaultTokensUrl[1]
+export const getTokenListUrl = (chainId: number) => defaultTokensUrl[chainId] || defaultTokensUrl[1]
 
-export const removeElement = (array, index) => {
+export const removeElement = (array: any[], index: number) => {
   const cloneArr = [...array]
   cloneArr.splice(index, 1)
   return cloneArr
 }
 
-export const uniqueTokens = (list) => {
+export const uniqueTokens = (list: BridgeToken[]) => {
   const seen = {}
   return list.filter((token) => {
     const { address } = token
@@ -59,7 +64,7 @@ export const uniqueTokens = (list) => {
   })
 }
 
-export const formatValue = (num, dec) => {
+export const formatValue = (num: number | string, dec: number) => {
   const str = utils.formatUnits(num, dec)
   if (str.length > 50) {
     const expStr = Number(str).toExponential().replace(/e\+?/, ' x 10^')
@@ -72,14 +77,14 @@ export const formatValue = (num, dec) => {
   return Number(str).toLocaleString('en', { maximumFractionDigits: 4 })
 }
 
-export const parseValue = (num, dec) => {
+export const parseValue = (num: number | string, dec: number) => {
   if (!num || isNaN(Number(num))) {
     return BigNumber.from(0)
   }
-  return utils.parseUnits(num, dec)
+  return utils.parseUnits(`${num}`, dec)
 }
 
-export const uriToHttp = (uri) => {
+export const uriToHttp = (uri: string) => {
   const protocol = uri.split(':')[0].toLowerCase()
   const hash = uri.match(/^ipfs:(\/\/)?(.*)$/i)?.[2]
   const name = uri.match(/^ipns:(\/\/)?(.*)$/i)?.[2]
@@ -97,7 +102,7 @@ export const uriToHttp = (uri) => {
   }
 }
 
-export const fetchQueryParams = (search) => {
+export const fetchQueryParams = (search: string) => {
   if (!search || !search.trim().length) return null
   return search
     .replace('?', '')
@@ -109,15 +114,15 @@ export const fetchQueryParams = (search) => {
     }, {})
 }
 
-export const getAccountString = (address) => {
+export const getAccountString = (address: string) => {
   const account = getAddress(address)
   const len = account.length
   return `0x${account.substr(2, 4)}...${account.substr(len - 4, len - 1)}`
 }
 
 export const logError = (error) => {
-  debugger
   // eslint-disable-next-line no-console
+  debugger
   console.error(error)
 }
 
@@ -187,15 +192,15 @@ export const getRPCKeys = (bridgeDirection) => {
   }
 }
 
-export const getHelperContract = (chainId) => nativeCurrencyMediators[chainId || 1]
+export const getHelperContract = (chainId: number) => nativeCurrencyMediators[chainId || 1]
 
-export const getMediatorAddressWithoutOverride = (bridgeDirection, chainId) => {
+export const getMediatorAddressWithoutOverride = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, chainId: number) => {
   if (!bridgeDirection || !chainId) return null
   const { homeChainId, homeMediatorAddress, foreignMediatorAddress } = networks[bridgeDirection]
   return homeChainId === chainId ? homeMediatorAddress.toLowerCase() : foreignMediatorAddress.toLowerCase()
 }
 
-export const getMediatorAddress = (bridgeDirection, token) => {
+export const getMediatorAddress = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, token: BridgeTokenOrParams) => {
   console.log(bridgeDirection)
   console.log(token)
   if (!token || !token.chainId || !token.address) return null
@@ -205,7 +210,7 @@ export const getMediatorAddress = (bridgeDirection, token) => {
   return getMediatorAddressWithoutOverride(bridgeDirection, token.chainId)
 }
 
-export const truncateText = (text, maxLength) => {
+export const truncateText = (text: string, maxLength: number) => {
   let truncated = text
 
   if (truncated.length > maxLength - 3) {
@@ -214,13 +219,21 @@ export const truncateText = (text, maxLength) => {
   return truncated
 }
 
-export const getDefaultToken = (bridgeDirection, chainId) => {
+export const getDefaultToken = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, chainId: number): BridgeToken => {
   const label = getNetworkLabel(chainId).toUpperCase()
   const storageKey = `${bridgeDirection.toUpperCase()}-${label}-FROM-TOKEN`
   const tokenString = localStorage.getItem(storageKey)
-  const token = JSON.parse(tokenString)
-  if (token && token.chainId === chainId) return token
-  return defaultTokens[bridgeDirection][chainId]
+  const token: BridgeTokenObject = JSON.parse(tokenString)
+
+  if (token && token.chainId === chainId) return new BridgeToken(token)
+  const defaultToken = defaultTokens[bridgeDirection][chainId] || {}
+  const tokenRaw = new BridgeToken({
+    decimals: 18,
+    mediator: '',
+    mode: '',
+    ...defaultToken,
+  })
+  return tokenRaw
 }
 
 const IMPOSSIBLE_ERROR = 'Unable to perform the operation. Reload the application and try again.'

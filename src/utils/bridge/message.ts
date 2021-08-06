@@ -1,9 +1,15 @@
+import { TransactionReceipt, Web3Provider } from '@ethersproject/providers'
 import { Contract, utils } from 'ethers'
 
 export const NOT_ENOUGH_COLLECTED_SIGNATURES =
   'Transaction to the bridge is found but oracles’ confirmations are not collected yet. Wait for a minute and try again.'
 
-export const getMessageData = async (isHome, ethersProvider, txHash, txReceipt) => {
+export const getMessageData = async (
+  isHome: boolean,
+  ethersProvider: Web3Provider,
+  txHash: string,
+  txReceipt?: TransactionReceipt,
+) => {
   const abi = isHome
     ? new utils.Interface(['event UserRequestForSignature(bytes32 indexed messageId, bytes encodedData)'])
     : new utils.Interface(['event UserRequestForAffirmation(bytes32 indexed messageId, bytes encodedData)'])
@@ -32,7 +38,7 @@ export const getMessageData = async (isHome, ethersProvider, txHash, txReceipt) 
   }
 }
 
-export const getMessage = async (isHome, provider, ambAddress, txHash) => {
+export const getMessage = async (isHome: boolean, provider: Web3Provider, ambAddress: string, txHash: string) => {
   const { messageId, messageData } = await getMessageData(isHome, provider, txHash)
   const messageHash = utils.solidityKeccak256(['bytes'], [messageData])
 
@@ -64,14 +70,14 @@ export const getMessage = async (isHome, provider, ambAddress, txHash) => {
   }
 }
 
-export const messageCallStatus = async (ambAddress, ethersProvider, messageId) => {
+export const messageCallStatus = async (ambAddress: string, ethersProvider: Web3Provider, messageId: string) => {
   const abi = ['function messageCallStatus(bytes32 _messageId) public view returns (bool)']
   const ambContract = new Contract(ambAddress, abi, ethersProvider)
   const claimed = await ambContract.messageCallStatus(messageId)
   return claimed
 }
 
-export const requiredSignatures = async (homeAmbAddress, homeProvider) => {
+export const requiredSignatures = async (homeAmbAddress: string, homeProvider: Web3Provider) => {
   const abi = ['function requiredSignatures() public view returns (uint256)']
   const ambContract = new Contract(homeAmbAddress, abi, homeProvider)
   const numRequired = await ambContract.requiredSignatures()

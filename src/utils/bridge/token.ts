@@ -1,11 +1,17 @@
+import { StaticJsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 import { BigNumber, Contract, utils } from 'ethers'
 import { ADDRESS_ZERO } from './constants'
+import { BridgeToken, BridgeTokenMode, BridgeTokenOrParams } from './entities/BridgeToken'
 import { getMediatorAddress, getMediatorAddressWithoutOverride, logError } from './helpers'
-import { networks } from './networks'
+import { ENABLED_BRIDGES_ENUMS_TYPE, networks } from './networks'
 import { getOverriddenMode, isOverridden } from './overrides'
 import { getEthersProvider } from './providers'
 
-export const fetchAllowance = async ({ mediator, address }, account, ethersProvider) => {
+export const fetchAllowance = async (
+  { mediator, address }: BridgeToken | null,
+  account: string,
+  ethersProvider: Web3Provider,
+) => {
   if (!account || !address || address === ADDRESS_ZERO || !mediator || mediator === ADDRESS_ZERO || !ethersProvider) {
     return BigNumber.from(0)
   }
@@ -20,7 +26,10 @@ export const fetchAllowance = async ({ mediator, address }, account, ethersProvi
   return BigNumber.from(0)
 }
 
-const fetchMode = async (bridgeDirection, token) => {
+const fetchMode = async (
+  bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
+  token: BridgeTokenOrParams,
+): Promise<BridgeTokenMode> => {
   if (isOverridden(bridgeDirection, token)) {
     return getOverriddenMode(bridgeDirection, token)
   }
@@ -38,10 +47,10 @@ const fetchMode = async (bridgeDirection, token) => {
   return 'erc677'
 }
 
-export const fetchTokenName = async (token) => {
+export const fetchTokenName = async (token: BridgeToken | { chainId: number; address: string; name?: string }) => {
   const ethersProvider = await getEthersProvider(token.chainId)
 
-  let tokenName = token.name || ''
+  let tokenName = token?.name || ''
   try {
     const stringAbi = ['function name() view returns (string)']
     const tokenContractString = new Contract(token.address, stringAbi, ethersProvider)
@@ -54,7 +63,7 @@ export const fetchTokenName = async (token) => {
   return tokenName
 }
 
-export const fetchTokenDetailsBytes32 = async (token) => {
+export const fetchTokenDetailsBytes32 = async (token: BridgeTokenOrParams) => {
   const ethersProvider = await getEthersProvider(token.chainId)
   const abi = [
     'function decimals() view returns (uint8)',
@@ -65,7 +74,7 @@ export const fetchTokenDetailsBytes32 = async (token) => {
   const [name, symbol, decimals] = await Promise.all([
     tokenContract.name(),
     tokenContract.symbol(),
-    tokenContract.decimals(),
+    tokenContract.decimals() as number,
   ])
   return {
     name: utils.parseBytes32String(name),
@@ -74,7 +83,7 @@ export const fetchTokenDetailsBytes32 = async (token) => {
   }
 }
 
-export const fetchTokenDetailsString = async (token) => {
+export const fetchTokenDetailsString = async (token: BridgeTokenOrParams) => {
   const ethersProvider = await getEthersProvider(token.chainId)
   const abi = [
     'function decimals() view returns (uint8)',
@@ -84,25 +93,23 @@ export const fetchTokenDetailsString = async (token) => {
   const tokenContract = new Contract(token.address, abi, ethersProvider)
 
   const [name, symbol, decimals] = await Promise.all([
-    tokenContract.name(),
-    tokenContract.symbol(),
-    tokenContract.decimals(),
+    tokenContract.name() as string,
+    tokenContract.symbol() as string,
+    tokenContract.decimals() as number,
   ])
 
   return { name, symbol, decimals }
 }
 
-const fetchTokenDetailsFromContract = async (token) => {
-  let details = {}
+const fetchTokenDetailsFromContract = async (token: BridgeTokenOrParams) => {
   try {
-    details = await fetchTokenDetailsString(token)
+    return await fetchTokenDetailsString(token)
   } catch {
-    details = await fetchTokenDetailsBytes32(token)
+    return await fetchTokenDetailsBytes32(token)
   }
-  return details
 }
 
-export const fetchTokenDetails = async (bridgeDirection, token) => {
+export const fetchTokenDetails = async (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, token: BridgeTokenOrParams) => {
   const mediatorAddress = getMediatorAddress(bridgeDirection, token)
   const [{ name, symbol, decimals }, mode] = await Promise.all([
     fetchTokenDetailsFromContract(token),
@@ -119,18 +126,26 @@ export const fetchTokenDetails = async (bridgeDirection, token) => {
   }
 }
 
-export const approveToken = async (ethersProvider, { address, mediator }, amount) => {
+export const approveToken = async (
+  ethersProvider: StaticJsonRpcProvider,
+  { address, mediator }: BridgeToken,
+  amount: BigNumber,
+) => {
   const abi = ['function approve(address, uint256)']
   const tokenContract = new Contract(address, abi, ethersProvider.getSigner())
   return tokenContract.approve(mediator, amount)
 }
 
-export const fetchTokenBalance = async (token, account) => {
+export const fetchTokenBalance = async (token: BridgeToken, account: string) => {
   const ethersProvider = await getEthersProvider(token.chainId)
   return fetchTokenBalanceWithProvider(ethersProvider, token, account)
 }
 
-export const fetchTokenBalanceWithProvider = async (ethersProvider, { address, mode }, account) => {
+export const fetchTokenBalanceWithProvider = async (
+  ethersProvider: StaticJsonRpcProvider,
+  { address, mode }: BridgeToken,
+  account: string,
+): Promise<BigNumber> => {
   if (address === ADDRESS_ZERO && mode === 'NATIVE') {
     return ethersProvider.getBalance(account)
   }

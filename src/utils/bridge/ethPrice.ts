@@ -2,7 +2,7 @@
 import { REACT_APP_ETH_PRICE_API_URL, REACT_APP_ETH_PRICE_UPDATE_INTERVAL } from 'utils/bridge/env'
 import { logDebug, logError } from 'utils/bridge/helpers'
 
-const ethPriceFromApi = async (fetchFn) => {
+const ethPriceFromApi = async (fetchFn: () => Promise<any>) => {
   try {
     const response = await fetchFn()
     const json = await response.json()

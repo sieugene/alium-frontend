@@ -19,7 +19,7 @@ const median = (arr) => {
 
 const gasPriceOracle = new GasPriceOracle()
 
-const gasPriceFromSupplier = async () => {
+const gasPriceFromSupplier = async (): Promise<{ fast?: BigNumber }> => {
   try {
     const json = await gasPriceOracle.fetchGasPricesOffChain()
 
@@ -74,9 +74,9 @@ class GasPriceStore {
   async updateGasPrice() {
     const gasPrices = await gasPriceFromSupplier()
     try {
-      if (gasPrices) {
+      if (gasPrices?.fast) {
         this.gasPrice = gasPrices[this.speedType]
-        this.fastGasPrice = gasPrices.fast
+        this.fastGasPrice = gasPrices?.fast
       }
     } catch (gasPriceError) {
       logError({ gasPriceError })

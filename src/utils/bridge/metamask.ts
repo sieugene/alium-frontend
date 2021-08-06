@@ -1,7 +1,8 @@
 import { utils } from 'ethers'
+import { BridgeToken } from './entities/BridgeToken'
 import { getExplorerUrl, getNetworkCurrency, getNetworkName, getRPCUrl } from './helpers'
 
-export const addTokenToMetamask = async (token) =>
+export const addTokenToMetamask = async (token: BridgeToken) =>
   window.ethereum.request({
     method: 'wallet_watchAsset',
     params: {

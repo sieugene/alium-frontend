@@ -4,10 +4,12 @@ import {
   BSC_RINKEBY_BRIDGE,
   BSC_ROPSTEN_BRIDGE,
   BSC_XDAI_BRIDGE,
+  ENABLED_BRIDGES_ENUMS_TYPE,
   ETH_BSC_BRIDGE,
   ETH_XDAI_BRIDGE,
   KOVAN_SOKOL_BRIDGE,
 } from 'utils/bridge/networks'
+import { BridgeTokenMode, BridgeTokenOrParams } from './entities/BridgeToken'
 
 const OWLTokenOverride = {
   100: {
@@ -185,8 +187,10 @@ const OVERRIDES = {
   [BSC_ROPSTEN_BRIDGE]: BSC_ROPSTEN_OVERRIDES,
   [BSC_RINKEBY_BRIDGE]: BSC_RINKEBY_OVERRIDES,
 }
+export type OVERRIDES_Type = typeof OVERRIDES
+export type OVERRIDES_TypeItem = OVERRIDES_Type[keyof OVERRIDES_Type]
 
-export const isOverridden = (bridgeDirection, token) => {
+export const isOverridden = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, token: BridgeTokenOrParams) => {
   console.log('isOverriden', bridgeDirection)
   console.log('isOverriden', token)
   if (!token || !bridgeDirection) return false
@@ -198,7 +202,10 @@ export const isOverridden = (bridgeDirection, token) => {
   return override?.[chainId] !== undefined
 }
 
-export const getOverriddenToToken = (bridgeDirection, token) => {
+export const getOverriddenToToken = (
+  bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
+  token: BridgeTokenOrParams,
+): string => {
   if (!token || !bridgeDirection) return null
   const { address, chainId } = token
   if (!address || !chainId) return null
@@ -206,15 +213,21 @@ export const getOverriddenToToken = (bridgeDirection, token) => {
   return overrides[address.toLowerCase()][chainId].to
 }
 
-export const getOverriddenMode = (bridgeDirection, token) => {
+export const getOverriddenMode = (
+  bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
+  token: BridgeTokenOrParams,
+): BridgeTokenMode => {
   if (!token || !bridgeDirection) return null
   const { address, chainId } = token
   if (!address || !chainId) return null
-  const overrides = OVERRIDES[bridgeDirection]
+  const overrides: OVERRIDES_TypeItem = OVERRIDES[bridgeDirection]
   return overrides[address.toLowerCase()][chainId].mode
 }
 
-export const getOverriddenMediator = (bridgeDirection, token) => {
+export const getOverriddenMediator = (
+  bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE,
+  token: BridgeTokenOrParams,
+): string => {
   if (!token || !bridgeDirection) return null
   const { address, chainId } = token
   if (!address || !chainId) return null

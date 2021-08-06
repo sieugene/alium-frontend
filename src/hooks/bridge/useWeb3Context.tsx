@@ -1,10 +1,11 @@
+import { Web3Provider } from '@ethersproject/providers'
 import { useActiveWeb3React } from 'hooks'
 import React, { useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { getEthersProvider } from 'utils/web3'
 
 export const useWeb3Context = () => {
-  const [ethersProvider, setprovider] = useState(null)
+  const [ethersProvider, setprovider] = useState<Web3Provider>(null)
   const { connected } = useStoreNetwork()
   const web3 = useActiveWeb3React()
   const chainId = useStoreNetwork((state) => state.currentChainId)
@@ -20,8 +21,8 @@ export const useWeb3Context = () => {
     }
   }, [connected])
 
-  if (ethersProvider) {
-  }
+  // if (ethersProvider) {
+  // }
 
   return { providerChainId, ethersProvider, account, isGnosisSafe: false }
 }

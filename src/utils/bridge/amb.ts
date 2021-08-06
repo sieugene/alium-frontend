@@ -15,7 +15,7 @@ export const fetchConfirmations = async (address: string, ethersProvider: Web3Pr
   return parseInt(requiredConfirmations, 10)
 }
 
-export const fetchAmbVersion = async (address, ethersProvider) => {
+export const fetchAmbVersion = async (address: string, ethersProvider: Web3Provider) => {
   if (!ethersProvider) {
     return { major: 0, minor: 0, patch: 0 }
   }
@@ -25,7 +25,7 @@ export const fetchAmbVersion = async (address, ethersProvider) => {
   return ambVersion.map((v) => v.toNumber()).join('.')
 }
 
-function strip0x(input) {
+function strip0x(input: string) {
   return input.replace(/^0x/, '')
 }
 
@@ -52,12 +52,22 @@ function packSignatures(array) {
 }
 
 const REVERT_ERROR_CODES = ['-32000', '-32016', 'UNPREDICTABLE_GAS_LIMIT', 'CALL_EXCEPTION']
-
-export const isRevertedError = (error) =>
+interface RevertedError extends Error {
+  code?: string
+  error?: {
+    code?: string
+  }
+}
+export const isRevertedError = (error: RevertedError) =>
   REVERT_ERROR_CODES.includes(error?.code && error?.code.toString()) ||
   REVERT_ERROR_CODES.includes(error?.error?.code && error?.error?.code.toString())
 
-export const executeSignatures = async (ethersProvider, address, version, { messageData, signatures }) => {
+export const executeSignatures = async (
+  ethersProvider: Web3Provider,
+  address: string,
+  version: string,
+  { messageData, signatures },
+) => {
   const abi = [
     'function executeSignatures(bytes messageData, bytes signatures) external',
     'function safeExecuteSignaturesWithAutoGasLimit(bytes _data, bytes _signatures) external',
