@@ -1,6 +1,7 @@
 import { Button } from 'alium-uikit/src'
 import InputWithLabel from 'components/InputWithLabel'
-import React, { FC, useState } from 'react'
+import { useClaim } from 'hooks/bridge/useClaim'
+import React, { FC, useCallback, useState } from 'react'
 import Loader from 'react-loader-spinner'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -41,24 +42,36 @@ const Wrapper = styled.div`
 `
 
 const ClaimTokenStep = () => {
-  const [value, setValue] = useState('')
+  const txHash = useStoreBridge((state) => state.txHash)
+  const [value, setValue] = useState(txHash)
   const [loading, setloading] = useState(false)
   const updateStepStatus = storeBridge.getState().updateStepStatus
   const changeStep = storeBridge.getState().changeStep
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const toNetwork = useStoreBridge((state) => state.toNetwork)
 
-  const onClaim = async () => {
+  const claim = useClaim()
+
+  const claimTokens = useCallback(async () => {
+    if (!txHash || loading) return
     setloading(true)
-    await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(true)
-        setloading(false)
-        updateStepStatus(BRIDGE_STEPS.CLAIM_TOKEN, true)
-        changeStep(BRIDGE_STEPS.SUCCESS)
-      }, 2000)
-    })
-  }
+    try {
+      const tx = await claim(txHash)
+      await tx.wait()
+      updateStepStatus(BRIDGE_STEPS.CLAIM_TOKEN, true)
+      changeStep(BRIDGE_STEPS.SUCCESS)
+    } catch (manualClaimError) {
+      // logError({ manualClaimError })
+      // if (manualClaimError.message === TOKENS_CLAIMED || isRevertedError(manualClaimError)) {
+      //   handleClaimError()
+      // } else {
+      //   handleWalletError(manualClaimError, showError)
+      // }
+    } finally {
+      setloading(false)
+    }
+  }, [txHash, loading])
+
   // If network changed
   React.useEffect(() => {
     if (currentChainId !== toNetwork) {
@@ -78,7 +91,7 @@ const ClaimTokenStep = () => {
             setValue(target?.value)
           }}
         />
-        <Button onClick={onClaim} disabled={loading}>
+        <Button onClick={claimTokens} disabled={loading}>
           Claim
         </Button>
       </Wrapper>

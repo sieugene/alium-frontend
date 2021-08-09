@@ -40,6 +40,8 @@ export interface StoreBridgeState {
     fromAmount: BigNumber
     toAmount: BigNumber
   }
+  txHash: string | null
+  setTxHash: (hash: string | null) => void
 }
 // Storage
 const storage = bridgeStorage()
@@ -52,6 +54,7 @@ export const networkFinder = (chainId: number) => {
 export const storeBridgeDefault = () => {
   return {
     // fromNetwork: storeNetwork.getState().currentChainId,
+    txHash: '',
     fromNetwork: getNetworks()[0]?.chainId,
     toNetwork: getNetworks()[1]?.chainId || null,
     modalOpen: false,
@@ -82,6 +85,9 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
   },
   setAmounts: (amounts: StoreBridgeState['amounts']) => {
     set({ amounts })
+  },
+  setTxHash: (txHash: string | null) => {
+    set({ txHash })
   },
   setStepStatuses: (stepStatuses) => {
     set({ stepStatuses })
