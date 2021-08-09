@@ -16,9 +16,8 @@ services:
         order: start-first
         parallelism: 2
       restart_policy:
-        condition: on-failure
+        condition: any
         delay: 5s
-        max_attempts: 3
         window: 120s
     ports:
       - 3000:3000
