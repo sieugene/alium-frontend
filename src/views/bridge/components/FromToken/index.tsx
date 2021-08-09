@@ -23,7 +23,7 @@ export const useDelay = (fn, ms) => {
 
 export const FromToken = React.memo(() => {
   const { account, chainId } = useActiveWeb3React()
-  const { fromToken: token, setFromBalance: setBalance, toAmount: amount } = useBridgeContext()
+  const { fromToken: token, setFromBalance: setBalance, fromAmount: amount } = useBridgeContext()
 
   const [balanceLoading, setBalanceLoading] = useState(false)
 

@@ -1,4 +1,5 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
+import { BigNumber } from 'ethers'
 import { ExchangeIcon } from 'images/Exchange-icon'
 import { useCallback } from 'react'
 import { storeBridge } from 'store/bridge/useStoreBridge'
@@ -50,6 +51,8 @@ const BridgeInput = () => {
     setAmount,
     fromBalance: balance,
     amountInput: input,
+    toAmount,
+    fromAmount,
     setAmountInput: setInput,
   } = useBridgeContext()
 
@@ -69,6 +72,8 @@ const BridgeInput = () => {
     setInput(balance)
   }
 
+  const disableBtn = toAmount <= BigNumber.from(0) || fromAmount <= BigNumber.from(0) || Boolean(Number(input) <= 0)
+
   return (
     <InputWrapper>
       <div className='left-column'>
@@ -83,13 +88,13 @@ const BridgeInput = () => {
             disableCurrencySelect
             onKeyUp={delayedSetAmount}
           />
-          <BridgeTransferButton onClick={transfer} desktop disabled={Boolean(Number(input) <= 0)}>
+          <BridgeTransferButton onClick={transfer} desktop disabled={disableBtn}>
             Transfer
           </BridgeTransferButton>
         </div>
 
         <AdvancedInput>
-          <BridgeTransferButton onClick={transfer} mobile disabled={Boolean(Number(input) <= 0)}>
+          <BridgeTransferButton onClick={transfer} mobile disabled={disableBtn}>
             Transfer
           </BridgeTransferButton>
         </AdvancedInput>

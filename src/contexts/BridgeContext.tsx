@@ -34,7 +34,6 @@ export const BridgeContext = React.createContext({
   setDefaultToken: async (chainId: number) => {},
   allowed: false,
   approve: async () => {},
-  transfer: async () => {},
   loading: false,
   setLoading: (toggle: boolean) => {},
   txHash: '',
@@ -55,6 +54,7 @@ export const BridgeContext = React.createContext({
   unlockLoading: false,
   approvalTxHash: '',
   feeManagerAddress: '',
+  transfer: null as () => Promise<string>,
 })
 
 export const useBridgeContext = () => useContext(BridgeContext)
@@ -147,31 +147,48 @@ export const BridgeProvider = ({ children }) => {
     }
   }, [])
 
-  const transfer = useCallback(async () => {
-    setLoading(true)
-    try {
-      if (isGnosisSafe && !receiver) {
-        throw new Error('Must set receiver for Gnosis Safe')
-      }
-      const tx = await relayTokens(ethersProvider, fromToken, receiver || account, fromAmount, {
-        shouldReceiveNativeCur:
-          (shouldReceiveNativeCur && toToken?.address === ADDRESS_ZERO && toToken?.mode === 'NATIVE') ||
-          !toToken.address,
-        foreignChainId,
-      })
-      setTxHash(tx.hash)
-    } catch (transferError) {
-      setLoading(false)
-      logError({
-        transferError,
-        fromToken,
-        receiver: receiver || account,
-        fromAmount: fromAmount.toString(),
-        account,
-      })
-      throw transferError
-    }
-  }, [])
+  const transfer = useCallback(
+    (): Promise<string> =>
+      new Promise((resolve, reject) => {
+        setLoading(true)
+        if (isGnosisSafe && !receiver) {
+          throw new Error('Must set receiver for Gnosis Safe')
+        }
+
+        relayTokens(ethersProvider, fromToken, receiver || account, fromAmount, {
+          shouldReceiveNativeCur:
+            (shouldReceiveNativeCur && toToken?.address === ADDRESS_ZERO && toToken?.mode === 'NATIVE') ||
+            !toToken?.address,
+          foreignChainId,
+        })
+          .then((tx) => {
+            setTxHash(tx.hash)
+            resolve(tx.hash)
+          })
+          .catch((transferError) => {
+            setLoading(false)
+            logError({
+              transferError,
+              fromToken,
+              receiver: receiver || account,
+              fromAmount: fromAmount.toString(),
+              account,
+            })
+            reject(transferError)
+          })
+      }),
+    [
+      account,
+      ethersProvider,
+      foreignChainId,
+      fromAmount,
+      fromToken,
+      isGnosisSafe,
+      receiver,
+      shouldReceiveNativeCur,
+      toToken,
+    ],
+  )
 
   const setDefaultToken = useCallback(async (chainId: number) => {
     if (
