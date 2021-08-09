@@ -57,10 +57,10 @@ const BodyWrapper = styled.div`
 const BridgeContainer = ({ children, className }) => {
   return (
     <>
-      <ListsUpdater />
+      {/* <ListsUpdater />
       <ApplicationUpdater />
       <TransactionUpdater />
-      <MulticallUpdater />
+      <MulticallUpdater /> */}
       <AppWrapper>
         <BodyWrapper className={className || ''}>{children}</BodyWrapper>
       </AppWrapper>
