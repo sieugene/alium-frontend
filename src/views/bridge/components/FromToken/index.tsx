@@ -1,5 +1,5 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
-import { BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { logError } from 'utils/bridge/helpers'
@@ -23,7 +23,7 @@ export const useDelay = (fn, ms) => {
 
 export const FromToken = React.memo(() => {
   const { account, chainId } = useActiveWeb3React()
-  const { fromToken: token, setFromBalance: setBalance, amountInput: input } = useBridgeContext()
+  const { fromToken: token, setFromBalance: setBalance, toAmount: amount } = useBridgeContext()
 
   const [balanceLoading, setBalanceLoading] = useState(false)
 
@@ -31,13 +31,13 @@ export const FromToken = React.memo(() => {
     if (token && account && chainId === token.chainId && !balanceLoading) {
       setBalanceLoading(true)
       fetchTokenBalance(token, account)
+        .then((b) => {
+          setBalance(b)
+          setBalanceLoading(false)
+        })
         .catch((fromBalanceError) => {
           logError({ fromBalanceError })
           setBalance(BigNumber.from(0))
-          setBalanceLoading(false)
-        })
-        .then((b) => {
-          setBalance(b)
           setBalanceLoading(false)
         })
     }
@@ -45,9 +45,12 @@ export const FromToken = React.memo(() => {
 
   return (
     <div>
-      <BridgeNetwork type='fromNetwork' value={input} token={token} balanceLoading={balanceLoading} />
-      {/* <h2>{`Balance: ${formatValue(balance, token?.decimals)}`}</h2>
-      <input onKeyUp={delayedSetAmount} onChange={(e) => setInput(e.target.value)} value={input} /> */}
+      <BridgeNetwork
+        type='fromNetwork'
+        value={token ? utils.formatUnits(amount, token?.decimals) : '0'}
+        token={token}
+        balanceLoading={balanceLoading}
+      />
     </div>
   )
 })

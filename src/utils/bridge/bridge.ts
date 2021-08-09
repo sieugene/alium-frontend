@@ -147,7 +147,7 @@ export const fetchToAmount = async (
   fromAmount: BigNumber,
   feeManagerAddress: string,
 ) => {
-  if (fromAmount.lte(0) || !fromToken || !toToken) return BigNumber.from(0)
+  if (fromAmount.lte(0) || !fromToken || !toToken || !feeManagerAddress) return BigNumber.from(0)
 
   const { homeChainId, homeMediatorAddress } = networks[bridgeDirection]
 

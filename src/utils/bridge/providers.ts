@@ -1,3 +1,4 @@
+import { StaticJsonRpcProvider } from '@ethersproject/providers'
 import { ethers } from 'ethers'
 import memoize from 'fast-memoize'
 import { LOCAL_STORAGE_KEYS } from 'utils/bridge/constants'
@@ -51,7 +52,7 @@ const checkRPCHealth = async (url: string) => {
   }
 }
 
-export const getEthersProvider = async (chainId: number): Promise<EtherProvider | null> => {
+export const getEthersProvider = async (chainId: number): Promise<StaticJsonRpcProvider | null> => {
   const label = getNetworkLabel(chainId).toUpperCase()
   const sessionHealthyURL = `HEALTHY-RPC-URL-${label}`
   const localRPCUrl = window.localStorage.getItem(RPC_URL[chainId])

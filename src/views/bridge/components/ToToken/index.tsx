@@ -24,14 +24,14 @@ export const ToToken = React.memo(() => {
     if (token && account && chainId === token.chainId) {
       setBalanceLoading(true)
       fetchTokenBalance(token, account)
+        .then((b) => {
+          setBalance(b)
+          setBalanceLoading(false)
+        })
         .catch((toBalanceError) => {
           logError({ toBalanceError })
 
           setBalance(BigNumber.from(0))
-          setBalanceLoading(false)
-        })
-        .then((b) => {
-          setBalance(b)
           setBalanceLoading(false)
         })
     } else {

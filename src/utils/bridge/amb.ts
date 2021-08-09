@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers'
+import { StaticJsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 import { Contract, utils } from 'ethers'
 import { logError } from 'utils/bridge/helpers'
 import { NOT_ENOUGH_COLLECTED_SIGNATURES } from './message'
@@ -15,7 +15,7 @@ export const fetchConfirmations = async (address: string, ethersProvider: Web3Pr
   return parseInt(requiredConfirmations, 10)
 }
 
-export const fetchAmbVersion = async (address: string, ethersProvider: Web3Provider) => {
+export const fetchAmbVersion = async (address: string, ethersProvider: StaticJsonRpcProvider) => {
   if (!ethersProvider) {
     return { major: 0, minor: 0, patch: 0 }
   }

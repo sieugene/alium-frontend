@@ -21,8 +21,5 @@ export const useWeb3Context = () => {
     }
   }, [connected])
 
-  // if (ethersProvider) {
-  // }
-
-  return { providerChainId, ethersProvider, account, isGnosisSafe: false }
+  return { providerChainId, ethersProvider, account, isGnosisSafe: false, connected }
 }

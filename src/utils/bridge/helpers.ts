@@ -64,7 +64,7 @@ export const uniqueTokens = (list: BridgeToken[]) => {
   })
 }
 
-export const formatValue = (num: number | string, dec: number) => {
+export const formatValue = (num: BigNumber, dec: number) => {
   const str = utils.formatUnits(num, dec)
   if (str.length > 50) {
     const expStr = Number(str).toExponential().replace(/e\+?/, ' x 10^')

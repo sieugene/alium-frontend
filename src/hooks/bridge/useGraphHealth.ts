@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getHealthStatus } from 'utils/bridge/graphHealth'
 import { logDebug, logError } from 'utils/bridge/helpers'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { REACT_APP_GRAPH_HEALTH_THRESHOLD_BLOCKS } from '../../lib/env'
+import { REACT_APP_GRAPH_HEALTH_THRESHOLD_BLOCKS } from '../../utils/bridge/env'
 import { useBridgeDirection } from './useBridgeDirection'
 
 const DEFAULT_GRAPH_HEALTH_UPDATE_INTERVAL = 60000

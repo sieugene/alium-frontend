@@ -1,4 +1,4 @@
-import { TransactionReceipt, Web3Provider } from '@ethersproject/providers'
+import { StaticJsonRpcProvider, TransactionReceipt } from '@ethersproject/providers'
 import { Contract, utils } from 'ethers'
 
 export const NOT_ENOUGH_COLLECTED_SIGNATURES =
@@ -6,7 +6,7 @@ export const NOT_ENOUGH_COLLECTED_SIGNATURES =
 
 export const getMessageData = async (
   isHome: boolean,
-  ethersProvider: Web3Provider,
+  ethersProvider: StaticJsonRpcProvider,
   txHash: string,
   txReceipt?: TransactionReceipt,
 ) => {
@@ -38,7 +38,12 @@ export const getMessageData = async (
   }
 }
 
-export const getMessage = async (isHome: boolean, provider: Web3Provider, ambAddress: string, txHash: string) => {
+export const getMessage = async (
+  isHome: boolean,
+  provider: StaticJsonRpcProvider,
+  ambAddress: string,
+  txHash: string,
+) => {
   const { messageId, messageData } = await getMessageData(isHome, provider, txHash)
   const messageHash = utils.solidityKeccak256(['bytes'], [messageData])
 
@@ -70,14 +75,18 @@ export const getMessage = async (isHome: boolean, provider: Web3Provider, ambAdd
   }
 }
 
-export const messageCallStatus = async (ambAddress: string, ethersProvider: Web3Provider, messageId: string) => {
+export const messageCallStatus = async (
+  ambAddress: string,
+  ethersProvider: StaticJsonRpcProvider,
+  messageId: string,
+) => {
   const abi = ['function messageCallStatus(bytes32 _messageId) public view returns (bool)']
   const ambContract = new Contract(ambAddress, abi, ethersProvider)
   const claimed = await ambContract.messageCallStatus(messageId)
   return claimed
 }
 
-export const requiredSignatures = async (homeAmbAddress: string, homeProvider: Web3Provider) => {
+export const requiredSignatures = async (homeAmbAddress: string, homeProvider: StaticJsonRpcProvider) => {
   const abi = ['function requiredSignatures() public view returns (uint256)']
   const ambContract = new Contract(homeAmbAddress, abi, homeProvider)
   const numRequired = await ambContract.requiredSignatures()

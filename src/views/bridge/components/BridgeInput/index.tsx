@@ -1,7 +1,7 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { ExchangeIcon } from 'images/Exchange-icon'
 import { useCallback } from 'react'
-import { storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
+import { storeBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { formatValue } from 'utils/bridge/helpers'
 import AdvancedInput from '../AdvancedInput'
@@ -44,8 +44,6 @@ const SwitchIcon = styled.div`
 const BridgeInput = () => {
   const toggleModal = storeBridge.getState().toggleModal
   const toggleNetworks = storeBridge.getState().toggleNetworks
-  const updateInput = storeBridge.getState().updateBridgeInputs
-  const value = useStoreBridge((state) => state.bridgeInputs.main)
 
   const {
     fromToken: token,
@@ -62,12 +60,6 @@ const BridgeInput = () => {
   }, [input, setAmount])
   const delayedSetAmount = useDelay(updateAmount, 500)
 
-  // const onUserInput = (value: string) => {
-  //   updateInput('main', value)
-  //   updateInput('from', value)
-  //   updateInput('to', value)
-  // }
-
   const transfer = () => {
     toggleModal(true)
   }
@@ -75,9 +67,6 @@ const BridgeInput = () => {
   const onMax = () => {
     const balance = formatValue(tokenBalance, token?.decimals)
     setInput(balance)
-    // updateInput('main', balance)
-    // updateInput('from', balance)
-    // updateInput('to', balance)
   }
 
   return (
@@ -94,13 +83,13 @@ const BridgeInput = () => {
             disableCurrencySelect
             onKeyUp={delayedSetAmount}
           />
-          <BridgeTransferButton onClick={transfer} desktop disabled={Boolean(Number(value) <= 0)}>
+          <BridgeTransferButton onClick={transfer} desktop disabled={Boolean(Number(input) <= 0)}>
             Transfer
           </BridgeTransferButton>
         </div>
 
         <AdvancedInput>
-          <BridgeTransferButton onClick={transfer} mobile disabled={Boolean(Number(value) <= 0)}>
+          <BridgeTransferButton onClick={transfer} mobile disabled={Boolean(Number(input) <= 0)}>
             Transfer
           </BridgeTransferButton>
         </AdvancedInput>

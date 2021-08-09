@@ -1,11 +1,11 @@
 import BridgeModal, { CloseItem } from 'components/Modal/BridgeModal'
+import { useBridgeContext } from 'contexts/BridgeContext'
 import React, { FC } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { getExplorerLink, getExplorerName } from 'utils'
-import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import { useBridgeTokens } from 'views/bridge/hooks/useBridgeTokens'
+import { formatValue } from 'utils/bridge/helpers'
 
 const Wrapper = styled.div`
   width: 450px;
@@ -99,10 +99,11 @@ interface Props {
   type: BridgeNetworks
 }
 const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
+  const isFrom = type === 'fromNetwork'
   const chainId = useStoreBridge((state) => state[type])
-  const { tokens, balances } = useBridgeTokens('ALM')
-  const token = tokens[type]
-  const balance = balances[type]
+  const token = useStoreBridge((state) => (isFrom ? state.tokens.fromToken : state.tokens.toToken))
+  const { toBalance, fromBalance } = useBridgeContext()
+  const balance = isFrom ? fromBalance : toBalance
 
   const network = networkFinder(chainId)
   const explorer = getExplorerName(chainId)
@@ -150,7 +151,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       title: `Your ${token?.symbol} Balance`,
       content: (
         <Text>
-          {toSignificantCurrency(balance)} {token?.symbol}
+          {formatValue(balance, token?.decimals)} {token?.symbol}
         </Text>
       ),
     },

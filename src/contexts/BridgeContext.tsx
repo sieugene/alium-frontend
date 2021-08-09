@@ -7,6 +7,7 @@ import { useTotalConfirms } from 'hooks/bridge/useTotalConfirms'
 import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useToast } from 'state/hooks'
+import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import { fetchToAmount, fetchTokenLimits, fetchToToken, relayTokens } from 'utils/bridge/bridge'
 import { ADDRESS_ZERO } from 'utils/bridge/constants'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
@@ -61,21 +62,19 @@ export const useBridgeContext = () => useContext(BridgeContext)
 export const BridgeProvider = ({ children }) => {
   const [queryToken, setQueryToken] = useState('')
 
-  const { isGnosisSafe, ethersProvider, account, providerChainId } = useWeb3Context()
+  const { isGnosisSafe, ethersProvider, account, providerChainId, connected } = useWeb3Context()
   const { bridgeDirection, getBridgeChainId, foreignChainId } = useBridgeDirection()
 
   const isHome = true
 
   const [receiver, setReceiver] = useState('')
   const [amountInput, setAmountInput] = useState('')
-  const [{ fromToken, toToken }, setTokens] = useState<{ fromToken: BridgeToken | null; toToken: BridgeToken | null }>({
-    fromToken: null,
-    toToken: null,
-  })
-  const [{ fromAmount, toAmount }, setAmounts] = useState({
-    fromAmount: BigNumber.from(0),
-    toAmount: BigNumber.from(0),
-  })
+  const { fromToken, toToken } = useStoreBridge((state) => state.tokens)
+  const setTokens = useStoreBridge((state) => state.setTokens)
+
+  const { fromAmount, toAmount } = useStoreBridge((state) => state.amounts)
+  const setAmounts = useStoreBridge((state) => state.setAmounts)
+
   const [toAmountLoading, setToAmountLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const [shouldReceiveNativeCur, setShouldReceiveNativeCur] = useState(false)
@@ -112,10 +111,11 @@ export const BridgeProvider = ({ children }) => {
   )
 
   const setToToken = useCallback((newToToken: BridgeToken) => {
-    setTokens((prevTokens) => ({
-      fromToken: prevTokens.fromToken,
+    const tokens = {
+      fromToken,
       toToken: newToToken,
-    }))
+    }
+    setTokens(tokens)
   }, [])
 
   const setToken = useCallback(async (tokenWithoutMode: BridgeToken, isQueryToken = false) => {

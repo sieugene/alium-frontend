@@ -1,9 +1,9 @@
 import { Button } from 'alium-uikit/src'
-import { useAlmToken } from 'hooks/useAlm'
 import { BridgeWarningInDetail } from 'images/bridge/BridgeWarningInDetail'
 import { ChevronRight } from 'react-feather'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import { formatValue } from 'utils/bridge/helpers'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import BridgeModal, { CloseItem } from '../../../../../components/Modal/BridgeModal'
@@ -171,12 +171,16 @@ const Footer = styled.div`
 `
 
 const BridgeConfirmTransfer = () => {
-  const token = useAlmToken()
+  const token = useStoreBridge((state) => state.tokens.fromToken)
   const { install } = useBridge()
   const toggleModal = storeBridge.getState().toggleModal
   const modalOpen = useStoreBridge((state) => state.modalOpen)
-  const from = useStoreBridge((state) => state.bridgeInputs.from)
-  const to = useStoreBridge((state) => state.bridgeInputs.to)
+  const from = useStoreBridge((state) => state.amounts.fromAmount)
+  const to = useStoreBridge((state) => state.amounts.toAmount)
+  const amounts = {
+    from: formatValue(from, token?.decimals),
+    to: formatValue(to, token?.decimals),
+  }
   const { networkFrom, networkTo } = useBridgeNetworks()
 
   const onDismiss = () => {
@@ -185,6 +189,7 @@ const BridgeConfirmTransfer = () => {
   const confirm = () => {
     install({ step: BRIDGE_STEPS.TRANSFER })
   }
+
   return (
     <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
       <BadNetworkWrapper>
@@ -199,7 +204,7 @@ const BridgeConfirmTransfer = () => {
             <TokensBridge>
               <Token align='left' justify='start'>
                 <div className='text'>
-                  <h3 className='count'>{from}</h3>
+                  <h3 className='count'>{amounts.from}</h3>
                   <div className='symbol'>{token?.symbol}</div>
                 </div>
               </Token>
@@ -211,7 +216,7 @@ const BridgeConfirmTransfer = () => {
               </Fees>
               <Token align='right' justify='end'>
                 <div className='text'>
-                  <h3 className='count'>{to}</h3>
+                  <h3 className='count'>{amounts.to}</h3>
                   <div className='symbol'>{token?.symbol}</div>
                 </div>
               </Token>
@@ -219,11 +224,11 @@ const BridgeConfirmTransfer = () => {
             <Detail>
               Please confirm that you would like to send{' '}
               <b>
-                {from} {token?.symbol}
+                {amounts.from} {token?.symbol}
               </b>{' '}
               from {networkFrom?.label} and receive{' '}
               <b>
-                {to} {token?.symbol}
+                {amounts.to} {token?.symbol}
               </b>{' '}
               on {networkTo?.label}
             </Detail>
