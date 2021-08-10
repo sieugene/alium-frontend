@@ -50,7 +50,7 @@ const TransferStep = () => {
   const connected = useStoreNetwork((state) => state.connected)
   const { networkFrom } = useBridgeNetworks()
 
-  const { transfer } = useBridgeContext()
+  const { transfer, loading: loadingTransaction } = useBridgeContext()
 
   const wrongCurrentNetwork = React.useMemo(
     () => networkFrom?.chainId !== currentChainId,
@@ -65,7 +65,7 @@ const TransferStep = () => {
 
   // If network valid and connected call approve
   React.useEffect(() => {
-    if (!networkOrAccountErrors && !loading && !transferError && transfer) {
+    if (!networkOrAccountErrors && !loading && !transferError && transfer && !loadingTransaction) {
       setLoading(true)
       transfer()
         .then((res) => {

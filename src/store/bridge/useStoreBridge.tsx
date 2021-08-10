@@ -32,6 +32,8 @@ export interface StoreBridgeState {
   toggleNetworks: () => void
   setTokens: (tokens: StoreBridgeState['tokens']) => void
   setAmounts: (amounts: StoreBridgeState['amounts']) => void
+  setTransactionMessage: (transactionMessage: any) => void
+  setTransactionText: (transactionText: string) => void
   tokens: {
     fromToken: BridgeToken | null
     toToken: BridgeToken | null
@@ -42,6 +44,8 @@ export interface StoreBridgeState {
   }
   txHash: string | null
   setTxHash: (hash: string | null) => void
+  transactionText: string
+  transactionMessage: any
 }
 // Storage
 const storage = bridgeStorage()
@@ -54,6 +58,8 @@ export const networkFinder = (chainId: number) => {
 export const storeBridgeDefault = () => {
   return {
     // fromNetwork: storeNetwork.getState().currentChainId,
+    transactionText: '',
+    transactionMessage: null,
     txHash: '',
     fromNetwork: getNetworks()[0]?.chainId,
     toNetwork: getNetworks()[1]?.chainId || null,
@@ -80,6 +86,12 @@ export const storeBridgeDefault = () => {
 // store for usage outside of react
 export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
   ...storeBridgeDefault(),
+  setTransactionMessage: (transactionMessage: any) => {
+    set({ transactionMessage })
+  },
+  setTransactionText: (transactionText: string) => {
+    set({ transactionText })
+  },
   setTokens: (tokens: StoreBridgeState['tokens']) => {
     set({ tokens })
   },

@@ -19,11 +19,11 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
     } else {
       setAllowance(BigNumber.from(0))
     }
-  }, [])
+  }, [account, ethersProvider, fromToken, providerChainId])
 
   useEffect(() => {
     setAllowed((fromToken && ['NATIVE', 'erc677'].includes(fromToken.mode)) || allowance.gte(fromAmount))
-  }, [])
+  }, [allowance, fromAmount, fromToken])
 
   const [unlockLoading, setUnlockLoading] = useState(false)
   const [approvalTxHash, setApprovalTxHash] = useState('')
@@ -33,6 +33,9 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
     const approvalAmount = window.localStorage.getItem(INFINITE_UNLOCK) === 'true' ? LARGEST_UINT256 : fromAmount
     try {
       const tx = await approveToken(ethersProvider, fromToken, approvalAmount)
+      console.log(tx)
+      debugger
+
       setApprovalTxHash(tx.hash)
       await tx.wait()
       setAllowance(approvalAmount)

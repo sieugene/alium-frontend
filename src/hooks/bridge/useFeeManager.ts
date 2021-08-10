@@ -40,7 +40,7 @@ export const useFeeManager = () => {
     }
 
     calculateFees()
-  }, [])
+  }, [feeManagerAddress, homeChainId])
 
   useEffect(() => {
     if (!account) return
@@ -55,7 +55,7 @@ export const useFeeManager = () => {
         .catch((rewardAddressError) => logError({ rewardAddressError }))
     }
     checkRewardAddress()
-  }, [])
+  }, [account, feeManagerAddress, homeChainId])
 
   return {
     isRewardAddress,

@@ -1,8 +1,10 @@
 import { Button } from 'alium-uikit/src'
 import InputWithLabel from 'components/InputWithLabel'
+import { useBridgeContext } from 'contexts/BridgeContext'
 import { useClaim } from 'hooks/bridge/useClaim'
 import React, { FC, useCallback, useState } from 'react'
 import Loader from 'react-loader-spinner'
+import { useToast } from 'state/hooks'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
@@ -49,8 +51,13 @@ const ClaimTokenStep = () => {
   const changeStep = storeBridge.getState().changeStep
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const toNetwork = useStoreBridge((state) => state.toNetwork)
+  const toggleNetworks = useStoreBridge((state) => state.toggleNetworks)
+  const transactionMessage = useStoreBridge((state) => state.transactionMessage)
+  const { transfer, loading: loadingTransaction } = useBridgeContext()
 
   const claim = useClaim()
+
+  const { toastError } = useToast()
 
   const claimTokens = useCallback(async () => {
     if (!txHash || loading) return
@@ -61,16 +68,16 @@ const ClaimTokenStep = () => {
       updateStepStatus(BRIDGE_STEPS.CLAIM_TOKEN, true)
       changeStep(BRIDGE_STEPS.SUCCESS)
     } catch (manualClaimError) {
-      // logError({ manualClaimError })
-      // if (manualClaimError.message === TOKENS_CLAIMED || isRevertedError(manualClaimError)) {
-      //   handleClaimError()
-      // } else {
-      //   handleWalletError(manualClaimError, showError)
-      // }
+      console.log(manualClaimError)
+      if (manualClaimError?.message === 'Wrong network.') {
+        toggleNetworks()
+      } else {
+        manualClaimError?.message && toastError(manualClaimError?.message)
+      }
     } finally {
       setloading(false)
     }
-  }, [txHash, loading])
+  }, [txHash, loading, claim, toggleNetworks, transactionMessage])
 
   // If network changed
   React.useEffect(() => {
@@ -81,7 +88,7 @@ const ClaimTokenStep = () => {
   }, [currentChainId, toNetwork])
 
   return (
-    <ClaimLoadWrap loading={loading}>
+    <ClaimLoadWrap loading={loading || loadingTransaction}>
       <Wrapper>
         <p className='title'>Paste the previously copied hash transaction into the input field and press the Claim</p>
         <InputWithLabel

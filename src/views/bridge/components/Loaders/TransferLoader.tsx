@@ -2,6 +2,7 @@ import { Token } from '@alium-official/sdk'
 import { FC } from 'react'
 import { ChevronRight } from 'react-feather'
 import Loader from 'react-loader-spinner'
+import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 
 const StyledLoader = styled(Loader)`
@@ -36,6 +37,7 @@ interface Props {
   amount: string
 }
 const TransferLoader: FC<Props> = ({ token, amount }) => {
+  const loadingText = useStoreBridge((state) => state.transactionText)
   return (
     <>
       <StyledLoader type='TailSpin' color='#6C5DD3' />
@@ -43,7 +45,7 @@ const TransferLoader: FC<Props> = ({ token, amount }) => {
       <h2>
         Transfer {amount} {token?.symbol} pending...
       </h2>
-      <p>Transaction is pending...</p>
+      <p>{loadingText || 'Transaction is pending...'}</p>
       <View>
         View on explorer <ChevronRight />
       </View>

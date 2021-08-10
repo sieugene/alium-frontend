@@ -1,3 +1,4 @@
+import useToast from 'hooks/useToast'
 import { useCallback } from 'react'
 import { executeSignatures, TOKENS_CLAIMED } from 'utils/bridge/amb'
 import { getNetworkName } from 'utils/bridge/helpers'
@@ -10,12 +11,15 @@ export function useClaim() {
   const { homeChainId, homeAmbAddress, foreignChainId, foreignAmbAddress, foreignAmbVersion, homeRequiredSignatures } =
     useBridgeDirection()
   const { providerChainId, ethersProvider } = useWeb3Context()
+  const { toastError } = useToast()
 
   return useCallback(
     async (txHash: string, txMessage?: any) => {
       if (providerChainId !== foreignChainId) {
-        throw Error(`Wrong network. Please connect your wallet to ${getNetworkName(foreignChainId)}.`)
+        toastError(`Wrong network. Please connect your wallet to ${getNetworkName(foreignChainId)}.`)
+        throw new Error('Wrong network.')
       }
+
       let message = txMessage?.signatures && txMessage.signatures.length >= homeRequiredSignatures ? txMessage : null
       if (!message) {
         const homeProvider = await getEthersProvider(homeChainId)
@@ -28,14 +32,14 @@ export function useClaim() {
       return executeSignatures(ethersProvider, foreignAmbAddress, foreignAmbVersion, message)
     },
     [
+      providerChainId,
+      foreignChainId,
+      homeRequiredSignatures,
+      foreignAmbAddress,
+      ethersProvider,
+      foreignAmbVersion,
       homeChainId,
       homeAmbAddress,
-      foreignChainId,
-      foreignAmbAddress,
-      foreignAmbVersion,
-      providerChainId,
-      ethersProvider,
-      homeRequiredSignatures,
     ],
   )
 }

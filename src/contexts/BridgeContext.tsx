@@ -63,9 +63,9 @@ export const BridgeProvider = ({ children }) => {
   const [queryToken, setQueryToken] = useState('')
 
   const { isGnosisSafe, ethersProvider, account, providerChainId, connected } = useWeb3Context()
-  const { bridgeDirection, getBridgeChainId, foreignChainId } = useBridgeDirection()
+  const { bridgeDirection, getBridgeChainId, foreignChainId, reverted } = useBridgeDirection()
 
-  const isHome = true
+  const isHome = !reverted
 
   const [receiver, setReceiver] = useState('')
   const [amountInput, setAmountInput] = useState('')
@@ -95,7 +95,7 @@ export const BridgeProvider = ({ children }) => {
   const getToAmount = useCallback(
     async (amount) =>
       isRewardAddress ? amount : fetchToAmount(bridgeDirection, feeType, fromToken, toToken, amount, feeManagerAddress),
-    [bridgeDirection, feeManagerAddress, fromToken, isRewardAddress, toToken],
+    [bridgeDirection, feeManagerAddress, fromToken, isRewardAddress, toToken, feeType],
   )
 
   const setAmount = useCallback(
@@ -108,45 +108,51 @@ export const BridgeProvider = ({ children }) => {
       setAmounts({ fromAmount: amount, toAmount: gotToAmount })
       setToAmountLoading(false)
     },
-    [fromToken, getToAmount, toToken],
+    [fromToken, getToAmount, setAmounts, toToken],
   )
 
-  const setToToken = useCallback((newToToken: BridgeToken) => {
-    const tokens = {
-      fromToken,
-      toToken: newToToken,
-    }
-    setTokens(tokens)
-  }, [])
+  const setToToken = useCallback(
+    (newToToken: BridgeToken) => {
+      const tokens = {
+        fromToken,
+        toToken: newToToken,
+      }
+      setTokens(tokens)
+    },
+    [fromToken, setTokens],
+  )
 
-  const setToken = useCallback(async (tokenWithoutMode: BridgeToken, isQueryToken = false) => {
-    try {
-      const [token, gotToToken] = await Promise.all([
-        tokenWithoutMode?.address === ADDRESS_ZERO
-          ? new BridgeToken({
-              ...getNativeCurrency(tokenWithoutMode.chainId),
-              mediator: getMediatorAddress(bridgeDirection, tokenWithoutMode),
-              helperContractAddress: getHelperContract(tokenWithoutMode.chainId),
-            })
-          : fetchTokenDetails(bridgeDirection, tokenWithoutMode),
-        fetchToToken(bridgeDirection, tokenWithoutMode, getBridgeChainId(tokenWithoutMode.chainId)),
-      ])
+  const setToken = useCallback(
+    async (tokenWithoutMode: BridgeToken, isQueryToken = false) => {
+      try {
+        const [token, gotToToken] = await Promise.all([
+          tokenWithoutMode?.address === ADDRESS_ZERO
+            ? new BridgeToken({
+                ...getNativeCurrency(tokenWithoutMode.chainId),
+                mediator: getMediatorAddress(bridgeDirection, tokenWithoutMode),
+                helperContractAddress: getHelperContract(tokenWithoutMode.chainId),
+              })
+            : fetchTokenDetails(bridgeDirection, tokenWithoutMode),
+          fetchToToken(bridgeDirection, tokenWithoutMode, getBridgeChainId(tokenWithoutMode.chainId)),
+        ])
 
-      setTokens({ fromToken: token, toToken: new BridgeToken({ ...token?.raw, ...gotToToken?.raw }) })
-      const label = getNetworkLabel(token.chainId).toUpperCase()
-      const storageKey = `${bridgeDirection.toUpperCase()}-${label}-FROM-TOKEN`
-      localStorage.setItem(storageKey, JSON.stringify(token))
-      return true
-    } catch (tokenDetailsError) {
-      toast(
-        !isQueryToken
-          ? 'Cannot fetch token details. Wait for a few minutes and reload the application'
-          : 'Token not found.',
-      )
-      logError({ tokenDetailsError })
-      return false
-    }
-  }, [])
+        setTokens({ fromToken: token, toToken: new BridgeToken({ ...token?.raw, ...gotToToken?.raw }) })
+        const label = getNetworkLabel(token.chainId).toUpperCase()
+        const storageKey = `${bridgeDirection.toUpperCase()}-${label}-FROM-TOKEN`
+        localStorage.setItem(storageKey, JSON.stringify(token))
+        return true
+      } catch (tokenDetailsError) {
+        toast(
+          !isQueryToken
+            ? 'Cannot fetch token details. Wait for a few minutes and reload the application'
+            : 'Token not found.',
+        )
+        logError({ tokenDetailsError })
+        return false
+      }
+    },
+    [bridgeDirection, getBridgeChainId, setTokens, toast],
+  )
 
   const transfer = useCallback(
     (): Promise<string> =>
@@ -186,26 +192,31 @@ export const BridgeProvider = ({ children }) => {
       fromToken,
       isGnosisSafe,
       receiver,
+      setTxHash,
       shouldReceiveNativeCur,
-      toToken,
+      toToken?.address,
+      toToken?.mode,
     ],
   )
 
-  const setDefaultToken = useCallback(async (chainId: number) => {
-    if (
-      fromToken &&
-      toToken &&
-      toToken.chainId === chainId &&
-      (toToken.address !== ADDRESS_ZERO || toToken.mode === 'NATIVE')
-    ) {
-      setTokens({ fromToken: toToken, toToken: fromToken })
-    } else if (
-      !(fromToken && toToken && fromToken.chainId === chainId && toToken.chainId === getBridgeChainId(chainId))
-    ) {
-      console.log('getDefaultToken', getDefaultToken(bridgeDirection, chainId))
-      await setToken(getDefaultToken(bridgeDirection, chainId))
-    }
-  }, [])
+  const setDefaultToken = useCallback(
+    async (chainId: number) => {
+      if (
+        fromToken &&
+        toToken &&
+        toToken.chainId === chainId &&
+        (toToken.address !== ADDRESS_ZERO || toToken.mode === 'NATIVE')
+      ) {
+        setTokens({ fromToken: toToken, toToken: fromToken })
+      } else if (
+        !(fromToken && toToken && fromToken.chainId === chainId && toToken.chainId === getBridgeChainId(chainId))
+      ) {
+        console.log('getDefaultToken', getDefaultToken(bridgeDirection, chainId))
+        await setToken(getDefaultToken(bridgeDirection, chainId))
+      }
+    },
+    [bridgeDirection, fromToken, getBridgeChainId, setToken, setTokens, toToken],
+  )
 
   const updateToken = useCallback(async () => {
     setLoading(true)
@@ -228,7 +239,7 @@ export const BridgeProvider = ({ children }) => {
       setQueryToken(null)
     }
     setLoading(false)
-  }, [])
+  }, [fromToken, getBridgeChainId, providerChainId, queryToken, setDefaultToken, toToken])
 
   const updateTokenLimits = useCallback(async () => {
     if (
@@ -245,11 +256,11 @@ export const BridgeProvider = ({ children }) => {
       const limits = await fetchTokenLimits(bridgeDirection, ethersProvider, fromToken, toToken, currentDay)
       setTokenLimits(limits)
     }
-  }, [])
+  }, [bridgeDirection, currentDay, ethersProvider, fromToken, getBridgeChainId, providerChainId, toToken])
 
   useEffect(() => {
     updateTokenLimits()
-  }, [])
+  }, [providerChainId, bridgeDirection])
 
   useEffect(() => {
     if (toToken?.chainId === foreignChainId && toToken?.address === ADDRESS_ZERO && toToken?.mode === 'NATIVE') {
@@ -257,11 +268,11 @@ export const BridgeProvider = ({ children }) => {
     } else {
       setShouldReceiveNativeCur(false)
     }
-  }, [])
+  }, [providerChainId, bridgeDirection])
 
   useEffect(() => {
     updateToken()
-  }, [])
+  }, [providerChainId, bridgeDirection])
   const value = useMemo(
     () => ({
       fromAmount,
@@ -312,6 +323,7 @@ export const BridgeProvider = ({ children }) => {
       setDefaultToken,
       setToToken,
       setToken,
+      setTxHash,
       shouldReceiveNativeCur,
       toAmount,
       toAmountLoading,
