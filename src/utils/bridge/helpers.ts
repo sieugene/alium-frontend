@@ -15,6 +15,7 @@ import { BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
 import {
   BSC_HECO_BRIDGE,
   BSC_POLYGON_BRIDGE,
+  BSC_POLYGON_TEST_BRIDGE,
   BSC_RINKEBY_BRIDGE,
   BSC_ROPSTEN_BRIDGE,
   BSC_XDAI_BRIDGE,
@@ -144,6 +145,7 @@ const {
   KOVAN_RPC_URL,
   SOKOL_RPC_URL,
   HECO_RPC_URL,
+  POLYGON_RPC_URL,
 } = LOCAL_STORAGE_KEYS
 
 export const getRPCKeys = (bridgeDirection) => {
@@ -163,10 +165,15 @@ export const getRPCKeys = (bridgeDirection) => {
         homeRPCKey: BSC_TESTNET_RPC_URL,
         foreignRPCKey: HECO_RPC_URL,
       }
-    case BSC_POLYGON_BRIDGE:
+    case BSC_POLYGON_TEST_BRIDGE:
       return {
         homeRPCKey: BSC_TESTNET_RPC_URL,
         foreignRPCKey: POLYGON_TESTNET_RPC_URL,
+      }
+    case BSC_POLYGON_BRIDGE:
+      return {
+        homeRPCKey: BSC_RPC_URL,
+        foreignRPCKey: POLYGON_RPC_URL,
       }
     case ETH_BSC_BRIDGE:
       return {

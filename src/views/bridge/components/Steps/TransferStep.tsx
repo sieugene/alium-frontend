@@ -63,23 +63,34 @@ const TransferStep = () => {
   const networkOrAccountErrors = wrongCurrentNetwork || !connected
   const showLoading = loading && !networkOrAccountErrors
 
+  const [approved, setApproved] = useState(false)
+
   // If network valid and connected call approve
   React.useEffect(() => {
     if (!networkOrAccountErrors && !loading && !transferError && transfer && !loadingTransaction) {
       setLoading(true)
       transfer()
         .then((res) => {
-          updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
-          changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+          setApproved(true)
         })
         .catch((error) => {
           setTransferError(true)
-        })
-        .finally(() => {
           setLoading(false)
         })
     }
   }, [networkOrAccountErrors, transferError])
+
+  // Waiting for Block Confirmations
+  React.useEffect(() => {
+    if (!loadingTransaction && approved) {
+      setLoading(false)
+      updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
+      changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+    }
+    return () => {
+      setApproved(false)
+    }
+  }, [loadingTransaction, approved])
 
   // Validate chainId if current not equal "from" chainId
   React.useEffect(() => {

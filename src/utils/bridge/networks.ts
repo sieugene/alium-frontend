@@ -5,10 +5,16 @@ export const BSC_XDAI_BRIDGE = 'bsc-xdai'
 export const KOVAN_SOKOL_BRIDGE = 'kovan-sokol'
 export const ETH_BSC_BRIDGE = 'eth-bsc'
 export const BSC_HECO_BRIDGE = 'bsc-heco'
+export const BSC_POLYGON_TEST_BRIDGE = 'bsc-polygon_test'
 export const BSC_POLYGON_BRIDGE = 'bsc-polygon'
 export const BSC_ROPSTEN_BRIDGE = 'bsc-ropsten'
 export const BSC_RINKEBY_BRIDGE = 'bsc-rinkeby'
-export const ENABLED_BRIDGES = [BSC_HECO_BRIDGE, BSC_POLYGON_BRIDGE, BSC_ROPSTEN_BRIDGE, BSC_RINKEBY_BRIDGE] as const
+export const ENABLED_BRIDGES = [
+  BSC_HECO_BRIDGE,
+  BSC_POLYGON_BRIDGE,
+  BSC_POLYGON_TEST_BRIDGE,
+  BSC_RINKEBY_BRIDGE,
+] as const
 
 export type ENABLED_BRIDGES_ENUMS_TYPE = GetArrayElementType<typeof ENABLED_BRIDGES>
 export type ENABLED_BRIDGES_TYPE = typeof ENABLED_BRIDGES
@@ -79,8 +85,8 @@ const BSC_HECO_BRIDGE_CONFIG = {
   foreignChainId: 256,
   enableReversedBridge: true,
   enableForeignCurrencyBridge: true,
-  foreignMediatorAddress: '0x51b43413Dc2e6cAd06aab1d7ca40d8c2fa5d6360'.toLowerCase(),
-  homeMediatorAddress: '0xf80961ce955C42AdbB0e829851f7DC4C6d240E42'.toLowerCase(),
+  foreignMediatorAddress: '0xb56DE88E52897cBb27bEc0FfA7B644D076c8e34A'.toLowerCase(),
+  homeMediatorAddress: '0xa7C8222F8037736E41A0bFd1beC95fc59A7C66c1'.toLowerCase(),
   foreignAmbAddress: '0x2d3621f3d388a9Bb03266886879E8DE676331786'.toLowerCase(),
   homeAmbAddress: '0xFcCf929bF9E20586a4B18d333E1Ab065579277B8'.toLowerCase(),
   foreignGraphName: 'maxaleks/mainnet-to-bsc-omnibridge',
@@ -88,16 +94,31 @@ const BSC_HECO_BRIDGE_CONFIG = {
   ambLiveMonitorPrefix: 'http://alm-bsc.herokuapp.com',
 }
 
-const BSC_POLYGON_BRIDGE_CONFIG = {
-  label: 'bsc⥊polygon',
+const BSC_POLYGON_TEST_BRIDGE_CONFIG = {
+  label: 'bsc⥊polygon_test',
   homeChainId: 97,
   foreignChainId: 80001,
   enableReversedBridge: true,
   enableForeignCurrencyBridge: true,
-  foreignMediatorAddress: '0xa4803D83fE02bE15454524E8B903629fD04aBc4a'.toLowerCase(),
-  homeMediatorAddress: '0xfFED8e43a26d8C24ea2Aa467b44fe222b0972ec7'.toLowerCase(),
+  foreignMediatorAddress: '0x5dA66eb86ee6a9AE40a1c607AD846aA2733f3c4f'.toLowerCase(),
+  homeMediatorAddress: '0x4EC39B93c5DA3e4f940bAc09da75160ED33E6403'.toLowerCase(),
   foreignAmbAddress: '0x0E9953EE0dAa2EfBCE776fEed2ef97239E4fa030'.toLowerCase(),
   homeAmbAddress: '0x395CCf048b40B40C0d6d2Fd826551a0fC3C389B7'.toLowerCase(),
+  foreignGraphName: 'maxaleks/mainnet-to-bsc-omnibridge',
+  homeGraphName: 'maxaleks/bsc-to-mainnet-omnibridge',
+  ambLiveMonitorPrefix: 'http://alm-bsc.herokuapp.com',
+}
+
+const BSC_POLYGON_BRIDGE_CONFIG = {
+  label: 'bsc⥊polygon',
+  homeChainId: 56,
+  foreignChainId: 137,
+  enableReversedBridge: true,
+  enableForeignCurrencyBridge: true,
+  foreignMediatorAddress: '0x2ae54585430e3036F6eAf67eA85D33fC0bA195f8'.toLowerCase(),
+  homeMediatorAddress: '0x2ae54585430e3036F6eAf67eA85D33fC0bA195f8'.toLowerCase(),
+  foreignAmbAddress: '0x7298519c55FD414E0B5364aa01946d954247057A'.toLowerCase(),
+  homeAmbAddress: '0x7298519c55FD414E0B5364aa01946d954247057A'.toLowerCase(),
   foreignGraphName: 'maxaleks/mainnet-to-bsc-omnibridge',
   homeGraphName: 'maxaleks/bsc-to-mainnet-omnibridge',
   ambLiveMonitorPrefix: 'http://alm-bsc.herokuapp.com',
@@ -139,6 +160,7 @@ const bridgeInfo = {
   [KOVAN_SOKOL_BRIDGE]: KOVAN_SOKOL_BRIDGE_CONFIG,
   [ETH_BSC_BRIDGE]: ETH_BSC_BRIDGE_CONFIG,
   [BSC_HECO_BRIDGE]: BSC_HECO_BRIDGE_CONFIG,
+  [BSC_POLYGON_TEST_BRIDGE]: BSC_POLYGON_TEST_BRIDGE_CONFIG,
   [BSC_POLYGON_BRIDGE]: BSC_POLYGON_BRIDGE_CONFIG,
   [BSC_ROPSTEN_BRIDGE]: BSC_ROPSTEN_BRIDGE_CONFIG,
   [BSC_RINKEBY_BRIDGE]: BSC_RIKNEBY_BRIDGE_CONFIG,
@@ -221,13 +243,13 @@ export const defaultTokens = {
       name: 'ALM',
     },
     256: {
-      address: '0x92fe71a5aaa798fe1dd511a634f236d9c982ae71',
+      address: '0x5c500d1d03858d9a3ba7ba1448172bf9ff3bac3e',
       chainId: 256,
       symbol: 'ALM',
       name: 'ALM on HECO testnet',
     },
   },
-  [BSC_POLYGON_BRIDGE]: {
+  [BSC_POLYGON_TEST_BRIDGE]: {
     97: {
       address: '0x6f58aCfaEB1BfDC9c4959c43aDdE7a3b63BF019f',
       chainId: 97,
@@ -235,10 +257,24 @@ export const defaultTokens = {
       name: 'ALM',
     },
     80001: {
-      address: '0x91dc5712460550849a7664a6177b407eeb833d9d',
+      address: '0xc85dec38e722683f220645b06abac96471248424',
       chainId: 80001,
       symbol: 'ALM',
       name: 'ALM on POLYGON testnet',
+    },
+  },
+  [BSC_POLYGON_BRIDGE]: {
+    56: {
+      address: '0x7c38870e93a1f959cb6c533eb10bbc3e438aac11',
+      chainId: 56,
+      symbol: 'ALM',
+      name: 'AliumToken',
+    },
+    137: {
+      address: '0x8f6e2e6c0c5cc204ef36ea73d2feb8ecbfe29dd9',
+      chainId: 137,
+      symbol: 'ALM',
+      name: 'AliumToken on Polygon',
     },
   },
   [BSC_ROPSTEN_BRIDGE]: {

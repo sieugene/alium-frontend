@@ -43,8 +43,10 @@ export const useTransactionStatus = () => {
       const txReceipt = await ethersProvider.getTransactionReceipt(txHash)
       const numConfirmations = txReceipt ? txReceipt.confirmations : 0
       const enoughConfirmations = numConfirmations >= totalConfirms
+
       if (txReceipt) {
         setConfirmations(numConfirmations)
+
         if (enoughConfirmations) {
           if (isHome) {
             setLoadingText('Collecting Signatures')
@@ -83,16 +85,17 @@ export const useTransactionStatus = () => {
     }
     return false
   }, [
-    isHome,
-    txHash,
     ethersProvider,
+    txHash,
     totalConfirms,
-    completeReceipt,
-    incompleteReceipt,
-    chainId,
-    bridgeChainId,
+    isHome,
+    setLoadingText,
     getAMBAddress,
+    chainId,
+    incompleteReceipt,
     setMessage,
+    bridgeChainId,
+    completeReceipt,
   ])
 
   useEffect(() => {

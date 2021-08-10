@@ -5,7 +5,9 @@ import { useCallback } from 'react'
 import { storeBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { formatValue } from 'utils/bridge/helpers'
+import { isRebasingToken } from 'utils/bridge/rebasingTokens'
 import AdvancedInput from '../AdvancedInput'
+import BridgeApproveBtn from '../BridgeApproveBtn'
 import { BridgeTransferButton } from '../BridgeTransferButton'
 import { useDelay } from '../FromToken'
 import BridgeCurrencyInput from './BridgeCurrencyInput'
@@ -49,11 +51,15 @@ const BridgeInput = () => {
   const {
     fromToken: token,
     setAmount,
+    toAmountLoading,
+    allowed,
     fromBalance: balance,
     amountInput: input,
     toAmount,
     fromAmount,
     setAmountInput: setInput,
+    approve,
+    unlockLoading,
   } = useBridgeContext()
 
   const tokenBalance = balance
@@ -74,6 +80,9 @@ const BridgeInput = () => {
 
   const disableBtn = toAmount <= BigNumber.from(0) || fromAmount <= BigNumber.from(0) || Boolean(Number(input) <= 0)
 
+  const isRebaseToken = isRebasingToken(token)
+  const disabledApprove = allowed || isRebaseToken || toAmountLoading
+
   return (
     <InputWrapper>
       <div className='left-column'>
@@ -88,15 +97,37 @@ const BridgeInput = () => {
             disableCurrencySelect
             onKeyUp={delayedSetAmount}
           />
-          <BridgeTransferButton onClick={transfer} desktop disabled={disableBtn}>
-            Transfer
-          </BridgeTransferButton>
+          {disabledApprove ? (
+            <BridgeTransferButton onClick={transfer} desktop disabled={disableBtn}>
+              Transfer
+            </BridgeTransferButton>
+          ) : (
+            <BridgeApproveBtn
+              amount={fromAmount}
+              balance={balance}
+              approve={approve}
+              buttonDisabled={disabledApprove}
+              unlockLoading={unlockLoading}
+              desktop
+            />
+          )}
         </div>
 
         <AdvancedInput>
-          <BridgeTransferButton onClick={transfer} mobile disabled={disableBtn}>
-            Transfer
-          </BridgeTransferButton>
+          {disabledApprove ? (
+            <BridgeTransferButton onClick={transfer} mobile disabled={disableBtn}>
+              Transfer
+            </BridgeTransferButton>
+          ) : (
+            <BridgeApproveBtn
+              amount={fromAmount}
+              balance={balance}
+              approve={approve}
+              buttonDisabled={disabledApprove}
+              unlockLoading={unlockLoading}
+              mobile
+            />
+          )}
         </AdvancedInput>
       </div>
       <div className='right-column'>

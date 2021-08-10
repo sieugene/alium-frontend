@@ -63,7 +63,7 @@ const ClaimTokenStep = () => {
     if (!txHash || loading) return
     setloading(true)
     try {
-      const tx = await claim(txHash)
+      const tx = await claim(txHash, transactionMessage)
       await tx.wait()
       updateStepStatus(BRIDGE_STEPS.CLAIM_TOKEN, true)
       changeStep(BRIDGE_STEPS.SUCCESS)
@@ -147,13 +147,14 @@ const Shadow = styled.div<{ loading: boolean }>`
   ${(props) => props.loading && 'display: none;'}
 `
 const ClaimLoadWrap: FC<ClaimLoadProps> = ({ loading, children }) => {
+  const loadingText = useStoreBridge((state) => state.transactionText)
   return (
     <>
       {loading && (
         <ClaimWrap>
           <StyledLoader type='TailSpin' color='#6C5DD3' />
           <h2>Claim pending...</h2>
-          <p>10 minutes left</p>
+          <p>{loadingText || '10 minutes left'}</p>
         </ClaimWrap>
       )}
       <Shadow loading={loading}>{children}</Shadow>

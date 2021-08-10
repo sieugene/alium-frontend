@@ -18,6 +18,7 @@ const env = {
   POLLING_INTERVAL: '5000',
 
   REACT_APP_XDAI_RPC_URL: 'https://rpc.xdaichain.com https://dai.poa.network',
+  REACT_APP_POLYGON_RPC_URL: 'https://rpc-mainnet.matic.quiknode.pro',
   REACT_APP_HECO_RPC_URL: 'https://http-testnet.hecochain.com',
   REACT_APP_SOKOL_RPC_URL: 'https://sokol.poa.network',
   REACT_APP_MAINNET_RPC_URL:
@@ -54,4 +55,5 @@ export const {
   REACT_APP_GAS_PRICE_UPDATE_INTERVAL,
   POLLING_INTERVAL,
   GRAPH_HEALTH_ENDPOINT,
+  REACT_APP_POLYGON_RPC_URL,
 } = env
