@@ -80,7 +80,8 @@ export const BridgeProvider = ({ children }) => {
   const [shouldReceiveNativeCur, setShouldReceiveNativeCur] = useState(false)
   const [fromBalance, setFromBalance] = useState(BigNumber.from(0))
   const [toBalance, setToBalance] = useState(BigNumber.from(0))
-  const [txHash, setTxHash] = useState('')
+  const txHash = useStoreBridge((state) => state.txHash)
+  const setTxHash = useStoreBridge((state) => state.setTxHash)
   const [tokenLimits, setTokenLimits] = useState(null)
 
   const { toastError: toast } = useToast()

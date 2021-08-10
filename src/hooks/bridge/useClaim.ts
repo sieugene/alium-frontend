@@ -1,8 +1,8 @@
+import { useCallback } from 'react'
 import { executeSignatures, TOKENS_CLAIMED } from 'utils/bridge/amb'
 import { getNetworkName } from 'utils/bridge/helpers'
 import { getMessage, messageCallStatus } from 'utils/bridge/message'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { useCallback } from 'react'
 import { useBridgeDirection } from './useBridgeDirection'
 import { useWeb3Context } from './useWeb3Context'
 
@@ -12,7 +12,7 @@ export function useClaim() {
   const { providerChainId, ethersProvider } = useWeb3Context()
 
   return useCallback(
-    async (txHash: string, txMessage) => {
+    async (txHash: string, txMessage?: any) => {
       if (providerChainId !== foreignChainId) {
         throw Error(`Wrong network. Please connect your wallet to ${getNetworkName(foreignChainId)}.`)
       }
