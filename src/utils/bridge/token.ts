@@ -1,9 +1,9 @@
 import { StaticJsonRpcProvider, Web3Provider } from '@ethersproject/providers'
+import { ADDRESS_ZERO } from 'constants/bridge/bridge.constants'
+import { ENABLED_BRIDGES_ENUMS_TYPE, networks } from 'constants/bridge/bridge.networks'
 import { BigNumber, Contract, utils } from 'ethers'
-import { ADDRESS_ZERO } from './constants'
 import { BridgeToken, BridgeTokenMode, BridgeTokenOrParams } from './entities/BridgeToken'
 import { getMediatorAddress, getMediatorAddressWithoutOverride, logError } from './helpers'
-import { ENABLED_BRIDGES_ENUMS_TYPE, networks } from './networks'
 import { getOverriddenMode, isOverridden } from './overrides'
 import { getEthersProvider } from './providers'
 

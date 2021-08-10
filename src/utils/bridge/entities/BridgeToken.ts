@@ -24,6 +24,7 @@ export class BridgeToken extends Token {
   public readonly helperContractAddress: string
   constructor(_token: BridgeTokenObject) {
     const { mode = '', mediator = '', helperContractAddress = '', ...other } = _token
+
     super(other.chainId, other.address, other.decimals, other.symbol, other.name)
     this.mediator = mediator
     this.mode = mode

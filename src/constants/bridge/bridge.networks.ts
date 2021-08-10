@@ -1,4 +1,4 @@
-import { GetArrayElementType } from 'lib/typescript/GetArrayElementType'
+import { GetArrayElementType } from 'types/GetArrayElementType'
 
 export const ETH_XDAI_BRIDGE = 'eth-xdai'
 export const BSC_XDAI_BRIDGE = 'bsc-xdai'

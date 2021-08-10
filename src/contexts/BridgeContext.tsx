@@ -1,3 +1,4 @@
+import { ADDRESS_ZERO } from 'constants/bridge/bridge.constants'
 import { BigNumber } from 'ethers'
 import { useApproval } from 'hooks/bridge/useApprovalBridge'
 import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
@@ -9,7 +10,6 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { useToast } from 'state/hooks'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import { fetchToAmount, fetchTokenLimits, fetchToToken, relayTokens } from 'utils/bridge/bridge'
-import { ADDRESS_ZERO } from 'utils/bridge/constants'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import {
   getDefaultToken,

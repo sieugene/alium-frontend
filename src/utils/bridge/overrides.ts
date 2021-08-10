@@ -9,7 +9,7 @@ import {
   ETH_BSC_BRIDGE,
   ETH_XDAI_BRIDGE,
   KOVAN_SOKOL_BRIDGE,
-} from 'utils/bridge/networks'
+} from 'constants/bridge/bridge.networks'
 import { BridgeTokenMode, BridgeTokenOrParams } from './entities/BridgeToken'
 
 const OWLTokenOverride = {

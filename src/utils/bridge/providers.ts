@@ -1,7 +1,7 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
 import { ethers } from 'ethers'
 import memoize from 'fast-memoize'
-import { LOCAL_STORAGE_KEYS } from 'utils/bridge/constants'
+import { LOCAL_STORAGE_KEYS } from 'constants/bridge/bridge.constants'
 import { getNetworkLabel, getRPCUrl, logError } from 'utils/bridge/helpers'
 import { EtherProvider } from 'views/bridge/components/utils'
 

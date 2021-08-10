@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { useCallback, useEffect, useState } from 'react'
-import { LARGEST_UINT256, LOCAL_STORAGE_KEYS } from 'utils/bridge/constants'
+import { LARGEST_UINT256, LOCAL_STORAGE_KEYS } from 'constants/bridge/bridge.constants'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import { logError } from 'utils/bridge/helpers'
 import { approveToken, fetchAllowance } from 'utils/bridge/token'
@@ -9,17 +9,21 @@ import { useWeb3Context } from './useWeb3Context'
 const { INFINITE_UNLOCK } = LOCAL_STORAGE_KEYS
 
 export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHash: string) => {
-  const { account, ethersProvider, providerChainId } = useWeb3Context()
+  const { account, ethersProvider, providerChainId, connected } = useWeb3Context()
   const [allowance, setAllowance] = useState(BigNumber.from(0))
   const [allowed, setAllowed] = useState(true)
 
   useEffect(() => {
-    if (fromToken && providerChainId === fromToken.chainId) {
-      fetchAllowance(fromToken, account, ethersProvider).then(setAllowance)
+    if (fromToken && providerChainId === fromToken.chainId && ethersProvider && connected) {
+      fetchAllowance(fromToken, account, ethersProvider)
+        .then(setAllowance)
+        .catch((error) => {
+          setAllowance(BigNumber.from(0))
+        })
     } else {
       setAllowance(BigNumber.from(0))
     }
-  }, [account, ethersProvider, fromToken, providerChainId])
+  }, [account, connected, ethersProvider, fromToken, providerChainId])
 
   useEffect(() => {
     setAllowed((fromToken && ['NATIVE', 'erc677'].includes(fromToken.mode)) || allowance.gte(fromAmount))
@@ -34,7 +38,6 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
     try {
       const tx = await approveToken(ethersProvider, fromToken, approvalAmount)
       console.log(tx)
-      debugger
 
       setApprovalTxHash(tx.hash)
       await tx.wait()

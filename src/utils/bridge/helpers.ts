@@ -10,7 +10,7 @@ import {
   networkCurrencies,
   networkLabels,
   networkNames,
-} from 'utils/bridge/constants'
+} from 'constants/bridge/bridge.constants'
 import { BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
 import {
   BSC_HECO_BRIDGE,
@@ -25,7 +25,7 @@ import {
   ETH_XDAI_BRIDGE,
   KOVAN_SOKOL_BRIDGE,
   networks,
-} from 'utils/bridge/networks'
+} from 'constants/bridge/bridge.networks'
 import { BridgeToken } from './entities/BridgeToken'
 import { getOverriddenMediator, isOverridden } from './overrides'
 
@@ -128,10 +128,10 @@ export const logError = (error) => {
 }
 
 export const logDebug = (error) => {
-  if (process.env.REACT_APP_DEBUG_LOGS === 'true') {
-    // eslint-disable-next-line no-console
-    console.debug(error)
-  }
+  // if (process.env.REACT_APP_DEBUG_LOGS === 'true') {
+  //   // eslint-disable-next-line no-console
+  //   console.debug(error)
+  // }
 }
 
 const {

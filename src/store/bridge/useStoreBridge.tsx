@@ -55,14 +55,25 @@ export const networkFinder = (chainId: number) => {
   return chainId && networks && networks.find((n) => n.chainId === chainId)
 }
 
+const defaultNetworksChains = () => {
+  const networks = getNetworks()
+  const currentChainId = storeNetwork.getState().currentChainId
+  const fromIndex = networks.findIndex((network) => network.chainId === currentChainId)
+  const toIndex: number = fromIndex !== 0 ? 0 : 1
+
+  return {
+    fromNetwork: networks[fromIndex]?.chainId,
+    toNetwork: networks[toIndex]?.chainId,
+  }
+}
+
 export const storeBridgeDefault = () => {
   return {
     // fromNetwork: storeNetwork.getState().currentChainId,
+    ...defaultNetworksChains(),
     transactionText: '',
     transactionMessage: null,
     txHash: '',
-    fromNetwork: getNetworks()[0]?.chainId,
-    toNetwork: getNetworks()[1]?.chainId || null,
     modalOpen: false,
     step: BRIDGE_STEPS.CONFIRM_TRANSFER,
     stepStatuses: {

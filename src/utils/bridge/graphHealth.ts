@@ -1,7 +1,7 @@
+import { GRAPH_HEALTH_ENDPOINT } from 'constants/bridge/bridge.env'
+import { networks } from 'constants/bridge/bridge.networks'
 import { gql, request } from 'graphql-request'
 import { logError } from 'utils/bridge/helpers'
-import { GRAPH_HEALTH_ENDPOINT } from './env'
-import { networks } from './networks'
 
 const healthQuery = gql`
   query getHealthStatus($subgraphHome: String!, $subgraphForeign: String!) {

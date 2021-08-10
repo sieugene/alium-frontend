@@ -1,6 +1,6 @@
+import { POLLING_INTERVAL } from 'constants/bridge/bridge.env'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { useCallback, useEffect, useState } from 'react'
-import { POLLING_INTERVAL } from 'utils/bridge/env'
 import { logError } from 'utils/bridge/helpers'
 import { getMessage, getMessageData, messageCallStatus, NOT_ENOUGH_COLLECTED_SIGNATURES } from 'utils/bridge/message'
 import { getEthersProvider } from 'utils/bridge/providers'
@@ -31,10 +31,14 @@ export const useTransactionStatus = () => {
     setLoading(false)
   }, [])
 
+  const clear = useCallback(() => {
+    setLoadingText('')
+    setConfirmations(0)
+  }, [])
+
   useEffect(() => {
     if (!loading) {
-      setLoadingText('')
-      setConfirmations(0)
+      clear()
     }
   }, [loading])
 
@@ -50,9 +54,7 @@ export const useTransactionStatus = () => {
         if (enoughConfirmations) {
           if (isHome) {
             setLoadingText('Collecting Signatures')
-
             const message = await getMessage(isHome, ethersProvider, getAMBAddress(chainId), txHash)
-
             if (message?.signatures) {
               setNeedsConfirmation(true)
               incompleteReceipt()
@@ -100,7 +102,7 @@ export const useTransactionStatus = () => {
 
   useEffect(() => {
     if (!loading || !txHash || !ethersProvider) {
-      return () => undefined
+      return
     }
 
     const subscriptions = []

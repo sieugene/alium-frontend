@@ -1,4 +1,5 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
+import { useTransactionStatus } from 'hooks/bridge/useTransactionStatus'
 import { BridgeConfirmIcon } from 'images/bridge/BridgeConfirmIcon'
 import React, { useState } from 'react'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
@@ -41,6 +42,8 @@ const Wrapper = styled.div`
 `
 
 const TransferStep = () => {
+  useTransactionStatus()
+
   const [loading, setLoading] = useState(false)
   const [transferError, setTransferError] = useState(false)
   const token = useStoreBridge((state) => state.tokens.fromToken)
@@ -65,7 +68,7 @@ const TransferStep = () => {
 
   const [approved, setApproved] = useState(false)
 
-  // If network valid and connected call approve
+  // If network valid and connected,  call approve
   React.useEffect(() => {
     if (!networkOrAccountErrors && !loading && !transferError && transfer && !loadingTransaction) {
       setLoading(true)
@@ -86,9 +89,6 @@ const TransferStep = () => {
       setLoading(false)
       updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
       changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
-    }
-    return () => {
-      setApproved(false)
     }
   }, [loadingTransaction, approved])
 

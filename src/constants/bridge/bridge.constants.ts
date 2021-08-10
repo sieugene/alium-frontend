@@ -1,5 +1,5 @@
+import { ETH_XDAI_BRIDGE } from 'constants/bridge/bridge.networks'
 import { BigNumber } from 'ethers'
-import { ETH_XDAI_BRIDGE } from 'utils/bridge/networks'
 import {
   REACT_APP_BSC_RPC_URL,
   REACT_APP_BSC_TESTNET_RPC_URL,
@@ -14,7 +14,7 @@ import {
   REACT_APP_SOKOL_RPC_URL,
   REACT_APP_UI_STATUS_UPDATE_INTERVAL,
   REACT_APP_XDAI_RPC_URL,
-} from './env'
+} from './bridge.env'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const ETHER_CURRENCY_LOGO = 'https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880'

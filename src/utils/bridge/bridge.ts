@@ -1,12 +1,12 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
+import { ADDRESS_ZERO, nativeCurrencies } from 'constants/bridge/bridge.constants'
+import { ENABLED_BRIDGES_ENUMS_TYPE, networks } from 'constants/bridge/bridge.networks'
 import { BigNumber, Contract } from 'ethers'
-import { ADDRESS_ZERO, nativeCurrencies } from 'utils/bridge/constants'
 import { getHelperContract, getMediatorAddressWithoutOverride, getNetworkLabel, logError } from 'utils/bridge/helpers'
 import { getOverriddenToToken, isOverridden } from 'utils/bridge/overrides'
 import { getEthersProvider } from 'utils/bridge/providers'
 import { fetchTokenDetails, fetchTokenName } from 'utils/bridge/token'
 import { BridgeToken } from './entities/BridgeToken'
-import { ENABLED_BRIDGES_ENUMS_TYPE, networks } from './networks'
 
 const getToName = async (fromToken: BridgeToken, toChainId: number, toAddress: string) => {
   const { name } = fromToken
