@@ -110,6 +110,7 @@ const fetchTokenDetailsFromContract = async (token: BridgeTokenOrParams) => {
 }
 
 export const fetchTokenDetails = async (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, token: BridgeTokenOrParams) => {
+  // @ts-ignore
   const mediatorAddress = getMediatorAddress(bridgeDirection, token)
   const [{ name, symbol, decimals }, mode] = await Promise.all([
     fetchTokenDetailsFromContract(token),
