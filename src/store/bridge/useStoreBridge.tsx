@@ -34,6 +34,7 @@ export interface StoreBridgeState {
   setAmounts: (amounts: StoreBridgeState['amounts']) => void
   setTransactionMessage: (transactionMessage: any) => void
   setTransactionText: (transactionText: string) => void
+  networkBalancer: (from?: number, to?: number) => void
   tokens: {
     fromToken: BridgeToken | null
     toToken: BridgeToken | null
@@ -55,22 +56,10 @@ export const networkFinder = (chainId: number) => {
   return chainId && networks && networks.find((n) => n.chainId === chainId)
 }
 
-const defaultNetworksChains = () => {
-  const networks = getNetworks()
-  const currentChainId = storeNetwork.getState().currentChainId
-  const fromIndex = networks.findIndex((network) => network.chainId === currentChainId)
-  const toIndex: number = fromIndex !== 0 ? 0 : 1
-
-  return {
-    fromNetwork: networks[fromIndex]?.chainId,
-    toNetwork: networks[toIndex]?.chainId,
-  }
-}
-
 export const storeBridgeDefault = () => {
   return {
-    // fromNetwork: storeNetwork.getState().currentChainId,
-    ...defaultNetworksChains(),
+    fromNetwork: storeNetwork.getState().currentChainId,
+    toNetwork: null,
     transactionText: '',
     transactionMessage: null,
     txHash: '',
@@ -97,6 +86,34 @@ export const storeBridgeDefault = () => {
 // store for usage outside of react
 export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
   ...storeBridgeDefault(),
+  networkBalancer: (from?: number, to?: number) => {
+    const networks = getNetworks()
+    const defaultChain = networks[0].chainId
+
+    const _from = from || storeBridge.getState().fromNetwork || defaultChain
+    const _to = to || storeBridge.getState().toNetwork || defaultChain
+
+    const currentTo = networkFinder(_to)
+    const index = networks.findIndex((network) => network?.chainId === currentTo?.chainId)
+
+    if (_from === _to) {
+      const nextChain = networks[index + 1] || networks[index - 1] || networks[0]
+
+      // priority bsc as foreign
+      const chainId = _from !== defaultChain ? defaultChain : nextChain.chainId
+
+      set({
+        fromNetwork: _from,
+        toNetwork: chainId,
+      })
+      return
+    }
+    set({
+      fromNetwork: _from,
+      toNetwork: _to,
+    })
+  },
+
   setTransactionMessage: (transactionMessage: any) => {
     set({ transactionMessage })
   },
@@ -149,19 +166,20 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     setChainId(toNetwork)
   },
   initStoreBridge: () => {
-    // const setFromNetwork = get().setFromNetwork
+    const balancer = get().networkBalancer
+    balancer()
     storage.migrate()
     storage.save()
     // not need every change update?
-    // storeNetwork.subscribe(
-    //   (currentChainId: number, prevChainId: number) => {
-    //     if (currentChainId !== prevChainId) {
-    //       storage.save()
-    //       setFromNetwork(currentChainId)
-    //     }
-    //   },
-    //   (state) => state.currentChainId,
-    // )
+    storeNetwork.subscribe(
+      (currentChainId: number, prevChainId: number) => {
+        if (currentChainId !== prevChainId) {
+          balancer(currentChainId)
+          storage.save()
+        }
+      },
+      (state) => state.currentChainId,
+    )
   },
   killStoreBridge: () => {
     storeBridge.destroy()

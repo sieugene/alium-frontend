@@ -1,6 +1,4 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { BigNumber, utils } from 'ethers'
-import { getAddress } from 'ethers/lib/utils'
 import {
   chainUrls,
   defaultTokensUrl,
@@ -11,7 +9,6 @@ import {
   networkLabels,
   networkNames,
 } from 'constants/bridge/bridge.constants'
-import { BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
 import {
   BSC_HECO_BRIDGE,
   BSC_POLYGON_BRIDGE,
@@ -26,6 +23,9 @@ import {
   KOVAN_SOKOL_BRIDGE,
   networks,
 } from 'constants/bridge/bridge.networks'
+import { BigNumber, utils } from 'ethers'
+import { getAddress } from 'ethers/lib/utils'
+import { BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
 import { BridgeToken } from './entities/BridgeToken'
 import { getOverriddenMediator, isOverridden } from './overrides'
 
@@ -233,13 +233,15 @@ export const getDefaultToken = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, cha
   const token: BridgeTokenObject = JSON.parse(tokenString)
 
   if (token && token.chainId === chainId) return new BridgeToken(token)
-  const defaultToken = defaultTokens[bridgeDirection][chainId] || {}
-  const tokenRaw = new BridgeToken({
-    decimals: 18,
-    mediator: '',
-    mode: '',
-    ...defaultToken,
-  })
+  const defaultToken = defaultTokens?.[bridgeDirection]?.[chainId] || null
+  const tokenRaw =
+    defaultToken &&
+    new BridgeToken({
+      decimals: 18,
+      mediator: '',
+      mode: '',
+      ...defaultToken,
+    })
   return tokenRaw
 }
 

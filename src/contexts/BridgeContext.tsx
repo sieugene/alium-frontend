@@ -124,6 +124,10 @@ export const BridgeProvider = ({ children }) => {
 
   const setToken = useCallback(
     async (tokenWithoutMode: BridgeToken, isQueryToken = false) => {
+      if (!tokenWithoutMode) {
+        toast('Token not found.')
+        return
+      }
       try {
         const [token, gotToToken] = await Promise.all([
           tokenWithoutMode?.address === ADDRESS_ZERO
