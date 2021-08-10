@@ -260,6 +260,7 @@ const StrategicalPartnershipHome = () => {
           .then((resp) => {
             NotifyMembers(resp.hash, values.currency)
             addTransaction(resp, {
+              // @ts-ignore
               summary: t('boughtCards', { count: '1' }),
               additionalData: {
                 count: '1',
