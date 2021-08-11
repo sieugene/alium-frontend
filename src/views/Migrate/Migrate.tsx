@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
+import { VAMPIRE_ABI } from 'config/vampiring/VAMPIRE_ABI'
 import { BigNumber } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
 import { useFactoryContract, useLPTokenContract, useVampireContract } from 'hooks/useContract'
@@ -9,6 +10,7 @@ import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice } from 'utils'
+import multicall from 'utils/multicall'
 import { Step1Connect } from 'views/Migrate/components/Step1Connect'
 import { Step2YourLiquidity } from 'views/Migrate/components/Step2YourLiquidity'
 import { Step3Migrating } from 'views/Migrate/components/Step3Migrating'
@@ -85,19 +87,20 @@ const ViewMigrate: FC = () => {
     setStep(3)
 
     // --- GET PAIR CONTRACT ID
-    const countLPTokens = await vampireContract.lpTokensInfoLength()
-    let pairId: number
-    for (let i = 0; i <= countLPTokens; i++) {
-      try {
-        const res = await vampireContract.lpTokensInfo(i)
-        if (res?.lpToken?.toLowerCase() === currentPair.addressLP.toLowerCase()) {
-          pairId = i
-          break
-        }
-      } catch (e) {
-        console.error(e)
-      }
-    }
+    const countLPTokensBigNumber = await vampireContract.lpTokensInfoLength()
+    const countLPTokens = Number(countLPTokensBigNumber.toString())
+    const numsArr = [...Array(countLPTokens).keys()]
+    const calls = numsArr.map((i) => ({
+      address: currentNetwork.address.vampiring,
+      name: 'lpTokensInfo',
+      params: [i],
+    }))
+    const pairIds = (await multicall(VAMPIRE_ABI, calls)).returnData
+    const pairId = Object.keys(pairIds).find(
+      (key) => `0x${pairIds[key].slice(26, 66).toLowerCase()}` === currentPair.addressLP.toLowerCase(),
+    )
+
+    console.info('Migrate Pair Id', pairId)
 
     if (pairId === undefined) {
       setStep(2)
