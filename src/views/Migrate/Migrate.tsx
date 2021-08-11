@@ -86,7 +86,7 @@ const ViewMigrate: FC = () => {
     // set loading
     setStep(3)
 
-    // --- GET PAIR CONTRACT ID
+    // GET PAIR CONTRACT ID
     const countLPTokensBigNumber = await vampireContract.lpTokensInfoLength()
     const countLPTokens = Number(countLPTokensBigNumber.toString())
     const numsArr = [...Array(countLPTokens).keys()]
@@ -100,14 +100,14 @@ const ViewMigrate: FC = () => {
       (key) => `0x${pairIds[key].slice(26, 66).toLowerCase()}` === currentPair.addressLP.toLowerCase(),
     )
 
-    console.info('Migrate Pair Id', pairId)
+    console.info('Migration Pair Id', pairId)
 
     if (pairId === undefined) {
       setStep(2)
       return
     }
 
-    // --- GET PAIR ADDRESS
+    // GET PAIR ADDRESS
     let responsePair
     try {
       responsePair = await factoryContract.getPair(currentPair?.addressA, currentPair?.addressB)
@@ -119,58 +119,21 @@ const ViewMigrate: FC = () => {
       return
     }
 
-    // --- IS CAN APPROVE?
+    // IS APPROVE Needed?
     const tokensAmountWei = parseEther(String(tokensAmount))
-    // const allowanceWei: BigNumber = await lpTokenContract.allowance(account, currentNetwork.address.vampiring)
-    // const isCanApprove: boolean = allowanceWei >= tokensAmountWei
-    // console.log('allowanceWei', allowanceWei) // 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-    // console.log('tokensAmountWei', tokensAmountWei)
-    // console.log('isCanApprove', isCanApprove)
+    const allowanceWei: BigNumber = await lpTokenContract.allowance(account, currentNetwork.address.vampiring)
+    const isApproveNeeded: boolean = tokensAmountWei > allowanceWei
 
-    // if (!isCanApprove) {
-    //   setIsSuccessful(false)
-    //   setStep(4)
-    //   console.error('handleMigrate: !canApprove')
-    //   return
-    // }
-
-    // --- APPROVE: STEP 1: GAS ESTIMATE
-    let gasEstimateApprove: BigNumber
-    try {
-      gasEstimateApprove = await lpTokenContract.estimateGas.approve(currentNetwork.address.vampiring, MaxUint256)
-    } catch (err) {
-      setIsSuccessful(false)
-      setStep(4)
-      console.error('!!! APPROVE: GAS ESTIMATE:', err)
-      return
-    }
-    const gasLimitApprove: BigNumber = await calculateGasMargin(gasEstimateApprove)
-    const gasPriceApprove: BigNumber = await calculateGasPrice(lpTokenContract.provider)
-
-    // --- APPROVE: STEP 2: CALL
-    let responseApprove
-    try {
-      responseApprove = await lpTokenContract.approve(currentNetwork.address.vampiring, MaxUint256, {
-        gasLimit: gasLimitApprove,
-        gasPrice: gasPriceApprove,
-        from: account,
-      })
-      const resultApprove = await responseApprove.wait()
-      console.info('APPROVE: RESULT:', resultApprove)
-    } catch (err) {
-      setIsSuccessful(false)
-      setStep(4)
-      console.error('!!! APPROVE: CALL:', err)
-      return
+    if (isApproveNeeded) {
+      const isApproved = await migrationApprove()
+      if (!isApproved) {
+        setIsSuccessful(false)
+        setStep(4)
+        return
+      }
     }
 
-    // --- ADD TRANSACTION
-    await addTransaction(responseApprove, {
-      summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
-      approval: { tokenAddress: currentPair.addressLP, spender: account },
-    })
-
-    // --- DEPOSIT: STEP 1: GAS ESTIMATE
+    // DEPOSIT: STEP 1: GAS ESTIMATE
     let gasEstimateDeposit
     try {
       gasEstimateDeposit = await vampireContract.estimateGas.deposit(pairId, tokensAmountWei, { from: account })
@@ -184,7 +147,7 @@ const ViewMigrate: FC = () => {
     const gasLimitDeposit: BigNumber = await calculateGasMargin(gasEstimateDeposit)
     const gasPriceDeposit: BigNumber = await calculateGasPrice(vampireContract.provider)
 
-    // --- DEPOSIT: STEP 2: CALL
+    // DEPOSIT: STEP 2: CALL
     let responseDeposit
     try {
       responseDeposit = await vampireContract.deposit(pairId, tokensAmountWei, {
@@ -192,6 +155,10 @@ const ViewMigrate: FC = () => {
         gasPrice: gasPriceDeposit,
         from: account,
       })
+      console.info(
+        'DEPOSIT RESPONSE LINK:',
+        `${currentNetwork.providerParams.blockExplorerUrls[0]}tx/${responseDeposit.hash}`,
+      )
       const resultDeposit = await responseDeposit.wait()
       console.info('DEPOSIT: RESULT:', resultDeposit)
     } catch (e) {
@@ -201,11 +168,73 @@ const ViewMigrate: FC = () => {
       return
     }
 
-    // --- FINAL
+    // FINAL
     setAliumLPTokenForPair(responsePair)
     setContract(responseDeposit.hash)
     setIsSuccessful(true)
     setStep(4)
+  }
+
+  const migrationApprove = async (): Promise<boolean> => {
+    // GAS ESTIMATE
+    let gasEstimateApprove: BigNumber
+    let gasLimitApprove: BigNumber
+    let gasPriceApprove: BigNumber
+    let responseApprove
+    let resultApprove
+
+    try {
+      gasEstimateApprove = await lpTokenContract.estimateGas.approve(currentNetwork.address.vampiring, MaxUint256)
+    } catch (err) {
+      console.error('!!! APPROVE: GAS ESTIMATE:', err)
+      return false
+    }
+
+    try {
+      gasLimitApprove = await calculateGasMargin(gasEstimateApprove)
+    } catch (err) {
+      console.error('!!! APPROVE: CALC GAS LIMIT:', err)
+      return false
+    }
+
+    try {
+      gasPriceApprove = await calculateGasPrice(lpTokenContract.provider)
+    } catch (err) {
+      console.error('!!! APPROVE: CALC GAS PRICE:', err)
+      return false
+    }
+
+    try {
+      responseApprove = await lpTokenContract.approve(currentNetwork.address.vampiring, MaxUint256, {
+        gasLimit: gasLimitApprove,
+        gasPrice: gasPriceApprove,
+        from: account,
+      })
+    } catch (err) {
+      console.error('!!! APPROVE: CALL:', err)
+      return false
+    }
+
+    try {
+      resultApprove = await responseApprove.wait()
+    } catch (err) {
+      console.error('!!! APPROVE: RESULT:', err)
+      return false
+    }
+
+    console.info('APPROVE: RESULT:', resultApprove)
+
+    try {
+      await addTransaction(responseApprove, {
+        summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
+        approval: { tokenAddress: currentPair.addressLP, spender: account },
+      })
+    } catch (err) {
+      console.error('!!! APPROVE: VIEW TRANSACTION:', err)
+      return false
+    }
+
+    return true
   }
 
   return (
