@@ -1,4 +1,4 @@
-import { ChainId, Currency, currencyEquals, Pair, Percent, ROUTER_ADDRESS, WETH } from '@alium-official/sdk'
+import { Currency, currencyEquals, Pair, Percent, WETH } from '@alium-official/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
@@ -154,10 +154,7 @@ export const RemoveLiquidity: FC = () => {
 
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(
-    parsedAmounts[Field.LIQUIDITY],
-    chainId && ROUTER_ADDRESS[chainId],
-  )
+  const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], currentNetwork.address.router)
 
   const onAttemptToApprove = async () => {
     if (!pairContract || !pair || !library) throw new Error('missing dependencies')
@@ -189,7 +186,7 @@ export const RemoveLiquidity: FC = () => {
     ]
     const message = {
       owner: account,
-      spender: ROUTER_ADDRESS[chainId as ChainId],
+      spender: currentNetwork.address.router,
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadlineForSignature,
