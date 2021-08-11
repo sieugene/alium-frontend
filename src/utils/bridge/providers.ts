@@ -1,9 +1,8 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
+import { LOCAL_STORAGE_KEYS } from 'constants/bridge/bridge.constants'
 import { ethers } from 'ethers'
 import memoize from 'fast-memoize'
-import { LOCAL_STORAGE_KEYS } from 'constants/bridge/bridge.constants'
 import { getNetworkLabel, getRPCUrl, logError } from 'utils/bridge/helpers'
-import { EtherProvider } from 'views/bridge/components/utils'
 
 const {
   MAINNET_RPC_URL,
@@ -69,10 +68,11 @@ export const getEthersProvider = async (chainId: number): Promise<StaticJsonRpcP
           return checkRPCHealth(item)
         }),
       )
-    ).filter((p) => !!p)[0] as EtherProvider)
+    ).filter((p) => !!p)[0] as StaticJsonRpcProvider)
   sessionStorage.setItem(sessionHealthyURL, provider?.connection?.url)
   const providerExist = provider?.connection?.url && provider?.connection?.url !== 'undefined'
   return providerExist ? provider : null
 }
 
-export const isEIP1193 = (ethersProvider: EtherProvider) => ethersProvider?.connection?.url?.includes('eip-1193')
+export const isEIP1193 = (ethersProvider: StaticJsonRpcProvider) =>
+  ethersProvider?.connection?.url?.includes('eip-1193')
