@@ -263,20 +263,23 @@ export const BridgeProvider = ({ children }) => {
   }, [bridgeDirection, currentDay, ethersProvider, fromToken, getBridgeChainId, providerChainId, toToken])
 
   useEffect(() => {
+    if (!connected) return
     updateTokenLimits()
-  }, [providerChainId, bridgeDirection])
+  }, [providerChainId, bridgeDirection, connected])
 
   useEffect(() => {
+    if (!connected) return
     if (toToken?.chainId === foreignChainId && toToken?.address === ADDRESS_ZERO && toToken?.mode === 'NATIVE') {
       setShouldReceiveNativeCur(true)
     } else {
       setShouldReceiveNativeCur(false)
     }
-  }, [providerChainId, bridgeDirection])
+  }, [providerChainId, bridgeDirection, connected, toToken?.chainId, toToken?.address, toToken?.mode, foreignChainId])
 
   useEffect(() => {
+    if (!connected) return
     updateToken()
-  }, [providerChainId, bridgeDirection])
+  }, [providerChainId, bridgeDirection, connected])
   const value = useMemo(
     () => ({
       fromAmount,

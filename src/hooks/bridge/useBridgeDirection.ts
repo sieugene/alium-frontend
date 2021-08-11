@@ -1,5 +1,5 @@
-import { useCallback, useMemo } from 'react'
 import { BridgeInfoItemType, ENABLED_BRIDGES_ENUMS_TYPE, networks } from 'constants/bridge/bridge.networks'
+import { useCallback, useMemo } from 'react'
 import { useBridgeNetworks } from './../../views/bridge/hooks/useBridgeNetworks'
 import { useAmbVersion } from './useAmbVersion'
 import { useRequiredSignatures } from './useRequiredSignatures'
@@ -8,13 +8,14 @@ export const useBridgeDirection = () => {
   const { networkFrom, networkTo } = useBridgeNetworks()
 
   const findNetworkBridge = useCallback(() => {
-    const mainBridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE = `${networkFrom.direction}-${networkTo.direction}` as any
-    const revertedBridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE = `${networkTo.direction}-${networkFrom.direction}` as any
+    const mainBridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE = `${networkFrom?.direction}-${networkTo?.direction}` as any
+    const revertedBridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE =
+      `${networkTo?.direction}-${networkFrom?.direction}` as any
     if (!networks[mainBridgeDirection]) {
       return { bridgeDirection: revertedBridgeDirection, reverted: true }
     }
     return { bridgeDirection: mainBridgeDirection, reverted: false }
-  }, [networkFrom.direction, networkTo.direction])
+  }, [networkFrom?.direction, networkTo?.direction])
 
   const { bridgeDirection, reverted } = findNetworkBridge()
 

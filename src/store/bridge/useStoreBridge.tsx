@@ -56,6 +56,50 @@ export const networkFinder = (chainId: number) => {
   return chainId && networks && networks.find((n) => n.chainId === chainId)
 }
 
+const balanceChains = (from?: number, to?: number) => {
+  const networks = getNetworks()
+  const defaultChain: number = networks[0].chainId
+  const hecoChain: number = networks[1].chainId
+
+  const _from: number = from || storeBridge.getState().fromNetwork || defaultChain
+  const _to: number = to || storeBridge.getState().toNetwork || defaultChain
+  const chains = [_from, _to]
+
+  // No bsc cases
+  const BSC_NOT_EXIST = !chains.includes(defaultChain)
+  const NO_BSC_FROM_AND_TO_PARAMS_NOT_EQUAL = Boolean(BSC_NOT_EXIST && from && to && from !== to)
+  const NO_BSC_TO_PARAM = Boolean(BSC_NOT_EXIST && to)
+  const NO_BSC_FROM_PARAM = Boolean(BSC_NOT_EXIST && from)
+  // Default cases
+  const FROM_AND_TO_EQUAL = _from === _to
+
+  switch (true) {
+    case NO_BSC_FROM_AND_TO_PARAMS_NOT_EQUAL:
+      return {
+        fromNetwork: from,
+        toNetwork: to,
+      }
+    case NO_BSC_TO_PARAM:
+      return {
+        fromNetwork: defaultChain,
+        toNetwork: to,
+      }
+    case NO_BSC_FROM_PARAM:
+      return {
+        fromNetwork: _from,
+        toNetwork: defaultChain,
+      }
+    case FROM_AND_TO_EQUAL:
+      return { fromNetwork: _from, toNetwork: hecoChain }
+
+    default:
+      return {
+        fromNetwork: _from,
+        toNetwork: _to,
+      }
+  }
+}
+
 export const storeBridgeDefault = () => {
   return {
     fromNetwork: storeNetwork.getState().currentChainId,
@@ -87,31 +131,8 @@ export const storeBridgeDefault = () => {
 export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
   ...storeBridgeDefault(),
   networkBalancer: (from?: number, to?: number) => {
-    const networks = getNetworks()
-    const defaultChain = networks[0].chainId
-
-    const _from = from || storeBridge.getState().fromNetwork || defaultChain
-    const _to = to || storeBridge.getState().toNetwork || defaultChain
-
-    const currentTo = networkFinder(_to)
-    const index = networks.findIndex((network) => network?.chainId === currentTo?.chainId)
-
-    if (_from === _to) {
-      const nextChain = networks[index + 1] || networks[index - 1] || networks[0]
-
-      // priority bsc as foreign
-      const chainId = _from !== defaultChain ? defaultChain : nextChain.chainId
-
-      set({
-        fromNetwork: _from,
-        toNetwork: chainId,
-      })
-      return
-    }
-    set({
-      fromNetwork: _from,
-      toNetwork: _to,
-    })
+    const chains = balanceChains(from, to)
+    set({ ...chains })
   },
 
   setTransactionMessage: (transactionMessage: any) => {
@@ -144,15 +165,12 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     set({ step })
   },
   setFromNetwork: (chainId?: number) => {
-    const id = chainId || storeNetwork.getState().currentChainId
-    set({
-      fromNetwork: id,
-    })
+    const networkBalancer = get().networkBalancer
+    networkBalancer(chainId)
   },
   setToNetwork: (chainId: number) => {
-    set({
-      toNetwork: chainId,
-    })
+    const networkBalancer = get().networkBalancer
+    networkBalancer(null, chainId)
     storage.save()
   },
 

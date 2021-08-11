@@ -1,6 +1,6 @@
+import { LARGEST_UINT256, LOCAL_STORAGE_KEYS } from 'constants/bridge/bridge.constants'
 import { BigNumber } from 'ethers'
 import { useCallback, useEffect, useState } from 'react'
-import { LARGEST_UINT256, LOCAL_STORAGE_KEYS } from 'constants/bridge/bridge.constants'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import { logError } from 'utils/bridge/helpers'
 import { approveToken, fetchAllowance } from 'utils/bridge/token'
