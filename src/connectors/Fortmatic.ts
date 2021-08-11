@@ -11,7 +11,7 @@ const CHAIN_ID_NETWORK_ARGUMENT: { readonly [chainId in FormaticSupportedChains]
 }
 
 export class FortmaticConnector extends FortmaticConnectorCore {
-  async activate() {
+  public async activate() {
     if (!this.fortmatic) {
       const { default: Fortmatic } = await import('fortmatic')
 

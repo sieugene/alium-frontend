@@ -1,9 +1,10 @@
-import { useAlmToken } from 'hooks/useAlm'
+import { useBridgeContext } from 'contexts/BridgeContext'
 import { BridgeConfirmIcon } from 'images/bridge/BridgeConfirmIcon'
 import React, { useState } from 'react'
-import { BRIDGE_STEPS, storeBridge } from 'store/bridge/useStoreBridge'
+import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { formatValue } from 'utils/bridge/helpers'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import TransferError from '../Errors/TransferError'
 import TransferLoader from '../Loaders/TransferLoader'
@@ -42,11 +43,14 @@ const Wrapper = styled.div`
 const TransferStep = () => {
   const [loading, setLoading] = useState(false)
   const [transferError, setTransferError] = useState(false)
-  const token = useAlmToken()
+  const token = useStoreBridge((state) => state.tokens.fromToken)
+  const amount = useStoreBridge((state) => state.amounts.fromAmount)
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const connected = useStoreNetwork((state) => state.connected)
   const { networkFrom } = useBridgeNetworks()
+
+  const { transfer } = useBridgeContext()
 
   const wrongCurrentNetwork = React.useMemo(
     () => networkFrom?.chainId !== currentChainId,
@@ -56,24 +60,18 @@ const TransferStep = () => {
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
 
-  const emulateApproveProcess = async () => {
-    await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(new Error('test'))
-        updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
-        changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
-      }, 2000)
-    })
-  }
-
   const networkOrAccountErrors = wrongCurrentNetwork || !connected
   const showLoading = loading && !networkOrAccountErrors
 
   // If network valid and connected call approve
   React.useEffect(() => {
-    if (!networkOrAccountErrors && !loading && !transferError) {
+    if (!networkOrAccountErrors && !loading && !transferError && transfer) {
       setLoading(true)
-      emulateApproveProcess()
+      transfer()
+        .then((res) => {
+          updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
+          changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+        })
         .catch((error) => {
           setTransferError(true)
         })
@@ -99,7 +97,7 @@ const TransferStep = () => {
           }}
         />
       ) : showLoading ? (
-        <TransferLoader token={token} />
+        <TransferLoader token={token} amount={token ? formatValue(amount, token?.decimals) : '0'} />
       ) : (
         <ConfirmMessage />
       )}

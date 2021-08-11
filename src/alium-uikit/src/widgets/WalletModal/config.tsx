@@ -101,6 +101,7 @@ export const networksProd: NetworksConfig[] = [
     label: 'Binance Smart Chain',
     chainId: 56,
     supportConnectors: [ConnectorNames.BSC, ConnectorNames.WalletConnect, ConnectorNames.Injected],
+    direction: 'bsc',
   },
   {
     title: 'Huobi',
@@ -108,6 +109,7 @@ export const networksProd: NetworksConfig[] = [
     label: 'Huobi ECO Chain',
     chainId: 128,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
+    direction: 'heco',
   },
   {
     title: 'Polygon',
@@ -115,6 +117,7 @@ export const networksProd: NetworksConfig[] = [
     label: 'Polygon Matic Chain',
     chainId: 137,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
+    direction: 'polygon',
   },
   {
     title: 'Ethereum',
@@ -122,9 +125,9 @@ export const networksProd: NetworksConfig[] = [
     label: 'Ethereum Chain',
     chainId: 1,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
+    direction: 'rinkeby',
   },
 ]
-
 export const networksDev: NetworksConfig[] = [
   {
     title: 'Binance',
@@ -132,6 +135,7 @@ export const networksDev: NetworksConfig[] = [
     label: 'Binance Smart Chain',
     chainId: 97,
     supportConnectors: [ConnectorNames.BSC, ConnectorNames.WalletConnect, ConnectorNames.Injected],
+    direction: 'bsc',
   },
   {
     title: 'Huobi',
@@ -139,6 +143,7 @@ export const networksDev: NetworksConfig[] = [
     label: 'Huobi ECO Chain',
     chainId: 256,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
+    direction: 'heco',
   },
   {
     title: 'Polygon',
@@ -146,6 +151,7 @@ export const networksDev: NetworksConfig[] = [
     label: 'Polygon Matic Chain',
     chainId: 80001,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
+    direction: 'polygon',
   },
   {
     title: 'Ethereum',
@@ -153,6 +159,7 @@ export const networksDev: NetworksConfig[] = [
     label: 'Ethereum Chain',
     chainId: 4,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
+    direction: 'rinkeby',
   },
 ]
 

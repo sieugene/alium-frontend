@@ -33,13 +33,16 @@ export const View = styled.div`
 
 interface Props {
   token: Token
+  amount: string
 }
-const TransferLoader: FC<Props> = ({ token }) => {
+const TransferLoader: FC<Props> = ({ token, amount }) => {
   return (
     <>
       <StyledLoader type='TailSpin' color='#6C5DD3' />
 
-      <h2>Transfer 0.05 {token?.symbol} pending...</h2>
+      <h2>
+        Transfer {amount} {token?.symbol} pending...
+      </h2>
       <p>Transaction is pending...</p>
       <View>
         View on explorer <ChevronRight />

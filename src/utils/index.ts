@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, JSBI, Percent, ROUTER_ADDRESS, Token } from '@alium-official/sdk'
+import { ChainId, Currency, CurrencyAmount, JSBI, Percent, Token } from '@alium-official/sdk'
 import { getAddress } from '@ethersproject/address'
 import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
@@ -52,8 +52,7 @@ const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
 }
 
 export const getExplorerName = (chainId: ChainId) => {
-  const name = EXPLORER_NAMES[chainId]
-  return name
+  return EXPLORER_NAMES[chainId]
 }
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
@@ -156,7 +155,8 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 
 // account is optional
 export function getRouterContract(chainId: ChainId, library: Web3Provider, account?: string): Contract {
-  return getContract(chainId && ROUTER_ADDRESS[chainId], ROUTER_ABI, library, account)
+  const { currentNetwork } = storeNetwork.getState()
+  return getContract(currentNetwork.address.router, ROUTER_ABI, library, account)
 }
 
 export function escapeRegExp(string: string): string {

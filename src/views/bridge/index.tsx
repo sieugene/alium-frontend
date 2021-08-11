@@ -1,3 +1,4 @@
+import { BridgeProvider } from 'contexts/BridgeContext'
 import React, { FC } from 'react'
 import styled from 'styled-components'
 import BridgeContainer from './BridgeContainer'
@@ -36,13 +37,15 @@ const Card = styled.div`
 
 export const BridgeWrapper: FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
   return (
-    <BridgeContainer className={className}>
-      <PopupsBridge />
-      <H2>Bridge</H2>
-      <Card>
-        <BridgeConnectWallet>{children}</BridgeConnectWallet>
-      </Card>
-    </BridgeContainer>
+    <BridgeProvider>
+      <BridgeContainer className={className}>
+        <PopupsBridge />
+        <H2>Bridge</H2>
+        <Card>
+          <BridgeConnectWallet>{children}</BridgeConnectWallet>
+        </Card>
+      </BridgeContainer>
+    </BridgeProvider>
   )
 }
 

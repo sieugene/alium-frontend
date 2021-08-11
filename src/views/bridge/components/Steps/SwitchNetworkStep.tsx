@@ -1,9 +1,8 @@
 import CopyInput from 'alium-uikit/src/components/CopyInput'
-import { useAlmToken } from 'hooks/useAlm'
 import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
 import React from 'react'
-import { BRIDGE_STEPS, storeBridge } from 'store/bridge/useStoreBridge'
+import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
@@ -75,8 +74,9 @@ const Info = styled.div`
 `
 
 const SwitchNetworkStep = () => {
-  const token = useAlmToken()
+  const token = useStoreBridge((state) => state.tokens.fromToken)
   const { networkTo } = useBridgeNetworks()
+  const txHash = useStoreBridge((state) => state.txHash)
   // const toNetwork = useStoreBridge((state) => state.toNetwork)
   // const network = networkFinder(toNetwork)
   const Icon = networkTo?.icon
@@ -110,7 +110,7 @@ const SwitchNetworkStep = () => {
         Please copy the hash of the transaction and switch the network in your wallet to <b>{networkTo?.label}</b>
       </p>
       <p className='title'>Transaction Hash:</p>
-      <CopyInput value='123e783hds78129000a0192ead123e783hds78129' />
+      <CopyInput value={txHash} />
       <BridgeBtnWithIcon onClick={changeNetwork} variant='secondary'>
         <Icon />
         <p className='text'>{networkTo?.label}</p>

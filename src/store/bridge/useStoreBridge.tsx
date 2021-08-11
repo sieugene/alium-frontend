@@ -1,5 +1,7 @@
 import { getNetworks } from 'alium-uikit/src/widgets/WalletModal/config'
+import { BigNumber } from 'ethers'
 import { storeNetwork } from 'store/network/useStoreNetwork'
+import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import create from 'zustand'
 import createVanilla from 'zustand/vanilla'
 import { bridgeStorage } from './bridge.storage'
@@ -28,13 +30,18 @@ export interface StoreBridgeState {
   setFromNetwork: (chainId?: number) => void
   setToNetwork: (chainId?: number) => void
   toggleNetworks: () => void
-  bridgeInputs: {
-    main: string
-    advanced: string
-    from: string
-    to: string
+  setTokens: (tokens: StoreBridgeState['tokens']) => void
+  setAmounts: (amounts: StoreBridgeState['amounts']) => void
+  tokens: {
+    fromToken: BridgeToken | null
+    toToken: BridgeToken | null
   }
-  updateBridgeInputs: (key: keyof StoreBridgeState['bridgeInputs'], value: string) => void
+  amounts: {
+    fromAmount: BigNumber
+    toAmount: BigNumber
+  }
+  txHash: string | null
+  setTxHash: (hash: string | null) => void
 }
 // Storage
 const storage = bridgeStorage()
@@ -44,21 +51,10 @@ export const networkFinder = (chainId: number) => {
   return chainId && networks && networks.find((n) => n.chainId === chainId)
 }
 
-// if networks equal
-const toNetworkBalancer = (from: number, to: number) => {
-  const networks = getNetworks()
-  const currentTo = networkFinder(to)
-  const index = networks.findIndex((network) => network?.chainId === currentTo?.chainId)
-  if (from === to) {
-    const nextChain = networks[index + 1] || networks[index - 1] || networks[0]
-    return nextChain.chainId
-  }
-  return to
-}
-
 export const storeBridgeDefault = () => {
   return {
     // fromNetwork: storeNetwork.getState().currentChainId,
+    txHash: '',
     fromNetwork: getNetworks()[0]?.chainId,
     toNetwork: getNetworks()[1]?.chainId || null,
     modalOpen: false,
@@ -70,11 +66,13 @@ export const storeBridgeDefault = () => {
       [BRIDGE_STEPS.CLAIM_TOKEN]: false,
       [BRIDGE_STEPS.SUCCESS]: false,
     },
-    bridgeInputs: {
-      main: '0',
-      advanced: '',
-      from: '0',
-      to: '0',
+    tokens: {
+      fromToken: null,
+      toToken: null,
+    },
+    amounts: {
+      fromAmount: BigNumber.from(0),
+      toAmount: BigNumber.from(0),
     },
   }
 }
@@ -82,6 +80,15 @@ export const storeBridgeDefault = () => {
 // store for usage outside of react
 export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
   ...storeBridgeDefault(),
+  setTokens: (tokens: StoreBridgeState['tokens']) => {
+    set({ tokens })
+  },
+  setAmounts: (amounts: StoreBridgeState['amounts']) => {
+    set({ amounts })
+  },
+  setTxHash: (txHash: string | null) => {
+    set({ txHash })
+  },
   setStepStatuses: (stepStatuses) => {
     set({ stepStatuses })
   },
@@ -108,16 +115,7 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     })
     storage.save()
   },
-  updateBridgeInputs: (key, value) => {
-    const inputs = get().bridgeInputs
-    set({
-      bridgeInputs: {
-        ...inputs,
-        [key]: value,
-      },
-    })
-    storage.save()
-  },
+
   toggleNetworks: () => {
     const { fromNetwork, toNetwork } = storeBridge.getState()
     const setChainId = storeNetwork.getState().setChainId

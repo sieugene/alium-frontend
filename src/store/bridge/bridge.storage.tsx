@@ -9,8 +9,8 @@ const BRIDGE_STORAGE = BRIDGE_STORAGE_NAME + BRIDGE_STORAGE_VER
 export const bridgeStorage = () => ({
   save: () => {
     try {
-      const { fromNetwork, toNetwork, bridgeInputs } = storeBridge.getState()
-      const state = JSON.stringify({ fromNetwork, toNetwork, bridgeInputs })
+      const { fromNetwork, toNetwork } = storeBridge.getState()
+      const state = JSON.stringify({ fromNetwork, toNetwork })
 
       localStorage.setItem(BRIDGE_STORAGE, state)
     } catch (error) {
@@ -40,7 +40,7 @@ export const bridgeStorage = () => ({
       console.error(key, 'cannot be set in bridge storage')
     }
   },
-  get: (): Pick<StoreBridgeState, BridgeNetworks | 'bridgeInputs'> => {
+  get: (): Pick<StoreBridgeState, BridgeNetworks> => {
     try {
       return JSON.parse(localStorage.getItem(BRIDGE_STORAGE)) as any
     } catch (error) {

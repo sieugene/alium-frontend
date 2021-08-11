@@ -1,10 +1,14 @@
 import { ChainId } from '@alium-official/sdk'
-import { VAMPIRE_ADDRESS } from 'config/vampiring/VAMPIRE_ADDRESS'
-import { liquidityProviderTokensItem, VAMPIRE_LP_TOKENS } from 'config/vampiring/VAMPIRE_LP_TOKENS'
 import random from 'lodash/random'
 import { networkAddressFactory } from 'store/network/data/networkAddressFactory'
+import { networkAddressMigrationVampiring } from 'store/network/data/networkAddressMigrationVampiring'
+import { networkAddressRouter } from 'store/network/data/networkAddressRouter'
 import { networkProvidersParamsList } from 'store/network/data/networkProvidersParamsList'
 import { networkRpcUrlsList } from 'store/network/data/networkRpcUrlsList'
+import {
+  INetworkTokensLPMigrationVampiringItem,
+  networkTokensLPMigrationVampiring,
+} from 'store/network/data/networkTokensLPMigrationVampiring'
 import { AddEthereumChainParameter } from 'types/AddEthereumChainParameter'
 
 export interface ICurrentNetwork {
@@ -14,8 +18,11 @@ export interface ICurrentNetwork {
   address: {
     factory: string
     vampiring: string
+    router: string
   }
-  liquidityProviderTokens: liquidityProviderTokensItem[]
+  tokens: {
+    lpMigrationVampiring: INetworkTokensLPMigrationVampiringItem[]
+  }
 }
 
 export const getCurrentNetwork = (currentChainId: number): ICurrentNetwork => {
@@ -27,8 +34,11 @@ export const getCurrentNetwork = (currentChainId: number): ICurrentNetwork => {
     providerParams: networkProvidersParamsList[id],
     address: {
       factory: networkAddressFactory[id],
-      vampiring: VAMPIRE_ADDRESS[id],
+      vampiring: networkAddressMigrationVampiring[id],
+      router: networkAddressRouter[id],
     },
-    liquidityProviderTokens: VAMPIRE_LP_TOKENS[id],
+    tokens: {
+      lpMigrationVampiring: networkTokensLPMigrationVampiring[id],
+    },
   }
 }
