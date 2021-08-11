@@ -113,6 +113,22 @@ export const TEST_BSC_WETH = new Token(
   'WETH Test',
 )
 
+export const TEST_BSC_ETH_Migration = new Token(
+  ChainId.BSCTESTNET,
+  '0xC5482471187240f38F71CeB8f9AFC2156A0d8f15',
+  18,
+  'ETH',
+  'ETH',
+)
+
+export const TEST_BSC_USDT_Migration = new Token(
+  ChainId.BSCTESTNET,
+  '0x76130226b1411Ca5511Ff3e58ea81Ec8Bb234C7A',
+  18,
+  'USDT',
+  'USDT',
+)
+
 //  HECO Mainnet Basic Tokens
 export const HECO_USDT = new Token(
   ChainId.HECOMAINNET,
@@ -351,6 +367,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]: [Token, Token][] } =
   [ChainId.BSCTESTNET]: [
     [TEST_BSC_ALM, TEST_BSC_WBNB],
     [TEST_BSC_USDT, TEST_BSC_DAI],
+    [TEST_BSC_ETH_Migration, TEST_BSC_USDT_Migration],
   ],
   [ChainId.HECOMAINNET]: [[HECO_USDT, HECO_ETH]],
   [ChainId.HECOTESTNET]: [
@@ -362,6 +379,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]: [Token, Token][] } =
   [ChainId.ETHER_MAINNET]: [],
   [ChainId.ETHER_TESTNET]: [],
 }
+
 export interface WalletInfo {
   connector?: AbstractConnector
   name: string

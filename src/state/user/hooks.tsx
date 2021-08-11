@@ -140,7 +140,7 @@ export function useRemoveUserAddedToken(): (chainId: number, address: string) =>
 }
 
 export function useUserAddedTokens(): Token[] {
-  const chainId = useStoreNetwork ((state) => state.currentChainId)
+  const chainId = useStoreNetwork((state) => state.currentChainId)
   const serializedTokensMap = useSelector<AppState, AppState['user']['tokens']>(({ user: { tokens } }) => tokens)
 
   return useMemo(() => {
