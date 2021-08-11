@@ -4,7 +4,7 @@ import { ExchangeIcon } from 'images/Exchange-icon'
 import { useCallback } from 'react'
 import { storeBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
-import { formatValue } from 'utils/bridge/helpers'
+import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { isRebasingToken } from 'utils/bridge/rebasingTokens'
 import AdvancedInput from '../AdvancedInput'
 import BridgeApproveBtn from '../BridgeApproveBtn'
@@ -74,7 +74,7 @@ const BridgeInput = () => {
   }
 
   const onMax = () => {
-    const balance = formatValue(tokenBalance, token?.decimals)
+    const balance = formatBridgeTokenAmount(token, tokenBalance)
     setInput(balance)
   }
 

@@ -192,7 +192,10 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     storeNetwork.subscribe(
       (currentChainId: number, prevChainId: number) => {
         if (currentChainId !== prevChainId) {
-          balancer(currentChainId)
+          const currentStep = get().step
+          if (currentStep === BRIDGE_STEPS.CONFIRM_TRANSFER) {
+            balancer(currentChainId)
+          }
           storage.save()
         }
       },

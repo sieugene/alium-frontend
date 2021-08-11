@@ -5,7 +5,7 @@ import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { getExplorerLink, getExplorerName } from 'utils'
-import { formatValue } from 'utils/bridge/helpers'
+import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 
 const Wrapper = styled.div`
   width: 450px;
@@ -151,7 +151,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       title: `Your ${token?.symbol} Balance`,
       content: (
         <Text>
-          {formatValue(balance, token?.decimals)} {token?.symbol}
+          {formatBridgeTokenAmount(token, balance)} {token?.symbol}
         </Text>
       ),
     },

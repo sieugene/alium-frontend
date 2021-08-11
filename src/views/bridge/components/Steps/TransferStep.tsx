@@ -1,11 +1,13 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
+import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
 import { useTransactionStatus } from 'hooks/bridge/useTransactionStatus'
+import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import { BridgeConfirmIcon } from 'images/bridge/BridgeConfirmIcon'
 import React, { useState } from 'react'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { formatValue } from 'utils/bridge/helpers'
+import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import TransferError from '../Errors/TransferError'
 import TransferLoader from '../Loaders/TransferLoader'
@@ -43,6 +45,9 @@ const Wrapper = styled.div`
 
 const TransferStep = () => {
   useTransactionStatus()
+  const { homeChainId } = useBridgeDirection()
+  const { providerChainId: chainId } = useWeb3Context()
+  const isHome = React.useMemo(() => chainId === homeChainId, [chainId, homeChainId])
 
   const [loading, setLoading] = useState(false)
   const [transferError, setTransferError] = useState(false)
@@ -87,10 +92,16 @@ const TransferStep = () => {
   React.useEffect(() => {
     if (!loadingTransaction && approved) {
       setLoading(false)
-      updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
-      changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+      if (!isHome) {
+        updateStepStatus(BRIDGE_STEPS.SWITCH_NETWORK, true)
+        updateStepStatus(BRIDGE_STEPS.CLAIM_TOKEN, true)
+        changeStep(BRIDGE_STEPS.SUCCESS)
+      } else {
+        updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
+        changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+      }
     }
-  }, [loadingTransaction, approved])
+  }, [loadingTransaction, approved, isHome])
 
   // Validate chainId if current not equal "from" chainId
   React.useEffect(() => {
@@ -108,7 +119,7 @@ const TransferStep = () => {
           }}
         />
       ) : showLoading ? (
-        <TransferLoader token={token} amount={token ? formatValue(amount, token?.decimals) : '0'} />
+        <TransferLoader token={token} amount={token ? formatBridgeTokenAmount(token, amount) : '0'} />
       ) : (
         <ConfirmMessage />
       )}

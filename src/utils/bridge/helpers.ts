@@ -1,3 +1,4 @@
+import { BigintIsh } from '@alium-official/sdk'
 import { Web3Provider } from '@ethersproject/providers'
 import {
   chainUrls,
@@ -25,7 +26,8 @@ import {
 } from 'constants/bridge/bridge.networks'
 import { BigNumber, utils } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
-import { BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
+import { BridgeTokenAmount, BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { BridgeToken } from './entities/BridgeToken'
 import { getOverriddenMediator, isOverridden } from './overrides'
 
@@ -76,6 +78,15 @@ export const formatValue = (num: BigNumber, dec: number) => {
     return `${first} x 10^${split[1]}`
   }
   return Number(str).toLocaleString('en', { maximumFractionDigits: 4 })
+}
+
+export const formatBridgeTokenAmount = (token: BridgeToken, amount: BigNumber) => {
+  const tokenAmount: unknown = amount
+  if (!token) {
+    return '0'
+  }
+  const amounted = new BridgeTokenAmount(token, tokenAmount as BigintIsh)
+  return toSignificantCurrency(amounted)
 }
 
 export const parseValue = (num: number | string, dec: number) => {
