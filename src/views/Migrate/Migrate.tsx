@@ -155,6 +155,10 @@ const ViewMigrate: FC = () => {
         gasPrice: gasPriceDeposit,
         from: account,
       })
+      console.info(
+        'DEPOSIT RESPONSE LINK:',
+        `${currentNetwork.providerParams.blockExplorerUrls[0]}tx/${responseDeposit.hash}`,
+      )
       const resultDeposit = await responseDeposit.wait()
       console.info('DEPOSIT: RESULT:', resultDeposit)
     } catch (e) {
