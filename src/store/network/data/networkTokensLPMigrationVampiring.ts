@@ -28,13 +28,6 @@ const BSC_TESTNET: INetworkTokensLPMigrationVampiringItem[] = [
   { tokenA: { symbol: 'eth'   , address: '0xC5482471187240f38F71CeB8f9AFC2156A0d8f15' }, tokenB: { symbol: 'usdt'       , address: '0x76130226b1411Ca5511Ff3e58ea81Ec8Bb234C7A' }, tokenLP: { address: '0x7f222F999e39F85079732D728034F93F3a5757a4' }, exchange: 'Uniswap' },
 ]
 
-// 0 - 0x7f222F999e39F85079732D728034F93F3a5757a4 (ETH - BUSD-T)
-//
-// где
-//
-// Binance-Peg Ethereum Token (ETH)    0xC5482471187240f38F71CeB8f9AFC2156A0d8f15
-// Binance-Peg BUSD-T (BUSD-T)    0x76130226b1411Ca5511Ff3e58ea81Ec8Bb234C7A
-
 // prettier-ignore
 const HECO: INetworkTokensLPMigrationVampiringItem[] = [
   { tokenA: { symbol: 'WHT'   , address: '0x5545153ccfca01fbd7dd11c0b23ba694d9509a6f' }, tokenB: { symbol: 'usdc'    , address: '0x9362bbef4b8313a8aa9f0c9808b80577aa26b73b' }, tokenLP: { address: '0x85c5316C7C7D88dA9337fCcdEEF4A9891fCD5e6F' }, exchange: 'MDEX' },
