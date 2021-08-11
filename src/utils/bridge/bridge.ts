@@ -5,8 +5,9 @@ import { BigNumber, Contract } from 'ethers'
 import { getHelperContract, getMediatorAddressWithoutOverride, getNetworkLabel, logError } from 'utils/bridge/helpers'
 import { getOverriddenToToken, isOverridden } from 'utils/bridge/overrides'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { fetchTokenDetails, fetchTokenName } from 'utils/bridge/token'
+import { fetchTokenDetails, fetchTokenName, fetchTokenSymbol } from 'utils/bridge/token'
 import { BridgeToken } from './entities/BridgeToken'
+import { fetchTokenTotalSupply } from './token'
 
 const getToName = async (fromToken: BridgeToken, toChainId: number, toAddress: string) => {
   const { name } = fromToken
@@ -78,7 +79,11 @@ const fetchToTokenDetails = async (
       fromAddress,
       isHome ? fromMediatorAddress : toMediatorAddress,
     )
+
     const toName = await getToName(fromToken, toChainId, toAddress)
+    const toSymbol = await fetchTokenSymbol(toAddress, toChainId)
+    const totalSupply = await fetchTokenTotalSupply(toAddress, toChainId)
+
     return new BridgeToken({
       name: toName,
       chainId: toChainId,
@@ -86,7 +91,8 @@ const fetchToTokenDetails = async (
       mode: isHome ? 'erc20' : 'erc677',
       mediator: toMediatorAddress,
       decimals: 18,
-      symbol: '',
+      symbol: toSymbol,
+      totalSupply,
     })
   }
 
@@ -103,9 +109,13 @@ const fetchToTokenDetails = async (
   if (isNativeToken) {
     const toMediatorContract = new Contract(toMediatorAddress, abi, toEthersProvider)
 
-    const toAddress = await toMediatorContract.bridgedTokenAddress(fromAddress)
+    const toAddress: string = await toMediatorContract.bridgedTokenAddress(fromAddress)
 
     const toName = await getToName(fromToken, toChainId, toAddress)
+    const toSymbol = await fetchTokenSymbol(toAddress, toChainId)
+
+    const totalSupply = await fetchTokenTotalSupply(toAddress, toChainId)
+
     return new BridgeToken({
       name: toName,
       chainId: toChainId,
@@ -113,12 +123,16 @@ const fetchToTokenDetails = async (
       mode: 'erc677',
       mediator: toMediatorAddress,
       decimals: 18,
-      symbol: '',
+      symbol: toSymbol,
+      totalSupply,
     })
   }
   const toAddress = await fromMediatorContract.nativeTokenAddress(fromAddress)
 
   const toName = await getToName(fromToken, toChainId, toAddress)
+  const toSymbol = await fetchTokenSymbol(toAddress, toChainId)
+  const totalSupply = await fetchTokenTotalSupply(toAddress, toChainId)
+
   return new BridgeToken({
     name: toName,
     chainId: toChainId,
@@ -126,7 +140,8 @@ const fetchToTokenDetails = async (
     mode: 'erc20',
     mediator: toMediatorAddress,
     decimals: 18,
-    symbol: '',
+    symbol: toSymbol,
+    totalSupply,
   })
 }
 

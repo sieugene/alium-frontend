@@ -145,7 +145,12 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
     },
     {
       title: `${token?.symbol} Tokens Amount`,
-      content: <Text>4,953,393,087.85 {token?.symbol}</Text>,
+      content: (
+        <Text>
+          {formatBridgeTokenAmount(token, token?.totalSupply)}
+          {token?.symbol}
+        </Text>
+      ),
     },
     {
       title: `Your ${token?.symbol} Balance`,

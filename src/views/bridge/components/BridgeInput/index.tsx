@@ -76,6 +76,7 @@ const BridgeInput = () => {
   const onMax = () => {
     const balance = formatBridgeTokenAmount(token, tokenBalance)
     setInput(balance)
+    setAmount(balance)
   }
 
   const disableBtn = toAmount <= BigNumber.from(0) || fromAmount <= BigNumber.from(0) || Boolean(Number(input) <= 0)

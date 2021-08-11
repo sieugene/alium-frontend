@@ -1,6 +1,6 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { BigNumber, utils } from 'ethers'
-import { useActiveWeb3React } from 'hooks'
+import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { logError } from 'utils/bridge/helpers'
 import { fetchTokenBalance } from 'utils/bridge/token'
@@ -22,14 +22,15 @@ export const useDelay = (fn, ms) => {
 }
 
 export const FromToken = React.memo(() => {
-  const { account, chainId } = useActiveWeb3React()
   const { fromToken: token, setFromBalance: setBalance, fromAmount: amount } = useBridgeContext()
+  const { providerChainId: chainId, account, connected } = useWeb3Context()
 
   const [balanceLoading, setBalanceLoading] = useState(false)
 
   useEffect(() => {
-    if (token && account && chainId === token.chainId && !balanceLoading) {
+    if (token && account && chainId === token.chainId && !balanceLoading && connected) {
       setBalanceLoading(true)
+      setBalance(BigNumber.from(0))
       fetchTokenBalance(token, account)
         .then((b) => {
           setBalance(b)
@@ -41,7 +42,7 @@ export const FromToken = React.memo(() => {
           setBalanceLoading(false)
         })
     }
-  }, [token, account, chainId])
+  }, [token, account, chainId, connected])
 
   return (
     <div>
