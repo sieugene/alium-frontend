@@ -3,14 +3,14 @@ import { networkRpcUrlsList } from 'store/network/data/networkRpcUrlsList'
 import { AddEthereumChainParameter } from 'types/AddEthereumChainParameter'
 
 const nativeCurrencies = {
-  [ChainId.MAINNET]: new Currency(18, 'BNB', 'Binance'),
-  [ChainId.BSCTESTNET]: new Currency(18, 'BNB', 'Binance'),
-  [ChainId.HECOMAINNET]: new Currency(18, 'HT', 'Huobi'),
-  [ChainId.HECOTESTNET]: new Currency(18, 'HT', 'Huobi'),
-  [ChainId.ETHER_MAINNET]: new Currency(18, 'ETH', 'Ether'),
-  [ChainId.ETHER_TESTNET]: new Currency(18, 'ETH', 'Ether'),
-  [ChainId.MATIC_MAINNET]: new Currency(18, 'MATIC', 'Polygon'),
-  [ChainId.MATIC_TESTNET]: new Currency(18, 'MATIC', 'Polygon'),
+  [ChainId.MAINNET]: /********/ new Currency(18, 'BNB', 'Binance'),
+  [ChainId.BSCTESTNET]: /*****/ new Currency(18, 'BNB', 'Binance'),
+  [ChainId.HECOMAINNET]: /****/ new Currency(18, 'HT', 'Huobi'),
+  [ChainId.HECOTESTNET]: /****/ new Currency(18, 'HT', 'Huobi'),
+  [ChainId.ETHER_MAINNET]: /**/ new Currency(18, 'ETH', 'Ether'),
+  [ChainId.ETHER_TESTNET]: /**/ new Currency(18, 'ETH', 'Ether'),
+  [ChainId.MATIC_MAINNET]: /**/ new Currency(18, 'MATIC', 'Polygon'),
+  [ChainId.MATIC_TESTNET]: /**/ new Currency(18, 'MATIC', 'Polygon'),
 }
 
 export const networkProvidersParamsList: { [key: number]: AddEthereumChainParameter } = {

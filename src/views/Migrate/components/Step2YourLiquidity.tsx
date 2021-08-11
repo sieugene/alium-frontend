@@ -338,7 +338,7 @@ export const Step2YourLiquidity: FC<props> = ({
             {pairs.map((pair, key) => (
               <div
                 className='tokens-list-item'
-                key={pair.title}
+                key={key}
                 onClick={() => {
                   setSelectedPairKey(key)
                   setViewTokens(false)

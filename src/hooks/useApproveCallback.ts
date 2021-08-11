@@ -1,4 +1,4 @@
-import { CurrencyAmount, ROUTER_ADDRESS, TokenAmount, Trade } from '@alium-official/sdk'
+import { CurrencyAmount, TokenAmount, Trade } from '@alium-official/sdk'
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTokenAllowance } from 'data/Allowances'
@@ -19,15 +19,19 @@ export enum ApprovalState {
 }
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
-export function useApproveCallback(
-  amountToApprove?: CurrencyAmount,
-  spender?: string,
-): [ApprovalState, () => Promise<void>] {
-  const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
+
+type useApproveCallback = (amountToApprove?: CurrencyAmount, spender?: string) => [ApprovalState, () => Promise<void>]
+
+export const useApproveCallback: useApproveCallback = (amountToApprove, spender) => {
+  const { currentNetwork } = storeNetwork.getState()
+  const { nativeCurrency } = currentNetwork.providerParams
   const { account } = useActiveWeb3React()
+
   const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender)
   const pendingApproval = useHasPendingApproval(token?.address, spender)
+  const tokenContract = useTokenContract(token?.address)
+  const addTransaction = useTransactionAdder()
 
   // check the current approval status
   const approvalState: ApprovalState = useMemo(() => {
@@ -43,10 +47,7 @@ export function useApproveCallback(
         ? ApprovalState.PENDING
         : ApprovalState.NOT_APPROVED
       : ApprovalState.APPROVED
-  }, [amountToApprove, currentAllowance, pendingApproval, spender])
-
-  const tokenContract = useTokenContract(token?.address)
-  const addTransaction = useTransactionAdder()
+  }, [amountToApprove, currentAllowance, nativeCurrency?.symbol, pendingApproval, spender])
 
   const approve = useCallback(async (): Promise<void> => {
     if (approvalState !== ApprovalState.NOT_APPROVED) {
@@ -104,10 +105,10 @@ export function useApproveCallback(
 
 // wraps useApproveCallback in the context of a swap
 export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) {
-  const { chainId } = useActiveWeb3React()
+  const { currentNetwork } = storeNetwork.getState()
   const amountToApprove = useMemo(
     () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage)[Field.INPUT] : undefined),
     [trade, allowedSlippage],
   )
-  return useApproveCallback(amountToApprove, chainId && ROUTER_ADDRESS[chainId])
+  return useApproveCallback(amountToApprove, currentNetwork.address.router)
 }

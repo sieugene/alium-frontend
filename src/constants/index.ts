@@ -1,12 +1,6 @@
 import { ChainId, JSBI, Percent, Token, WETH } from '@alium-official/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-// import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 import { bsc, injected } from 'connectors'
-
-// TODO
-// export const ROUTER_ADDRESS = '0x05fF2B0DB69458A0750badebc4f9e13aDd608C7F' // router of cake
-// export const ROUTER_ADDRESS = '0x5E468Edc83968f9CfdFA47a75a777CdBb34D4bbC' // router of DAI-ALIUM
-export const ROUTER_ADDRESS = '0x07899d5bE4B700Db9bf345530fF849a530EF79c3' // router of alium
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -305,12 +299,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
 export const CUSTOM_BASES: { [chainId in ChainId]: { [tokenAddress: string]: Token[] } } = {
   [ChainId.HECOMAINNET]: {},
   [ChainId.HECOTESTNET]: {},
-  [ChainId.MAINNET]: {
-    [ETH.address]: [DAI, WETH[ChainId.MAINNET], BETH],
-  },
-  [ChainId.BSCTESTNET]: {
-    [ETH.address]: [TESTDAI, TESTALM, TESTXXX1],
-  },
+  [ChainId.MAINNET]: { [ETH.address]: [DAI, WETH[ChainId.MAINNET], BETH] },
+  [ChainId.BSCTESTNET]: { [ETH.address]: [TESTDAI, TESTALM, TESTXXX1] },
   [ChainId.MATIC_MAINNET]: {},
   [ChainId.MATIC_TESTNET]: {},
   [ChainId.ETHER_MAINNET]: {},

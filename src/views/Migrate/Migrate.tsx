@@ -3,7 +3,7 @@ import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
 import { BigNumber } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
-import { useFactoryContract, useLPTokenContract, useTokenContract, useVampireContract } from 'hooks/useContract'
+import { useFactoryContract, useLPTokenContract, useVampireContract } from 'hooks/useContract'
 import { FC, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -49,7 +49,6 @@ const ViewMigrate: FC = () => {
   // --- HOOKS ---
   const { account } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
-  const tokenContract = useTokenContract(currentPair?.addressLP)
   const lpTokenContract = useLPTokenContract(currentPair?.addressLP)
   const vampireContract = useVampireContract(currentNetwork.address.vampiring)
   const factoryContract = useFactoryContract(currentNetwork.address.factory)
@@ -79,134 +78,131 @@ const ViewMigrate: FC = () => {
   }, [account, currentNetwork])
 
   const handleMigrate = async () => {
-    if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount)) {
-      const tokensAmountWei = parseEther(String(tokensAmount))
+    // return if pair not selected or input amount out of balance
+    if (selectedPairKey === -1 || currentPair.balance < Number(tokensAmount)) return
 
-      setStep(3)
-      let pairId
-      for (let i = 0; i <= 99; i++) {
-        try {
-          const res = await vampireContract.lpTokensInfo(i)
-          if (res?.lpToken?.toLowerCase() === currentPair.addressLP.toLowerCase()) {
-            pairId = i
-            break
-          }
-        } catch (e) {
-          console.error(e)
+    // set loading
+    setStep(3)
+
+    // --- GET PAIR CONTRACT ID
+    const countLPTokens = await vampireContract.lpTokensInfoLength()
+    let pairId: number
+    for (let i = 0; i <= countLPTokens; i++) {
+      try {
+        const res = await vampireContract.lpTokensInfo(i)
+        if (res?.lpToken?.toLowerCase() === currentPair.addressLP.toLowerCase()) {
+          pairId = i
+          break
         }
-      }
-
-      if (pairId === undefined) {
-        setStep(2)
-      } else {
-        let useExact = false
-
-        const canApprove = await lpTokenContract
-          .allowance(account, currentNetwork.address.vampiring)
-          .then((res: BigNumber) => {
-            const allowanceWei = parseEther(String(res))
-            if (allowanceWei > tokensAmountWei) {
-              return false
-            }
-            return true
-          })
-          .catch(() => {
-            return false
-          })
-
-        if (!canApprove) {
-          setIsSuccessful(false)
-          setStep(4)
-          return null
-        }
-
-        const gasEstimate = await lpTokenContract.estimateGas
-          .approve(currentNetwork.address.vampiring, MaxUint256)
-          .catch(() => {
-            useExact = true
-            return lpTokenContract.estimateGas.approve(currentNetwork.address.vampiring, tokensAmountWei)
-          })
-
-        const gasPrice = await calculateGasPrice(tokenContract.provider)
-
-        const waitAfterApprove = async () => {
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              resolve(true)
-            }, 5000)
-          })
-        }
-
-        lpTokenContract
-          .approve(currentNetwork.address.vampiring, MaxUint256, {
-            gasLimit: calculateGasMargin(gasEstimate),
-            gasPrice,
-            from: account,
-          })
-          .then((response) => {
-            addTransaction(response, {
-              summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
-              approval: { tokenAddress: currentPair.addressLP, spender: account },
-            })
-            waitAfterApprove().then(() => {
-              vampireContract.estimateGas
-                .deposit(pairId, tokensAmountWei, { from: account })
-                .then((gasEstimate2) => {
-                  let gasEstimateDeposit = gasEstimate2
-
-                  console.log('gasEstimate_2', gasEstimate2)
-                  // 0x06e277
-                  // 0x066d3b
-                  // debugger
-                  vampireContract
-                    .deposit(pairId, tokensAmountWei, {
-                      from: account,
-                      gasLimit: calculateGasMargin(gasEstimateDeposit),
-                    })
-                    .then((resp) => {
-                      resp
-                        .wait()
-                        .then(() => {
-                          factoryContract
-                            .getPair(currentPair?.addressA, currentPair?.addressB)
-                            .then((response) => {
-                              setAliumLPTokenForPair(response)
-                              setContract(resp.hash)
-                              setIsSuccessful(true)
-                              setStep(4)
-                            })
-                            .catch((err: Error) => {
-                              setIsSuccessful(false)
-                              setStep(4)
-                              console.error('*** factoryContract.getPair:', err)
-                            })
-                        })
-                        .catch((err: Error) => {
-                          setIsSuccessful(false)
-                          setStep(4)
-                          console.error('*** resp.wait():', err)
-                        })
-                    })
-                    .catch((err: Error) => {
-                      setIsSuccessful(false)
-                      setStep(4)
-                      console.error('*** vampireContract.deposit:', err)
-                    })
-                })
-                .catch((err: Error) => {
-                  setIsSuccessful(false)
-                  setStep(4)
-                  console.error('*** vampireContract.estimateGas.deposit:', err)
-                })
-            })
-          })
-          .catch((err: Error) => {
-            setIsSuccessful(false)
-            setStep(4)
-            console.error('*** lpTokenContract.approve:', err)
-          })
+      } catch (e) {
+        console.error(e)
       }
     }
+
+    if (pairId === undefined) {
+      setStep(2)
+      return
+    }
+
+    // --- GET PAIR ADDRESS
+    let responsePair
+    try {
+      responsePair = await factoryContract.getPair(currentPair?.addressA, currentPair?.addressB)
+      console.info('PAIR: Response:', responsePair)
+    } catch (err) {
+      setIsSuccessful(false)
+      setStep(4)
+      console.error('!!! GET PAIR:', err)
+      return
+    }
+
+    // --- IS CAN APPROVE?
+    const tokensAmountWei = parseEther(String(tokensAmount))
+    // const allowanceWei: BigNumber = await lpTokenContract.allowance(account, currentNetwork.address.vampiring)
+    // const isCanApprove: boolean = allowanceWei >= tokensAmountWei
+    // console.log('allowanceWei', allowanceWei) // 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    // console.log('tokensAmountWei', tokensAmountWei)
+    // console.log('isCanApprove', isCanApprove)
+
+    // if (!isCanApprove) {
+    //   setIsSuccessful(false)
+    //   setStep(4)
+    //   console.error('handleMigrate: !canApprove')
+    //   return
+    // }
+
+    // --- APPROVE: STEP 1: GAS ESTIMATE
+    let gasEstimateApprove: BigNumber
+    try {
+      gasEstimateApprove = await lpTokenContract.estimateGas.approve(currentNetwork.address.vampiring, MaxUint256)
+    } catch (err) {
+      setIsSuccessful(false)
+      setStep(4)
+      console.error('!!! APPROVE: GAS ESTIMATE:', err)
+      return
+    }
+    const gasLimitApprove: BigNumber = await calculateGasMargin(gasEstimateApprove)
+    const gasPriceApprove: BigNumber = await calculateGasPrice(lpTokenContract.provider)
+
+    // --- APPROVE: STEP 2: CALL
+    let responseApprove
+    try {
+      responseApprove = await lpTokenContract.approve(currentNetwork.address.vampiring, MaxUint256, {
+        gasLimit: gasLimitApprove,
+        gasPrice: gasPriceApprove,
+        from: account,
+      })
+      const resultApprove = await responseApprove.wait()
+      console.info('APPROVE: RESULT:', resultApprove)
+    } catch (err) {
+      setIsSuccessful(false)
+      setStep(4)
+      console.error('!!! APPROVE: CALL:', err)
+      return
+    }
+
+    // --- ADD TRANSACTION
+    await addTransaction(responseApprove, {
+      summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
+      approval: { tokenAddress: currentPair.addressLP, spender: account },
+    })
+
+    // --- DEPOSIT: STEP 1: GAS ESTIMATE
+    let gasEstimateDeposit
+    try {
+      gasEstimateDeposit = await vampireContract.estimateGas.deposit(pairId, tokensAmountWei, { from: account })
+    } catch (err) {
+      setIsSuccessful(false)
+      setStep(4)
+      console.error('!!! DEPOSIT: GAS ESTIMATE:', err)
+      return
+    }
+
+    const gasLimitDeposit: BigNumber = await calculateGasMargin(gasEstimateDeposit)
+    const gasPriceDeposit: BigNumber = await calculateGasPrice(vampireContract.provider)
+
+    // --- DEPOSIT: STEP 2: CALL
+    let responseDeposit
+    try {
+      responseDeposit = await vampireContract.deposit(pairId, tokensAmountWei, {
+        gasLimit: gasLimitDeposit,
+        gasPrice: gasPriceDeposit,
+        from: account,
+      })
+      const resultDeposit = await responseDeposit.wait()
+      console.info('DEPOSIT: RESULT:', resultDeposit)
+    } catch (e) {
+      setIsSuccessful(false)
+      setStep(4)
+      console.error('!!! DEPOSIT: CALL:', e)
+      return
+    }
+
+    // --- FINAL
+    setAliumLPTokenForPair(responsePair)
+    setContract(responseDeposit.hash)
+    setIsSuccessful(true)
+    setStep(4)
   }
 
   return (
