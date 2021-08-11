@@ -1,13 +1,16 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
+import { VAMPIRE_ABI } from 'config/vampiring/VAMPIRE_ABI'
+import { BigNumber } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
-import { useFactoryContract, useLPTokenContract, useTokenContract, useVampireContract } from 'hooks/useContract'
+import { useFactoryContract, useLPTokenContract, useVampireContract } from 'hooks/useContract'
 import { FC, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice } from 'utils'
+import multicall from 'utils/multicall'
 import { Step1Connect } from 'views/Migrate/components/Step1Connect'
 import { Step2YourLiquidity } from 'views/Migrate/components/Step2YourLiquidity'
 import { Step3Migrating } from 'views/Migrate/components/Step3Migrating'
@@ -48,7 +51,6 @@ const ViewMigrate: FC = () => {
   // --- HOOKS ---
   const { account } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
-  const tokenContract = useTokenContract(currentPair?.addressLP)
   const lpTokenContract = useLPTokenContract(currentPair?.addressLP)
   const vampireContract = useVampireContract(currentNetwork.address.vampiring)
   const factoryContract = useFactoryContract(currentNetwork.address.factory)
@@ -78,96 +80,161 @@ const ViewMigrate: FC = () => {
   }, [account, currentNetwork])
 
   const handleMigrate = async () => {
-    if (selectedPairKey !== -1 && currentPair.balance >= Number(tokensAmount)) {
-      const tokensAmountWei = parseEther(String(tokensAmount))
+    // return if pair not selected or input amount out of balance
+    if (selectedPairKey === -1 || currentPair.balance < Number(tokensAmount)) return
 
-      setStep(3)
-      let pairId
-      for (let i = 0; i <= 99; i++) {
-        try {
-          const res = await vampireContract.lpTokensInfo(i)
-          if (res?.lpToken?.toLowerCase() === currentPair.addressLP.toLowerCase()) {
-            pairId = i
-            break
-          }
-        } catch (e) {
-          console.error(e)
-        }
-      }
+    // set loading
+    setStep(3)
 
-      if (pairId === undefined) {
-        setStep(2)
-      } else {
-        let useExact = false
-        const gasEstimate = await lpTokenContract.estimateGas
-          .approve(currentNetwork.address.vampiring, MaxUint256)
-          .catch(() => {
-            useExact = true
-            return lpTokenContract.estimateGas.approve(currentNetwork.address.vampiring, tokensAmountWei)
-          })
+    // GET PAIR CONTRACT ID
+    const countLPTokensBigNumber = await vampireContract.lpTokensInfoLength()
+    const countLPTokens = Number(countLPTokensBigNumber.toString())
+    const numsArr = [...Array(countLPTokens).keys()]
+    const calls = numsArr.map((i) => ({
+      address: currentNetwork.address.vampiring,
+      name: 'lpTokensInfo',
+      params: [i],
+    }))
+    const pairIds = (await multicall(VAMPIRE_ABI, calls)).returnData
+    const pairId = Object.keys(pairIds).find(
+      (key) => `0x${pairIds[key].slice(26, 66).toLowerCase()}` === currentPair.addressLP.toLowerCase(),
+    )
 
-        const gasPrice = await calculateGasPrice(tokenContract.provider)
+    console.info('Migration Pair Id', pairId)
 
-        lpTokenContract
-          .approve(currentNetwork.address.vampiring, MaxUint256, {
-            gasLimit: calculateGasMargin(gasEstimate),
-            gasPrice,
-            from: account,
-          })
-          .then((response) => {
-            addTransaction(response, {
-              summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
-              approval: { tokenAddress: currentPair.addressLP, spender: account },
-            })
+    if (pairId === undefined) {
+      setStep(2)
+      return
+    }
 
-            vampireContract.estimateGas
-              .deposit(pairId, tokensAmountWei, { from: account })
-              .then((gasEstimate2) => {
-                vampireContract
-                  .deposit(pairId, tokensAmountWei, { from: account, gasLimit: calculateGasMargin(gasEstimate2) })
-                  .then((resp) => {
-                    resp
-                      .wait()
-                      .then(() => {
-                        factoryContract
-                          .getPair(currentPair?.addressA, currentPair?.addressB)
-                          .then((response) => {
-                            setAliumLPTokenForPair(response)
-                            setContract(resp.hash)
-                            setIsSuccessful(true)
-                            setStep(4)
-                          })
-                          .catch((err: Error) => {
-                            setIsSuccessful(false)
-                            setStep(4)
-                            console.error('*** factoryContract.getPair:', err)
-                          })
-                      })
-                      .catch((err: Error) => {
-                        setIsSuccessful(false)
-                        setStep(4)
-                        console.error('*** resp.wait():', err)
-                      })
-                  })
-                  .catch((err: Error) => {
-                    setIsSuccessful(false)
-                    setStep(4)
-                    console.error('*** vampireContract.deposit:', err)
-                  })
-              })
-              .catch((err: Error) => {
-                setIsSuccessful(false)
-                setStep(4)
-                console.error('*** vampireContract.estimateGas.deposit:', err)
-              })
-          })
-          .catch((err: Error) => {
-            setIsSuccessful(false)
-            setStep(4)
-            console.error('*** lpTokenContract.approve:', err)
-          })
+    // GET PAIR ADDRESS
+    let responsePair
+    try {
+      responsePair = await factoryContract.getPair(currentPair?.addressA, currentPair?.addressB)
+      console.info('PAIR: Response:', responsePair)
+    } catch (err) {
+      setIsSuccessful(false)
+      setStep(4)
+      console.error('!!! GET PAIR:', err)
+      return
+    }
+
+    // IS APPROVE Needed?
+    const tokensAmountWei = parseEther(String(tokensAmount))
+    const allowanceWei: BigNumber = await lpTokenContract.allowance(account, currentNetwork.address.vampiring)
+    const isApproveNeeded: boolean = tokensAmountWei > allowanceWei
+
+    if (isApproveNeeded) {
+      const isApproved = await migrationApprove()
+      if (!isApproved) {
+        setIsSuccessful(false)
+        setStep(4)
+        return
       }
     }
+
+    // DEPOSIT: STEP 1: GAS ESTIMATE
+    let gasEstimateDeposit
+    try {
+      gasEstimateDeposit = await vampireContract.estimateGas.deposit(pairId, tokensAmountWei, { from: account })
+    } catch (err) {
+      setIsSuccessful(false)
+      setStep(4)
+      console.error('!!! DEPOSIT: GAS ESTIMATE:', err)
+      return
+    }
+
+    const gasLimitDeposit: BigNumber = await calculateGasMargin(gasEstimateDeposit)
+    const gasPriceDeposit: BigNumber = await calculateGasPrice(vampireContract.provider)
+
+    // DEPOSIT: STEP 2: CALL
+    let responseDeposit
+    try {
+      responseDeposit = await vampireContract.deposit(pairId, tokensAmountWei, {
+        gasLimit: gasLimitDeposit,
+        gasPrice: gasPriceDeposit,
+        from: account,
+      })
+      console.info(
+        'DEPOSIT RESPONSE LINK:',
+        `${currentNetwork.providerParams.blockExplorerUrls[0]}tx/${responseDeposit.hash}`,
+      )
+      const resultDeposit = await responseDeposit.wait()
+      console.info('DEPOSIT: RESULT:', resultDeposit)
+    } catch (e) {
+      setIsSuccessful(false)
+      setStep(4)
+      console.error('!!! DEPOSIT: CALL:', e)
+      return
+    }
+
+    // FINAL
+    setAliumLPTokenForPair(responsePair)
+    setContract(responseDeposit.hash)
+    setIsSuccessful(true)
+    setStep(4)
+  }
+
+  const migrationApprove = async (): Promise<boolean> => {
+    // GAS ESTIMATE
+    let gasEstimateApprove: BigNumber
+    let gasLimitApprove: BigNumber
+    let gasPriceApprove: BigNumber
+    let responseApprove
+    let resultApprove
+
+    try {
+      gasEstimateApprove = await lpTokenContract.estimateGas.approve(currentNetwork.address.vampiring, MaxUint256)
+    } catch (err) {
+      console.error('!!! APPROVE: GAS ESTIMATE:', err)
+      return false
+    }
+
+    try {
+      gasLimitApprove = await calculateGasMargin(gasEstimateApprove)
+    } catch (err) {
+      console.error('!!! APPROVE: CALC GAS LIMIT:', err)
+      return false
+    }
+
+    try {
+      gasPriceApprove = await calculateGasPrice(lpTokenContract.provider)
+    } catch (err) {
+      console.error('!!! APPROVE: CALC GAS PRICE:', err)
+      return false
+    }
+
+    try {
+      responseApprove = await lpTokenContract.approve(currentNetwork.address.vampiring, MaxUint256, {
+        gasLimit: gasLimitApprove,
+        gasPrice: gasPriceApprove,
+        from: account,
+      })
+    } catch (err) {
+      console.error('!!! APPROVE: CALL:', err)
+      return false
+    }
+
+    try {
+      resultApprove = await responseApprove.wait()
+    } catch (err) {
+      console.error('!!! APPROVE: RESULT:', err)
+      return false
+    }
+
+    console.info('APPROVE: RESULT:', resultApprove)
+
+    try {
+      await addTransaction(responseApprove, {
+        summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
+        approval: { tokenAddress: currentPair.addressLP, spender: account },
+      })
+    } catch (err) {
+      console.error('!!! APPROVE: VIEW TRANSACTION:', err)
+      return false
+    }
+
+    return true
   }
 
   return (
@@ -194,7 +261,10 @@ const ViewMigrate: FC = () => {
             contract={contract}
             explorer={currentNetwork.providerParams.blockExplorerUrls[0]}
             aliumLPTokenForPair={aliumLPTokenForPair}
-            setStep1={() => setStep(account ? 2 : 1)}
+            setStep1={() => {
+              handleGetReadyToMigrateTokens()
+              setStep(account ? 2 : 1)
+            }}
             handleTryAgain={handleMigrate}
           />
         )}

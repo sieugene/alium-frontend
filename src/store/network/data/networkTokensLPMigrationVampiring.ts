@@ -1,14 +1,14 @@
 import { ChainId } from '@alium-official/sdk'
 
-export interface liquidityProviderTokensItem {
+export interface INetworkTokensLPMigrationVampiringItem {
   tokenA: { symbol: string; address: string }
   tokenB: { symbol: string; address: string }
   tokenLP: { address: string }
-  exchange: 'Uniswap' | 'Sushiswap' | 'Pancakeswap' | 'Quickswap' | 'Dfyn Exchange' | 'MDEX'
+  exchange: 'Uniswap' | 'Sushiswap' | 'Pancakeswap' | 'Quickswap' | 'Dfyn Exchange' | 'MDEX' | 'Biswap'
 }
 
 // prettier-ignore
-const BSC: liquidityProviderTokensItem[] = [
+const BSC: INetworkTokensLPMigrationVampiringItem[] = [
   { tokenA: { symbol: 'cake'  , address: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82' }, tokenB: { symbol: 'wbnb'    , address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c' }, tokenLP: { address: '0x0ed7e52944161450477ee417de9cd3a859b14fd0' }, exchange: 'Pancakeswap' },
   { tokenA: { symbol: 'wbnb'  , address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c' }, tokenB: { symbol: 'busd'    , address: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, tokenLP: { address: '0x58f876857a02d6762e0101bb5c46a8c1ed44dc16' }, exchange: 'Pancakeswap' },
   { tokenA: { symbol: 'usdt'  , address: '0x55d398326f99059ff775485246999027b3197955' }, tokenB: { symbol: 'busd'    , address: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, tokenLP: { address: '0x7EFaEf62fDdCCa950418312c6C91Aef321375A00' }, exchange: 'Pancakeswap' },
@@ -22,7 +22,14 @@ const BSC: liquidityProviderTokensItem[] = [
 ]
 
 // prettier-ignore
-const HECO: liquidityProviderTokensItem[] = [
+const BSC_TESTNET: INetworkTokensLPMigrationVampiringItem[] = [
+  { tokenA: { symbol: 'eth'   , address: '0xC5482471187240f38F71CeB8f9AFC2156A0d8f15' }, tokenB: { symbol: 'usdt'       , address: '0x76130226b1411Ca5511Ff3e58ea81Ec8Bb234C7A' }, tokenLP: { address: '0x9cfd6f19c06880e38c4fc6cb2c1d3af54c88372b' }, exchange: 'Pancakeswap' },
+  { tokenA: { symbol: 'eth'   , address: '0xC5482471187240f38F71CeB8f9AFC2156A0d8f15' }, tokenB: { symbol: 'usdt'       , address: '0x76130226b1411Ca5511Ff3e58ea81Ec8Bb234C7A' }, tokenLP: { address: '0x17e0f07be0fe740408a5780d5aac636a2868896f' }, exchange: 'Biswap' },
+  { tokenA: { symbol: 'eth'   , address: '0xC5482471187240f38F71CeB8f9AFC2156A0d8f15' }, tokenB: { symbol: 'usdt'       , address: '0x76130226b1411Ca5511Ff3e58ea81Ec8Bb234C7A' }, tokenLP: { address: '0x7f222F999e39F85079732D728034F93F3a5757a4' }, exchange: 'Uniswap' },
+]
+
+// prettier-ignore
+const HECO: INetworkTokensLPMigrationVampiringItem[] = [
   { tokenA: { symbol: 'WHT'   , address: '0x5545153ccfca01fbd7dd11c0b23ba694d9509a6f' }, tokenB: { symbol: 'usdc'    , address: '0x9362bbef4b8313a8aa9f0c9808b80577aa26b73b' }, tokenLP: { address: '0x85c5316C7C7D88dA9337fCcdEEF4A9891fCD5e6F' }, exchange: 'MDEX' },
   { tokenA: { symbol: 'USDC'  , address: '0x9362bbef4b8313a8aa9f0c9808b80577aa26b73b' }, tokenB: { symbol: 'usdt'    , address: '0xa71edc38d189767582c38a3145b5873052c3e47a' }, tokenLP: { address: '0xf37DE9f4E1a0A58F839DbA868e76B5779109c2a4' }, exchange: 'MDEX' },
   { tokenA: { symbol: 'WHT'   , address: '0x5545153ccfca01fbd7dd11c0b23ba694d9509a6f' }, tokenB: { symbol: 'weth'    , address: '0x64ff637fb478863b7468bc97d30a5bf3a428a1fd' }, tokenLP: { address: '0x53E458aD1CFEB9582736db6BdE9aF89948e3bc3d' }, exchange: 'MDEX' },
@@ -31,7 +38,7 @@ const HECO: liquidityProviderTokensItem[] = [
 ]
 
 // prettier-ignore
-const ETHER: liquidityProviderTokensItem[] = [
+const ETHER: INetworkTokensLPMigrationVampiringItem[] = [
   { tokenA: { symbol: 'usdc'  , address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' }, tokenB: {	symbol: 'eth'    , address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' }, tokenLP: { address: '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc' }, exchange: 'Uniswap' },
   { tokenA: { symbol: 'usdc'  , address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' }, tokenB: {	symbol: 'usdt'   , address: '0xdac17f958d2ee523a2206206994597c13d831ec7' }, tokenLP: { address: '0x3041CbD36888bECc7bbCBc0045E3B1f144466f5f' }, exchange: 'Uniswap' },
   { tokenA: { symbol: 'wbtc'  , address: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599' }, tokenB: {	symbol: 'eth'    , address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' }, tokenLP: { address: '0xBb2b8038a1640196FbE3e38816F3e67Cba72D940' }, exchange: 'Uniswap' },
@@ -57,7 +64,7 @@ const ETHER: liquidityProviderTokensItem[] = [
 ]
 
 // prettier-ignore
-const MATIC: liquidityProviderTokensItem[] = [
+const MATIC: INetworkTokensLPMigrationVampiringItem[] = [
   { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'mimatic', address: '0xa3Fa99A148fA48D14Ed51d610c367C61876997F1' }, tokenLP: { address: '0x160532D2536175d65C03B97b0630A9802c274daD' }, exchange: 'Quickswap' },
   { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'weth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0x853Ee4b2A13f8a742d64C8F088bE7bA2131f670d' }, exchange: 'Quickswap' },
   { tokenA: { symbol: 'wbtc'  , address: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6' }, tokenB: {	symbol: 'weth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0xdC9232E2Df177d7a12FdFf6EcBAb114E2231198D' }, exchange: 'Quickswap' },
@@ -81,9 +88,9 @@ const MATIC: liquidityProviderTokensItem[] = [
   { tokenA: { symbol: 'eth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenB: {	symbol: 'aave'   , address: '0xd6df932a45c0f255f85145f286ea0b292b21c90b' }, tokenLP: { address: '0x7162c0AcF32820920a741D8fA466b8e6D60D530D' }, exchange: 'Dfyn Exchange' },
 ]
 
-export const VAMPIRE_LP_TOKENS: { [chainId in ChainId]: liquidityProviderTokensItem[] } = {
+export const networkTokensLPMigrationVampiring: { [chainId in ChainId]: INetworkTokensLPMigrationVampiringItem[] } = {
   [ChainId.MAINNET]: BSC,
-  [ChainId.BSCTESTNET]: [],
+  [ChainId.BSCTESTNET]: BSC_TESTNET,
   [ChainId.HECOMAINNET]: HECO,
   [ChainId.HECOTESTNET]: [],
   [ChainId.ETHER_MAINNET]: ETHER,

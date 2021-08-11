@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useStoreAccount } from 'store/account/useStoreAccount'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
+import { useStoreBridge } from './bridge/useStoreBridge'
 
 export const InitStores = () => {
   const [isInitialized, setIsInitialized] = useState(false)
@@ -9,10 +10,13 @@ export const InitStores = () => {
   const killStoreAccount = useStoreAccount((state) => state.killStoreAccount)
   const initStoreNetwork = useStoreNetwork((state) => state.initStoreNetwork)
   const killStoreNetwork = useStoreNetwork((state) => state.killStoreNetwork)
+  const initStoreBridge = useStoreBridge((state) => state.initStoreBridge)
+  const killStoreBridge = useStoreBridge((state) => state.killStoreBridge)
 
   if (!isInitialized) {
     initStoreAccount()
     initStoreNetwork()
+    initStoreBridge()
     setIsInitialized(true)
   }
 
@@ -20,8 +24,9 @@ export const InitStores = () => {
     return () => {
       killStoreAccount()
       killStoreNetwork()
+      killStoreBridge()
     }
-  }, [killStoreAccount, killStoreNetwork])
+  }, [killStoreAccount, killStoreNetwork, killStoreBridge])
 
   return null
 }

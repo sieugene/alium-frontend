@@ -159,5 +159,8 @@
   "errors": {
     "enterValidPercentage": "Enter valid percentage"
   },
-  "boughtCards": "Claim ALM tokens {{count}}"
+  "boughtCards": "Claim ALM tokens {{count}}",
+  "questionHelpers": {
+    "useThisTool": "Use this tool to find pairs that don't automatically appear in the interface"
+  }
 }

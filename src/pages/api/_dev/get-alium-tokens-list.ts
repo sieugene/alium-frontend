@@ -1,6 +1,6 @@
-import { VAMPIRE_LP_TOKENS } from 'config/vampiring/VAMPIRE_LP_TOKENS'
 import fs from 'fs'
 import request from 'request'
+import { networkTokensLPMigrationVampiring } from 'store/network/data/networkTokensLPMigrationVampiring'
 // import coingecko from '../../../../build/.coingecko-tokens-list.json'
 
 const coingecko = {}
@@ -21,19 +21,19 @@ const handler = async (req, res) => {
   }
 
   let alium = []
-  VAMPIRE_LP_TOKENS[1].forEach(({ tokenA, tokenB }) => {
+  networkTokensLPMigrationVampiring[1].forEach(({ tokenA, tokenB }) => {
     if (!alium.includes(tokenA.symbol.toLowerCase())) alium = [...alium, tokenA.symbol.toLowerCase()]
     if (!alium.includes(tokenB.symbol.toLowerCase())) alium = [...alium, tokenB.symbol.toLowerCase()]
   })
-  VAMPIRE_LP_TOKENS[56].forEach(({ tokenA, tokenB }) => {
+  networkTokensLPMigrationVampiring[56].forEach(({ tokenA, tokenB }) => {
     if (!alium.includes(tokenA.symbol.toLowerCase())) alium = [...alium, tokenA.symbol.toLowerCase()]
     if (!alium.includes(tokenB.symbol.toLowerCase())) alium = [...alium, tokenB.symbol.toLowerCase()]
   })
-  VAMPIRE_LP_TOKENS[128].forEach(({ tokenA, tokenB }) => {
+  networkTokensLPMigrationVampiring[128].forEach(({ tokenA, tokenB }) => {
     if (!alium.includes(tokenA.symbol.toLowerCase())) alium = [...alium, tokenA.symbol.toLowerCase()]
     if (!alium.includes(tokenB.symbol.toLowerCase())) alium = [...alium, tokenB.symbol.toLowerCase()]
   })
-  VAMPIRE_LP_TOKENS[137].forEach(({ tokenA, tokenB }) => {
+  networkTokensLPMigrationVampiring[137].forEach(({ tokenA, tokenB }) => {
     if (!alium.includes(tokenA.symbol.toLowerCase())) alium = [...alium, tokenA.symbol.toLowerCase()]
     if (!alium.includes(tokenB.symbol.toLowerCase())) alium = [...alium, tokenB.symbol.toLowerCase()]
   })

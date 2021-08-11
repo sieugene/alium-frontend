@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import Popover, { PopoverProps } from '../Popover'
 
@@ -14,10 +14,16 @@ const TooltipContainer = styled.div`
 
 interface TooltipProps extends Omit<PopoverProps, 'content'> {
   text: string
+  classNameContainer?: string
 }
 
 export default function Tooltip({ text, ...rest }: TooltipProps) {
-  return <Popover content={<TooltipContainer>{text}</TooltipContainer>} {...rest} />
+  return (
+    <Popover
+      content={<TooltipContainer className={rest?.classNameContainer || ''}>{text}</TooltipContainer>}
+      {...rest}
+    />
+  )
 }
 
 export function MouseoverTooltip({ children, ...rest }: Omit<TooltipProps, 'show'>) {

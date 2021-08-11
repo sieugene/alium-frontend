@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Cookies from 'universal-cookie'
 import { getCookieOptions } from '../../config/getCookieOptions'
@@ -10,16 +10,12 @@ const Styled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 5px 0 12px;
+  margin: 0 auto 0 12px;
   transition: all 200ms ease-out;
   opacity: 0;
 
   &.visible {
     opacity: 1;
-  }
-
-  @media screen and (min-width: 768px) {
-    margin-right: 25px;
   }
 
   @media screen and (min-width: 968px) {

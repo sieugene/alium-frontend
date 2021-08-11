@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Currency, currencyEquals, ROUTER_ADDRESS, TokenAmount, WETH } from '@alium-official/sdk'
+import { Currency, currencyEquals, TokenAmount, WETH } from '@alium-official/sdk'
 import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -12,7 +12,6 @@ import { useActiveWeb3React } from 'hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
-import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { ROUTES } from 'routes'
@@ -91,7 +90,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   const [allowedSlippage] = useUserSlippageTolerance() // custom from users
   const [txHash, setTxHash] = useState<string>('')
   const [hasError, setError] = useState(null)
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
 
   // get formatted amounts
   const formattedAmounts = {
@@ -119,16 +118,14 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
     },
     {},
   )
-
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_A],
-    chainId && ROUTER_ADDRESS[chainId],
+    currentNetwork.address.router,
   )
-
   const [approvalB, approveBCallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_B],
-    chainId && ROUTER_ADDRESS[chainId],
+    currentNetwork.address.router,
   )
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change

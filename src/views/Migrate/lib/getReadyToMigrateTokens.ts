@@ -16,10 +16,10 @@ type getReadyToMigrateTokens = (account: string) => Promise<
 >
 
 export const getReadyToMigrateTokens: getReadyToMigrateTokens = async (account) => {
-  const { liquidityProviderTokens: lpt } = storeNetwork.getState().currentNetwork
+  const lpTokens = storeNetwork.getState().currentNetwork.tokens.lpMigrationVampiring
   if (!account) return []
 
-  const calls = lpt.map(({ tokenLP }) => ({
+  const calls = lpTokens.map(({ tokenLP }) => ({
     address: tokenLP.address,
     name: 'balanceOf',
     params: [account],
@@ -39,13 +39,13 @@ export const getReadyToMigrateTokens: getReadyToMigrateTokens = async (account) 
       pairs = [
         ...pairs,
         {
-          title: `${lpt[key].tokenA.symbol.toUpperCase()}/${lpt[key].tokenB.symbol.toUpperCase()}`,
-          symbolA: lpt[key].tokenA.symbol.toUpperCase(),
-          symbolB: lpt[key].tokenB.symbol.toUpperCase(),
-          addressA: lpt[key].tokenA.address,
-          addressB: lpt[key].tokenB.address,
-          addressLP: lpt[key].tokenLP.address,
-          exchange: lpt[key].exchange,
+          title: `${lpTokens[key].tokenA.symbol.toUpperCase()}/${lpTokens[key].tokenB.symbol.toUpperCase()}`,
+          symbolA: lpTokens[key].tokenA.symbol.toUpperCase(),
+          symbolB: lpTokens[key].tokenB.symbol.toUpperCase(),
+          addressA: lpTokens[key].tokenA.address,
+          addressB: lpTokens[key].tokenB.address,
+          addressLP: lpTokens[key].tokenLP.address,
+          exchange: lpTokens[key].exchange,
           balance: Number(balance)
             .toFixed(18)
             .replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, '$1'),

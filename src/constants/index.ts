@@ -1,12 +1,6 @@
 import { ChainId, JSBI, Percent, Token, WETH } from '@alium-official/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-// import { bsc, fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 import { bsc, injected } from 'connectors'
-
-// TODO
-// export const ROUTER_ADDRESS = '0x05fF2B0DB69458A0750badebc4f9e13aDd608C7F' // router of cake
-// export const ROUTER_ADDRESS = '0x5E468Edc83968f9CfdFA47a75a777CdBb34D4bbC' // router of DAI-ALIUM
-export const ROUTER_ADDRESS = '0x07899d5bE4B700Db9bf345530fF849a530EF79c3' // router of alium
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -117,6 +111,22 @@ export const TEST_BSC_WETH = new Token(
   18,
   'WETH',
   'WETH Test',
+)
+
+export const TEST_BSC_ETH_Migration = new Token(
+  ChainId.BSCTESTNET,
+  '0xC5482471187240f38F71CeB8f9AFC2156A0d8f15',
+  18,
+  'ETH',
+  'ETH',
+)
+
+export const TEST_BSC_USDT_Migration = new Token(
+  ChainId.BSCTESTNET,
+  '0x76130226b1411Ca5511Ff3e58ea81Ec8Bb234C7A',
+  18,
+  'USDT',
+  'USDT',
 )
 
 //  HECO Mainnet Basic Tokens
@@ -305,12 +315,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
 export const CUSTOM_BASES: { [chainId in ChainId]: { [tokenAddress: string]: Token[] } } = {
   [ChainId.HECOMAINNET]: {},
   [ChainId.HECOTESTNET]: {},
-  [ChainId.MAINNET]: {
-    [ETH.address]: [DAI, WETH[ChainId.MAINNET], BETH],
-  },
-  [ChainId.BSCTESTNET]: {
-    [ETH.address]: [TESTDAI, TESTALM, TESTXXX1],
-  },
+  [ChainId.MAINNET]: { [ETH.address]: [DAI, WETH[ChainId.MAINNET], BETH] },
+  [ChainId.BSCTESTNET]: { [ETH.address]: [TESTDAI, TESTALM, TESTXXX1] },
   [ChainId.MATIC_MAINNET]: {},
   [ChainId.MATIC_TESTNET]: {},
   [ChainId.ETHER_MAINNET]: {},
@@ -361,6 +367,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]: [Token, Token][] } =
   [ChainId.BSCTESTNET]: [
     [TEST_BSC_ALM, TEST_BSC_WBNB],
     [TEST_BSC_USDT, TEST_BSC_DAI],
+    [TEST_BSC_ETH_Migration, TEST_BSC_USDT_Migration],
   ],
   [ChainId.HECOMAINNET]: [[HECO_USDT, HECO_ETH]],
   [ChainId.HECOTESTNET]: [
@@ -372,6 +379,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]: [Token, Token][] } =
   [ChainId.ETHER_MAINNET]: [],
   [ChainId.ETHER_TESTNET]: [],
 }
+
 export interface WalletInfo {
   connector?: AbstractConnector
   name: string
