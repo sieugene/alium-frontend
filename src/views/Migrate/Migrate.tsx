@@ -261,7 +261,10 @@ const ViewMigrate: FC = () => {
             contract={contract}
             explorer={currentNetwork.providerParams.blockExplorerUrls[0]}
             aliumLPTokenForPair={aliumLPTokenForPair}
-            setStep1={() => setStep(account ? 2 : 1)}
+            setStep1={() => {
+              handleGetReadyToMigrateTokens()
+              setStep(account ? 2 : 1)
+            }}
             handleTryAgain={handleMigrate}
           />
         )}
