@@ -6,7 +6,7 @@ import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { getExplorerLink, getExplorerName } from 'utils'
-import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
+import { formatBridgeTokenAmount, formatValue } from 'utils/bridge/helpers'
 
 const Wrapper = styled.div`
   width: 450px;
@@ -100,11 +100,19 @@ interface Props {
   type: BridgeNetworks
 }
 const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
+  const ownerForeignAddress = process.env.APP_ENV === 'development' ? TESTNET_BDRIGE_OWNER : MAINNET_BDRIGE_OWNER
   const isFrom = type === 'fromNetwork'
   const chainId = useStoreBridge((state) => state[type])
   const token = useStoreBridge((state) => (isFrom ? state.tokens.fromToken : state.tokens.toToken))
-  const { toBalance, fromBalance } = useBridgeContext()
+  const { toBalance, fromBalance, tokenLimits } = useBridgeContext()
   const balance = isFrom ? fromBalance : toBalance
+
+  const formattedTokenLimits = token &&
+    tokenLimits && {
+      minPerTx: formatValue(tokenLimits.minPerTx, token?.decimals) || '0',
+      maxPerTx: formatValue(tokenLimits.maxPerTx, token?.decimals) || '0',
+      dailyLimit: formatValue(tokenLimits.dailyLimit, token?.decimals) || '0',
+    }
 
   const network = networkFinder(chainId)
   const explorer = getExplorerName(chainId)
@@ -113,7 +121,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
   const onDismiss = () => {
     setModalOpen(false)
   }
-  const ownerForeignAddress = process.env.APP_ENV === 'development' ? TESTNET_BDRIGE_OWNER : MAINNET_BDRIGE_OWNER
+
   const data = [
     {
       title: 'Default RPC URL',
@@ -140,15 +148,23 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
     },
     {
       title: `Remaining Daily ${token?.symbol} Quota`,
-      content: <Text>0x6B17...1d0F</Text>,
+      content: <Text>{formattedTokenLimits?.dailyLimit}</Text>,
     },
     {
       title: 'Maximum Amount Per Transaction',
-      content: <Text>9,999,999 {token?.symbol}</Text>,
+      content: (
+        <Text>
+          {formattedTokenLimits?.maxPerTx} {token?.symbol}
+        </Text>
+      ),
     },
     {
       title: 'Minimum Amount Per Transaction',
-      content: <Text>0.005 {token?.symbol}</Text>,
+      content: (
+        <Text>
+          {formattedTokenLimits?.minPerTx} {token?.symbol}
+        </Text>
+      ),
     },
     {
       title: `${token?.symbol} Tokens Amount`,

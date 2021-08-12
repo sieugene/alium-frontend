@@ -46,8 +46,8 @@ export const BridgeContext = React.createContext({
   setFromBalance: (balance: BigNumber) => {},
   toBalance: BigNumber.from(0),
   setToBalance: (balance: BigNumber) => {},
-  tokenLimits: null,
-  updateTokenLimits: (limits: { minPerTx: any; maxPerTx: any; dailyLimit: any }) => {},
+  tokenLimits: null as { minPerTx: BigNumber; maxPerTx: BigNumber; dailyLimit: BigNumber },
+  updateTokenLimits: null as () => {},
   receiver: '',
   setReceiver: (receiver: string) => {},
   shouldReceiveNativeCur: false,
@@ -255,6 +255,7 @@ export const BridgeProvider = ({ children }) => {
     setLoading(false)
   }, [fromToken, getBridgeChainId, providerChainId, queryToken, setDefaultToken, toToken])
 
+  const [limitsLoading, setLimitsLoading] = useState(false)
   const updateTokenLimits = useCallback(async () => {
     if (
       providerChainId &&
@@ -265,17 +266,33 @@ export const BridgeProvider = ({ children }) => {
       toToken.chainId === getBridgeChainId(providerChainId) &&
       fromToken.symbol === toToken.symbol &&
       currentDay &&
-      bridgeDirection
+      bridgeDirection &&
+      !limitsLoading &&
+      !tokenLimits
     ) {
+      setLimitsLoading(true)
       const limits = await fetchTokenLimits(bridgeDirection, ethersProvider, fromToken, toToken, currentDay)
+      console.log('bridge :: daily limits')
+      console.log(limits)
       setTokenLimits(limits)
+      setLimitsLoading(false)
     }
-  }, [bridgeDirection, currentDay, ethersProvider, fromToken, getBridgeChainId, providerChainId, toToken])
+  }, [
+    providerChainId,
+    ethersProvider,
+    fromToken,
+    toToken,
+    getBridgeChainId,
+    currentDay,
+    bridgeDirection,
+    limitsLoading,
+    tokenLimits,
+  ])
 
   useEffect(() => {
     if (!connected) return
     updateTokenLimits()
-  }, [providerChainId, bridgeDirection, connected])
+  }, [providerChainId, bridgeDirection, connected, fromToken, toToken])
 
   useEffect(() => {
     if (!connected) return
