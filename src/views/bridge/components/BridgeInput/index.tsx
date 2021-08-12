@@ -47,6 +47,7 @@ const SwitchIcon = styled.div`
 const BridgeInput = () => {
   const toggleModal = storeBridge.getState().toggleModal
   const toggleNetworks = storeBridge.getState().toggleNetworks
+  const { tokensDetailLoader } = useBridgeContext()
 
   const {
     fromToken: token,
@@ -97,6 +98,7 @@ const BridgeInput = () => {
             currency={token}
             disableCurrencySelect
             onKeyUp={delayedSetAmount}
+            loading={tokensDetailLoader}
           />
           {disabledApprove ? (
             <BridgeTransferButton onClick={transfer} desktop disabled={disableBtn}>

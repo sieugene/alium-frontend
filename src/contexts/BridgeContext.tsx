@@ -29,6 +29,7 @@ export const BridgeContext = React.createContext({
   setAmount: async (inputAmount: any) => {},
   fromToken: null as BridgeToken | null,
   toToken: null as BridgeToken | null,
+  tokensDetailLoader: false,
   setToToken: (newToToken: BridgeToken) => {},
   setToken: async (tokenWithoutMode: BridgeToken, isQueryToken?: any) => true,
   setDefaultToken: async (chainId: number) => {},
@@ -71,6 +72,7 @@ export const BridgeProvider = ({ children }) => {
   const [amountInput, setAmountInput] = useState('')
   const { fromToken, toToken } = useStoreBridge((state) => state.tokens)
   const setTokens = useStoreBridge((state) => state.setTokens)
+  const [tokensDetailLoader, setTokensDetailLoader] = useState(false)
 
   const { fromAmount, toAmount } = useStoreBridge((state) => state.amounts)
   const setAmounts = useStoreBridge((state) => state.setAmounts)
@@ -124,8 +126,13 @@ export const BridgeProvider = ({ children }) => {
 
   const setToken = useCallback(
     async (tokenWithoutMode: BridgeToken, isQueryToken = false) => {
+      setTokensDetailLoader(true)
+      if (tokensDetailLoader) {
+        return
+      }
       if (!tokenWithoutMode) {
         toast('Token not found.')
+        setTokensDetailLoader(false)
         return
       }
       try {
@@ -146,6 +153,7 @@ export const BridgeProvider = ({ children }) => {
         localStorage.setItem(storageKey, JSON.stringify(token))
         return true
       } catch (tokenDetailsError) {
+        setTokensDetailLoader(false)
         toast(
           !isQueryToken
             ? 'Cannot fetch token details. Wait for a few minutes and reload the application'
@@ -153,6 +161,8 @@ export const BridgeProvider = ({ children }) => {
         )
         logError({ tokenDetailsError })
         return false
+      } finally {
+        setTokensDetailLoader(false)
       }
     },
     [bridgeDirection, getBridgeChainId, setTokens, toast],
@@ -314,6 +324,7 @@ export const BridgeProvider = ({ children }) => {
       unlockLoading,
       approvalTxHash,
       feeManagerAddress,
+      tokensDetailLoader,
     }),
     [
       allowed,
@@ -342,6 +353,7 @@ export const BridgeProvider = ({ children }) => {
       txHash,
       unlockLoading,
       updateTokenLimits,
+      tokensDetailLoader,
     ],
   )
 
