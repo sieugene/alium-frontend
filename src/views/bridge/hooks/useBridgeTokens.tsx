@@ -2,6 +2,7 @@ import { Token } from '@alium-official/sdk'
 import DEFAULT_LIST from 'config/tokens'
 import { useActiveWeb3React } from 'hooks'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
+import { newTokenChecksummed } from 'utils/newTokenChecksummed'
 import useBalanceToken from './useBalanceToken'
 
 export const useBridgeTokens = (addressOrName: string) => {
@@ -32,5 +33,5 @@ export const useBridgeTokens = (addressOrName: string) => {
 const searchToken = (list: Token[], search: string, chainId: number) => {
   const token = list.find((token) => (token.symbol === search || token.address === search) && token.chainId === chainId)
 
-  return token && new Token(token.chainId, token.address, token.decimals, token.symbol, token.name)
+  return token && newTokenChecksummed(token.chainId, token.address, token.decimals, token.symbol, token.name)
 }

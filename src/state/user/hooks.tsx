@@ -6,6 +6,7 @@ import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
+import { newTokenChecksummed } from 'utils/newTokenChecksummed'
 import { setThemeCache } from 'utils/theme'
 import { AppDispatch, AppState } from '../index'
 import {
@@ -31,7 +32,7 @@ function serializeToken(token: Token): SerializedToken {
 }
 
 function deserializeToken(serializedToken: SerializedToken): Token {
-  return new Token(
+  return newTokenChecksummed(
     serializedToken.chainId,
     serializedToken.address,
     serializedToken.decimals,
@@ -173,7 +174,7 @@ export function usePairAdder(): (pair: Pair) => void {
  * @param tokenB the other token
  */
 export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
-  return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, 'Alium-LP', 'Alium LPs')
+  return newTokenChecksummed(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, 'Alium-LP', 'Alium LPs')
 }
 
 /**
