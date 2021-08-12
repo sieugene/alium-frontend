@@ -1,4 +1,5 @@
 import BridgeModal, { CloseItem } from 'components/Modal/BridgeModal'
+import { MAINNET_BDRIGE_OWNER, TESTNET_BDRIGE_OWNER } from 'constants/bridge/bridge.constants'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import React, { FC } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
@@ -112,6 +113,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
   const onDismiss = () => {
     setModalOpen(false)
   }
+  const ownerForeignAddress = process.env.APP_ENV === 'development' ? TESTNET_BDRIGE_OWNER : MAINNET_BDRIGE_OWNER
   const data = [
     {
       title: 'Default RPC URL',
@@ -119,7 +121,12 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
     },
     {
       title: 'Bridge Foreign Address',
-      content: <TextLink link='0x4aa4..5016' />,
+      content: (
+        <TextLink
+          link={getExplorerLink(chainId, ownerForeignAddress, 'address')}
+          text={textEllipsis(ownerForeignAddress)}
+        />
+      ),
     },
     {
       title: 'Token Address',
@@ -147,8 +154,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       title: `${token?.symbol} Tokens Amount`,
       content: (
         <Text>
-          {formatBridgeTokenAmount(token, token?.totalSupply)}
-          {token?.symbol}
+          {formatBridgeTokenAmount(token, token?.totalSupply)} {token?.symbol}
         </Text>
       ),
     },

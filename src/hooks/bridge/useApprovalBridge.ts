@@ -37,11 +37,14 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
     const approvalAmount = window.localStorage.getItem(INFINITE_UNLOCK) === 'true' ? LARGEST_UINT256 : fromAmount
     try {
       const tx = await approveToken(ethersProvider, fromToken, approvalAmount)
+      console.log(`approveToken :: tx/result ::`)
       console.log(tx)
 
       setApprovalTxHash(tx.hash)
+      console.log('approveToken :: tx.wait() :: start')
       await tx.wait()
       setAllowance(approvalAmount)
+      console.log('approveToken :: tx.wait() :: end')
     } catch (approveError) {
       logError({
         approveError,
