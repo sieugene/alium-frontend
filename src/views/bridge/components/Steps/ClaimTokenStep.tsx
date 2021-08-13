@@ -53,7 +53,7 @@ const ClaimTokenStep = () => {
   const toNetwork = useStoreBridge((state) => state.toNetwork)
   const toggleNetworks = useStoreBridge((state) => state.toggleNetworks)
   const transactionMessage = useStoreBridge((state) => state.transactionMessage)
-  const { transfer, loading: loadingTransaction } = useBridgeContext()
+  const { loading: loadingTransaction } = useBridgeContext()
 
   const claim = useClaim()
 
