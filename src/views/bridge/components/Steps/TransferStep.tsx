@@ -1,6 +1,5 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
-import { useTransactionStatus } from 'hooks/bridge/useTransactionStatus'
 import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import { BridgeConfirmIcon } from 'images/bridge/BridgeConfirmIcon'
 import React, { useState } from 'react'
@@ -9,6 +8,7 @@ import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
+import { useBridgeTransfer } from 'views/bridge/hooks/useBridgeTransfer'
 import TransferError from '../Errors/TransferError'
 import TransferLoader from '../Loaders/TransferLoader'
 
@@ -44,7 +44,6 @@ const Wrapper = styled.div`
 `
 
 const TransferStep = () => {
-  useTransactionStatus()
   const [approved, setApproved] = useState(false)
 
   const { homeChainId } = useBridgeDirection()
@@ -60,7 +59,8 @@ const TransferStep = () => {
 
   const { networkFrom } = useBridgeNetworks()
 
-  const { transfer, loading: loadingTransaction, transactionFailed, setTransactionFailed } = useBridgeContext()
+  const { loading: loadingTransaction, transactionFailed, setTransactionFailed } = useBridgeContext()
+  const transfer = useBridgeTransfer()
 
   const wrongCurrentNetwork = React.useMemo(
     () => networkFrom?.chainId !== currentChainId,

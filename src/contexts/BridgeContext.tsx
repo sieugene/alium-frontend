@@ -9,7 +9,7 @@ import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useToast } from 'state/hooks'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
-import { fetchToAmount, fetchTokenLimits, fetchToToken, relayTokens } from 'utils/bridge/bridge'
+import { fetchToAmount, fetchTokenLimits, fetchToToken } from 'utils/bridge/bridge'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import {
   getDefaultToken,
@@ -57,7 +57,6 @@ export const BridgeContext = React.createContext({
   unlockLoading: false,
   approvalTxHash: '',
   feeManagerAddress: '',
-  transfer: null as () => Promise<string>,
   clearTransaction: null as () => void,
 })
 
@@ -66,7 +65,7 @@ export const useBridgeContext = () => useContext(BridgeContext)
 export const BridgeProvider = ({ children }) => {
   const [queryToken, setQueryToken] = useState('')
 
-  const { isGnosisSafe, ethersProvider, account, providerChainId, connected } = useWeb3Context()
+  const { ethersProvider, providerChainId, connected } = useWeb3Context()
   const { bridgeDirection, getBridgeChainId, foreignChainId, reverted } = useBridgeDirection()
 
   const isHome = !reverted
@@ -81,13 +80,16 @@ export const BridgeProvider = ({ children }) => {
   const setAmounts = useStoreBridge((state) => state.setAmounts)
 
   const [toAmountLoading, setToAmountLoading] = useState(false)
-  const [transactionFailed, setTransactionFailed] = useState(false)
+  // Transaction
   const [loading, setLoading] = useState(false)
   const [shouldReceiveNativeCur, setShouldReceiveNativeCur] = useState(false)
-  const [fromBalance, setFromBalance] = useState(BigNumber.from(0))
-  const [toBalance, setToBalance] = useState(BigNumber.from(0))
+  const [transactionFailed, setTransactionFailed] = useState(false)
   const txHash = useStoreBridge((state) => state.txHash)
   const setTxHash = useStoreBridge((state) => state.setTxHash)
+  // Transaction End
+  const [fromBalance, setFromBalance] = useState(BigNumber.from(0))
+  const [toBalance, setToBalance] = useState(BigNumber.from(0))
+
   const [tokenLimits, setTokenLimits] = useState(null)
 
   const { toastError: toast } = useToast()
@@ -172,51 +174,6 @@ export const BridgeProvider = ({ children }) => {
     [bridgeDirection, getBridgeChainId, setTokens, toast],
   )
 
-  const transfer = useCallback(
-    (): Promise<string> =>
-      new Promise((resolve, reject) => {
-        setLoading(true)
-        if (isGnosisSafe && !receiver) {
-          throw new Error('Must set receiver for Gnosis Safe')
-        }
-
-        relayTokens(ethersProvider, fromToken, receiver || account, fromAmount, {
-          shouldReceiveNativeCur:
-            (shouldReceiveNativeCur && toToken?.address === ADDRESS_ZERO && toToken?.mode === 'NATIVE') ||
-            !toToken?.address,
-          foreignChainId,
-        })
-          .then((tx) => {
-            setTxHash(tx.hash)
-            resolve(tx.hash)
-          })
-          .catch((transferError) => {
-            setTransactionFailed(true)
-            setLoading(false)
-            logError({
-              transferError,
-              fromToken,
-              receiver: receiver || account,
-              fromAmount: fromAmount.toString(),
-              account,
-            })
-            reject(transferError)
-          })
-      }),
-    [
-      account,
-      ethersProvider,
-      foreignChainId,
-      fromAmount,
-      fromToken,
-      isGnosisSafe,
-      receiver,
-      setTxHash,
-      shouldReceiveNativeCur,
-      toToken?.address,
-      toToken?.mode,
-    ],
-  )
   const setLoadingText = useStoreBridge((state) => state.setTransactionText)
 
   const clearTransaction = useCallback(() => {
@@ -332,7 +289,6 @@ export const BridgeProvider = ({ children }) => {
       setDefaultToken,
       allowed,
       approve,
-      transfer,
       loading,
       setLoading,
       transactionFailed,
@@ -370,7 +326,6 @@ export const BridgeProvider = ({ children }) => {
       setDefaultToken,
       allowed,
       approve,
-      transfer,
       loading,
       transactionFailed,
       txHash,
