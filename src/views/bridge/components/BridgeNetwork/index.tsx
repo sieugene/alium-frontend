@@ -1,4 +1,4 @@
-import { Spinner } from 'alium-uikit/src'
+import { Skeleton } from 'alium-uikit/src'
 import { BridgeMoreIcon } from 'images/bridge/BridgeMoreIcon'
 import React, { FC, useState } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
@@ -10,7 +10,8 @@ import BridgeScan from '../Popups/BridgeScan'
 
 const Network = styled.div`
   width: 100%;
-  height: 98px;
+  /* height: 98px; */
+  min-height: 98px;
   display: flex;
   justify-content: space-between;
   background: #ffffff;
@@ -78,26 +79,50 @@ const BridgeNetwork: FC<Props> = ({ type, value, token, balanceLoading }) => {
     setModalOpen(true)
   }
 
+  const loading = balanceLoading || !token
+
   return (
     <Network>
-      {balanceLoading && <Spinner />}
       {modalOpen && <BridgeScan type={type} modalOpen={modalOpen} setModalOpen={setModalOpen} />}
-      <div className='left-column'>
-        <div className='network'>
-          {Icon ? <Icon /> : <img />}
-          <p className='title'>{network?.label}</p>
-          <DropdownBridgeNetworks type={type} />
+      {loading ? (
+        <SkeletonNetwork />
+      ) : (
+        <div className='left-column'>
+          <div className='network'>
+            {Icon ? <Icon /> : <img />}
+            <p className='title'>{network?.label}</p>
+            <DropdownBridgeNetworks type={type} />
+          </div>
+          <div className='token'>
+            {value || 0} {token?.symbol}
+          </div>
         </div>
-        <div className='token'>
-          {value || 0} {token?.symbol}
-        </div>
-      </div>
+      )}
       <div className='right-column'>
         <div onClick={onShow}>
           <BridgeMoreIcon />
         </div>
       </div>
     </Network>
+  )
+}
+
+const StyledSkeleton = styled(Skeleton)`
+  padding: 0;
+  margin: 0;
+  height: 28px;
+`
+
+const SkeletonNetwork = () => {
+  return (
+    <div className='left-column'>
+      <div className='network'>
+        <StyledSkeleton width={128} />
+      </div>
+      <div className='token'>
+        <StyledSkeleton width={40} />
+      </div>
+    </div>
   )
 }
 

@@ -1,3 +1,4 @@
+import { Skeleton } from 'alium-uikit/src'
 import BridgeModal, { CloseItem } from 'components/Modal/BridgeModal'
 import { MAINNET_BDRIGE_OWNER, TESTNET_BDRIGE_OWNER } from 'constants/bridge/bridge.constants'
 import { useBridgeContext } from 'contexts/BridgeContext'
@@ -122,10 +123,13 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
     setModalOpen(false)
   }
 
+  const tokenLoading = !token
+  const tokenLimitLoading = !formattedTokenLimits
   const data = [
     {
       title: 'Default RPC URL',
       content: <TextLink link={getExplorerLink(chainId, '', 'default')} />,
+      loading: false,
     },
     {
       title: 'Bridge Foreign Address',
@@ -135,20 +139,24 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
           text={textEllipsis(ownerForeignAddress)}
         />
       ),
+      loading: false,
     },
     {
       title: 'Token Address',
       content: (
         <TextLink link={getExplorerLink(chainId, token?.address, 'token')} text={textEllipsis(token?.address)} />
       ),
+      loading: tokenLoading,
     },
     {
       title: 'Token Name',
       content: <Text>{token?.name}</Text>,
+      loading: tokenLoading,
     },
     {
       title: `Remaining Daily ${token?.symbol} Quota`,
       content: <Text>{formattedTokenLimits?.dailyLimit}</Text>,
+      loading: tokenLimitLoading,
     },
     {
       title: 'Maximum Amount Per Transaction',
@@ -157,6 +165,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
           {formattedTokenLimits?.maxPerTx} {token?.symbol}
         </Text>
       ),
+      loading: tokenLimitLoading,
     },
     {
       title: 'Minimum Amount Per Transaction',
@@ -165,6 +174,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
           {formattedTokenLimits?.minPerTx} {token?.symbol}
         </Text>
       ),
+      loading: tokenLimitLoading,
     },
     {
       title: `${token?.symbol} Tokens Amount`,
@@ -173,6 +183,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
           {formatBridgeTokenAmount(token, token?.totalSupply)} {token?.symbol}
         </Text>
       ),
+      loading: tokenLoading,
     },
     {
       title: `Your ${token?.symbol} Balance`,
@@ -181,6 +192,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
           {formatBridgeTokenAmount(token, balance)} {token?.symbol}
         </Text>
       ),
+      loading: tokenLoading,
     },
   ]
   return (
@@ -196,8 +208,8 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
         <Table>
           {data?.map((d, index) => (
             <div className='table-item' key={index?.toString()}>
-              <div className='title'>{d?.title}</div>
-              {d.content}
+              <div className='title'>{d.loading ? <Skeleton width={50} /> : d.title}</div>
+              {d.loading ? <Skeleton width={50} /> : d.content}
             </div>
           ))}
         </Table>

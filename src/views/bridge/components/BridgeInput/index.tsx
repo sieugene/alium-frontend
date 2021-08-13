@@ -1,3 +1,4 @@
+import { Skeleton } from 'alium-uikit/src'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { BigNumber } from 'ethers'
 import { ExchangeIcon } from 'images/Exchange-icon'
@@ -87,58 +88,113 @@ const BridgeInput = () => {
 
   return (
     <InputWrapper>
-      <div className='left-column'>
-        <div className='input'>
-          <BridgeCurrencyInput
-            id='bridge-input'
-            showMaxButton={true}
-            onUserInput={setInput}
-            value={input}
-            onMax={onMax}
-            currency={token}
-            disableCurrencySelect
-            onKeyUp={delayedSetAmount}
-            loading={tokensDetailLoader}
-          />
-          {disabledApprove ? (
-            <BridgeTransferButton onClick={transfer} desktop disabled={disableBtn}>
-              Transfer
-            </BridgeTransferButton>
-          ) : (
-            <BridgeApproveBtn
-              amount={fromAmount}
-              balance={balance}
-              approve={approve}
-              buttonDisabled={disabledApprove}
-              unlockLoading={unlockLoading}
-              desktop
+      {tokensDetailLoader ? (
+        <Skeletons />
+      ) : (
+        <div className='left-column'>
+          <div className='input'>
+            <BridgeCurrencyInput
+              id='bridge-input'
+              showMaxButton={true}
+              onUserInput={setInput}
+              value={input}
+              onMax={onMax}
+              currency={token}
+              disableCurrencySelect
+              onKeyUp={delayedSetAmount}
+              loading={tokensDetailLoader}
             />
-          )}
-        </div>
+            {disabledApprove ? (
+              <BridgeTransferButton onClick={transfer} desktop disabled={disableBtn}>
+                Transfer
+              </BridgeTransferButton>
+            ) : (
+              <BridgeApproveBtn
+                amount={fromAmount}
+                balance={balance}
+                approve={approve}
+                buttonDisabled={disabledApprove}
+                unlockLoading={unlockLoading}
+                desktop
+              />
+            )}
+          </div>
 
-        <AdvancedInput>
-          {disabledApprove ? (
-            <BridgeTransferButton onClick={transfer} mobile disabled={disableBtn}>
-              Transfer
-            </BridgeTransferButton>
-          ) : (
-            <BridgeApproveBtn
-              amount={fromAmount}
-              balance={balance}
-              approve={approve}
-              buttonDisabled={disabledApprove}
-              unlockLoading={unlockLoading}
-              mobile
-            />
-          )}
-        </AdvancedInput>
-      </div>
+          <AdvancedInput>
+            {disabledApprove ? (
+              <BridgeTransferButton onClick={transfer} mobile disabled={disableBtn}>
+                Transfer
+              </BridgeTransferButton>
+            ) : (
+              <BridgeApproveBtn
+                amount={fromAmount}
+                balance={balance}
+                approve={approve}
+                buttonDisabled={disabledApprove}
+                unlockLoading={unlockLoading}
+                mobile
+              />
+            )}
+          </AdvancedInput>
+        </div>
+      )}
       <div className='right-column'>
         <SwitchIcon onClick={toggleNetworks}>
           <ExchangeIcon />
         </SwitchIcon>
       </div>
     </InputWrapper>
+  )
+}
+
+const StyledSkeleton = styled(Skeleton)`
+  padding: 0;
+  margin: 0;
+  height: auto;
+`
+
+const SkeletonInput = styled(StyledSkeleton)`
+  width: 340px;
+  height: 48px;
+  margin-right: 16px;
+  @media screen and (max-width: 768px) {
+    width: 240px;
+    height: 24px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 140px;
+    height: 24px;
+  }
+`
+
+const SkeletonBtn = styled(StyledSkeleton)`
+  width: 109px;
+  height: 48px;
+  @media screen and (max-width: 768px) {
+    width: 59px;
+    height: 24px;
+  }
+`
+
+const SkeletonAdvanced = styled(StyledSkeleton)`
+  width: 96px;
+  height: 20px;
+  margin-top: 8px;
+`
+
+const Skeletons = () => {
+  return (
+    <div>
+      <div className='left-column'>
+        <div className='input'>
+          <SkeletonInput />
+          <SkeletonBtn />
+        </div>
+        <div>
+          <SkeletonAdvanced />
+        </div>
+      </div>
+    </div>
   )
 }
 
