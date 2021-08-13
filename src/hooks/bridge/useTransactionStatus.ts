@@ -13,12 +13,12 @@ export const useTransactionStatus = () => {
   const { ethersProvider, providerChainId: chainId } = useWeb3Context()
   const isHome = chainId === homeChainId
   const bridgeChainId = getBridgeChainId(chainId)
-  const { loading, setLoading, txHash, setTxHash, totalConfirms } = useBridgeContext()
+  const { loading, setLoading, txHash, setTxHash, totalConfirms, setTransactionFailed, transactionFailed } =
+    useBridgeContext()
   const [needsConfirmation, setNeedsConfirmation] = useState(false)
   const [confirmations, setConfirmations] = useState(0)
 
   const setMessage = useStoreBridge((state) => state.setTransactionMessage)
-
   const loadingText = useStoreBridge((state) => state.transactionText)
   const setLoadingText = useStoreBridge((state) => state.setTransactionText)
 
@@ -36,6 +36,12 @@ export const useTransactionStatus = () => {
     setConfirmations(0)
   }, [])
 
+  const statusOnError = useCallback(() => {
+    setTransactionFailed(true)
+    setLoadingText('')
+    setLoading(false)
+  }, [])
+
   useEffect(() => {
     if (!loading) {
       clear()
@@ -44,6 +50,9 @@ export const useTransactionStatus = () => {
 
   const getStatus = useCallback(async () => {
     try {
+      if (transactionFailed) {
+        return
+      }
       const txReceipt = await ethersProvider.getTransactionReceipt(txHash)
       const numConfirmations = txReceipt ? txReceipt.confirmations : 0
       const enoughConfirmations = numConfirmations >= totalConfirms
@@ -66,10 +75,20 @@ export const useTransactionStatus = () => {
 
             const bridgeProvider = await getEthersProvider(bridgeChainId)
             const bridgeAmbAddress = getAMBAddress(bridgeChainId)
+            console.log('----------------------------------------')
+            console.log('bridge :: getStatus - getMessageData :: start')
+            console.log(`txHash - ${txHash}, txReceipt -`, txReceipt)
 
             const { messageId } = await getMessageData(isHome, ethersProvider, txHash, txReceipt)
-            const status = await messageCallStatus(bridgeAmbAddress, bridgeProvider, messageId)
+            console.log('bridge :: getStatus - getMessageData :: end')
+            console.log(`messageId - ${messageId}`)
 
+            console.log('bridge :: getStatus - messageCallStatus :: start')
+            console.log(`bridgeAmbAddress - ${bridgeAmbAddress}`)
+            const status = await messageCallStatus(bridgeAmbAddress, bridgeProvider, messageId)
+            console.log('bridge :: getStatus - messageCallStatus :: end')
+            console.log(`status - ${status}`)
+            console.log('----------------------------------------')
             if (status) {
               completeReceipt()
               return true
@@ -78,27 +97,16 @@ export const useTransactionStatus = () => {
         }
       }
     } catch (txError) {
+      statusOnError()
       if (isHome && txError && txError.message === NOT_ENOUGH_COLLECTED_SIGNATURES) {
         return false
       }
-      completeReceipt()
+      // completeReceipt()
       logError({ txError })
       return true
     }
     return false
-  }, [
-    ethersProvider,
-    txHash,
-    totalConfirms,
-    isHome,
-    setLoadingText,
-    getAMBAddress,
-    chainId,
-    incompleteReceipt,
-    setMessage,
-    bridgeChainId,
-    completeReceipt,
-  ])
+  }, [transactionFailed, ethersProvider, txHash, totalConfirms, isHome, setLoadingText, getAMBAddress, chainId, incompleteReceipt, setMessage, bridgeChainId, completeReceipt, statusOnError])
 
   useEffect(() => {
     if (!loading || !txHash || !ethersProvider) {

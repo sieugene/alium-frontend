@@ -35,6 +35,8 @@ export const BridgeContext = React.createContext({
   setDefaultToken: async (chainId: number) => {},
   allowed: false,
   approve: async () => {},
+  transactionFailed: false,
+  setTransactionFailed: (hasError: boolean) => {},
   loading: false,
   setLoading: (toggle: boolean) => {},
   txHash: '',
@@ -56,6 +58,7 @@ export const BridgeContext = React.createContext({
   approvalTxHash: '',
   feeManagerAddress: '',
   transfer: null as () => Promise<string>,
+  clearTransaction: null as () => void,
 })
 
 export const useBridgeContext = () => useContext(BridgeContext)
@@ -78,6 +81,7 @@ export const BridgeProvider = ({ children }) => {
   const setAmounts = useStoreBridge((state) => state.setAmounts)
 
   const [toAmountLoading, setToAmountLoading] = useState(false)
+  const [transactionFailed, setTransactionFailed] = useState(false)
   const [loading, setLoading] = useState(false)
   const [shouldReceiveNativeCur, setShouldReceiveNativeCur] = useState(false)
   const [fromBalance, setFromBalance] = useState(BigNumber.from(0))
@@ -187,6 +191,7 @@ export const BridgeProvider = ({ children }) => {
             resolve(tx.hash)
           })
           .catch((transferError) => {
+            setTransactionFailed(true)
             setLoading(false)
             logError({
               transferError,
@@ -212,6 +217,13 @@ export const BridgeProvider = ({ children }) => {
       toToken?.mode,
     ],
   )
+  const setLoadingText = useStoreBridge((state) => state.setTransactionText)
+
+  const clearTransaction = useCallback(() => {
+    setTxHash('')
+    setLoading(false)
+    setLoadingText('')
+  }, [])
 
   const setDefaultToken = useCallback(
     async (chainId: number) => {
@@ -323,6 +335,8 @@ export const BridgeProvider = ({ children }) => {
       transfer,
       loading,
       setLoading,
+      transactionFailed,
+      setTransactionFailed,
       txHash,
       setTxHash,
       totalConfirms,
@@ -342,35 +356,38 @@ export const BridgeProvider = ({ children }) => {
       approvalTxHash,
       feeManagerAddress,
       tokensDetailLoader,
+      clearTransaction,
     }),
     [
-      allowed,
-      amountInput,
-      approvalTxHash,
-      approve,
-      feeManagerAddress,
       fromAmount,
-      fromBalance,
-      fromToken,
-      loading,
-      receiver,
-      setAmount,
-      setDefaultToken,
-      setToToken,
-      setToken,
-      setTxHash,
-      shouldReceiveNativeCur,
       toAmount,
       toAmountLoading,
-      toBalance,
+      setAmount,
+      fromToken,
       toToken,
-      tokenLimits,
-      totalConfirms,
+      setToToken,
+      setToken,
+      setDefaultToken,
+      allowed,
+      approve,
       transfer,
+      loading,
+      transactionFailed,
       txHash,
-      unlockLoading,
+      setTxHash,
+      totalConfirms,
+      amountInput,
+      fromBalance,
+      toBalance,
+      tokenLimits,
       updateTokenLimits,
+      receiver,
+      shouldReceiveNativeCur,
+      unlockLoading,
+      approvalTxHash,
+      feeManagerAddress,
       tokensDetailLoader,
+      clearTransaction,
     ],
   )
 

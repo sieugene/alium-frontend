@@ -45,20 +45,22 @@ const Wrapper = styled.div`
 
 const TransferStep = () => {
   useTransactionStatus()
+  const [approved, setApproved] = useState(false)
+
   const { homeChainId } = useBridgeDirection()
   const { providerChainId: chainId } = useWeb3Context()
+
   const isHome = React.useMemo(() => chainId === homeChainId, [chainId, homeChainId])
 
-  const [loading, setLoading] = useState(false)
-  const [transferError, setTransferError] = useState(false)
   const token = useStoreBridge((state) => state.tokens.fromToken)
   const amount = useStoreBridge((state) => state.amounts.fromAmount)
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const connected = useStoreNetwork((state) => state.connected)
+
   const { networkFrom } = useBridgeNetworks()
 
-  const { transfer, loading: loadingTransaction } = useBridgeContext()
+  const { transfer, loading: loadingTransaction, transactionFailed, setTransactionFailed } = useBridgeContext()
 
   const wrongCurrentNetwork = React.useMemo(
     () => networkFrom?.chainId !== currentChainId,
@@ -68,54 +70,75 @@ const TransferStep = () => {
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
 
+  // Conditions
   const networkOrAccountErrors = wrongCurrentNetwork || !connected
-  const showLoading = loading && !networkOrAccountErrors
+  const showLoading = loadingTransaction && !networkOrAccountErrors
+  const allowCallTransfer = React.useMemo(
+    () => Boolean(!networkOrAccountErrors && transfer && !loadingTransaction && !transactionFailed),
+    [loadingTransaction, networkOrAccountErrors, transactionFailed, transfer],
+  )
+  const transferSuccess = React.useMemo(
+    () => Boolean(!networkOrAccountErrors && !loadingTransaction && approved && !transactionFailed),
+    [approved, loadingTransaction, transactionFailed, networkOrAccountErrors],
+  )
 
-  const [approved, setApproved] = useState(false)
+  // Actions
+  const onFailed = () => {
+    setApproved(false)
+    return
+  }
 
-  // If network valid and connected,  call approve
+  const onSuccessHome = () => {
+    updateStepStatus(BRIDGE_STEPS.SWITCH_NETWORK, true)
+    updateStepStatus(BRIDGE_STEPS.CLAIM_TOKEN, true)
+    changeStep(BRIDGE_STEPS.SUCCESS)
+    return
+  }
+
+  const onSuccessForeign = () => {
+    updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
+    changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+  }
+
+  // Effects
+
+  // If network valid and connected,  call transfer
   React.useEffect(() => {
-    if (!networkOrAccountErrors && !loading && !transferError && transfer && !loadingTransaction) {
-      setLoading(true)
-      transfer()
-        .then((res) => {
-          setApproved(true)
-        })
-        .catch((error) => {
-          setTransferError(true)
-          setLoading(false)
-        })
+    if (allowCallTransfer) {
+      transfer().then((res) => {
+        setApproved(true)
+      })
     }
-  }, [networkOrAccountErrors, transferError])
+  }, [allowCallTransfer])
 
   // Waiting for Block Confirmations
   React.useEffect(() => {
-    if (!loadingTransaction && approved) {
-      setLoading(false)
+    if (transactionFailed) {
+      onFailed()
+    }
+    if (transferSuccess) {
       if (!isHome) {
-        updateStepStatus(BRIDGE_STEPS.SWITCH_NETWORK, true)
-        updateStepStatus(BRIDGE_STEPS.CLAIM_TOKEN, true)
-        changeStep(BRIDGE_STEPS.SUCCESS)
+        onSuccessHome()
       } else {
-        updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
-        changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+        onSuccessForeign()
       }
     }
-  }, [loadingTransaction, approved, isHome])
+  }, [transferSuccess, isHome, transactionFailed])
 
   // Validate chainId if current not equal "from" chainId
   React.useEffect(() => {
     if (wrongCurrentNetwork) {
+      onFailed()
       setChainId(networkFrom?.chainId)
     }
   }, [wrongCurrentNetwork])
 
   return (
     <Wrapper>
-      {transferError ? (
+      {transactionFailed ? (
         <TransferError
           onRepeat={() => {
-            setTransferError(false)
+            setTransactionFailed(false)
           }}
         />
       ) : showLoading ? (
