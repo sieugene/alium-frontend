@@ -86,6 +86,7 @@ export const BridgeProvider = ({ children }) => {
   const [transactionFailed, setTransactionFailed] = useState(false)
   const txHash = useStoreBridge((state) => state.txHash)
   const setTxHash = useStoreBridge((state) => state.setTxHash)
+  const setLoadingText = useStoreBridge((state) => state.setTransactionText)
   // Transaction End
   const [fromBalance, setFromBalance] = useState(BigNumber.from(0))
   const [toBalance, setToBalance] = useState(BigNumber.from(0))
@@ -174,12 +175,11 @@ export const BridgeProvider = ({ children }) => {
     [bridgeDirection, getBridgeChainId, setTokens, toast],
   )
 
-  const setLoadingText = useStoreBridge((state) => state.setTransactionText)
-
   const clearTransaction = useCallback(() => {
     setTxHash('')
     setLoading(false)
     setLoadingText('')
+    setTransactionFailed(false)
   }, [])
 
   const setDefaultToken = useCallback(

@@ -47,8 +47,6 @@ export const useBridgeTransfer = () => {
             resolve(tx.hash)
           })
           .catch((transferError) => {
-            setTransactionFailed(true)
-            setLoading(false)
             logError({
               transferError,
               fromToken,
@@ -57,6 +55,8 @@ export const useBridgeTransfer = () => {
               account,
             })
             reject(transferError)
+            setTransactionFailed(true)
+            setLoading(false)
           })
       }),
     [

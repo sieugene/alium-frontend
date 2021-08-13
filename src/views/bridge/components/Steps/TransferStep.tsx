@@ -105,9 +105,13 @@ const TransferStep = () => {
   // If network valid and connected,  call transfer
   React.useEffect(() => {
     if (allowCallTransfer) {
-      transfer().then((res) => {
-        setApproved(true)
-      })
+      transfer()
+        .then((res) => {
+          setApproved(true)
+        })
+        .catch((error) => {
+          setApproved(false)
+        })
     }
   }, [allowCallTransfer])
 

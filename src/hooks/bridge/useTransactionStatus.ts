@@ -1,6 +1,7 @@
+import { Web3Provider } from '@ethersproject/providers'
 import { POLLING_INTERVAL } from 'constants/bridge/bridge.env'
 import { useBridgeContext } from 'contexts/BridgeContext'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { logError } from 'utils/bridge/helpers'
 import { getMessage, getMessageData, messageCallStatus, NOT_ENOUGH_COLLECTED_SIGNATURES } from 'utils/bridge/message'
 import { getEthersProvider } from 'utils/bridge/providers'
@@ -9,18 +10,20 @@ import { useBridgeDirection } from './useBridgeDirection'
 import { useWeb3Context } from './useWeb3Context'
 
 export const useTransactionStatus = () => {
-  const { homeChainId, getBridgeChainId, getAMBAddress } = useBridgeDirection()
-  const { ethersProvider, providerChainId: chainId } = useWeb3Context()
-  const isHome = chainId === homeChainId
-  const bridgeChainId = getBridgeChainId(chainId)
-  const { loading, setLoading, txHash, setTxHash, totalConfirms, setTransactionFailed, transactionFailed } =
-    useBridgeContext()
   const [needsConfirmation, setNeedsConfirmation] = useState(false)
   const [confirmations, setConfirmations] = useState(0)
 
+  const { homeChainId, getBridgeChainId, getAMBAddress } = useBridgeDirection()
+  const { ethersProvider, providerChainId: chainId } = useWeb3Context()
   const setMessage = useStoreBridge((state) => state.setTransactionMessage)
   const loadingText = useStoreBridge((state) => state.transactionText)
   const setLoadingText = useStoreBridge((state) => state.setTransactionText)
+
+  const { loading, setLoading, txHash, setTxHash, totalConfirms, setTransactionFailed, transactionFailed } =
+    useBridgeContext()
+
+  const isHome = chainId === homeChainId
+  const bridgeChainId = getBridgeChainId(chainId)
 
   const completeReceipt = useCallback(() => {
     setTxHash('')
@@ -97,6 +100,7 @@ export const useTransactionStatus = () => {
         }
       }
     } catch (txError) {
+      console.error(txError)
       statusOnError()
       if (isHome && txError && txError.message === NOT_ENOUGH_COLLECTED_SIGNATURES) {
         return false
@@ -106,10 +110,50 @@ export const useTransactionStatus = () => {
       return true
     }
     return false
-  }, [transactionFailed, ethersProvider, txHash, totalConfirms, isHome, setLoadingText, getAMBAddress, chainId, incompleteReceipt, setMessage, bridgeChainId, completeReceipt, statusOnError])
+  }, [
+    transactionFailed,
+    ethersProvider,
+    txHash,
+    totalConfirms,
+    isHome,
+    setLoadingText,
+    getAMBAddress,
+    chainId,
+    incompleteReceipt,
+    setMessage,
+    bridgeChainId,
+    completeReceipt,
+    statusOnError,
+  ])
+
+  usePollingTs({ getStatus, loading, txHash, ethersProvider, setLoadingText })
 
   useEffect(() => {
-    if (!loading || !txHash || !ethersProvider) {
+    setNeedsConfirmation((needs) => chainId === homeChainId && needs)
+  }, [chainId, homeChainId])
+
+  return {
+    loadingText,
+    needsConfirmation,
+    setNeedsConfirmation,
+    confirmations,
+  }
+}
+
+interface Params {
+  getStatus: () => Promise<boolean>
+  loading: boolean
+  txHash: string
+  ethersProvider: Web3Provider
+  setLoadingText: (transactionText: string) => void
+}
+
+const usePollingTs = ({ getStatus, loading, txHash, ethersProvider, setLoadingText }: Params) => {
+  // Conditions
+  const notAllowPingTx = useMemo(() => !loading || !txHash || !ethersProvider, [loading, txHash, ethersProvider])
+
+  useEffect(() => {
+    if (notAllowPingTx) {
       return
     }
 
@@ -140,16 +184,5 @@ export const useTransactionStatus = () => {
       isSubscribed = false
       unsubscribe()
     }
-  }, [ethersProvider, txHash])
-
-  useEffect(() => {
-    setNeedsConfirmation((needs) => chainId === homeChainId && needs)
-  }, [chainId, homeChainId])
-
-  return {
-    loadingText,
-    needsConfirmation,
-    setNeedsConfirmation,
-    confirmations,
-  }
+  }, [notAllowPingTx])
 }
