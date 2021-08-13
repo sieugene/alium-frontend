@@ -125,7 +125,7 @@ export const networksProd: NetworksConfig[] = [
     label: 'Ethereum Chain',
     chainId: 1,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
-    direction: 'rinkeby',
+    direction: 'eth',
   },
 ]
 export const networksDev: NetworksConfig[] = [

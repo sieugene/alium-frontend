@@ -11,6 +11,7 @@ export const useBridgeDirection = () => {
     const mainBridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE = `${networkFrom?.direction}-${networkTo?.direction}` as any
     const revertedBridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE =
       `${networkTo?.direction}-${networkFrom?.direction}` as any
+
     if (!networks[mainBridgeDirection]) {
       return { bridgeDirection: revertedBridgeDirection, reverted: true }
     }
