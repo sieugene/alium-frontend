@@ -8,7 +8,7 @@ import { fetchTokenBalance } from 'utils/bridge/token'
 import BridgeNetwork from '../BridgeNetwork'
 
 export const ToToken = React.memo(() => {
-  const { account, providerChainId } = useWeb3Context()
+  const { providerChainId, account, connected } = useWeb3Context()
   const { getBridgeChainId, bridgeDirection } = useBridgeDirection()
   const {
     txHash,
@@ -21,8 +21,10 @@ export const ToToken = React.memo(() => {
   const [balanceLoading, setBalanceLoading] = useState(false)
 
   useEffect(() => {
-    if (token && account && chainId === token.chainId) {
+    if (token && account && chainId === token.chainId && connected) {
       setBalanceLoading(true)
+      setBalance(BigNumber.from(0))
+
       fetchTokenBalance(token, account)
         .then((b) => {
           setBalance(b)
@@ -37,7 +39,7 @@ export const ToToken = React.memo(() => {
     } else {
       setBalance(BigNumber.from(0))
     }
-  }, [txHash, token, account, setBalance, setBalanceLoading, chainId, bridgeDirection])
+  }, [txHash, token, account, setBalance, setBalanceLoading, chainId, bridgeDirection, connected])
 
   return (
     <div>

@@ -1,5 +1,6 @@
 import { Currency, Pair } from '@alium-official/sdk'
 import { ArrowDropDownIcon, Button, Text } from 'alium-uikit/src'
+import Loader from 'components/Loader'
 import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
@@ -121,6 +122,7 @@ interface CurrencyInputPanelProps {
   currencyList?: any
   customHeight?: number
   onKeyUp?: any
+  loading?: boolean
 }
 
 export default function BridgeCurrencyInput({
@@ -141,6 +143,7 @@ export default function BridgeCurrencyInput({
   currencyList,
   customHeight,
   onKeyUp,
+  loading,
 }: CurrencyInputPanelProps) {
   const theme = useTheme()
   const { t } = useTranslation()
@@ -222,7 +225,7 @@ export default function BridgeCurrencyInput({
                       )}`
                     : currency?.symbol) || (
                     <Text color='#8990A5' style={{ fontSize: '14px' }}>
-                      {t('selectToken')}
+                      {loading && <Loader />}
                     </Text>
                   )}
                 </Text>

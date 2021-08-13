@@ -1,11 +1,13 @@
+import { Skeleton } from 'alium-uikit/src'
 import BridgeModal, { CloseItem } from 'components/Modal/BridgeModal'
+import { MAINNET_BDRIGE_OWNER, TESTNET_BDRIGE_OWNER } from 'constants/bridge/bridge.constants'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import React, { FC } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { getExplorerLink, getExplorerName } from 'utils'
-import { formatValue } from 'utils/bridge/helpers'
+import { formatBridgeTokenAmount, formatValue } from 'utils/bridge/helpers'
 
 const Wrapper = styled.div`
   width: 450px;
@@ -99,11 +101,19 @@ interface Props {
   type: BridgeNetworks
 }
 const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
+  const ownerForeignAddress = process.env.APP_ENV === 'development' ? TESTNET_BDRIGE_OWNER : MAINNET_BDRIGE_OWNER
   const isFrom = type === 'fromNetwork'
   const chainId = useStoreBridge((state) => state[type])
   const token = useStoreBridge((state) => (isFrom ? state.tokens.fromToken : state.tokens.toToken))
-  const { toBalance, fromBalance } = useBridgeContext()
+  const { toBalance, fromBalance, tokenLimits } = useBridgeContext()
   const balance = isFrom ? fromBalance : toBalance
+
+  const formattedTokenLimits = token &&
+    tokenLimits && {
+      minPerTx: formatValue(tokenLimits.minPerTx, token?.decimals) || '0',
+      maxPerTx: formatValue(tokenLimits.maxPerTx, token?.decimals) || '0',
+      dailyLimit: formatValue(tokenLimits.dailyLimit, token?.decimals) || '0',
+    }
 
   const network = networkFinder(chainId)
   const explorer = getExplorerName(chainId)
@@ -112,48 +122,77 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
   const onDismiss = () => {
     setModalOpen(false)
   }
+
+  const tokenLoading = !token
+  const tokenLimitLoading = !formattedTokenLimits
   const data = [
     {
       title: 'Default RPC URL',
       content: <TextLink link={getExplorerLink(chainId, '', 'default')} />,
+      loading: false,
     },
     {
       title: 'Bridge Foreign Address',
-      content: <TextLink link='0x4aa4..5016' />,
+      content: (
+        <TextLink
+          link={getExplorerLink(chainId, ownerForeignAddress, 'address')}
+          text={textEllipsis(ownerForeignAddress)}
+        />
+      ),
+      loading: false,
     },
     {
       title: 'Token Address',
       content: (
         <TextLink link={getExplorerLink(chainId, token?.address, 'token')} text={textEllipsis(token?.address)} />
       ),
+      loading: tokenLoading,
     },
     {
       title: 'Token Name',
       content: <Text>{token?.name}</Text>,
+      loading: tokenLoading,
     },
     {
       title: `Remaining Daily ${token?.symbol} Quota`,
-      content: <Text>0x6B17...1d0F</Text>,
+      content: <Text>{formattedTokenLimits?.dailyLimit}</Text>,
+      loading: tokenLimitLoading,
     },
     {
       title: 'Maximum Amount Per Transaction',
-      content: <Text>9,999,999 {token?.symbol}</Text>,
+      content: (
+        <Text>
+          {formattedTokenLimits?.maxPerTx} {token?.symbol}
+        </Text>
+      ),
+      loading: tokenLimitLoading,
     },
     {
       title: 'Minimum Amount Per Transaction',
-      content: <Text>0.005 {token?.symbol}</Text>,
+      content: (
+        <Text>
+          {formattedTokenLimits?.minPerTx} {token?.symbol}
+        </Text>
+      ),
+      loading: tokenLimitLoading,
     },
     {
       title: `${token?.symbol} Tokens Amount`,
-      content: <Text>4,953,393,087.85 {token?.symbol}</Text>,
+      content: (
+        <Text>
+          {formatBridgeTokenAmount(token, token?.totalSupply)} {token?.symbol}
+        </Text>
+      ),
+      loading: tokenLoading,
     },
     {
       title: `Your ${token?.symbol} Balance`,
       content: (
         <Text>
-          {formatValue(balance, token?.decimals)} {token?.symbol}
+          {formatBridgeTokenAmount(token, balance)} {token?.symbol}
         </Text>
       ),
+      loading: tokenLoading,
     },
   ]
   return (
@@ -169,8 +208,8 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
         <Table>
           {data?.map((d, index) => (
             <div className='table-item' key={index?.toString()}>
-              <div className='title'>{d?.title}</div>
-              {d.content}
+              <div className='title'>{d.loading ? <Skeleton width={50} /> : d.title}</div>
+              {d.loading ? <Skeleton width={50} /> : d.content}
             </div>
           ))}
         </Table>

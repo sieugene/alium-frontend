@@ -22,9 +22,9 @@ module.exports = {
     'max-params': 0, // temp
     'max-nested-callbacks': 0, // temp
     '@next/next/no-img-element': 0, // temp
-    'react/jsx-no-useless-fragment': 0, // temp
-    'react-hooks/rules-of-hooks': 2, // enable for errors: rules of hooks
-    'react-hooks/exhaustive-deps': 0,
+    // 'react/jsx-no-useless-fragment': 0, // temp
+    // 'react-hooks/rules-of-hooks': 2, // enable for errors: rules of hooks
+    // 'react-hooks/exhaustive-deps': 0,
     complexity: 0,
   },
   overrides: [

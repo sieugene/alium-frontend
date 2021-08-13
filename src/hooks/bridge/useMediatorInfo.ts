@@ -7,12 +7,13 @@ import { useWeb3Context } from './useWeb3Context'
 
 export const useMediatorInfo = () => {
   const { homeChainId, homeMediatorAddress } = useBridgeDirection()
-  const { account } = useWeb3Context()
+  const { account, connected } = useWeb3Context()
   const [currentDay, setCurrentDay] = useState()
   const [feeManagerAddress, setFeeManagerAddress] = useState('')
   const [loading, setloading] = useState(false)
 
   useEffect(() => {
+    if (!connected) return
     const processMediatorData = async () => {
       setloading(true)
       if (!account || !homeChainId || !homeMediatorAddress || loading) return
@@ -51,7 +52,7 @@ export const useMediatorInfo = () => {
         .catch((currentDayError) => logError({ currentDayError }))
     }
     processMediatorData()
-  }, [])
+  }, [account, connected, homeChainId, homeMediatorAddress, loading])
 
   return {
     currentDay,

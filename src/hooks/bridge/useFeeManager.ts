@@ -5,8 +5,10 @@ import { logError } from 'utils/bridge/helpers'
 import { getEthersProvider } from 'utils/bridge/providers'
 import { useBridgeDirection } from './useBridgeDirection'
 import { useMediatorInfo } from './useMediatorInfo'
+import { useWeb3Context } from './useWeb3Context'
 
 export const useFeeManager = () => {
+  const { connected } = useWeb3Context()
   const { homeChainId } = useBridgeDirection()
   const { account } = useActiveWeb3React()
   const { feeManagerAddress } = useMediatorInfo()
@@ -19,7 +21,7 @@ export const useFeeManager = () => {
   )
 
   useEffect(() => {
-    if (!feeManagerAddress) return
+    if (!feeManagerAddress || !connected) return
     const calculateFees = async () => {
       const ethersProvider = await getEthersProvider(homeChainId)
       const abi = [
@@ -40,10 +42,10 @@ export const useFeeManager = () => {
     }
 
     calculateFees()
-  }, [])
+  }, [feeManagerAddress, homeChainId, connected])
 
   useEffect(() => {
-    if (!account) return
+    if (!account || !connected) return
     if (!feeManagerAddress) return
     const checkRewardAddress = async () => {
       const ethersProvider = await getEthersProvider(homeChainId)
@@ -55,7 +57,7 @@ export const useFeeManager = () => {
         .catch((rewardAddressError) => logError({ rewardAddressError }))
     }
     checkRewardAddress()
-  }, [])
+  }, [account, feeManagerAddress, homeChainId, connected])
 
   return {
     isRewardAddress,

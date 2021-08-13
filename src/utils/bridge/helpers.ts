@@ -1,6 +1,5 @@
+import { BigintIsh } from '@alium-official/sdk'
 import { Web3Provider } from '@ethersproject/providers'
-import { BigNumber, utils } from 'ethers'
-import { getAddress } from 'ethers/lib/utils'
 import {
   chainUrls,
   defaultTokensUrl,
@@ -10,11 +9,11 @@ import {
   networkCurrencies,
   networkLabels,
   networkNames,
-} from 'utils/bridge/constants'
-import { BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
+} from 'constants/bridge/bridge.constants'
 import {
   BSC_HECO_BRIDGE,
   BSC_POLYGON_BRIDGE,
+  BSC_POLYGON_TEST_BRIDGE,
   BSC_RINKEBY_BRIDGE,
   BSC_ROPSTEN_BRIDGE,
   BSC_XDAI_BRIDGE,
@@ -24,7 +23,11 @@ import {
   ETH_XDAI_BRIDGE,
   KOVAN_SOKOL_BRIDGE,
   networks,
-} from 'utils/bridge/networks'
+} from 'constants/bridge/bridge.networks'
+import { BigNumber, utils } from 'ethers'
+import { getAddress } from 'ethers/lib/utils'
+import { BridgeTokenAmount, BridgeTokenObject } from 'utils/bridge/entities/BridgeToken'
+import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { BridgeToken } from './entities/BridgeToken'
 import { getOverriddenMediator, isOverridden } from './overrides'
 
@@ -77,6 +80,15 @@ export const formatValue = (num: BigNumber, dec: number) => {
   return Number(str).toLocaleString('en', { maximumFractionDigits: 4 })
 }
 
+export const formatBridgeTokenAmount = (token: BridgeToken, amount: BigNumber) => {
+  const tokenAmount: unknown = amount
+  if (!token) {
+    return '0'
+  }
+  const amounted = new BridgeTokenAmount(token, tokenAmount as BigintIsh)
+  return toSignificantCurrency(amounted)
+}
+
 export const parseValue = (num: number | string, dec: number) => {
   if (!num || isNaN(Number(num))) {
     return BigNumber.from(0)
@@ -127,10 +139,10 @@ export const logError = (error) => {
 }
 
 export const logDebug = (error) => {
-  if (process.env.REACT_APP_DEBUG_LOGS === 'true') {
-    // eslint-disable-next-line no-console
-    console.debug(error)
-  }
+  // if (process.env.REACT_APP_DEBUG_LOGS === 'true') {
+  //   // eslint-disable-next-line no-console
+  //   console.debug(error)
+  // }
 }
 
 const {
@@ -144,6 +156,7 @@ const {
   KOVAN_RPC_URL,
   SOKOL_RPC_URL,
   HECO_RPC_URL,
+  POLYGON_RPC_URL,
 } = LOCAL_STORAGE_KEYS
 
 export const getRPCKeys = (bridgeDirection) => {
@@ -163,10 +176,15 @@ export const getRPCKeys = (bridgeDirection) => {
         homeRPCKey: BSC_TESTNET_RPC_URL,
         foreignRPCKey: HECO_RPC_URL,
       }
-    case BSC_POLYGON_BRIDGE:
+    case BSC_POLYGON_TEST_BRIDGE:
       return {
         homeRPCKey: BSC_TESTNET_RPC_URL,
         foreignRPCKey: POLYGON_TESTNET_RPC_URL,
+      }
+    case BSC_POLYGON_BRIDGE:
+      return {
+        homeRPCKey: BSC_RPC_URL,
+        foreignRPCKey: POLYGON_RPC_URL,
       }
     case ETH_BSC_BRIDGE:
       return {
@@ -226,13 +244,15 @@ export const getDefaultToken = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, cha
   const token: BridgeTokenObject = JSON.parse(tokenString)
 
   if (token && token.chainId === chainId) return new BridgeToken(token)
-  const defaultToken = defaultTokens[bridgeDirection][chainId] || {}
-  const tokenRaw = new BridgeToken({
-    decimals: 18,
-    mediator: '',
-    mode: '',
-    ...defaultToken,
-  })
+  const defaultToken = defaultTokens?.[bridgeDirection]?.[chainId] || null
+  const tokenRaw =
+    defaultToken &&
+    new BridgeToken({
+      decimals: 18,
+      mediator: '',
+      mode: '',
+      ...defaultToken,
+    })
   return tokenRaw
 }
 

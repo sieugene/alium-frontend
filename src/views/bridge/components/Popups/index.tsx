@@ -4,6 +4,7 @@ import BridgeTransferProcess from './BridgeTransferProcess'
 
 const PopupsBridge = () => {
   const step = useStoreBridge((state) => state.step)
+
   return (
     <>
       {BRIDGE_STEPS.CONFIRM_TRANSFER === step && <BridgeConfirmTransfer />}
