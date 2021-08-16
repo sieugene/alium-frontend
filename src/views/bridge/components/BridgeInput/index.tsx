@@ -81,7 +81,12 @@ const BridgeInput = () => {
     setAmount(balance)
   }
 
-  const disableBtn = toAmount <= BigNumber.from(0) || fromAmount <= BigNumber.from(0) || Boolean(Number(input) <= 0)
+  const disableBtn =
+    toAmount <= BigNumber.from(0) ||
+    fromAmount <= BigNumber.from(0) ||
+    Boolean(Number(input) <= 0) ||
+    tokensDetailLoader ||
+    toAmountLoading
 
   const isRebaseToken = isRebasingToken(token)
   const disabledApprove = allowed || isRebaseToken || toAmountLoading
