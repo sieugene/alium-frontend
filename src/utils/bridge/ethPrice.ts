@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
-import { REACT_APP_ETH_PRICE_API_URL, REACT_APP_ETH_PRICE_UPDATE_INTERVAL } from 'utils/bridge/env'
+import { REACT_APP_ETH_PRICE_API_URL, REACT_APP_ETH_PRICE_UPDATE_INTERVAL } from 'constants/bridge/bridge.env'
 import { logDebug, logError } from 'utils/bridge/helpers'
 
 const ethPriceFromApi = async (fetchFn: () => Promise<any>) => {

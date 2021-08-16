@@ -6,6 +6,7 @@ import { NEVER_RELOAD, useSingleCallResult } from 'state/multicall/hooks'
 import { useUserAddedTokens } from 'state/user/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { isAddress } from 'utils'
+import { newTokenChecksummed } from 'utils/newTokenChecksummed'
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
@@ -78,7 +79,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
     if (!chainId || !address) return undefined
     if (decimals.loading || symbol.loading || tokenName.loading) return null
     if (decimals.result) {
-      return new Token(
+      return newTokenChecksummed(
         chainId,
         address,
         decimals.result[0],

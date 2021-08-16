@@ -12,5 +12,7 @@ export const useWeb3Context = () => {
   const account = React.useMemo(() => web3.account, [web3.account])
   const providerChainId = React.useMemo(() => chainId, [chainId])
 
-  return { providerChainId, ethersProvider, account, isGnosisSafe: false, connected }
+  const wasConnected = connected || account
+
+  return { providerChainId, ethersProvider, account, isGnosisSafe: false, connected: wasConnected }
 }

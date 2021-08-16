@@ -1,5 +1,5 @@
+import { ADDRESS_ZERO } from 'constants/bridge/bridge.constants'
 import { gql, request } from 'graphql-request'
-import { ADDRESS_ZERO } from './constants'
 
 const pageSize = 1000
 

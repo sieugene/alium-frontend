@@ -1,6 +1,6 @@
+import { LARGEST_UINT256, LOCAL_STORAGE_KEYS } from 'constants/bridge/bridge.constants'
 import { BigNumber } from 'ethers'
 import { useCallback, useEffect, useState } from 'react'
-import { LARGEST_UINT256, LOCAL_STORAGE_KEYS } from 'utils/bridge/constants'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import { logError } from 'utils/bridge/helpers'
 import { approveToken, fetchAllowance } from 'utils/bridge/token'
@@ -9,21 +9,25 @@ import { useWeb3Context } from './useWeb3Context'
 const { INFINITE_UNLOCK } = LOCAL_STORAGE_KEYS
 
 export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHash: string) => {
-  const { account, ethersProvider, providerChainId } = useWeb3Context()
+  const { account, ethersProvider, providerChainId, connected } = useWeb3Context()
   const [allowance, setAllowance] = useState(BigNumber.from(0))
   const [allowed, setAllowed] = useState(true)
 
   useEffect(() => {
-    if (fromToken && providerChainId === fromToken.chainId) {
-      fetchAllowance(fromToken, account, ethersProvider).then(setAllowance)
+    if (fromToken && providerChainId === fromToken.chainId && ethersProvider && connected) {
+      fetchAllowance(fromToken, account, ethersProvider)
+        .then(setAllowance)
+        .catch((error) => {
+          setAllowance(BigNumber.from(0))
+        })
     } else {
       setAllowance(BigNumber.from(0))
     }
-  }, [])
+  }, [account, connected, ethersProvider, fromToken, providerChainId])
 
   useEffect(() => {
     setAllowed((fromToken && ['NATIVE', 'erc677'].includes(fromToken.mode)) || allowance.gte(fromAmount))
-  }, [])
+  }, [allowance, fromAmount, fromToken])
 
   const [unlockLoading, setUnlockLoading] = useState(false)
   const [approvalTxHash, setApprovalTxHash] = useState('')
@@ -33,9 +37,14 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
     const approvalAmount = window.localStorage.getItem(INFINITE_UNLOCK) === 'true' ? LARGEST_UINT256 : fromAmount
     try {
       const tx = await approveToken(ethersProvider, fromToken, approvalAmount)
+      console.log(`approveToken :: tx/result ::`)
+      console.log(tx)
+
       setApprovalTxHash(tx.hash)
+      console.log('approveToken :: tx.wait() :: start')
       await tx.wait()
       setAllowance(approvalAmount)
+      console.log('approveToken :: tx.wait() :: end')
     } catch (approveError) {
       logError({
         approveError,

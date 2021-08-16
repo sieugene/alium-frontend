@@ -32,6 +32,9 @@ export interface StoreBridgeState {
   toggleNetworks: () => void
   setTokens: (tokens: StoreBridgeState['tokens']) => void
   setAmounts: (amounts: StoreBridgeState['amounts']) => void
+  setTransactionMessage: (transactionMessage: any) => void
+  setTransactionText: (transactionText: string) => void
+  networkBalancer: (from?: number, to?: number) => void
   tokens: {
     fromToken: BridgeToken | null
     toToken: BridgeToken | null
@@ -42,6 +45,8 @@ export interface StoreBridgeState {
   }
   txHash: string | null
   setTxHash: (hash: string | null) => void
+  transactionText: string
+  transactionMessage: any
 }
 // Storage
 const storage = bridgeStorage()
@@ -51,12 +56,57 @@ export const networkFinder = (chainId: number) => {
   return chainId && networks && networks.find((n) => n.chainId === chainId)
 }
 
+const balanceChains = (from?: number, to?: number) => {
+  const networks = getNetworks()
+  const defaultChain: number = networks[0].chainId
+  const hecoChain: number = networks[1].chainId
+
+  const _from: number = from || storeBridge.getState().fromNetwork || defaultChain
+  const _to: number = to || storeBridge.getState().toNetwork || defaultChain
+  const chains = [_from, _to]
+
+  // No bsc cases
+  const BSC_NOT_EXIST = !chains.includes(defaultChain)
+  const NO_BSC_FROM_AND_TO_PARAMS_NOT_EQUAL = Boolean(BSC_NOT_EXIST && from && to && from !== to)
+  const NO_BSC_TO_PARAM = Boolean(BSC_NOT_EXIST && to)
+  const NO_BSC_FROM_PARAM = Boolean(BSC_NOT_EXIST && from)
+  // Default cases
+  const FROM_AND_TO_EQUAL = _from === _to
+
+  switch (true) {
+    case NO_BSC_FROM_AND_TO_PARAMS_NOT_EQUAL:
+      return {
+        fromNetwork: from,
+        toNetwork: to,
+      }
+    case NO_BSC_TO_PARAM:
+      return {
+        fromNetwork: defaultChain,
+        toNetwork: to,
+      }
+    case NO_BSC_FROM_PARAM:
+      return {
+        fromNetwork: _from,
+        toNetwork: defaultChain,
+      }
+    case FROM_AND_TO_EQUAL:
+      return { fromNetwork: _from, toNetwork: hecoChain }
+
+    default:
+      return {
+        fromNetwork: _from,
+        toNetwork: _to,
+      }
+  }
+}
+
 export const storeBridgeDefault = () => {
   return {
-    // fromNetwork: storeNetwork.getState().currentChainId,
+    fromNetwork: storeNetwork.getState().currentChainId,
+    toNetwork: null,
+    transactionText: '',
+    transactionMessage: null,
     txHash: '',
-    fromNetwork: getNetworks()[0]?.chainId,
-    toNetwork: getNetworks()[1]?.chainId || null,
     modalOpen: false,
     step: BRIDGE_STEPS.CONFIRM_TRANSFER,
     stepStatuses: {
@@ -80,6 +130,17 @@ export const storeBridgeDefault = () => {
 // store for usage outside of react
 export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
   ...storeBridgeDefault(),
+  networkBalancer: (from?: number, to?: number) => {
+    const chains = balanceChains(from, to)
+    set({ ...chains })
+  },
+
+  setTransactionMessage: (transactionMessage: any) => {
+    set({ transactionMessage })
+  },
+  setTransactionText: (transactionText: string) => {
+    set({ transactionText })
+  },
   setTokens: (tokens: StoreBridgeState['tokens']) => {
     set({ tokens })
   },
@@ -104,15 +165,12 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     set({ step })
   },
   setFromNetwork: (chainId?: number) => {
-    const id = chainId || storeNetwork.getState().currentChainId
-    set({
-      fromNetwork: id,
-    })
+    const networkBalancer = get().networkBalancer
+    networkBalancer(chainId)
   },
   setToNetwork: (chainId: number) => {
-    set({
-      toNetwork: chainId,
-    })
+    const networkBalancer = get().networkBalancer
+    networkBalancer(null, chainId)
     storage.save()
   },
 
@@ -126,19 +184,23 @@ export const storeBridge = createVanilla<StoreBridgeState>((set, get) => ({
     setChainId(toNetwork)
   },
   initStoreBridge: () => {
-    // const setFromNetwork = get().setFromNetwork
+    const balancer = get().networkBalancer
+    balancer()
     storage.migrate()
     storage.save()
     // not need every change update?
-    // storeNetwork.subscribe(
-    //   (currentChainId: number, prevChainId: number) => {
-    //     if (currentChainId !== prevChainId) {
-    //       storage.save()
-    //       setFromNetwork(currentChainId)
-    //     }
-    //   },
-    //   (state) => state.currentChainId,
-    // )
+    storeNetwork.subscribe(
+      (currentChainId: number, prevChainId: number) => {
+        if (currentChainId !== prevChainId) {
+          const currentStep = get().step
+          if (currentStep === BRIDGE_STEPS.CONFIRM_TRANSFER) {
+            balancer(currentChainId)
+          }
+          storage.save()
+        }
+      },
+      (state) => state.currentChainId,
+    )
   },
   killStoreBridge: () => {
     storeBridge.destroy()

@@ -1,8 +1,11 @@
 import { Token } from '@alium-official/sdk'
+import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import { FC } from 'react'
 import { ChevronRight } from 'react-feather'
 import Loader from 'react-loader-spinner'
+import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import { getExplorerLink } from 'utils'
 
 const StyledLoader = styled(Loader)`
   width: 80px;
@@ -17,6 +20,11 @@ export const View = styled.div`
   font-weight: bold;
   font-size: 14px;
   line-height: 20px;
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   letter-spacing: 1px;
 
@@ -36,6 +44,11 @@ interface Props {
   amount: string
 }
 const TransferLoader: FC<Props> = ({ token, amount }) => {
+  const loadingText = useStoreBridge((state) => state.transactionText)
+  const txHash = useStoreBridge((state) => state.txHash)
+  const { providerChainId } = useWeb3Context()
+
+  const link = getExplorerLink(providerChainId, txHash, 'transaction')
   return (
     <>
       <StyledLoader type='TailSpin' color='#6C5DD3' />
@@ -43,10 +56,14 @@ const TransferLoader: FC<Props> = ({ token, amount }) => {
       <h2>
         Transfer {amount} {token?.symbol} pending...
       </h2>
-      <p>Transaction is pending...</p>
-      <View>
-        View on explorer <ChevronRight />
-      </View>
+      <p>{loadingText || 'Transaction is pending...'}</p>
+      {txHash && (
+        <View>
+          <a href={link} target='_blank'>
+            View on explorer <ChevronRight />
+          </a>
+        </View>
+      )}
     </>
   )
 }

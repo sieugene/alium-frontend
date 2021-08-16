@@ -3,6 +3,7 @@ import useOnClickOutside from 'hooks/useOnClickOutside'
 import React, { FC, useRef } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -77,7 +78,8 @@ const DropdownBridgeNetworks: FC<Props> = ({ type }) => {
 
   const from = useStoreBridge((state) => state.fromNetwork)
   const to = useStoreBridge((state) => state.toNetwork)
-  const setFromNetwork = useStoreBridge((state) => state.setFromNetwork)
+  // const setFromNetwork = useStoreBridge((state) => state.setFromNetwork)
+  const setChainId = useStoreNetwork((state) => state.setChainId)
   const setToNetwork = useStoreBridge((state) => state.setToNetwork)
 
   const activeNetworks = [from, to]
@@ -92,7 +94,8 @@ const DropdownBridgeNetworks: FC<Props> = ({ type }) => {
   const changeNetwork = (chainId: number) => {
     if (!isActiveNetwork(chainId)) {
       if (type === 'fromNetwork') {
-        setFromNetwork(chainId)
+        setChainId(chainId)
+        // setFromNetwork(chainId)
       }
       if (type === 'toNetwork') {
         setToNetwork(chainId)

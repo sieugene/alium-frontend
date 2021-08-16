@@ -1,11 +1,14 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
+import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
+import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import { BridgeConfirmIcon } from 'images/bridge/BridgeConfirmIcon'
 import React, { useState } from 'react'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { formatValue } from 'utils/bridge/helpers'
+import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
+import { useBridgeTransfer } from 'views/bridge/hooks/useBridgeTransfer'
 import TransferError from '../Errors/TransferError'
 import TransferLoader from '../Loaders/TransferLoader'
 
@@ -41,16 +44,23 @@ const Wrapper = styled.div`
 `
 
 const TransferStep = () => {
-  const [loading, setLoading] = useState(false)
-  const [transferError, setTransferError] = useState(false)
+  const [approved, setApproved] = useState(false)
+
+  const { homeChainId } = useBridgeDirection()
+  const { providerChainId: chainId } = useWeb3Context()
+
+  const isHome = React.useMemo(() => chainId === homeChainId, [chainId, homeChainId])
+
   const token = useStoreBridge((state) => state.tokens.fromToken)
   const amount = useStoreBridge((state) => state.amounts.fromAmount)
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const connected = useStoreNetwork((state) => state.connected)
+
   const { networkFrom } = useBridgeNetworks()
 
-  const { transfer } = useBridgeContext()
+  const { loading: loadingTransaction, transactionFailed, setTransactionFailed } = useBridgeContext()
+  const transfer = useBridgeTransfer()
 
   const wrongCurrentNetwork = React.useMemo(
     () => networkFrom?.chainId !== currentChainId,
@@ -60,44 +70,83 @@ const TransferStep = () => {
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
 
+  // Conditions
   const networkOrAccountErrors = wrongCurrentNetwork || !connected
-  const showLoading = loading && !networkOrAccountErrors
+  const showLoading = loadingTransaction && !networkOrAccountErrors
+  const allowCallTransfer = React.useMemo(
+    () => Boolean(!networkOrAccountErrors && transfer && !loadingTransaction && !transactionFailed),
+    [loadingTransaction, networkOrAccountErrors, transactionFailed, transfer],
+  )
+  const transferSuccess = React.useMemo(
+    () => Boolean(!networkOrAccountErrors && !loadingTransaction && approved && !transactionFailed),
+    [approved, loadingTransaction, transactionFailed, networkOrAccountErrors],
+  )
 
-  // If network valid and connected call approve
+  // Actions
+  const onFailed = () => {
+    setApproved(false)
+    return
+  }
+
+  const onSuccessHome = () => {
+    updateStepStatus(BRIDGE_STEPS.SWITCH_NETWORK, true)
+    updateStepStatus(BRIDGE_STEPS.CLAIM_TOKEN, true)
+    changeStep(BRIDGE_STEPS.SUCCESS)
+    return
+  }
+
+  const onSuccessForeign = () => {
+    updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
+    changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+  }
+
+  // Effects
+
+  // If network valid and connected,  call transfer
   React.useEffect(() => {
-    if (!networkOrAccountErrors && !loading && !transferError && transfer) {
-      setLoading(true)
+    if (allowCallTransfer) {
       transfer()
         .then((res) => {
-          updateStepStatus(BRIDGE_STEPS.TRANSFER, true)
-          changeStep(BRIDGE_STEPS.SWITCH_NETWORK)
+          setApproved(true)
         })
         .catch((error) => {
-          setTransferError(true)
-        })
-        .finally(() => {
-          setLoading(false)
+          setApproved(false)
         })
     }
-  }, [networkOrAccountErrors, transferError])
+  }, [allowCallTransfer])
+
+  // Waiting for Block Confirmations
+  React.useEffect(() => {
+    if (transactionFailed) {
+      onFailed()
+    }
+    if (transferSuccess) {
+      if (!isHome) {
+        onSuccessHome()
+      } else {
+        onSuccessForeign()
+      }
+    }
+  }, [transferSuccess, isHome, transactionFailed])
 
   // Validate chainId if current not equal "from" chainId
   React.useEffect(() => {
     if (wrongCurrentNetwork) {
+      onFailed()
       setChainId(networkFrom?.chainId)
     }
   }, [wrongCurrentNetwork])
 
   return (
     <Wrapper>
-      {transferError ? (
+      {transactionFailed ? (
         <TransferError
           onRepeat={() => {
-            setTransferError(false)
+            setTransactionFailed(false)
           }}
         />
       ) : showLoading ? (
-        <TransferLoader token={token} amount={token ? formatValue(amount, token?.decimals) : '0'} />
+        <TransferLoader token={token} amount={token ? formatBridgeTokenAmount(token, amount) : '0'} />
       ) : (
         <ConfirmMessage />
       )}

@@ -28,8 +28,7 @@ const cardList = [
     date: 'Jun 1st, 2021',
     gitHubCertificate:
       'https://github.com/Alium-Finance/alium-swap-heco/blob/master/alium-swap-core/contracts/AliumFactory.sol',
-    detailedReport:
-      'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/e90832ef-13e3-4396-b54f-e37acce2978b/REP-Alium-2021-06-01%282%29.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210601%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210601T121029Z&X-Amz-Expires=86400&X-Amz-Signature=348a2f18757703d88bb8c1a863baf81170b8929bdb7cd21eee0d3a48850b1271&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22REP-Alium-2021-06-01%282%29.pdf%22',
+    detailedReport: 'https://www.certik.org/projects/aliumswap',
     image: jun_cert1,
     headImg: certikImage,
   },

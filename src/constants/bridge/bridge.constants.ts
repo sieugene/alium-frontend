@@ -1,5 +1,5 @@
+import { ETH_XDAI_BRIDGE } from 'constants/bridge/bridge.networks'
 import { BigNumber } from 'ethers'
-import { ETH_XDAI_BRIDGE } from 'utils/bridge/networks'
 import {
   REACT_APP_BSC_RPC_URL,
   REACT_APP_BSC_TESTNET_RPC_URL,
@@ -7,18 +7,20 @@ import {
   REACT_APP_HECO_RPC_URL,
   REACT_APP_KOVAN_RPC_URL,
   REACT_APP_MAINNET_RPC_URL,
+  REACT_APP_POLYGON_RPC_URL,
   REACT_APP_POLYGON_TESTNET_RPC_URL,
   REACT_APP_RINKEBY_TESTNET_RPC_URL,
   REACT_APP_ROPSTEN_TESTNET_RPC_URL,
   REACT_APP_SOKOL_RPC_URL,
-  //   REACT_APP_RPC_HEALTH_UPDATE_INTERVAL,
   REACT_APP_UI_STATUS_UPDATE_INTERVAL,
   REACT_APP_XDAI_RPC_URL,
-} from './env'
+} from './bridge.env'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const ETHER_CURRENCY_LOGO = 'https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880'
 export const BNB_CURRENCY_LOGO = 'https://assets.coingecko.com/coins/images/825/small/binance-coin-logo.png?1547034615'
+export const MAINNET_BDRIGE_OWNER = '0x43396243f298A9236e48009f27F4150fB8e8f182'
+export const TESTNET_BDRIGE_OWNER = '0xb55ca5cdc16f0b65727dcfe04ebc7fb8ccb163520cac99350a24157bcd707b08'
 
 export const LARGEST_UINT256 = BigNumber.from(
   '115792089237316195423570985008687907853269984665640564039457584007913129639935',
@@ -28,7 +30,7 @@ export const POLLING_INTERVAL = REACT_APP_UI_STATUS_UPDATE_INTERVAL || 5000
 
 export const DEFAULT_BRIDGE_DIRECTION = REACT_APP_DEFAULT_BRIDGE_DIRECTION || ETH_XDAI_BRIDGE
 
-export const NON_ETH_CHAIN_IDS = [56, 77, 100, 97, 256, 3, 4, 80001]
+export const NON_ETH_CHAIN_IDS = [56, 77, 100, 97, 256, 3, 4, 137, 80001]
 
 export const XDAI_CHAIN_IDS = [77, 100]
 
@@ -114,6 +116,16 @@ export const nativeCurrencies = {
     mode: 'NATIVE',
     homeTokenAddress: '0x0000000000000000000000000000000000001010'.toLowerCase(),
   },
+  137: {
+    chainId: 137,
+    decimals: 18,
+    logoURI: BNB_CURRENCY_LOGO,
+    name: 'MATIC',
+    address: ADDRESS_ZERO,
+    symbol: 'MATIC',
+    mode: 'NATIVE',
+    homeTokenAddress: '0x0000000000000000000000000000000000001010'.toLowerCase(),
+  },
 }
 
 export const nativeCurrencyMediators = {
@@ -131,6 +143,7 @@ export const networkNames = {
   100: 'xDai Chain',
   256: 'HECO testnet',
   80001: 'POLYGON testnet',
+  137: 'Polygon',
   3: 'ROPSTEN testnet',
   4: 'RINKEBY testnet',
 }
@@ -147,6 +160,7 @@ export const networkLabels = {
   97: 'BSC testnet',
   256: 'HECO testnet',
   80001: 'POLYGON testnet',
+  137: 'Polygon',
 }
 
 export const networkCurrencies = {
@@ -190,6 +204,10 @@ export const networkCurrencies = {
     name: 'Matic testnet',
     symbol: 'MATIC',
   },
+  137: {
+    name: 'Matic Token',
+    symbol: 'MATIC',
+  },
 }
 
 export const chainUrls = {
@@ -222,6 +240,12 @@ export const chainUrls = {
     explorer: 'https://mumbai.polygonscan.com/',
     chainId: 80001,
     name: networkNames[80001],
+  },
+  137: {
+    rpc: REACT_APP_POLYGON_RPC_URL.split(' '),
+    explorer: 'https://polygonscan.com/',
+    chainId: 137,
+    name: networkNames[137],
   },
   77: {
     rpc: REACT_APP_SOKOL_RPC_URL.split(' '),
@@ -275,6 +299,7 @@ export const LOCAL_STORAGE_KEYS = {
   BSC_RPC_URL: 'bsc-rpc-url',
   BSC_TESTNET_RPC_URL: 'bsc-testnet-rpc-url',
   POLYGON_TESTNET_RPC_URL: 'polygon-testnet-rpc-url',
+  POLYGON_RPC_URL: 'polygon-rpc-url',
   ROPSTEN_TESTNET_RPC_URL: 'ropsten-testnet-rpc-url',
   RINKEBY_TESTNET_RPC_URL: 'rinkeby-testnet-rpc-url',
   KOVAN_RPC_URL: 'kovan-rpc-url',
