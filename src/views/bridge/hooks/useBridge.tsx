@@ -1,3 +1,4 @@
+import { useBridgeContext } from 'contexts/BridgeContext'
 import {
   BRIDGE_STEPS,
   storeBridge,
@@ -18,6 +19,7 @@ interface Params {
  * Init bridge with store, make install with input params or default from store and uninstall
  */
 export const useBridge = () => {
+  const { clearTransaction } = useBridgeContext()
   // Store
   const toggleModal = storeBridge.getState().toggleModal
   const changeStep = storeBridge.getState().changeStep
@@ -56,8 +58,8 @@ export const useBridge = () => {
       toNetwork: to,
       modalOpen: showModal,
     } = storeBridgeDefault()
-
     install({ step, statuses, showModal })
+    clearTransaction()
   }
   return { install, uninstall, cancel }
 }

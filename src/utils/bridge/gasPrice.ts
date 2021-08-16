@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 import axios from 'axios'
-import { BigNumber, utils } from 'ethers'
-import { GasPriceOracle } from 'gas-price-oracle'
-import { logError } from 'utils/bridge/helpers'
 import {
   REACT_APP_GAS_PRICE_FALLBACK_GWEI,
   REACT_APP_GAS_PRICE_SPEED_TYPE,
   REACT_APP_GAS_PRICE_UPDATE_INTERVAL,
-} from './env'
+} from 'constants/bridge/bridge.env'
+import { BigNumber, utils } from 'ethers'
+import { GasPriceOracle } from 'gas-price-oracle'
+import { logError } from 'utils/bridge/helpers'
 
 const lowest = (arr) => arr.reduce((low, item) => (low > item ? item : low), arr[0])
 

@@ -1,5 +1,6 @@
 import { Button } from 'alium-uikit/src'
 import { CloseItem } from 'components/Modal/BridgeModal'
+import { useBridgeContext } from 'contexts/BridgeContext'
 import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'
 import { BridgeBadNetworkIcon } from 'images/bridge/BridgeBadNetworkIcon'
@@ -85,7 +86,8 @@ const BadNetworkWrapper: FC<Props> = ({ children }) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const connected = useStoreNetwork((state) => state.connected)
 
-  const { nativeFrom, nativeTo, networkFrom, networkTo, availableNetworksBridge } = useBridgeNetworks()
+  const { networkFrom, networkTo, availableNetworksBridge } = useBridgeNetworks()
+  const { toToken, fromToken } = useBridgeContext()
 
   const IconFrom = networkFrom?.icon
   const IconTo = networkTo?.icon
@@ -110,8 +112,7 @@ const BadNetworkWrapper: FC<Props> = ({ children }) => {
           <BridgeBadNetworkIcon />
           <h2 className='title'>Switch your network</h2>
           <p className='access'>
-            To access the <b>{`${nativeFrom?.nativeCurrency?.symbol} > ${nativeTo?.nativeCurrency?.symbol}`}</b>{' '}
-            OmniBridge, please switch to
+            To access the <b>{`${fromToken?.symbol} > ${toToken?.symbol}`}</b> bridge, please switch to
           </p>
           <StyledVariants>
             <Variant>

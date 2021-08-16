@@ -3,7 +3,8 @@ import { useAlmToken } from 'hooks/useAlm'
 import { BridgeSuccessIcon } from 'images/bridge/BridgeSuccessIcon'
 import React from 'react'
 import { ChevronRight } from 'react-feather'
-import { storeBridge } from 'store/bridge/useStoreBridge'
+import { useStoreBridge } from 'store/bridge/useStoreBridge'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import AddTokenBtn from '../AddTokenBtn'
@@ -50,7 +51,20 @@ const Content = styled.div`
 const SuccessStep = () => {
   const token = useAlmToken()
   const { cancel } = useBridge()
-  const toggleModal = storeBridge.getState().toggleModal
+  const toggleNetworks = useStoreBridge((state) => state.toggleNetworks)
+  const fromNetwork = useStoreBridge((state) => state.fromNetwork)
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+
+  // Switching is required because we do not do it in step 2
+  const needToggle = () => {
+    if (currentChainId !== fromNetwork) {
+      toggleNetworks()
+    }
+  }
+
+  React.useEffect(() => {
+    needToggle()
+  }, [])
 
   const onDismiss = () => {
     cancel()

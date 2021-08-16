@@ -125,7 +125,7 @@ export const networksProd: NetworksConfig[] = [
     label: 'Ethereum Chain',
     chainId: 1,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
-    direction: 'rinkeby',
+    direction: 'eth',
   },
 ]
 export const networksDev: NetworksConfig[] = [
@@ -151,7 +151,7 @@ export const networksDev: NetworksConfig[] = [
     label: 'Polygon Matic Chain',
     chainId: 80001,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
-    direction: 'polygon',
+    direction: 'polygon_test',
   },
   {
     title: 'Ethereum',

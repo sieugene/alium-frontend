@@ -1,4 +1,4 @@
-import { BridgeInfoItemType, ENABLED_BRIDGES_ENUMS_TYPE, networks } from 'utils/bridge/networks'
+import { BridgeInfoItemType, ENABLED_BRIDGES_ENUMS_TYPE, networks } from 'constants/bridge/bridge.networks'
 import { useCallback, useMemo } from 'react'
 import { useBridgeNetworks } from './../../views/bridge/hooks/useBridgeNetworks'
 import { useAmbVersion } from './useAmbVersion'
@@ -7,7 +7,37 @@ import { useRequiredSignatures } from './useRequiredSignatures'
 export const useBridgeDirection = () => {
   const { networkFrom, networkTo } = useBridgeNetworks()
 
-  const bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE = `${networkFrom.direction}-${networkTo.direction}` as any
+  const findNetworkBridge = useCallback(() => {
+    const mainBridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE = `${networkFrom?.direction}-${networkTo?.direction}` as any
+    const revertedBridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE =
+      `${networkTo?.direction}-${networkFrom?.direction}` as any
+
+    if (!networks[mainBridgeDirection]) {
+      return { bridgeDirection: revertedBridgeDirection, reverted: true }
+    }
+    return { bridgeDirection: mainBridgeDirection, reverted: false }
+  }, [networkFrom?.direction, networkTo?.direction])
+
+  const { bridgeDirection, reverted } = findNetworkBridge()
+
+  // const bridgeConfig: BridgeInfoItemType = useMemo(() => {
+  //   const config = networks[bridgeDirection] || Object.values(networks)[0]
+  //   if (reverted) {
+  //     return {
+  //       ...config,
+  //       homeChainId: config.foreignChainId,
+  //       foreignChainId: config.homeChainId,
+  //       homeMediatorAddress: config.foreignMediatorAddress,
+  //       foreignMediatorAddress: config.homeMediatorAddress,
+  //       homeAmbAddress: config.foreignAmbAddress,
+  //       foreignAmbAddress: config.homeAmbAddress,
+  //       homeGraphName: config.foreignGraphName,
+  //       foreignGraphName: config.homeGraphName,
+  //     }
+  //   }
+
+  //   return config
+  // }, [bridgeDirection, reverted])
 
   const bridgeConfig: BridgeInfoItemType = useMemo(
     () => networks[bridgeDirection] || Object.values(networks)[0],
@@ -59,6 +89,7 @@ export const useBridgeDirection = () => {
     getAMBAddress,
     foreignAmbVersion,
     homeRequiredSignatures,
+    reverted,
     ...bridgeConfig,
   }
 }

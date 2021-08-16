@@ -3,7 +3,7 @@ import { BridgeWarningInDetail } from 'images/bridge/BridgeWarningInDetail'
 import { ChevronRight } from 'react-feather'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
-import { formatValue } from 'utils/bridge/helpers'
+import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import BridgeModal, { CloseItem } from '../../../../../components/Modal/BridgeModal'
@@ -178,8 +178,8 @@ const BridgeConfirmTransfer = () => {
   const from = useStoreBridge((state) => state.amounts.fromAmount)
   const to = useStoreBridge((state) => state.amounts.toAmount)
   const amounts = {
-    from: formatValue(from, token?.decimals),
-    to: formatValue(to, token?.decimals),
+    from: formatBridgeTokenAmount(token, from),
+    to: formatBridgeTokenAmount(token, to),
   }
   const { networkFrom, networkTo } = useBridgeNetworks()
 
