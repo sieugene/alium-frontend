@@ -1,4 +1,4 @@
-import { getBridgeNetworks, getNetworks } from 'alium-uikit/src/widgets/WalletModal/config'
+import { getBridgeNetworks } from 'alium-uikit/src/widgets/WalletModal/config'
 import useOnClickOutside from 'hooks/useOnClickOutside'
 import React, { FC, useRef } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
