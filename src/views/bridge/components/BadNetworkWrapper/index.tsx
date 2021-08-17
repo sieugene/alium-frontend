@@ -13,10 +13,11 @@ import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 
 interface Props {
   children: React.ReactNode
+  isConnectGuard?: boolean
 }
 
-const Wrapper = styled.div`
-  width: 500px;
+const Wrapper = styled.div<{ isConnectGuard: boolean }>`
+  width: ${(props) => (props.isConnectGuard ? '100%' : '500px')};
   min-height: 363px;
   padding: 8px;
 `
@@ -78,13 +79,13 @@ const Variant = styled.div`
   }
 `
 
-const BadNetworkWrapper: FC<Props> = ({ children }) => {
+const BadNetworkWrapper: FC<Props> = ({ children, isConnectGuard }) => {
   const { logout } = useAuth()
   const { cancel } = useBridge()
   const { account } = useActiveWeb3React()
 
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
-  const connected = useStoreNetwork((state) => state.connected)
+  const connected = Boolean(useStoreNetwork((state) => state.connected) || account)
 
   const { networkFrom, networkTo, availableNetworksBridge } = useBridgeNetworks()
   const { toToken, fromToken } = useBridgeContext()
@@ -103,16 +104,15 @@ const BadNetworkWrapper: FC<Props> = ({ children }) => {
   }
 
   if (!availableNetworksBridge.includes(currentChainId) || !account) {
+    const tokensExist = fromToken && toToken
     return (
-      <Wrapper>
-        <Header>
-          <CloseItem onClick={cancel} />
-        </Header>
+      <Wrapper isConnectGuard={isConnectGuard}>
+        <Header>{!isConnectGuard && <CloseItem onClick={cancel} />}</Header>
         <Content>
           <BridgeBadNetworkIcon />
           <h2 className='title'>Switch your network</h2>
           <p className='access'>
-            To access the <b>{`${fromToken?.symbol} > ${toToken?.symbol}`}</b> bridge, please switch to
+            To access the {tokensExist && <b>{`${fromToken?.symbol} > ${toToken?.symbol}`}</b>} bridge, please switch to
           </p>
           <StyledVariants>
             <Variant>

@@ -1,4 +1,4 @@
-import { getNetworks } from 'alium-uikit/src/widgets/WalletModal/config'
+import { getBridgeNetworks } from 'alium-uikit/src/widgets/WalletModal/config'
 import { BigNumber } from 'ethers'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
@@ -52,37 +52,49 @@ export interface StoreBridgeState {
 const storage = bridgeStorage()
 // Helpers
 export const networkFinder = (chainId: number) => {
-  const networks = getNetworks()
+  const networks = getBridgeNetworks()
   return chainId && networks && networks.find((n) => n.chainId === chainId)
 }
 
+const validateChainBridge = (chainId: number): number => {
+  return networkFinder(chainId)?.chainId
+}
+
 const balanceChains = (from?: number, to?: number) => {
-  const networks = getNetworks()
+  const networks = getBridgeNetworks()
   const defaultChain: number = networks[0].chainId
   const hecoChain: number = networks[1].chainId
 
-  const _from: number = from || storeBridge.getState().fromNetwork || defaultChain
-  const _to: number = to || storeBridge.getState().toNetwork || defaultChain
+  const from_store = validateChainBridge(storeBridge.getState().fromNetwork)
+  const to_store = validateChainBridge(storeBridge.getState().toNetwork)
+
+  const from_param = validateChainBridge(from)
+  const to_param = validateChainBridge(to)
+
+  const _from: number = from_param || from_store || defaultChain
+  const _to: number = to_param || to_store || defaultChain
   const chains = [_from, _to]
 
   // No bsc cases
   const BSC_NOT_EXIST = !chains.includes(defaultChain)
-  const NO_BSC_FROM_AND_TO_PARAMS_NOT_EQUAL = Boolean(BSC_NOT_EXIST && from && to && from !== to)
-  const NO_BSC_TO_PARAM = Boolean(BSC_NOT_EXIST && to)
-  const NO_BSC_FROM_PARAM = Boolean(BSC_NOT_EXIST && from)
+  const NO_BSC_FROM_AND_TO_PARAMS_NOT_EQUAL = Boolean(
+    BSC_NOT_EXIST && from_param && to_param && from_param !== to_param,
+  )
+  const NO_BSC_TO_PARAM = Boolean(BSC_NOT_EXIST && to_param)
+  const NO_BSC_FROM_PARAM = Boolean(BSC_NOT_EXIST && from_param)
   // Default cases
   const FROM_AND_TO_EQUAL = _from === _to
 
   switch (true) {
     case NO_BSC_FROM_AND_TO_PARAMS_NOT_EQUAL:
       return {
-        fromNetwork: from,
-        toNetwork: to,
+        fromNetwork: from_param,
+        toNetwork: to_param,
       }
     case NO_BSC_TO_PARAM:
       return {
         fromNetwork: defaultChain,
-        toNetwork: to,
+        toNetwork: to_param,
       }
     case NO_BSC_FROM_PARAM:
       return {
@@ -101,8 +113,10 @@ const balanceChains = (from?: number, to?: number) => {
 }
 
 export const storeBridgeDefault = () => {
+  const defaultChainId = validateChainBridge(storeNetwork.getState().currentChainId)
+  const networks = getBridgeNetworks()
   return {
-    fromNetwork: storeNetwork.getState().currentChainId,
+    fromNetwork: defaultChainId || networks[0]?.chainId,
     toNetwork: null,
     transactionText: '',
     transactionMessage: null,
