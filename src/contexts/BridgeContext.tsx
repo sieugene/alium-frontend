@@ -35,6 +35,7 @@ export const BridgeContext = React.createContext({
   setDefaultToken: async (chainId: number) => {},
   allowed: false,
   approve: async () => {},
+  clearAllowApprove: () => {},
   transactionFailed: false,
   setTransactionFailed: (hasError: boolean) => {},
   loading: false,
@@ -105,7 +106,11 @@ export const BridgeProvider = ({ children }) => {
   const totalConfirms = useTotalConfirms()
   const { currentDay, feeManagerAddress } = useMediatorInfo()
   const { isRewardAddress, homeToForeignFeeType, foreignToHomeFeeType } = useFeeManager()
-  const { allowed, unlockLoading, approvalTxHash, approve } = useApproval(fromToken, fromAmount, txHash)
+  const { allowed, unlockLoading, approvalTxHash, approve, clearAllowApprove } = useApproval(
+    fromToken,
+    fromAmount,
+    txHash,
+  )
 
   const feeType = isHome ? homeToForeignFeeType : foreignToHomeFeeType
 
@@ -325,6 +330,7 @@ export const BridgeProvider = ({ children }) => {
       feeManagerAddress,
       tokensDetailLoader,
       clearTransaction,
+      clearAllowApprove,
     }),
     [
       fromAmount,
@@ -357,6 +363,7 @@ export const BridgeProvider = ({ children }) => {
       feeManagerAddress,
       tokensDetailLoader,
       clearTransaction,
+      clearAllowApprove,
     ],
   )
 

@@ -11,7 +11,7 @@ export const fetchAllowance = async (
   { mediator, address }: BridgeToken | null,
   account: string,
   ethersProvider: Web3Provider,
-) => {
+): Promise<BigNumber> => {
   if (!account || !address || address === ADDRESS_ZERO || !mediator || mediator === ADDRESS_ZERO || !ethersProvider) {
     return BigNumber.from(0)
   }

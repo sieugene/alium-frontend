@@ -2,7 +2,6 @@ import BridgeModal from 'components/Modal/BridgeModal'
 import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { useBridge } from 'views/bridge/hooks/useBridge'
-import { useRefetchBridgeBalances } from 'views/bridge/hooks/useBridgeBalances'
 import BadNetworkWrapper from '../../BadNetworkWrapper'
 import BridgeStepsHeader from '../../BridgeStepsHeader'
 import ClaimTokenStep from '../../Steps/ClaimTokenStep'
@@ -24,11 +23,9 @@ const BridgeTransferProcess = () => {
   const currentStep = useStoreBridge((state) => state.step)
   const { cancel } = useBridge()
   const modalOpen = useStoreBridge((state) => state.modalOpen)
-  const refetch = useRefetchBridgeBalances()
 
   const onDismiss = () => {
     cancel()
-    refetch()
   }
 
   return (

@@ -8,7 +8,6 @@ import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridge } from 'views/bridge/hooks/useBridge'
-import { useRefetchBridgeBalances } from 'views/bridge/hooks/useBridgeBalances'
 import AddTokenBtn from '../AddTokenBtn'
 import { View } from '../Loaders/TransferLoader'
 
@@ -63,7 +62,6 @@ const SuccessStep = () => {
   const txHash = useStoreBridge((state) => state.txHash)
   // to -> but reverted
   const link = getExplorerLink(toChainId, txHash, 'transaction')
-  const refetch = useRefetchBridgeBalances()
 
   // Switching is required because we do not do it in step 2
   const needToggle = () => {
@@ -78,7 +76,6 @@ const SuccessStep = () => {
 
   const onDismiss = () => {
     cancel()
-    refetch()
   }
 
   return (
