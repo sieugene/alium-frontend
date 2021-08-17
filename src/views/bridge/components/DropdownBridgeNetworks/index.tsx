@@ -1,4 +1,4 @@
-import { getNetworks } from 'alium-uikit/src/widgets/WalletModal/config'
+import { getBridgeNetworks, getNetworks } from 'alium-uikit/src/widgets/WalletModal/config'
 import useOnClickOutside from 'hooks/useOnClickOutside'
 import React, { FC, useRef } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
@@ -70,7 +70,7 @@ interface Props {
 
 const DropdownBridgeNetworks: FC<Props> = ({ type }) => {
   const [show, setShow] = React.useState(false)
-  const networks = getNetworks()
+  const networks = getBridgeNetworks()
   const dropdown = useRef()
   useOnClickOutside(dropdown, () => {
     setShow(false)
