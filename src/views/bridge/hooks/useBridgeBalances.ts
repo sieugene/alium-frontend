@@ -1,9 +1,11 @@
 import { BigNumber } from 'ethers'
 import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import React, { useCallback, useEffect } from 'react'
+import { BRIDGE_STEPS, storeBridge } from 'store/bridge/useStoreBridge'
 import { fetchTokenBalance } from 'utils/bridge/token'
 import { useBridgeContext } from './../../../contexts/BridgeContext'
 import { useBridgeDirection } from './../../../hooks/bridge/useBridgeDirection'
+import { storeNetwork } from './../../../store/network/useStoreNetwork'
 import { logError } from './../../../utils/bridge/helpers'
 export const useBridgeBalances = () => {
   const { account, connected, providerChainId } = useWeb3Context()
@@ -74,6 +76,42 @@ export const useBridgeBalances = () => {
       fetchBalances()
     }
   }, [allowFetch, fetchBalances])
+
+  useUpdateBalancesOnBridgeChains()
+}
+
+const useUpdateBalancesOnBridgeChains = () => {
+  const refetch = useRefetchBridgeBalances()
+
+  const refetchWithValidate = () => {
+    const step = storeBridge.getState().step
+    if (step === BRIDGE_STEPS.CONFIRM_TRANSFER) {
+      refetch()
+    }
+  }
+
+  useEffect(() => {
+    storeNetwork.subscribe(
+      (currentChainId: number, prevChainId: number) => {
+        if (currentChainId !== prevChainId) {
+          refetchWithValidate()
+        }
+      },
+      (state) => state.currentChainId,
+    )
+    storeBridge.subscribe(
+      (toNetwork: number, prevToNetwork) => {
+        if (toNetwork !== prevToNetwork) {
+          refetchWithValidate()
+        }
+      },
+      (state) => state.toNetwork,
+    )
+    return () => {
+      storeNetwork.destroy()
+      storeBridge.destroy()
+    }
+  }, [])
 }
 
 export const useRefetchBridgeBalances = () => {
