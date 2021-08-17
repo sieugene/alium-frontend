@@ -48,6 +48,10 @@ export const BridgeContext = React.createContext({
   setFromBalance: (balance: BigNumber) => {},
   toBalance: BigNumber.from(0),
   setToBalance: (balance: BigNumber) => {},
+  balancesLoading: true,
+  closeBalanceTask: true,
+  setCloseBalanceTask: (toggle: boolean) => {},
+  setBalancesLoading: (toggle: boolean) => {},
   tokenLimits: null as { minPerTx: BigNumber; maxPerTx: BigNumber; dailyLimit: BigNumber },
   updateTokenLimits: null as () => {},
   receiver: '',
@@ -88,8 +92,12 @@ export const BridgeProvider = ({ children }) => {
   const setTxHash = useStoreBridge((state) => state.setTxHash)
   const setLoadingText = useStoreBridge((state) => state.setTransactionText)
   // Transaction End
+  // Balance
+  const [balancesLoading, setBalancesLoading] = useState(false)
   const [fromBalance, setFromBalance] = useState(BigNumber.from(0))
   const [toBalance, setToBalance] = useState(BigNumber.from(0))
+  const [closeBalanceTask, setCloseBalanceTask] = useState(false)
+  // Balance end
 
   const [tokenLimits, setTokenLimits] = useState(null)
 
@@ -296,12 +304,16 @@ export const BridgeProvider = ({ children }) => {
       txHash,
       setTxHash,
       totalConfirms,
+      closeBalanceTask,
+      setCloseBalanceTask,
       amountInput,
       setAmountInput,
       fromBalance,
       setFromBalance,
       toBalance,
       setToBalance,
+      balancesLoading,
+      setBalancesLoading,
       tokenLimits,
       updateTokenLimits,
       receiver,
@@ -331,9 +343,11 @@ export const BridgeProvider = ({ children }) => {
       txHash,
       setTxHash,
       totalConfirms,
+      closeBalanceTask,
       amountInput,
       fromBalance,
       toBalance,
+      balancesLoading,
       tokenLimits,
       updateTokenLimits,
       receiver,

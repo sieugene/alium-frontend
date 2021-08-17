@@ -212,7 +212,7 @@ const BridgeConfirmTransfer = () => {
                 <div className='chevron'>
                   <ChevronRight />
                 </div>
-                <p>Bridge Fees 2%</p>
+                <p>Bridge Fees 0.5%</p>
               </Fees>
               <Token align='right' justify='end'>
                 <div className='text'>
