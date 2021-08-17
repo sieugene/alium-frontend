@@ -2,6 +2,7 @@ import { BridgeHistoryIcon } from 'images/bridge/BridgeHistoryIcon'
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
+import { useBridgeBalances } from 'views/bridge/hooks/useBridgeBalances'
 import BridgeInput from '../BridgeInput'
 import { FromToken } from '../FromToken'
 import { ToToken } from '../ToToken'
@@ -12,6 +13,7 @@ const CardContent = styled.div`
 `
 
 const BridgeCard = () => {
+  useBridgeBalances()
   return (
     <CardContent>
       <HistoryText />
