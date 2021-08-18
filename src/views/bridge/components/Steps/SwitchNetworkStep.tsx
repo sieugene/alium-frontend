@@ -55,7 +55,7 @@ const Info = styled.div`
   background: #e6e6f6;
   border-radius: 6px;
   display: flex;
-  padding: 16px;
+  padding: 16px 16px 16px 16px;
   margin-top: 40px;
   img {
     max-width: 24px;
@@ -70,6 +70,12 @@ const Info = styled.div`
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #0b1359;
+  }
+  .message__text {
+    width: max-content;
+    @media screen and (max-width: 768px) {
+      width: auto;
+    }
   }
 `
 
@@ -100,6 +106,8 @@ const SwitchNetworkStep = () => {
     setChainId(networkTo?.chainId)
   }
 
+  const shortedNetworkLabel = networkTo?.label && networkTo?.label?.split(' ')[0]
+
   return (
     <Wrapper>
       <NetworksIcon>
@@ -117,10 +125,13 @@ const SwitchNetworkStep = () => {
       </BridgeBtnWithIcon>
       <Info>
         <BridgeInfoIcon />
-        <p>
-          After you switch networks, you will complete a second transaction on {networkTo?.label} to claim your 
-          {token?.symbol} tokens.
-        </p>
+        <div className='message__text'>
+          <p>After you switch networks, you will complete a second</p>
+          <p>
+            transaction on {shortedNetworkLabel} to claim your 
+            {token?.symbol} tokens.
+          </p>
+        </div>
       </Info>
     </Wrapper>
   )

@@ -76,6 +76,14 @@ const Variant = styled.div`
   margin-left: 6px;
   p {
     margin-left: 10px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.3px;
+    color: #8990a5;
   }
 `
 
