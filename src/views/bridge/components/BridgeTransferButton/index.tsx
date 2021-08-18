@@ -7,7 +7,7 @@ export const BridgeTransferButton = styled(Button)<{ desktop?: boolean; mobile?:
     color: #ffffff !important;
   }
   ${(props) => props.mobile && 'display: none'};
-  @media screen and (max-width: 545px) {
+  @media screen and (max-width: 600px) {
     ${(props) => props.desktop && 'display: none'};
     ${(props) => props.mobile && 'display: block'};
   }

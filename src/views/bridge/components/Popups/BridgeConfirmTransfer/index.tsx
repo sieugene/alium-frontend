@@ -74,6 +74,9 @@ const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
     color: #8990a5;
     position: relative;
     bottom: 4px;
+    @media screen and (max-width: 768px) {
+      bottom: 8px;
+    }
   }
   .text {
     display: flex;
@@ -81,10 +84,12 @@ const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
     max-width: 150px;
     @media screen and (max-width: 768px) {
       max-width: 165px;
-      flex-wrap: wrap-reverse;
     }
     @media screen and (max-width: 480px) {
-      max-width: 80px;
+      max-width: 100px;
+    }
+    @media screen and (max-width: 375px) {
+      max-width: 75px;
     }
   }
 `
@@ -168,6 +173,14 @@ const Footer = styled.div`
   padding: 0px 24px 32px 24px;
   display: flex;
   justify-content: space-between;
+  .dismiss {
+    width: 97px;
+    height: 48px;
+  }
+  .continue {
+    height: 48px;
+    width: 112px;
+  }
 `
 
 const BridgeConfirmTransfer = () => {
@@ -240,10 +253,12 @@ const BridgeConfirmTransfer = () => {
             </Info>
           </Content>
           <Footer>
-            <Button variant='secondary' onClick={onDismiss}>
+            <Button variant='secondary' onClick={onDismiss} className='dismiss'>
               cancel
             </Button>
-            <Button onClick={confirm}>continue</Button>
+            <Button onClick={confirm} className='continue'>
+              continue
+            </Button>
           </Footer>
         </Wrapper>
       </BadNetworkWrapper>
