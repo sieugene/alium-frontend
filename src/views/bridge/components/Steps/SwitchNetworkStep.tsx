@@ -1,4 +1,3 @@
-import CopyInput from 'alium-uikit/src/components/CopyInput'
 import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
 import React from 'react'
@@ -15,6 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin-top: 40px;
   .message {
+    max-width: 350px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
@@ -107,10 +107,10 @@ const SwitchNetworkStep = () => {
       </NetworksIcon>
 
       <p className='message'>
-        Please copy the hash of the transaction and switch the network in your wallet to <b>{networkTo?.label}</b>
+        Please switch the network in your wallet to <b>{networkTo?.label}</b>
       </p>
-      <p className='title'>Transaction Hash:</p>
-      <CopyInput value={txHash} />
+      {/* <p className='title'>Transaction Hash:</p>
+      <CopyInput value={txHash} /> */}
       <BridgeBtnWithIcon onClick={changeNetwork} variant='secondary'>
         <Icon />
         <p className='text'>{networkTo?.label}</p>
