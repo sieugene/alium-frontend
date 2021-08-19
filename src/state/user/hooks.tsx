@@ -159,7 +159,6 @@ function serializePair(pair: Pair): SerializedPair {
 
 export function usePairAdder(): (pair: Pair) => void {
   const dispatch = useDispatch<AppDispatch>()
-
   return useCallback(
     (pair: Pair) => {
       dispatch(addSerializedPair({ serializedPair: serializePair(pair) }))
