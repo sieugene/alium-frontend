@@ -64,7 +64,7 @@ export const CardNav: FC<props> = ({ activeIndex = 0 }) => {
   ]
 
   return (
-    <Flex alignItems='flex-start'>
+    <Flex alignItems='center' p='12px'>
       <StyledNav>
         <Heading as='h1' size='xl' color='heading' mb='40px' mt='20px'>
           {t('mainMenu.trade')}
