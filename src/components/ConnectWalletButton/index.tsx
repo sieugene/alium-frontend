@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 const StyledButtonUnlockWallet = styled.div`
   > button {
-    width: 147px;
+    width: 333px;
     margin-top: 10px;
   }
   @media screen and (max-width: 376px) {
@@ -19,6 +19,9 @@ const StyledButtonUnlockWallet = styled.div`
   }
 
   @media screen and (min-width: 768px) {
+    > button {
+      width: 100%
+    }
     .icon {
       border: 1.5px solid rgb(255, 255, 255);
       padding: 0 0 0.5px 0.5px;

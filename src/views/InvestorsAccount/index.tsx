@@ -136,6 +136,8 @@ const HelperDiv = styled(Text)`
     letter-spacing: 0.3px;
     color: #ff4d00;
     margin-right: 8px;
+    position: relative;
+    top: 5px;
   }
 `
 

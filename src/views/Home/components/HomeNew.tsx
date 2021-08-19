@@ -228,7 +228,7 @@ const Card = styled.div`
   height: 144px;
   border-radius: 6px;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 
   & .title {
     margin: 24px 0 0 16px;

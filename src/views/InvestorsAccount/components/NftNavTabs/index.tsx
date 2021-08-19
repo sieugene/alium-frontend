@@ -17,7 +17,7 @@ const NavWrap = styled(Flex)`
     margin-right: 8px;
   }
   @media (max-width: 568px) {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     button {
       margin: 0;
       width: 100%;

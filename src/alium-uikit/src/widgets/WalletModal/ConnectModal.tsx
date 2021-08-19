@@ -56,7 +56,8 @@ const StyledFlex = styled(Flex)`
   }
 
   @media screen and (max-width: 800px) {
-    margin-left: 18px;
+    margin-left: 1px;
+    margin-top: 12px;
   }
 `
 
