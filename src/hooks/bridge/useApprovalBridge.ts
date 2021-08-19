@@ -16,7 +16,9 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
   useEffect(() => {
     if (fromToken && providerChainId === fromToken.chainId && ethersProvider && connected) {
       fetchAllowance(fromToken, account, ethersProvider)
-        .then(setAllowance)
+        .then((amountAllowance) => {
+          setAllowance(amountAllowance)
+        })
         .catch((error) => {
           setAllowance(BigNumber.from(0))
         })
@@ -59,5 +61,10 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
     }
   }, [fromAmount, fromToken, ethersProvider, account])
 
-  return { allowed, unlockLoading, approvalTxHash, approve }
+  const clearAllowApprove = () => {
+    setAllowance(BigNumber.from(0))
+    setAllowed(false)
+  }
+
+  return { allowed, unlockLoading, approvalTxHash, approve, clearAllowApprove }
 }

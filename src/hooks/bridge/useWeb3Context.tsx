@@ -1,6 +1,7 @@
 import { useActiveWeb3React } from 'hooks'
 import React from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
+import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 
 export const useWeb3Context = () => {
   const { connected } = useStoreNetwork()
@@ -12,7 +13,9 @@ export const useWeb3Context = () => {
   const account = React.useMemo(() => web3.account, [web3.account])
   const providerChainId = React.useMemo(() => chainId, [chainId])
 
-  const wasConnected = connected || account
+  const { availableNetworksBridge } = useBridgeNetworks()
+
+  const wasConnected = (connected || account) && availableNetworksBridge.includes(chainId)
 
   return { providerChainId, ethersProvider, account, isGnosisSafe: false, connected: wasConnected }
 }

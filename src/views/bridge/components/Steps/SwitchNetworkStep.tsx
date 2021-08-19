@@ -1,4 +1,3 @@
-import CopyInput from 'alium-uikit/src/components/CopyInput'
 import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
 import React from 'react'
@@ -15,6 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin-top: 40px;
   .message {
+    max-width: 350px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
@@ -55,7 +55,7 @@ const Info = styled.div`
   background: #e6e6f6;
   border-radius: 6px;
   display: flex;
-  padding: 16px;
+  padding: 16px 16px 16px 16px;
   margin-top: 40px;
   img {
     max-width: 24px;
@@ -70,6 +70,12 @@ const Info = styled.div`
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #0b1359;
+  }
+  .message__text {
+    width: max-content;
+    @media screen and (max-width: 768px) {
+      width: auto;
+    }
   }
 `
 
@@ -100,6 +106,8 @@ const SwitchNetworkStep = () => {
     setChainId(networkTo?.chainId)
   }
 
+  const shortedNetworkLabel = networkTo?.label && networkTo?.label?.split(' ')[0]
+
   return (
     <Wrapper>
       <NetworksIcon>
@@ -107,20 +115,23 @@ const SwitchNetworkStep = () => {
       </NetworksIcon>
 
       <p className='message'>
-        Please copy the hash of the transaction and switch the network in your wallet to <b>{networkTo?.label}</b>
+        Please switch the network in your wallet to <b>{networkTo?.label}</b>
       </p>
-      <p className='title'>Transaction Hash:</p>
-      <CopyInput value={txHash} />
+      {/* <p className='title'>Transaction Hash:</p>
+      <CopyInput value={txHash} /> */}
       <BridgeBtnWithIcon onClick={changeNetwork} variant='secondary'>
         <Icon />
         <p className='text'>{networkTo?.label}</p>
       </BridgeBtnWithIcon>
       <Info>
         <BridgeInfoIcon />
-        <p>
-          After you switch networks, you will complete a second transaction on {networkTo?.label} to claim your 
-          {token?.symbol} tokens.
-        </p>
+        <div className='message__text'>
+          <p>After you switch networks, you will complete a second</p>
+          <p>
+            transaction on {shortedNetworkLabel} to claim your 
+            {token?.symbol} tokens.
+          </p>
+        </div>
       </Info>
     </Wrapper>
   )

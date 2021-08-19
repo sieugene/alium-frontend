@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { GetArrayElementType } from 'types/GetArrayElementType'
 
 export const ETH_XDAI_BRIDGE = 'eth-xdai'
@@ -9,13 +10,17 @@ export const BSC_POLYGON_TEST_BRIDGE = 'bsc-polygon_test'
 export const BSC_POLYGON_BRIDGE = 'bsc-polygon'
 export const BSC_ROPSTEN_BRIDGE = 'bsc-ropsten'
 export const BSC_RINKEBY_BRIDGE = 'bsc-rinkeby'
-export const ENABLED_BRIDGES = [
-  BSC_HECO_BRIDGE,
-  BSC_POLYGON_BRIDGE,
-  BSC_POLYGON_TEST_BRIDGE,
-  BSC_RINKEBY_BRIDGE,
-  ETH_BSC_BRIDGE,
-] as const
+
+export const getEnabledBridgeDirections = () => {
+  if (process.env.APP_ENV === 'development') {
+    // testnet
+    return [BSC_HECO_BRIDGE, BSC_POLYGON_TEST_BRIDGE, BSC_RINKEBY_BRIDGE] as const
+  } else {
+    // mainnnet
+    return [BSC_POLYGON_BRIDGE, ETH_BSC_BRIDGE] as const
+  }
+}
+export const ENABLED_BRIDGES = getEnabledBridgeDirections()
 
 export type ENABLED_BRIDGES_ENUMS_TYPE = GetArrayElementType<typeof ENABLED_BRIDGES>
 export type ENABLED_BRIDGES_TYPE = typeof ENABLED_BRIDGES
@@ -171,6 +176,7 @@ export type BridgeInfoItemType = BridgeInfoType[keyof BridgeInfoType]
 
 const getNetworkConfig = (bridges: ENABLED_BRIDGES_TYPE) => {
   if (bridges && bridges.length > 0 && bridgeInfo) {
+    // @ts-ignore
     const config: unknown = bridges.reduce((t, b) => ({ ...t, [b]: bridgeInfo[b] }), {})
     return config as BridgeInfoType
   }
@@ -178,6 +184,11 @@ const getNetworkConfig = (bridges: ENABLED_BRIDGES_TYPE) => {
 }
 
 export const networks = getNetworkConfig(ENABLED_BRIDGES)
+export const bridgeNetworks = Object.values(networks)
+export const bridgeNetworksChains: number[] = Object.values(networks).reduce((chains, network) => {
+  chains = [...chains, network.homeChainId, network.foreignChainId]
+  return [...new Set(chains)]
+}, [])
 
 export const defaultTokens = {
   [ETH_XDAI_BRIDGE]: {

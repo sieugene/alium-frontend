@@ -23,6 +23,12 @@ const InputWrapper = styled.div`
     display: flex;
     align-items: center;
   }
+  .left-column {
+    width: 100%;
+    @media screen and (max-width: 480px) {
+      padding-right: 16px;
+    }
+  }
 `
 
 const SwitchIcon = styled.div`
