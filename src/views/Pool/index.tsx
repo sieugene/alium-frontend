@@ -158,6 +158,9 @@ export default function Pool() {
   const { account /* , chainId */ } = useActiveWeb3React()
   const { t } = useTranslation()
 
+  console.log('liq:token',data);
+  
+
   const getButton = () => {
     return (
       // chainId === 56 || chainId === 128 ?
