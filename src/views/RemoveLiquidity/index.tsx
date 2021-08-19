@@ -583,6 +583,19 @@ export const RemoveLiquidity: FC = () => {
                         <Slider value={innerLiquidityPercentage} onChange={setInnerLiquidityPercentage} />
                       </Flex>
                       <Flex justifyContent='space-between'>
+                      <Button
+                          variant='tertiary'
+                          size='sm'
+                          onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '0')}
+                          style={{
+                            height: '24px',
+                            width: '37px',
+                            fontSize: '10px',
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          0%
+                        </Button>
                         <Button
                           variant='tertiary'
                           size='sm'
