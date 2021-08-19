@@ -1,13 +1,13 @@
 import { Pair, Token } from '@alium-official/sdk'
+import { USER_LOCALSTORAGE_KEY } from 'constants/localstorage'
 import { usePair } from 'data/Reserves'
-import { useFindLiqudityAfterAdd } from 'hooks/bridge/liqudity/useFindLiqudityAfterAdd'
+import { useFindLiqudityAfterAdd } from 'hooks/liqudity/useFindLiqudityAfterAdd'
 import { useCallback, useEffect, useMemo } from 'react'
 import { SerializedPair } from 'state/user/actions'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { AppState } from './../../../state/index'
 import { MigratePair } from './../lib/migrate.types'
 
-export const USER_LOCALSTORAGE_KEY = 'redux_localstorage_simple_user'
 /**
  * Pair creator and saver for Migrate tokens.
  * Auto search pairs if exist, checkout in localstorage.

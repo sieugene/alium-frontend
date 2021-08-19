@@ -22,7 +22,7 @@ import { ROUTES } from 'routes'
 import { Field } from 'state/burn/actions'
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from 'state/burn/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import { useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
+import { usePairRemove, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
@@ -235,6 +235,11 @@ export const RemoveLiquidity: FC = () => {
 
   // tx sending
   const addTransaction = useTransactionAdder()
+  // Clear Pair
+  const pairRemove = usePairRemove()
+  const onClear = () => {
+    pairRemove(pair)
+  }
 
   const onRemove = async () => {
     if (!chainId || !library || !account) throw new Error('missing dependencies')
@@ -358,7 +363,9 @@ export const RemoveLiquidity: FC = () => {
       })
         .then((response: TransactionResponse) => {
           setAttemptingTxn(false)
-
+          if (innerLiquidityPercentage === 100) {
+            onClear()
+          }
           addTransaction(response, {
             summary: `Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencyA?.symbol
@@ -583,7 +590,7 @@ export const RemoveLiquidity: FC = () => {
                         <Slider value={innerLiquidityPercentage} onChange={setInnerLiquidityPercentage} />
                       </Flex>
                       <Flex justifyContent='space-between'>
-                      <Button
+                        <Button
                           variant='tertiary'
                           size='sm'
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '0')}

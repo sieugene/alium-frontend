@@ -12,6 +12,7 @@ import { AppDispatch, AppState } from '../index'
 import {
   addSerializedPair,
   addSerializedToken,
+  removeSerializedPair,
   removeSerializedToken,
   SerializedPair,
   SerializedToken,
@@ -162,6 +163,20 @@ export function usePairAdder(): (pair: Pair) => void {
   return useCallback(
     (pair: Pair) => {
       dispatch(addSerializedPair({ serializedPair: serializePair(pair) }))
+    },
+    [dispatch],
+  )
+}
+
+export function usePairRemove(): (pair: Pair) => void {
+  const dispatch = useDispatch<AppDispatch>()
+  return useCallback(
+    (pair: Pair) => {
+      const chainId = pair?.chainId
+      const tokenAAddress = pair?.token0?.address
+      const tokenBAddress = pair?.token1?.address
+      console.log('REMOVE:PAIR', pair)
+      dispatch(removeSerializedPair({ chainId, tokenAAddress, tokenBAddress }))
     },
     [dispatch],
   )
