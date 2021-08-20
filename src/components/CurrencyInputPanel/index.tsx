@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next'
 import { darken } from 'polished'
 import { useCallback, useState } from 'react'
 import { useCurrencyBalance } from 'state/wallet/hooks'
-import styled, { useTheme } from 'styled-components'
+import styled, { keyframes, useTheme } from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { TranslateString } from 'utils/translateTextHelpers'
 import CurrencyLogo from '../CurrencyLogo'
@@ -86,6 +86,33 @@ const Container = styled.div<{ hideInput: boolean }>`
   box-shadow: ${({ theme }) => theme.shadows.inset};
 `
 
+const dots = keyframes`
+  0%,
+  20% {
+    color: rgba(0, 0, 0, 0);
+    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+  }
+  40% {
+    color: white;
+    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+  }
+  60% {
+    text-shadow: 0.25em 0 0 white, 0.5em 0 0 rgba(0, 0, 0, 0);
+  }
+  80%,
+  100% {
+    text-shadow: 0.25em 0 0 white, 0.5em 0 0 white;
+  }
+`
+
+const Dots = styled.div`
+ &:after {
+  content: "...";
+  animation: ${dots} 1s steps(5, end) infinite;
+}
+`
+
+
 interface CurrencyInputPanelProps {
   value: string
   onUserInput: (value: string) => void
@@ -150,7 +177,7 @@ export default function CurrencyInputPanel({
                 >
                   {!hideBalance && !!currency && selectedCurrencyBalance
                     ? `Balance: ${toSignificantCurrency(selectedCurrencyBalance)}`
-                    : ' -'}
+                    : <Dots>Balance loading</Dots>}
                 </Text>
               )}
             </RowBetween>
