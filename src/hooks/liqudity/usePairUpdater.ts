@@ -41,7 +41,9 @@ export const usePairUpdater = (pairTokens: PairTokenAddresses, findPair: Pair) =
 
 const finderEqualsTokenPair = (pair: SerializedPair, addressA: string, addressB: string) => {
   return Boolean(
-    (pair?.token0?.address === addressA && pair?.token1?.address === addressB) ||
-      (pair?.token0?.address === addressB && pair?.token1?.address === addressA),
+    (pair?.token0?.address?.toLowerCase() === addressA?.toLowerCase() &&
+      pair?.token1?.address?.toLowerCase() === addressB?.toLowerCase()) ||
+      (pair?.token0?.address?.toLowerCase() === addressB?.toLowerCase() &&
+        pair?.token1?.address?.toLowerCase() === addressA?.toLowerCase()),
   )
 }
