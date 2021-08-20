@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { backgroundColor } from 'styled-system'
 import Cookies from 'universal-cookie'
 import { getCookieOptions } from '../../config/getCookieOptions'
 import { IconTokenAlm } from './icons/IconTokenAlm'
@@ -95,7 +96,7 @@ const ViewAlmPrice: FC<props> = ({ ispushed }) => {
       </IconWrapper>
       <TextWrapper>
         <span>ALM Price:&nbsp;</span>
-        <span><a href='https://bscscan.com/address/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11'>${price}</a></span>
+        <span style={{color: '#6C5DD3'}}><a href='https://bscscan.com/address/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11'>${price}</a></span>
       </TextWrapper>
     </Styled>
   )
