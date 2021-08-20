@@ -9,7 +9,7 @@ import { AutoColumn } from 'components/Column'
 import { AddRemoveTabs } from 'components/NavigationTabs'
 import TransactionConfirmationModal from 'components/TransactionConfirmationModal'
 import { useActiveWeb3React } from 'hooks'
-import { useFindLiqudityAfterAdd } from 'hooks/liqudity/useFindLiqudityAfterAdd'
+import { usePairUpdater } from 'hooks/liqudity/usePairUpdater'
 import { useCurrency } from 'hooks/Tokens'
 import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
@@ -153,7 +153,12 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   const addTransaction = useTransactionAdder()
   const sendDataToGTM = useGTMDispatch()
 
-  const findPairAfterAdd = useFindLiqudityAfterAdd(pair)
+  // Pair updater
+  const tokensPair = pair && {
+    addressA: pair?.token0?.address,
+    addressB: pair?.token1?.address,
+  }
+  usePairUpdater(tokensPair, pair)
 
   const onAdd = async () => {
     if (!chainId || !library || !user) return
@@ -221,7 +226,6 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           setAttemptingTxn(false)
 
           GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
-          findPairAfterAdd()
           addTransaction(response, {
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencies[Field.CURRENCY_A]?.symbol
