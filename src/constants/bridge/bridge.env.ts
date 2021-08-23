@@ -17,7 +17,7 @@ const env = {
     'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161 https://mainnet-nethermind.blockscout.com/',
   REACT_APP_KOVAN_RPC_URL: 'https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161 https://kovan.poa.network/',
   REACT_APP_BSC_RPC_URL: 'https://bsc-dataseed.binance.org/',
-  REACT_APP_BSC_TESTNET_RPC_URL: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+  REACT_APP_BSC_TESTNET_RPC_URL: 'https://data-seed-prebsc-2-s3.binance.org:8545/',
   REACT_APP_POLYGON_TESTNET_RPC_URL: 'https://rpc-mumbai.maticvigil.com',
   REACT_APP_ROPSTEN_TESTNET_RPC_URL: 'https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
   REACT_APP_RINKEBY_TESTNET_RPC_URL: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',

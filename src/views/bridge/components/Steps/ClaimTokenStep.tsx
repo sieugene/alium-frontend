@@ -1,5 +1,4 @@
 import { Button } from 'alium-uikit/src'
-import InputWithLabel from 'components/InputWithLabel'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { useClaim } from 'hooks/bridge/useClaim'
 import React, { FC, useCallback, useState } from 'react'
@@ -30,7 +29,7 @@ const Wrapper = styled.div`
     /* Base/50 */
 
     color: #0b1359;
-    margin-bottom: 24px;
+    /* margin-bottom: 24px; */
   }
   button {
     margin-top: 24px;
@@ -90,14 +89,14 @@ const ClaimTokenStep = () => {
   return (
     <ClaimLoadWrap loading={loading || loadingTransaction}>
       <Wrapper>
-        <p className='title'>Paste the previously copied hash transaction into the input field and press the Claim</p>
-        <InputWithLabel
+        <p className='title'>Very little left</p>
+        {/* <InputWithLabel
           label='Transaction Hash'
           value={value}
           onChange={({ target }) => {
             setValue(target?.value)
           }}
-        />
+        /> */}
         <Button onClick={claimTokens} disabled={loading}>
           Claim
         </Button>
@@ -154,7 +153,7 @@ const ClaimLoadWrap: FC<ClaimLoadProps> = ({ loading, children }) => {
         <ClaimWrap>
           <StyledLoader type='TailSpin' color='#6C5DD3' />
           <h2>Claim pending...</h2>
-          <p>{loadingText || '10 minutes left'}</p>
+          <p>{loadingText || '2 minutes left'}</p>
         </ClaimWrap>
       )}
       <Shadow loading={loading}>{children}</Shadow>

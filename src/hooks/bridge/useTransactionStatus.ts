@@ -101,10 +101,10 @@ export const useTransactionStatus = () => {
       }
     } catch (txError) {
       console.error(txError)
-      statusOnError()
       if (isHome && txError && txError.message === NOT_ENOUGH_COLLECTED_SIGNATURES) {
         return false
       }
+      statusOnError()
       // completeReceipt()
       logError({ txError })
       return true

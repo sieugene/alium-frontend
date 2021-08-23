@@ -69,6 +69,7 @@ export function CurrencySearch({
   currencyList,
 }: CurrencySearchProps) {
   const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
+  const nativeSymbol = currentNetwork?.providerParams?.nativeCurrency?.symbol?.toLowerCase() || 'bnb'
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
@@ -86,7 +87,8 @@ export function CurrencySearch({
   const showETH: boolean = useMemo(() => {
     const s = searchQuery.toLowerCase().trim()
     if (currencyList) return false
-    return s === '' || s === 'b' || s === 'bn' || s === 'bnb'
+    // input includes native symbol
+    return s !== '' && !nativeSymbol.indexOf(s)
   }, [currencyList, searchQuery])
 
   const tokenComparator = useTokenComparator(invertSearchOrder)
@@ -143,7 +145,7 @@ export function CurrencySearch({
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim()
-        if (s === 'bnb') {
+        if (s === nativeSymbol) {
           handleCurrencySelect(currentNetwork.providerParams.nativeCurrency)
         } else if (filteredSortedTokens.length > 0) {
           if (

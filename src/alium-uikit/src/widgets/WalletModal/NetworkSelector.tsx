@@ -72,7 +72,7 @@ const NetworkSelector: FC<Props> = ({ chainId, selected, networkConfig, setSelec
         {selected && <StyledCheckMarkInCircle />}
         <Icon />
       </StyledNetworkSelector>
-      <Text color='#8990A5' fontSize='11px' mt='8px' style={{ userSelect: 'none' }}>
+      <Text color='#8990A5' fontSize='11px' mb='10px' style={{ userSelect: 'none' }}>
         {title}
       </Text>
     </StyledFlex>

@@ -9,6 +9,7 @@ import { AutoColumn } from 'components/Column'
 import { AddRemoveTabs } from 'components/NavigationTabs'
 import TransactionConfirmationModal from 'components/TransactionConfirmationModal'
 import { useActiveWeb3React } from 'hooks'
+import { usePairUpdater } from 'hooks/liqudity/usePairUpdater'
 import { useCurrency } from 'hooks/Tokens'
 import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
@@ -18,7 +19,7 @@ import { ROUTES } from 'routes'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import { useIsExpertMode, usePairAdder, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
+import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
@@ -152,13 +153,12 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   const addTransaction = useTransactionAdder()
   const sendDataToGTM = useGTMDispatch()
 
-  // for display in liqudity list after add
-  const addPair = usePairAdder()
-  const findPairAfterAdd = () => {
-    if (pair) {
-      addPair(pair)
-    }
+  // Pair updater
+  const tokensPair = pair && {
+    addressA: pair?.token0?.address,
+    addressB: pair?.token1?.address,
   }
+  usePairUpdater(tokensPair, pair)
 
   const onAdd = async () => {
     if (!chainId || !library || !user) return
@@ -226,7 +226,6 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           setAttemptingTxn(false)
 
           GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
-          findPairAfterAdd()
           addTransaction(response, {
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencies[Field.CURRENCY_A]?.symbol

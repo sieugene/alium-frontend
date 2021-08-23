@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { GetArrayElementType } from 'types/GetArrayElementType'
 
 export const ETH_XDAI_BRIDGE = 'eth-xdai'
@@ -9,13 +10,17 @@ export const BSC_POLYGON_TEST_BRIDGE = 'bsc-polygon_test'
 export const BSC_POLYGON_BRIDGE = 'bsc-polygon'
 export const BSC_ROPSTEN_BRIDGE = 'bsc-ropsten'
 export const BSC_RINKEBY_BRIDGE = 'bsc-rinkeby'
-export const ENABLED_BRIDGES = [
-  BSC_HECO_BRIDGE,
-  BSC_POLYGON_BRIDGE,
-  BSC_POLYGON_TEST_BRIDGE,
-  BSC_RINKEBY_BRIDGE,
-  ETH_BSC_BRIDGE,
-] as const
+
+export const getEnabledBridgeDirections = () => {
+  if (process.env.APP_ENV === 'development') {
+    // testnet
+    return [BSC_HECO_BRIDGE, BSC_POLYGON_TEST_BRIDGE, BSC_RINKEBY_BRIDGE] as const
+  } else {
+    // mainnnet
+    return [BSC_POLYGON_BRIDGE, ETH_BSC_BRIDGE] as const
+  }
+}
+export const ENABLED_BRIDGES = getEnabledBridgeDirections()
 
 export type ENABLED_BRIDGES_ENUMS_TYPE = GetArrayElementType<typeof ENABLED_BRIDGES>
 export type ENABLED_BRIDGES_TYPE = typeof ENABLED_BRIDGES
@@ -86,8 +91,8 @@ const BSC_HECO_BRIDGE_CONFIG = {
   foreignChainId: 256,
   enableReversedBridge: true,
   enableForeignCurrencyBridge: true,
-  foreignMediatorAddress: '0xb56DE88E52897cBb27bEc0FfA7B644D076c8e34A'.toLowerCase(),
-  homeMediatorAddress: '0xa7C8222F8037736E41A0bFd1beC95fc59A7C66c1'.toLowerCase(),
+  foreignMediatorAddress: '0xa07337f9d69971730996dbfB7e864D2F69de7836'.toLowerCase(),
+  homeMediatorAddress: '0x14eBAC6A11208073Fd85ae50fb7f2d044D617889'.toLowerCase(),
   foreignAmbAddress: '0x2d3621f3d388a9Bb03266886879E8DE676331786'.toLowerCase(),
   homeAmbAddress: '0xFcCf929bF9E20586a4B18d333E1Ab065579277B8'.toLowerCase(),
   foreignGraphName: 'maxaleks/mainnet-to-bsc-omnibridge',
@@ -101,8 +106,8 @@ const BSC_POLYGON_TEST_BRIDGE_CONFIG = {
   foreignChainId: 80001,
   enableReversedBridge: true,
   enableForeignCurrencyBridge: true,
-  foreignMediatorAddress: '0x5dA66eb86ee6a9AE40a1c607AD846aA2733f3c4f'.toLowerCase(),
-  homeMediatorAddress: '0x4EC39B93c5DA3e4f940bAc09da75160ED33E6403'.toLowerCase(),
+  foreignMediatorAddress: '0xF4e1D4b0aBd468633C7738911d5Bcf4D5C9204EC'.toLowerCase(),
+  homeMediatorAddress: '0x940F1786f6CE6947349A06DD69577f857DEdca8f'.toLowerCase(),
   foreignAmbAddress: '0x0E9953EE0dAa2EfBCE776fEed2ef97239E4fa030'.toLowerCase(),
   homeAmbAddress: '0x395CCf048b40B40C0d6d2Fd826551a0fC3C389B7'.toLowerCase(),
   foreignGraphName: 'maxaleks/mainnet-to-bsc-omnibridge',
@@ -146,8 +151,8 @@ const BSC_RIKNEBY_BRIDGE_CONFIG = {
   foreignChainId: 4,
   enableReversedBridge: true,
   enableForeignCurrencyBridge: true,
-  foreignMediatorAddress: '0xa4803D83fE02bE15454524E8B903629fD04aBc4a'.toLowerCase(),
-  homeMediatorAddress: '0x9c4A2560572c474A9B7B227566a1C6b732FC2495'.toLowerCase(),
+  foreignMediatorAddress: '0x6547523EDA6c954A1F3D2CcA0e2fa247a3E503a2'.toLowerCase(),
+  homeMediatorAddress: '0x1a86c9b24E13b5080786C29bD10C58a1E823c540'.toLowerCase(),
   foreignAmbAddress: '0x0E9953EE0dAa2EfBCE776fEed2ef97239E4fa030'.toLowerCase(),
   homeAmbAddress: '0x295049267fa8A1030B27e2dE34E0f73db276a48b'.toLowerCase(),
   foreignGraphName: 'maxaleks/mainnet-to-bsc-omnibridge',
@@ -171,6 +176,7 @@ export type BridgeInfoItemType = BridgeInfoType[keyof BridgeInfoType]
 
 const getNetworkConfig = (bridges: ENABLED_BRIDGES_TYPE) => {
   if (bridges && bridges.length > 0 && bridgeInfo) {
+    // @ts-ignore
     const config: unknown = bridges.reduce((t, b) => ({ ...t, [b]: bridgeInfo[b] }), {})
     return config as BridgeInfoType
   }
@@ -178,6 +184,11 @@ const getNetworkConfig = (bridges: ENABLED_BRIDGES_TYPE) => {
 }
 
 export const networks = getNetworkConfig(ENABLED_BRIDGES)
+export const bridgeNetworks = Object.values(networks)
+export const bridgeNetworksChains: number[] = Object.values(networks).reduce((chains, network) => {
+  chains = [...chains, network.homeChainId, network.foreignChainId]
+  return [...new Set(chains)]
+}, [])
 
 export const defaultTokens = {
   [ETH_XDAI_BRIDGE]: {
@@ -244,7 +255,7 @@ export const defaultTokens = {
       name: 'ALM',
     },
     256: {
-      address: '0x5c500d1d03858d9a3ba7ba1448172bf9ff3bac3e',
+      address: '0xfe681ad91bbb8b531623a7cb8c658e4afe500fd9',
       chainId: 256,
       symbol: 'ALM',
       name: 'ALM on HECO testnet',
@@ -258,7 +269,7 @@ export const defaultTokens = {
       name: 'ALM',
     },
     80001: {
-      address: '0xc85dec38e722683f220645b06abac96471248424',
+      address: '0x58b06772603ad67223bef63ab578f7cb3215771b',
       chainId: 80001,
       symbol: 'ALM',
       name: 'ALM on POLYGON testnet',
@@ -300,7 +311,7 @@ export const defaultTokens = {
       name: 'ALM',
     },
     4: {
-      address: '0x91dc5712460550849a7664a6177b407eeb833d9d',
+      address: '0x05418f9e8a71a96d9bb58fa6d71533033dc23ac6',
       chainId: 4,
       symbol: 'ALM',
       name: 'ALM on RINKEBY testnet',
