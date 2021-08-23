@@ -30,7 +30,7 @@ if (loadedState.user) {
 }
 
 const store = configureStore({
-  devTools: process.env.APP_ENV !== 'development',
+  devTools: process.env.APP_ENV === 'development',
   reducer: {
     farms,
     toasts,

@@ -19,15 +19,7 @@ const InputRow = styled.div<{ selected: boolean; customHeight?: number }>`
   flex-flow: row nowrap;
   align-items: center;
   padding: ${({ selected }) => (selected ? '0.4rem 0.5rem 0.4rem 1rem' : '0.4rem 0.75rem 0.4rem 1rem')};
-  ${({ customHeight }) => (customHeight ? `height: ${customHeight}px;` : '')}/* width: 340px;
-  @media screen and (max-width: 768px) {
-    width: 258px;
-    max-width: 258px;
-  }
-  @media screen and (max-width: 480px) {
-    width: 183px;
-    max-width: 183px;
-  } */
+  ${({ customHeight }) => (customHeight ? `height: ${customHeight}px;` : '')}
 `
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
@@ -88,13 +80,11 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
   z-index: 1;
   margin-right: 16px;
   width: 340px;
-  @media screen and (max-width: 768px) {
-    width: 258px;
-    max-width: 258px;
-  }
+
   @media screen and (max-width: 480px) {
-    width: 183px;
-    max-width: 183px;
+    width: 100%;
+    max-width: initial;
+    margin-right: 0px;
   }
 `
 

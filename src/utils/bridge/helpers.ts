@@ -134,7 +134,7 @@ export const getAccountString = (address: string) => {
 
 export const logError = (error) => {
   // eslint-disable-next-line no-console
-  debugger
+  // debugger
   console.error(error)
 }
 

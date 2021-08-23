@@ -12,6 +12,7 @@ import { AppDispatch, AppState } from '../index'
 import {
   addSerializedPair,
   addSerializedToken,
+  removeSerializedPair,
   removeSerializedToken,
   SerializedPair,
   SerializedToken,
@@ -159,10 +160,23 @@ function serializePair(pair: Pair): SerializedPair {
 
 export function usePairAdder(): (pair: Pair) => void {
   const dispatch = useDispatch<AppDispatch>()
-
   return useCallback(
     (pair: Pair) => {
       dispatch(addSerializedPair({ serializedPair: serializePair(pair) }))
+    },
+    [dispatch],
+  )
+}
+
+export function usePairRemove(): (pair: Pair) => void {
+  const dispatch = useDispatch<AppDispatch>()
+  return useCallback(
+    (pair: Pair) => {
+      const chainId = pair?.chainId
+      const tokenAAddress = pair?.token0?.address
+      const tokenBAddress = pair?.token1?.address
+      console.log('REMOVE:PAIR', pair)
+      dispatch(removeSerializedPair({ chainId, tokenAAddress, tokenBAddress }))
     },
     [dispatch],
   )
@@ -232,6 +246,9 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   return useMemo(() => {
     // dedupes pairs of tokens in the combined list
     const keyed = combinedList.reduce<{ [key: string]: [Token, Token] }>((memo, [tokenA, tokenB]) => {
+      if (tokenA?.chainId !== chainId || tokenB?.chainId !== chainId) {
+        return memo
+      }
       const sorted = tokenA?.sortsBefore(tokenB)
       const key = sorted ? `${tokenA.address}:${tokenB.address}` : `${tokenB.address}:${tokenA.address}`
       if (memo[key]) return memo

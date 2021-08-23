@@ -17,6 +17,8 @@ import { Step3Migrating } from 'views/Migrate/components/Step3Migrating'
 import { Step4MigrationResult } from 'views/Migrate/components/Step4MigrationResult'
 import { getReadyToMigrateTokens } from 'views/Migrate/lib/getReadyToMigrateTokens'
 import SwapAppBody from 'views/Swap/SwapAppBody'
+import { useCreateMigratePair } from './hooks/useMigratePair'
+import { MigratePairs } from './lib/migrate.types'
 
 const Root = styled.div``
 
@@ -26,18 +28,7 @@ const ViewMigrate: FC = () => {
 
   // --- STATE ---
   const [step, setStep] = useState(2)
-  const [pairs, setPairs] = useState<
-    {
-      title: string
-      symbolA: string
-      symbolB: string
-      addressA: string
-      addressB: string
-      addressLP: string
-      exchange: string
-      balance: number
-    }[]
-  >([])
+  const [pairs, setPairs] = useState<MigratePairs>([])
   const [selectedPairKey, setSelectedPairKey] = useState(-1)
   const [tokensAmount, setTokensAmount] = useState<string | number>(0)
   const [contract, setContract] = useState('')
@@ -54,6 +45,8 @@ const ViewMigrate: FC = () => {
   const lpTokenContract = useLPTokenContract(currentPair?.addressLP)
   const vampireContract = useVampireContract(currentNetwork.address.vampiring)
   const factoryContract = useFactoryContract(currentNetwork.address.factory)
+  // Liqudity pair
+  useCreateMigratePair(currentPair)
 
   const setDefaultState = async () => {
     setStep(account ? 2 : 1)

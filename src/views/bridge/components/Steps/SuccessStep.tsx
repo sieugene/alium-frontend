@@ -1,11 +1,12 @@
 import { CloseItem } from 'components/Modal/BridgeModal'
-import { useAlmToken } from 'hooks/useAlm'
 import { BridgeSuccessIcon } from 'images/bridge/BridgeSuccessIcon'
 import React from 'react'
 import { ChevronRight } from 'react-feather'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { getExplorerLink } from 'utils'
+import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import AddTokenBtn from '../AddTokenBtn'
 import { View } from '../Loaders/TransferLoader'
@@ -49,11 +50,18 @@ const Content = styled.div`
 `
 
 const SuccessStep = () => {
-  const token = useAlmToken()
   const { cancel } = useBridge()
   const toggleNetworks = useStoreBridge((state) => state.toggleNetworks)
   const fromNetwork = useStoreBridge((state) => state.fromNetwork)
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const token = useStoreBridge((state) => state.tokens.fromToken)
+  const amount = useStoreBridge((state) => state.amounts.fromAmount)
+  const formattedAmount = token ? formatBridgeTokenAmount(token, amount) : '0'
+
+  const toChainId = useStoreBridge((state) => state.toNetwork)
+  const txHash = useStoreBridge((state) => state.txHash)
+  // to -> but reverted
+  const link = getExplorerLink(toChainId, txHash, 'transaction')
 
   // Switching is required because we do not do it in step 2
   const needToggle = () => {
@@ -79,11 +87,18 @@ const SuccessStep = () => {
         <BridgeSuccessIcon />
         <h2 className='title'>Transaction completed</h2>
         <p className='amount'>
-          Amount: <b>0.01{token?.symbol}</b>
+          Amount:{' '}
+          <b>
+            {formattedAmount} {token?.symbol}
+          </b>
         </p>
-        <View>
-          View on explorer <ChevronRight />
-        </View>
+        {txHash && (
+          <View>
+            <a href={link} target='_blank'>
+              View on explorer <ChevronRight />
+            </a>
+          </View>
+        )}
         <AddTokenBtn />
       </Content>
     </Wrapper>

@@ -11,7 +11,9 @@ const AdvanceWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 258px;
+  @media screen and (max-width: 600px) {
+    max-width: 340px;
+  }
 `
 
 const Advanced = styled.div`
@@ -57,13 +59,9 @@ const StyledInput = styled(Input)<{ notValid: boolean }>`
   max-width: 340px;
   height: 48px;
   width: 340px;
-  @media screen and (max-width: 768px) {
-    width: 258px;
-    max-width: 258px;
-  }
   @media screen and (max-width: 480px) {
-    width: 183px;
-    max-width: 183px;
+    width: 100%;
+    max-width: initial;
   }
 `
 

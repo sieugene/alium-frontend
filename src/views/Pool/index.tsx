@@ -12,7 +12,7 @@ import { useActiveWeb3React } from 'hooks'
 import { useAllV2PairsWithLiquidity } from 'hooks/pool/useAllV2PairsWithLiquidity'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { ROUTES } from 'routes'
 import styled, { ThemeContext } from 'styled-components'
 import SwapAppBody from 'views/Swap/SwapAppBody'
@@ -151,12 +151,14 @@ const AddLiquidityBtn = styled(Button)`
   flex-shrink: 0;
 `
 
-export default function Pool() {
+const Pool = React.memo(() => {
   const { data, loading } = useAllV2PairsWithLiquidity()
   const router = useRouter()
   const theme = useContext(ThemeContext)
   const { account /* , chainId */ } = useActiveWeb3React()
   const { t } = useTranslation()
+
+  console.log('liq:token', data)
 
   const getButton = () => {
     return (
@@ -255,4 +257,6 @@ export default function Pool() {
       </SwapAppBody>
     </CardWrapper>
   )
-}
+})
+
+export default Pool

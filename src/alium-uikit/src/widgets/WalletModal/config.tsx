@@ -1,3 +1,4 @@
+import { bridgeNetworksChains } from 'constants/bridge/bridge.networks'
 import { isMobile } from 'react-device-detect'
 import Binance from './icons/Binance'
 import BinanceChain from './icons/BinanceChain'
@@ -166,4 +167,16 @@ export const networksDev: NetworksConfig[] = [
 export const getNetworks = () => {
   const isDev = process.env.APP_ENV === 'development'
   return isDev ? networksDev : networksProd
+}
+
+export const getBridgeNetworks = (): NetworksConfig[] => {
+  const networks = getNetworks()
+  const available = networks.reduce((configs, network) => {
+    const exist = bridgeNetworksChains.find((bridge) => bridge === network.chainId)
+    if (exist) {
+      configs.push(network)
+    }
+    return configs
+  }, [])
+  return available
 }

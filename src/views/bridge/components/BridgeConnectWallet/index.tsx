@@ -3,7 +3,9 @@ import { useActiveWeb3React } from 'hooks'
 import { BridgeConnectWalletIcon } from 'images/bridge/BridgeConnectWalletIcon'
 import React, { FC } from 'react'
 import { storeAccount } from 'store/account/useStoreAccount'
+import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import BadNetworkWrapper from '../BadNetworkWrapper'
 
 const CardContent = styled.div`
   display: flex;
@@ -50,9 +52,11 @@ const IconWrap = styled.div`
 const BridgeConnectWallet: FC<{ children: React.ReactNode }> = ({ children }) => {
   const { account } = useActiveWeb3React()
   const showModalConnect = storeAccount.getState().showModalConnect
+  const step = useStoreBridge((state) => state.step)
+  const withNetworkGuard = React.useMemo(() => step === BRIDGE_STEPS.CONFIRM_TRANSFER, [])
 
   if (account) {
-    return <> {children} </>
+    return <BadNetworkWrapper isConnectGuard={withNetworkGuard}> {children} </BadNetworkWrapper>
   }
   return (
     <CardContent>

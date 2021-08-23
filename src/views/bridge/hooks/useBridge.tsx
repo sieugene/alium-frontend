@@ -6,6 +6,8 @@ import {
   StoreBridgeState,
   useStoreBridge,
 } from 'store/bridge/useStoreBridge'
+import { storeNetwork } from 'store/network/useStoreNetwork'
+import { useRefetchBridgeBalances } from './useBridgeBalances'
 
 // init store for current bridge history (CREATE, CONTINUE)
 interface Params {
@@ -30,6 +32,10 @@ export const useBridge = () => {
   const stepStatuses = useStoreBridge((state) => state.stepStatuses)
   const fromNetwork = useStoreBridge((state) => state.fromNetwork)
   const toNetwork = useStoreBridge((state) => state.toNetwork)
+  const toggleNetworks = useStoreBridge((state) => state.toggleNetworks)
+
+  const refetch = useRefetchBridgeBalances()
+  const { clearAllowApprove } = useBridgeContext()
   // Actions
   const install = ({ step, showModal, statuses, from, to }: Params) => {
     // Params
@@ -58,8 +64,20 @@ export const useBridge = () => {
       toNetwork: to,
       modalOpen: showModal,
     } = storeBridgeDefault()
+    const currentStep = storeBridge.getState().step
     install({ step, statuses, showModal })
+    toggleNetworkIfBeChangedAndClosed(currentStep)
     clearTransaction()
+    refetch()
+    clearAllowApprove()
+  }
+
+  const toggleNetworkIfBeChangedAndClosed = (step: BRIDGE_STEPS) => {
+    const toNetwork = storeBridge.getState().toNetwork
+    const chainId = storeNetwork.getState().currentChainId
+    if ((step === BRIDGE_STEPS.SWITCH_NETWORK || step === BRIDGE_STEPS.CLAIM_TOKEN) && toNetwork === chainId) {
+      toggleNetworks()
+    }
   }
   return { install, uninstall, cancel }
 }
