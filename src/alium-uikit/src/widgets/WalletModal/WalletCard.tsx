@@ -106,7 +106,7 @@ const WalletCard: FC<Props> = ({
         <Icon width='32px' />
         {selected && <StyledCheckMarkInCircle />}
       </StyledButton>
-      <Text color='#8990A5' fontSize='11px' mt='8px' style={{ textAlign: 'center' }}>
+      <Text color='#8990A5' fontSize='11px' mb='8px' style={{ textAlign: 'center' }}>
         {title}
       </Text>
     </StyledFlex>
