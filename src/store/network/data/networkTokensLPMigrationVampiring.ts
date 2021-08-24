@@ -4,21 +4,86 @@ export interface INetworkTokensLPMigrationVampiringItem {
   tokenA: { symbol: string; address: string }
   tokenB: { symbol: string; address: string }
   tokenLP: { address: string }
-  exchange: 'Uniswap' | 'Sushiswap' | 'Pancakeswap' | 'Quickswap' | 'Dfyn Exchange' | 'MDEX' | 'Biswap'
+  exchange:
+    | 'Uniswap'
+    | 'Sushiswap'
+    | 'Pancakeswap'
+    | 'Quickswap'
+    | 'Dfyn Exchange'
+    | 'MDEX'
+    | 'Biswap'
+    | 'Panther'
+    | 'Ape'
+    | 'Honey'
+    | 'FireBird'
+    | 'Cat'
 }
+
+const BSC_CAKE = { symbol: 'cake', address: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82' }
+const BSC_WBNB = { symbol: 'wbnb', address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c' }
+const BSC_USDT = { symbol: 'usdt', address: '0x55d398326f99059ff775485246999027b3197955' }
+const BSC_ETH = { symbol: 'eth', address: '0x2170ed0880ac9a755fd29b2688956bd959f933f8' }
+const BSC_USDC = { symbol: 'usdc', address: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d' }
+const BSC_BTCB = { symbol: 'btcb', address: '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c' }
+const BSC_BUSD = { symbol: 'busd', address: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }
 
 // prettier-ignore
 const BSC: INetworkTokensLPMigrationVampiringItem[] = [
-  { tokenA: { symbol: 'cake'  , address: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82' }, tokenB: { symbol: 'wbnb'    , address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c' }, tokenLP: { address: '0x0ed7e52944161450477ee417de9cd3a859b14fd0' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'wbnb'  , address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c' }, tokenB: { symbol: 'busd'    , address: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, tokenLP: { address: '0x58f876857a02d6762e0101bb5c46a8c1ed44dc16' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'usdt'  , address: '0x55d398326f99059ff775485246999027b3197955' }, tokenB: { symbol: 'busd'    , address: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, tokenLP: { address: '0x7EFaEf62fDdCCa950418312c6C91Aef321375A00' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'usdt'  , address: '0x55d398326f99059ff775485246999027b3197955' }, tokenB: { symbol: 'wbnb'    , address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c' }, tokenLP: { address: '0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'eth'   , address: '0x2170ed0880ac9a755fd29b2688956bd959f933f8' }, tokenB: { symbol: 'wbnb'    , address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c' }, tokenLP: { address: '0x74E4716E431f45807DCF19f284c7aA99F18a4fbc' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'usdc'  , address: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d' }, tokenB: { symbol: 'busd'    , address: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, tokenLP: { address: '0x2354ef4DF11afacb85a5C7f98B624072ECcddbB1' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'eth'   , address: '0x2170ed0880ac9a755fd29b2688956bd959f933f8' }, tokenB: { symbol: 'btcb'    , address: '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c' }, tokenLP: { address: '0xD171B26E4484402de70e3Ea256bE5A2630d7e88D' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'btcb'  , address: '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c' }, tokenB: { symbol: 'busd'    , address: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, tokenLP: { address: '0xF45cd219aEF8618A92BAa7aD848364a158a24F33' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'btcb'  , address: '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c' }, tokenB: { symbol: 'wbnb'    , address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c' }, tokenLP: { address: '0x61EB789d75A95CAa3fF50ed7E47b96c132fEc082' }, exchange: 'Pancakeswap' },
-  { tokenA: { symbol: 'usdt'  , address: '0x55d398326f99059ff775485246999027b3197955' }, tokenB: { symbol: 'usdc'    , address: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d' }, tokenLP: { address: '0xEc6557348085Aa57C72514D67070dC863C0a5A8c' }, exchange: 'Pancakeswap' },
+  // Pancakeswap
+  { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0x0ed7e52944161450477ee417de9cd3a859b14fd0' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x58f876857a02d6762e0101bb5c46a8c1ed44dc16' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_BUSD, tokenLP: { address: '0x7EFaEf62fDdCCa950418312c6C91Aef321375A00' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_WBNB, tokenLP: { address: '0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_ETH, tokenB: BSC_WBNB, tokenLP: { address: '0x74E4716E431f45807DCF19f284c7aA99F18a4fbc' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_USDC, tokenB: BSC_BUSD, tokenLP: { address: '0x2354ef4DF11afacb85a5C7f98B624072ECcddbB1' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_ETH, tokenB: BSC_BTCB, tokenLP: { address: '0xD171B26E4484402de70e3Ea256bE5A2630d7e88D' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '0xF45cd219aEF8618A92BAa7aD848364a158a24F33' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0x61EB789d75A95CAa3fF50ed7E47b96c132fEc082' }, exchange: 'Pancakeswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0xEc6557348085Aa57C72514D67070dC863C0a5A8c' }, exchange: 'Pancakeswap' },
+  // Biswap
+  { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0x3d94d03eb9ea2D4726886aB8Ac9fc0F18355Fd13' }, exchange: 'Biswap' },
+  { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc' }, exchange: 'Biswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_BUSD, tokenLP: { address: '0xDA8ceb724A06819c0A5cDb4304ea0cB27F8304cF' }, exchange: 'Biswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_WBNB, tokenLP: { address: '0x8840C6252e2e86e545deFb6da98B2a0E26d8C1BA' }, exchange: 'Biswap' },
+  { tokenA: BSC_ETH, tokenB: BSC_WBNB, tokenLP: { address: '0x5bf6941f029424674bb93A43b79fc46bF4A67c21' }, exchange: 'Biswap' },
+  { tokenA: BSC_USDC, tokenB: BSC_BUSD, tokenLP: { address: '0x6f2829B3061211C24a34583647e222f72Ff2e962' }, exchange: 'Biswap' },
+  { tokenA: BSC_ETH, tokenB: BSC_BTCB, tokenLP: { address: '0x6216E04cd40DB2c6FBEd64f1B5830A98D3A91740' }, exchange: 'Biswap' },
+  { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '0x15B868fB4b0358F26ACfdb11f20309593bf2fE72' }, exchange: 'Biswap' },
+  { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0xC7e9d76ba11099AF3F330ff829c5F442d571e057' }, exchange: 'Biswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0x1483767E665B3591677Fd49F724bf7430C18Bf83' }, exchange: 'Biswap' },
+  // MDEX
+  { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0xA13aFe2DF0fA0bb11F2aeAAAF98aC1D591E108d1' }, exchange: 'MDEX' },
+  { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x340192D37d95fB609874B1db6145ED26d1e47744' }, exchange: 'MDEX' },
+  { tokenA: BSC_USDT, tokenB: BSC_BUSD, tokenLP: { address: '0x62c1dEC1fF328DCdC157Ae0068Bb21aF3967aCd9' }, exchange: 'MDEX' },
+  { tokenA: BSC_USDT, tokenB: BSC_WBNB, tokenLP: { address: '0x09CB618bf5eF305FadfD2C8fc0C26EeCf8c6D5fd' }, exchange: 'MDEX' },
+  { tokenA: BSC_ETH, tokenB: BSC_WBNB, tokenLP: { address: '0x82E8F9e7624fA038DfF4a39960F5197A43fa76aa' }, exchange: 'MDEX' },
+  { tokenA: BSC_USDC, tokenB: BSC_BUSD, tokenLP: { address: '0x2045c12aa02b7551E430a1fE47b4b795Bf84e72F' }, exchange: 'MDEX' },
+  { tokenA: BSC_ETH, tokenB: BSC_BTCB, tokenLP: { address: '0x577d005912C49B1679B4c21E334FdB650E92C077' }, exchange: 'MDEX' },
+  { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '0x4fb8253432FB3e92109c91E3Ff2b85FfA0f6A1F4' }, exchange: 'MDEX' },
+  { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0x969f2556F786a576F32AeF6c1D6618f0221Ec70e' }, exchange: 'MDEX' },
+  { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0x9f4Da89774570E27170873BefD139a79CB1A3da2' }, exchange: 'MDEX' },
+  // Panther
+  { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0xBe63F8cdcF2c7CC509EBb18742d3866F0C3bc2b4' }, exchange: 'Panther' },
+  { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x6AF4C4433474B2F8BA385AD62B23299c82846783' }, exchange: 'Panther' },
+  { tokenA: BSC_USDT, tokenB: BSC_BUSD, tokenLP: { address: '0x7EC7702d1e65C84470720563175A20c2fc03a72d' }, exchange: 'Panther' },
+  { tokenA: BSC_USDT, tokenB: BSC_WBNB, tokenLP: { address: '0x26782a2669d32bE87C892AdA10Aa630d0834B3c4' }, exchange: 'Panther' },
+  { tokenA: BSC_ETH, tokenB: BSC_WBNB, tokenLP: { address: '0x542B077f6a06b488A31B8C8b31E456F2B3984989' }, exchange: 'Panther' },
+  { tokenA: BSC_USDC, tokenB: BSC_BUSD, tokenLP: { address: '0x9C58fdabd7E41E1A2bfC5b7b8b8B6fF248D8aa66' }, exchange: 'Panther' },
+  // { tokenA: BSC_ETH, tokenB: BSC_BTCB, tokenLP: { address: '-' }, exchange: 'Panther' },
+  { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '0x1ffd9f2190B82537E4e0e0C5AC55588e24485889' }, exchange: 'Panther' },
+  { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0x9E78cEa62cD4DF80520912A137C0778Fe8a34186' }, exchange: 'Panther' },
+  { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0xb69C2518b9c4433f82EEa0D61bCE97875575BE22' }, exchange: 'Panther' },
+  // Ape
+  { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0x60593Abea55e9Ea9d31c1b6473191cD2475a720D' }, exchange: 'Ape' },
+  { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x51e6D27FA57373d8d4C256231241053a70Cb1d93' }, exchange: 'Ape' },
+  { tokenA: BSC_USDT, tokenB: BSC_BUSD, tokenLP: { address: '0x2e707261d086687470B515B320478Eb1C88D49bb' }, exchange: 'Ape' },
+  { tokenA: BSC_USDT, tokenB: BSC_WBNB, tokenLP: { address: '0x83C5b5b309EE8E232Fe9dB217d394e262a71bCC0' }, exchange: 'Ape' },
+  { tokenA: BSC_ETH, tokenB: BSC_WBNB, tokenLP: { address: '0xA0C3Ef24414ED9C9B456740128d8E63D016A9e11' }, exchange: 'Ape' },
+  { tokenA: BSC_USDC, tokenB: BSC_BUSD, tokenLP: { address: '0xC087C78AbaC4A0E900a327444193dBF9BA69058E' }, exchange: 'Ape' },
+  { tokenA: BSC_ETH, tokenB: BSC_BTCB, tokenLP: { address: '0xc6EA23E8aDAf03E700be3AA50bE30ECd39B7bF49' }, exchange: 'Ape' },
+  { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '0xd296aF3aeF3aB6C599065e7c0b564C176bF0816C' }, exchange: 'Ape' },
+  { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0x1E1aFE9D9c5f290d8F6996dDB190bd111908A43D' }, exchange: 'Ape' },
+  { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0xcd1e0B85B72EA3Ecdf8A4B79c7bf9bCFf5113829' }, exchange: 'Ape' },
 ]
 
 // prettier-ignore
@@ -63,29 +128,77 @@ const ETHER: INetworkTokensLPMigrationVampiringItem[] = [
   { tokenA: { symbol: 'sushi' , address: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2' }, tokenB: {	symbol: 'weth'   , address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' }, tokenLP: { address: '0x795065dCc9f64b5614C407a6EFDC400DA6221FB0' }, exchange: 'Sushiswap' },
 ]
 
+const MATIC_USDC = { symbol: 'usdc', address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }
+const MATIC_MIMATIC = { symbol: 'mimatic', address: '0xa3Fa99A148fA48D14Ed51d610c367C61876997F1' }
+const MATIC_WETH = { symbol: 'weth', address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }
+const MAITC_WBTC = { symbol: 'wbtc', address: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6' }
+const MATIC_USDT = { symbol: 'usdt', address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f' }
+const MATIC_WMATIC = { symbol: 'wmatic', address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' }
+const MATIC_DAI = { symbol: 'dai', address: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063' }
+const MATIC_LINK = { symbol: 'link', address: '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39' }
+const MATIC_AAVE = { symbol: 'aave', address: '0xd6df932a45c0f255f85145f286ea0b292b21c90b' }
+// External
+const MATIC_UNI = { symbol: 'uni', address: '0xb33eaad8d922b1083446dc23f610c2567fb5180f' }
+const MATIC_FISH = { symbol: 'fish', address: '0x3a3df212b7aa91aa0402b9035b098891d276572b' }
+
 // prettier-ignore
 const MATIC: INetworkTokensLPMigrationVampiringItem[] = [
-  { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'mimatic', address: '0xa3Fa99A148fA48D14Ed51d610c367C61876997F1' }, tokenLP: { address: '0x160532D2536175d65C03B97b0630A9802c274daD' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'weth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0x853Ee4b2A13f8a742d64C8F088bE7bA2131f670d' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'wbtc'  , address: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6' }, tokenB: {	symbol: 'weth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0xdC9232E2Df177d7a12FdFf6EcBAb114E2231198D' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'usdt'   , address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f' }, tokenLP: { address: '0x2cF7252e74036d1Da831d11089D326296e64a728' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'wmatic', address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' }, tokenB: {	symbol: 'weth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0xadbF1854e5883eB8aa7BAf50705338739e558E5b' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'weth'  , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenB: {	symbol: 'usdt'   , address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f' }, tokenLP: { address: '0xF6422B997c7F54D1c6a6e103bcb1499EeA0a7046' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'dai'    , address: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063' }, tokenLP: { address: '0xf04adBF75cDFc5eD26eeA4bbbb991DB002036Bdd' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'weth'  , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenB: {	symbol: 'aave'   , address: '0xd6df932a45c0f255f85145f286ea0b292b21c90b' }, tokenLP: { address: '0x90bc3E68Ba8393a3Bf2D79309365089975341a43' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'link'  , address: '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39' }, tokenB: {	symbol: 'weth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0x5cA6CA6c3709E1E6CFe74a50Cf6B2B6BA2Dadd67' }, exchange: 'Quickswap' },
-  { tokenA: { symbol: 'wmatic', address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' }, tokenB: {	symbol: 'usdc'   , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenLP: { address: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827' }, exchange: 'Quickswap' },
-
-  { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'usdt'   , address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f' }, tokenLP: { address: '0xBe40F7Fff5A2235aF9a8cb79A17373162eFeFA9C' }, exchange: 'Dfyn Exchange' },
-  { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'dai'    , address: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063' }, tokenLP: { address: '0xb7bd6d48C9b1aF7E126d0389C6970F157D974f33' }, exchange: 'Dfyn Exchange' },
-  { tokenA: { symbol: 'dai'   , address: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063' }, tokenB: {	symbol: 'usdt'   , address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f' }, tokenLP: { address: '0xdd228fdC8A41A02BDEa72060F53C1f88A2FD48B6' }, exchange: 'Dfyn Exchange' },
-  { tokenA: { symbol: 'wbtc'  , address: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6' }, tokenB: {	symbol: 'eth'    , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0x39eAA90a70E8FdC04E1f63Db04e1c62c9aCe0641' }, exchange: 'Dfyn Exchange' },
-  { tokenA: { symbol: 'usdc'  , address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174' }, tokenB: {	symbol: 'eth'    , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0x7D51bAd48d253dae37cC82cad07f73849286Deec' }, exchange: 'Dfyn Exchange' },
-// {tokenA: { symbol: 'ust'   , address: '                                          ' }, tokenB: {	symbol: 'usdt'   , address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f' }, tokenLP: { address: '                                          ' }, exchange: 'Dfyn Exchange' },
-  { tokenA: { symbol: 'wmatic', address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' }, tokenB: {	symbol: 'eth'    , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenLP: { address: '0x2FE46369b1C261Be62F9fD327ff5A9B17Ab0F451' }, exchange: 'Dfyn Exchange' },
-  { tokenA: { symbol: 'eth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenB: {	symbol: 'uni'    , address: '0xb33eaad8d922b1083446dc23f610c2567fb5180f' }, tokenLP: { address: '0xb5E1a07c9b6aB3BEe8d9Bf4066D324c5da89C07F' }, exchange: 'Dfyn Exchange' },
-  { tokenA: { symbol: 'fish'  , address: '0x3a3df212b7aa91aa0402b9035b098891d276572b' }, tokenB: {	symbol: 'wmatic' , address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' }, tokenLP: { address: '0xB1Eda2fbCb02da970C1aAcd26eCF434BfeE5B674' }, exchange: 'Dfyn Exchange' },
-  { tokenA: { symbol: 'eth'   , address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619' }, tokenB: {	symbol: 'aave'   , address: '0xd6df932a45c0f255f85145f286ea0b292b21c90b' }, tokenLP: { address: '0x7162c0AcF32820920a741D8fA466b8e6D60D530D' }, exchange: 'Dfyn Exchange' },
+  // Honey______
+  // { tokenA: MATIC_USDC, tokenB: MATIC_MIMATIC, tokenLP: { address: '-' }, exchange: 'Honey' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_WETH, tokenLP: { address: '0xD862dB749534d539713B2c392421Fe5a8e43E19E' }, exchange: 'Honey' },
+  { tokenA: MAITC_WBTC, tokenB: MATIC_WETH, tokenLP: { address: '0x6D3842ab227A0436A6e8c459E93c74bD8c16fb34' }, exchange: 'Honey' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_USDT, tokenLP: { address: '0x3F24E142FBF05D16AB1cf79e6df3473f515b16E0' }, exchange: 'Honey' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_WETH, tokenLP: { address: '0xEAE495187472B8DB83cF9dC738ba3869FDe5b1D3' }, exchange: 'Honey' },
+  { tokenA: MATIC_WETH, tokenB: MATIC_USDT, tokenLP: { address: '0x1013ba833071Fd8AcA8Bf2AC83E5515c5fB9E76F' }, exchange: 'Honey' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_DAI, tokenLP: { address: '0xE49fea624d480A5233b5dfC4969a27319873e6f0' }, exchange: 'Honey' },
+  { tokenA: MATIC_WETH, tokenB: MATIC_AAVE, tokenLP: { address: '0x0c787944946d22922C9f41C477CC539700d35bB2' }, exchange: 'Honey' },
+  { tokenA: MATIC_LINK, tokenB: MATIC_WETH, tokenLP: { address: '0xcF863d14b6C3551Cad42E4B7F0a2b4B6A72ce122' }, exchange: 'Honey' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_USDC, tokenLP: { address: '0x86b7249272fabb82Ef36550eF898Ea539225E7F0' }, exchange: 'Honey' },
+  // FireBird_______
+  // { tokenA: MATIC_USDC, tokenB: MATIC_MIMATIC, tokenLP: { address: '-' }, exchange: 'FireBird' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_WETH, tokenLP: { address: '0x39D736D2b254eE30796f43Ec665143010b558F82' }, exchange: 'FireBird' },
+  { tokenA: MAITC_WBTC, tokenB: MATIC_WETH, tokenLP: { address: '0x10F525CFbCe668815Da5142460af0fCfb5163C81' }, exchange: 'FireBird' },
+  // { tokenA: MATIC_USDC, tokenB: MATIC_USDT, tokenLP: { address: '-' }, exchange: 'FireBird' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_WETH, tokenLP: { address: '0x7887a048a2E5995CcFC3B1F2E9c23Ab2EcA40BCF' }, exchange: 'FireBird' },
+  // { tokenA: MATIC_WETH, tokenB: MATIC_USDT, tokenLP: { address: '-' }, exchange: 'FireBird' },
+  // { tokenA: MATIC_USDC, tokenB: MATIC_DAI, tokenLP: { address: '-' }, exchange: 'FireBird' },
+  // { tokenA: MATIC_WETH, tokenB: MATIC_AAVE, tokenLP: { address: '-' }, exchange: 'FireBird' },
+  // { tokenA: MATIC_LINK, tokenB: MATIC_WETH, tokenLP: { address: '-' }, exchange: 'FireBird' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_USDC, tokenLP: { address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' }, exchange: 'FireBird' },
+  // Cat_____
+  // { tokenA: MATIC_USDC, tokenB: MATIC_MIMATIC, tokenLP: { address: '-' }, exchange: 'Cat' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_WETH, tokenLP: { address: '0x273c39ebd4e0c49f8Cc6E5A2B3c0e4ca355B5352' }, exchange: 'Cat' },
+  { tokenA: MAITC_WBTC, tokenB: MATIC_WETH, tokenLP: { address: '0xbbBd54c1CD649288d2e584917778eEccD8D8254d' }, exchange: 'Cat' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_USDT, tokenLP: { address: '0x97B4f2797cC903D76F9b8ff41A94286F0B16198e' }, exchange: 'Cat' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_WETH, tokenLP: { address: '0xC4e90AE0298E0e7BE0102Cce64089231e1E2D67C' }, exchange: 'Cat' },
+  // { tokenA: MATIC_WETH, tokenB: MATIC_USDT, tokenLP: { address: '-' }, exchange: 'Cat' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_DAI, tokenLP: { address: '0xC8174d091c288FF78De98303c2973140Cbcf3B23' }, exchange: 'Cat' },
+  // { tokenA: MATIC_WETH, tokenB: MATIC_AAVE, tokenLP: { address: '-' }, exchange: 'Cat' },
+  // { tokenA: MATIC_LINK, tokenB: MATIC_WETH, tokenLP: { address: '-' }, exchange: 'Cat' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_USDC, tokenLP: { address: '0x8A4CEb4DffA238539C5d62Ce424980e8fdb21EBc' }, exchange: 'Cat' },
+  // ----------------- Old config
+  // Quickswap
+  { tokenA: MATIC_USDC, tokenB: MATIC_MIMATIC, tokenLP: { address: '0x160532D2536175d65C03B97b0630A9802c274daD' }, exchange: 'Quickswap' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_WETH, tokenLP: { address: '0x853Ee4b2A13f8a742d64C8F088bE7bA2131f670d' }, exchange: 'Quickswap' },
+  { tokenA: MAITC_WBTC, tokenB: MATIC_WETH, tokenLP: { address: '0xdC9232E2Df177d7a12FdFf6EcBAb114E2231198D' }, exchange: 'Quickswap' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_USDT, tokenLP: { address: '0x2cF7252e74036d1Da831d11089D326296e64a728' }, exchange: 'Quickswap' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_WETH, tokenLP: { address: '0xadbF1854e5883eB8aa7BAf50705338739e558E5b' }, exchange: 'Quickswap' },
+  { tokenA: MATIC_WETH, tokenB: MATIC_USDT, tokenLP: { address: '0xF6422B997c7F54D1c6a6e103bcb1499EeA0a7046' }, exchange: 'Quickswap' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_DAI, tokenLP: { address: '0xf04adBF75cDFc5eD26eeA4bbbb991DB002036Bdd' }, exchange: 'Quickswap' },
+  { tokenA: MATIC_WETH, tokenB: MATIC_AAVE, tokenLP: { address: '0x90bc3E68Ba8393a3Bf2D79309365089975341a43' }, exchange: 'Quickswap' },
+  { tokenA: MATIC_LINK, tokenB: MATIC_WETH, tokenLP: { address: '0x5cA6CA6c3709E1E6CFe74a50Cf6B2B6BA2Dadd67' }, exchange: 'Quickswap' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_USDC, tokenLP: { address: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827' }, exchange: 'Quickswap' },
+  // Dfyn
+  { tokenA: MATIC_USDC, tokenB: MATIC_USDT, tokenLP: { address: '0xBe40F7Fff5A2235aF9a8cb79A17373162eFeFA9C' }, exchange: 'Dfyn Exchange' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_DAI, tokenLP: { address: '0xb7bd6d48C9b1aF7E126d0389C6970F157D974f33' }, exchange: 'Dfyn Exchange' },
+  { tokenA: MATIC_DAI, tokenB: MATIC_USDT, tokenLP: { address: '0xdd228fdC8A41A02BDEa72060F53C1f88A2FD48B6' }, exchange: 'Dfyn Exchange' },
+  { tokenA: MAITC_WBTC, tokenB: MATIC_WETH, tokenLP: { address: '0x39eAA90a70E8FdC04E1f63Db04e1c62c9aCe0641' }, exchange: 'Dfyn Exchange' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_WETH, tokenLP: { address: '0x7D51bAd48d253dae37cC82cad07f73849286Deec' }, exchange: 'Dfyn Exchange' },
+// {tokenA: { symbol: 'ust'   , address: '                                          ' }, tokenB: MATIC_USDT, tokenLP: { address: '                                          ' }, exchange: 'Dfyn Exchange' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_WETH, tokenLP: { address: '0x2FE46369b1C261Be62F9fD327ff5A9B17Ab0F451' }, exchange: 'Dfyn Exchange' },
+  { tokenA: MATIC_WETH, tokenB: MATIC_UNI, tokenLP: { address: '0xb5E1a07c9b6aB3BEe8d9Bf4066D324c5da89C07F' }, exchange: 'Dfyn Exchange' },
+  { tokenA: MATIC_FISH, tokenB: MATIC_WMATIC, tokenLP: { address: '0xB1Eda2fbCb02da970C1aAcd26eCF434BfeE5B674' }, exchange: 'Dfyn Exchange' },
+  { tokenA: MATIC_WETH, tokenB: MATIC_AAVE, tokenLP: { address: '0x7162c0AcF32820920a741D8fA466b8e6D60D530D' }, exchange: 'Dfyn Exchange' },
 ]
 
 export const networkTokensLPMigrationVampiring: { [chainId in ChainId]: INetworkTokensLPMigrationVampiringItem[] } = {
