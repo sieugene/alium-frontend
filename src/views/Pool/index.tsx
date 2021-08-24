@@ -241,7 +241,7 @@ const Pool = React.memo(() => {
           <CardBody>
             <AutoColumn gap='12px' style={{ width: '100%' }}>
               <div>
-                <Text fontSize='14px' style={{ padding: '.5rem 0 .5rem 0' }}>
+                <Text fontSize='14px' style={{ padding: '.5rem 0 .5rem 0', display: 'flex', justifyContent: 'center'}}>
                   {t('noJoinedPool')}{' '}
                   <StyledInternalLink id='import-pool-link' href='/find'>
                     {t('importPoolMessage')}

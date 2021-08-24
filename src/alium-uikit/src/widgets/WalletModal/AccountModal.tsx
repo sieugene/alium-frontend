@@ -177,7 +177,7 @@ const AccountModal: FC<Props> = ({
       <StyledFlex mt='16px' justifyContent='space-between'>
         <StyledButton size='md' variant='secondary' onClick={() => window.open(explorerLink)}>
           <BSCScanIcon mr={16} />
-          {explorerName}
+          View on {explorerName}
         </StyledButton>
         <StyledButton size='md' variant='secondary' onClick={onTransactionHistoryHandler}>
           <TransactionHistoryIcon mr={16} />
