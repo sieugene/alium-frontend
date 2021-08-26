@@ -18,12 +18,21 @@ export class Web3InjectedConnector extends InjectedConnector {
   // when auto notify not working, use this method
   public async notifyMetamask() {
     const ethereum = window.ethereum
-    if (this.inForced) {
-    // https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
-      await ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${this.chainId.toString(16)}` }],
-      })
+    try {
+      if (this.inForced) {
+      // https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
+       await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: `0x${this.chainId.toString(16)}` }],
+        })
+      }
+    } catch(switchError) {
+      if (switchError.code === 32002) {
+          // await ethereum.request({
+          //   method: 'wallet_addEthereumChain',
+          //   params: [{ chainId: '0xf00', rpcUrl: 'https://...' /* ... */ }],
+          return console.log(switchError)
+          };
     }
   }
 
