@@ -59,6 +59,9 @@ const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
     @media screen and (max-width: 768px) {
       font-size: 24px;
     }
+    @media screen and (max-width: 480px) {
+      margin: 0;
+    }
 
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -83,13 +86,16 @@ const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
     align-items: flex-end;
     max-width: 150px;
     @media screen and (max-width: 768px) {
-      max-width: 165px;
+      /* max-width: 165px; */
     }
     @media screen and (max-width: 480px) {
-      max-width: 100px;
+      max-width: 120px;
     }
     @media screen and (max-width: 375px) {
-      max-width: 75px;
+      max-width: 110px;
+    }
+    @media screen and (max-width: 330px) {
+      max-width: 90px;
     }
   }
 `
@@ -161,6 +167,9 @@ const Info = styled.div`
   }
   display: flex;
   padding: 16px;
+  @media screen and (max-width: 480px) {
+    padding: 16px 5px 16px 16px;
+  }
   svg {
     min-width: 24px;
     min-height: 24px;
@@ -180,6 +189,9 @@ const Footer = styled.div`
   .continue {
     height: 48px;
     width: 112px;
+  }
+  @media screen and (max-width: 480px) {
+    padding: 0px 24px 24px 24px;
   }
 `
 
