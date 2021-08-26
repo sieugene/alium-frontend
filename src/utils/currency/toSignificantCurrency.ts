@@ -1,19 +1,16 @@
-import { CurrencyAmount, Fraction, JSBI, Price } from '@alium-official/sdk'
+import { CurrencyAmount, JSBI, Price } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
 import { getFullDisplayBalance } from './../formatBalance'
 
 // toSignificant like uniswap
 export const toSignificantCurrency = (currency: CurrencyAmount | Price, defaultValue?: string): string => {
-  return formatCurrency(currency, 6, defaultValue)
+  return formatCurrency(currency, 4, defaultValue)
 }
 
-const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6, defVal?: string) => {
+const formatCurrency = (currency: CurrencyAmount | Price, sigFigs = 6, defVal?: string) => {
   const defaultValue = defVal || '-'
   const RawBN = currency?.raw && new BigNumber(Number(`${currency.raw}`))
-  // Dont use toString but '1.245000' make to '1.245'
-
-  const balance = RawBN && `${getFullDisplayBalance(RawBN)}`?.split('.')
-  const amount = fromSplitBalance(balance, maxSub)
+  const amount = currency?.toSignificant(sigFigs)
 
   const firstMin = '0.0010'
 
@@ -23,8 +20,7 @@ const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6, defVal?: s
   }
 
   // Zero condition
-  // @ts-ignore
-  if (currency && !JSBI.greaterThan(currency?.raw, JSBI.BigInt(0))) {
+  if (currency && !JSBI.greaterThan(currency?.raw as JSBI, JSBI.BigInt(0))) {
     return '0'
   }
 
@@ -32,23 +28,13 @@ const formatCurrency = (currency: CurrencyAmount | Price, maxSub = 6, defVal?: s
   if (isMinimalAmount(amount, firstMin)) {
     return firstMin.slice(0, -1)
   }
+
   // Less
-  if (Number(amount) < 0.00001) {
+  if (parseFloat(Number(amount)?.toFixed(sigFigs)) < 0.0001) {
     return '<0.00001'
   }
-  // Make '1.245000' to '1.245'
-  return dropZero(amount) || defaultValue
-}
 
-// Split by "." max size after "." 6
-const fromSplitBalance = (balance: string[], maxSub: number) => {
-  if (balance?.length >= 2) {
-    return `${balance[0]}.${balance[1].substring(0, maxSub)}`
-  }
-  if (balance?.length === 1) {
-    return `${balance[0]}`
-  }
-  return balance?.length ? balance[0] : ''
+  return amount || defaultValue
 }
 
 const isMinimalAmount = (amount: string, min: string) => {
@@ -61,26 +47,4 @@ const isMinimalAmount = (amount: string, min: string) => {
     }
   })
   return coincidence === 6
-}
-
-const dropZero = (str: string) => {
-  const numbered = Number(str)
-  return numbered ? numbered.toString() : str
-}
-
-// Uniswap formatter from uniswap-interface
-export function formatCurrencyAmount(amount: CurrencyAmount | Price, sigFigs = 4) {
-  if (!amount) {
-    return '-'
-  }
-
-  if (JSBI.equal(amount.quotient, JSBI.BigInt(0))) {
-    return '0'
-  }
-
-  if (amount.divide(amount).lessThan(new Fraction(JSBI.BigInt(1), JSBI.BigInt(1000)))) {
-    return '<0.00001'
-  }
-
-  return amount.toSignificant(sigFigs)
 }
