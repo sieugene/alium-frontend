@@ -12,11 +12,11 @@ export interface INetworkTokensLPMigrationVampiringItem {
     | 'Dfyn Exchange'
     | 'MDEX'
     | 'Biswap'
-    | 'Panther'
+    | 'Pantherswap'
     | 'Ape'
     | 'Honey'
     | 'FireBird'
-    | 'Cat'
+    | 'Polycat'
 }
 
 const BSC_CAKE = { symbol: 'cake', address: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82' }
@@ -62,17 +62,17 @@ const BSC: INetworkTokensLPMigrationVampiringItem[] = [
   { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '0x4fb8253432FB3e92109c91E3Ff2b85FfA0f6A1F4' }, exchange: 'MDEX' },
   { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0x969f2556F786a576F32AeF6c1D6618f0221Ec70e' }, exchange: 'MDEX' },
   { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0x9f4Da89774570E27170873BefD139a79CB1A3da2' }, exchange: 'MDEX' },
-  // Panther
-  { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0xBe63F8cdcF2c7CC509EBb18742d3866F0C3bc2b4' }, exchange: 'Panther' },
-  { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x6AF4C4433474B2F8BA385AD62B23299c82846783' }, exchange: 'Panther' },
-  { tokenA: BSC_USDT, tokenB: BSC_BUSD, tokenLP: { address: '0x7EC7702d1e65C84470720563175A20c2fc03a72d' }, exchange: 'Panther' },
-  { tokenA: BSC_USDT, tokenB: BSC_WBNB, tokenLP: { address: '0x26782a2669d32bE87C892AdA10Aa630d0834B3c4' }, exchange: 'Panther' },
-  { tokenA: BSC_ETH, tokenB: BSC_WBNB, tokenLP: { address: '0x542B077f6a06b488A31B8C8b31E456F2B3984989' }, exchange: 'Panther' },
-  { tokenA: BSC_USDC, tokenB: BSC_BUSD, tokenLP: { address: '0x9C58fdabd7E41E1A2bfC5b7b8b8B6fF248D8aa66' }, exchange: 'Panther' },
-  // { tokenA: BSC_ETH, tokenB: BSC_BTCB, tokenLP: { address: '-' }, exchange: 'Panther' },
-  { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '0x1ffd9f2190B82537E4e0e0C5AC55588e24485889' }, exchange: 'Panther' },
-  { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0x9E78cEa62cD4DF80520912A137C0778Fe8a34186' }, exchange: 'Panther' },
-  { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0xb69C2518b9c4433f82EEa0D61bCE97875575BE22' }, exchange: 'Panther' },
+  // Pantherswap
+  { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0xBe63F8cdcF2c7CC509EBb18742d3866F0C3bc2b4' }, exchange: 'Pantherswap' },
+  { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x6AF4C4433474B2F8BA385AD62B23299c82846783' }, exchange: 'Pantherswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_BUSD, tokenLP: { address: '0x7EC7702d1e65C84470720563175A20c2fc03a72d' }, exchange: 'Pantherswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_WBNB, tokenLP: { address: '0x26782a2669d32bE87C892AdA10Aa630d0834B3c4' }, exchange: 'Pantherswap' },
+  { tokenA: BSC_ETH, tokenB: BSC_WBNB, tokenLP: { address: '0x542B077f6a06b488A31B8C8b31E456F2B3984989' }, exchange: 'Pantherswap' },
+  { tokenA: BSC_USDC, tokenB: BSC_BUSD, tokenLP: { address: '0x9C58fdabd7E41E1A2bfC5b7b8b8B6fF248D8aa66' }, exchange: 'Pantherswap' },
+  // { tokenA: BSC_ETH, tokenB: BSC_BTCB, tokenLP: { address: '-' }, exchange: 'Pantherswap' },
+  { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '0x1ffd9f2190B82537E4e0e0C5AC55588e24485889' }, exchange: 'Pantherswap' },
+  { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0x9E78cEa62cD4DF80520912A137C0778Fe8a34186' }, exchange: 'Pantherswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0xb69C2518b9c4433f82EEa0D61bCE97875575BE22' }, exchange: 'Pantherswap' },
   // Ape
   { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0x60593Abea55e9Ea9d31c1b6473191cD2475a720D' }, exchange: 'Ape' },
   { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x51e6D27FA57373d8d4C256231241053a70Cb1d93' }, exchange: 'Ape' },
@@ -166,16 +166,16 @@ const MATIC: INetworkTokensLPMigrationVampiringItem[] = [
   // { tokenA: MATIC_LINK, tokenB: MATIC_WETH, tokenLP: { address: '-' }, exchange: 'FireBird' },
   { tokenA: MATIC_WMATIC, tokenB: MATIC_USDC, tokenLP: { address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' }, exchange: 'FireBird' },
   // Cat_____
-  // { tokenA: MATIC_USDC, tokenB: MATIC_MIMATIC, tokenLP: { address: '-' }, exchange: 'Cat' },
-  { tokenA: MATIC_USDC, tokenB: MATIC_WETH, tokenLP: { address: '0x273c39ebd4e0c49f8Cc6E5A2B3c0e4ca355B5352' }, exchange: 'Cat' },
-  { tokenA: MAITC_WBTC, tokenB: MATIC_WETH, tokenLP: { address: '0xbbBd54c1CD649288d2e584917778eEccD8D8254d' }, exchange: 'Cat' },
-  { tokenA: MATIC_USDC, tokenB: MATIC_USDT, tokenLP: { address: '0x97B4f2797cC903D76F9b8ff41A94286F0B16198e' }, exchange: 'Cat' },
-  { tokenA: MATIC_WMATIC, tokenB: MATIC_WETH, tokenLP: { address: '0xC4e90AE0298E0e7BE0102Cce64089231e1E2D67C' }, exchange: 'Cat' },
-  // { tokenA: MATIC_WETH, tokenB: MATIC_USDT, tokenLP: { address: '-' }, exchange: 'Cat' },
-  { tokenA: MATIC_USDC, tokenB: MATIC_DAI, tokenLP: { address: '0xC8174d091c288FF78De98303c2973140Cbcf3B23' }, exchange: 'Cat' },
-  // { tokenA: MATIC_WETH, tokenB: MATIC_AAVE, tokenLP: { address: '-' }, exchange: 'Cat' },
-  // { tokenA: MATIC_LINK, tokenB: MATIC_WETH, tokenLP: { address: '-' }, exchange: 'Cat' },
-  { tokenA: MATIC_WMATIC, tokenB: MATIC_USDC, tokenLP: { address: '0x8A4CEb4DffA238539C5d62Ce424980e8fdb21EBc' }, exchange: 'Cat' },
+  // { tokenA: MATIC_USDC, tokenB: MATIC_MIMATIC, tokenLP: { address: '-' }, exchange: 'Polycat' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_WETH, tokenLP: { address: '0x273c39ebd4e0c49f8Cc6E5A2B3c0e4ca355B5352' }, exchange: 'Polycat' },
+  { tokenA: MAITC_WBTC, tokenB: MATIC_WETH, tokenLP: { address: '0xbbBd54c1CD649288d2e584917778eEccD8D8254d' }, exchange: 'Polycat' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_USDT, tokenLP: { address: '0x97B4f2797cC903D76F9b8ff41A94286F0B16198e' }, exchange: 'Polycat' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_WETH, tokenLP: { address: '0xC4e90AE0298E0e7BE0102Cce64089231e1E2D67C' }, exchange: 'Polycat' },
+  // { tokenA: MATIC_WETH, tokenB: MATIC_USDT, tokenLP: { address: '-' }, exchange: 'Polycat' },
+  { tokenA: MATIC_USDC, tokenB: MATIC_DAI, tokenLP: { address: '0xC8174d091c288FF78De98303c2973140Cbcf3B23' }, exchange: 'Polycat' },
+  // { tokenA: MATIC_WETH, tokenB: MATIC_AAVE, tokenLP: { address: '-' }, exchange: 'Polycat' },
+  // { tokenA: MATIC_LINK, tokenB: MATIC_WETH, tokenLP: { address: '-' }, exchange: 'Polycat' },
+  { tokenA: MATIC_WMATIC, tokenB: MATIC_USDC, tokenLP: { address: '0x8A4CEb4DffA238539C5d62Ce424980e8fdb21EBc' }, exchange: 'Polycat' },
   // ----------------- Old config
   // Quickswap
   { tokenA: MATIC_USDC, tokenB: MATIC_MIMATIC, tokenLP: { address: '0x160532D2536175d65C03B97b0630A9802c274daD' }, exchange: 'Quickswap' },
