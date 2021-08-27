@@ -7,12 +7,13 @@ import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import BadNetworkWrapper from '../BadNetworkWrapper'
 
-const CardContent = styled.div`
+const CardContent = styled.div<{ hide: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 424px;
+  ${(props) => props.hide && 'display: none;'}
   @media screen and (max-width: 500px) {
     height: 304px;
   }
@@ -54,20 +55,22 @@ const BridgeConnectWallet: FC<{ children: React.ReactNode }> = ({ children }) =>
   const showModalConnect = storeAccount.getState().showModalConnect
   const step = useStoreBridge((state) => state.step)
   const withNetworkGuard = React.useMemo(() => step === BRIDGE_STEPS.CONFIRM_TRANSFER, [])
+  const accountExist = Boolean(account)
 
-  if (account) {
-    return <BadNetworkWrapper isConnectGuard={withNetworkGuard}> {children} </BadNetworkWrapper>
-  }
   return (
-    <CardContent>
-      <IconWrap>
-        <BridgeConnectWalletIcon />
-      </IconWrap>
+    <>
+      <CardContent hide={accountExist}>
+        <IconWrap>
+          <BridgeConnectWalletIcon />
+        </IconWrap>
 
-      <h2>Connect Wallet</h2>
-      <p>To get started, connect your wallet.</p>
-      <ConnectButton isAccount={!!account} accountEllipsis='' onClick={showModalConnect} />
-    </CardContent>
+        <h2>Connect Wallet</h2>
+        <p>To get started, connect your wallet.</p>
+        <ConnectButton isAccount={!!account} accountEllipsis='' onClick={showModalConnect} />
+      </CardContent>
+      {accountExist && <BadNetworkWrapper isConnectGuard={withNetworkGuard} />}
+      {children}
+    </>
   )
 }
 export default BridgeConnectWallet

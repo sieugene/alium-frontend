@@ -12,7 +12,7 @@ import { useBridge } from 'views/bridge/hooks/useBridge'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 
 interface Props {
-  children: React.ReactNode
+  children?: React.ReactNode
   isConnectGuard?: boolean
 }
 
@@ -136,7 +136,7 @@ const BadNetworkWrapper: FC<Props> = ({ children, isConnectGuard }) => {
       </Wrapper>
     )
   }
-  return <>{children} </>
+  return <>{children || <></>} </>
 }
 
 export default BadNetworkWrapper

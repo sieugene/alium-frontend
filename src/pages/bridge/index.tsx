@@ -1,10 +1,14 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 
-// export { default } from '../../views/bridge'
+const Bridge = dynamic(() => import('../../views/bridge'))
 
-const Layout = dynamic(() => import('../../views/bridge'), { ssr: false })
-export default Layout
+function BridgePage() {
+  return <Bridge />
+}
+
+export default BridgePage
+
 export const getServerSideProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['common'])),

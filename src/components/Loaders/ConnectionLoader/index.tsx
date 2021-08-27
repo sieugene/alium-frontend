@@ -4,6 +4,7 @@ import { useStoreNetwork } from 'store/network/useStoreNetwork'
 
 const ConnectionLoader = () => {
   const loadConnection = useStoreNetwork((state) => state.loadConnection)
+
   return <ConnectionLoad load={loadConnection} />
 }
 
