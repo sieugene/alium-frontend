@@ -269,6 +269,8 @@ export const Step2YourLiquidity: FC<props> = ({
     setTokensAmount(balance)
   }
 
+  const balancedMigrate = balance >= Number(tokensAmount) && Number(tokensAmount) > 0
+
   return (
     <Root>
       <header>
@@ -387,12 +389,23 @@ export const Step2YourLiquidity: FC<props> = ({
           {/* <div>The minimum amount of tokens required for migration: 0.01</div> */}
         </div>
         <div className='action'>
-          <div
-            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) > 0}  `}
+          {balancedMigrate ?<div
+            className={`button ${balancedMigrate}  `}
             onClick={handleMigrate}
           >
             Migrate
-          </div>
+          </div> : <div
+            className={`button false  `}
+            
+          >
+            Migrate
+          </div>}
+          {/* <div
+            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) > 0}  `}
+            onClick={() => handleMigrate}
+          >
+            Migrate
+          </div> */}
           {selectedPairKey !== -1 && (
             <div className='title2'>
               You {exchange} {title} liquidity will become AliumSwap {title} liquidity
