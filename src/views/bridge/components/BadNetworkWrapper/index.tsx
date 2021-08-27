@@ -1,4 +1,5 @@
 import { Button } from 'alium-uikit/src'
+import { ShadowComponent } from 'components/Main/ShadowComponent'
 import { CloseItem } from 'components/Modal/BridgeModal'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { useActiveWeb3React } from 'hooks'
@@ -14,6 +15,7 @@ import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 interface Props {
   children?: React.ReactNode
   isConnectGuard?: boolean
+  show?: boolean
 }
 
 const Wrapper = styled.div<{ isConnectGuard: boolean }>`
@@ -87,7 +89,7 @@ const Variant = styled.div`
   }
 `
 
-const BadNetworkWrapper: FC<Props> = ({ children, isConnectGuard }) => {
+const BadNetworkWrapper: FC<Props> = ({ children, isConnectGuard, show = true }) => {
   const { logout } = useAuth()
   const { cancel } = useBridge()
   const { account } = useActiveWeb3React()
@@ -111,32 +113,37 @@ const BadNetworkWrapper: FC<Props> = ({ children, isConnectGuard }) => {
     }
   }
 
-  if (!availableNetworksBridge.includes(currentChainId) || !account) {
-    const tokensExist = fromToken && toToken
-    return (
-      <Wrapper isConnectGuard={isConnectGuard}>
-        <Header>{!isConnectGuard && <CloseItem onClick={cancel} />}</Header>
-        <Content>
-          <BridgeBadNetworkIcon />
-          <h2 className='title'>Switch your network</h2>
-          <p className='access'>
-            To access the {tokensExist && <b>{`${fromToken?.symbol} > ${toToken?.symbol}`}</b>} bridge, please switch to
-          </p>
-          <StyledVariants>
-            <Variant>
-              {IconFrom && <IconFrom />} <p>{networkFrom?.label}</p>
-            </Variant>
-            or
-            <Variant>
-              {IconTo && <IconTo />} <p>{networkTo?.label}</p>
-            </Variant>
-          </StyledVariants>
-          <Button onClick={resolveConnection}>{!connected ? 'Connect' : 'Disconnect'}</Button>
-        </Content>
-      </Wrapper>
-    )
-  }
-  return <>{children || <></>} </>
+  const showMessage = !availableNetworksBridge.includes(currentChainId) || !account
+
+  const tokensExist = fromToken && toToken
+  return (
+    <>
+      {showMessage && (
+        <Wrapper isConnectGuard={isConnectGuard}>
+          <Header>{!isConnectGuard && <CloseItem onClick={cancel} />}</Header>
+          <Content>
+            <BridgeBadNetworkIcon />
+            <h2 className='title'>Switch your network</h2>
+            <p className='access'>
+              To access the {tokensExist && <b>{`${fromToken?.symbol} > ${toToken?.symbol}`}</b>} bridge, please switch
+              to
+            </p>
+            <StyledVariants>
+              <Variant>
+                {IconFrom && <IconFrom />} <p>{networkFrom?.label}</p>
+              </Variant>
+              or
+              <Variant>
+                {IconTo && <IconTo />} <p>{networkTo?.label}</p>
+              </Variant>
+            </StyledVariants>
+            <Button onClick={resolveConnection}>{!connected ? 'Connect' : 'Disconnect'}</Button>
+          </Content>
+        </Wrapper>
+      )}
+      <ShadowComponent hide={showMessage}>{children}</ShadowComponent>
+    </>
+  )
 }
 
 export default BadNetworkWrapper

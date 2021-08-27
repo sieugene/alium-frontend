@@ -1,4 +1,5 @@
 import { ConnectButton } from 'alium-uikit/src/widgets/Menu/ConnectButton'
+import { ShadowComponent } from 'components/Main/ShadowComponent'
 import { useActiveWeb3React } from 'hooks'
 import { BridgeConnectWalletIcon } from 'images/bridge/BridgeConnectWalletIcon'
 import React, { FC } from 'react'
@@ -7,13 +8,12 @@ import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import BadNetworkWrapper from '../BadNetworkWrapper'
 
-const CardContent = styled.div<{ hide: boolean }>`
+const CardContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 424px;
-  ${(props) => props.hide && 'display: none;'}
   @media screen and (max-width: 500px) {
     height: 304px;
   }
@@ -59,17 +59,22 @@ const BridgeConnectWallet: FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <>
-      <CardContent hide={accountExist}>
-        <IconWrap>
-          <BridgeConnectWalletIcon />
-        </IconWrap>
+      {!accountExist && (
+        <CardContent>
+          <IconWrap>
+            <BridgeConnectWalletIcon />
+          </IconWrap>
 
-        <h2>Connect Wallet</h2>
-        <p>To get started, connect your wallet.</p>
-        <ConnectButton isAccount={!!account} accountEllipsis='' onClick={showModalConnect} />
-      </CardContent>
-      {accountExist && <BadNetworkWrapper isConnectGuard={withNetworkGuard} />}
-      {children}
+          <h2>Connect Wallet</h2>
+          <p>To get started, connect your wallet.</p>
+          <ConnectButton isAccount={!!account} accountEllipsis='' onClick={showModalConnect} />
+        </CardContent>
+      )}
+      <ShadowComponent hide={!accountExist}>
+        <BadNetworkWrapper isConnectGuard={withNetworkGuard} show={accountExist}>
+          {children}
+        </BadNetworkWrapper>
+      </ShadowComponent>
     </>
   )
 }
