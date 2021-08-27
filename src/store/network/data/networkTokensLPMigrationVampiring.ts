@@ -12,6 +12,7 @@ export interface INetworkTokensLPMigrationVampiringItem {
     | 'Dfyn Exchange'
     | 'MDEX'
     | 'Biswap'
+    | 'Bakeryswap'
     | 'Pantherswap'
     | 'Ape'
     | 'Honey'
@@ -29,6 +30,17 @@ const BSC_BUSD = { symbol: 'busd', address: '0xe9e7cea3dedca5984780bafc599bd69ad
 
 // prettier-ignore
 const BSC: INetworkTokensLPMigrationVampiringItem[] = [
+  // Bakeryswap
+  { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0x65E9CfDBC579856B6354d369AFBFbA2B2a3C7856' }, exchange: 'Bakeryswap' },
+  { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x559e3D9611E9cB8a77c11335Bdac49621382188B' }, exchange: 'Bakeryswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_BUSD, tokenLP: { address: '0xbcF3278098417E23d941613ce36a7cE9428724A5' }, exchange: 'Bakeryswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_WBNB, tokenLP: { address: '0x9Ec271C041a18aA7beF070A1F196eea1D06Ab7cb' }, exchange: 'Bakeryswap' },
+  { tokenA: BSC_ETH, tokenB: BSC_WBNB, tokenLP: { address: '0xa50b9c5DB61C855D5939aa1a66B26Df77745809b' }, exchange: 'Bakeryswap' },
+  { tokenA: BSC_USDC, tokenB: BSC_BUSD, tokenLP: { address: '0x56CDE265aaD310e623C8f8994a5143582659aBfC' }, exchange: 'Bakeryswap' },
+  // { tokenA: BSC_ETH, tokenB: BSC_BTCB, tokenLP: { address: '-' }, exchange: 'Bakeryswap' },
+  // { tokenA: BSC_BTCB, tokenB: BSC_BUSD, tokenLP: { address: '-' }, exchange: 'Bakeryswap' },
+  { tokenA: BSC_BTCB, tokenB: BSC_WBNB, tokenLP: { address: '0x58521373474810915b02FE968D1BCBe35Fc61E09' }, exchange: 'Bakeryswap' },
+  { tokenA: BSC_USDT, tokenB: BSC_USDC, tokenLP: { address: '0x087a49F79CAB8cc13F8A44f9d6E0B2487a9D28e3' }, exchange: 'Bakeryswap' },		
   // Pancakeswap
   { tokenA: BSC_CAKE, tokenB: BSC_WBNB, tokenLP: { address: '0x0ed7e52944161450477ee417de9cd3a859b14fd0' }, exchange: 'Pancakeswap' },
   { tokenA: BSC_WBNB, tokenB: BSC_BUSD, tokenLP: { address: '0x58f876857a02d6762e0101bb5c46a8c1ed44dc16' }, exchange: 'Pancakeswap' },
