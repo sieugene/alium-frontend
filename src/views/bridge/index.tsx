@@ -38,8 +38,8 @@ const Card = styled.div`
 export const BridgeWrapper: FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
   return (
     <BridgeProvider>
-      <BridgeContainer className={className}>
-        <PopupsBridge />
+      <PopupsBridge />
+      <BridgeContainer className={className || ''}>
         <H2>Bridge</H2>
         <Card>
           <BridgeConnectWallet>{children}</BridgeConnectWallet>
@@ -51,12 +51,9 @@ export const BridgeWrapper: FC<{ children: React.ReactNode; className?: string }
 
 const Bridge = () => {
   return (
-    <>
-      <PopupsBridge />
-      <BridgeWrapper>
-        <BridgeCard />
-      </BridgeWrapper>
-    </>
+    <BridgeWrapper>
+      <BridgeCard />
+    </BridgeWrapper>
   )
 }
 

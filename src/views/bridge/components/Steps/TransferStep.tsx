@@ -77,6 +77,7 @@ const TransferStep = () => {
     () => Boolean(!networkOrAccountErrors && transfer && !loadingTransaction && !transactionFailed),
     [loadingTransaction, networkOrAccountErrors, transactionFailed, transfer],
   )
+
   const transferSuccess = React.useMemo(
     () => Boolean(!networkOrAccountErrors && !loadingTransaction && approved && !transactionFailed),
     [approved, loadingTransaction, transactionFailed, networkOrAccountErrors],
