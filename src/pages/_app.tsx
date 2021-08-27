@@ -35,10 +35,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
       <Providers>
         <EagerConnectContainer />
         <Popups />
-        <Loaders />
+
         <ResetCSS />
         <GlobalStyle />
         <MenuWrappedRoute loginBlockVisible>
+          <Loaders />
           <Component {...pageProps} />
         </MenuWrappedRoute>
         <ToastListener />

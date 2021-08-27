@@ -86,7 +86,6 @@ const SwitchNetworkStep = () => {
   // const toNetwork = useStoreBridge((state) => state.toNetwork)
   // const network = networkFinder(toNetwork)
   const Icon = networkTo?.icon
-  const setChainId = storeNetwork.getState().setChainId
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
@@ -103,6 +102,7 @@ const SwitchNetworkStep = () => {
   }, [equalAndConnected])
 
   const changeNetwork = () => {
+    const setChainId = storeNetwork.getState().setChainId
     setChainId(networkTo?.chainId)
   }
 

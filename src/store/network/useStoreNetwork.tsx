@@ -45,14 +45,16 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   // actions
   toggleLoadConnection: (load: boolean, account?: string) => {
     // TODO : Need refactor this
+
     if (load && !account) {
-      set({ connected: false })
+      set({ connected: false, loadConnection: load })
+      return
     }
     if (!load && account) {
-      set({ connected: true })
+      set({ connected: true, loadConnection: load })
+      return
     }
     // end
-
     set({
       loadConnection: load,
     })
@@ -69,17 +71,14 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     }
   },
   setChainId: (id) => {
+    // clear connection
     set({ connected: false })
-    // but bad sync with checkout connection, make timeout
-    setTimeout(() => {
-      // switch network from app
-      const newChainId = getActualChainId(Number(id))
-      set({
-        currentChainId: newChainId,
-        currentNetwork: getCurrentNetwork(newChainId),
-      })
-      cookies.set(chainIdCookieKey, newChainId, getCookieOptions())
-    }, 0)
+    const newChainId = getActualChainId(Number(id))
+    set({
+      currentChainId: newChainId,
+      currentNetwork: getCurrentNetwork(newChainId),
+    })
+    cookies.set(chainIdCookieKey, newChainId, getCookieOptions())
   },
   setupNetwork: async (id) => {
     /**
@@ -97,9 +96,15 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
         get().setChainId(newChainId)
         return true
       } catch (error) {
+        set({
+          loadConnection: false,
+        })
         console.error(error)
       }
     } else {
+      set({
+        loadConnection: false,
+      })
       console.error("Can't setup the network on metamask because window.ethereum is undefined")
     }
     return false
