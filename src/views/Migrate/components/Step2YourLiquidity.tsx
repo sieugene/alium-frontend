@@ -390,7 +390,7 @@ export const Step2YourLiquidity: FC<props> = ({
         </div>
         <div className='action'>
           {balancedMigrate ?<div
-            className={`button ${balance >= Number(tokensAmount) && Number(tokensAmount) > 0}  `}
+            className={`button ${balancedMigrate}  `}
             onClick={handleMigrate}
           >
             Migrate
