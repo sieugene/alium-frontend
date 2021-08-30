@@ -33,7 +33,7 @@ const BodyWrapper = styled.div`
   ${({ theme }) => theme.mediaQueries.lg} {
     background-image: url(${backgroundImage});
     background-repeat: no-repeat;
-    background-position: top right;
+    background-position: top 40px right;
   }
 
   ${({ theme }) => theme.mediaQueries.sm} {
