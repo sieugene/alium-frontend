@@ -5,7 +5,7 @@ import { ChevronRight } from 'react-feather'
 import Loader from 'react-loader-spinner'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
-import { getExplorerLink } from 'utils'
+import { getExplorerLink, getExplorerName } from 'utils'
 
 const StyledLoader = styled(Loader)`
   width: 80px;
@@ -60,7 +60,7 @@ const TransferLoader: FC<Props> = ({ token, amount }) => {
       {txHash && (
         <View>
           <a href={link} target='_blank'>
-            View on explorer <ChevronRight />
+            View on {getExplorerName(providerChainId)} <ChevronRight />
           </a>
         </View>
       )}

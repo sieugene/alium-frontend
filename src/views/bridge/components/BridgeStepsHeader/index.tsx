@@ -1,6 +1,7 @@
-const Header = styled.div`
+const Header = styled.div<{ hide: boolean }>`
   display: flex;
   align-items: center;
+  ${(props) => props.hide && 'opacity: 0'}
 `
 
 const Step = styled.div<{ active: boolean; success: boolean }>`
@@ -42,15 +43,23 @@ const Step = styled.div<{ active: boolean; success: boolean }>`
   transition: 0.3s all ease;
   border-bottom: 1px solid ${(props) => (props.active ? '#6c5dd3' : 'transparent')};
 `
+import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
+import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import { BridgeCheckIcon } from 'images/bridge/BridgeCheckIcon'
-import React from 'react'
-import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
+import React, { useMemo } from 'react'
+import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 
 const BridgeStepsHeader = () => {
-  const changeStep = storeBridge.getState().changeStep
   const currentStep = useStoreBridge((state) => state.step)
   const stepStatuses = useStoreBridge((state) => state.stepStatuses)
+
+  const { providerChainId: chainId } = useWeb3Context()
+  const { homeChainId } = useBridgeDirection()
+  const hideStepsBar = useMemo(
+    () => chainId !== homeChainId && currentStep === BRIDGE_STEPS.TRANSFER,
+    [chainId, currentStep, homeChainId],
+  )
 
   const steps = [
     {
@@ -67,7 +76,7 @@ const BridgeStepsHeader = () => {
     },
   ]
   return (
-    <Header>
+    <Header hide={hideStepsBar}>
       {steps.map(({ step, title }) => (
         <Step
           key={step}

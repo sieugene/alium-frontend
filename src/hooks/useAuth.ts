@@ -29,24 +29,100 @@ const useAuth = () => {
   const { account, chainId } = useActiveWeb3React()
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const load = useStoreNetwork((state) => state.loadConnection)
-  const loginSuccess = React.useMemo(() => !load && account && currentChainId === chainId, [load, account, chainId])
+  const loginSuccess = React.useMemo(
+    () => !load && account && currentChainId === chainId,
+    [load, account, currentChainId, chainId],
+  )
+
   React.useEffect(() => {
     if (loginSuccess) {
       toggleLoadConnection(load, account)
     }
-  }, [loginSuccess])
+  }, [account, load, loginSuccess, toggleLoadConnection])
   // end
+
+  const errorHandlerWithRetry = useCallback(
+    async (
+      error: unknown,
+      chainId: ChainId,
+      connector,
+      retryConnect: (chainId: ChainId, connector: any) => Promise<void>,
+    ) => {
+      if (error instanceof UnsupportedChainIdError) {
+        await retryConnect(chainId, connector)
+      } else {
+        removeConnectorId()
+        if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
+          toastError(WEB3NetworkErrors.NOPROVIDER)
+        } else if (
+          error instanceof UserRejectedRequestErrorInjected ||
+          error instanceof UserRejectedRequestErrorWalletConnect
+        ) {
+          toastError(WEB3NetworkErrors.NOAUTH)
+        } else {
+          // dispatch(setConnectionError({ error }))
+          // toastError(error.name, error.message)
+          // toastError(WEB3NetworkErrors.NOPROVIDER)
+        }
+      }
+    },
+    [toastError],
+  )
+
+  const logout = useCallback(async () => {
+    toggleLoadConnection(true)
+    try {
+      clearWalletConnect()
+      await deactivate()
+    } catch (error) {
+      console.error(error)
+    } finally {
+      toggleLoadConnection(false)
+    }
+  }, [deactivate, toggleLoadConnection])
+
+  const retryConnect = useCallback(
+    async (chainId: ChainId, connector) => {
+      const hasSetup = await storeNetwork.getState().setupNetwork(chainId)
+      if (hasSetup) {
+        try {
+          await activate(connector, async (err) => {
+            const messageErr = WEB3NetworkErrors.UNSUPPORTED_CHAIN
+            await logout()
+            // timeout but after activate make clear errors
+            setTimeout(() => {
+              toastError(messageErr, err.message)
+              removeConnectorId()
+              setConnectionError(messageErr)
+            }, 0)
+          })
+          setConnectionError(null)
+        } catch (err) {
+          console.error('err :>> ', err)
+        }
+      } else {
+        // if ethereum change network in wallet
+        const messageErr = WEB3NetworkErrors.CANTSETUP
+        toastError(messageErr)
+        setConnectionError(messageErr)
+        await logout()
+      }
+    },
+    [activate, logout, setConnectionError, toastError],
+  )
 
   const login = useCallback(
     // offIndicate for eager connect
     async (connectorID: ConnectorNames, offIndicate?: boolean) => {
+      const load = storeNetwork.getState().loadConnection
+      if (load) return
       try {
         const { chainId, connector } = getConnectorsByName(connectorID)
         toggleLoadConnection(true)
 
         if (connector) {
           await activate(connector, async (error: Error) => {
-            await errorHandlerWithRetry(error, chainId, connector)
+            await errorHandlerWithRetry(error, chainId, connector, retryConnect)
           })
           GTM.connectWallet(sendDataToGTM, chainId)
           setConnectionError(null)
@@ -63,59 +139,6 @@ const useAuth = () => {
     [activate, sendDataToGTM, setConnectionError, toastError, deactivate],
   )
 
-  const retryConnect = async (chainId: ChainId, connector) => {
-    const hasSetup = await storeNetwork.getState().setupNetwork(chainId)
-    if (hasSetup) {
-      try {
-        await activate(connector, async (err) => {
-          const messageErr = WEB3NetworkErrors.UNSUPPORTED_CHAIN
-          await logout()
-          // timeout but after activate make clear errors
-          setTimeout(() => {
-            toastError(messageErr, err.message)
-            removeConnectorId()
-            setConnectionError(messageErr)
-          }, 0)
-        })
-        setConnectionError(null)
-      } catch (err) {
-        console.error('err :>> ', err)
-      }
-    } else {
-      // if ethereum change network in wallet
-      const messageErr = WEB3NetworkErrors.CANTSETUP
-      toastError(messageErr)
-      setConnectionError(messageErr)
-      await logout()
-    }
-  }
-
-  const errorHandlerWithRetry = async (error: unknown, chainId: ChainId, connector) => {
-    if (error instanceof UnsupportedChainIdError) {
-      await retryConnect(chainId, connector)
-    } else {
-      removeConnectorId()
-      if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
-        toastError(WEB3NetworkErrors.NOPROVIDER)
-      } else if (
-        error instanceof UserRejectedRequestErrorInjected ||
-        error instanceof UserRejectedRequestErrorWalletConnect
-      ) {
-        toastError(WEB3NetworkErrors.NOAUTH)
-      } else {
-        // dispatch(setConnectionError({ error }))
-        // toastError(error.name, error.message)
-        // toastError(WEB3NetworkErrors.NOPROVIDER)
-      }
-    }
-  }
-
-  const logout = async () => {
-    toggleLoadConnection(true)
-    clearWalletConnect()
-    await deactivate()
-    toggleLoadConnection(false)
-  }
   return { login, logout }
 }
 

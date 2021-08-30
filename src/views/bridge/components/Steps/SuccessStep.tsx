@@ -5,7 +5,7 @@ import { ChevronRight } from 'react-feather'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { getExplorerLink } from 'utils'
+import { getExplorerLink, getExplorerName } from 'utils'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import AddTokenBtn from '../AddTokenBtn'
@@ -58,10 +58,9 @@ const SuccessStep = () => {
   const amount = useStoreBridge((state) => state.amounts.fromAmount)
   const formattedAmount = token ? formatBridgeTokenAmount(token, amount) : '0'
 
-  const toChainId = useStoreBridge((state) => state.toNetwork)
   const txHash = useStoreBridge((state) => state.txHash)
   // to -> but reverted
-  const link = getExplorerLink(toChainId, txHash, 'transaction')
+  const link = getExplorerLink(currentChainId, txHash, 'transaction')
 
   // Switching is required because we do not do it in step 2
   const needToggle = () => {
@@ -95,7 +94,8 @@ const SuccessStep = () => {
         {txHash && (
           <View>
             <a href={link} target='_blank'>
-              View on explorer <ChevronRight />
+              View on {getExplorerName(currentChainId)}
+              <ChevronRight />
             </a>
           </View>
         )}

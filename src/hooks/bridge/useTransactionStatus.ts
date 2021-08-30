@@ -19,14 +19,12 @@ export const useTransactionStatus = () => {
   const loadingText = useStoreBridge((state) => state.transactionText)
   const setLoadingText = useStoreBridge((state) => state.setTransactionText)
 
-  const { loading, setLoading, txHash, setTxHash, totalConfirms, setTransactionFailed, transactionFailed } =
-    useBridgeContext()
+  const { loading, setLoading, txHash, totalConfirms, setTransactionFailed, transactionFailed } = useBridgeContext()
 
   const isHome = chainId === homeChainId
   const bridgeChainId = getBridgeChainId(chainId)
 
   const completeReceipt = useCallback(() => {
-    setTxHash('')
     setLoading(false)
   }, [])
 

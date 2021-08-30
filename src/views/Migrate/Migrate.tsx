@@ -88,10 +88,12 @@ const ViewMigrate: FC = () => {
       name: 'lpTokensInfo',
       params: [i],
     }))
-    const pairIds = (await multicall(VAMPIRE_ABI, calls)).returnData
-    const pairId = Object.keys(pairIds).find(
-      (key) => `0x${pairIds[key].slice(26, 66).toLowerCase()}` === currentPair.addressLP.toLowerCase(),
-    )
+    const pairIds = (await multicall(VAMPIRE_ABI, calls))?.returnData
+    const pairId =
+      pairIds &&
+      Object.keys(pairIds).find(
+        (key) => `0x${pairIds[key].slice(26, 66).toLowerCase()}` === currentPair.addressLP.toLowerCase(),
+      )
 
     console.info('Migration Pair Id', pairId)
 
