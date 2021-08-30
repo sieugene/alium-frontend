@@ -266,10 +266,10 @@ const BridgeConfirmTransfer = () => {
           </Content>
           <Footer>
             <Button variant='secondary' onClick={onDismiss} className='dismiss'>
-              cancel
+              Cancel
             </Button>
             <Button onClick={confirm} className='continue'>
-              continue
+              Continue
             </Button>
           </Footer>
         </Wrapper>
