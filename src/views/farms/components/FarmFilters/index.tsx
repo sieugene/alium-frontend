@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { FarmGridSort } from './FarmGridSort'
+import FarmSearch from './FarmSearch'
 import { FarmSortBy } from './FarmSortBy'
 import { FarmStakedSwitcher } from './FarmStakedSwitcher'
 import { FarmTabs } from './FarmTabs'
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
   padding: 16px;
   display: flex;
   justify-content: space-between;
+  position: relative;
 `
 
 const FarmFilters = () => {
@@ -29,6 +31,7 @@ const FarmFilters = () => {
         <FarmStakedSwitcher />
         <FarmGridSort />
         <FarmSortBy />
+        <FarmSearch />
       </Wrapper>
     </Container>
   )
