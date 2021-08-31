@@ -1,3 +1,4 @@
+import { FARM_LAPTOP_MEDIA } from 'constants/layout/farm.layout'
 import styled from 'styled-components'
 import { FarmGridSort } from './FarmGridSort'
 import FarmSearch from './FarmSearch'
@@ -18,9 +19,17 @@ const Wrapper = styled.div`
   width: 100%;
   height: 80px;
   padding: 16px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+
   position: relative;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 16px;
+  @media screen and (max-width: ${FARM_LAPTOP_MEDIA}) {
+    grid-template-columns: auto auto auto auto auto;
+    grid-row-gap: 30px;
+    justify-items: stretch;
+    align-items: stretch;
+  }
 `
 
 const FarmFilters = () => {

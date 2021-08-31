@@ -1,13 +1,12 @@
 import { CloseIcon } from 'alium-uikit/src'
+import { FARM_DESKTOP_MEDIA, FARM_TABLET_MEDIA } from 'constants/layout/farm.layout'
 import { useState } from 'react'
 import { Search } from 'react-feather'
 import styled from 'styled-components'
 
-const DESKTOP_MEDIA = '1340px'
-
 const Wrapper = styled.div<{ activeFullWidth: boolean }>`
   position: relative;
-  @media screen and (max-width: ${DESKTOP_MEDIA}) {
+  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
     padding-left: 16px;
     padding-right: 16px;
     display: flex;
@@ -18,11 +17,17 @@ const Wrapper = styled.div<{ activeFullWidth: boolean }>`
     position: absolute;
     width: 100%;
     right: 0;
+    bottom: 16px;
     input {
       width: 100%;
       padding: 14px 80px 14px 16px;
       }
     `}
+  }
+  @media screen and (max-width: ${FARM_TABLET_MEDIA}) {
+    position: absolute;
+    right: 0;
+    bottom: 16px;
   }
 `
 
@@ -51,7 +56,7 @@ const SearchInput = styled.input<{ isFilled: boolean; activeFullWidth: boolean }
     color: #6c5dd3;
   }
   transition: width 0.4s cubic-bezier(0, 0.795, 0, 1);
-  @media screen and (max-width: ${DESKTOP_MEDIA}) {
+  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
     width: 48px;
     padding: 0;
     ${(props) =>
@@ -73,7 +78,7 @@ const IconSearch = styled.div`
   svg {
     stroke: #8990a5;
   }
-  @media screen and (max-width: ${DESKTOP_MEDIA}) {
+  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
     height: 48px;
     width: 48px;
     box-sizing: border-box;
@@ -93,7 +98,7 @@ const IconClose = styled.div<{ activeFullWidth: boolean }>`
   right: 52px;
   top: 12px;
   cursor: pointer;
-  @media screen and (max-width: ${DESKTOP_MEDIA}) {
+  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
     right: 70px;
     ${(props) => !props.activeFullWidth && 'display: none;'}
   }

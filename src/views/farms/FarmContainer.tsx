@@ -18,7 +18,7 @@ const BodyWrapper = styled.div`
 
   min-height: 100vh;
 
-  padding: 32px 10.6% 32px 10.6%;
+  padding: 32px 6.6% 32px 6.6%;
 
   @media screen and (max-width: 1440px) {
     padding: 32px 30px 32px 30px;

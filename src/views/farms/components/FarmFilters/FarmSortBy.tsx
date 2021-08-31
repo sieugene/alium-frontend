@@ -1,4 +1,10 @@
 import { DropdownList } from 'alium-uikit/src/components/DropdownList'
+import {
+  FARM_DESKTOP_MEDIA,
+  FARM_MAX_TABLET_MEDIA,
+  FARM_MIN_TABLET_MEDIA,
+  FARM_TABLET_MEDIA,
+} from 'constants/layout/farm.layout'
 import { useState } from 'react'
 import styled from 'styled-components'
 
@@ -14,7 +20,20 @@ const Wrapper = styled.div`
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
-    margin-right: 16px;
+  }
+  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
+    h2 {
+      display: none;
+    }
+  }
+`
+
+const StyledDropdown = styled(DropdownList)`
+  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
+    width: 192px;
+  }
+  @media screen and (max-width: ${FARM_MAX_TABLET_MEDIA}) {
+    width: 172px;
   }
 `
 
@@ -25,7 +44,7 @@ export const FarmSortBy = () => {
   return (
     <Wrapper>
       <h2>Sort by</h2>
-      <DropdownList list={list} active={active} select={(item: string) => setActive(item)} />
+      <StyledDropdown list={list} active={active} select={(item: string) => setActive(item)} />
     </Wrapper>
   )
 }
