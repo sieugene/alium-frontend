@@ -1,8 +1,8 @@
 import { DropdownList } from 'alium-uikit/src/components/DropdownList'
 import {
   FARM_DESKTOP_MEDIA,
-  FARM_MAX_TABLET_MEDIA,
-  FARM_MIN_TABLET_MEDIA,
+  FARM_EXT_MOBILE_MEDIA,
+  FARM_MOBILE_MEDIA,
   FARM_TABLET_MEDIA,
 } from 'constants/layout/farm.layout'
 import { useState } from 'react'
@@ -26,13 +26,20 @@ const Wrapper = styled.div`
       display: none;
     }
   }
+  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
+    position: relative;
+    right: 100px;
+  }
+  @media screen and (max-width: ${FARM_EXT_MOBILE_MEDIA}) {
+    right: 0;
+  }
 `
 
 const StyledDropdown = styled(DropdownList)`
   @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
     width: 192px;
   }
-  @media screen and (max-width: ${FARM_MAX_TABLET_MEDIA}) {
+  @media screen and (max-width: ${FARM_TABLET_MEDIA}) {
     width: 172px;
   }
 `

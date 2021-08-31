@@ -1,4 +1,9 @@
-import { FARM_LAPTOP_MEDIA } from 'constants/layout/farm.layout'
+import {
+  FARM_EXT_MOBILE_MEDIA,
+  FARM_LAPTOP_MEDIA,
+  FARM_MOBILE_MEDIA,
+  FARM_TABLET_MEDIA,
+} from 'constants/layout/farm.layout'
 import styled from 'styled-components'
 import { FarmGridSort } from './FarmGridSort'
 import FarmSearch from './FarmSearch'
@@ -11,6 +16,10 @@ const Container = styled.div`
   bottom: 40px;
   padding-left: 16px;
   padding-right: 16px;
+  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
 `
 const Wrapper = styled.div`
   background: #ffffff;
@@ -25,10 +34,20 @@ const Wrapper = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 16px;
   @media screen and (max-width: ${FARM_LAPTOP_MEDIA}) {
-    grid-template-columns: auto auto auto auto auto;
+    height: auto;
+    grid-template-columns: 0.7fr 1fr 0.3fr 0.5fr 64px;
+    justify-items: flex-start;
     grid-row-gap: 30px;
-    justify-items: stretch;
     align-items: stretch;
+  }
+  @media screen and (max-width: ${FARM_TABLET_MEDIA}) {
+    grid-template-columns: 0.4fr 1fr 0.4fr;
+  }
+  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media screen and (max-width: ${FARM_EXT_MOBILE_MEDIA}) {
+    grid-template-columns: 1fr;
   }
 `
 

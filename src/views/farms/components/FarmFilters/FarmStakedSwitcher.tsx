@@ -1,4 +1,3 @@
-import { FARM_MIN_TABLET_MEDIA, FARM_MOBILE_MEDIA } from 'constants/layout/farm.layout'
 import { useState } from 'react'
 import styled from 'styled-components'
 
@@ -14,14 +13,6 @@ const SwitchWrap = styled.div`
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
-  }
-  @media screen and (max-width: ${FARM_MIN_TABLET_MEDIA}) {
-    flex: 50%;
-    justify-content: flex-end;
-  }
-  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
-    flex: inherit;
-    width: 50%;
   }
 `
 const Switch = styled.div<{ align: 'start' | 'end' }>`
