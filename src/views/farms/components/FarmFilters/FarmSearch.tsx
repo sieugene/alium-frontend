@@ -1,12 +1,17 @@
 import { CloseIcon } from 'alium-uikit/src'
 import { FARM_DESKTOP_MEDIA, FARM_TABLET_MEDIA } from 'constants/layout/farm.layout'
-import { useState } from 'react'
+import useOnClickOutside from 'hooks/useOnClickOutside'
+import { useRef, useState } from 'react'
 import { Search } from 'react-feather'
 import styled from 'styled-components'
 
 const Wrapper = styled.div<{ activeFullWidth: boolean }>`
   position: relative;
+  width: fit-content;
   @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
+    position: absolute;
+    right: 0;
+    top: 16px;
     padding-left: 16px;
     padding-right: 16px;
     display: flex;
@@ -14,7 +19,6 @@ const Wrapper = styled.div<{ activeFullWidth: boolean }>`
     ${(props) =>
       props.activeFullWidth &&
       `
-    position: absolute;
     width: 100%;
     right: 0;
     bottom: 16px;
@@ -28,6 +32,7 @@ const Wrapper = styled.div<{ activeFullWidth: boolean }>`
     position: absolute;
     right: 0;
     bottom: 16px;
+    top: auto;
   }
 `
 
@@ -78,6 +83,7 @@ const IconSearch = styled.div`
   svg {
     stroke: #8990a5;
   }
+  cursor: pointer;
   @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
     height: 48px;
     width: 48px;
@@ -99,21 +105,34 @@ const IconClose = styled.div<{ activeFullWidth: boolean }>`
   top: 12px;
   cursor: pointer;
   @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
+    height: 48px;
+    width: 48px;
+    box-sizing: border-box;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     right: 70px;
     ${(props) => !props.activeFullWidth && 'display: none;'}
   }
 `
 
 const FarmSearch = () => {
+  const input = useRef(null)
   const [active, setActive] = useState(false)
   const [value, setvalue] = useState('')
   const isFilled = value?.length > 0
   const clear = () => {
     setvalue('')
   }
+  const close = () => {
+    setActive(false)
+  }
+  useOnClickOutside(input, close, ['close__farm', 'search__farm'])
   return (
     <Wrapper activeFullWidth={active}>
       <SearchInput
+        ref={input}
         isFilled={isFilled}
         activeFullWidth={active}
         placeholder='Search Farms'
@@ -121,12 +140,12 @@ const FarmSearch = () => {
         onChange={({ target }) => setvalue(target?.value)}
       />
       {isFilled && (
-        <IconClose onClick={clear} activeFullWidth={active}>
-          <CloseIcon />
+        <IconClose onClick={clear} activeFullWidth={active} id='close__farm'>
+          <CloseIcon id='close__farm' />
         </IconClose>
       )}
-      <IconSearch onClick={() => setActive(!active)}>
-        <Search />
+      <IconSearch onClick={() => setActive(!active)} id='search__farm'>
+        <Search id='search__farm' />
       </IconSearch>
     </Wrapper>
   )

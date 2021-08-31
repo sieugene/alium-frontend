@@ -20,6 +20,7 @@ const Wrapper = styled.div`
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
+    margin-right: 16px;
   }
   @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
     h2 {
@@ -45,7 +46,7 @@ const StyledDropdown = styled(DropdownList)`
 `
 
 export const FarmSortBy = () => {
-  const list = ['hot', 'test', 'trtr', 'gfg']
+  const list = ['Hot', 'APR', 'Multiplier', 'Earned', 'Liquidity']
   const [active, setActive] = useState(list[0])
 
   return (

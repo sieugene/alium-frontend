@@ -3,6 +3,7 @@ import { RefObject, useEffect, useRef } from 'react'
 export function useOnClickOutside<T extends HTMLElement>(
   node: RefObject<T | undefined>,
   handler: undefined | (() => void),
+  allowClickIds?: string[],
 ) {
   const handlerRef = useRef<undefined | (() => void)>(handler)
   useEffect(() => {
@@ -12,6 +13,9 @@ export function useOnClickOutside<T extends HTMLElement>(
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (node.current?.contains(e.target as Node) ?? false) {
+        return
+      }
+      if (allowClickIds?.length && allowClickIds?.includes((e.target as any)?.id)) {
         return
       }
       if (handlerRef.current) handlerRef.current()

@@ -31,11 +31,11 @@ const Wrapper = styled.div`
   display: grid;
 
   position: relative;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 0.7fr 0.8fr 0.3fr 1.4fr 0.3fr;
   grid-gap: 16px;
   @media screen and (max-width: ${FARM_LAPTOP_MEDIA}) {
     height: auto;
-    grid-template-columns: 0.7fr 1fr 0.3fr 0.5fr 64px;
+    grid-template-columns: 0.7fr 0.6fr 0.3fr 0.5fr 64px;
     justify-items: flex-start;
     grid-row-gap: 30px;
     align-items: stretch;
