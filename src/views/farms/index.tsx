@@ -1,20 +1,10 @@
 import FarmBanner from './components/FarmBanner'
 import FarmFilters from './components/FarmFilters'
 import FarmContainer from './FarmContainer'
+import { useFarmingPools } from './hooks/useFarmingPools'
 
 const Farms = () => {
-  // const contract = useMasterChefFarmingContract()
-  // useEffect(() => {
-  //   ;(async () => {
-  //     if (contract) {
-  //       debugger
-  //       const length = await contract.poolLength()
-  //       const res = await contract.poolInfo(length)
-
-  //       debugger
-  //     }
-  //   })()
-  // }, [contract])
+  useFarmingPools()
   return (
     <FarmContainer>
       <div>

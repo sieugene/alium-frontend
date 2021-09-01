@@ -17,9 +17,8 @@ const multicall = async (abi: any[], calls: Call[], chain?: number) => {
   const chainId = chain || currentChainId
   const multi = new web3.eth.Contract(MULTICALL_FUNC_ABI as unknown as AbiItem, MULTICALL_ADDRESS[chainId])
   const itf = new Interface(abi)
-
   const calldata = calls.map((call) => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)])
-
+  
   try {
     return await multi.methods.aggregate(calldata).call()
     // const res = returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
