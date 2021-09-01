@@ -18,12 +18,34 @@ const multicall = async (abi: any[], calls: Call[], chain?: number) => {
   const multi = new web3.eth.Contract(MULTICALL_FUNC_ABI as unknown as AbiItem, MULTICALL_ADDRESS[chainId])
   const itf = new Interface(abi)
   const calldata = calls.map((call) => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)])
-  
+
   try {
     return await multi.methods.aggregate(calldata).call()
     // const res = returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
   } catch (e) {
     console.error('multicall error:', e)
+  }
+}
+
+export const multicallDecoder = (abi: any[], calls: Call[], returnData: any[]): any[] => {
+  const itf = new Interface(abi)
+  return returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
+}
+
+export const multicallWithDecoder = async <T = any>(abi: any[], calls: Call[]): Promise<T> => {
+  try {
+    const web3 = getWeb3NoAccount()
+    const { currentChainId } = storeNetwork.getState()
+    const chainId = currentChainId
+    const multi = new web3.eth.Contract(MULTICALL_FUNC_ABI as unknown as AbiItem, MULTICALL_ADDRESS[chainId])
+    const itf = new Interface(abi)
+    const calldata = calls.map((call) => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)])
+    const { returnData } = await multi.methods.aggregate(calldata).call()
+    const res = returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
+
+    return res
+  } catch (error) {
+    throw new Error(error)
   }
 }
 

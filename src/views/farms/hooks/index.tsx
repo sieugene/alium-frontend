@@ -1,7 +1,6 @@
 import { Contract } from '@ethersproject/contracts'
 import { useContract } from 'hooks/useContract'
 import ALIUM_GAMING_ABI from '../../../constants/abis/farms/AliumGaming1155.json'
-import MASTER_CHEF_FARMING_ABI from '../../../constants/abis/farms/MasterChefFarming.json'
 import NFT_REWARD_POOL_ABI from '../../../constants/abis/farms/NFTRewardPool.json'
 import STRONG_HOLDER_POOL_ABI from '../../../constants/abis/farms/StrongHolderPool.json'
 
@@ -14,9 +13,9 @@ export function useAliumGamingFarmingContract(address?: string, withSignerIfPoss
   return useContract(address, ALIUM_GAMING_ABI, withSignerIfPossible)
 }
 
-export function useMasterChefFarmingContract(address?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(MASTER_CHEF_FARMING_ADDRESS, MASTER_CHEF_FARMING_ABI, withSignerIfPossible)
-}
+// export function useMasterChefFarmingContract(address?: string, withSignerIfPossible?: boolean): Contract | null {
+//   return useContract(MASTER_CHEF_FARMING_ADDRESS, MASTER_CHEF_FARMING_ABI, withSignerIfPossible)
+// }
 
 export function useNftRewardFarmingContract(address?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(address, NFT_REWARD_POOL_ABI, withSignerIfPossible)

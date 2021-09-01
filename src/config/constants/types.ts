@@ -1,3 +1,4 @@
+import { Token } from '@alium-official/sdk'
 import { TranslatableText } from 'state/types'
 
 export type IfoStatus = 'coming_soon' | 'live' | 'finished'
@@ -40,18 +41,15 @@ export enum PoolCategory {
 }
 
 export interface Address {
-  97?: string
-  56: string
+  [key: number]: string
 }
 
 export interface FarmConfig {
   pid: number
   lpSymbol: string
   lpAddresses: Address
-  tokenSymbol: string
-  tokenAddresses: Address
-  quoteTokenSymbol: QuoteToken
-  quoteTokenAdresses: Address
+  token: Token
+  quoteToken: Token
   multiplier?: string
   isCommunity?: boolean
   dual?: {
