@@ -308,6 +308,7 @@ export const useTable = <T extends DataType>(
 ): UseTableReturnType<T> => {
   const columnsWithSorting: ColumnStateType<T>[] = useMemo(
     () =>
+      columns?.length &&
       columns.map((column) => {
         return {
           ...column,

@@ -1,3 +1,5 @@
+import { ChainId } from '@alium-official/sdk'
+import BigNumber from 'bignumber.js'
 import { TranslatableText } from 'state/types'
 
 export type IfoStatus = 'coming_soon' | 'live' | 'finished'
@@ -40,18 +42,25 @@ export enum PoolCategory {
 }
 
 export interface Address {
-  97?: string
-  56: string
+  [key: number]: string
 }
+
+export interface FarmPricedToken {
+  almBnbPrice: BigNumber
+  chainId: ChainId
+  address: string
+  decimals: number
+  symbol?: string
+  name?: string
+}
+// | Token
 
 export interface FarmConfig {
   pid: number
   lpSymbol: string
   lpAddresses: Address
-  tokenSymbol: string
-  tokenAddresses: Address
-  quoteTokenSymbol: QuoteToken
-  quoteTokenAdresses: Address
+  token: FarmPricedToken
+  quoteToken: FarmPricedToken
   multiplier?: string
   isCommunity?: boolean
   dual?: {
