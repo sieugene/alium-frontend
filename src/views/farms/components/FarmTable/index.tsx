@@ -36,8 +36,8 @@ const ScrollButtonContainer = styled.div`
 `
 
 interface Props {
-  data: RowProps[]
-  columns: ColumnType<RowProps>[]
+  data: any
+  columns: ColumnType<any>[]
   userDataReady: boolean
   sortColumn?: string
 }
@@ -58,10 +58,9 @@ const FarmTable: React.FC<Props> = (props) => {
       <TableContainer>
         <TableBody>
           {rows?.length &&
-            rows.map((row) => {
+            rows.map((row, index) => {
               return (
-                <div>
-                  {' '}
+                <div key={index}>
                   <h2>test</h2>
                 </div>
               )
