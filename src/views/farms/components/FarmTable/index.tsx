@@ -10,33 +10,17 @@ const Container = styled.div`
   margin: 16px 0px;
 `
 
-const TableWrapper = styled.div`
-  overflow: visible;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`
-
-const StyledTable = styled.table`
-  border-collapse: collapse;
-  font-size: 14px;
-  border-radius: 4px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-`
-
-const TableBody = styled.tbody`
+const TableBody = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 2px;
-  & tr {
-    td {
-      font-size: 16px;
-      vertical-align: middle;
-    }
+  height: 300px;
+  justify-content: space-around;
+  margin: 10px;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 0 auto;
   }
 `
 
@@ -55,11 +39,7 @@ const FarmTable: React.FC = ({ children }) => {
   return (
     <Container>
       <TableContainer>
-        <TableWrapper>
-          <StyledTable>
-            <TableBody>{children}</TableBody>
-          </StyledTable>
-        </TableWrapper>
+        <TableBody>{children}</TableBody>
         <ScrollButtonContainer>
           <Button variant='text'>{'To Top'}</Button>
         </ScrollButtonContainer>

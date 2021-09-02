@@ -8,8 +8,9 @@ const StyledCard = styled(Card)`
 `
 
 const FarmCardInnerContainer = styled(Flex)`
+  flex: 1 0 48%;
+  margin: 1%;
   flex-direction: column;
-  justify-content: space-around;
   padding: 24px;
 `
 
