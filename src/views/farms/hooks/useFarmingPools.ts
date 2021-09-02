@@ -56,7 +56,7 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
       setLoading(false)
     })()
   }, [loading, slowRefresh])
-  return farmsList
+  return { farmsList, farmsUserDataLoading }
 }
 
 export const useFarms = () => {

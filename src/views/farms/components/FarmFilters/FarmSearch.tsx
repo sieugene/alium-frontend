@@ -1,8 +1,9 @@
 import { CloseIcon } from 'alium-uikit/src'
 import { FARM_DESKTOP_MEDIA, FARM_TABLET_MEDIA } from 'constants/layout/farm.layout'
 import useOnClickOutside from 'hooks/useOnClickOutside'
-import { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Search } from 'react-feather'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
 
 const Wrapper = styled.div<{ activeFullWidth: boolean }>`
@@ -120,13 +121,18 @@ const IconClose = styled.div<{ activeFullWidth: boolean }>`
 const FarmSearch = () => {
   const input = useRef(null)
   const [active, setActive] = useState(false)
-  const [value, setvalue] = useState('')
+  const value = useStoreFarms((state) => state.query)
+  const setvalue = useStoreFarms((state) => state.setQuery)
+
   const isFilled = value?.length > 0
   const clear = () => {
     setvalue('')
   }
   const close = () => {
     setActive(false)
+  }
+  const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setvalue(event.target.value)
   }
   useOnClickOutside(input, close, ['close__farm', 'search__farm'])
   return (
@@ -137,7 +143,7 @@ const FarmSearch = () => {
         activeFullWidth={active}
         placeholder='Search Farms'
         value={value}
-        onChange={({ target }) => setvalue(target?.value)}
+        onChange={handleChangeQuery}
       />
       {isFilled && (
         <IconClose onClick={clear} activeFullWidth={active} id='close__farm'>
