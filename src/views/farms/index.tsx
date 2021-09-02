@@ -17,6 +17,7 @@ const Farms = () => {
       <FarmTable>
         <FarmCard />
         <FarmCard />
+        <FarmCard />
       </FarmTable>
     </FarmContainer>
   )
