@@ -15,9 +15,9 @@ const Farms = () => {
         <FarmFilters />
       </div>
       <FarmTable>
-        <FarmCard />
-        <FarmCard />
-        <FarmCard />
+        {new Array(10).fill(null).map((el, index) => (
+          <FarmCard key={index} />
+        ))}
       </FarmTable>
     </FarmContainer>
   )
