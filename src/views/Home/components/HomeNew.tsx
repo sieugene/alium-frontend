@@ -472,10 +472,7 @@ const HomeNew = () => {
             <StartingSoon>15.06.2021</StartingSoon>
           </MotionLeftColumn> */}
           <MotionLeftColumn xInitial={-60} xDuration={1}>
-            <H1>Alium Art NFT Marketplace is here!</H1>
-          </MotionLeftColumn>
-          <MotionLeftColumn xInitial={-40} xDuration={0.8}>
-            <H2>Join in to get some exclusive drops!</H2>
+            <H1>ALM Smart Farming with up to 5,000% APY</H1>
           </MotionLeftColumn>
           <MotionLeftColumn xInitial={-50} xDuration={1.1}>
             {/* <EmailContainer>
@@ -497,9 +494,6 @@ const HomeNew = () => {
 
               <ActionButton onClick={handleSubmitEmail}>{isLoading ? <StyledLoader /> : 'Send'}</ActionButton>
             </EmailContainer> */}
-            <a href='https://alium.art/' target='_blank'>
-              <ActionButton>Join In</ActionButton>
-            </a>
           </MotionLeftColumn>
         </LeftColumn>
         <RightColumn>
