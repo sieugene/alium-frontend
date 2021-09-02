@@ -45,14 +45,16 @@ export interface Address {
   [key: number]: string
 }
 
-export interface FarmPricedToken {
-  almBnbPrice: BigNumber
-  chainId: ChainId
-  address: string
-  decimals: number
-  symbol?: string
-  name?: string
-}
+export type FarmPricedToken =
+  | {
+      almBnbPrice: BigNumber
+      chainId: ChainId
+      address: string
+      decimals: number
+      symbol?: string
+      name?: string
+    }
+  | any
 // | Token
 
 export interface FarmConfig {
