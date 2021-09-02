@@ -28,7 +28,7 @@ export interface Farm extends FarmConfig {
     earnings: string
   }
 }
-
+export type FarmWithUserData = { pid: Farm['pid'] } & Farm['userData']
 export interface Pool extends PoolConfig {
   totalStaked?: BigNumber
   startBlock?: number

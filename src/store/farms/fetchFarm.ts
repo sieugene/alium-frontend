@@ -1,4 +1,4 @@
-import { Farm } from './../types'
+import { Farm } from 'state/types'
 import fetchPublicFarmData from './fetchPublicFarmData'
 
 const fetchFarm = async (farm: Farm): Promise<Farm> => {

@@ -5,9 +5,6 @@ const fetchFarms = async (farmsToFetch: FarmConfig[]) => {
   const data = await Promise.all(
     farmsToFetch.map(async (farmConfig) => {
       const farm = await fetchFarm(farmConfig)
-      // realize
-      // const farmsWithPrices = await fetchFarmsPrices(farms)
-
       return farm
     }),
   )
