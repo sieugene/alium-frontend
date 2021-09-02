@@ -1,4 +1,3 @@
-import { FARM_MIN_TABLET_MEDIA, FARM_MOBILE_MEDIA } from 'constants/layout/farm.layout'
 import { useState } from 'react'
 import styled from 'styled-components'
 
@@ -15,18 +14,10 @@ const SwitchWrap = styled.div`
     letter-spacing: 0.3px;
     color: #8990a5;
   }
-  @media screen and (max-width: ${FARM_MIN_TABLET_MEDIA}) {
-    flex: 50%;
-    justify-content: flex-end;
-  }
-  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
-    flex: inherit;
-    width: 50%;
-  }
 `
-const Switch = styled.div<{ align: 'start' | 'end' }>`
-  background: #f4f5fa;
-  border: 1.42857px solid #d2d6e5;
+const Switch = styled.div<{ align: 'start' | 'end'; active: boolean }>`
+  background: ${(props) => (props.active ? '#B9E4D2' : '#f4f5fa')};
+  border: 1.42857px solid ${(props) => (props.active ? '#24BA7B' : '#D2D6E5')};
   box-sizing: border-box;
   border-radius: 50px;
   width: 56px;
@@ -43,12 +34,13 @@ const Switch = styled.div<{ align: 'start' | 'end' }>`
     border-radius: 50%;
     display: block;
   }
+  margin-right: 16px;
 `
 export const FarmStakedSwitcher = () => {
   const [active, setActive] = useState(false)
   return (
     <SwitchWrap onClick={() => setActive(!active)}>
-      <Switch align={active ? 'end' : 'start'}>
+      <Switch align={active ? 'end' : 'start'} active={active}>
         <span />
       </Switch>
       <h3>Staked only</h3>

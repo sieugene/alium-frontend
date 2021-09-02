@@ -1,4 +1,5 @@
 const backgroundImage = '/images/trade-background.svg'
+import { FARM_MOBILE_MEDIA } from 'constants/layout/farm.layout'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -22,6 +23,9 @@ const BodyWrapper = styled.div`
 
   @media screen and (max-width: 1440px) {
     padding: 32px 30px 32px 30px;
+  }
+  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
+    padding: 32px 10px 32px 10px;
   }
 
   /* @media screen and (max-width: 1024px) {
