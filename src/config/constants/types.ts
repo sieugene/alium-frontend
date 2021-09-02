@@ -1,4 +1,5 @@
-import { ChainId, Token } from '@alium-official/sdk'
+import { ChainId } from '@alium-official/sdk'
+import BigNumber from 'bignumber.js'
 import { TranslatableText } from 'state/types'
 
 export type IfoStatus = 'coming_soon' | 'live' | 'finished'
@@ -44,16 +45,15 @@ export interface Address {
   [key: number]: string
 }
 
-export type FarmPricedToken =
-  | {
-      almBnbPrice: string
-      chainId: ChainId
-      address: string
-      decimals: number
-      symbol?: string
-      name?: string
-    }
-  | Token
+export interface FarmPricedToken {
+  almBnbPrice: BigNumber
+  chainId: ChainId
+  address: string
+  decimals: number
+  symbol?: string
+  name?: string
+}
+// | Token
 
 export interface FarmConfig {
   pid: number

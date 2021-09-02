@@ -20,7 +20,9 @@ const ExpandingWrapper = styled.div`
   overflow: hidden;
 `
 
-interface FarmCardProps {}
+interface FarmCardProps {
+  t?: ''
+}
 
 const FarmCard: React.FC<FarmCardProps> = (props) => {
   const [showExpandableSection, setShowExpandableSection] = useState(false)
@@ -40,18 +42,18 @@ const FarmCard: React.FC<FarmCardProps> = (props) => {
           lpLabel={lpLabel}
           multiplier={multiplier}
           isCommunityFarm={true}
-          token={'token'}
-          quoteToken={'tokenquote'}
+          token='token'
+          quoteToken='tokenquote'
         />
 
         <Flex justifyContent='space-between' alignItems='center'>
-          <Text>{'APR'}:</Text>
+          <Text>APR:</Text>
           <Text bold style={{ display: 'flex', alignItems: 'center' }}>
             <Button variant='secondary'>Harvest</Button>
           </Text>
         </Flex>
         <Flex justifyContent='space-between'>
-          <Text>{'Earn'}:</Text>
+          <Text>Earn:</Text>
           <Text bold>{earnLabel}</Text>
         </Flex>
         <div>CardActionContainter</div>

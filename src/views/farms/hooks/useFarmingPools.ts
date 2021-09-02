@@ -37,7 +37,8 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
   const farmsLoading = useStoreFarms((state) => state.farmsLoading)
   const farmsUserDataLoading = useStoreFarms((state) => state.farmsUserDataLoading)
   const setLoading = useStoreFarms((state) => state.toggleUserDataFarmsFetched)
-  usePollFarmsPublicData()
+  // farms
+  const farmsList = usePollFarmsPublicData()
   // state
   const loading = useMemo(() => !account || farmsLoading, [account, farmsLoading])
 
@@ -55,6 +56,7 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
       setLoading(false)
     })()
   }, [loading, slowRefresh])
+  return farmsList
 }
 
 export const useFarms = () => {
@@ -106,4 +108,25 @@ export const useLpTokenPrice = (symbol: string) => {
   }
 
   return lpTokenPrice
+}
+
+export function useUserFarmStakedOnly(isActive: boolean): [boolean, (stakedOnly: boolean) => void] {
+  // const dispatch = useDispatch<AppDispatch>()
+  // const userFarmStakedOnly = useSelector<AppState, AppState['user']['userFarmStakedOnly']>((state) => {
+  //   return state.user.userFarmStakedOnly
+  // })
+
+  // const setUserFarmStakedOnly = useCallback(
+  //   (stakedOnly: boolean) => {
+  //     const farmStakedOnly = stakedOnly ? FarmStakedOnly.TRUE : FarmStakedOnly.FALSE
+  //     dispatch(updateUserFarmStakedOnly({ userFarmStakedOnly: farmStakedOnly }))
+  //   },
+  //   [dispatch],
+  // )
+
+  // return [
+  //   userFarmStakedOnly === FarmStakedOnly.ON_FINISHED ? !isActive : userFarmStakedOnly === FarmStakedOnly.TRUE,
+  //   setUserFarmStakedOnly,
+  // ]
+  return [false, null]
 }

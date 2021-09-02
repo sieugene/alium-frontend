@@ -1,5 +1,5 @@
-import { Button } from 'alium-uikit/src'
-import React from 'react'
+import { Button, ColumnType, useTable } from 'alium-uikit/src'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -35,13 +35,42 @@ const ScrollButtonContainer = styled.div`
   padding-bottom: 5px;
 `
 
-const FarmTable: React.FC = ({ children }) => {
+interface Props {
+  data: RowProps[]
+  columns: ColumnType<RowProps>[]
+  userDataReady: boolean
+  sortColumn?: string
+}
+
+const FarmTable: React.FC<Props> = (props) => {
+  const tableWrapperEl = useRef<HTMLDivElement>(null)
+  const { data, columns, userDataReady } = props
+
+  const { rows } = useTable(columns, data, { sortable: true, sortColumn: 'farm' })
+
+  const scrollToTop = (): void => {
+    tableWrapperEl.current.scrollIntoView({
+      behavior: 'smooth',
+    })
+  }
   return (
     <Container>
       <TableContainer>
-        <TableBody>{children}</TableBody>
+        <TableBody>
+          {rows?.length &&
+            rows.map((row) => {
+              return (
+                <div>
+                  {' '}
+                  <h2>test</h2>
+                </div>
+              )
+            })}
+        </TableBody>
         <ScrollButtonContainer>
-          <Button variant='text'>{'To Top'}</Button>
+          <Button variant='text' onClick={scrollToTop}>
+            To Top
+          </Button>
         </ScrollButtonContainer>
       </TableContainer>
     </Container>
