@@ -12,6 +12,7 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import FarmBanner from './components/FarmBanner'
 import FarmCard from './components/FarmCard'
 import FarmFilters from './components/FarmFilters'
+import FarmGridCard from './components/FarmGridCard'
 import FarmTable from './components/FarmTable'
 import FarmContainer from './FarmContainer'
 import { DesktopColumnSchema, FarmWithStakedValue, ViewMode } from './farms.types'
@@ -205,7 +206,14 @@ const Farms = () => {
 
       return <FarmTable data={rowData} columns={columns} userDataReady={userDataReady} />
     }
-    return chosenFarmsMemoized.map((farm) => <FarmCard key={farm.pid} />)
+    const TEMP_DEDUPLICATED_DATA = [...chosenFarmsMemoized, ...chosenFarmsMemoized]
+    return (
+      <FarmGridCard>
+        {TEMP_DEDUPLICATED_DATA.map((farm) => (
+          <FarmCard key={farm.pid} />
+        ))}{' '}
+      </FarmGridCard>
+    )
   }
 
   return (
