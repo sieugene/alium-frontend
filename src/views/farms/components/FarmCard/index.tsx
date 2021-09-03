@@ -1,6 +1,8 @@
 import { Button, Card, Flex, Text } from 'alium-uikit/src'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { FarmWithStakedValue } from 'views/farms/farms.types'
 import CardHeading from './CardHeading'
 
 const StyledCard = styled(Card)`
@@ -9,12 +11,7 @@ const StyledCard = styled(Card)`
   height: 404px;
 `
 
-const FarmCardInnerContainer = styled(Flex)`
-  flex: 1 0 48%;
-  margin: 1%;
-  flex-direction: column;
-  padding: 24px;
-`
+const FarmCardInnerContainer = styled(Flex)``
 
 const ExpandingWrapper = styled.div`
   padding: 24px;
@@ -23,43 +20,47 @@ const ExpandingWrapper = styled.div`
 `
 
 interface FarmCardProps {
-  t?: ''
+  farm: FarmWithStakedValue
 }
 
-const FarmCard: React.FC<FarmCardProps> = (props) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
+  const { t } = useTranslation()
+
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
-  const totalValueFormatted = ''
+  const totalValueFormatted = farm.liquidity?.gt(0)
+    ? `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+    : ''
 
-  const lpLabel = 'PANCAKE'
-  const multiplier = 'multiplier'
-  const earnLabel = 'CAKE + Fees'
+  const lpLabel = farm.lpSymbol?.toUpperCase().replace('PANCAKE', '')
+  const earnLabel = farm.dual ? farm.dual.earnLabel : t('CAKE + Fees')
 
-  const isPromotedFarm = 'CAKE'
+  const liquidityUrlPathParts = '/test'
+  const addLiquidityUrl = `liqudity/${liquidityUrlPathParts}`
+  const lpAddress = farm.lpAddresses
+  const isPromotedFarm = farm.token.symbol === 'CAKE'
 
   return (
     <StyledCard>
-      <FarmCardInnerContainer>
-        <CardHeading
-          lpLabel={lpLabel}
-          multiplier={multiplier}
-          isCommunityFarm={true}
-          token='token'
-          quoteToken='tokenquote'
-        />
+      <CardHeading
+        lpLabel={lpLabel}
+        multiplier={farm.multiplier}
+        isCommunityFarm={farm.isCommunity}
+        token={farm.token}
+        quoteToken={farm.quoteToken}
+      />
 
-        <Flex justifyContent='space-between' alignItems='center'>
-          <Text>APR:</Text>
-          <Text bold style={{ display: 'flex', alignItems: 'center' }}>
-            <Button variant='secondary'>Harvest</Button>
-          </Text>
-        </Flex>
-        <Flex justifyContent='space-between'>
-          <Text>Earn:</Text>
-          <Text bold>{earnLabel}</Text>
-        </Flex>
-        <div>CardActionContainter</div>
-      </FarmCardInnerContainer>
+      <Flex justifyContent='space-between' alignItems='center'>
+        <Text>APR:</Text>
+        <Text bold style={{ display: 'flex', alignItems: 'center' }}>
+          <Button variant='secondary'>Harvest</Button>
+        </Text>
+      </Flex>
+      <Flex justifyContent='space-between'>
+        <Text>Earn:</Text>
+        <Text bold>{earnLabel}</Text>
+      </Flex>
+      <div>CardActionContainter</div>
 
       <ExpandingWrapper>
         <Button>Enable farm</Button>

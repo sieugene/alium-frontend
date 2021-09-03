@@ -207,10 +207,11 @@ const Farms = () => {
       return <FarmTable data={rowData} columns={columns} userDataReady={userDataReady} />
     }
     const TEMP_DEDUPLICATED_DATA = [...chosenFarmsMemoized, ...chosenFarmsMemoized]
+
     return (
       <FarmGridCard>
         {TEMP_DEDUPLICATED_DATA.map((farm) => (
-          <FarmCard key={farm.pid} />
+          <FarmCard key={farm.pid} farm={farm} />
         ))}{' '}
       </FarmGridCard>
     )
