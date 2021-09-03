@@ -9,15 +9,15 @@ const ContainerSlider = styled.div`
   width: 100%;
   flex-direction: row;
   @media screen and (max-width: 768px) {
+    margin-top: 8px
     flex-direction: column-reverse;
-    margin: 0 auto 0 auto;
+    
   }
 `
 
 const RoadMapContainer = styled.div`
   width: 100%;
   display: flex;
-  /* flex-wrap: wrap; */
   justify-content: space-between;
   .arrow__container {
     display: flex;
@@ -33,6 +33,11 @@ const RoadMapContainer = styled.div`
     }
   }
   @media screen and (max-width: 768px) {
+    .arrow__container {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 600px) {
     margin-top: 24px;
     justify-content: center;
     flex-direction: column;
@@ -41,7 +46,9 @@ const RoadMapContainer = styled.div`
       width: 100%;
     }
   }
+
   @media screen and (max-width: 576px) {
+    align-items: baseline;
     padding-right: 16px;
     padding-left: 16px;
   }
@@ -58,7 +65,7 @@ const BuyAlmContainer = styled.div`
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
-  padding: 55px 55px 55px 80px;
+  padding: 16px 16px 55px 80px;
   .marketplace__right {
     max-width: 451px;
     display: flex;
@@ -86,6 +93,49 @@ const BuyAlmContainer = styled.div`
     color: #8990a5;
     margin-bottom: 32px;
   }
+  @media screen and (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 20px 16px 24px 16px;
+    .marketplace__right {
+      max-width: 322px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    h1 {
+      text-align: center;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 32px;
+      line-height: 40px;
+      margin: 16px 0px;
+      letter-spacing: 0.3px;
+    }
+    h2 {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 22px;
+      letter-spacing: 0.3px;
+      margin: 16px 0px;
+    }
+  }
+  @media screen and (max-width: 475px) {
+    display: flex;
+    flex-direction: column;
+    .marketplace__right {
+      max-width: 322px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 `
 
 const MainBanner = styled.div`
@@ -109,13 +159,10 @@ const MainBanner = styled.div`
     flex-direction: column-reverse;
     margin: 0 auto 0 auto;
   }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 475px) {
     display: flex;
-    aligh-items: center;
-    justify-content: center;
-    background: url(/images/home-new/mob-banner.png) no-repeat;
-    background-size: contain;
-    height: 600px;
+    flex-direction: column;
+    background-position: right -198px top 154px;
   }
 `
 
@@ -138,8 +185,21 @@ const FooterContainer = styled.div`
     background-position: center;
   }
   @media screen and (max-width: 768px) {
-    flex-direction: column-reverse;
-    margin: 0 auto 0 auto;
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h1 {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: 0.3px;
+        color: #ffffff;
+        max-width: 272px;
+      }
+    }
   }
   .overlay {
     position: absolute;
@@ -175,6 +235,46 @@ const FooterContainer = styled.div`
       color: #ffffff;
       margin-bottom: 32px;
       max-width: 272px;
+    }
+  }
+  @media screen and (max-width: 475px) {
+    background: url(/images/home-new/mob-image.png) no-repeat, #6c5dd3;
+    background-size: cover;
+    height: 475px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    .overlay {
+      position: absolute;
+      right: 0;
+      bottom: 56px;
+      top: auto;
+      left: auto;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      p {
+        display: none;
+      }
+    }
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h1 {
+        margin: 0;
+        margin-bottom: 24px;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 30px;
+        letter-spacing: 0.3px;
+        color: #ffffff;
+        max-width: 222px;
+      }
     }
   }
 `
@@ -220,6 +320,7 @@ const LeftColumn = styled.div`
     text-align: center;
     margin: 0 auto 0 auto;
   }
+
   h2 {
     margin-top: 24px;
     font-family: Roboto;
@@ -229,6 +330,13 @@ const LeftColumn = styled.div`
     line-height: 56px;
     letter-spacing: 0.3px;
     color: #ffffff;
+    @media screen and (max-width: 475px) {
+      font-size: 28px;
+      line-height: 36px;
+      text-align: center;
+      letter-spacing: 0.3px;
+      color: #ffffff;
+    }
   }
 `
 
@@ -341,10 +449,6 @@ const Card = styled.div`
   height: 120px;
   border-radius: 6px;
   margin-bottom: 5px;
-  @media screen and (max-width: 414px) {
-    width: 100%;
-    height: 80px;
-  }
 `
 
 const CardContainer = styled.div`
@@ -353,12 +457,19 @@ const CardContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 354px;
+  .card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
   & .title {
+    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    margin: 8px 0 0 16px;
+    margin-top: 30px;
     font-family: Roboto, sans-serif;
     font-size: 18px;
     font-weight: 500;
@@ -366,6 +477,32 @@ const CardContainer = styled.div`
     letter-spacing: 0.3px;
     color: #0b1359;
     margin-bottom: 16px;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin-right: 60px;
+  }
+
+  @media screen and (max-width: 600px) {
+    margin-bottom: 30px;
+    margin-right: 0;
+    width: 410px;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    .card-content {
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: baseline;
+      .title {
+        text-align: left;
+        max-width: 190px;
+        margin: 0;
+        margin-bottom: 16px;
+      }
+    }
   }
 `
 
@@ -390,12 +527,18 @@ const MarketPlace = styled.img`
   width: 384px;
   height: 356px;
   margin-right: 94px;
-  @media screen and (max-width: 414px) {
+  @media screen and (max-width: 768px) {
+    max-width: 261px;
+    max-height: 242px;
+    margin-right: 0;
+  }
+  @media screen and (max-width: 475px) {
     background-size: cover;
   }
 `
 
 const ExtraButton = styled.div`
+  white-space: pre;
   background: rgba(255, 114, 172, 0.1);
   border: 1px solid #ff72ac;
   box-sizing: border-box;
@@ -442,8 +585,10 @@ const HomeNew = () => {
       <RoadMapContainer>
         <CardContainer>
           <CardFarming />
-          <div className='title'>Farming Launch</div>
-          <ExtraButton>September, 2021</ExtraButton>
+          <div className='card-content'>
+            <div className='title'>Farming Launch</div>
+            <ExtraButton>September, 2021</ExtraButton>
+          </div>
         </CardContainer>
         <div className='arrow__container'>
           <Arrow />
@@ -451,16 +596,20 @@ const HomeNew = () => {
 
         <CardContainer>
           <CardCross />
-          <div className='title'>Cross-blockhain Swaps </div>
-          <ExtraButton>October, 2021</ExtraButton>
+          <div className='card-content'>
+            <div className='title'>Cross-blockhain Swaps </div>
+            <ExtraButton>October, 2021</ExtraButton>
+          </div>
         </CardContainer>
         <div className='arrow__container'>
           <Arrow />
         </div>
         <CardContainer>
           <CardAvalanche />
-          <div className='title'>Avalanche & Solana Integration</div>
-          <ExtraButton>December, 2021</ExtraButton>
+          <div className='card-content'>
+            <div className='title'>Avalanche & Solana Integration</div>
+            <ExtraButton>December, 2021</ExtraButton>
+          </div>
         </CardContainer>
       </RoadMapContainer>
       <BuyAlmContainer>
