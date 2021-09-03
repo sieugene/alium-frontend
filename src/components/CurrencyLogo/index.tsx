@@ -2,6 +2,7 @@ import { Currency, Token } from '@alium-official/sdk'
 import { useActiveWeb3React } from 'hooks'
 import { CSSProperties, useMemo } from 'react'
 import { WrappedTokenInfo } from 'state/lists/hooks'
+import { Farm } from 'state/types'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import useHttpLocations from '../../hooks/useHttpLocations'
@@ -28,7 +29,7 @@ export default function CurrencyLogo({
   size = '24px',
   style,
 }: {
-  currency?: Currency
+  currency?: Currency | Farm['token'] | Farm['quoteToken']
   size?: string
   style?: CSSProperties
 }) {
@@ -45,8 +46,8 @@ export default function CurrencyLogo({
   const srcs: string[] = useMemo(() => {
     if (currency === nativeCurrency) return []
 
-    if (currency instanceof Token) {
-      if (currency instanceof WrappedTokenInfo) {
+    if (currency instanceof Token || currency?.address) {
+      if (currency instanceof WrappedTokenInfo || (currency?.address && currency?.symbol)) {
         return [...uriLocations, `/images/coins/${currency?.symbol ?? 'token'}.png`, getTokenLogoURL(currency.address)]
       }
 

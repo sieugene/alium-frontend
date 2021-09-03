@@ -1,3 +1,4 @@
+import CurrencyLogo from 'components/CurrencyLogo'
 import React from 'react'
 import { Farm } from 'state/types'
 import styled from 'styled-components'
@@ -19,7 +20,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  padding: 0px 24px 0px 0px;
+  padding: 0px 24px 0px 20px;
   align-items: center;
 `
 
@@ -87,13 +88,32 @@ const Multiplier = styled.div`
   justify-content: center;
   align-items: center;
 `
+const DoubleLogo = styled.div`
+  display: flex;
+`
 
-const CardHeading: React.FC<ExpandableSectionProps> = ({ isCommunityFarm, multiplier, lpLabel }) => {
+const WrapMainLogo = styled.div`
+  position: relative;
+  z-index: 1;
+`
+const WrapSecondLogo = styled.div`
+  position: relative;
+  z-index: 0;
+  right: 20px;
+`
+
+const CardHeading: React.FC<ExpandableSectionProps> = ({ isCommunityFarm, multiplier, lpLabel, quoteToken, token }) => {
   return (
     <Wrapper>
       <div className='icons'>
-        <img />
-        <img />
+        <DoubleLogo>
+          <WrapMainLogo>
+            <CurrencyLogo size='48px' currency={token} />
+          </WrapMainLogo>
+          <WrapSecondLogo>
+            <CurrencyLogo size='48px' currency={quoteToken} />
+          </WrapSecondLogo>
+        </DoubleLogo>
       </div>
       <Info>
         <div className='label'>{lpLabel.split(' ')[0]}</div>
