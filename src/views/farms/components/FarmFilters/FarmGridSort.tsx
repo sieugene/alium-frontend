@@ -1,9 +1,9 @@
 import { FARM_MOBILE_MEDIA, FARM_TABLET_MEDIA } from 'constants/layout/farm.layout'
 import { SortCardIcon } from 'images/farms/icons/sort-card-icon'
 import { SortTableIcon } from 'images/farms/icons/sort-table-icon'
-import { useState } from 'react'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
-import { objectParamsToFalse } from 'utils/common/objectParamsToFalse'
+import { ViewMode } from 'views/farms/farms.types'
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,23 +27,20 @@ const ClickableIcon = styled.div<{ active: boolean }>`
 `
 
 export const FarmGridSort = () => {
-  const [activeGrid, setActiveGrid] = useState({
-    card: true,
-    table: false,
-  })
-
-  const changeActive = (tab: keyof typeof activeGrid) => {
-    setActiveGrid((state) => ({
-      ...objectParamsToFalse(state),
-      [tab]: true,
-    }))
+  const viewMode = useStoreFarms((state) => state.viewMode)
+  const setViewMode = useStoreFarms((state) => state.setViewMode)
+  const changeActive = (view: ViewMode) => {
+    setViewMode(view)
   }
+
+  const isCardView = ViewMode.CARD === viewMode
+  const isTableView = ViewMode.TABLE === viewMode
   return (
     <Wrapper>
-      <ClickableIcon onClick={() => changeActive('card')} active={activeGrid.card}>
+      <ClickableIcon onClick={() => changeActive(ViewMode.CARD)} active={isCardView}>
         <SortCardIcon />
       </ClickableIcon>
-      <ClickableIcon active={activeGrid.table} onClick={() => changeActive('table')}>
+      <ClickableIcon active={isTableView} onClick={() => changeActive(ViewMode.TABLE)}>
         <SortTableIcon />
       </ClickableIcon>
     </Wrapper>

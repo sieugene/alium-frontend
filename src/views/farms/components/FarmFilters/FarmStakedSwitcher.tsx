@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
 
 const SwitchWrap = styled.div`
@@ -37,10 +37,11 @@ const Switch = styled.div<{ align: 'start' | 'end'; active: boolean }>`
   margin-right: 16px;
 `
 export const FarmStakedSwitcher = () => {
-  const [active, setActive] = useState(false)
+  const stakedOnly = useStoreFarms((state) => state.stakedOnly)
+  const setStakedOnly = useStoreFarms((state) => state.setStakedOnly)
   return (
-    <SwitchWrap onClick={() => setActive(!active)}>
-      <Switch align={active ? 'end' : 'start'} active={active}>
+    <SwitchWrap onClick={() => setStakedOnly(!stakedOnly)}>
+      <Switch align={stakedOnly ? 'end' : 'start'} active={stakedOnly}>
         <span />
       </Switch>
       <h3>Staked only</h3>

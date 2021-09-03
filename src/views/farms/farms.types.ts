@@ -24,6 +24,14 @@ export enum ViewMode {
   'CARD' = 'CARD',
 }
 
+export enum FarmSortOption {
+  'apr' = 'apr',
+  'multiplier' = 'multiplier',
+  'earned' = 'earned',
+  'liquidity' = 'liquidity',
+  'hot' = 'hot',
+}
+
 export const MobileColumnSchema: ColumnsDefTypes[] = [
   {
     id: 1,

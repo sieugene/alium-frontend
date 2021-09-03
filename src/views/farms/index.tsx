@@ -5,16 +5,18 @@ import { orderBy } from 'lodash'
 import { useRouter } from 'next/router'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Farm } from 'state/types'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
 import { getBalanceNumber } from 'utils/formatBalance'
 import FarmBanner from './components/FarmBanner'
 import FarmCard from './components/FarmCard'
 import FarmFilters from './components/FarmFilters'
+import FarmGridCard from './components/FarmGridCard'
 import FarmTable from './components/FarmTable'
 import FarmContainer from './FarmContainer'
 import { DesktopColumnSchema, FarmWithStakedValue, ViewMode } from './farms.types'
-import { useBnbPriceFromPid, useFarms, usePollFarmsWithUserData, useUserFarmStakedOnly } from './hooks/useFarmingPools'
+import { useBnbPriceFromPid, useFarms, usePollFarmsWithUserData } from './hooks/useFarmingPools'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
 
@@ -32,25 +34,28 @@ const Farms = () => {
   const { pathname } = useRouter()
   const farmsLP = useFarms()
   // make here real loader!
-  const userDataLoaded = true
   const bnbPrice = useBnbPriceFromPid(1)
-  const [query, setQuery] = useState('')
-  const [viewMode, setViewMode] = useState(ViewMode.CARD)
+  const query = useStoreFarms((state) => state.query)
+  const viewMode = useStoreFarms((state) => state.viewMode)
+  const sortOption = useStoreFarms((state) => state.sortOption)
+
   const { account } = useWeb3React()
-  const [sortOption, setSortOption] = useState('hot')
+
   const chosenFarmsLength = useRef(0)
 
   const isArchived = pathname.includes('archived')
   const isInactive = pathname.includes('history')
   const isActive = !isInactive && !isArchived
 
-  usePollFarmsWithUserData(isArchived)
+  const { farmsUserDataLoading: userDataLoaded } = usePollFarmsWithUserData(isArchived)
 
   // Users with no wallet connected should see 0 as Earned amount
   // Connected users should see loading indicator until first userData has loaded
   const userDataReady = !account || (!!account && userDataLoaded)
 
-  const [stakedOnly] = useUserFarmStakedOnly(isActive)
+  const stakedOnly = useStoreFarms((state) => state.stakedOnly)
+
+  // const [stakedOnly] = useUserFarmStakedOnly(isActive)
 
   const activeFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier !== '0X')
   const inactiveFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier === '0X')
@@ -87,10 +92,6 @@ const Farms = () => {
     },
     [bnbPrice, query, isActive],
   )
-
-  const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value)
-  }
 
   const [numberOfFarmsVisible] = useState(NUMBER_OF_FARMS_VISIBLE)
 
@@ -205,7 +206,14 @@ const Farms = () => {
 
       return <FarmTable data={rowData} columns={columns} userDataReady={userDataReady} />
     }
-    return chosenFarmsMemoized.map((farm) => <FarmCard key={farm.pid} />)
+    const TEMP_DEDUPLICATED_DATA = [...chosenFarmsMemoized, ...chosenFarmsMemoized]
+    return (
+      <FarmGridCard>
+        {TEMP_DEDUPLICATED_DATA.map((farm) => (
+          <FarmCard key={farm.pid} />
+        ))}{' '}
+      </FarmGridCard>
+    )
   }
 
   return (

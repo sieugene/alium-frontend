@@ -5,8 +5,9 @@ import {
   FARM_MOBILE_MEDIA,
   FARM_TABLET_MEDIA,
 } from 'constants/layout/farm.layout'
-import { useState } from 'react'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
+import { FarmSortOption } from 'views/farms/farms.types'
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,13 +47,14 @@ const StyledDropdown = styled(DropdownList)`
 `
 
 export const FarmSortBy = () => {
-  const list = ['Hot', 'APR', 'Multiplier', 'Earned', 'Liquidity']
-  const [active, setActive] = useState(list[0])
+  const sortOption = useStoreFarms((state) => state.sortOption)
+  const setSortOption = useStoreFarms((state) => state.setSortOption)
+  const list = Object.values(FarmSortOption)
 
   return (
     <Wrapper>
       <h2>Sort by</h2>
-      <StyledDropdown list={list} active={active} select={(item: string) => setActive(item)} />
+      <StyledDropdown list={list} active={sortOption} select={(item: FarmSortOption) => setSortOption(item)} />
     </Wrapper>
   )
 }

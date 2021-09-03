@@ -5,6 +5,8 @@ import CardHeading from './CardHeading'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
+  width: 354px;
+  height: 404px;
 `
 
 const FarmCardInnerContainer = styled(Flex)`
