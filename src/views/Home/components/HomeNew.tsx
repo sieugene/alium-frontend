@@ -1,19 +1,5 @@
-import { Carousel } from 'react-responsive-carousel'
-import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import styled from 'styled-components'
-
-const ContainerSlider = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: space-between;
-  width: 100%;
-  flex-direction: row;
-  @media screen and (max-width: 768px) {
-    margin-top: 8px
-    flex-direction: column-reverse;
-    
-  }
-`
+import HomeCarousel from './HomeCarousel'
 
 const RoadMapContainer = styled.div`
   width: 100%;
@@ -38,17 +24,16 @@ const RoadMapContainer = styled.div`
     }
   }
   @media screen and (max-width: 600px) {
-    margin-top: 24px;
     justify-content: center;
-    flex-direction: column;
     align-items: center;
+    margin-top: 24px;
+    flex-direction: column;
     a {
       width: 100%;
     }
   }
 
   @media screen and (max-width: 576px) {
-    align-items: baseline;
     padding-right: 16px;
     padding-left: 16px;
   }
@@ -106,7 +91,6 @@ const BuyAlmContainer = styled.div`
       justify-content: center;
     }
     h1 {
-      text-align: center;
       font-family: Roboto;
       font-style: normal;
       font-weight: bold;
@@ -125,7 +109,7 @@ const BuyAlmContainer = styled.div`
       margin: 16px 0px;
     }
   }
-  @media screen and (max-width: 475px) {
+  @media screen and (max-width: 575px) {
     display: flex;
     flex-direction: column;
     .marketplace__right {
@@ -134,6 +118,9 @@ const BuyAlmContainer = styled.div`
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      h1 {
+        text-align: center;
+      }
     }
   }
 `
@@ -154,6 +141,7 @@ const MainBanner = styled.div`
   flex-direction: row;
   @media screen and (max-width: 1440px) {
     background-size: cover;
+    background-position: -110px;
   }
   @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
@@ -184,23 +172,7 @@ const FooterContainer = styled.div`
     background-size: cover;
     background-position: center;
   }
-  @media screen and (max-width: 768px) {
-    .left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      h1 {
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 32px;
-        line-height: 40px;
-        letter-spacing: 0.3px;
-        color: #ffffff;
-        max-width: 272px;
-      }
-    }
-  }
+
   .overlay {
     position: absolute;
     top: 50%;
@@ -237,7 +209,25 @@ const FooterContainer = styled.div`
       max-width: 272px;
     }
   }
-  @media screen and (max-width: 475px) {
+  @media screen and (max-width: 768px) {
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h1 {
+        max-width: 200px;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: 0.3px;
+        color: #ffffff;
+      }
+    }
+  }
+
+  @media screen and (max-width: 575px) {
     background: url(/images/home-new/mob-image.png) no-repeat, #6c5dd3;
     background-size: cover;
     height: 475px;
@@ -246,7 +236,7 @@ const FooterContainer = styled.div`
     flex-direction: row;
     .overlay {
       position: absolute;
-      right: 0;
+      right: -21px;
       bottom: 56px;
       top: auto;
       left: auto;
@@ -446,9 +436,13 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   width: 120px;
+  min-width: 120px;
   height: 120px;
   border-radius: 6px;
   margin-bottom: 5px;
+  @media screen and (max-width: 355px) {
+    min-width: 88px;
+  }
 `
 
 const CardContainer = styled.div`
@@ -480,14 +474,16 @@ const CardContainer = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    margin-right: 60px;
+    margin-right: 0px;
   }
 
   @media screen and (max-width: 600px) {
+    width: 280px;
     margin-bottom: 30px;
     margin-right: 0;
-    width: 410px;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
+
     display: flex;
     flex-direction: row;
     .card-content {
@@ -504,36 +500,41 @@ const CardContainer = styled.div`
       }
     }
   }
+  @media screen and (max-width: 375px) {
+    width: 100%;
+  }
 `
 
 const CardFarming = styled(Card)`
   background: url('/images/home-new/farming.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
 `
 const CardCross = styled(Card)`
   background: url('/images/home-new/cross.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
 `
 
 const CardAvalanche = styled(Card)`
   background: url('/images/home-new/avalanche.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
 `
 
 const MarketPlace = styled.img`
   width: 384px;
   height: 356px;
-  margin-right: 94px;
+  margin-right: 54px;
   @media screen and (max-width: 768px) {
     max-width: 261px;
     max-height: 242px;
-    margin-right: 0;
   }
-  @media screen and (max-width: 475px) {
-    background-size: cover;
+  @media screen and (max-width: 575px) {
+    margin-right: 0px;
   }
 `
 
@@ -568,19 +569,7 @@ const HomeNew = () => {
           <h2>ALM Smart Farming with up to 5,000% APY</h2>
         </LeftColumn>
       </MainBanner>
-      <ContainerSlider>
-        <Carousel autoPlay showStatus={false} showArrows={false} showThumbs={false} swipeable>
-          <div>
-            <img src='/images/home-new/slider-banner.png' />
-          </div>
-          <div>
-            <img src='/images/home-new/slider-banner.png' />
-          </div>
-          <div>
-            <img src='/images/home-new/slider-banner.png' />
-          </div>
-        </Carousel>
-      </ContainerSlider>
+      <HomeCarousel />
       <H1>Road Map</H1>
       <RoadMapContainer>
         <CardContainer>

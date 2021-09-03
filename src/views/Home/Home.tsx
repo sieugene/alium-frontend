@@ -7,6 +7,7 @@ const PageWrap = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 `
 const Wrapper = styled.div`
   max-width: 1440px;
