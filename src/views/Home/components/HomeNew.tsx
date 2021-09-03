@@ -1,6 +1,8 @@
 import { useModal } from 'alium-uikit/src'
 import { motion } from 'framer-motion'
 import { FC, FormEvent, useState } from 'react'
+import { Carousel } from 'react-responsive-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import styled from 'styled-components'
 import { dbMailListCreateEmail } from 'utils/firebase'
 import CongratsModal from 'views/Home/components/CongratsModal'
@@ -9,9 +11,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column-reverse;
   justify-content: space-between;
-  max-width: 1122px;
+  max-width: 1120px;
   width: 100%;
-  margin: 0 auto 80px auto;
+  margin: 0 auto 40px auto;
   flex-direction: row;
   @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
@@ -27,11 +29,19 @@ const Container2 = styled.div`
   background: url(/images/home-new/Slider0.png) no-repeat;
   background-size: contain;
   width: 100%;
-  margin: 0 auto 80px auto;
+  margin: 0 auto 20px auto;
   flex-direction: row;
   @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
     margin: 0 auto 0 auto;
+  }
+  @media screen and (max-width: 500px) {
+    display: flex;
+    aligh-items: center;
+    justify-content: center;
+    background: url(/images/home-new/mob-banner.png) no-repeat;
+    background-size: contain;
+    height: 600px;
   }
 `
 
@@ -43,7 +53,7 @@ const Container3 = styled.div`
   background: url(/images/home-new/app-image.png) no-repeat;
   background-size: contain;
   width: 100%;
-  margin: 0 auto 80px auto;
+  margin: 0 auto 10px auto;
   flex-direction: row;
   @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
@@ -72,10 +82,9 @@ const LeftColumn = styled.div`
 
 const RightColumn = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   width: 430px;
-  height: 502px;
+  height: 330px;
   padding-top: 102px;
   padding-left: 0;
   position: relative;
@@ -94,31 +103,10 @@ const RightColumn = styled.div`
     zoom: inherit;
     margin: 0;
     padding: 0;
-    height: 300px;
+    height: 150px;
   }
   @media screen and (max-width: 414px) {
     zoom: 0.8;
-  }
-`
-
-const StartingSoon = styled.div`
-  margin-top: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: hsl(155, 44%, 81%);
-  border: 1px solid hsl(155, 68%, 44%);
-  border-radius: 6px;
-  width: 101px;
-  height: 30px;
-  font-family: Roboto, sans-serif;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 1px;
-  color: hsl(155, 68%, 44%);
-  @media screen and (max-width: 768px) {
-    margin-top: 5px;
   }
 `
 
@@ -163,7 +151,8 @@ const H1 = styled.h1`
   }
   & .title {
     text-align: center;
-    width: 300px;
+    width: 400px;
+    margin-top: 30px;
     color: #ffffff;
   }
 `
@@ -212,6 +201,30 @@ const ActionButton = styled.div`
   @media screen and (max-width: 414px) {
     margin-left: 0;
   }
+`
+
+const AppButton = styled.div`
+  margin-left: 40px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 154px;
+  height: 50px;
+  background: url(/images/home-new/app-btn.png) no-repeat;
+  background-size: contain;
+`
+
+const PlayButton = styled.div`
+  margin-left: auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 154px;
+  height: 50px;
+  background: url(/images/home-new/play-btn.png) no-repeat;
+  background-size: contain;
 `
 
 const Cards = styled.div`
@@ -301,9 +314,9 @@ const CardAvalanche = styled(Card)`
 const MarketPlace = styled.div`
   background: url(/images/home-new/alm-left.png) no-repeat;
   background-size: contain;
-  max-width: 555px;
+  max-width: 500px;
   width: 100%;
-  height: 555px;
+  height: 500px;
   @media screen and (max-width: 414px) {
     background-size: cover;
   }
@@ -371,35 +384,22 @@ const HomeNew = () => {
   return (
     <>
       <Container2>
-        <LeftColumn>
-          {/* <MotionLeftColumn xInitial={-20} xDuration={0.8}>
-            <StartingSoon>15.06.2021</StartingSoon>
-          </MotionLeftColumn> */}
-          <MotionLeftColumn xInitial={-60} xDuration={1}></MotionLeftColumn>
-          <MotionLeftColumn xInitial={-40} xDuration={0.8}></MotionLeftColumn>
-          <MotionLeftColumn xInitial={-50} xDuration={1.1}>
-            {/* <EmailContainer>
-              <InputStyled>
-                {!hideLabel && <label>Your email</label>}
-                <Input
-                  isWarning={!!emailError}
-                  scale="lg"
-                  placeholder="email@gmail.com"
-                  value={email}
-                  onChange={handleChangeEmail}
-                  onBlur={() => setHideLabel(false)}
-                  onFocus={() => setHideLabel(true)}
-                  type="email"
-                  name="email"
-                />
-                {emailError && <InputErrorStyled>{emailError}</InputErrorStyled>}
-              </InputStyled>
-              <ActionButton onClick={handleSubmitEmail}>{isLoading ? <StyledLoader /> : 'Send'}</ActionButton>
-            </EmailContainer> */}
-          </MotionLeftColumn>
-        </LeftColumn>
+        <LeftColumn></LeftColumn>
         <RightColumn></RightColumn>
       </Container2>
+      <Container>
+        <Carousel autoPlay showStatus={false} showArrows={false} showThumbs={false} swipeable>
+          <div>
+            <img src='/images/home-new/slider-banner.png' />
+          </div>
+          <div>
+            <img src='/images/home-new/slider-banner.png' />
+          </div>
+          <div>
+            <img src='/images/home-new/slider-banner.png' />
+          </div>
+        </Carousel>
+      </Container>
       <H1>Road Map</H1>
       <Container>
         <Cards>
@@ -421,13 +421,15 @@ const HomeNew = () => {
         <LeftColumn>
           <MarketPlace />
         </LeftColumn>
-        <RightColumn style={{ display: 'grid' }}>
-          <H1 style={{ alignItems: 'flex-start' }}>Buy Alium Finance (ALM) token</H1>
+        <RightColumn style={{ marginTop: '30px', marginRight: '30px' }}>
+          <H1>Buy Alium Finance (ALM) token</H1>
           <H2>
             Alium Finance team is on the way to reach several milestones aimed on increasing of ALM token value. Be
             ahead of the market and join the ALM holders community!
           </H2>
-          <ActionButton>Buy ALM</ActionButton>
+          <a href='https://alium.finance/swap/ETH/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11' target='_blank'>
+            <ActionButton>Buy ALM</ActionButton>
+          </a>
         </RightColumn>
       </Container>
       <Container3>
@@ -435,31 +437,10 @@ const HomeNew = () => {
           <H1>
             <div className='title'>Alium Swap is always at hand</div>
           </H1>
-          {/* <MotionLeftColumn xInitial={-20} xDuration={0.8}>
-            <StartingSoon>15.06.2021</StartingSoon>
-          </MotionLeftColumn> */}
-          <MotionLeftColumn xInitial={-60} xDuration={1}></MotionLeftColumn>
-          <MotionLeftColumn xInitial={-40} xDuration={0.8}></MotionLeftColumn>
-          <MotionLeftColumn xInitial={-50} xDuration={1.1}>
-            {/* <EmailContainer>
-              <InputStyled>
-                {!hideLabel && <label>Your email</label>}
-                <Input
-                  isWarning={!!emailError}
-                  scale="lg"
-                  placeholder="email@gmail.com"
-                  value={email}
-                  onChange={handleChangeEmail}
-                  onBlur={() => setHideLabel(false)}
-                  onFocus={() => setHideLabel(true)}
-                  type="email"
-                  name="email"
-                />
-                {emailError && <InputErrorStyled>{emailError}</InputErrorStyled>}
-              </InputStyled>
-              <ActionButton onClick={handleSubmitEmail}>{isLoading ? <StyledLoader /> : 'Send'}</ActionButton>
-            </EmailContainer> */}
-          </MotionLeftColumn>
+
+          <a href='https://play.google.com/store/apps/details?id=com.alium.finance' target='_blank'>
+            <AppButton />
+          </a>
         </LeftColumn>
         <RightColumn></RightColumn>
       </Container3>
