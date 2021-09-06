@@ -1,8 +1,10 @@
-import { Button, ChevronDownIcon } from 'alium-uikit/src'
-import React, { useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import BigNumber from 'bignumber.js'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
+import CardActionsContainer from './CardActionsContainer'
 import CardHeading from './CardHeading'
 
 const StyledCard = styled.div`
@@ -17,7 +19,7 @@ const Content = styled.div`
   padding: 0px 16px 0px 16px;
 `
 
-const Info = styled.div<{ withBg?: boolean }>`
+export const InfoFarm = styled.div<{ withBg?: boolean }>`
   border-radius: 6px;
   display: flex;
   flex-direction: row;
@@ -47,32 +49,26 @@ const Info = styled.div<{ withBg?: boolean }>`
   }
 `
 
-const Footer = styled.div`
-  margin-top: 16px;
-  display: flex;
-  justify-content: space-between;
-`
-
 interface FarmCardProps {
   farm: FarmWithStakedValue
+  almBnbPrice: BigNumber
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
   const { t } = useTranslation()
+  const { account } = useWeb3React()
 
-  const [showExpandableSection, setShowExpandableSection] = useState(false)
+  const {
+    allowance: allowanceAsString = 0,
+    tokenBalance: tokenBalanceAsString = 0,
+    stakedBalance: stakedBalanceAsString = 0,
+    earnings: earningsAsString = 0,
+  } = farm.userData || {}
 
-  const totalValueFormatted = farm.liquidity?.gt(0)
-    ? `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
-    : ''
+  const earnings = new BigNumber(earningsAsString)
 
   const lpLabel = farm.lpSymbol?.toUpperCase().replace('PANCAKE', '')
   const earnLabel = farm.dual ? farm.dual.earnLabel : t('ALM + Fees')
-
-  const liquidityUrlPathParts = '/test'
-  const addLiquidityUrl = `liqudity/${liquidityUrlPathParts}`
-  const lpAddress = farm.lpAddresses
-  const isPromotedFarm = farm.token.symbol === 'ALM'
 
   return (
     <StyledCard>
@@ -84,35 +80,21 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
         quoteToken={farm.quoteToken}
       />
       <Content>
-        <Info>
+        <InfoFarm>
           <div className='title'>APR</div>
           <div className='field'>{farm.apr || 0}%</div>
-        </Info>
-        <Info withBg>
+        </InfoFarm>
+        <InfoFarm withBg>
           <div className='title'>Earn</div>
           <div className='field'>{earnLabel}</div>
-        </Info>
-        <Info>
-          <div className='title'>
-            ALM earned
-            <p>000</p>
-            {/* <HarvestAction earnings={earnings} pid={pid} /> */}
-          </div>
-          <div className='field'>
-            <Button variant='secondary'>Harvest</Button>
-          </div>
-        </Info>
-        <Info withBg>
-          <div className='title'>ALM-BNB LP Staked</div>
-          <div className='field'>-</div>
-        </Info>
-        <Footer>
-          <Button>Enable farm</Button>
-          <div className='details'>
-            <p>Details</p>
-            <ChevronDownIcon />
-          </div>
-        </Footer>
+        </InfoFarm>
+        <CardActionsContainer
+          farm={farm}
+          lpLabel={lpLabel}
+          account={account}
+          almBnbPrice={almBnbPrice}
+          addLiquidityUrl='/none'
+        />
       </Content>
     </StyledCard>
   )

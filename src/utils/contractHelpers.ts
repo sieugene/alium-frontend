@@ -13,6 +13,7 @@ import sousChef from 'config/abi/sousChef.json'
 import sousChefBnb from 'config/abi/sousChefBnb.json'
 import { poolsConfig } from 'config/constants'
 import { PoolCategory } from 'config/constants/types'
+import { Contract } from 'ethers'
 // Addresses
 import {
   getAddress,
@@ -31,7 +32,8 @@ import { AbiItem } from 'web3-utils'
 
 export const getContract2 = (abi: any, address: string, web3?: Web3) => {
   const _web3 = web3 ?? web3NoAccount
-  return new _web3.eth.Contract(abi as unknown as AbiItem, address)
+  const contract: unknown = new _web3.eth.Contract(abi as unknown as AbiItem, address)
+  return contract as Contract
 }
 
 export const getBep20Contract = (address: string, web3?: Web3) => {
@@ -63,9 +65,10 @@ export const getLotteryContract = (web3?: Web3) => {
 export const getLotteryTicketContract = (web3?: Web3) => {
   return getContract2(lotteryTicketAbi, getLotteryTicketAddress(), web3)
 }
-export const getMasterchefContract = (web3?: Web3) => {
-  return getContract2(masterChef, getMasterChefAddress(), web3)
-}
+// export const getMasterchefContract = (web3?: Web3) => {
+//   console.info('IS DEPRECATED');
+//   return getContract2(masterChef, getMasterChefAddress(), web3)
+// }
 export const getClaimRefundContract = (web3?: Web3) => {
   return getContract2(claimRefundAbi, getClaimRefundAddress(), web3)
 }

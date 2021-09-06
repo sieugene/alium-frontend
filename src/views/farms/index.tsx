@@ -34,7 +34,7 @@ const Farms = () => {
   const { pathname } = useRouter()
   const farmsLP = useFarms()
   // make here real loader!
-  const bnbPrice = useBnbPriceFromPid(1)
+  const almBnbPrice = useBnbPriceFromPid(1)
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
   const sortOption = useStoreFarms((state) => state.sortOption)
@@ -76,7 +76,12 @@ const Farms = () => {
         }
         const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.almBnbPrice)
         const { cakeRewardsApr, lpRewardsApr } = isActive
-          ? getFarmApr(new BigNumber(farm.poolWeight), bnbPrice, totalLiquidity, farm.lpAddresses[ChainId.BSCTESTNET])
+          ? getFarmApr(
+              new BigNumber(farm.poolWeight),
+              almBnbPrice,
+              totalLiquidity,
+              farm.lpAddresses[ChainId.BSCTESTNET],
+            )
           : { cakeRewardsApr: 0, lpRewardsApr: 0 }
 
         return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
@@ -90,7 +95,7 @@ const Farms = () => {
       }
       return farmsToDisplayWithAPR as FarmWithStakedValue[]
     },
-    [bnbPrice, query, isActive],
+    [almBnbPrice, query, isActive],
   )
 
   const [numberOfFarmsVisible] = useState(NUMBER_OF_FARMS_VISIBLE)
@@ -152,7 +157,7 @@ const Farms = () => {
         lpSymbol: farm.lpSymbol,
         tokenAddress,
         quoteTokenAddress,
-        almBnbPrice: bnbPrice,
+        almBnbPrice,
         originalValue: farm.apr,
       },
       farm: {
@@ -211,7 +216,7 @@ const Farms = () => {
     return (
       <FarmGridCard>
         {TEMP_DEDUPLICATED_DATA.map((farm) => (
-          <FarmCard key={farm.pid} farm={farm} />
+          <FarmCard key={farm.pid} farm={farm} almBnbPrice={almBnbPrice} />
         ))}{' '}
       </FarmGridCard>
     )
