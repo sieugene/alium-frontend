@@ -1,5 +1,153 @@
+import React from 'react'
 import styled from 'styled-components'
-import HomeCarousel from './HomeCarousel'
+import MainSlider from './MainSlider'
+
+const HomeNew = () => {
+  return (
+    <>
+      {/* <MainBanner>
+        <LeftColumn>
+          <ExtraButton>September, 2021</ExtraButton>
+          <h2>ALM Smart Farming with up to 5,000% APY</h2>
+        </LeftColumn>
+      </MainBanner> */}
+      {/* <HomeCarousel /> */}
+      <MainSliderStyled />
+      <H1>Road Map</H1>
+      <RoadMapContainer>
+        <CardContainer>
+          <CardFarming />
+          <div className='card-content'>
+            <div className='title'>Farming Launch</div>
+            <ExtraButton>September, 2021</ExtraButton>
+          </div>
+        </CardContainer>
+        <div className='arrow__container'>
+          <Arrow />
+        </div>
+
+        <CardContainer>
+          <CardCross />
+          <div className='card-content'>
+            <div className='title'>Cross-blockhain Swaps </div>
+            <ExtraButton>October, 2021</ExtraButton>
+          </div>
+        </CardContainer>
+        <div className='arrow__container'>
+          <Arrow />
+        </div>
+        <CardContainer>
+          <CardAvalanche />
+          <div className='card-content'>
+            <div className='title'>Avalanche & Solana Integration</div>
+            <ExtraButton>December, 2021</ExtraButton>
+          </div>
+        </CardContainer>
+      </RoadMapContainer>
+      <BuyAlmContainer>
+        <MarketPlace src='/images/home-new/alm-left.png' />
+
+        <div className='marketplace__right'>
+          <h1>Buy Alium Finance (ALM) token</h1>
+          <h2>
+            Alium Finance team is on the way to reach several milestones aimed on increasing of ALM token value. Be
+            ahead of the market and join the ALM holders community!
+          </h2>
+          <a href='https://alium.finance/swap/ETH/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11' target='_blank'>
+            <ActionButton>Buy ALM</ActionButton>
+          </a>
+        </div>
+      </BuyAlmContainer>
+      <FooterContainer>
+        <a className='overlay' href='https://www.youtube.com/watch?v=9j3M7qz2Z04' target='_blank'>
+          <PlayButton />
+          <p>How it works?</p>
+        </a>
+        <div className='left'>
+          <h1>
+            <div className='title'>Alium Swap is always at hand</div>
+          </h1>
+          <SocialItem href='https://play.google.com/store/apps/details?id=com.alium.finance' target='_blank'>
+            <div className='icon'>
+              <Playmarket />
+            </div>
+            <div className='info'>
+              <p className='title'>Get it on</p>
+              <p className='social'>Google Play</p>
+            </div>
+          </SocialItem>
+        </div>
+      </FooterContainer>
+    </>
+  )
+}
+
+export default HomeNew
+
+const Arrow = () => {
+  return (
+    <svg width='18' height='42' viewBox='0 0 18 42' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <path d='M1 1L17 21L1 41' stroke='#D2D6E5' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+    </svg>
+  )
+}
+
+const Playmarket = () => {
+  return (
+    <svg width='26' height='29' viewBox='0 0 26 29' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <path d='M20.1959 18.4796L16.8523 15.1919L4.57776 27.2961L20.1959 18.4796Z' fill='white' />
+      <path d='M20.1959 9.53037L4.57776 0.713867L16.8523 12.818L20.1959 9.53037Z' fill='white' />
+      <path
+        d='M25.0904 15.6669C26.0914 14.8852 26.0914 13.1235 25.0239 12.3419L21.7479 10.4775L18.0928 14.0055L21.7479 17.5335L25.0904 15.6669Z'
+        fill='white'
+      />
+      <path
+        d='M1.3732 28.002L15.6462 13.9996L1.3732 0.00311979V0.00195312C0.651037 0.37412 0.16687 1.05195 0.16687 1.93279V26.0711C0.16687 26.952 0.651037 27.6298 1.3732 28.002Z'
+        fill='white'
+      />
+    </svg>
+  )
+}
+
+const PlayButton = () => {
+  return (
+    <svg width='81' height='81' viewBox='0 0 81 81' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <g filter='url(#filter0_d)'>
+        <path
+          d='M8.5 34.002C8.5 16.3288 22.8269 2.00195 40.5 2.00195C58.1731 2.00195 72.5 16.3288 72.5 34.002C72.5 51.6751 58.1731 66.002 40.5 66.002C22.8269 66.002 8.5 51.6751 8.5 34.002Z'
+          fill='white'
+        />
+        <path d='M35.25 27.252L45.75 34.002L35.25 40.752V27.252Z' fill='#6C5DD3' />
+      </g>
+      <defs>
+        <filter
+          id='filter0_d'
+          x='0.5'
+          y='0.00195312'
+          width='80'
+          height='80'
+          filterUnits='userSpaceOnUse'
+          colorInterpolationFilters='sRGB'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feColorMatrix
+            in='SourceAlpha'
+            type='matrix'
+            values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+            result='hardAlpha'
+          />
+          <feOffset dy='6' />
+          <feGaussianBlur stdDeviation='4' />
+          <feColorMatrix type='matrix' values='0 0 0 0 0.8625 0 0 0 0 0.878472 0 0 0 0 0.958333 0 0 0 0.56 0' />
+          <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow' />
+          <feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow' result='shape' />
+        </filter>
+      </defs>
+    </svg>
+  )
+}
+
+const MainSliderStyled = styled(MainSlider)``
 
 const RoadMapContainer = styled.div`
   width: 100%;
@@ -559,147 +707,3 @@ const ExtraButton = styled.div`
   color: #ff72ac;
   width: fit-content;
 `
-
-const HomeNew = () => {
-  return (
-    <>
-      <MainBanner>
-        <LeftColumn>
-          <ExtraButton>September, 2021</ExtraButton>
-          <h2>ALM Smart Farming with up to 5,000% APY</h2>
-        </LeftColumn>
-      </MainBanner>
-      <HomeCarousel />
-      <H1>Road Map</H1>
-      <RoadMapContainer>
-        <CardContainer>
-          <CardFarming />
-          <div className='card-content'>
-            <div className='title'>Farming Launch</div>
-            <ExtraButton>September, 2021</ExtraButton>
-          </div>
-        </CardContainer>
-        <div className='arrow__container'>
-          <Arrow />
-        </div>
-
-        <CardContainer>
-          <CardCross />
-          <div className='card-content'>
-            <div className='title'>Cross-blockhain Swaps </div>
-            <ExtraButton>October, 2021</ExtraButton>
-          </div>
-        </CardContainer>
-        <div className='arrow__container'>
-          <Arrow />
-        </div>
-        <CardContainer>
-          <CardAvalanche />
-          <div className='card-content'>
-            <div className='title'>Avalanche & Solana Integration</div>
-            <ExtraButton>December, 2021</ExtraButton>
-          </div>
-        </CardContainer>
-      </RoadMapContainer>
-      <BuyAlmContainer>
-        <MarketPlace src='/images/home-new/alm-left.png' />
-
-        <div className='marketplace__right'>
-          <h1>Buy Alium Finance (ALM) token</h1>
-          <h2>
-            Alium Finance team is on the way to reach several milestones aimed on increasing of ALM token value. Be
-            ahead of the market and join the ALM holders community!
-          </h2>
-          <a href='https://alium.finance/swap/ETH/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11' target='_blank'>
-            <ActionButton>Buy ALM</ActionButton>
-          </a>
-        </div>
-      </BuyAlmContainer>
-      <FooterContainer>
-        <a className='overlay' href='https://www.youtube.com/watch?v=9j3M7qz2Z04' target='_blank'>
-          <PlayButton />
-          <p>How it works?</p>
-        </a>
-        <div className='left'>
-          <h1>
-            <div className='title'>Alium Swap is always at hand</div>
-          </h1>
-          <SocialItem href='https://play.google.com/store/apps/details?id=com.alium.finance' target='_blank'>
-            <div className='icon'>
-              <Playmarket />
-            </div>
-            <div className='info'>
-              <p className='title'>Get it on</p>
-              <p className='social'>Google Play</p>
-            </div>
-          </SocialItem>
-        </div>
-      </FooterContainer>
-    </>
-  )
-}
-
-const Arrow = () => {
-  return (
-    <svg width='18' height='42' viewBox='0 0 18 42' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M1 1L17 21L1 41' stroke='#D2D6E5' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
-    </svg>
-  )
-}
-
-const Playmarket = () => {
-  return (
-    <svg width='26' height='29' viewBox='0 0 26 29' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M20.1959 18.4796L16.8523 15.1919L4.57776 27.2961L20.1959 18.4796Z' fill='white' />
-      <path d='M20.1959 9.53037L4.57776 0.713867L16.8523 12.818L20.1959 9.53037Z' fill='white' />
-      <path
-        d='M25.0904 15.6669C26.0914 14.8852 26.0914 13.1235 25.0239 12.3419L21.7479 10.4775L18.0928 14.0055L21.7479 17.5335L25.0904 15.6669Z'
-        fill='white'
-      />
-      <path
-        d='M1.3732 28.002L15.6462 13.9996L1.3732 0.00311979V0.00195312C0.651037 0.37412 0.16687 1.05195 0.16687 1.93279V26.0711C0.16687 26.952 0.651037 27.6298 1.3732 28.002Z'
-        fill='white'
-      />
-    </svg>
-  )
-}
-
-const PlayButton = () => {
-  return (
-    <svg width='81' height='81' viewBox='0 0 81 81' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <g filter='url(#filter0_d)'>
-        <path
-          d='M8.5 34.002C8.5 16.3288 22.8269 2.00195 40.5 2.00195C58.1731 2.00195 72.5 16.3288 72.5 34.002C72.5 51.6751 58.1731 66.002 40.5 66.002C22.8269 66.002 8.5 51.6751 8.5 34.002Z'
-          fill='white'
-        />
-        <path d='M35.25 27.252L45.75 34.002L35.25 40.752V27.252Z' fill='#6C5DD3' />
-      </g>
-      <defs>
-        <filter
-          id='filter0_d'
-          x='0.5'
-          y='0.00195312'
-          width='80'
-          height='80'
-          filterUnits='userSpaceOnUse'
-          colorInterpolationFilters='sRGB'
-        >
-          <feFlood floodOpacity='0' result='BackgroundImageFix' />
-          <feColorMatrix
-            in='SourceAlpha'
-            type='matrix'
-            values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-            result='hardAlpha'
-          />
-          <feOffset dy='6' />
-          <feGaussianBlur stdDeviation='4' />
-          <feColorMatrix type='matrix' values='0 0 0 0 0.8625 0 0 0 0 0.878472 0 0 0 0 0.958333 0 0 0 0.56 0' />
-          <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow' />
-          <feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow' result='shape' />
-        </filter>
-      </defs>
-    </svg>
-  )
-}
-
-export default HomeNew
