@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useToast } from 'state/hooks'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
-import { useBnbPriceFromPid } from 'views/farms/hooks/useFarmingPools'
+import { farmUserDataUpdate, useBnbPriceFromPid } from 'views/farms/hooks/useFarmingPools'
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 
 interface FarmCardActionsProps {
@@ -55,7 +55,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
             } finally {
               setPendingTx(false)
             }
-            //   dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
+            await farmUserDataUpdate(account, [pid])
           }}
         >
           {t('Harvest')}

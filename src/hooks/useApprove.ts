@@ -3,8 +3,8 @@ import { ethers } from 'ethers'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateUserAllowance } from 'state/actions'
-import { fetchFarmUserDataAsync } from 'store/farms'
 import { approve } from 'utils/callHelpers'
+import { farmUserDataUpdate } from 'views/farms/hooks/useFarmingPools'
 import { Contract } from 'web3-eth-contract'
 import { useCake, useLottery, useMasterchef, useSousChef } from './useContract'
 
@@ -17,7 +17,8 @@ export const useApprove = (lpContract: Contract) => {
   const handleApprove = useCallback(async () => {
     try {
       const tx = await approve(lpContract, masterChefContract, account)
-      fetchFarmUserDataAsync(account)
+      await farmUserDataUpdate(account)
+
       return tx
     } catch (e) {
       return false

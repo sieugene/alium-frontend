@@ -9,13 +9,14 @@ import CardHeading from './CardHeading'
 
 const StyledCard = styled.div`
   width: 354px;
-  height: auto;
+  height: 100%;
   background: #ffffff;
   border-radius: 6px;
   padding: 4px 4px 24px 4px;
+  position: relative;
 `
 
-const Content = styled.div`
+export const ContentCard = styled.div`
   padding: 0px 16px 0px 16px;
 `
 
@@ -58,15 +59,6 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
 
-  const {
-    allowance: allowanceAsString = 0,
-    tokenBalance: tokenBalanceAsString = 0,
-    stakedBalance: stakedBalanceAsString = 0,
-    earnings: earningsAsString = 0,
-  } = farm.userData || {}
-
-  const earnings = new BigNumber(earningsAsString)
-
   const lpLabel = farm.lpSymbol?.toUpperCase().replace('PANCAKE', '')
   const earnLabel = farm.dual ? farm.dual.earnLabel : t('ALM + Fees')
 
@@ -79,7 +71,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
         token={farm.token}
         quoteToken={farm.quoteToken}
       />
-      <Content>
+      <ContentCard>
         <InfoFarm>
           <div className='title'>APR</div>
           <div className='field'>{farm.apr || 0}%</div>
@@ -95,7 +87,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
           almBnbPrice={almBnbPrice}
           addLiquidityUrl='/none'
         />
-      </Content>
+      </ContentCard>
     </StyledCard>
   )
 }

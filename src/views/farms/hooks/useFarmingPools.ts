@@ -6,7 +6,7 @@ import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from 'store/farms'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import { farms } from './../../../config/constants/farms'
-import { useStoreFarms } from './../../../store/farms/useStoreFarms'
+import { storeFarms, useStoreFarms } from './../../../store/farms/useStoreFarms'
 
 export const usePollFarmsPublicData = () => {
   const setFarms = useStoreFarms((state) => state.setFarms)
@@ -57,6 +57,14 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
     })()
   }, [loading, slowRefresh])
   return { farmsList, farmsUserDataLoading }
+}
+
+// refact this later (vanilla like method)
+export const farmUserDataUpdate = async (account: string, currentPids?: number[]) => {
+  const setFarmsUserData = storeFarms.getState().setFarmsUserData
+
+  const fetchedFarms = await fetchFarmUserDataAsync(account, currentPids)
+  setFarmsUserData(fetchedFarms)
 }
 
 export const useFarms = () => {
