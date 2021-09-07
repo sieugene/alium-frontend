@@ -43,9 +43,10 @@ const FooterStake: FC<FooterStakeProps> = ({
   const lpContract = useTokenContract(lpAddress)
 
   const { onApprove } = useApproveFarm(lpContract)
-
+  // @ts-ignore
   const totalValueFormatted = farm.liquidity?.gt(0)
-    ? `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+    ? // @ts-ignore
+      `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
     : ''
 
   const lpLabel = farm.lpSymbol?.toUpperCase().replace('PANCAKE', '')
