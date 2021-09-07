@@ -29,6 +29,10 @@ const StyledButton = styled(Button)`
   > * {
     margin: auto;
   }
+
+  svg{
+    fill: transparent;
+  }
 `
 
 const StyledFlex = styled(Flex)<{ isBlurred?: boolean }>`
