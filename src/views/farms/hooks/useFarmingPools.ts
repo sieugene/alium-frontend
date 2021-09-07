@@ -62,9 +62,16 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
 // refact this later (vanilla like method)
 export const farmUserDataUpdate = async (account: string, currentPids?: number[]) => {
   const setFarmsUserData = storeFarms.getState().setFarmsUserData
-
-  const fetchedFarms = await fetchFarmUserDataAsync(account, currentPids)
-  setFarmsUserData(fetchedFarms)
+  const setLoading = storeFarms.getState().toggleUserDataFarmsFetched
+  try {
+    setLoading(true)
+    const fetchedFarms = await fetchFarmUserDataAsync(account, currentPids)
+    setFarmsUserData(fetchedFarms)
+  } catch (error) {
+    console.error(error)
+  } finally {
+    setLoading(false)
+  }
 }
 
 export const useFarms = () => {

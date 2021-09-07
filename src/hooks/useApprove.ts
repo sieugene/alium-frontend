@@ -10,7 +10,6 @@ import { useCake, useLottery, useMasterchef, useSousChef } from './useContract'
 
 // Approve a Farm
 export const useApprove = (lpContract: Contract) => {
-  const dispatch = useDispatch()
   const { account } = useWeb3React()
   const masterChefContract = useMasterchef()
 
@@ -23,7 +22,7 @@ export const useApprove = (lpContract: Contract) => {
     } catch (e) {
       return false
     }
-  }, [account, dispatch, lpContract, masterChefContract])
+  }, [account, lpContract, masterChefContract])
 
   return { onApprove: handleApprove }
 }
