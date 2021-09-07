@@ -100,7 +100,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     quoteTokenAmountTotal: quoteTokenAmountTotal.toJSON(),
     lpTotalSupply: new BigNumber(lpTotalSupply).toJSON(),
     lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
-    tokenPriceVsQuote: serializerIsNotNan(quoteTokenAmountTotal.div(tokenAmountTotal).toJSON()),
+    tokenPriceVsQuote: quoteTokenAmountTotal.div(tokenAmountTotal).toJSON(),
     poolWeight: poolWeight.toJSON(),
     multiplier: `${allocPoint.div(100).toString()}X`,
   }

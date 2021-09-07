@@ -13,7 +13,7 @@ export const useLotteryAllowance = () => {
 
   useEffect(() => {
     const fetchAllowance = async () => {
-      const res = await getAllowance(cakeContract, lotteryContract, account)
+      const res = await getAllowance(cakeContract as any, lotteryContract as any, account)
       setAllowance(new BigNumber(res))
     }
 

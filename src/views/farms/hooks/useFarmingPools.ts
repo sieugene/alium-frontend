@@ -6,7 +6,7 @@ import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from 'store/farms'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import { farms } from './../../../config/constants/farms'
-import { useStoreFarms } from './../../../store/farms/useStoreFarms'
+import { storeFarms, useStoreFarms } from './../../../store/farms/useStoreFarms'
 
 export const usePollFarmsPublicData = () => {
   const setFarms = useStoreFarms((state) => state.setFarms)
@@ -59,6 +59,14 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
   return { farmsList, farmsUserDataLoading }
 }
 
+// refact this later (vanilla like method)
+export const farmUserDataUpdate = async (account: string, currentPids?: number[]) => {
+  const setFarmsUserData = storeFarms.getState().setFarmsUserData
+
+  const fetchedFarms = await fetchFarmUserDataAsync(account, currentPids)
+  setFarmsUserData(fetchedFarms)
+}
+
 export const useFarms = () => {
   const farms = useStoreFarms((state) => state.farms)
   return farms
@@ -86,15 +94,20 @@ export const useFarmUser = (pid: number) => {
 }
 
 // Return the base token price for a farm, from a given pid
-export const useBnbPriceFromPid = (pid: number): BigNumber => {
-  const farm = useFarmFromPid(pid)
-  // @ts-ignore
-  return farm?.token.almBnbPrice && new BigNumber(farm.token.almBnbPrice)
+export const useBnbPriceFromPid = (): BigNumber => {
+  const farm = useFarmFromPid(1)
+  const almPriceAsString = farm.token?.almBnbPrice
+
+  const pricedBnb = useMemo(() => {
+    return new BigNumber(almPriceAsString)
+  }, [almPriceAsString])
+
+  return pricedBnb
 }
 
 export const useLpTokenPrice = (symbol: string) => {
   const farm = useFarmFromLpSymbol(symbol)
-  const farmTokenPriceInUsd = useBnbPriceFromPid(farm.pid)
+  const farmTokenPriceInUsd = useBnbPriceFromPid()
   let lpTokenPrice = BIG_ZERO
 
   if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {
