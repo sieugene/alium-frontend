@@ -1,18 +1,22 @@
-import React, { FC } from 'react'
 import styled from 'styled-components'
 
-interface Props {
-  children: React.ReactNode
-}
-const Grid = styled.div`
+const FarmGridCard = styled.div`
   display: grid;
-  align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(354px, 1fr));
-  justify-items: center;
-  grid-gap: 38px;
+  column-gap: 16px;
+  row-gap: 16px;
+  grid-template-columns: repeat(1, max-content);
+  justify-content: center;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(2, max-content);
+    row-gap: 24px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    grid-template-columns: repeat(3, max-content);
+    column-gap: 30px;
+    row-gap: 30px;
+  }
 `
-const FarmGridCard: FC<Props> = ({ children }) => {
-  return <Grid>{children}</Grid>
-}
 
 export default FarmGridCard
