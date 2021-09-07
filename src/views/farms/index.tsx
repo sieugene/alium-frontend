@@ -34,7 +34,7 @@ const Farms = () => {
   const { pathname } = useRouter()
   const farmsLP = useFarms()
   // make here real loader!
-  const almBnbPrice = useBnbPriceFromPid(1)
+  const almBnbPrice = useBnbPriceFromPid()
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
   const sortOption = useStoreFarms((state) => state.sortOption)

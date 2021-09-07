@@ -5,7 +5,7 @@ import { useTotalRewards } from './useTickets'
 const useLotteryTotalPrizesUsd = () => {
   const totalRewards = useTotalRewards()
   const totalCake = getBalanceNumber(totalRewards)
-  const priceBnbBusd = useBnbPriceFromPid(1)
+  const priceBnbBusd = useBnbPriceFromPid()
 
   return totalCake * priceBnbBusd.toNumber()
 }

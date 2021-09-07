@@ -94,15 +94,20 @@ export const useFarmUser = (pid: number) => {
 }
 
 // Return the base token price for a farm, from a given pid
-export const useBnbPriceFromPid = (pid: number): BigNumber => {
-  const farm = useFarmFromPid(pid)
-  // @ts-ignore
-  return farm?.token.almBnbPrice && new BigNumber(farm.token.almBnbPrice)
+export const useBnbPriceFromPid = (): BigNumber => {
+  const farm = useFarmFromPid(1)
+  const almPriceAsString = farm.token?.almBnbPrice
+
+  const pricedBnb = useMemo(() => {
+    return new BigNumber(almPriceAsString)
+  }, [almPriceAsString])
+
+  return pricedBnb
 }
 
 export const useLpTokenPrice = (symbol: string) => {
   const farm = useFarmFromLpSymbol(symbol)
-  const farmTokenPriceInUsd = useBnbPriceFromPid(farm.pid)
+  const farmTokenPriceInUsd = useBnbPriceFromPid()
   let lpTokenPrice = BIG_ZERO
 
   if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {
