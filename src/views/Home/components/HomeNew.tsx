@@ -198,7 +198,7 @@ const BuyAlmContainer = styled.div`
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
-  padding: 16px 16px 55px 80px;
+  padding: 70px 94px 70px 80px;
   .marketplace__right {
     max-width: 451px;
     display: flex;
@@ -226,12 +226,15 @@ const BuyAlmContainer = styled.div`
     color: #8990a5;
     margin-bottom: 32px;
   }
+  @media screen and (max-width: 1024px) {
+    padding: 40px;
+  }
   @media screen and (max-width: 768px) {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    padding: 20px 16px 24px 16px;
+
     .marketplace__right {
       max-width: 322px;
       display: flex;
@@ -270,35 +273,6 @@ const BuyAlmContainer = styled.div`
         text-align: center;
       }
     }
-  }
-`
-
-const MainBanner = styled.div`
-  padding: 40px;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: space-between;
-  background: url(/images/home-new/Illustration-farming.png) no-repeat, #6c5dd3;
-  background-position: right;
-  height: 320px;
-  background-size: contain;
-
-  width: 100%;
-  margin: 0 auto 16px auto;
-  flex-direction: row;
-  @media screen and (max-width: 1440px) {
-    background-size: cover;
-    background-position: -110px;
-  }
-  @media screen and (max-width: 768px) {
-    flex-direction: column-reverse;
-    margin: 0 auto 0 auto;
-  }
-  @media screen and (max-width: 475px) {
-    display: flex;
-    flex-direction: column;
-    background-position: right -198px top 154px;
   }
 `
 
@@ -382,11 +356,12 @@ const FooterContainer = styled.div`
     display: flex;
     align-items: flex-end;
     flex-direction: row;
+    padding: 20px;
     .overlay {
       position: absolute;
-      right: -21px;
+      right: -38px;
       bottom: 56px;
-      top: auto;
+      top: 355px;
       left: auto;
       transform: translate(-50%, -50%);
       display: flex;
@@ -677,9 +652,14 @@ const MarketPlace = styled.img`
   width: 384px;
   height: 356px;
   margin-right: 54px;
+  object-fit: cover;
+  @media screen and (max-width: 1024px) {
+    width: 322px;
+    height: 286px;
+  }
   @media screen and (max-width: 768px) {
-    max-width: 261px;
-    max-height: 242px;
+    width: 261px;
+    height: 286px;
   }
   @media screen and (max-width: 575px) {
     margin-right: 0px;
