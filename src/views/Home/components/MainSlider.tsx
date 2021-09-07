@@ -74,6 +74,9 @@ const SlideW = styled.div`
     flex-direction: row;
     min-height: 280px;
   }
+  ${({ theme }) => theme.mediaQueries.xl} {
+    min-height: 380px;
+  }
 `
 
 const SlideInfoW = styled.div`
