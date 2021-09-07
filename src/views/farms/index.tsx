@@ -133,7 +133,6 @@ const Farms = () => {
     inactiveFarms,
     isActive,
     isInactive,
-    isArchived,
     stakedInactiveFarms,
     stakedOnly,
     stakedOnlyFarms,
