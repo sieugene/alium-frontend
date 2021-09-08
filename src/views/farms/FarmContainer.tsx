@@ -1,5 +1,3 @@
-const backgroundImage = '/images/trade-background.svg'
-import { FARM_MOBILE_MEDIA } from 'constants/layout/farm.layout'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -16,40 +14,23 @@ const BodyWrapper = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 1;
-
   min-height: 100vh;
+  padding: 10px;
 
-  padding: 32px 6.6% 32px 6.6%;
-
-  @media screen and (max-width: 1440px) {
-    padding: 32px 30px 32px 30px;
-  }
-  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
-    padding: 32px 10px 32px 10px;
+  @media screen and (min-width: 768px) {
+    padding: 24px;
   }
 
-  /* @media screen and (max-width: 1024px) {
-    padding: 32px 25px 25px 25px;
+  @media screen and (min-width: 1440px) {
+    padding: 32px;
   }
-
-  @media screen and (max-width: 768px) {
-    padding: 32px 24px;
-  }
-  @media screen and (max-width: 500px) {
-    //139
-    padding: 32px 10px 10px 10px;
-    background-position: right top;
-    background-size: 156%;
-  } */
 `
 
 const FarmContainer = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return (
-    <>
-      <AppWrapper>
-        <BodyWrapper className={className || ''}>{children}</BodyWrapper>
-      </AppWrapper>
-    </>
+    <AppWrapper>
+      <BodyWrapper className={className}>{children}</BodyWrapper>
+    </AppWrapper>
   )
 }
 

@@ -1,15 +1,12 @@
-import { ChevronDownIcon, Skeleton } from 'alium-uikit/src'
+import { ChevronDownIcon } from 'alium-uikit/src'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { InfoDeposit, InfoDepositFee, InfoLpType, InfoTotalLiquidity, InfoViewBscScan } from '../Info'
 
-export interface ExpandableSectionProps {
-  bscScanAddress?: string
-  infoAddress?: string
-  removed?: boolean
-  totalValueFormatted?: string
-  lpLabel?: string
-  addLiquidityUrl?: string
+export interface DetailsSectionProps {
+  farm: FarmWithStakedValue
 }
 
 const Wrapper = styled.div<{ open: boolean }>`
@@ -76,14 +73,7 @@ const DetailsLabel = styled.div`
   cursor: pointer;
 `
 
-const DetailsSection: React.FC<ExpandableSectionProps> = ({
-  bscScanAddress,
-  infoAddress,
-  removed,
-  totalValueFormatted,
-  lpLabel,
-  addLiquidityUrl,
-}) => {
+const DetailsSection: React.FC<DetailsSectionProps> = ({ farm }) => {
   const [open, setOpen] = useState(false)
   const { t } = useTranslation()
   const toggle = () => {
@@ -102,29 +92,19 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
         {open && (
           <>
             <Info>
-              <div className='title'>Deposit:</div>
-              <div className='field'>{lpLabel}</div>
+              <InfoDeposit farm={farm} />
             </Info>
             <Info>
-              <div className='title'>Total Liquidity</div>
-              <div className='field'>
-                {totalValueFormatted ? <p>{totalValueFormatted}</p> : <Skeleton width={75} height={25} />}
-              </div>
+              <InfoTotalLiquidity farm={farm} />
             </Info>
             <Info>
-              <div className='title'>Deposit fee</div>
-              <div className='field'>0%</div>
+              <InfoDepositFee />
             </Info>
             <Info>
-              <div className='title'>LP Type</div>
-              <div className='field'>Alium LP</div>
+              <InfoLpType />
             </Info>
             <Info>
-              <div className='title'>
-                <a href={bscScanAddress} target='_blank'>
-                  View on BacScan
-                </a>
-              </div>
+              <InfoViewBscScan farm={farm} />
             </Info>
             <div className='hide' onClick={toggle}>
               Hide
