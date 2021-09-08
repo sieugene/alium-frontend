@@ -10,12 +10,10 @@ import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
 import { getBalanceNumber } from 'utils/formatBalance'
 import FarmBanner from './components/FarmBanner'
-import FarmCard from './components/FarmCard'
+import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
-import FarmGridCard from './components/FarmGridCard'
-import FarmTable from './components/FarmTable'
 import FarmContainer from './FarmContainer'
-import { DesktopColumnSchema, FarmWithStakedValue, ViewMode } from './farms.types'
+import { FarmWithStakedValue } from './farms.types'
 import { useBnbPriceFromPid, useFarms, usePollFarmsWithUserData } from './hooks/useFarmingPools'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
@@ -181,45 +179,10 @@ const Farms = () => {
     return row
   })
 
-  const renderContent = () => {
-    if (viewMode === ViewMode.TABLE && rowData.length) {
-      const columnSchema = DesktopColumnSchema
-
-      const columns = columnSchema.map((column) => ({
-        id: column.id,
-        name: column.name,
-        label: column.label,
-        sort: (a, b) => {
-          switch (column.name) {
-            case 'farm':
-              return b.id - a.id
-            case 'apr':
-              if (a.original.apr.value && b.original.apr.value) {
-                return Number(a.original.apr.value) - Number(b.original.apr.value)
-              }
-
-              return 0
-            case 'earned':
-              return a.original.earned.earnings - b.original.earned.earnings
-            default:
-              return 1
-          }
-        },
-        sortable: column.sortable,
-      }))
-
-      return <FarmTable data={rowData} columns={columns} userDataReady={userDataReady} />
-    }
-    const TEMP_DEDUPLICATED_DATA = [...chosenFarmsMemoized, ...chosenFarmsMemoized, ...chosenFarmsMemoized]
-
-    return (
-      <FarmGridCard>
-        {TEMP_DEDUPLICATED_DATA.map((farm) => (
-          <FarmCard key={farm.pid} farm={farm} almBnbPrice={almBnbPrice} />
-        ))}
-      </FarmGridCard>
-    )
-  }
+  const farms = useMemo(
+    () => [...chosenFarmsMemoized, ...chosenFarmsMemoized, ...chosenFarmsMemoized],
+    [chosenFarmsMemoized],
+  )
 
   return (
     <FarmContainer>
@@ -227,7 +190,7 @@ const Farms = () => {
         <FarmBanner />
         <FarmFilters />
       </div>
-      {renderContent()}
+      <FarmContent viewMode={viewMode} farms={farms} almBnbPrice={almBnbPrice} />
     </FarmContainer>
   )
 }
