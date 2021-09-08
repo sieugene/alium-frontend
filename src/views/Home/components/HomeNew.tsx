@@ -244,7 +244,7 @@ const BuyAlmContainer = styled.div`
     }
   }
   @media screen and (min-width: 1024px) {
-    padding: 51px 40px 51px 62px;
+    padding: 51px 40px 51px 42px;
   }
   @media screen and (min-width: 1440px) {
     padding: 57px 94px 59px 80px;
