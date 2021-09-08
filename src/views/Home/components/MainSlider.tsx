@@ -103,9 +103,21 @@ const SlideInfoW = styled.div`
   width: 100%;
   padding: 24px;
   z-index: 2;
+
   ${({ theme }) => theme.mediaQueries.sm} {
-    width: 50%;
+    width: 60%;
     text-align: left;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: 32px 24px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    padding: 32px 32px;
+  }
+  @media screen and (min-width: 1440px) {
+    padding: 70px 40px;
   }
 `
 
