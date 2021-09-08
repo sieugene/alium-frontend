@@ -10,14 +10,21 @@ const options = {
 export const stakeFarm = async (masterChefContract: Contract, pid: number, amount) => {
   const gasPrice = await calculateGasPrice(masterChefContract.provider)
   const value = new BigNumber(amount || '0').times(DEFAULT_TOKEN_DECIMAL).toString()
+
   if (pid === 0) {
     const tx = await masterChefContract.stake(value, { ...options, gasPrice })
     const receipt = await tx.wait()
     return receipt.status
   }
-  const tx = await masterChefContract.deposit(pid, value, { ...options, gasPrice })
-  const receipt = await tx.wait()
-  return receipt.status
+
+  try {
+    const tx = await masterChefContract.deposit(pid, value, { ...options, gasPrice })
+    const receipt = await tx.wait()
+
+    return receipt.status
+  } catch (error) {
+    return false
+  }
 }
 
 export const unstakeFarm = async (masterChefContract: Contract, pid, amount) => {

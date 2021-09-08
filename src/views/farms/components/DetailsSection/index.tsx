@@ -1,13 +1,9 @@
-import { ChevronDownIcon } from 'alium-uikit/src'
+import { ChevronDownIcon, Skeleton } from 'alium-uikit/src'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
-import { InfoDeposit, InfoDepositFee, InfoLpType, InfoTotalLiquidity, InfoViewBscScan } from '../Info'
-
-export interface DetailsSectionProps {
-  farm: FarmWithStakedValue
-}
+import { InfoDeposit, InfoLpType, InfoViewBscScan } from '../Info'
 
 const Wrapper = styled.div<{ open: boolean }>`
   padding: 0px 16px 24px 16px;
@@ -24,8 +20,8 @@ const Wrapper = styled.div<{ open: boolean }>`
     float: right;
     cursor: pointer;
   }
-  height: ${(props) => (props.open ? '240px' : '0px')};
-  bottom: ${(props) => (props.open ? '-233px;' : '0')};
+  height: ${(props) => (props.open ? '204px' : '0px')};
+  bottom: ${(props) => (props.open ? '-194px;' : '0')};
   opacity: ${(props) => (props.open ? '1' : '0')};
   transition: 0.3s all ease;
   overflow: hidden;
@@ -73,12 +69,19 @@ const DetailsLabel = styled.div`
   cursor: pointer;
 `
 
-const DetailsSection: React.FC<DetailsSectionProps> = ({ farm }) => {
+export interface ExpandableSectionProps {
+  bscScanAddress?: string
+  lpLabel?: string
+  farm: FarmWithStakedValue
+}
+
+const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLabel, farm }) => {
   const [open, setOpen] = useState(false)
   const { t } = useTranslation()
   const toggle = () => {
     setOpen(!open)
   }
+  const totalLiqudidty = farm.liquidity?.gt(0) ? `$${farm.liquidity.toNumber()}` : ''
 
   return (
     <>
@@ -95,10 +98,14 @@ const DetailsSection: React.FC<DetailsSectionProps> = ({ farm }) => {
               <InfoDeposit farm={farm} />
             </Info>
             <Info>
-              <InfoTotalLiquidity farm={farm} />
+              <div className='title'>Total Liquidity</div>
+              <div className='field'>
+                {totalLiqudidty ? <p>{totalLiqudidty}</p> : <Skeleton width={75} height={25} />}
+              </div>
             </Info>
             <Info>
-              <InfoDepositFee />
+              <div className='title'>Deposit fee</div>
+              <div className='field'>{farm?.depositFee || 0}%</div>
             </Info>
             <Info>
               <InfoLpType />

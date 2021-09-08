@@ -18,7 +18,7 @@ interface DepositModalProps {
   apr?: number
   displayApr?: string
   addLiquidityUrl?: string
-  almBnbPrice?: BigNumber
+  cakePrice?: BigNumber
 }
 
 const DepositModal: FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '' }) => {

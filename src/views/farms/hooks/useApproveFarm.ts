@@ -10,7 +10,7 @@ const useApproveFarm = (lpContract: Contract) => {
   const handleApprove = useCallback(async () => {
     try {
       const tx = await callWithGasPrice(lpContract, 'approve', [
-        masterChefContract._address,
+        masterChefContract.address,
         ethers.constants.MaxUint256,
       ])
       const receipt = await tx.wait()

@@ -59,7 +59,7 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
   return { farmsList, farmsUserDataLoading }
 }
 
-// refact this later (vanilla like method)
+// refact this later (vanilla like method) <-- maybe in store
 export const farmUserDataUpdate = async (account: string, currentPids?: number[]) => {
   const setFarmsUserData = storeFarms.getState().setFarmsUserData
   const setLoading = storeFarms.getState().toggleUserDataFarmsFetched
@@ -100,21 +100,27 @@ export const useFarmUser = (pid: number) => {
   }
 }
 
+export const usePriceCakeBusd = (): BigNumber => {
+  const cakeBnbFarm = useFarmFromPid(1)
+
+  const cakePriceBusdAsString = cakeBnbFarm.token.busdPrice
+
+  const cakePriceBusd = useMemo(() => {
+    return new BigNumber(cakePriceBusdAsString)
+  }, [cakePriceBusdAsString])
+
+  return cakePriceBusd
+}
+
 // Return the base token price for a farm, from a given pid
-export const useBnbPriceFromPid = (): BigNumber => {
-  const farm = useFarmFromPid(1)
-  const almPriceAsString = farm.token?.almBnbPrice
-
-  const pricedBnb = useMemo(() => {
-    return new BigNumber(almPriceAsString)
-  }, [almPriceAsString])
-
-  return pricedBnb
+export const useBusdPriceFromPid = (pid: number): BigNumber => {
+  const farm = useFarmFromPid(pid)
+  return farm && new BigNumber(farm.token.busdPrice)
 }
 
 export const useLpTokenPrice = (symbol: string) => {
   const farm = useFarmFromLpSymbol(symbol)
-  const farmTokenPriceInUsd = useBnbPriceFromPid()
+  const farmTokenPriceInUsd = usePriceCakeBusd()
   let lpTokenPrice = BIG_ZERO
 
   if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {

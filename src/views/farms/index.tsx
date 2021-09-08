@@ -8,13 +8,12 @@ import { Farm } from 'state/types'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
-import { getBalanceNumber } from 'utils/formatBalance'
 import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
 import FarmContainer from './FarmContainer'
 import { FarmWithStakedValue } from './farms.types'
-import { useBnbPriceFromPid, useFarms, usePollFarmsWithUserData } from './hooks/useFarmingPools'
+import { useFarms, usePollFarmsWithUserData, usePriceCakeBusd } from './hooks/useFarmingPools'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
 
@@ -32,7 +31,7 @@ const Farms = () => {
   const { pathname } = useRouter()
   const farmsLP = useFarms()
   // make here real loader!
-  const almBnbPrice = useBnbPriceFromPid()
+  const cakePrice = usePriceCakeBusd()
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
   const sortOption = useStoreFarms((state) => state.sortOption)
@@ -69,17 +68,12 @@ const Farms = () => {
   const farmsList = useCallback(
     (farmsToDisplay: Farm[]): FarmWithStakedValue[] => {
       let farmsToDisplayWithAPR = farmsToDisplay.map((farm) => {
-        if (!farm.lpTotalInQuoteToken || !farm.quoteToken.almBnbPrice) {
+        if (!farm.lpTotalInQuoteToken || !farm.quoteToken.busdPrice) {
           return farm
         }
-        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.almBnbPrice)
+        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.busdPrice)
         const { cakeRewardsApr, lpRewardsApr } = isActive
-          ? getFarmApr(
-              new BigNumber(farm.poolWeight),
-              almBnbPrice,
-              totalLiquidity,
-              farm.lpAddresses[ChainId.BSCTESTNET],
-            )
+          ? getFarmApr(new BigNumber(farm.poolWeight), cakePrice, totalLiquidity, farm.lpAddresses[ChainId.BSCTESTNET])
           : { cakeRewardsApr: 0, lpRewardsApr: 0 }
 
         return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
@@ -93,7 +87,7 @@ const Farms = () => {
       }
       return farmsToDisplayWithAPR as FarmWithStakedValue[]
     },
-    [almBnbPrice, query, isActive],
+    [cakePrice, query, isActive],
   )
 
   const [numberOfFarmsVisible] = useState(NUMBER_OF_FARMS_VISIBLE)
@@ -139,46 +133,6 @@ const Farms = () => {
 
   chosenFarmsLength.current = chosenFarmsMemoized.length
 
-  const rowData = chosenFarmsMemoized.map((farm) => {
-    const { token, quoteToken } = farm
-    const tokenAddress = token.address
-    const quoteTokenAddress = quoteToken.address
-    const lpLabel = farm.lpSymbol?.split(' ')[0].toUpperCase().replace('PANCAKE', '')
-
-    const row = {
-      apr: {
-        value: getDisplayApr(farm.apr, farm.lpRewardsApr),
-        pid: farm.pid,
-        multiplier: farm.multiplier,
-        lpLabel,
-        lpSymbol: farm.lpSymbol,
-        tokenAddress,
-        quoteTokenAddress,
-        almBnbPrice,
-        originalValue: farm.apr,
-      },
-      farm: {
-        label: lpLabel,
-        pid: farm.pid,
-        token: farm.token,
-        quoteToken: farm.quoteToken,
-      },
-      earned: {
-        earnings: getBalanceNumber(new BigNumber(farm.userData.earnings)),
-        pid: farm.pid,
-      },
-      liquidity: {
-        liquidity: farm.liquidity,
-      },
-      multiplier: {
-        multiplier: farm.multiplier,
-      },
-      details: farm,
-    }
-
-    return row
-  })
-
   const farms = useMemo(
     () => [...chosenFarmsMemoized, ...chosenFarmsMemoized, ...chosenFarmsMemoized],
     [chosenFarmsMemoized],
@@ -190,7 +144,7 @@ const Farms = () => {
         <FarmBanner />
         <FarmFilters />
       </div>
-      <FarmContent viewMode={viewMode} farms={farms} almBnbPrice={almBnbPrice} />
+      <FarmContent viewMode={viewMode} farms={farms} cakePrice={cakePrice} />
     </FarmContainer>
   )
 }

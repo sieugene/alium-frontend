@@ -1,7 +1,9 @@
 import { Interface } from '@ethersproject/abi'
 import MULTICALL_FUNC_ABI from 'config/abi/MULTICALL_FUNC_ABI.json'
 import MULTICALL_ADDRESS from 'config/addresses/MULTICALL_ADDRESS'
+import { Contract } from 'ethers'
 import { storeNetwork } from 'store/network/useStoreNetwork'
+import { getEthersProvider } from 'utils/bridge/providers'
 import { getWeb3NoAccount } from 'utils/web3'
 import { AbiItem } from 'web3-utils'
 
@@ -34,13 +36,13 @@ export const multicallDecoder = (abi: any[], calls: Call[], returnData: any[]): 
 
 export const multicallWithDecoder = async <T = any>(abi: any[], calls: Call[]): Promise<T> => {
   try {
-    const web3 = getWeb3NoAccount()
     const { currentChainId } = storeNetwork.getState()
     const chainId = currentChainId
-    const multi = new web3.eth.Contract(MULTICALL_FUNC_ABI as unknown as AbiItem, MULTICALL_ADDRESS[chainId])
+    const ethersProvider = await getEthersProvider(chainId)
+    const multi = new Contract(MULTICALL_ADDRESS[chainId], MULTICALL_FUNC_ABI, ethersProvider)
     const itf = new Interface(abi)
     const calldata = calls.map((call) => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)])
-    const { returnData } = await multi.methods.aggregate(calldata).call()
+    const { returnData } = await multi.aggregate(calldata)
     const res = returnData.map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
 
     return res

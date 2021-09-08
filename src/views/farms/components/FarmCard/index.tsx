@@ -19,23 +19,24 @@ export const ContentCard = styled.div`
   padding: 0px 16px 0px 16px;
 `
 
-const FooterCard = styled.div`
+const FooterCard = styled.div<{ isSingle: boolean }>`
   margin-top: 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => (props.isSingle ? 'flex-end' : 'space-between')};
 `
 
 export interface FarmCardProps {
   farm: FarmWithStakedValue
-  almBnbPrice: BigNumber
+  cakePrice: BigNumber
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, cakePrice }) => {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({
     farm,
     addLiquidityUrl: '/none',
   })
+
   return (
     <StyledCard>
       <CardHeading farm={farm} />
@@ -61,10 +62,10 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
           </InfoTitle>
           <InfoValue>
             {staked.stakingButtonsNode}
-            {staked.balanceNode}
+            {/* {staked.balanceNode} */}
           </InfoValue>
         </InfoRow>
-        <FooterCard>
+        <FooterCard isSingle={!staked.actionsNode}>
           {staked.actionsNode}
           <DetailsSection farm={farm} />
         </FooterCard>
