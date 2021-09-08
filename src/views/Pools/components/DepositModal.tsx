@@ -8,9 +8,17 @@ import useI18n from '../../../hooks/useI18n'
 
 interface DepositModalProps {
   max: BigNumber
+  stakedBalance: BigNumber
+  multiplier?: string
+  lpPrice: BigNumber
+  lpLabel?: string
   onConfirm: (amount: string) => void
   onDismiss?: () => void
   tokenName?: string
+  apr?: number
+  displayApr?: string
+  addLiquidityUrl?: string
+  almBnbPrice?: BigNumber
 }
 
 const DepositModal: FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '' }) => {

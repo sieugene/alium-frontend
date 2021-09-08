@@ -11,21 +11,24 @@ export type TranslatableText =
         [key: string]: string | number
       }
     }
-
+export type SerializedBigNumber = string
 export interface Farm extends FarmConfig {
-  tokenAmount?: BigNumber
-  quoteTokenAmount?: BigNumber
-  lpTotalInQuoteToken?: BigNumber
-  tokenPriceVsQuote?: BigNumber
-  poolWeight?: BigNumber
+  tokenAmountMc?: SerializedBigNumber
+  quoteTokenAmountMc?: SerializedBigNumber
+  tokenAmountTotal?: SerializedBigNumber
+  quoteTokenAmountTotal?: SerializedBigNumber
+  lpTotalInQuoteToken?: SerializedBigNumber
+  lpTotalSupply?: SerializedBigNumber
+  tokenPriceVsQuote?: SerializedBigNumber
+  poolWeight?: SerializedBigNumber
   userData?: {
-    allowance: BigNumber
-    tokenBalance: BigNumber
-    stakedBalance: BigNumber
-    earnings: BigNumber
+    allowance: string
+    tokenBalance: string
+    stakedBalance: string
+    earnings: string
   }
 }
-
+export type FarmWithUserData = { pid: Farm['pid'] } & Farm['userData']
 export interface Pool extends PoolConfig {
   totalStaked?: BigNumber
   startBlock?: number

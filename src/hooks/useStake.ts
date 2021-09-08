@@ -1,8 +1,9 @@
 import { useWeb3React } from '@web3-react/core'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { fetchFarmUserDataAsync, updateUserBalance, updateUserStakedBalance } from 'state/actions'
+import { updateUserBalance, updateUserStakedBalance } from 'state/actions'
 import { sousStake, sousStakeBnb, stake } from 'utils/callHelpers'
+import { farmUserDataUpdate } from './../views/farms/hooks/useFarmingPools'
 import { useMasterchef, useSousChef } from './useContract'
 
 const useStake = (pid: number) => {
@@ -13,7 +14,7 @@ const useStake = (pid: number) => {
   const handleStake = useCallback(
     async (amount: string) => {
       const txHash = await stake(masterChefContract, pid, amount, account)
-      dispatch(fetchFarmUserDataAsync(account))
+      await farmUserDataUpdate(account)
       console.info(txHash)
     },
     [account, dispatch, masterChefContract, pid],

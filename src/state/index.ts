@@ -4,7 +4,6 @@ import { getThemeCache } from 'utils/theme'
 import achievements from './achievements'
 import application from './application/reducer'
 import burn from './burn/reducer'
-import farms from './farms'
 import { updateVersion } from './global/actions'
 import lists from './lists/reducer'
 import mint from './mint/reducer'
@@ -32,7 +31,6 @@ if (loadedState.user) {
 const store = configureStore({
   devTools: process.env.APP_ENV === 'development',
   reducer: {
-    farms,
     toasts,
     pools,
     profile,

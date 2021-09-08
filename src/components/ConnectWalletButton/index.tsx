@@ -25,7 +25,8 @@ const StyledButtonUnlockWallet = styled.div`
 
   @media screen and (min-width: 768px) {
     > button {
-      width: 100%
+      width: 150px;
+      padding: 0 13px;
     }
     .icon {
       border: 1.5px solid rgb(255, 255, 255);

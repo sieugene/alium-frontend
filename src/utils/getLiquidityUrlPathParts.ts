@@ -5,6 +5,7 @@ import { storeNetwork } from 'store/network/useStoreNetwork'
 
 const getLiquidityUrlPathParts = ({ quoteTokenAdresses, quoteTokenSymbol, tokenAddresses }) => {
   const { currentChainId } = storeNetwork.getState()
+
   const firstPart = quoteTokenSymbol === 'BNB' ? 'ETH' : quoteTokenAdresses[currentChainId]
   const secondPart = tokenAddresses[currentChainId]
   return `${firstPart}/${secondPart}`

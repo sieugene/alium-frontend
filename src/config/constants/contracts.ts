@@ -1,3 +1,5 @@
+import { MASTER_CHEF_FARMING_ADDRESS } from 'views/farms/hooks'
+
 export default {
   cake: {
     97: '0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe',
@@ -8,8 +10,8 @@ export default {
     56: '0x009cF7bC57584b7998236eff51b98A168DceA9B0',
   },
   masterChef: {
-    97: '0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9',
-    56: '0x73feaa1eE314F8c655E354234017bE2193C9E24E',
+    97: MASTER_CHEF_FARMING_ADDRESS,
+    56: '',
   },
   sousChef: {
     97: '0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a',

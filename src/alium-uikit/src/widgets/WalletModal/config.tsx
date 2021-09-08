@@ -5,6 +5,7 @@ import BinanceChain from './icons/BinanceChain'
 import EtherIcon from './icons/EtherIcon'
 import Huobi from './icons/Huobi'
 import Metamask from './icons/Metamask'
+import OntoWallet from './icons/OntoWallet'
 import PolygonMatic from './icons/PolygonMatic'
 import TokenPocket from './icons/TokenPocket'
 import TrustWallet from './icons/TrustWallet'
@@ -92,6 +93,11 @@ export const wallets = (): WalletsConfig[] => [
       browserConnector: ConnectorNames.BSC,
     }),
     showOn: WalletShowOn.desktop,
+  },
+  {
+    title: 'ONTO',
+    icon: OntoWallet,
+    connectorId: ConnectorNames.WalletConnect,
   },
 ]
 
