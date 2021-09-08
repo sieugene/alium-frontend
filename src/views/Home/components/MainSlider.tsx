@@ -46,13 +46,13 @@ const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
 export default MainSlider
 
 const Slide = (props: typeof slides[0]) => (
-  <SlideW>
+  <SlideW bgImage={props.image}>
     <SlideInfoW>
       {props.label && <Label>{props.label}</Label>}
       <SliderTitle>{props.title}</SliderTitle>
       <SliderSubtitle>{props.subTitle}</SliderSubtitle>
     </SlideInfoW>
-    <SliderImage bgSrc={props.image} />
+    {/* <SliderImage bgSrc={props.image} /> */}
   </SlideW>
 )
 
@@ -62,7 +62,8 @@ const CarouselStyled = styled(Carousel)`
   }
 `
 
-const SlideW = styled.div`
+const SlideW = styled.div<{ bgImage: string }>`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -77,11 +78,31 @@ const SlideW = styled.div`
   ${({ theme }) => theme.mediaQueries.xl} {
     min-height: 380px;
   }
+  &:after {
+    content: '';
+
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: contain;
+    ${({ bgImage }) => css`
+      background-image: url('${bgImage}');
+    `}
+    @media screen and (max-width: 700px) {
+      background-position-y: bottom;
+    }
+  }
 `
 
 const SlideInfoW = styled.div`
   width: 100%;
   padding: 24px;
+  z-index: 2;
   ${({ theme }) => theme.mediaQueries.sm} {
     width: 50%;
     text-align: left;
@@ -135,6 +156,7 @@ const SliderSubtitle = styled.span`
 `
 
 const SliderImage = styled.div<{ bgSrc: string }>`
+  position: absolute;
   width: 100%;
   padding-bottom: 80%;
   position: relative;
@@ -142,6 +164,7 @@ const SliderImage = styled.div<{ bgSrc: string }>`
     content: '';
     position: absolute;
     display: block;
+
     ${({ bgSrc }) => css`
       background-image: url('${bgSrc}');
     `}
@@ -151,7 +174,7 @@ const SliderImage = styled.div<{ bgSrc: string }>`
     right: 0;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
   }
 
   ${({ theme }) => theme.mediaQueries.sm} {
