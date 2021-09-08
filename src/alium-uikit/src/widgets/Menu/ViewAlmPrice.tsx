@@ -1,7 +1,6 @@
 import { externalLinks } from 'alium-uikit/src/config'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { backgroundColor } from 'styled-system'
 import Cookies from 'universal-cookie'
 import { getCookieOptions } from '../../config/getCookieOptions'
 import { IconTokenAlm } from './icons/IconTokenAlm'
@@ -60,10 +59,13 @@ const TextWrapper = styled.div`
   width: 62px;
 
   @media screen and (min-width: 768px) {
-    flex-direction: row;
     font-size: 14px;
     line-height: 20px;
     width: auto;
+  }
+
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
   }
 `
 
@@ -97,7 +99,9 @@ const ViewAlmPrice: FC<props> = ({ ispushed }) => {
       </IconWrapper>
       <TextWrapper>
         <span>ALM Price:&nbsp;</span>
-        <span style={{color: '#6C5DD3'}}><a href={externalLinks.bscscan}>${price}</a></span>
+        <span style={{ color: '#6C5DD3' }}>
+          <a href={externalLinks.bscscan}>${price}</a>
+        </span>
       </TextWrapper>
     </Styled>
   )
