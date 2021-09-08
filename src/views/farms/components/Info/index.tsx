@@ -16,7 +16,7 @@ import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount, getBalanceNumber } from 'utils/formatBalance'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
 import useApproveFarm from 'views/farms/hooks/useApproveFarm'
-import { farmUserDataUpdate, useBnbPriceFromPid, useLpTokenPrice } from 'views/farms/hooks/useFarmingPools'
+import { farmUserDataUpdate, useLpTokenPrice, usePriceCakeBusd } from 'views/farms/hooks/useFarmingPools'
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
 import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
@@ -117,10 +117,10 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
   const { onReward } = useHarvestFarm(farm.pid)
   const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
-  const almBnbPrice = useBnbPriceFromPid()
+  const cakePrice = usePriceCakeBusd()
   const rawEarningsBalance = account ? getBalanceAmount(earnings) : BIG_ZERO
   const displayBalance = rawEarningsBalance.toFixed(3, BigNumber.ROUND_DOWN)
-  const earningsBusd = rawEarningsBalance ? rawEarningsBalance.multipliedBy(almBnbPrice).toNumber() : 0
+  const earningsBusd = rawEarningsBalance ? rawEarningsBalance.multipliedBy(cakePrice).toNumber() : 0
   return {
     earnings,
     rawEarningsBalance,
@@ -259,7 +259,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
   const { account } = useWeb3React()
   const lpPrice = useLpTokenPrice(tokenName)
   const lpLabel = useFarmLpLabel(farm)
-  const almBnbPrice = useBnbPriceFromPid()
+  const cakePrice = usePriceCakeBusd()
 
   const handleStake = async (amount: string) => {
     await onStake(amount)
@@ -294,7 +294,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
       apr={apr}
       displayApr={displayApr}
       addLiquidityUrl={addLiquidityUrl}
-      almBnbPrice={almBnbPrice}
+      cakePrice={cakePrice}
     />,
   )
   const [onPresentWithdraw] = useModal(
@@ -327,6 +327,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
 
   const FARM_NOT_ENABLED = account && !isApproved
   const STAKE_ALLOW = isApproved && !stakedBalanceNotZero
+  const EMPTY_STAKE_ACTION = !FARM_NOT_ENABLED && !STAKE_ALLOW
 
   return {
     titleNode: `${tokenName} Staked`,
@@ -357,7 +358,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     ) : (
       <div>-</div>
     ),
-    actionsNode: !account ? (
+    actionsNode: EMPTY_STAKE_ACTION ? null : !account ? (
       <ConnectWalletButton />
     ) : (
       <>

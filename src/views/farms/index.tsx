@@ -8,12 +8,11 @@ import { Farm } from 'state/types'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
-import { getBalanceNumber } from 'utils/formatBalance'
 import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
 import FarmContainer from './FarmContainer'
-import { DesktopColumnSchema, FarmWithStakedValue, ViewMode } from './farms.types'
+import { FarmWithStakedValue } from './farms.types'
 import { useFarms, usePollFarmsWithUserData, usePriceCakeBusd } from './hooks/useFarmingPools'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
@@ -73,12 +72,11 @@ const Farms = () => {
           return farm
         }
         const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.busdPrice)
-
         const { cakeRewardsApr, lpRewardsApr } = isActive
           ? getFarmApr(new BigNumber(farm.poolWeight), cakePrice, totalLiquidity, farm.lpAddresses[ChainId.BSCTESTNET])
           : { cakeRewardsApr: 0, lpRewardsApr: 0 }
 
-        return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity, depositFee: farm?.depositFee }
+        return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
       })
 
       if (query) {
@@ -135,85 +133,10 @@ const Farms = () => {
 
   chosenFarmsLength.current = chosenFarmsMemoized.length
 
-  const rowData = chosenFarmsMemoized.map((farm) => {
-    const { token, quoteToken } = farm
-    const tokenAddress = token.address
-    const quoteTokenAddress = quoteToken.address
-    const lpLabel = farm.lpSymbol?.split(' ')[0].toUpperCase().replace('PANCAKE', '')
-
-    const row = {
-      apr: {
-        value: getDisplayApr(farm.apr, farm.lpRewardsApr),
-        pid: farm.pid,
-        multiplier: farm.multiplier,
-        lpLabel,
-        lpSymbol: farm.lpSymbol,
-        tokenAddress,
-        quoteTokenAddress,
-        cakePrice,
-        originalValue: farm.apr,
-      },
-      farm: {
-        label: lpLabel,
-        pid: farm.pid,
-        token: farm.token,
-        quoteToken: farm.quoteToken,
-      },
-      earned: {
-        earnings: getBalanceNumber(new BigNumber(farm.userData.earnings)),
-        pid: farm.pid,
-      },
-      liquidity: {
-        liquidity: farm.liquidity,
-      },
-      multiplier: {
-        multiplier: farm.multiplier,
-      },
-      details: farm,
-    }
-
-    return row
-  })
-
-  const renderContent = () => {
-    if (viewMode === ViewMode.TABLE && rowData.length) {
-      const columnSchema = DesktopColumnSchema
-
-      const columns = columnSchema.map((column) => ({
-        id: column.id,
-        name: column.name,
-        label: column.label,
-        sort: (a, b) => {
-          switch (column.name) {
-            case 'farm':
-              return b.id - a.id
-            case 'apr':
-              if (a.original.apr.value && b.original.apr.value) {
-                return Number(a.original.apr.value) - Number(b.original.apr.value)
-              }
-
-              return 0
-            case 'earned':
-              return a.original.earned.earnings - b.original.earned.earnings
-            default:
-              return 1
-          }
-        },
-        sortable: column.sortable,
-      }))
-
-      return <FarmTable data={rowData} columns={columns} userDataReady={userDataReady} />
-    }
-    const TEMP_DEDUPLICATED_DATA = [...chosenFarmsMemoized, ...chosenFarmsMemoized]
-
-    return (
-      <FarmGridCard>
-        {TEMP_DEDUPLICATED_DATA.map((farm) => (
-          <FarmCard key={farm.pid} farm={farm} cakePrice={cakePrice} />
-        ))}{' '}
-      </FarmGridCard>
-    )
-  }
+  const farms = useMemo(
+    () => [...chosenFarmsMemoized, ...chosenFarmsMemoized, ...chosenFarmsMemoized],
+    [chosenFarmsMemoized],
+  )
 
   return (
     <FarmContainer>
@@ -221,7 +144,7 @@ const Farms = () => {
         <FarmBanner />
         <FarmFilters />
       </div>
-      <FarmContent viewMode={viewMode} farms={farms} almBnbPrice={almBnbPrice} />
+      <FarmContent viewMode={viewMode} farms={farms} cakePrice={cakePrice} />
     </FarmContainer>
   )
 }

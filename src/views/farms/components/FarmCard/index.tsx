@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
+import DetailsSection from '../DetailsSection'
+import { InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEarned, useInfoStaked } from '../Info'
 import CardHeading from './CardHeading'
 
 const StyledCard = styled.div`
@@ -17,10 +19,10 @@ export const ContentCard = styled.div`
   padding: 0px 16px 0px 16px;
 `
 
-const FooterCard = styled.div`
+const FooterCard = styled.div<{ isSingle: boolean }>`
   margin-top: 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => (props.isSingle ? 'flex-end' : 'space-between')};
 `
 
 export interface FarmCardProps {
@@ -29,31 +31,44 @@ export interface FarmCardProps {
 }
 
 const FarmCard: React.FC<FarmCardProps> = ({ farm, cakePrice }) => {
-  const { t } = useTranslation()
-  const { account } = useWeb3React()
-
-  const lpLabel = farm.lpSymbol?.toUpperCase().replace('PANCAKE', '')
-  const earnLabel = farm.dual ? farm.dual.earnLabel : t('ALM + Fees')
+  const earned = useInfoEarned(farm)
+  const staked = useInfoStaked({
+    farm,
+    addLiquidityUrl: '/none',
+  })
 
   return (
     <StyledCard>
       <CardHeading farm={farm} />
       <ContentCard>
-        <InfoFarm>
-          <div className='title'>APR</div>
-          <div className='field'>{farm.apr || 0}%</div>
-        </InfoFarm>
-        <InfoFarm withBg>
-          <div className='title'>Earn</div>
-          <div className='field'>{earnLabel}</div>
-        </InfoFarm>
-        <CardActionsContainer
-          farm={farm}
-          lpLabel={lpLabel}
-          account={account}
-          cakePrice={cakePrice}
-          addLiquidityUrl='/none'
-        />
+        <InfoRow>
+          <InfoApr farm={farm} />
+        </InfoRow>
+        <InfoRow withBg>
+          <InfoEarn farm={farm} />
+        </InfoRow>
+        <InfoRow>
+          <InfoTitle>
+            {earned.titleNode}
+            {earned.displayBalanceNode}
+            {earned.earningsBusdNode}
+          </InfoTitle>
+          <InfoValue>{earned.harvestButtonNode}</InfoValue>
+        </InfoRow>
+        <InfoRow withBg>
+          <InfoTitle>
+            <p>{staked.titleNode}</p>
+            <p>{staked.displayBalanceNode}</p>
+          </InfoTitle>
+          <InfoValue>
+            {staked.stakingButtonsNode}
+            {/* {staked.balanceNode} */}
+          </InfoValue>
+        </InfoRow>
+        <FooterCard isSingle={!staked.actionsNode}>
+          {staked.actionsNode}
+          <DetailsSection farm={farm} />
+        </FooterCard>
       </ContentCard>
     </StyledCard>
   )

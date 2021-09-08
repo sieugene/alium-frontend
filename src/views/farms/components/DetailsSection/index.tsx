@@ -1,8 +1,9 @@
-import { ChevronDownIcon } from 'alium-uikit/src'
+import { ChevronDownIcon, Skeleton } from 'alium-uikit/src'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { InfoDeposit, InfoLpType, InfoViewBscScan } from '../Info'
 
 const Wrapper = styled.div<{ open: boolean }>`
   padding: 0px 16px 24px 16px;
