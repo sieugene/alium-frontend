@@ -163,7 +163,7 @@ const SlideInfoW = styled.div`
   }
   @media screen and (min-width: 1440px) {
     padding: 70px 40px;
-    & br {
+    & br.lg {
       display: none;
     }
     & br.xl {
