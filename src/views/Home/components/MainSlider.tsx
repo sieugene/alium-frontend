@@ -15,7 +15,11 @@ const slides = [
   },
   {
     label: 'Coming soon',
-    title: '“Cyber City Inc" Character Boxes Drop',
+    title: (
+      <>
+        "Cyber City Inc" <br /> Character Boxes Drop
+      </>
+    ),
     subTitle: 'NFT Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters',
     image: '/images/home-new/slider/cyper-city-bg.svg',
   },
@@ -29,7 +33,7 @@ const slides = [
     label: 'September 13th',
     title: 'ALM x Krystal Trading Competition',
     subTitle: 'Participate in Krystal.app Alium Trading competition and win one of 20 000$ worth of Prizes!',
-    image: '/images/home-new/slider/farming-bg.svg',
+    image: '/images/home-new/slider/krystal-trading.svg',
   },
 ]
 
