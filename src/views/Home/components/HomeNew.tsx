@@ -5,13 +5,6 @@ import MainSlider from './MainSlider'
 const HomeNew = () => {
   return (
     <>
-      {/* <MainBanner>
-        <LeftColumn>
-          <ExtraButton>September, 2021</ExtraButton>
-          <h2>ALM Smart Farming with up to 5,000% APY</h2>
-        </LeftColumn>
-      </MainBanner> */}
-      {/* <HomeCarousel /> */}
       <MainSliderStyled />
       <H1>Road Map</H1>
       <RoadMapContainer>
@@ -48,7 +41,9 @@ const HomeNew = () => {
         <MarketPlace src='/images/home-new/alm-left.png' />
 
         <div className='marketplace__right'>
-          <h1>Buy Alium Finance (ALM) token</h1>
+          <h1>
+            Buy Alium Finance <br /> (ALM) token
+          </h1>
           <h2>
             Alium Finance team is on the way to reach several milestones aimed on increasing of ALM token value. Be
             ahead of the market and join the ALM holders community!
@@ -197,8 +192,73 @@ const BuyAlmContainer = styled.div`
   border-radius: 6px;
   margin-top: 48px;
   display: flex;
-  justify-content: space-between;
-  padding: 70px 94px 70px 80px;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 24px 24px 24px;
+  margin-bottom: 32px;
+  .marketplace__right {
+    text-align: center;
+  }
+
+  h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: 0.3px;
+    color: #0b1359;
+
+    margin: 16px 0;
+  }
+  h2 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.3px;
+    color: #8990a5;
+    margin-bottom: 32px;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: 51px 30px 47px 52px;
+    align-items: flex-start;
+    flex-direction: row;
+    img {
+      margin-right: 39px;
+    }
+    .marketplace__right {
+      text-align: left;
+    }
+    h1 {
+      font-size: 32px;
+      line-height: 40px;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 16px;
+      line-height: 22px;
+      letter-spacing: 0.3px;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    padding: 51px 40px 51px 42px;
+  }
+  @media screen and (min-width: 1440px) {
+    padding: 57px 94px 59px 80px;
+    img {
+      margin-right: 94px;
+    }
+    h1 {
+      margin-top: 64px;
+      font-size: 40px;
+      line-height: 48px;
+    }
+  }
+
+  /* padding: 70px 94px 70px 80px;
   .marketplace__right {
     max-width: 451px;
     display: flex;
@@ -273,7 +333,7 @@ const BuyAlmContainer = styled.div`
         text-align: center;
       }
     }
-  }
+  } */
 `
 
 const FooterContainer = styled.div`
@@ -649,20 +709,16 @@ const CardAvalanche = styled(Card)`
 `
 
 const MarketPlace = styled.img`
-  width: 384px;
-  height: 356px;
-  margin-right: 54px;
+  width: 261px;
+  height: 242px;
   object-fit: cover;
-  @media screen and (max-width: 1024px) {
-    width: 322px;
-    height: 286px;
+  @media screen and (min-width: 768px) {
+    width: 275px;
+    height: 255px;
   }
-  @media screen and (max-width: 768px) {
-    width: 261px;
-    height: 286px;
-  }
-  @media screen and (max-width: 575px) {
-    margin-right: 0px;
+  @media screen and (min-width: 1440px) {
+    width: 385px;
+    height: 356px;
   }
 `
 
