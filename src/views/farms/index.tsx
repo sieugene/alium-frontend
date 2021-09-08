@@ -31,7 +31,7 @@ const Farms = () => {
   const { pathname } = useRouter()
   const farmsLP = useFarms()
   // make here real loader!
-  const cakePrice = usePriceCakeBusd()
+  const almPrice = usePriceCakeBusd()
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
   const sortOption = useStoreFarms((state) => state.sortOption)
@@ -73,7 +73,7 @@ const Farms = () => {
         }
         const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.busdPrice)
         const { cakeRewardsApr, lpRewardsApr } = isActive
-          ? getFarmApr(new BigNumber(farm.poolWeight), cakePrice, totalLiquidity, farm.lpAddresses[ChainId.BSCTESTNET])
+          ? getFarmApr(new BigNumber(farm.poolWeight), almPrice, totalLiquidity, farm.lpAddresses[ChainId.BSCTESTNET])
           : { cakeRewardsApr: 0, lpRewardsApr: 0 }
 
         return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
@@ -87,7 +87,7 @@ const Farms = () => {
       }
       return farmsToDisplayWithAPR as FarmWithStakedValue[]
     },
-    [cakePrice, query, isActive],
+    [almPrice, query, isActive],
   )
 
   const [numberOfFarmsVisible] = useState(NUMBER_OF_FARMS_VISIBLE)
@@ -144,7 +144,7 @@ const Farms = () => {
         <FarmBanner />
         <FarmFilters />
       </div>
-      <FarmContent viewMode={viewMode} farms={farms} cakePrice={cakePrice} />
+      <FarmContent viewMode={viewMode} farms={farms} almPrice={almPrice} />
     </FarmContainer>
   )
 }

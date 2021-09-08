@@ -7,16 +7,16 @@ import FarmRow from '../FarmRow'
 export interface FarmContentProps {
   viewMode: ViewMode
   farms: FarmWithStakedValue[]
-  cakePrice: BigNumber
+  almPrice: BigNumber
 }
 
-export default function FarmContent({ viewMode, farms, cakePrice }: FarmContentProps) {
+export default function FarmContent({ viewMode, farms, almPrice }: FarmContentProps) {
   switch (viewMode) {
     case ViewMode.CARD:
       return (
         <FarmContent.Grid>
           {farms.map((farm) => (
-            <FarmCard key={farm.pid} farm={farm} cakePrice={cakePrice} />
+            <FarmCard key={farm.pid} farm={farm} almPrice={almPrice} />
           ))}
         </FarmContent.Grid>
       )
@@ -25,7 +25,7 @@ export default function FarmContent({ viewMode, farms, cakePrice }: FarmContentP
         <FarmContent.Table>
           <tbody>
             {farms.map((farm) => (
-              <FarmRow key={farm.pid} farm={farm} cakePrice={cakePrice} />
+              <FarmRow key={farm.pid} farm={farm} almPrice={almPrice} />
             ))}
           </tbody>
         </FarmContent.Table>

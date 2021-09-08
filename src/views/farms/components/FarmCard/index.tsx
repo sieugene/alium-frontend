@@ -27,10 +27,10 @@ const FooterCard = styled.div<{ isSingle: boolean }>`
 
 export interface FarmCardProps {
   farm: FarmWithStakedValue
-  cakePrice: BigNumber
+  almPrice: BigNumber
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, cakePrice }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice }) => {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({
     farm,

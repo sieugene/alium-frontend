@@ -123,10 +123,10 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
   const { onReward } = useHarvestFarm(farm.pid)
   const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
-  const cakePrice = usePriceCakeBusd()
+  const almPrice = usePriceCakeBusd()
   const rawEarningsBalance = account ? getBalanceAmount(earnings) : BIG_ZERO
   const displayBalance = rawEarningsBalance.toFixed(3, BigNumber.ROUND_DOWN)
-  const earningsBusd = rawEarningsBalance ? rawEarningsBalance.multipliedBy(cakePrice).toNumber() : 0
+  const earningsBusd = rawEarningsBalance ? rawEarningsBalance.multipliedBy(almPrice).toNumber() : 0
 
   const loading = useFarmsLoading()
 
@@ -278,7 +278,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
   const { account } = useWeb3React()
   const lpPrice = useLpTokenPrice(tokenName)
   const lpLabel = useFarmLpLabel(farm)
-  const cakePrice = usePriceCakeBusd()
+  const almPrice = usePriceCakeBusd()
 
   const handleStake = async (amount: string) => {
     await onStake(amount)
@@ -313,7 +313,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
       apr={apr}
       displayApr={displayApr}
       addLiquidityUrl={addLiquidityUrl}
-      cakePrice={cakePrice}
+      almPrice={almPrice}
     />,
   )
   const [onPresentWithdraw] = useModal(
