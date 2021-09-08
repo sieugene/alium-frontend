@@ -1,6 +1,6 @@
 import farmsConfig from './farms'
 
-const communityFarms = farmsConfig.filter((farm) => farm.isCommunity).map((farm) => farm.tokenSymbol)
+const communityFarms = farmsConfig.filter((farm) => farm.isCommunity).map((farm) => farm.lpSymbol)
 
 export { default as ifosConfig } from './ifo'
 export { default as poolsConfig } from './pools'

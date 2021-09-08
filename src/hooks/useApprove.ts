@@ -2,26 +2,27 @@ import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { fetchFarmUserDataAsync, updateUserAllowance } from 'state/actions'
+import { updateUserAllowance } from 'state/actions'
 import { approve } from 'utils/callHelpers'
+import { farmUserDataUpdate } from 'views/farms/hooks/useFarmingPools'
 import { Contract } from 'web3-eth-contract'
 import { useCake, useLottery, useMasterchef, useSousChef } from './useContract'
 
 // Approve a Farm
 export const useApprove = (lpContract: Contract) => {
-  const dispatch = useDispatch()
   const { account } = useWeb3React()
   const masterChefContract = useMasterchef()
 
   const handleApprove = useCallback(async () => {
     try {
       const tx = await approve(lpContract, masterChefContract, account)
-      dispatch(fetchFarmUserDataAsync(account))
+      await farmUserDataUpdate(account)
+
       return tx
     } catch (e) {
       return false
     }
-  }, [account, dispatch, lpContract, masterChefContract])
+  }, [account, lpContract, masterChefContract])
 
   return { onApprove: handleApprove }
 }

@@ -1,3 +1,4 @@
+const backgroundImageOld = '/images/trade-background_old.svg'
 const backgroundImage = '/images/trade-background.svg'
 
 import styled from 'styled-components'
@@ -32,7 +33,7 @@ const BodyWrapper = styled.div`
   ${({ theme }) => theme.mediaQueries.lg} {
     background-image: url(${backgroundImage});
     background-repeat: no-repeat;
-    background-position: top right;
+    background-position: top 18px right 82px;
   }
 
   ${({ theme }) => theme.mediaQueries.sm} {
@@ -44,6 +45,7 @@ const BodyWrapper = styled.div`
   }
   @media screen and (max-width: 500px) {
     padding: 32px 11px;
+    background-image: url(${backgroundImageOld});
   }
 `
 
