@@ -91,13 +91,13 @@ const SlideW = styled.div<{ bgImage: string }>`
     bottom: 0;
     width: 100%;
     background-repeat: no-repeat;
-    background-position: right center;
+    background-position: right 2px;
     background-size: contain;
     ${({ bgImage }) => css`
       background-image: url('${bgImage}');
     `}
     @media screen and (max-width: 700px) {
-      background-position-y: bottom;
+      background-position-y: calc(100% + 2px);
     }
   }
 `
