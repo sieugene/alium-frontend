@@ -52,10 +52,10 @@ export const InfoFarm = styled.div<{ withBg?: boolean }>`
 
 interface FarmCardProps {
   farm: FarmWithStakedValue
-  almBnbPrice: BigNumber
+  cakePrice: BigNumber
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, cakePrice }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
 
@@ -84,7 +84,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
           farm={farm}
           lpLabel={lpLabel}
           account={account}
-          almBnbPrice={almBnbPrice}
+          cakePrice={cakePrice}
           addLiquidityUrl='/none'
         />
       </ContentCard>

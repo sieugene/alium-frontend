@@ -22,7 +22,7 @@ const IconButtonWrapper = styled.div`
   }
 `
 
-const StakeAction: React.FC<FarmCardActionsProps> = ({ farm, addLiquidityUrl, almBnbPrice, lpLabel }) => {
+const StakeAction: React.FC<FarmCardActionsProps> = ({ farm, addLiquidityUrl, cakePrice, lpLabel }) => {
   const { pid } = farm
   const { tokenBalance: tokenBalanceAsString = 0, stakedBalance: stakedBalanceAsString = 0 } = farm.userData || {}
   const tokenName = farm.lpSymbol
@@ -73,7 +73,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({ farm, addLiquidityUrl, al
       apr={apr}
       displayApr={displayApr}
       addLiquidityUrl={addLiquidityUrl}
-      almBnbPrice={almBnbPrice}
+      cakePrice={cakePrice}
     />,
   )
   const [onPresentWithdraw] = useModal(

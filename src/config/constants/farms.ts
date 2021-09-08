@@ -1,5 +1,5 @@
 import { ChainId } from '@alium-official/sdk'
-import { TEST_BSC_ALM, TEST_BSC_USDT, TEST_BSC_WBNB } from './../../constants/index'
+import { TEST_BSC_ALM, TEST_BSC_ETH_Migration, TEST_BSC_USDT_Migration, TEST_BSC_WBNB } from './../../constants/index'
 import { FarmConfig } from './types'
 
 export const farms: FarmConfig[] = [
@@ -20,8 +20,8 @@ export const farms: FarmConfig[] = [
       [ChainId.BSCTESTNET]: '0xdC9747Fda30F57E6665345358342bB12316F0F27',
       [ChainId.MAINNET]: '',
     },
-    token: TEST_BSC_USDT,
-    quoteToken: TEST_BSC_WBNB,
+    token: TEST_BSC_USDT_Migration,
+    quoteToken: TEST_BSC_ETH_Migration,
   },
 ]
 

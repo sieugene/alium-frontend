@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Farm } from 'state/types'
 import { BIG_ONE, BIG_ZERO } from 'utils/bigNumber'
 import filterFarmsByQuoteToken from 'utils/farm/farmsPriceHelpers'
+import { fetchBnbBusdPrice } from './fetchApy'
 
 const getFarmFromTokenSymbol = (farms: Farm[], tokenSymbol: string, preferredQuoteTokens?: string[]): Farm => {
   const farmsWithTokenSymbol = farms.filter((farm) => farm.token.symbol === tokenSymbol)
@@ -73,16 +74,16 @@ const getFarmQuoteTokenPrice = (farm: Farm, quoteTokenFarm: Farm, bnbPriceBusd: 
 }
 
 const fetchFarmsPrices = async (farms: Farm[]): Promise<Farm[]> => {
-  const almBnbFarm = farms.find((farm: Farm) => farm.pid === 1)
-
-  const almPriceBnb = almBnbFarm.tokenPriceVsQuote ? BIG_ONE.div(almBnbFarm.tokenPriceVsQuote) : BIG_ZERO
+  const bnbPriceBusd = await fetchBnbBusdPrice()
 
   const farmsWithPrices = farms.map((farm) => {
     const quoteTokenFarm = getFarmFromTokenSymbol(farms, farm.quoteToken.symbol)
-    const baseTokenPrice = getFarmBaseTokenPrice(farm, quoteTokenFarm, almPriceBnb)
-    const quoteTokenPrice = getFarmQuoteTokenPrice(farm, quoteTokenFarm, almPriceBnb)
-    const token = { ...farm.token, almBnbPrice: baseTokenPrice.toJSON() }
-    const quoteToken = { ...farm.quoteToken, almBnbPrice: quoteTokenPrice.toJSON() }
+    const baseTokenPrice = getFarmBaseTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)
+    const quoteTokenPrice = getFarmQuoteTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)
+
+    const token = { ...farm.token, busdPrice: baseTokenPrice.toJSON() }
+    const quoteToken = { ...farm.quoteToken, busdPrice: quoteTokenPrice.toJSON() }
+
     return { ...farm, token, quoteToken }
   })
 

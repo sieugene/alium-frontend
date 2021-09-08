@@ -43,11 +43,6 @@ const FooterStake: FC<FooterStakeProps> = ({
   const lpContract = useTokenContract(lpAddress)
 
   const { onApprove } = useApproveFarm(lpContract)
-  // @ts-ignore
-  const totalValueFormatted = farm.liquidity?.gt(0)
-    ? // @ts-ignore
-      `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
-    : ''
 
   const lpLabel = farm.lpSymbol?.toUpperCase().replace('PANCAKE', '')
 
@@ -89,10 +84,8 @@ const FooterStake: FC<FooterStakeProps> = ({
       )}
       <DetailsSection
         bscScanAddress={getExplorerLink(97, lpAddress, 'address')}
-        infoAddress={getExplorerLink(97, lpAddress, 'pool')}
-        totalValueFormatted={totalValueFormatted}
         lpLabel={lpLabel}
-        addLiquidityUrl={addLiquidityUrl}
+        farm={farm}
       />
     </Footer>
   )

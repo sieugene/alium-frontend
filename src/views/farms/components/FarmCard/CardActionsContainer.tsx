@@ -12,11 +12,11 @@ export interface FarmCardActionsProps {
   farm: FarmWithStakedValue
   account?: string
   addLiquidityUrl?: string
-  almBnbPrice?: BigNumber
+  cakePrice?: BigNumber
   lpLabel?: string
 }
 
-const CardActionsContainer: React.FC<FarmCardActionsProps> = ({ farm, addLiquidityUrl, almBnbPrice, lpLabel }) => {
+const CardActionsContainer: React.FC<FarmCardActionsProps> = ({ farm, addLiquidityUrl, cakePrice, lpLabel }) => {
   const { earnings: earningsAsString = 0 } = farm.userData || {}
   const earnings = new BigNumber(earningsAsString)
 
@@ -26,7 +26,7 @@ const CardActionsContainer: React.FC<FarmCardActionsProps> = ({ farm, addLiquidi
         <HarvestAction pid={farm?.pid} earnings={earnings} />
       </InfoFarm>
 
-      <StakeAction lpLabel={lpLabel} almBnbPrice={almBnbPrice} addLiquidityUrl={addLiquidityUrl} farm={farm} />
+      <StakeAction lpLabel={lpLabel} cakePrice={cakePrice} addLiquidityUrl={addLiquidityUrl} farm={farm} />
     </div>
   )
 }
