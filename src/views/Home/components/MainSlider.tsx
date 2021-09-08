@@ -7,32 +7,56 @@ interface MainSliderProps {
   className?: string
 }
 
+// sm =  375
+// md = 768
+// ld = 1024
+// xl = 1440
+
 const slides = [
   {
     label: 'Coming soon',
-    title: 'Earn ALM Farming and Strong Holders Pools. Up to 3000% APY',
+    title: (
+      <>
+        Earn ALM Farming <br className='md lg' /> and <br className='sm xl' /> Strong Holders <br className='md lg' />{' '}
+        Pools. <br className='xl sm' /> Up to 3000% <br className='md lg' /> APY
+      </>
+    ),
     image: '/images/home-new/slider/farming-bg.svg',
   },
   {
     label: 'Coming soon',
     title: (
       <>
-        "Cyber City Inc" <br /> Character Boxes Drop
+        "Cyber City Inc" <br className='xl sm md lg' /> Character Boxes Drop
       </>
     ),
-    subTitle: 'NFT Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters',
+    subTitle: (
+      <>
+        NFT Game with open economy and <br className='md lg' /> 10 000 <br className='sm' /> cool and exciting{' '}
+        <br className='xl' /> Cyberpunk <br className='md lg' /> NFT Characters
+      </>
+    ),
     image: '/images/home-new/slider/cyper-city-bg.svg',
   },
   {
     label: 'September 9th',
     title: 'Alpaca Grazing Range',
-    subTitle: 'Earn ALM in an exciting Alium partnership with Alpaca Finance',
+    subTitle: (
+      <>
+        Earn ALM in an exciting Alium <br className='md lg' /> partnership with <br className='sm' /> Alpaca Finance
+      </>
+    ),
     image: '/images/home-new/slider/alpaca-grazing-bg.svg',
   },
   {
     label: 'September 13th',
     title: 'ALM x Krystal Trading Competition',
-    subTitle: 'Participate in Krystal.app Alium Trading competition and win one of 20 000$ worth of Prizes!',
+    subTitle: (
+      <>
+        Participate in Krystal.app Alium <br className='md lg' /> Trading <br className='sm' /> competition{' '}
+        <br className='xl' /> and win one <br className='md lg' /> of 20 000$ worth <br className='sm' /> of Prizes!
+      </>
+    ),
     image: '/images/home-new/slider/krystal-trading.svg',
   },
 ]
@@ -74,6 +98,7 @@ const SlideW = styled.div<{ bgImage: string }>`
   min-height: 500px;
   background-color: #6c5dd3;
   border-radius: 6px;
+
   ${({ theme }) => theme.mediaQueries.sm} {
     flex-direction: row;
     min-height: 280px;
@@ -106,7 +131,12 @@ const SlideInfoW = styled.div`
   width: 100%;
   padding: 24px;
   z-index: 2;
-
+  & br {
+    display: none;
+  }
+  & br.sm {
+    display: block;
+  }
   ${({ theme }) => theme.mediaQueries.sm} {
     width: 60%;
     text-align: left;
@@ -114,13 +144,31 @@ const SlideInfoW = styled.div`
 
   @media screen and (min-width: 768px) {
     padding: 32px 24px;
+    & br.sm {
+      display: none;
+    }
+    & br.md {
+      display: block;
+    }
   }
 
   @media screen and (min-width: 1024px) {
     padding: 32px 32px;
+    & br.md {
+      display: none;
+    }
+    & br.lg {
+      display: block;
+    }
   }
   @media screen and (min-width: 1440px) {
     padding: 70px 40px;
+    & br.lg {
+      display: none;
+    }
+    & br.xl {
+      display: block;
+    }
   }
 `
 
