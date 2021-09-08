@@ -34,7 +34,11 @@ const Switch = styled.div<{ align: 'start' | 'end'; active: boolean }>`
     border-radius: 50%;
     display: block;
   }
-  margin-right: 16px;
+  margin-right: 8px;
+
+  @media screen and (min-width: 1440px) {
+    margin-right: 16px;
+  }
 `
 export const FarmStakedSwitcher = () => {
   const stakedOnly = useStoreFarms((state) => state.stakedOnly)

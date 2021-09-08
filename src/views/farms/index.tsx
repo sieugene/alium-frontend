@@ -10,10 +10,8 @@ import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
 import { getBalanceNumber } from 'utils/formatBalance'
 import FarmBanner from './components/FarmBanner'
-import FarmCard from './components/FarmCard'
+import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
-import FarmGridCard from './components/FarmGridCard'
-import FarmTable from './components/FarmTable'
 import FarmContainer from './FarmContainer'
 import { DesktopColumnSchema, FarmWithStakedValue, ViewMode } from './farms.types'
 import { useFarms, usePollFarmsWithUserData, usePriceCakeBusd } from './hooks/useFarmingPools'
@@ -223,7 +221,7 @@ const Farms = () => {
         <FarmBanner />
         <FarmFilters />
       </div>
-      {renderContent()}
+      <FarmContent viewMode={viewMode} farms={farms} almBnbPrice={almBnbPrice} />
     </FarmContainer>
   )
 }

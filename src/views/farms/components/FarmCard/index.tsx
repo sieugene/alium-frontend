@@ -1,10 +1,7 @@
-import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
-import CardActionsContainer from './CardActionsContainer'
 import CardHeading from './CardHeading'
 
 const StyledCard = styled.div`
@@ -20,37 +17,13 @@ export const ContentCard = styled.div`
   padding: 0px 16px 0px 16px;
 `
 
-export const InfoFarm = styled.div<{ withBg?: boolean }>`
-  border-radius: 6px;
+const FooterCard = styled.div`
+  margin-top: 16px;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px 12px;
-  ${(props) => props.withBg && 'background: #f4f5fa;'}
-
-  .title {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    color: #8990a5;
-  }
-  .field {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: right;
-    letter-spacing: 0.3px;
-    color: #0b1359;
-  }
 `
 
-interface FarmCardProps {
+export interface FarmCardProps {
   farm: FarmWithStakedValue
   cakePrice: BigNumber
 }
@@ -64,13 +37,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, cakePrice }) => {
 
   return (
     <StyledCard>
-      <CardHeading
-        lpLabel={lpLabel}
-        multiplier={farm.multiplier}
-        isCommunityFarm={farm.isCommunity}
-        token={farm.token}
-        quoteToken={farm.quoteToken}
-      />
+      <CardHeading farm={farm} />
       <ContentCard>
         <InfoFarm>
           <div className='title'>APR</div>

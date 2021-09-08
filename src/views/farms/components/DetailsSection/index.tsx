@@ -1,4 +1,4 @@
-import { ChevronDownIcon, Skeleton } from 'alium-uikit/src'
+import { ChevronDownIcon } from 'alium-uikit/src'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -94,8 +94,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLa
         {open && (
           <>
             <Info>
-              <div className='title'>Deposit:</div>
-              <div className='field'>{lpLabel}</div>
+              <InfoDeposit farm={farm} />
             </Info>
             <Info>
               <div className='title'>Total Liquidity</div>
@@ -108,15 +107,10 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLa
               <div className='field'>{farm?.depositFee || 0}%</div>
             </Info>
             <Info>
-              <div className='title'>LP Type</div>
-              <div className='field'>Alium LP</div>
+              <InfoLpType />
             </Info>
             <Info>
-              <div className='title'>
-                <a href={bscScanAddress} target='_blank'>
-                  View on BacScan
-                </a>
-              </div>
+              <InfoViewBscScan farm={farm} />
             </Info>
             <div className='hide' onClick={toggle}>
               Hide
