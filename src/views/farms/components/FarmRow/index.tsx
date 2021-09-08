@@ -93,7 +93,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
       depositFee: (
         <FarmRow.Cell>
           <FarmRow.Field>
-            <InfoDepositFee />
+            <InfoDepositFee depositFee={farm?.depositFee}/>
           </FarmRow.Field>
         </FarmRow.Cell>
       ),

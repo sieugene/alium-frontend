@@ -79,6 +79,12 @@ export const useFarms = () => {
   return farms
 }
 
+export const useFarmsLoading = () => {
+  const farmsLoading = useStoreFarms((state) => state.farmsLoading)
+  const farmsUserDataLoading = useStoreFarms((state) => state.farmsUserDataLoading)
+  return farmsLoading || farmsUserDataLoading
+}
+
 export const useFarmFromPid = (pid: number) => {
   const farm = useStoreFarms((state) => state.farms.find((f) => f.pid === pid))
   return farm

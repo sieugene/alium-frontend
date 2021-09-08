@@ -16,7 +16,12 @@ import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount, getBalanceNumber } from 'utils/formatBalance'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
 import useApproveFarm from 'views/farms/hooks/useApproveFarm'
-import { farmUserDataUpdate, useLpTokenPrice, usePriceCakeBusd } from 'views/farms/hooks/useFarmingPools'
+import {
+  farmUserDataUpdate,
+  useFarmsLoading,
+  useLpTokenPrice,
+  usePriceCakeBusd,
+} from 'views/farms/hooks/useFarmingPools'
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
 import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
@@ -70,13 +75,14 @@ export interface InfoAPRProps {
 }
 
 export function InfoApr({ farm }: InfoAPRProps) {
+  const loading = useFarmsLoading()
   return (
     <>
       <InfoTitle>
         APR
         <InfoApr.Question />
       </InfoTitle>
-      <InfoValue>{farm.apr || 0}%</InfoValue>
+      <InfoValue>{!loading ? `${farm.apr || 0}%` : <Skeleton width='75px' />}</InfoValue>
     </>
   )
 }
@@ -121,19 +127,26 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
   const rawEarningsBalance = account ? getBalanceAmount(earnings) : BIG_ZERO
   const displayBalance = rawEarningsBalance.toFixed(3, BigNumber.ROUND_DOWN)
   const earningsBusd = rawEarningsBalance ? rawEarningsBalance.multipliedBy(cakePrice).toNumber() : 0
+
+  const loading = useFarmsLoading()
+
   return {
     earnings,
     rawEarningsBalance,
     displayBalance,
     earningsBusd,
     titleNode: 'ALM earned',
-    displayBalanceNode: <div color={rawEarningsBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance}</div>,
+    displayBalanceNode: loading ? (
+      <Skeleton width='50px' />
+    ) : (
+      <div color={rawEarningsBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance}</div>
+    ),
     earningsBusdNode: earningsBusd > 0 && (
       <Balance fontSize='12px' color='textSubtle' decimals={2} value={earningsBusd} unit=' USD' />
     ),
     harvestButtonNode: (
       <Button
-        disabled={rawEarningsBalance.eq(0) || pendingTx}
+        disabled={rawEarningsBalance.eq(0) || pendingTx || loading}
         onClick={async () => {
           setPendingTx(true)
           try {
@@ -173,11 +186,12 @@ export function InfoDeposit({ farm }: InfoDepositProps) {
   )
 }
 
-export function InfoDepositFee() {
+export function InfoDepositFee({ depositFee }: { depositFee: number }) {
+  const loading = useFarmsLoading()
   return (
     <>
       <InfoTitle>Deposit fee</InfoTitle>
-      <InfoValue>0%</InfoValue>
+      <InfoValue>{!loading ? `${depositFee || 0}%` : <Skeleton width={75} height={25} />}</InfoValue>
     </>
   )
 }
@@ -200,6 +214,10 @@ export interface InfoViewBscScanProps {
 }
 
 export function InfoViewBscScan({ farm }: InfoViewBscScanProps) {
+  const loading = useFarmsLoading()
+  if (loading) {
+    return <Skeleton width={75} height={25} />
+  }
   return (
     <InfoTitle>
       <a href={getExplorerLink(97, useFarmLpAddress(farm), 'address')} target='_blank'>
@@ -214,13 +232,12 @@ export interface InfoTotalLiquidityProps {
 }
 
 export function InfoTotalLiquidity({ farm }: InfoTotalLiquidityProps) {
-  const totalValueFormatted = farm.liquidity?.gt(0)
-    ? `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
-    : ''
+  const loading = useFarmsLoading()
+  const totalLiqudidty = farm.liquidity?.gt(0) ? `$${farm.liquidity.toNumber()}` : '0$'
   return (
     <>
       <InfoTitle>Total Liquidity</InfoTitle>
-      <InfoValue>{totalValueFormatted ? <p>{totalValueFormatted}</p> : <Skeleton width={75} height={25} />}</InfoValue>
+      <InfoValue>{!loading ? <p>{totalLiqudidty}</p> : <Skeleton width={75} height={25} />}</InfoValue>
     </>
   )
 }
@@ -238,6 +255,8 @@ export interface UseInfoStakedParams {
 }
 
 export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
+  const loading = useFarmsLoading()
+
   const {
     tokenBalance: tokenBalanceAsString = 0,
     stakedBalance: stakedBalanceAsString = 0,
@@ -331,7 +350,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
 
   return {
     titleNode: `${tokenName} Staked`,
-    displayBalanceNode: displayBalance(),
+    displayBalanceNode: loading ? <Skeleton width='50px' /> : displayBalance(),
     balanceNode: stakedBalance.gt(0) && lpPrice.gt(0) && (
       <Balance
         fontSize='12px'
