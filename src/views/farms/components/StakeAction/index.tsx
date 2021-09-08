@@ -108,7 +108,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({ farm, addLiquidityUrl, ca
         </div>
         <div className='field'>
           {renderStakingButtons()}
-          {stakedBalance.gt(0) && lpPrice.gt(0) && (
+          {/* {stakedBalance.gt(0) && lpPrice.gt(0) && (
             <Balance
               fontSize='12px'
               color='textSubtle'
@@ -116,7 +116,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({ farm, addLiquidityUrl, ca
               value={getBalanceNumber(lpPrice.times(stakedBalance))}
               unit=' USD'
             />
-          )}
+          )} */}
         </div>
       </InfoFarm>
       <FooterStake

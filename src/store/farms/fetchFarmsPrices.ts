@@ -73,11 +73,11 @@ const getFarmQuoteTokenPrice = (farm: Farm, quoteTokenFarm: Farm, bnbPriceBusd: 
   return BIG_ZERO
 }
 
-const fetchFarmsPrices = async (farms: Farm[]): Promise<Farm[]> => {
+const fetchFarmsPrices = async (farms: Farm[]) => {
   const bnbPriceBusd = await fetchBnbBusdPrice()
 
   const farmsWithPrices = farms.map((farm) => {
-    const quoteTokenFarm = getFarmFromTokenSymbol(farms, farm.quoteToken.symbol)
+    const quoteTokenFarm = getFarmFromTokenSymbol(farms, farm.token.symbol)
     const baseTokenPrice = getFarmBaseTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)
     const quoteTokenPrice = getFarmQuoteTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)
 

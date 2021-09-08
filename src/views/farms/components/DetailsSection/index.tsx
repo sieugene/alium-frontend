@@ -74,7 +74,7 @@ export interface ExpandableSectionProps {
   farm: FarmWithStakedValue
 }
 
-const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, totalValueFormatted, lpLabel, farm }) => {
+const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLabel, farm }) => {
   const [open, setOpen] = useState(false)
   const { t } = useTranslation()
   const toggle = () => {
@@ -105,7 +105,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, tota
             </Info>
             <Info>
               <div className='title'>Deposit fee</div>
-              <div className='field'>0%</div>
+              <div className='field'>{farm?.depositFee || 0}%</div>
             </Info>
             <Info>
               <div className='title'>LP Type</div>
