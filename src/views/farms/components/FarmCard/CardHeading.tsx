@@ -1,7 +1,9 @@
+import { Skeleton } from 'alium-uikit/src'
 import CurrencyLogo from 'components/CurrencyLogo'
 import React from 'react'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { useFarmsLoading } from 'views/farms/hooks/useFarmingPools'
 import { useFarmLpLabel } from '../Info'
 
 export interface CardHeadingProps {
@@ -100,7 +102,12 @@ const WrapSecondLogo = styled.div`
   right: 20px;
 `
 
+const MultiplierSkeleton = styled(Skeleton)`
+  border-radius: 16px;
+`
+
 const CardHeading: React.FC<CardHeadingProps> = ({ farm }) => {
+  const loading = useFarmsLoading()
   return (
     <Wrapper>
       <div className='icons'>
@@ -120,7 +127,7 @@ const CardHeading: React.FC<CardHeadingProps> = ({ farm }) => {
             <span />
             {farm.isCommunity ? 'Community' : 'Core'}
           </Core>
-          <Multiplier>{farm.multiplier}</Multiplier>
+          {loading ? <MultiplierSkeleton width='41px' height='32px' /> : <Multiplier>{farm.multiplier}</Multiplier>}
         </Tags>
       </Info>
     </Wrapper>
