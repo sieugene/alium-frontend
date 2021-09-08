@@ -52,7 +52,6 @@ const Slide = (props: typeof slides[0]) => (
       <SliderTitle>{props.title}</SliderTitle>
       <SliderSubtitle>{props.subTitle}</SliderSubtitle>
     </SlideInfoW>
-    {/* <SliderImage bgSrc={props.image} /> */}
   </SlideW>
 )
 
