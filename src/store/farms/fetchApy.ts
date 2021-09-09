@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { ALM_PER_YEAR } from 'config'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { TESTDAI, TEST_BSC_ALM } from '../../constants'
+import { TESTDAI, TEST_BSC_ALM_OLD } from '../../constants'
 
 // P(LP) =(PtokenA * LPBalance tokenA  + PtokenB * LP Balance tokenB)LP Total Supply
 // -------------
@@ -49,7 +49,7 @@ export const tokenToStablePrice = async (token: Token, signify = 6) => {
 }
 
 export const almToStablePrice = async () => {
-  const ALM = TEST_BSC_ALM
+  const ALM = TEST_BSC_ALM_OLD
   const price = await tokenToStablePrice(ALM)
   return price
 }
