@@ -1,4 +1,4 @@
-import { MASTER_CHEF_FARMING_ADDRESS } from 'views/farms/hooks'
+export const MASTER_CHEF_FARMING_ADDRESS = '0x0758326331472941693249cb31dBADB3665Ec44C'
 
 export default {
   cake: {
