@@ -111,7 +111,7 @@ export const TESTWETH = newTokenChecksummed(
 //  BSC Testnet Basic Tokens
 export const TEST_BSC_ALM = newTokenChecksummed(
   ChainId.BSCTESTNET,
-  '0x6f58aCfaEB1BfDC9c4959c43aDdE7a3b63BF019f',
+  '0x1B6d9D1f80F875D48c6C511097BfFe4910AB9CD0',
   18,
   'ALM',
   'Alium Token',
