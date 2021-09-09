@@ -72,11 +72,13 @@ const Farms = () => {
           return farm
         }
         const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.busdPrice)
+
         const { cakeRewardsApr, lpRewardsApr } = isActive
           ? getFarmApr(new BigNumber(farm.poolWeight), almPrice, totalLiquidity, farm.lpAddresses[ChainId.BSCTESTNET])
           : { cakeRewardsApr: 0, lpRewardsApr: 0 }
 
-        return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
+        // return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
+        return { ...farm, apr: farm?.apy || cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
       })
 
       if (query) {
