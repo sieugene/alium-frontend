@@ -12,6 +12,7 @@ interface Props extends InjectedProps {
   onBack?: () => void
   bodyPadding?: string
   styledModalContent?: any
+  withoutContentWrapper?: boolean
 }
 
 const StyledModal = styled.div`
@@ -77,6 +78,7 @@ const Modal: FC<Props> = ({
   hideCloseButton = false,
   bodyPadding = '24px',
   styledModalContent,
+  withoutContentWrapper,
 }) => (
   <StyledModal>
     <ModalHeader>
@@ -94,9 +96,13 @@ const Modal: FC<Props> = ({
         </StyledButton>
       )}
     </ModalHeader>
-    <ModalContent p={bodyPadding} flexDirection='column' style={styledModalContent}>
-      {children}
-    </ModalContent>
+    {withoutContentWrapper ? (
+      children
+    ) : (
+      <ModalContent p={bodyPadding} flexDirection='column' style={styledModalContent}>
+        {children}
+      </ModalContent>
+    )}
   </StyledModal>
 )
 
