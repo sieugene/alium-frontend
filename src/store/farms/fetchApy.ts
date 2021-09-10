@@ -2,6 +2,7 @@ import { ChainId, Fetcher, Route, Token, WETH } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
 import { ALM_PER_YEAR } from 'config'
 import { storeNetwork } from 'store/network/useStoreNetwork'
+import { BIG_ONE, BIG_ZERO } from 'utils/bigNumber'
 import { getEthersProvider } from 'utils/bridge/providers'
 import { TESTDAI, TEST_BSC_ALM_OLD } from '../../constants'
 
@@ -19,16 +20,72 @@ export const lpTokenPriceToStable = async (
   lpBalanceTokenB: BigNumber,
   lpTotalSupply: BigNumber,
 ) => {
+  const forTokens = `${tokenA.symbol}:${tokenB.symbol}`
   try {
     const PTokenA = await tokenToStablePrice(tokenA)
     const PTokenB = await tokenToStablePrice(tokenB)
     const PLP =
       (Number(PTokenA) * Number(lpBalanceTokenA) + Number(PTokenB) * Number(lpBalanceTokenB)) / Number(lpTotalSupply)
+    console.log('--------------------------- Аргументы к вычислению lp прайса', forTokens)
+    console.log('lpBalanceTokenA', Number(lpBalanceTokenA))
+    console.log('lpBalanceTokenB', Number(lpBalanceTokenB))
+    console.log('lpTotalSupply', Number(lpTotalSupply))
+    console.log('PTokenA', PTokenA)
+    console.log('PTokenB', PTokenB)
+    console.log('--------------------------- Вычисление ', forTokens)
+    console.log('result', PLP)
+
     return PLP
   } catch (error) {
     console.error('Failure calc lptokenPrice!', error)
     return 0
   }
+}
+
+//   APY = TOKEN per year POOLshare(%) * TOKEN priceFARM LP balance * P(LP)
+// ---------
+// TOKEN per year- расчетное к-во токенов ALM за год
+// TOKEN price - Цена ALM, $
+// POOLshare(%) - Процент пула (pool Shares %) от общего значения пула (total Shares)
+// FARM LP balance- баланс LP токена на контракте фермы
+// P(LP) - цена LP токена, $
+export const apyCalc = async (poolWeight: BigNumber, farmLpBalance: number, farmLpBalanceToStable: number) => {
+  const TOKEN_PER_YEAR = ALM_PER_YEAR
+  const POOLshare = poolWeight
+  const tokenPrice = await almToStablePrice()
+  console.log('--------------- apy calc')
+  console.log('per year', Number(TOKEN_PER_YEAR))
+  console.log('pool share', Number(POOLshare))
+  console.log('alm price', tokenPrice)
+  console.log('farmLpBalance', Number(farmLpBalance))
+  console.log('farmLpBalanceToStable', farmLpBalanceToStable)
+
+  const apy =
+    (Number(TOKEN_PER_YEAR.dividedBy(POOLshare)) * Number(tokenPrice)) / (Number(farmLpBalance) * farmLpBalanceToStable)
+  console.log('result', apy)
+
+  return apy
+}
+
+export const almToStablePrice = async () => {
+  const ALM = TEST_BSC_ALM_OLD
+  const price = await tokenToStablePrice(ALM)
+  return price
+}
+
+export const fetchBnbDaiPrice = async () => {
+  const chainId = storeNetwork.getState().currentChainId
+  const ethersProvider = await getEthersProvider(chainId)
+
+  // Stable coin
+  const DAI = TESTDAI
+  // Core token
+  const _WETH = WETH[chainId]
+  const pair = await Fetcher.fetchPairData(DAI, _WETH, ethersProvider)
+  const route = new Route(chainId, [pair], DAI)
+  const price = new BigNumber(route.midPrice.toSignificant(6))
+
+  return BIG_ONE.div(price) || BIG_ZERO
 }
 
 // reference calc price
@@ -46,42 +103,4 @@ export const tokenToStablePrice = async (token: Token, signify = 6) => {
   } catch (error) {
     return '0'
   }
-}
-
-export const almToStablePrice = async () => {
-  const ALM = TEST_BSC_ALM_OLD
-  const price = await tokenToStablePrice(ALM)
-  return price
-}
-
-export const fetchBnbBusdPrice = async () => {
-  const chainId = storeNetwork.getState().currentChainId
-  const ethersProvider = await getEthersProvider(chainId)
-
-  // Stable coin
-  const DAI = TESTDAI
-  // Core token
-  const _WETH = WETH[chainId]
-  const pair = await Fetcher.fetchPairData(DAI, _WETH, ethersProvider)
-  const route = new Route(chainId, [pair], _WETH)
-
-  return new BigNumber(Number(route.midPrice.toSignificant(6)) * 100)
-}
-
-//   APY = TOKEN per year POOLshare(%) * TOKEN priceFARM LP balance * P(LP)
-// ---------
-// TOKEN per year- расчетное к-во токенов ALM за год
-// TOKEN price - Цена ALM, $
-// POOLshare(%) - Процент пула (pool Shares %) от общего значения пула (total Shares)
-// FARM LP balance- баланс LP токена на контракте фермы
-// P(LP) - цена LP токена, $
-export const apyCalc = async (poolWeight: BigNumber, farmLpBalance: number, farmLpBalanceToStable: number) => {
-  const TOKEN_PER_YEAR = ALM_PER_YEAR
-  const POOLshare = poolWeight
-  const tokenPrice = await almToStablePrice()
-
-  const apy =
-    (Number(TOKEN_PER_YEAR.dividedBy(POOLshare)) * Number(tokenPrice)) / (Number(farmLpBalance) * farmLpBalanceToStable)
-
-  return apy
 }

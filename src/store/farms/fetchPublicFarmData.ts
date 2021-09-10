@@ -105,6 +105,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     quoteTokenBalanceLP,
     lpTotalSupply,
   )
+
   const apy = await apyCalc(poolWeight, lpTokenBalanceMC, farmLpBalanceToStable)
 
   return {
