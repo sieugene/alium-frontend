@@ -1,3 +1,4 @@
+import { Token } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
 import { Farm } from 'state/types'
 
@@ -104,4 +105,10 @@ export interface FarmWithStakedValue extends Farm {
   apr?: number
   lpRewardsApr?: number
   liquidity?: BigNumber
+}
+
+export interface FarmPair {
+  token0: Token
+  token1: Token
+  pairName?: string
 }

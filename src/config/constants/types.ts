@@ -47,7 +47,7 @@ export interface Address {
 
 export type FarmPricedToken =
   | {
-      almBnbPrice: BigNumber
+      busdPrice: BigNumber
       chainId: ChainId
       address: string
       decimals: number

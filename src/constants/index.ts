@@ -65,6 +65,14 @@ export const TESTALM = newTokenChecksummed(
   'ALM',
   'Alium Token',
 )
+
+export const TESTBUSD = newTokenChecksummed(
+  ChainId.BSCTESTNET,
+  '0x8301F2213c0eeD49a7E28Ae4c3e91722919B8B47',
+  18,
+  'BUSD',
+  'BUSD(Testnet)',
+)
 export const TESTWBNB = newTokenChecksummed(
   ChainId.BSCTESTNET,
   '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
@@ -103,7 +111,14 @@ export const TESTWETH = newTokenChecksummed(
 //  BSC Testnet Basic Tokens
 export const TEST_BSC_ALM = newTokenChecksummed(
   ChainId.BSCTESTNET,
-  '0xf671C33452adfB8e0f645d95d8E3C6Df0d78fED2',
+  '0x1B6d9D1f80F875D48c6C511097BfFe4910AB9CD0',
+  18,
+  'ALM',
+  'Alium Token',
+)
+export const TEST_BSC_ALM_OLD = newTokenChecksummed(
+  ChainId.BSCTESTNET,
+  '0x6f58aCfaEB1BfDC9c4959c43aDdE7a3b63BF019f',
   18,
   'ALM',
   'Alium Token',
