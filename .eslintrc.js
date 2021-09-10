@@ -6,6 +6,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:@next/next/recommended',
     'plugin:@next/eslint-plugin-next/recommended',
+    'prettier',
   ],
   env: {
     browser: true,
@@ -18,14 +19,15 @@ module.exports = {
       version: '17.0.2',
     },
   },
+  plugins: ['prettier'],
   rules: {
     'max-params': 0, // temp
     'max-nested-callbacks': 0, // temp
     '@next/next/no-img-element': 0, // temp
     'react/jsx-no-useless-fragment': 0, // temp
     'react-hooks/rules-of-hooks': 2, // enable for errors: rules of hooks
-    'react-hooks/exhaustive-deps': 0,
     complexity: 0,
+    'prettier/prettier': 'warn',
   },
   overrides: [
     {

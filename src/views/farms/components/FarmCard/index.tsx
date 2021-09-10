@@ -1,10 +1,9 @@
-import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
-import CardActionsContainer from './CardActionsContainer'
+import DetailsSection from '../DetailsSection'
+import { InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEarned, useInfoStaked } from '../Info'
 import CardHeading from './CardHeading'
 
 const StyledCard = styled.div`
@@ -20,73 +19,56 @@ export const ContentCard = styled.div`
   padding: 0px 16px 0px 16px;
 `
 
-export const InfoFarm = styled.div<{ withBg?: boolean }>`
-  border-radius: 6px;
+const FooterCard = styled.div<{ isSingle: boolean }>`
+  margin-top: 16px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 12px;
-  ${(props) => props.withBg && 'background: #f4f5fa;'}
-
-  .title {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    color: #8990a5;
-  }
-  .field {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: right;
-    letter-spacing: 0.3px;
-    color: #0b1359;
-  }
+  justify-content: ${(props) => (props.isSingle ? 'flex-end' : 'space-between')};
 `
 
-interface FarmCardProps {
+export interface FarmCardProps {
   farm: FarmWithStakedValue
-  almBnbPrice: BigNumber
+  almPrice: BigNumber
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, almBnbPrice }) => {
-  const { t } = useTranslation()
-  const { account } = useWeb3React()
-
-  const lpLabel = farm.lpSymbol?.toUpperCase().replace('PANCAKE', '')
-  const earnLabel = farm.dual ? farm.dual.earnLabel : t('ALM + Fees')
+const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice }) => {
+  const earned = useInfoEarned(farm)
+  const staked = useInfoStaked({
+    farm,
+    addLiquidityUrl: '/none',
+  })
 
   return (
     <StyledCard>
-      <CardHeading
-        lpLabel={lpLabel}
-        multiplier={farm.multiplier}
-        isCommunityFarm={farm.isCommunity}
-        token={farm.token}
-        quoteToken={farm.quoteToken}
-      />
+      <CardHeading farm={farm} />
       <ContentCard>
-        <InfoFarm>
-          <div className='title'>APR</div>
-          <div className='field'>{farm.apr || 0}%</div>
-        </InfoFarm>
-        <InfoFarm withBg>
-          <div className='title'>Earn</div>
-          <div className='field'>{earnLabel}</div>
-        </InfoFarm>
-        <CardActionsContainer
-          farm={farm}
-          lpLabel={lpLabel}
-          account={account}
-          almBnbPrice={almBnbPrice}
-          addLiquidityUrl='/none'
-        />
+        <InfoRow>
+          <InfoApr farm={farm} />
+        </InfoRow>
+        <InfoRow withBg>
+          <InfoEarn farm={farm} />
+        </InfoRow>
+        <InfoRow>
+          <InfoTitle>
+            {earned.titleNode}
+            {earned.displayBalanceNode}
+            {earned.earningsBusdNode}
+          </InfoTitle>
+          <InfoValue>{earned.harvestButtonNode}</InfoValue>
+        </InfoRow>
+        <InfoRow withBg>
+          <InfoTitle>
+            <p>{staked.titleNode}</p>
+            <p>{staked.displayBalanceNode}</p>
+          </InfoTitle>
+          <InfoValue>
+            {staked.stakingButtonsNode}
+            {/* {staked.balanceNode} */}
+          </InfoValue>
+        </InfoRow>
+        <FooterCard isSingle={!staked.actionsNode}>
+          {staked.actionsNode}
+          <DetailsSection farm={farm} />
+        </FooterCard>
       </ContentCard>
     </StyledCard>
   )

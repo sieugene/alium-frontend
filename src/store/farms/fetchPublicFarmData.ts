@@ -5,6 +5,7 @@ import { Farm, SerializedBigNumber } from 'state/types'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
 import { BIG_TEN, BIG_ZERO } from 'utils/bigNumber'
 import { multicallWithDecoder } from 'utils/multicall'
+import { apyCalc, lpTokenPriceToStable } from './fetchApy'
 
 interface PublicFarmData {
   tokenAmountMc: SerializedBigNumber
@@ -16,6 +17,8 @@ interface PublicFarmData {
   tokenPriceVsQuote: SerializedBigNumber
   poolWeight: SerializedBigNumber
   multiplier: string
+  depositFee: number
+  apy: number
 }
 
 const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
@@ -92,6 +95,17 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
 
   const allocPoint = info ? new BigNumber(info.allocPoint?._hex) : BIG_ZERO
   const poolWeight = totalAllocPoint ? allocPoint.div(new BigNumber(totalAllocPoint)) : BIG_ZERO
+  const depositFee = Number(info?.depositFee / 1000000) || 0
+
+  // apy
+  const farmLpBalanceToStable = await lpTokenPriceToStable(
+    token,
+    quoteToken,
+    tokenBalanceLP,
+    quoteTokenBalanceLP,
+    lpTotalSupply,
+  )
+  const apy = await apyCalc(poolWeight, lpTokenBalanceMC, farmLpBalanceToStable)
 
   return {
     tokenAmountMc: tokenAmountMc.toJSON(),
@@ -103,13 +117,9 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     tokenPriceVsQuote: quoteTokenAmountTotal.div(tokenAmountTotal).toJSON(),
     poolWeight: poolWeight.toJSON(),
     multiplier: `${allocPoint.div(100).toString()}X`,
+    depositFee,
+    apy,
   }
-}
-
-const serializerIsNotNan = (num: SerializedBigNumber) => {
-  const numIsNan = num === 'NaN' || isNaN(Number(num))
-
-  return numIsNan ? new BigNumber(0).toJSON() : num
 }
 
 export default fetchPublicFarmData

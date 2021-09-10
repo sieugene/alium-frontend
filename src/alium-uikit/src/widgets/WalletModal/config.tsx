@@ -95,7 +95,7 @@ export const wallets = (): WalletsConfig[] => [
     showOn: WalletShowOn.desktop,
   },
   {
-    title: 'ONTO',
+    title: 'ONTO Wallet',
     icon: OntoWallet,
     connectorId: ConnectorNames.WalletConnect,
   },

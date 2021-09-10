@@ -6,10 +6,10 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 })
 
-export const CAKE_PER_BLOCK = new BigNumber(40)
-export const BLOCKS_PER_YEAR = new BigNumber(10512000)
-export const CAKE_PER_YEAR = CAKE_PER_BLOCK.times(BLOCKS_PER_YEAR)
+export const ALM_PER_BLOCK = new BigNumber(7).multipliedBy(10^18)
 export const BSC_BLOCK_TIME = 3
+export const BLOCKS_PER_YEAR = new BigNumber((60 / BSC_BLOCK_TIME) * 60 * 24 * 365) 
+export const ALM_PER_YEAR = ALM_PER_BLOCK.times(BLOCKS_PER_YEAR)
 export const CAKE_POOL_PID = 1
 export const BASE_EXCHANGE_URL = 'https://exchange.dev.alium.finance'
 export const BASE_ADD_LIQUIDITY_URL = `${BASE_EXCHANGE_URL}/#/add`

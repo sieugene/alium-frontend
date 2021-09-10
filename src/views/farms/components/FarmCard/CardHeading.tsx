@@ -1,19 +1,19 @@
+import { Skeleton } from 'alium-uikit/src'
 import CurrencyLogo from 'components/CurrencyLogo'
 import React from 'react'
-import { Farm } from 'state/types'
 import styled from 'styled-components'
+import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { useFarmsLoading } from 'views/farms/hooks/useFarmingPools'
+import { useFarmLpLabel } from '../Info'
 
-export interface ExpandableSectionProps {
-  lpLabel?: string
-  multiplier?: string
-  isCommunityFarm?: boolean
-  token: Farm['token']
-  quoteToken: Farm['quoteToken']
+export interface CardHeadingProps {
+  farm: FarmWithStakedValue
 }
 
 const Wrapper = styled.div`
   background-size: contain;
   background: url(/images/farms/cards/farm_card_1.png), linear-gradient(180deg, #4334a6 -3.7%, #8677f0 103.7%);
+  background-repeat: no-repeat;
   border-radius: 6px;
   width: 100%;
   height: 116px;
@@ -102,27 +102,32 @@ const WrapSecondLogo = styled.div`
   right: 20px;
 `
 
-const CardHeading: React.FC<ExpandableSectionProps> = ({ isCommunityFarm, multiplier, lpLabel, quoteToken, token }) => {
+const MultiplierSkeleton = styled(Skeleton)`
+  border-radius: 16px;
+`
+
+const CardHeading: React.FC<CardHeadingProps> = ({ farm }) => {
+  const loading = useFarmsLoading()
   return (
     <Wrapper>
       <div className='icons'>
         <DoubleLogo>
           <WrapMainLogo>
-            <CurrencyLogo size='48px' currency={token} />
+            <CurrencyLogo size='48px' currency={farm.token} />
           </WrapMainLogo>
           <WrapSecondLogo>
-            <CurrencyLogo size='48px' currency={quoteToken} />
+            <CurrencyLogo size='48px' currency={farm.quoteToken} />
           </WrapSecondLogo>
         </DoubleLogo>
       </div>
       <Info>
-        <div className='label'>{lpLabel.split(' ')[0]}</div>
+        <div className='label'>{useFarmLpLabel(farm).split(' ')[0]}</div>
         <Tags>
           <Core>
             <span />
-            {isCommunityFarm ? 'Community' : 'Core'}
+            {farm.isCommunity ? 'Community' : 'Core'}
           </Core>
-          <Multiplier>{multiplier}</Multiplier>
+          {loading ? <MultiplierSkeleton width='41px' height='32px' /> : <Multiplier>{farm.multiplier}</Multiplier>}
         </Tags>
       </Info>
     </Wrapper>

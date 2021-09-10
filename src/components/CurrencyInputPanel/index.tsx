@@ -3,11 +3,12 @@ import { ArrowDropDownIcon, Button, Text } from 'alium-uikit/src'
 import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
 import { darken } from 'polished'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import styled, { keyframes, useTheme } from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { TranslateString } from 'utils/translateTextHelpers'
+import { FarmPair } from 'views/farms/farms.types'
 import CurrencyLogo from '../CurrencyLogo'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { Input as NumericalInput } from '../NumericalInput'
@@ -106,12 +107,11 @@ const dots = keyframes`
 `
 
 const Dots = styled.div`
- &:after {
-  content: "...";
-  animation: ${dots} 1s steps(5, end) infinite;
-}
+  &:after {
+    content: '...';
+    animation: ${dots} 1s steps(5, end) infinite;
+  }
 `
-
 
 interface CurrencyInputPanelProps {
   value: string
@@ -123,13 +123,15 @@ interface CurrencyInputPanelProps {
   currency?: Currency | null
   disableCurrencySelect?: boolean
   hideBalance?: boolean
-  pair?: Pair | null
+  pair?: Pair | FarmPair | null
   hideInput?: boolean
   otherCurrency?: Currency | null
   id: string
   showCommonBases?: boolean
   currencyList?: any
   customHeight?: number
+  // extends props for farm input
+  balance?: string
 }
 
 export default function CurrencyInputPanel({
@@ -149,6 +151,7 @@ export default function CurrencyInputPanel({
   showCommonBases,
   currencyList,
   customHeight,
+  balance,
 }: CurrencyInputPanelProps) {
   const theme = useTheme()
   const { t } = useTranslation()
@@ -159,6 +162,8 @@ export default function CurrencyInputPanel({
   const handleDismissSearch = useCallback(() => {
     setModalOpen(false)
   }, [setModalOpen])
+
+  const showMax = (account && currency && label !== 'To') || showMaxButton
 
   return (
     <InputPanel id={id}>
@@ -175,9 +180,11 @@ export default function CurrencyInputPanel({
                   fontSize='14px'
                   style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
                 >
-                  {!hideBalance && !!currency && selectedCurrencyBalance
-                    ? `Balance: ${toSignificantCurrency(selectedCurrencyBalance)}`
-                    : <Dots>Balance loading</Dots>}
+                  {!hideBalance && ((!!currency && selectedCurrencyBalance) || balance) ? (
+                    `Balance: ${balance || toSignificantCurrency(selectedCurrencyBalance)}`
+                  ) : (
+                    <Dots>Balance loading</Dots>
+                  )}
                 </Text>
               )}
             </RowBetween>
@@ -198,7 +205,7 @@ export default function CurrencyInputPanel({
                 }}
                 style={{ fontSize: '14px' }}
               />
-              {account && currency && showMaxButton && label !== 'To' && (
+              {showMax && (
                 <Button onClick={onMax} size='sm' variant='text' buttonType='max'>
                   MAX
                 </Button>
@@ -221,8 +228,14 @@ export default function CurrencyInputPanel({
                 <CurrencyLogo currency={currency} size='24px' style={{ marginRight: '8px' }} />
               ) : null}
               {pair ? (
-                <Text color={theme.colors.textSubtle} style={{ marginLeft: '8px', fontSize: '14px' }}>
-                  {pair?.token0.symbol}:{pair?.token1.symbol}
+                <Text
+                  color={theme.colors.textSubtle}
+                  style={{ marginLeft: '8px', fontSize: '14px' }}
+                  className='symbol-title'
+                >
+                  {(pair as FarmPair)?.pairName
+                    ? (pair as FarmPair)?.pairName
+                    : `${pair?.token0.symbol}:${pair?.token1.symbol}`}
                 </Text>
               ) : (
                 <Text color={theme.colors.textSubtle} style={{ paddingRight: '12px', fontSize: '14px' }}>
