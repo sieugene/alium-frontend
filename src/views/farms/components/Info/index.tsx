@@ -60,6 +60,26 @@ export const InfoTitle = styled.div`
   }
 `
 
+export const EarnsFarm = styled.div<{ earningsBusdExist: boolean }>`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  .balance {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 1px;
+    color: #8990a5;
+    margin-left: 4px;
+  }
+  .earned-token,
+  .staked-token {
+    color: ${(props) => (props.earningsBusdExist ? '#6C5DD3' : '#8990a5')};
+  }
+`
+
 export const InfoValue = styled.div`
   font-family: Roboto;
   font-style: normal;
@@ -68,6 +88,28 @@ export const InfoValue = styled.div`
   line-height: 20px;
   letter-spacing: 0.3px;
   color: #0b1359;
+`
+
+const StakeCounter = styled(IconButton)`
+  svg {
+    path {
+      fill: #8990a5;
+    }
+  }
+  background: transparent;
+  border: 1px solid #d2d6e5;
+
+  &:hover {
+    opacity: 0.75;
+    border: 1px solid #d2d6e5 !important;
+    background-color: transparent !important;
+  }
+`
+
+const HarvestButton = styled(Button)`
+  width: 81px;
+  height: 32px;
+  font-size: 12px;
 `
 
 export interface InfoAPRProps {
@@ -139,14 +181,18 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
     displayBalanceNode: loading ? (
       <Skeleton width='50px' />
     ) : (
-      <div color={rawEarningsBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance}</div>
+      <div color={rawEarningsBalance.eq(0) ? 'textDisabled' : 'text'} className='earned-token'>
+        {displayBalance}
+      </div>
     ),
-    earningsBusdNode: earningsBusd > 0 && (
-      <Balance fontSize='12px' color='textSubtle' decimals={2} value={earningsBusd} unit=' USD' />
-    ),
+    earningsBusdNode:
+      earningsBusd > 0 ? (
+        <Balance before='~' fontSize='12px' color='textSubtle' decimals={2} value={earningsBusd} unit=' USD' />
+      ) : null,
     harvestButtonNode: (
-      <Button
+      <HarvestButton
         disabled={rawEarningsBalance.eq(0) || pendingTx || loading}
+        variant='secondary'
         onClick={async () => {
           setPendingTx(true)
           try {
@@ -168,7 +214,7 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
         }}
       >
         {t('Harvest')}
-      </Button>
+      </HarvestButton>
     ),
   }
 }
@@ -214,13 +260,14 @@ export interface InfoViewBscScanProps {
 }
 
 export function InfoViewBscScan({ farm }: InfoViewBscScanProps) {
+  const address = useFarmLpAddress(farm)
   const loading = useFarmsLoading()
   if (loading) {
     return <Skeleton width={75} height={25} />
   }
   return (
     <InfoTitle>
-      <a href={getExplorerLink(97, useFarmLpAddress(farm), 'address')} target='_blank'>
+      <a href={getExplorerLink(97, address, 'address')} target='_blank'>
         View on BacScan
       </a>
     </InfoTitle>
@@ -276,6 +323,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
   const { onUnstake } = useUnstakeFarms(pid)
   const location = useRouter()
   const { account } = useWeb3React()
+  // todo provide lp price here
   const lpPrice = useLpTokenPrice(tokenName)
   const lpLabel = useFarmLpLabel(farm)
   const almPrice = usePriceCakeBusd()
@@ -342,12 +390,13 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
   const FARM_NOT_ENABLED = account && !isApproved
   const STAKE_ALLOW = isApproved && !stakedBalanceNotZero
   const EMPTY_STAKE_ACTION = !FARM_NOT_ENABLED && !STAKE_ALLOW
-
+ 
   return {
     titleNode: `${tokenName} Staked`,
-    displayBalanceNode: loading ? <Skeleton width='50px' /> : displayBalance(),
+    displayBalanceNode: loading ? <Skeleton width='50px' /> : <div className='staked-token'>{displayBalance()}</div>,
     balanceNode: stakedBalance.gt(0) && lpPrice.gt(0) && (
       <Balance
+        before='~'
         fontSize='12px'
         color='textSubtle'
         decimals={2}
@@ -358,16 +407,16 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     stakedBalanceNotZero,
     stakingButtonsNode: stakedBalanceNotZero ? (
       <IconButtonWrapper>
-        <IconButton variant='tertiary' onClick={onPresentWithdraw} mr='6px'>
+        <StakeCounter variant='tertiary' onClick={onPresentWithdraw} mr='6px'>
           <MinusIcon color='primary' width='14px' />
-        </IconButton>
-        <IconButton
+        </StakeCounter>
+        <StakeCounter
           variant='tertiary'
           onClick={onPresentDeposit}
           disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
         >
           <AddIcon color='primary' width='14px' />
-        </IconButton>
+        </StakeCounter>
       </IconButtonWrapper>
     ) : (
       <div>-</div>
