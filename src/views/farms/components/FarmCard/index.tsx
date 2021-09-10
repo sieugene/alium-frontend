@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
 import DetailsSection from '../DetailsSection'
-import { InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEarned, useInfoStaked } from '../Info'
+import { EarnsFarm, InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEarned, useInfoStaked } from '../Info'
 import CardHeading from './CardHeading'
 
 const StyledCard = styled.div`
@@ -47,23 +47,25 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice }) => {
         <InfoRow withBg>
           <InfoEarn farm={farm} />
         </InfoRow>
-        <InfoRow>
+        <InfoRow style={{ minHeight: '70px' }}>
           <InfoTitle>
             {earned.titleNode}
-            {earned.displayBalanceNode}
-            {earned.earningsBusdNode}
+            <EarnsFarm earningsBusdExist={Boolean(earned.earningsBusdNode)}>
+              {earned.displayBalanceNode}
+              {earned.earningsBusdNode}
+            </EarnsFarm>
           </InfoTitle>
           <InfoValue>{earned.harvestButtonNode}</InfoValue>
         </InfoRow>
         <InfoRow withBg>
           <InfoTitle>
             <p>{staked.titleNode}</p>
-            <p>{staked.displayBalanceNode}</p>
+            <EarnsFarm earningsBusdExist={Boolean(earned.displayBalanceNode)}>
+              <p>{staked.displayBalanceNode}</p>
+              <p> {staked.balanceNode}</p>
+            </EarnsFarm>
           </InfoTitle>
-          <InfoValue>
-            {staked.stakingButtonsNode}
-            {/* {staked.balanceNode} */}
-          </InfoValue>
+          <InfoValue>{staked.stakingButtonsNode}</InfoValue>
         </InfoRow>
         <FooterCard isSingle={!staked.actionsNode}>
           {staked.actionsNode}

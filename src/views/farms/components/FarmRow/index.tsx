@@ -93,7 +93,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
       depositFee: (
         <FarmRow.Cell>
           <FarmRow.Field>
-            <InfoDepositFee depositFee={farm?.depositFee}/>
+            <InfoDepositFee depositFee={farm?.depositFee} />
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
@@ -190,6 +190,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
                         cells.deposit,
                         cells.totalLiquidity,
                         cells.earned,
+                        cells.harvest,
                         cells.staked,
                         cells.stakedButtons,
                         cells.stakedActions,
