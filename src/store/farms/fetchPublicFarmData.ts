@@ -5,7 +5,7 @@ import { Farm, SerializedBigNumber } from 'state/types'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
 import { BIG_TEN, BIG_ZERO } from 'utils/bigNumber'
 import { multicallWithDecoder } from 'utils/multicall'
-import { apyCalc, lpTokenPriceToStable } from './fetchApy'
+import { fetchApy } from './fetchApy'
 
 interface PublicFarmData {
   tokenAmountMc: SerializedBigNumber
@@ -94,18 +94,20 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       : [null, null]
 
   const allocPoint = info ? new BigNumber(info.allocPoint?._hex) : BIG_ZERO
-  const poolWeight = totalAllocPoint ? allocPoint.div(new BigNumber(totalAllocPoint)) : BIG_ZERO
+  const poolWeight = totalAllocPoint ? allocPoint.div(new BigNumber(totalAllocPoint)).times(100) : BIG_ZERO
+
   const depositFee = Number(info?.depositFee / 1000000) || 0
 
-  // apy
-  const farmLpBalanceToStable = await lpTokenPriceToStable(
+  // apy fetch and calc
+  const apy = await fetchApy(
     token,
     quoteToken,
     tokenBalanceLP,
     quoteTokenBalanceLP,
     lpTotalSupply,
+    poolWeight,
+    lpTokenBalanceMC,
   )
-  const apy = await apyCalc(poolWeight, lpTokenBalanceMC, farmLpBalanceToStable)
 
   return {
     tokenAmountMc: tokenAmountMc.toJSON(),
