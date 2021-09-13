@@ -25,6 +25,11 @@ export enum ViewMode {
   'CARD' = 'CARD',
 }
 
+export enum FarmTab {
+  'live' = 'live',
+  'finished' = 'finished',
+}
+
 export enum FarmSortOption {
   'apr' = 'apr',
   'multiplier' = 'multiplier',

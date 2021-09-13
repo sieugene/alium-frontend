@@ -1,7 +1,7 @@
 import { FARM_MOBILE_MEDIA } from 'constants/layout/farm.layout'
-import { useState } from 'react'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
-import { objectParamsToFalse } from 'utils/common/objectParamsToFalse'
+import { FarmTab } from 'views/farms/farms.types'
 
 const Tabs = styled.div`
   display: flex;
@@ -33,32 +33,27 @@ const Tab = styled.div<{ active: boolean }>`
 `
 
 export const FarmTabs = () => {
-  const [activeTab, setActiveTab] = useState({
-    live: true,
-    finished: false,
-  })
+  const setActiveTab = useStoreFarms((state) => state.setActiveTab)
+  const activeTab = useStoreFarms((state) => state.activeTab)
 
-  const changeActive = (tab: keyof typeof activeTab) => {
-    setActiveTab((state) => ({
-      ...objectParamsToFalse(state),
-      [tab]: true,
-    }))
+  const changeActive = (tab: FarmTab) => {
+    setActiveTab(tab)
   }
   return (
     <Tabs>
       <Tab
         onClick={() => {
-          changeActive('live')
+          changeActive(FarmTab.live)
         }}
-        active={activeTab.live}
+        active={FarmTab.live === activeTab}
       >
         Live
       </Tab>
       <Tab
         onClick={() => {
-          changeActive('finished')
+          changeActive(FarmTab.finished)
         }}
-        active={activeTab.finished}
+        active={FarmTab.finished === activeTab}
       >
         Finished
       </Tab>
