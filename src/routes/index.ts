@@ -16,6 +16,8 @@ export const ROUTES = {
   addByOne: (currencyId) => `/add/${currencyId}`,
   addByMultiple: (currencyIdA: string, currencyIdB: string) => `/add/${currencyIdA}/${currencyIdB}`,
   removeByMultiple: (currencyIdA: string, currencyIdB: string) => `/remove/${currencyIdA}/${currencyIdB}`,
+  shp: '/shp',
+  shpYour: '/shp/your',
   //
   tokenHolderArea: '/account',
   collection: '/collection',
