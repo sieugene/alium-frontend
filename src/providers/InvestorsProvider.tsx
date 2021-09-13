@@ -1,7 +1,7 @@
 import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { Web3ReactProvider } from '@web3-react/core'
 import { ModalProvider } from 'alium-uikit/src'
-import { LanguageContextProvider } from 'contexts/Localisation/languageContext'
+// import { LanguageContextProvider } from 'contexts/Localisation/languageContext'
 import dynamic from 'next/dynamic'
 import { FC } from 'react'
 import { Provider } from 'react-redux'
@@ -30,9 +30,9 @@ const InvestorsProvider: FC = ({ children }) => {
         <Web3ReactProviderDefault getLibrary={getLibrary}>
           <Provider store={store}>
             <ThemeContextProvider>
-              <LanguageContextProvider>
-                <ModalProvider>{children}</ModalProvider>
-              </LanguageContextProvider>
+              {/* <LanguageContextProvider> */}
+              <ModalProvider>{children}</ModalProvider>
+              {/* </LanguageContextProvider> */}
             </ThemeContextProvider>
           </Provider>
         </Web3ReactProviderDefault>

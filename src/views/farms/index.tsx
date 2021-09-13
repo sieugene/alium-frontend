@@ -30,7 +30,7 @@ const getDisplayApr = (cakeRewardsApr?: number, lpRewardsApr?: number) => {
 const Farms = () => {
   const { pathname } = useRouter()
   const farmsLP = useFarms()
-  // make here real loader!
+
   const almPrice = usePriceCakeBusd()
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
