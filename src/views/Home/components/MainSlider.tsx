@@ -61,6 +61,72 @@ const slides = [
   },
 ]
 
+const CarouselStyled = styled(Carousel)`
+  .carousel-status {
+    display: none;
+  }
+  .control-dots {
+    position: absolute;
+    bottom: 35px;
+    left: 81px;
+    width: fit-content;
+    display: flex;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 575px) {
+    .control-dots {
+      position: absolute;
+      top: 43%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  @media screen and (max-width: 395px) {
+    .control-dots {
+      top: 57%;
+    }
+  }
+`
+
+const ArrowItem = styled.div<{ type: 'next' | 'prev' }>`
+  position: absolute;
+  bottom: 24px;
+  left: ${({ type }) => (type === 'next' ? '167px' : '40px')};
+  z-index: 99;
+  cursor: pointer;
+  svg {
+    ${({ type }) =>
+      type === 'next' &&
+      `transform: rotate(
+180deg);`}
+  }
+  outline: none;
+  @media screen and (max-width: 575px) {
+    position: absolute;
+    top: 43%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    left: ${({ type }) => (type === 'next' ? '70%' : '26%')};
+  }
+  @media screen and (max-width: 395px) {
+    top: 57%;
+  }
+`
+const Indicator = styled.div<{ isSelected: boolean }>`
+  background: #ffffff;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 12px;
+  opacity: ${(props) => (props.isSelected ? 1 : 0.4)};
+  cursor: pointer;
+`
+
 const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
   return (
     <CarouselStyled
@@ -70,7 +136,32 @@ const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
       showThumbs={false}
       swipeable
       autoPlay
+      infiniteLoop
       interval={10000}
+      renderArrowPrev={(onClickHandler, hasPrev, label) => (
+        <ArrowItem onClick={onClickHandler} type='prev'>
+          <Arrow />
+        </ArrowItem>
+      )}
+      renderArrowNext={(onClickHandler, hasNext, label) => (
+        <ArrowItem onClick={onClickHandler} type='next'>
+          <Arrow />
+        </ArrowItem>
+      )}
+      renderIndicator={(onClickHandler, isSelected, index, label) => {
+        return (
+          <Indicator
+            isSelected={isSelected}
+            onClick={onClickHandler}
+            onKeyDown={onClickHandler}
+            key={index}
+            role='button'
+            tabIndex={0}
+            title={`${label} ${index + 1}`}
+            aria-label={`${label} ${index + 1}`}
+          />
+        )
+      }}
     >
       {slides.map((item, key) => (
         <Slide key={key} {...item} />
@@ -90,12 +181,6 @@ const Slide = (props: typeof slides[0]) => (
     </SlideInfoW>
   </SlideW>
 )
-
-const CarouselStyled = styled(Carousel)`
-  .carousel-status {
-    display: none;
-  }
-`
 
 const SlideW = styled.div<{ bgImage: string }>`
   position: relative;
@@ -257,3 +342,19 @@ const SliderImage = styled.div<{ bgSrc: string }>`
     padding-bottom: 320px;
   }
 `
+
+// Icons
+
+const Arrow = () => {
+  return (
+    <svg width='24' height='25' viewBox='0 0 24 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M14.5001 17.998L9.50012 12.9944L14.5001 7.99805'
+        stroke='white'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  )
+}
