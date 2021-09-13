@@ -11,9 +11,6 @@ export interface CardHeadingProps {
 }
 
 const Wrapper = styled.div`
-  background-size: contain;
-  background: url(/images/farms/cards/farm_card_1.png), linear-gradient(180deg, #4334a6 -3.7%, #8677f0 103.7%);
-  background-repeat: no-repeat;
   border-radius: 6px;
   width: 100%;
   height: 116px;
@@ -109,7 +106,7 @@ const MultiplierSkeleton = styled(Skeleton)`
 const CardHeading: React.FC<CardHeadingProps> = ({ farm }) => {
   const loading = useFarmsLoading()
   return (
-    <Wrapper>
+    <Wrapper className='farm__head'>
       <div className='icons'>
         <DoubleLogo>
           <WrapMainLogo>

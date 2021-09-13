@@ -131,7 +131,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
   if (isMobile) {
     return (
       <>
-        <FarmRow.MobileView>
+        <FarmRow.MobileView className='farm__row'>
           <tr>{cells.heading}</tr>
           <tr>{[cells.apr, cells.earn, !isOpen && cells.indicator]}</tr>
           {isOpen && (
@@ -152,7 +152,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
 
   return (
     <>
-      <FarmRow.Summary>
+      <FarmRow.Summary className='farm__row'>
         {isDesktop
           ? [
               cells.heading,

@@ -28,9 +28,10 @@ const FooterCard = styled.div<{ isSingle: boolean }>`
 export interface FarmCardProps {
   farm: FarmWithStakedValue
   almPrice: BigNumber
+  removed?: boolean
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({
     farm,
@@ -38,7 +39,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice }) => {
   })
 
   return (
-    <StyledCard>
+    <StyledCard className='farm__card'>
       <CardHeading farm={farm} />
       <ContentCard>
         <InfoRow>

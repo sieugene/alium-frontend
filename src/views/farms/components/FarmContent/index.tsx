@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
+import { farmBgForNthChild, farmCardsBg } from 'views/farms/helpers/farms.styles'
 import FarmCard from '../FarmCard'
 import FarmRow from '../FarmRow'
 
@@ -32,6 +33,27 @@ export default function FarmContent({ viewMode, farms, almPrice }: FarmContentPr
       )
   }
 }
+
+FarmContent.Container = styled.div`
+  .farm__row,
+  .farm__card {
+    .farm__head {
+      background-size: contain;
+      ${farmCardsBg[0]}
+      background-repeat: no-repeat;
+    }
+  }
+  .farm__card {
+    ${farmBgForNthChild(1)};
+    ${farmBgForNthChild(2)};
+    ${farmBgForNthChild(3)};
+  }
+  .farm__row {
+    ${farmBgForNthChild(1, 1)};
+    ${farmBgForNthChild(3, 2)};
+    ${farmBgForNthChild(5, 3)};
+  }
+`
 
 FarmContent.Grid = styled.div`
   display: grid;

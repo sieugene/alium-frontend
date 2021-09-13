@@ -426,7 +426,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     ) : (
       <>
         {FARM_NOT_ENABLED && (
-          <Button mt='8px' disabled={requestedApproval} onClick={handleApprove}>
+          <Button mt='8px' disabled={requestedApproval || loading} onClick={handleApprove}>
             {t('Enable Farm')}
           </Button>
         )}

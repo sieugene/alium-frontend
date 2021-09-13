@@ -12,7 +12,7 @@ import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
 import FarmContainer from './FarmContainer'
-import { FarmWithStakedValue } from './farms.types'
+import { FarmTab, FarmWithStakedValue } from './farms.types'
 import { useFarms, usePollFarmsWithUserData, usePriceCakeBusd } from './hooks/useFarmingPools'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
@@ -29,12 +29,15 @@ const getDisplayApr = (cakeRewardsApr?: number, lpRewardsApr?: number) => {
 
 const Farms = () => {
   const { pathname } = useRouter()
+  // Farm hooks
   const farmsLP = useFarms()
-  // make here real loader!
   const almPrice = usePriceCakeBusd()
+  // Farm Filters
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
   const sortOption = useStoreFarms((state) => state.sortOption)
+  const stakedOnly = useStoreFarms((state) => state.stakedOnly)
+  const activeTab = useStoreFarms((state) => state.activeTab)
 
   const { account } = useWeb3React()
 
@@ -49,8 +52,6 @@ const Farms = () => {
   // Users with no wallet connected should see 0 as Earned amount
   // Connected users should see loading indicator until first userData has loaded
   const userDataReady = !account || (!!account && userDataLoaded)
-
-  const stakedOnly = useStoreFarms((state) => state.stakedOnly)
 
   // const [stakedOnly] = useUserFarmStakedOnly(isActive)
 
@@ -135,10 +136,14 @@ const Farms = () => {
 
   chosenFarmsLength.current = chosenFarmsMemoized.length
 
-  const farms = useMemo(
-    () => [...chosenFarmsMemoized, ...chosenFarmsMemoized, ...chosenFarmsMemoized],
-    [chosenFarmsMemoized],
-  )
+  const farmsOfActivity = useMemo(() => {
+    const isFinished = activeTab === FarmTab.finished
+    const allFarms = [...chosenFarmsMemoized, ...chosenFarmsMemoized, ...chosenFarmsMemoized]
+    if (isFinished) {
+      return []
+    }
+    return allFarms
+  }, [chosenFarmsMemoized, activeTab])
 
   return (
     <FarmContainer>
@@ -146,7 +151,9 @@ const Farms = () => {
         <FarmBanner />
         <FarmFilters />
       </div>
-      <FarmContent viewMode={viewMode} farms={farms} almPrice={almPrice} />
+      <FarmContent.Container>
+        <FarmContent viewMode={viewMode} farms={farmsOfActivity} almPrice={almPrice} />
+      </FarmContent.Container>
     </FarmContainer>
   )
 }
