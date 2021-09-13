@@ -63,7 +63,15 @@ const slides = [
 
 const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
   return (
-    <CarouselStyled className={className} dynamicHeight showStatus={false} showThumbs={false} swipeable>
+    <CarouselStyled
+      className={className}
+      dynamicHeight
+      showStatus={false}
+      showThumbs={false}
+      swipeable
+      autoPlay
+      interval={10000}
+    >
       {slides.map((item, key) => (
         <Slide key={key} {...item} />
       ))}
