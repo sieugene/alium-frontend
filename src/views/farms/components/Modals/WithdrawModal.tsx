@@ -9,7 +9,7 @@ const WithdrawModal: FC<Omit<FarmActionModalProps, 'title'>> = ({
   farm,
   almPrice,
 }) => {
-  const title = `Withdraw ${tokenName}`
+  const title = `Unstake LP tokens`
   return (
     <FarmActionModal
       max={max}
