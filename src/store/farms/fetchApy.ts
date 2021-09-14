@@ -1,10 +1,11 @@
 import { ChainId, Fetcher, Route, Token, WETH } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
-import { storeNetwork } from 'store/network/useStoreNetwork'
-import { BIG_ONE, BIG_ZERO } from 'utils/bigNumber'
+import Cookies from 'universal-cookie'
+import { BIG_ZERO } from 'utils/bigNumber'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { TESTDAI, TEST_BSC_ALM_OLD } from '../../constants'
+import { BSC_ALM, DAI, TESTDAI } from '../../constants'
 import { calcApy, calcFarmLpPrice } from './farms.functions'
+const cookies = new Cookies()
 
 export const lpTokenPriceToStable = async (
   tokenA: Token,
@@ -52,38 +53,46 @@ export const fetchApy = async (
 // Helpers *
 
 export const almToStablePrice = async () => {
-  const ALM = TEST_BSC_ALM_OLD
-  const price = await tokenToStablePrice(ALM)
-  return price
+  // const ALM = TEST_BSC_ALM_OLD
+  const chainId = ChainId.MAINNET
+  const ALM = BSC_ALM
+  const price = await tokenToStablePrice(ALM, chainId)
+  const cookieAlmPrice = cookies.get('alm-price')
+
+  return cookieAlmPrice || price
 }
 
 export const fetchBnbDaiPrice = async () => {
-  const chainId = storeNetwork.getState().currentChainId
+  const chainId = ChainId.MAINNET
   const ethersProvider = await getEthersProvider(chainId)
 
-  // Stable coin
-  const DAI = TESTDAI
-  // Core token
-  const _WETH = WETH[chainId]
-  const pair = await Fetcher.fetchPairData(DAI, _WETH, ethersProvider)
-  const route = new Route(chainId, [pair], DAI)
+  const pair = await Fetcher.fetchPairData(DAI, WETH[DAI.chainId], ethersProvider)
+  const route = new Route(chainId, [pair], WETH[DAI.chainId])
   const price = new BigNumber(route.midPrice.toSignificant(6))
 
-  return BIG_ONE.div(price) || BIG_ZERO
+  // Fetch gecko
+  const geckoResponse = await fetch('https://api.coingecko.com/api/v3/coins/wbnb')
+  const geckoJson = await geckoResponse.json()
+  const priceGecko = geckoJson?.market_data?.current_price?.usd
+  if (priceGecko) {
+    const fixedPrice = Number(priceGecko).toFixed(3)
+    return new BigNumber(fixedPrice)
+  }
+
+  return price || BIG_ZERO
 }
 
 // reference calc price
 // https://docs.uniswap.org/sdk/2.0.0/guides/pricing
-export const tokenToStablePrice = async (token: Token, signify = 6) => {
-  const chainId = storeNetwork.getState().currentChainId
+export const tokenToStablePrice = async (token: Token, network: ChainId = ChainId.BSCTESTNET) => {
+  const chainId = network
   const ethersProvider = await getEthersProvider(chainId)
-  // Stable coin
-  const DAI = TESTDAI
+  const _DAI = network === ChainId.BSCTESTNET ? TESTDAI : DAI
 
   try {
-    const tokenWithStablePair = await Fetcher.fetchPairData(token, DAI, ethersProvider)
-    const route = new Route(ChainId.BSCTESTNET, [tokenWithStablePair], DAI)
-    return route.midPrice.toSignificant(signify)
+    const tokenWithStablePair = await Fetcher.fetchPairData(token, _DAI, ethersProvider)
+    const route = new Route(network, [tokenWithStablePair], _DAI)
+    return route.midPrice.toSignificant(6)
   } catch (error) {
     return '0'
   }
