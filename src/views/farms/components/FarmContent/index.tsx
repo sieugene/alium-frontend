@@ -26,7 +26,7 @@ export default function FarmContent({ viewMode, farms, almPrice }: FarmContentPr
         <FarmContent.Table>
           <tbody>
             {farms.map((farm, index) => (
-              <FarmRow key={index} farm={farm} almPrice={almPrice} />
+              <FarmRow farmNum={index} key={index} farm={farm} almPrice={almPrice} />
             ))}
           </tbody>
         </FarmContent.Table>
@@ -49,9 +49,24 @@ FarmContent.Container = styled.div`
     ${farmBgForNthChild(3)};
   }
   .farm__row {
-    ${farmBgForNthChild(1, 1)};
-    ${farmBgForNthChild(3, 2)};
-    ${farmBgForNthChild(5, 3)};
+    .farm__head {
+      ${farmCardsBg[0]};
+    }
+  }
+  .farm__row0 {
+    .farm__head {
+      ${farmCardsBg[1]};
+    }
+  }
+  .farm__row1 {
+    .farm__head {
+      ${farmCardsBg[2]};
+    }
+  }
+  .farm__row2 {
+    .farm__head {
+      ${farmCardsBg[3]};
+    }
   }
 `
 
