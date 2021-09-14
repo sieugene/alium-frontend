@@ -58,6 +58,13 @@ export const BETH = newTokenChecksummed(
   'BETH',
   'Binance Beacon Ethereum Token',
 )
+export const BSC_ALM = newTokenChecksummed(
+  ChainId.MAINNET,
+  '0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11',
+  18,
+  'ALM',
+  'Alium Swap',
+)
 export const TESTALM = newTokenChecksummed(
   ChainId.BSCTESTNET,
   '0xf671C33452adfB8e0f645d95d8E3C6Df0d78fED2',

@@ -4,14 +4,17 @@ import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import React, { FC, useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
-import { getInterestBreakdown } from 'utils/farm/compoundApyHelpers'
-import { formatNumber, getFullDisplayBalance } from 'utils/formatBalance'
+import { getFullDisplayBalance } from 'utils/formatBalance'
 import { useFarmLpAddress } from 'views/farms/components/Info'
 import { FarmPair, FarmWithStakedValue } from 'views/farms/farms.types'
 import { useLpTokenPrice } from 'views/farms/hooks/useFarmingPools'
+import useRoiCalculatorReducer from 'views/farms/hooks/useRoiCalculator'
 import useI18n from '../../../../hooks/useI18n'
 import { FarmModalStatuses } from './FarmModalStatuses'
 import { ModalFarmBaseWrap } from './modals.styled'
+
+const MILLION = 1000000
+const TRILLION = 1000000000000
 
 export interface FarmActionModalProps {
   max: BigNumber
@@ -55,15 +58,25 @@ const Roi = styled.div`
     color: #8990a5;
   }
   .price {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 14px;
-    letter-spacing: 0.3px;
-    color: #0b1359;
     display: flex;
     align-items: center;
+    p {
+      display: block;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 14px;
+      letter-spacing: 0.3px;
+      color: #0b1359;
+      display: flex;
+      align-items: center;
+    }
+
     svg {
       margin-left: 10px;
     }
@@ -117,6 +130,24 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
   title,
   withoutRoi,
 }) => {
+  const lpPrice = useLpTokenPrice(farm?.lpSymbol)
+  const { apr } = farm
+  const stakingTokenPrice = lpPrice.toNumber()
+  const earningTokenPrice = almPrice.toNumber()
+
+  const autoCompoundFrequency = 0
+  const performanceFee = 0
+
+  const { state: calculatorState, setPrincipalFromTokenValue } = useRoiCalculatorReducer(
+    stakingTokenPrice,
+    earningTokenPrice,
+    apr,
+    autoCompoundFrequency,
+    performanceFee,
+  )
+
+  const { roiUSD } = calculatorState.data
+
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -135,34 +166,24 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
   const valueBetterZero = Number(val) > 0
   const link = getExplorerLink(97, useFarmLpAddress(farm), 'address')
 
-  // Roi
-
-  const lpPrice = useLpTokenPrice(farm?.lpSymbol)
-  const lpTokensToStake = new BigNumber(val)
-  const usdToStake = lpTokensToStake.times(lpPrice)
-  const interestBreakdown = getInterestBreakdown({
-    principalInUSD: !lpTokensToStake.isNaN() ? usdToStake.toNumber() : 0,
-    apr: farm?.apr,
-    earningTokenPrice: almPrice?.toNumber(),
-  })
-
-  const annualRoi = almPrice?.times(interestBreakdown[3])
-  const formattedAnnualRoi = formatNumber(
-    annualRoi?.toNumber(),
-    annualRoi?.gt(10000) ? 0 : 2,
-    annualRoi?.gt(10000) ? 0 : 2,
-  )
-
   const handleChange = useCallback(
     (value: string) => {
       setVal(value)
+      setPrincipalFromTokenValue(value)
     },
-    [setVal],
+    [setPrincipalFromTokenValue],
   )
 
   const handleSelectMax = useCallback(() => {
     setVal(fullBalance)
-  }, [fullBalance, setVal])
+    setPrincipalFromTokenValue(fullBalance)
+  }, [fullBalance, setPrincipalFromTokenValue])
+
+  // display roi
+  const roiUsdFormatted = roiUSD.toLocaleString('en', {
+    minimumFractionDigits: roiUSD > MILLION ? 0 : 2,
+    maximumFractionDigits: roiUSD > MILLION ? 0 : 2,
+  })
 
   return (
     <Modal title={title} onDismiss={onDismiss} withoutContentWrapper>
@@ -185,10 +206,10 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
           {!withoutRoi && (
             <Roi>
               <h3>Annual ROI at current rates:</h3>
-              <p className='price'>
-                ${formattedAnnualRoi}
+              <div className='price'>
+                <p title={roiUsdFormatted}>${roiUsdFormatted}</p>
                 <CalculateIcon />
-              </p>
+              </div>
             </Roi>
           )}
           <ModalActions>
