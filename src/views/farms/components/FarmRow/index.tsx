@@ -18,14 +18,17 @@ import {
   useInfoStaked,
 } from '../Info'
 
-export type FarmRowProps = FarmCardProps
+export type FarmRowProps = FarmCardProps & {
+  farmNum: number
+}
 
-export default function FarmRow({ farm }: FarmRowProps) {
+export default function FarmRow({ farm, farmNum }: FarmRowProps) {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({ farm, addLiquidityUrl: '/none' })
   const [isOpen, toggleOpen] = useToggle(false)
   const isDesktop = useMedia(`screen and (min-width: 1440px)`)
   const isMobile = useMedia(`screen and (max-width: 767px)`)
+  const farmClassname = farmNum < 3 ? `farm__row${farmNum}` : 'farm__row'
   const cells = useMemo(
     () => ({
       heading: (
@@ -131,7 +134,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
   if (isMobile) {
     return (
       <>
-        <FarmRow.MobileView className='farm__row'>
+        <FarmRow.MobileView className={farmClassname}>
           <tr>{cells.heading}</tr>
           <tr>{[cells.apr, cells.earn, !isOpen && cells.indicator]}</tr>
           {isOpen && (
@@ -152,7 +155,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
 
   return (
     <>
-      <FarmRow.Summary className='farm__row'>
+      <FarmRow.Summary className={farmClassname}>
         {isDesktop
           ? [
               cells.heading,
