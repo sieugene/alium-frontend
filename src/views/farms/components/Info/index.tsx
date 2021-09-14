@@ -197,10 +197,7 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
           setPendingTx(true)
           try {
             await onReward()
-            toastSuccess(
-              `${t('Harvested')}!`,
-              t('Your %symbol% earnings have been sent to your wallet!', { symbol: 'CAKE' }),
-            )
+            toastSuccess(`${t('Harvested')}!`, t('Your ALM earnings have been sent to your wallet!'))
           } catch (e) {
             toastError(
               t('Error'),
