@@ -9,6 +9,7 @@ const useStakeFarms = (pid: number) => {
     async (amount: string) => {
       const txHash = await stakeFarm(masterChefContract, pid, amount)
       console.info(txHash)
+      return txHash
     },
     [masterChefContract, pid],
   )
