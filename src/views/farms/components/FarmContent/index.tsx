@@ -16,8 +16,8 @@ export default function FarmContent({ viewMode, farms, almPrice }: FarmContentPr
     case ViewMode.CARD:
       return (
         <FarmContent.Grid>
-          {farms.map((farm) => (
-            <FarmCard key={farm.pid} farm={farm} almPrice={almPrice} />
+          {farms.map((farm, index) => (
+            <FarmCard key={index} farm={farm} almPrice={almPrice} />
           ))}
         </FarmContent.Grid>
       )
@@ -25,8 +25,8 @@ export default function FarmContent({ viewMode, farms, almPrice }: FarmContentPr
       return (
         <FarmContent.Table>
           <tbody>
-            {farms.map((farm) => (
-              <FarmRow key={farm.pid} farm={farm} almPrice={almPrice} />
+            {farms.map((farm, index) => (
+              <FarmRow key={index} farm={farm} almPrice={almPrice} />
             ))}
           </tbody>
         </FarmContent.Table>

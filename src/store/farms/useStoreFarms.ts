@@ -1,4 +1,4 @@
-import { farms as farmsConfig } from 'config/constants/farms'
+import { farmsConfig } from 'config/constants/farms'
 import { Farm } from 'state/types'
 import { FarmSortOption, FarmTab, ViewMode } from 'views/farms/farms.types'
 import create from 'zustand'
