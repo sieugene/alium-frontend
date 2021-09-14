@@ -73,8 +73,6 @@ const Roi = styled.div`
       line-height: 14px;
       letter-spacing: 0.3px;
       color: #0b1359;
-      display: flex;
-      align-items: center;
     }
 
     svg {
@@ -130,11 +128,20 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
   title,
   withoutRoi,
 }) => {
+  const [val, setVal] = useState('')
+  const [pendingTx, setPendingTx] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, seterror] = useState(false)
+  const TranslateString = useI18n()
+  const fullBalance = useMemo(() => {
+    return getFullDisplayBalance(max)
+  }, [max])
+
+  // roi
   const lpPrice = useLpTokenPrice(farm?.lpSymbol)
   const { apr } = farm
-  const stakingTokenPrice = lpPrice.toNumber()
-  const earningTokenPrice = almPrice.toNumber()
-
+  const stakingTokenPrice = lpPrice?.toNumber()
+  const earningTokenPrice = almPrice?.toNumber()
   const autoCompoundFrequency = 0
   const performanceFee = 0
 
@@ -148,22 +155,20 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
 
   const { roiUSD } = calculatorState.data
 
-  const [val, setVal] = useState('')
-  const [pendingTx, setPendingTx] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, seterror] = useState(false)
-  const TranslateString = useI18n()
-  const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max)
-  }, [max])
+  // display roi
+  const roiUsdFormatted = roiUSD.toLocaleString('en', {
+    minimumFractionDigits: roiUSD > MILLION ? 0 : 2,
+    maximumFractionDigits: roiUSD > MILLION ? 0 : 2,
+  })
+  // roi end
 
   const pair: FarmPair = {
     token0: farm.token,
     token1: farm.quoteToken,
     pairName: tokenName,
   }
+  const wrongAmount = !val || Number(val) < 0 || Number(val) > Number(fullBalance)
 
-  const valueBetterZero = Number(val) > 0
   const link = getExplorerLink(97, useFarmLpAddress(farm), 'address')
 
   const handleChange = useCallback(
@@ -178,12 +183,6 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
     setVal(fullBalance)
     setPrincipalFromTokenValue(fullBalance)
   }, [fullBalance, setPrincipalFromTokenValue])
-
-  // display roi
-  const roiUsdFormatted = roiUSD.toLocaleString('en', {
-    minimumFractionDigits: roiUSD > MILLION ? 0 : 2,
-    maximumFractionDigits: roiUSD > MILLION ? 0 : 2,
-  })
 
   return (
     <Modal title={title} onDismiss={onDismiss} withoutContentWrapper>
@@ -218,7 +217,7 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
             </Button>
             <Button
               fullwidth
-              disabled={pendingTx || !valueBetterZero}
+              disabled={pendingTx || wrongAmount}
               onClick={async () => {
                 try {
                   setPendingTx(true)
