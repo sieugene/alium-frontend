@@ -2,7 +2,7 @@ import { ChainId } from '@alium-official/sdk'
 import { TEST_BSC_ALM, TEST_BSC_ETH_Migration, TEST_BSC_USDT_Migration, TEST_BSC_WBNB } from './../../constants/index'
 import { FarmConfig } from './types'
 
-export const farms: FarmConfig[] = [
+const farmsMasterChef: FarmConfig[] = [
   {
     pid: 1,
     lpSymbol: 'ALM-BNB LP',
@@ -25,4 +25,4 @@ export const farms: FarmConfig[] = [
   },
 ]
 
-export default farms
+export const farmsConfig = [...farmsMasterChef, ...farmsMasterChef, ...farmsMasterChef]

@@ -7,7 +7,7 @@ import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from 'store/farms'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
-import { farms } from './../../../config/constants/farms'
+import { farmsConfig } from './../../../config/constants/farms'
 import { storeFarms, useStoreFarms } from './../../../store/farms/useStoreFarms'
 
 export const usePollFarmsPublicData = () => {
@@ -21,9 +21,9 @@ export const usePollFarmsPublicData = () => {
     ;(async () => {
       if (farmsLoading || !supportLoaders) return
       setLoading(true)
-      const farmsConfig = farms
+      const farms = farmsConfig
       try {
-        const farmsFetched = await fetchFarmsPublicDataAsync(farmsConfig)
+        const farmsFetched = await fetchFarmsPublicDataAsync(farms)
 
         setFarms(farmsFetched)
       } catch (error) {
@@ -54,8 +54,8 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
     ;(async () => {
       if (loading || farmsUserDataLoading) return
       setLoading(true)
-      const farmsConfig = farms
-      const pids = farmsConfig.map((farmToFetch) => farmToFetch.pid)
+      const farms = farmsConfig
+      const pids = farms.map((farmToFetch) => farmToFetch.pid)
       try {
         const fetchedFarms = await fetchFarmUserDataAsync(account, pids)
         setFarmsUserData(fetchedFarms)

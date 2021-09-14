@@ -45,7 +45,7 @@ const Farms = () => {
   const chosenFarmsLength = useRef(0)
 
   const isArchived = pathname.includes('archived')
-  const isInactive = pathname.includes('history')
+  const isInactive = activeTab === FarmTab.finished
   const isActive = !isInactive && !isArchived
 
   const { farmsUserDataLoading: userDataLoaded } = usePollFarmsWithUserData(isArchived)
@@ -137,14 +137,7 @@ const Farms = () => {
 
   chosenFarmsLength.current = chosenFarmsMemoized.length
 
-  const farmsOfActivity = useMemo(() => {
-    const isFinished = activeTab === FarmTab.finished
-    const allFarms = [...chosenFarmsMemoized, ...chosenFarmsMemoized, ...chosenFarmsMemoized]
-    if (isFinished) {
-      return []
-    }
-    return allFarms
-  }, [chosenFarmsMemoized, activeTab])
+  const farms = chosenFarmsMemoized
 
   return (
     <FarmContainer>
@@ -154,7 +147,7 @@ const Farms = () => {
           <FarmFilters />
         </div>
         <FarmContent.Container>
-          <FarmContent viewMode={viewMode} farms={farmsOfActivity} almPrice={almPrice} />
+          <FarmContent viewMode={viewMode} farms={farms} almPrice={almPrice} />
         </FarmContent.Container>
       </AvailableAccount>
     </FarmContainer>
