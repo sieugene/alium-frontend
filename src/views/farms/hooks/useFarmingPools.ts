@@ -1,8 +1,10 @@
+import { ChainId } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import useRefresh from 'hooks/useRefresh'
 import { useEffect, useMemo } from 'react'
 import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from 'store/farms'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import { farms } from './../../../config/constants/farms'
@@ -13,18 +15,24 @@ export const usePollFarmsPublicData = () => {
   const farmsLoading = useStoreFarms((state) => state.farmsLoading)
   const setLoading = useStoreFarms((state) => state.toggleFarmsFetched)
   const farmsList = useFarms()
+  const supportLoaders = useFarmSupportNetwork()
 
   useEffect(() => {
     ;(async () => {
-      if (farmsLoading) return
+      if (farmsLoading || !supportLoaders) return
       setLoading(true)
       const farmsConfig = farms
-      const farmsFetched = await fetchFarmsPublicDataAsync(farmsConfig)
+      try {
+        const farmsFetched = await fetchFarmsPublicDataAsync(farmsConfig)
 
-      setFarms(farmsFetched)
-      setLoading(false)
+        setFarms(farmsFetched)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
     })()
-  }, [])
+  }, [supportLoaders])
 
   return farmsList
 }
@@ -46,17 +54,25 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
     ;(async () => {
       if (loading || farmsUserDataLoading) return
       setLoading(true)
-
       const farmsConfig = farms
       const pids = farmsConfig.map((farmToFetch) => farmToFetch.pid)
-
-      const fetchedFarms = await fetchFarmUserDataAsync(account, pids)
-      setFarmsUserData(fetchedFarms)
-
-      setLoading(false)
+      try {
+        const fetchedFarms = await fetchFarmUserDataAsync(account, pids)
+        setFarmsUserData(fetchedFarms)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
     })()
   }, [loading, slowRefresh, account])
   return { farmsList, farmsUserDataLoading }
+}
+
+const useFarmSupportNetwork = () => {
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const supportLoaders = useMemo(() => [ChainId.BSCTESTNET, ChainId.MAINNET].includes(currentChainId), [currentChainId])
+  return supportLoaders
 }
 
 // refact this later (vanilla like method) <-- maybe in store

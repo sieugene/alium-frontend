@@ -8,6 +8,7 @@ import { Farm } from 'state/types'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
+import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount'
 import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
@@ -147,13 +148,15 @@ const Farms = () => {
 
   return (
     <FarmContainer>
-      <div>
-        <FarmBanner />
-        <FarmFilters />
-      </div>
-      <FarmContent.Container>
-        <FarmContent viewMode={viewMode} farms={farmsOfActivity} almPrice={almPrice} />
-      </FarmContent.Container>
+      <AvailableAccount title='Farms'>
+        <div>
+          <FarmBanner />
+          <FarmFilters />
+        </div>
+        <FarmContent.Container>
+          <FarmContent viewMode={viewMode} farms={farmsOfActivity} almPrice={almPrice} />
+        </FarmContent.Container>
+      </AvailableAccount>
     </FarmContainer>
   )
 }
