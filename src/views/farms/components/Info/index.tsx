@@ -1,5 +1,5 @@
 import { useWeb3React } from '@web3-react/core'
-import { AddIcon, Button, IconButton, MinusIcon, Skeleton, useModal } from 'alium-uikit/src'
+import { AddIcon, Button, CalculateIcon, IconButton, MinusIcon, Skeleton, useModal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
 import ConnectWalletButton from 'components/ConnectWalletButton'
@@ -116,6 +116,13 @@ export interface InfoAPRProps {
   farm: FarmWithStakedValue
 }
 
+const AprItem = styled.div`
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 10px;
+  }
+`
 export function InfoApr({ farm }: InfoAPRProps) {
   const loading = useFarmsLoading()
   return (
@@ -124,7 +131,12 @@ export function InfoApr({ farm }: InfoAPRProps) {
         APR
         <InfoApr.Question />
       </InfoTitle>
-      <InfoValue>{!loading ? `${farm.apr || 0}%` : <Skeleton width='75px' />}</InfoValue>
+      <InfoValue>
+        <AprItem>
+          <CalculateIcon />
+          {!loading ? `${farm.apr || 0}%` : <Skeleton width='75px' />}
+        </AprItem>
+      </InfoValue>
     </>
   )
 }
