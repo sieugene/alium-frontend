@@ -9,7 +9,7 @@ const DepositModal: FC<Omit<FarmActionModalProps, 'title'>> = ({
   farm,
   almPrice,
 }) => {
-  const title = `Deposit ${tokenName} Tokens`
+  const title = `Stake LP tokens`
 
   return (
     <FarmActionModal
