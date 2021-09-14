@@ -339,6 +339,9 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
   }
 
   const displayBalance = useCallback(() => {
+    if (!account) {
+      return '0.000'
+    }
     const stakedBalanceBigNumber = getBalanceAmount(stakedBalance)
     if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.0000001)) {
       return '<0.0000001'
@@ -347,7 +350,7 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
       return stakedBalanceBigNumber.toFixed(8, BigNumber.ROUND_DOWN)
     }
     return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
-  }, [stakedBalance])
+  }, [stakedBalance, account])
 
   const [onPresentDeposit] = useModal(
     <DepositModal
@@ -390,11 +393,11 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
   const FARM_NOT_ENABLED = account && !isApproved
   const STAKE_ALLOW = isApproved && !stakedBalanceNotZero
   const EMPTY_STAKE_ACTION = !FARM_NOT_ENABLED && !STAKE_ALLOW
- 
+
   return {
     titleNode: `${tokenName} Staked`,
     displayBalanceNode: loading ? <Skeleton width='50px' /> : <div className='staked-token'>{displayBalance()}</div>,
-    balanceNode: stakedBalance.gt(0) && lpPrice.gt(0) && (
+    balanceNode: account && stakedBalance.gt(0) && lpPrice.gt(0) && (
       <Balance
         before='~'
         fontSize='12px'
@@ -405,25 +408,26 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
       />
     ),
     stakedBalanceNotZero,
-    stakingButtonsNode: stakedBalanceNotZero ? (
-      <IconButtonWrapper>
-        <StakeCounter variant='tertiary' onClick={onPresentWithdraw} mr='6px'>
-          <MinusIcon color='primary' width='14px' />
-        </StakeCounter>
-        <StakeCounter
-          variant='tertiary'
-          onClick={onPresentDeposit}
-          disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
-        >
-          <AddIcon color='primary' width='14px' />
-        </StakeCounter>
-      </IconButtonWrapper>
-    ) : (
-      <div>-</div>
-    ),
-    actionsNode: EMPTY_STAKE_ACTION ? null : !account ? (
+    stakingButtonsNode:
+      account && stakedBalanceNotZero ? (
+        <IconButtonWrapper>
+          <StakeCounter variant='tertiary' onClick={onPresentWithdraw} mr='6px'>
+            <MinusIcon color='primary' width='14px' />
+          </StakeCounter>
+          <StakeCounter
+            variant='tertiary'
+            onClick={onPresentDeposit}
+            disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
+          >
+            <AddIcon color='primary' width='14px' />
+          </StakeCounter>
+        </IconButtonWrapper>
+      ) : (
+        <div>-</div>
+      ),
+    actionsNode: !account ? (
       <ConnectWalletButton />
-    ) : (
+    ) : EMPTY_STAKE_ACTION ? null : (
       <>
         {FARM_NOT_ENABLED && (
           <Button mt='8px' disabled={requestedApproval || loading} onClick={handleApprove}>
