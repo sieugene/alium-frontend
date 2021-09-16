@@ -15,8 +15,10 @@ export const lpTokenPriceToStable = async (
   lpTotalSupply: BigNumber,
 ) => {
   try {
-    const PTokenA = await tokenToStablePrice(tokenA)
-    const PTokenB = await tokenToStablePrice(tokenB)
+    // TODO : alternative fetcher as coingecko make
+    const PTokenA = '0.9'
+    const PTokenB = '1'
+
     const PLP = calcFarmLpPrice(Number(PTokenA), lpBalanceTokenA, Number(PTokenB), lpBalanceTokenB, lpTotalSupply)
     return PLP
   } catch (error) {
