@@ -1,9 +1,10 @@
-import { ChainId, Fetcher, Route, Token, WETH } from '@alium-official/sdk'
+import { ChainId, Fetcher, Route, Token } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
 import Cookies from 'universal-cookie'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getEthersProvider } from 'utils/bridge/providers'
 import { BSC_ALM, DAI, TESTDAI } from '../../constants'
+import { fetchTokenPriceFromCoingecko } from './../../services/coingecko'
 import { calcApy, calcFarmLpPrice } from './farms.functions'
 const cookies = new Cookies()
 
@@ -15,9 +16,8 @@ export const lpTokenPriceToStable = async (
   lpTotalSupply: BigNumber,
 ) => {
   try {
-    // TODO : alternative fetcher as coingecko make
-    const PTokenA = '0.9'
-    const PTokenB = '1'
+    const PTokenA = await tokenToStablePrice(tokenA)
+    const PTokenB = await tokenToStablePrice(tokenB)
 
     const PLP = calcFarmLpPrice(Number(PTokenA), lpBalanceTokenA, Number(PTokenB), lpBalanceTokenB, lpTotalSupply)
     return PLP
@@ -65,23 +65,22 @@ export const almToStablePrice = async () => {
 }
 
 export const fetchBnbDaiPrice = async () => {
-  const chainId = ChainId.MAINNET
-  const ethersProvider = await getEthersProvider(chainId)
+  // const chainId = ChainId.MAINNET
+  // const ethersProvider = await getEthersProvider(chainId)
 
-  const pair = await Fetcher.fetchPairData(DAI, WETH[DAI.chainId], ethersProvider)
-  const route = new Route(chainId, [pair], WETH[DAI.chainId])
-  const price = new BigNumber(route.midPrice.toSignificant(6))
+  // const pair = await Fetcher.fetchPairData(DAI, WETH[DAI.chainId], ethersProvider)
+  // const route = new Route(chainId, [pair], WETH[DAI.chainId])
+  // const price = new BigNumber(route.midPrice.toSignificant(6))
 
   // Fetch gecko
-  const geckoResponse = await fetch('https://api.coingecko.com/api/v3/coins/wbnb')
-  const geckoJson = await geckoResponse.json()
-  const priceGecko = geckoJson?.market_data?.current_price?.usd
+  const geckoResponse = await fetchTokenPriceFromCoingecko('wbnb')
+  const priceGecko = geckoResponse?.data?.market_data?.current_price?.usd
   if (priceGecko) {
     const fixedPrice = Number(priceGecko).toFixed(3)
     return new BigNumber(fixedPrice)
   }
 
-  return price || BIG_ZERO
+  return BIG_ZERO
 }
 
 // reference calc price
@@ -94,8 +93,43 @@ export const tokenToStablePrice = async (token: Token, network: ChainId = ChainI
   try {
     const tokenWithStablePair = await Fetcher.fetchPairData(token, _DAI, ethersProvider)
     const route = new Route(network, [tokenWithStablePair], _DAI)
-    return route.midPrice.toSignificant(6)
+    const price = await stablePriceValidator(token.symbol, route.midPrice.toSignificant(6))
+    return price
   } catch (error) {
-    return '0'
+    const price = await stablePriceValidator(token.symbol, '0')
+    return price
   }
+}
+// Todo make save in session / localstorage (after refresh clear)
+// alternative fetcher if sdk result = 0
+const stablePriceValidator = async (symbol: string, firstResult: string): Promise<string> => {
+  if (!firstResult || firstResult === '0') {
+    const cookieAlmPrice = cookies.get('alm-price')
+    // defaults tokens list for fetch from coingecko
+    const defaultsTokens = {
+      ALM: 'alium-swap',
+      ETH: 'ethereum',
+      WBNB: 'wbnb',
+    }
+    // default prices
+    const defaultsStables = {
+      USDT: '1',
+      ALM: cookieAlmPrice || 0,
+    }
+    if (defaultsStables[symbol]) {
+      return defaultsStables[symbol]
+    }
+    if (defaultsTokens[symbol]) {
+      const response = await fetchTokenPriceFromCoingecko(defaultsTokens[symbol])
+      const price = response?.data?.market_data?.current_price?.usd
+
+      if (price) {
+        const fixedPrice = Number(price).toFixed(3)
+        return fixedPrice
+      }
+      return firstResult
+    }
+    return firstResult
+  }
+  return firstResult
 }
