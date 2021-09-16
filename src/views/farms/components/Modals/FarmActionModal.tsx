@@ -1,4 +1,4 @@
-import { Button, CalculateIcon, LinkIcon, Modal } from 'alium-uikit/src'
+import { Button, CalculateIcon, LinkIcon, Modal, useModal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import React, { FC, useCallback, useMemo, useState } from 'react'
@@ -12,6 +12,7 @@ import useRoiCalculatorReducer from 'views/farms/hooks/useRoiCalculator'
 import useI18n from '../../../../hooks/useI18n'
 import { FarmModalStatuses } from './FarmModalStatuses'
 import { ModalFarmBaseWrap } from './modals.styled'
+import RoiModal from './RoiModal'
 
 const MILLION = 1000000
 const TRILLION = 1000000000000
@@ -118,6 +119,14 @@ const ModalFooter = styled.div`
   }
 `
 
+const IconCalculateWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+`
+
 const FarmActionModal: FC<FarmActionModalProps> = ({
   max,
   onConfirm,
@@ -184,6 +193,8 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
     setPrincipalFromTokenValue(fullBalance)
   }, [fullBalance, setPrincipalFromTokenValue])
 
+  const [onShowRoi] = useModal(<RoiModal almPrice={almPrice} farm={farm} />)
+
   return (
     <Modal title={title} onDismiss={onDismiss} withoutContentWrapper>
       <FarmModalStatuses loading={pendingTx} success={success} error={error}>
@@ -207,7 +218,9 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
               <h3>Annual ROI at current rates:</h3>
               <div className='price'>
                 <p title={roiUsdFormatted}>${roiUsdFormatted}</p>
-                <CalculateIcon />
+                <IconCalculateWrap onClick={onShowRoi}>
+                  <CalculateIcon />
+                </IconCalculateWrap>
               </div>
             </Roi>
           )}

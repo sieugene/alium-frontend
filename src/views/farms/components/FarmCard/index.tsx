@@ -43,7 +43,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
       <CardHeading farm={farm} />
       <ContentCard>
         <InfoRow>
-          <InfoApr farm={farm} />
+          <InfoApr farm={farm} almPrice={almPrice} />
         </InfoRow>
         <InfoRow withBg>
           <InfoEarn farm={farm} />

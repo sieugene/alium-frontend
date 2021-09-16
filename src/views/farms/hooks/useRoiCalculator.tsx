@@ -46,6 +46,8 @@ export interface RoiCalculatorReducerState {
     principalAsUSD: string // Used as value for Inputs
     roiUSD: number
     roiTokens: number
+    // roi tokens per days - 1, 7, 30, 365, 1825
+    roiTokensAllDuration: number[]
     roiPercentage: number // ROI expressed in percentage relative to principal
   }
 }
@@ -65,6 +67,7 @@ const initialState: RoiCalculatorReducerState = {
     roiUSD: 0,
     roiTokens: 0,
     roiPercentage: 0,
+    roiTokensAllDuration: [0, 0, 0, 0, 0],
   },
 }
 
@@ -185,8 +188,10 @@ const useRoiCalculatorReducer = (
         compoundFrequency,
         performanceFee,
       })
+
       const hasInterest = !Number.isNaN(interestBreakdown[stakingDuration])
       const roiTokens = hasInterest ? interestBreakdown[stakingDuration] : 0
+      const roiTokensAllDuration = hasInterest ? interestBreakdown : state.data.roiTokensAllDuration
       const roiAsUSD = hasInterest ? roiTokens * earningTokenPrice : 0
       const roiPercentage = hasInterest
         ? getRoi({
@@ -195,7 +200,7 @@ const useRoiCalculatorReducer = (
           })
         : 0
 
-      dispatch({ type: 'setRoi', payload: { roiUSD: roiAsUSD, roiTokens, roiPercentage } })
+      dispatch({ type: 'setRoi', payload: { roiUSD: roiAsUSD, roiTokens, roiPercentage, roiTokensAllDuration } })
     }
   }, [principalAsUSD, apr, stakingDuration, earningTokenPrice, performanceFee, compounding, compoundingFrequency, mode])
 
