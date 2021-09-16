@@ -78,6 +78,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
   const lpTotalInQuoteToken = quoteTokenAmountMc.times(new BigNumber(2))
 
   // Only make masterchef calls if farm has pid
+
   const [info, totalAllocPoint] =
     pid || pid === 0
       ? await multicallWithDecoder(masterchefABI, [
