@@ -1,4 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from 'alium-uikit/src'
+import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import { useMedia, useToggle } from 'react-use'
 import styled from 'styled-components'
@@ -20,9 +21,10 @@ import {
 
 export type FarmRowProps = FarmCardProps & {
   farmNum: number
+  almPrice: BigNumber
 }
 
-export default function FarmRow({ farm, farmNum }: FarmRowProps) {
+export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({ farm, addLiquidityUrl: '/none' })
   const [isOpen, toggleOpen] = useToggle(false)
@@ -39,7 +41,7 @@ export default function FarmRow({ farm, farmNum }: FarmRowProps) {
       apr: (
         <FarmRow.Cell>
           <FarmRow.Field>
-            <InfoApr farm={farm} />
+            <InfoApr farm={farm} almPrice={almPrice} />
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
@@ -115,6 +117,7 @@ export default function FarmRow({ farm, farmNum }: FarmRowProps) {
       ),
     }),
     [
+      almPrice,
       earned.displayBalanceNode,
       earned.earningsBusdNode,
       earned.harvestButtonNode,

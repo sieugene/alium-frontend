@@ -4,7 +4,11 @@ import getExternalLinkProps from '../../util/getExternalLinkProps'
 import StyledButton from './StyledButton'
 import { ButtonProps, sizes, variants } from './types'
 
-const LinkWrapped: FC<{ as: ButtonProps['as']; href?: string; id?: string }> = ({ as, href, children }) => {
+const LinkWrapped: FC<{ as: ButtonProps['as']; href?: string; id?: string; target?: string }> = ({
+  as,
+  href,
+  children,
+}) => {
   if (as === 'a') {
     return <NextLink.Multiple href={href}>{children}</NextLink.Multiple>
   }
@@ -17,7 +21,7 @@ const Button: FC<ButtonProps> = ({ startIcon, endIcon, children, external, as, i
 
   return (
     <StyledButton {...internalProps} {...props} isloading={isloading} disabled={isDisabled} as={as || null}>
-      <LinkWrapped as={as} href={props.href}>
+      <LinkWrapped as={as} href={props.href} target={props?.target || ''}>
         {isValidElement(startIcon) &&
           cloneElement(startIcon, {
             mr: '0.5rem',

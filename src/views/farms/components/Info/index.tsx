@@ -26,6 +26,7 @@ import {
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
 import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
+import RoiModal from '../Modals/RoiModal'
 import WithdrawModal from '../Modals/WithdrawModal'
 
 export const InfoRow = styled.div<{ withBg?: boolean }>`
@@ -114,6 +115,7 @@ const HarvestButton = styled(Button)`
 
 export interface InfoAPRProps {
   farm: FarmWithStakedValue
+  almPrice: BigNumber
 }
 
 const AprItem = styled.div`
@@ -123,8 +125,16 @@ const AprItem = styled.div`
     margin-right: 10px;
   }
 `
-export function InfoApr({ farm }: InfoAPRProps) {
+const IconCalculateWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+`
+export function InfoApr({ farm, almPrice }: InfoAPRProps) {
   const loading = useFarmsLoading()
+  const [onShowRoi] = useModal(<RoiModal almPrice={almPrice} farm={farm} />)
   return (
     <>
       <InfoTitle>
@@ -133,8 +143,16 @@ export function InfoApr({ farm }: InfoAPRProps) {
       </InfoTitle>
       <InfoValue>
         <AprItem>
-          <CalculateIcon />
-          {!loading ? `${farm.apr || 0}%` : <Skeleton width='75px' />}
+          {!loading ? (
+            <>
+              <IconCalculateWrap onClick={onShowRoi}>
+                <CalculateIcon />
+              </IconCalculateWrap>
+              {farm.apr || 0}%
+            </>
+          ) : (
+            <Skeleton width='75px' />
+          )}
         </AprItem>
       </InfoValue>
     </>
