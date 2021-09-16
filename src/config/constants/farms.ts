@@ -7,7 +7,7 @@ const farmsMasterChef: FarmConfig[] = [
     pid: 1,
     lpSymbol: 'ALM-BNB LP',
     lpAddresses: {
-      [ChainId.BSCTESTNET]: '0xdcf05c93b4940192cc244c92330566b1211a028d',
+      [ChainId.BSCTESTNET]: '0xAC7CFdE1a1a2930d90721EFA23e6aA2A34e18Fa3',
       [ChainId.MAINNET]: '',
     },
     token: TEST_BSC_ALM,

@@ -1,6 +1,7 @@
 import { ChainId } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
+import { usePaginate } from 'components/Pagination/hooks/usePaginate'
 import { orderBy } from 'lodash'
 import { useRouter } from 'next/router'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
@@ -12,6 +13,7 @@ import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount
 import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
+import { FarmPaginate } from './components/FarmPaginate'
 import FarmContainer from './FarmContainer'
 import { FarmTab, FarmWithStakedValue } from './farms.types'
 import { useFarms, usePollFarmsWithUserData, usePriceCakeBusd } from './hooks/useFarmingPools'
@@ -137,7 +139,7 @@ const Farms = () => {
 
   chosenFarmsLength.current = chosenFarmsMemoized.length
 
-  const farms = chosenFarmsMemoized
+  const { items, ...paginate } = usePaginate({ items: chosenFarmsMemoized, pageLimit: 3 })
 
   return (
     <FarmContainer>
@@ -147,7 +149,8 @@ const Farms = () => {
           <FarmFilters />
         </div>
         <FarmContent.Container>
-          <FarmContent viewMode={viewMode} farms={farms} almPrice={almPrice} />
+          <FarmContent viewMode={viewMode} farms={items} almPrice={almPrice} />
+          <FarmPaginate {...paginate} />
         </FarmContent.Container>
       </AvailableAccount>
     </FarmContainer>

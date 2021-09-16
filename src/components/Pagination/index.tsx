@@ -50,7 +50,7 @@ const Content = styled.div`
   color: #8990a5;
 `
 
-const BridgePaginate: FC<PaginateProps> = ({ currentPage, totalPages, onPageChanged }) => {
+const Paginate: FC<PaginateProps> = ({ currentPage, totalPages, onPageChanged }) => {
   const allowPrevious = currentPage !== 1
   // If the next button should be enabled
   const allowNext = currentPage !== totalPages
@@ -68,7 +68,7 @@ const BridgePaginate: FC<PaginateProps> = ({ currentPage, totalPages, onPageChan
   }
 
   return (
-    <Pagination>
+    <Pagination className='pagination'>
       <Control onClick={() => allowPrevious && onPageChanged(previousPage)}>
         <ChevronLeft />
       </Control>
@@ -83,4 +83,4 @@ const BridgePaginate: FC<PaginateProps> = ({ currentPage, totalPages, onPageChan
     </Pagination>
   )
 }
-export default BridgePaginate
+export default Paginate
