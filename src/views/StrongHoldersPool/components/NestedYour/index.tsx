@@ -1,8 +1,10 @@
 import styled from 'styled-components'
+import { useYourPools } from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import YourPoolCard from '../YourPoolCard'
 
 export default function NestedYour() {
+  const pools = useYourPools()
   return (
     <NestedYour.Root>
       <NestedYour.Pools>

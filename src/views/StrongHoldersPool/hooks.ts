@@ -133,3 +133,25 @@ export function useJoinPool() {
     }
   }, [account, callWithGasPrice, lpContract, masterChefContract, shpContract])
 }
+
+export function useYourPools() {
+  const currentPoolId = useCurrentPoolId()
+  const contract = useShpContract()
+  const fetchYourPools = useCallback(async () => {
+    if (currentPoolId && contract) {
+      const promises = []
+      let iterator = currentPoolId
+      // Fetch all pools
+      while (iterator.gte(0)) {
+        promises.push(contract.pools(iterator))
+        iterator = iterator.sub(1)
+      }
+      const pools = await Promise.all(promises)
+      console.log({ pools })
+    }
+  }, [contract, currentPoolId])
+  useEffect(() => {
+    fetchYourPools()
+  }, [fetchYourPools])
+  return []
+}
