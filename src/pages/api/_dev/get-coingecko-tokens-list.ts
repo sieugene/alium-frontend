@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { fetchCoinListCoingecko } from 'services/coingecko'
 
 const storeData = (data, _path) => {
   try {
@@ -15,16 +16,10 @@ const handler = async (req, res) => {
     return
   }
 
-  const responseRaw = await fetch('https://api.coingecko.com/api/v3/coins/list', {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  })
-  const response = await responseRaw.json()
+  const response = await fetchCoinListCoingecko()
 
   let data = {}
-  response.forEach(({ id, symbol }) => {
+  response?.data?.forEach(({ id, symbol }) => {
     data = { ...data, [symbol.toLowerCase()]: id }
   })
 

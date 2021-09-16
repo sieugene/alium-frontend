@@ -1,6 +1,6 @@
 import { ChainId } from '@alium-official/sdk'
 import { newTokenChecksummed } from 'utils/newTokenChecksummed'
-import { TEST_BSC_ETH_Migration, TEST_BSC_USDT_Migration } from './../../constants/index'
+import { TEST_BSC_ETH_Migration, TEST_BSC_USDT_Migration, TEST_BSC_WBNB } from './../../constants/index'
 import { FarmConfig } from './types'
 
 const FARM_BSC_ALM = newTokenChecksummed(
@@ -22,16 +22,16 @@ const farmsMasterChef: FarmConfig[] = [
     token: FARM_BSC_ALM,
     quoteToken: TEST_BSC_USDT_Migration,
   },
-  // {
-  //   pid: 2,
-  //   lpSymbol: 'USDT-ETH LP',
-  //   lpAddresses: {
-  //     [ChainId.BSCTESTNET]: '0xdC9747Fda30F57E6665345358342bB12316F0F27',
-  //     [ChainId.MAINNET]: '',
-  //   },
-  //   token: TEST_BSC_USDT_Migration,
-  //   quoteToken: TEST_BSC_ETH_Migration,
-  // },
+  {
+    pid: 2,
+    lpSymbol: 'ETH-BNB LP',
+    lpAddresses: {
+      [ChainId.BSCTESTNET]: '0x8e3634ff35434c9ab3842f5d06ac9a83b0b6cdfc',
+      [ChainId.MAINNET]: '',
+    },
+    token: TEST_BSC_ETH_Migration,
+    quoteToken: TEST_BSC_WBNB,
+  },
 ]
 
-export const farmsConfig = [...farmsMasterChef]
+export const farmsConfig = [...farmsMasterChef, ...farmsMasterChef, ...farmsMasterChef]
