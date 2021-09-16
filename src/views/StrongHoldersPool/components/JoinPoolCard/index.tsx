@@ -1,4 +1,4 @@
-import { Button, ChevronRightIcon, Skeleton } from 'alium-uikit/src'
+import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
 import { StyledInternalLink } from 'components/Shared'
 import styled from 'styled-components'
 import {
@@ -11,6 +11,7 @@ import {
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import Card from '../Card'
 import FormattedValue from '../FormattedValue'
+import JoinPoolModal from '../JoinPoolModal'
 import NftItemCounter from '../NftItemCounter'
 import Title from '../Title'
 import UsersProgressBar from '../UsersProgressBar'
@@ -21,6 +22,7 @@ export default function JoinPoolCard() {
   const currentPoolLocked = usePoolLocked(currentPoolId)
   const maxPoolLength = useMaxPoolLength()
   const joinPool = useJoinPool()
+  const [onModal] = useModal(<JoinPoolModal />)
   return (
     <JoinPoolCard.Root>
       <JoinPoolCard.Content>
@@ -29,7 +31,7 @@ export default function JoinPoolCard() {
             <Title>Pool Amount</Title>
             {currentPoolLocked ? <FormattedValue value={currentPoolLocked} suffix=' ALM' /> : <Skeleton />}
           </JoinPoolCard.Field>
-          <JoinPoolCard.Join onClick={joinPool}>Join the pool</JoinPoolCard.Join>
+          <JoinPoolCard.Join onClick={onModal}>Join the pool</JoinPoolCard.Join>
           <JoinPoolCard.Field>
             <Title>Bonus NFT</Title>
             <NftItemCounter />

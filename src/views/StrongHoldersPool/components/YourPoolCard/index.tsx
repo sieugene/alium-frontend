@@ -7,6 +7,7 @@ import DetailsButton from '../DetailsButton'
 import FormattedValue from '../FormattedValue'
 import NftItemCounter from '../NftItemCounter'
 import NftItemReward from '../NftItemReward'
+import PoolDetailsInfo from '../PoolDetailsInfo'
 import Title from '../Title'
 
 export default function YourPoolCard() {
@@ -193,20 +194,7 @@ PickUpFunds.Profit = styled.div`
 function Details() {
   return (
     <Details.Root>
-      <Details.Fields>
-        <Details.Field>
-          <span>Pool share</span>
-          <span>0,34%</span>
-        </Details.Field>
-        <Details.Field>
-          <span>Participant number</span>
-          <span>26</span>
-        </Details.Field>
-        <Details.Field>
-          <span>Pool creation date</span>
-          <span>18/08/2021, 18:34:40</span>
-        </Details.Field>
-      </Details.Fields>
+      <PoolDetailsInfo />
       <Details.HistoryTitle>History</Details.HistoryTitle>
       <Details.HistoryTable>
         <thead>
@@ -239,42 +227,6 @@ function Details() {
 }
 
 Details.Root = styled.div``
-
-Details.Fields = styled.div``
-
-Details.Field = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 8px;
-  border-radius: 6px;
-
-  &:nth-child(even) {
-    background: #f4f5fa;
-  }
-
-  & > span {
-    &:nth-child(1) {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.3px;
-      color: #8990a5;
-    }
-
-    &:nth-child(2) {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.3px;
-      color: #0b1359;
-    }
-  }
-`
 
 Details.HistoryTitle = styled.div`
   font-family: Roboto;
