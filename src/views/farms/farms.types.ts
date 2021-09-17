@@ -31,11 +31,11 @@ export enum FarmTab {
 }
 
 export enum FarmSortOption {
-  'apr' = 'apr',
-  'multiplier' = 'multiplier',
-  'earned' = 'earned',
-  'liquidity' = 'liquidity',
-  'hot' = 'hot',
+  'APR' = 'APR',
+  'Multiplier' = 'Multiplier',
+  'Earned' = 'Earned',
+  'Liquidity' = 'Liquidity',
+  'Hot' = 'Hot',
 }
 
 export const MobileColumnSchema: ColumnsDefTypes[] = [
