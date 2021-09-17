@@ -1,9 +1,12 @@
 import { Button, LinkIcon, Modal } from 'alium-uikit/src'
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
-import { useLpTokenPrice } from 'views/farms/hooks/useFarmingPools'
-import useRoiCalculatorReducer from 'views/farms/hooks/useRoiCalculator'
+import {
+  calculateAlmEarnedPerDollars,
+  calculateApyModalRoiByEarnedDates,
+  formatRoiValuesView,
+} from 'utils/farm/compoundApyHelpers'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { InfoAPRProps, useFarmLpAddress } from '../Info'
 
@@ -63,41 +66,34 @@ const StyledButton = styled(Button)`
 type RoiTable = {
   day: string
   roi: string
-  per: number
+  per: string
 }[]
 
 const RoiModal: FC<InfoAPRProps & { onDismiss?: any }> = ({ farm, onDismiss, almPrice }) => {
-  const lpPrice = useLpTokenPrice(farm?.lpSymbol)
   const { apr } = farm
-  const stakingTokenPrice = lpPrice?.toNumber()
-  const earningTokenPrice = almPrice?.toNumber()
-  const autoCompoundFrequency = 0
-  const performanceFee = 0
-  const { state: calculatorState, setPrincipalFromUSDValue } = useRoiCalculatorReducer(
-    stakingTokenPrice,
-    earningTokenPrice,
-    apr,
-    autoCompoundFrequency,
-    performanceFee,
-  )
-  useEffect(() => {
-    setPrincipalFromUSDValue('1000')
-  }, [farm])
 
-  const { roiTokensAllDuration } = calculatorState.data
-  const per = {
-    year: roiTokensAllDuration[3] || 0,
-    month: roiTokensAllDuration[2] || 0,
-    week: roiTokensAllDuration[1] || 0,
-    day: roiTokensAllDuration[0] || 0,
+  const roiTableData = () => {
+    const dollars = 1000
+    const earns = calculateAlmEarnedPerDollars([1, 7, 30, 365], apr, almPrice, dollars)
+    const roidPercents = calculateApyModalRoiByEarnedDates(earns, almPrice, dollars)
+    const rois = earns.map(({ earned, date }, index) => {
+      const formattedPercent = formatRoiValuesView(roidPercents[index])
+
+      const formattedDate = date === 365 ? '365 d (APY)' : `${date} d`
+      const formattedEarned = formatRoiValuesView(earned)
+
+      const res = {
+        day: formattedDate,
+        roi: `${formattedPercent}%`,
+        per: formattedEarned,
+      }
+      return res
+    })
+    return rois
   }
 
-  const roiTables: RoiTable = [
-    { day: '1 d', roi: '0.61%', per: per.day },
-    { day: '7 d', roi: '4.33%', per: per.week },
-    { day: '30 d', roi: '19.92%', per: per.month },
-    { day: '365 d (APY)', roi: `${farm?.apy}%`, per: per.year },
-  ]
+  const roiTables: RoiTable = roiTableData()
+
   const link = getExplorerLink(97, useFarmLpAddress(farm), 'address')
   const tokenName = farm.lpSymbol
 
