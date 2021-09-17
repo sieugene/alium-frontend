@@ -49,15 +49,16 @@ export const calcFarmLpPrice = (
 export const calcApy = (tokenPrice: number, POOLshare: number, farmLpBalanceBn: BigNumber, priceLpToken: number) => {
   const TOKEN_PER_YEAR = ALM_PER_YEAR
   const farmLpBalance = Number(formatEther(String(farmLpBalanceBn)))
+  const POOLsharePercents = POOLshare / 100
 
   console.log('--------------- apy calc')
   console.log('TOKEN per year', Number(TOKEN_PER_YEAR))
   console.log('TOKEN price(alm)', tokenPrice)
-  console.log('POOLshare(%)', Number(POOLshare))
+  console.log('POOLshare(%)', POOLsharePercents)
   console.log('FARM LP balance', Number(farmLpBalance))
   console.log('P(LP)', priceLpToken)
 
-  const apy = (Number(TOKEN_PER_YEAR.dividedBy(POOLshare)) * Number(tokenPrice)) / (farmLpBalance * priceLpToken)
+  const apy = (Number(TOKEN_PER_YEAR.times(POOLsharePercents)) * Number(tokenPrice)) / (farmLpBalance * priceLpToken)
   const apyFixed = Number(apy.toFixed(2))
 
   console.log('result', apy, '---------------')

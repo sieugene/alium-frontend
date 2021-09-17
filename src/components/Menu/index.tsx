@@ -48,7 +48,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
         { label: 'Audits', href: ROUTES.audits },
         // { label: 'Voting', href: 'https://voting.dev.alium.finance' },
         { label: t('mainMenu.github'), href: externalLinks.github },
-        // { label: 'Docs', href: 'https://docs.pancakeswap.finance' },
+        // { label: 'Docs', href: 'https://docs.aliumswap.finance' },
         { label: 'Docs', href: 'https://aliumswap.gitbook.io/alium-finance/' },
         { label: t('mainMenu.blog'), href: externalLinks.medium },
       ],

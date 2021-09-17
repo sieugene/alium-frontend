@@ -50,7 +50,7 @@ export default function SyrupWarningModal({
               <Body color='failure'>
                 {t('beCarefulWhen')} <strong>{transactionType}</strong> {t('syrup')}.
               </Body>
-              <Body color='failure'>{transactionType === 'Buying' ? t('willNotReceiveCAKE') : t('needBuyBack')}</Body>
+              <Body color='failure'>{transactionType === 'Buying' ? t('willNotReceiveALM') : t('needBuyBack')}</Body>
             </>
           )}
           <RowBetween>
