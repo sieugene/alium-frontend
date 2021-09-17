@@ -26,7 +26,7 @@ export type FarmRowProps = FarmCardProps & {
 
 export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
   const earned = useInfoEarned(farm)
-  const staked = useInfoStaked({ farm, addLiquidityUrl: '/none' })
+  const staked = useInfoStaked({ farm })
   const [isOpen, toggleOpen] = useToggle(false)
   const isDesktop = useMedia(`screen and (min-width: 1440px)`)
   const isMobile = useMedia(`screen and (max-width: 767px)`)
@@ -68,7 +68,7 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
           <FarmRow.Field>
             <InfoTitle>{staked.titleNode}</InfoTitle>
             <InfoValue>
-              {staked.displayBalanceNode}
+              {staked.displayBalanceNode || '-'}
               {staked.balanceNode}
             </InfoValue>
           </FarmRow.Field>

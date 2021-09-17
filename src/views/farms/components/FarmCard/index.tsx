@@ -35,7 +35,6 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({
     farm,
-    addLiquidityUrl: '/none',
   })
 
   return (

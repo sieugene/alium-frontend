@@ -48,7 +48,7 @@ export const calcFarmLpPrice = (
  */
 export const calcApy = (tokenPrice: number, POOLshare: number, farmLpBalanceBn: BigNumber, priceLpToken: number) => {
   const TOKEN_PER_YEAR = ALM_PER_YEAR
-  const farmLpBalance = Number(formatEther(String(farmLpBalanceBn))) || 0.1
+  const farmLpBalance = Number(formatEther(String(farmLpBalanceBn)))
 
   console.log('--------------- apy calc')
   console.log('TOKEN per year', Number(TOKEN_PER_YEAR))
@@ -61,6 +61,9 @@ export const calcApy = (tokenPrice: number, POOLshare: number, farmLpBalanceBn: 
   const apyFixed = Number(apy.toFixed(2))
 
   console.log('result', apy, '---------------')
+  if (!apyFixed || apyFixed === Infinity) {
+    return 0
+  }
 
   return apyFixed
 }

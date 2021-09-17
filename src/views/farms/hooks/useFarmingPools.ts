@@ -7,6 +7,7 @@ import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from 'store/farms'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
+import { getAlmPrice } from 'utils/prices/getAlmPrice'
 import { farmsConfig } from './../../../config/constants/farms'
 import { storeFarms, useStoreFarms } from './../../../store/farms/useStoreFarms'
 
@@ -122,16 +123,18 @@ export const useFarmUser = (pid: number) => {
   }
 }
 
-export const usePriceCakeBusd = (): BigNumber => {
-  const cakeBnbFarm = useFarmFromPid(1)
+export const usePriceAlmBusd = (): BigNumber => {
+  const almBnbFarm = useFarmFromPid(1)
 
-  const cakePriceBusdAsString = cakeBnbFarm.token.busdPrice
+  const almPriceBusdAsString = almBnbFarm.token.busdPrice
 
-  const cakePriceBusd = useMemo(() => {
-    return new BigNumber(cakePriceBusdAsString)
-  }, [cakePriceBusdAsString])
+  const almPriceBusd = useMemo(() => {
+    const almCookiePrice = getAlmPrice()
+    const price = almPriceBusdAsString && !!Number(almPriceBusdAsString) ? almPriceBusdAsString : almCookiePrice
+    return new BigNumber(price)
+  }, [almPriceBusdAsString])
 
-  return cakePriceBusd
+  return almPriceBusd
 }
 
 // Return the base token price for a farm, from a given pid
@@ -142,7 +145,7 @@ export const useBusdPriceFromPid = (pid: number): BigNumber => {
 
 export const useLpTokenPrice = (symbol: string) => {
   const farm = useFarmFromLpSymbol(symbol)
-  const farmTokenPriceInUsd = usePriceCakeBusd()
+  const farmTokenPriceInUsd = usePriceAlmBusd()
   let lpTokenPrice = BIG_ZERO
 
   if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {

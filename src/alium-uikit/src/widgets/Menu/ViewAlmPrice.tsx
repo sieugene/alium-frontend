@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import { fetchTokenPriceFromCoingecko } from 'services/coingecko'
 import styled from 'styled-components'
 import Cookies from 'universal-cookie'
+import { getAlmPrice } from 'utils/prices/getAlmPrice'
 import { getCookieOptions } from '../../config/getCookieOptions'
 import { IconTokenAlm } from './icons/IconTokenAlm'
 
@@ -78,7 +79,7 @@ const ViewAlmPrice: FC<props> = ({ ispushed }) => {
   const [price, setPrice] = useState<null | string>(null)
 
   useEffect(() => {
-    const cookieAlmPrice = cookies.get('alm-price')
+    const cookieAlmPrice = getAlmPrice()
     setPrice(cookieAlmPrice ? String(cookieAlmPrice) : null)
 
     fetchTokenPriceFromCoingecko('alium-swap').then((response) => {

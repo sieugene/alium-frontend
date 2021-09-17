@@ -16,7 +16,7 @@ import FarmFilters from './components/FarmFilters'
 import { FarmPaginate } from './components/FarmPaginate'
 import FarmContainer from './FarmContainer'
 import { FarmTab, FarmWithStakedValue } from './farms.types'
-import { useFarms, usePollFarmsWithUserData, usePriceCakeBusd } from './hooks/useFarmingPools'
+import { useFarms, usePollFarmsWithUserData, usePriceAlmBusd } from './hooks/useFarmingPools'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
 
@@ -34,7 +34,7 @@ const Farms = () => {
   const { pathname } = useRouter()
   // Farm hooks
   const farmsLP = useFarms()
-  const almPrice = usePriceCakeBusd()
+  const almPrice = usePriceAlmBusd()
   // Farm Filters
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
