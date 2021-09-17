@@ -42,7 +42,7 @@ export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
   farmsUserDataLoading: false,
   farms: noAccountFarmConfig,
   query: '',
-  sortOption: FarmSortOption.hot,
+  sortOption: FarmSortOption.Hot,
   stakedOnly: false,
   activeTab: FarmTab.live,
   setActiveTab: (tab: FarmTab) => {

@@ -103,13 +103,13 @@ const Farms = () => {
 
     const sortFarms = (farms: FarmWithStakedValue[]) => {
       switch (sortOption) {
-        case 'apr':
+        case 'Hot':
           return orderBy(farms, (farm) => farm.apr + farm.lpRewardsApr, 'desc')
-        case 'multiplier':
+        case 'Multiplier':
           return orderBy(farms, (farm) => (farm.multiplier ? Number(farm.multiplier.slice(0, -1)) : 0), 'desc')
-        case 'earned':
+        case 'Earned':
           return orderBy(farms, (farm) => (farm.userData ? Number(farm.userData.earnings) : 0), 'desc')
-        case 'liquidity':
+        case 'Liquidity':
           return orderBy(farms, (farm) => Number(farm.liquidity), 'desc')
         default:
           return farms
@@ -150,7 +150,7 @@ const Farms = () => {
         </div>
         <FarmContent.Container>
           <FarmContent viewMode={viewMode} farms={items} almPrice={almPrice} />
-          <FarmPaginate {...paginate} />
+          <FarmPaginate {...paginate} viewMode={viewMode} />
         </FarmContent.Container>
       </AvailableAccount>
     </FarmContainer>

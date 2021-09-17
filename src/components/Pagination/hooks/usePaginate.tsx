@@ -11,7 +11,8 @@ export function usePaginate<T>({ items, pageLimit = 30 }: Params<T>) {
   const sliceItems = useCallback(
     (page: number): Params<T>['items'] => {
       const offset = (page - 1) * pageLimit
-      return itemsMemomize?.length && itemsMemomize.slice(offset, offset + pageLimit)
+      const sliced = itemsMemomize?.length && itemsMemomize.slice(offset, offset + pageLimit)
+      return sliced
     },
     [itemsMemomize, pageLimit],
   )
@@ -20,11 +21,11 @@ export function usePaginate<T>({ items, pageLimit = 30 }: Params<T>) {
   const [itemsPerPage, setItemsPerPage] = useState(sliceItems(1))
 
   useEffect(() => {
-    const sliced = sliceItems(1)
+    const sliced = sliceItems(page)
     if (itemsPerPage && sliced && !isEqual(itemsPerPage, sliced)) {
       setItemsPerPage(sliced)
     }
-  }, [itemsMemomize, itemsPerPage, sliceItems])
+  }, [itemsMemomize, itemsPerPage, page, sliceItems])
 
   const totalRecords = itemsMemomize.length
   const totalPages = Math.ceil(totalRecords / pageLimit)

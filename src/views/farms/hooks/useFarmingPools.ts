@@ -25,7 +25,6 @@ export const usePollFarmsPublicData = () => {
       const farms = farmsConfig
       try {
         const farmsFetched = await fetchFarmsPublicDataAsync(farms)
-
         setFarms(farmsFetched)
       } catch (error) {
         console.error(error)

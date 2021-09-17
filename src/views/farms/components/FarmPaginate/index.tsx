@@ -2,29 +2,26 @@ import { Button, RotateIcon } from 'alium-uikit/src'
 import Paginate, { PaginateProps } from 'components/Pagination'
 import { FC } from 'hoist-non-react-statics/node_modules/@types/react'
 import styled from 'styled-components'
+import { ViewMode } from 'views/farms/farms.types'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import FarmContent from '../FarmContent'
 
-const Container = styled.div``
-
-const FarmFooter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .pagination {
-    width: fit-content;
-    padding: 0;
-  }
-  margin-top: 32px;
-  @media ${down(breakpoints.sm)} {
-    flex-direction: column;
-    .pagination {
-      margin-top: 8px;
-      max-width: 375px;
-      width: 100%;
-      justify-content: space-between;
-    }
+const Grid = styled(FarmContent.Grid)`
+  @media screen and (max-width: 768px) {
+    column-gap: 0;
+    row-gap: 0;
   }
 `
+const Flex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`
+
 const ShowMore = styled(Button)`
   svg {
     margin-right: 16px;
@@ -49,7 +46,39 @@ const ShowMore = styled(Button)`
   }
 `
 
-export const FarmPaginate: FC<PaginateProps> = ({ ...paginate }) => {
+const Block = styled.div`
+  width: 354px;
+  margin-top: 32px;
+`
+
+const LeftContent = styled(Block)``
+const RightContent = styled(Block)`
+  display: flex;
+  justify-content: flex-end;
+  .pagination {
+    width: fit-content;
+    padding: 0;
+  }
+  @media ${down(breakpoints.sm)} {
+    flex-direction: column;
+    .pagination {
+      margin-top: 8px;
+      max-width: 375px;
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    margin-top: 0px;
+  }
+`
+const CenterContent = styled(Block)`
+  @media screen and (max-width: 1440px) {
+    display: none;
+  }
+`
+
+export const FarmPaginate: FC<PaginateProps & { viewMode: ViewMode }> = ({ viewMode, ...paginate }) => {
   const isLastPage = paginate?.currentPage >= paginate?.totalPages
 
   const onMore = () => {
@@ -57,16 +86,19 @@ export const FarmPaginate: FC<PaginateProps> = ({ ...paginate }) => {
       paginate?.onPageChanged(paginate?.currentPage + 1)
     }
   }
+  const ViewType = viewMode === ViewMode.TABLE ? Flex : Grid
   return (
-    <Container>
-      <FarmFooter>
+    <ViewType>
+      <LeftContent>
         <ShowMore variant='secondary' onClick={onMore} disabled={isLastPage}>
           <RotateIcon />
           Show more
         </ShowMore>
-
+      </LeftContent>
+      <CenterContent />
+      <RightContent>
         <Paginate {...paginate} />
-      </FarmFooter>
-    </Container>
+      </RightContent>
+    </ViewType>
   )
 }
