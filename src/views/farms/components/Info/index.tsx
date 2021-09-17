@@ -21,7 +21,7 @@ import {
   farmUserDataUpdate,
   useFarmsLoading,
   useLpTokenPrice,
-  usePriceCakeBusd,
+  usePriceAlmBusd,
 } from 'views/farms/hooks/useFarmingPools'
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
@@ -195,7 +195,7 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
   const { onReward } = useHarvestFarm(farm.pid)
   const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
-  const almPrice = usePriceCakeBusd()
+  const almPrice = usePriceAlmBusd()
   const rawEarningsBalance = account ? getBalanceAmount(earnings) : BIG_ZERO
   const displayBalance = rawEarningsBalance.toFixed(3, BigNumber.ROUND_DOWN)
 
@@ -326,10 +326,12 @@ const IconButtonWrapper = styled.div`
 
 export interface UseInfoStakedParams {
   farm: FarmWithStakedValue
-  addLiquidityUrl: string
 }
 
-export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
+export function useInfoStaked({ farm }: UseInfoStakedParams) {
+  const [requestedApproval, setRequestedApproval] = useState(false)
+  const { t } = useTranslation()
+  const { account } = useWeb3React()
   const loading = useFarmsLoading()
 
   const {
@@ -337,25 +339,35 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     stakedBalance: stakedBalanceAsString = 0,
     allowance: allowanceAsString = 0,
   } = farm.userData || {}
+
   const pid = farm.pid
   const tokenName = farm.lpSymbol
-  const multiplier = farm.multiplier
   const apr = farm.apr
-  const displayApr = `${apr}`
-
+  const { lpAddresses } = farm
+  const allowance = new BigNumber(allowanceAsString)
+  const lpAddress = getAddress(lpAddresses)
+  const isApproved = account && allowance && allowance.isGreaterThan(0)
   const tokenBalance = new BigNumber(tokenBalanceAsString)
-  const stakedBalance = useMemo(() => new BigNumber(stakedBalanceAsString), [stakedBalanceAsString])
-  const stakedBalanceNotZero = !stakedBalance.eq(0)
 
+  // hooks
+  const lpContract = useTokenContract(lpAddress)
+  const { onApprove } = useApproveFarm(lpContract)
+  const stakedBalance = useMemo(() => new BigNumber(stakedBalanceAsString), [stakedBalanceAsString])
   const { onStake } = useStakeFarms(pid)
   const { onUnstake } = useUnstakeFarms(pid)
   const location = useRouter()
-  const { account } = useWeb3React()
-  // todo provide lp price here
+  // TODO provide lp price here
   const lpPrice = useLpTokenPrice(tokenName)
-  const lpLabel = useFarmLpLabel(farm)
-  const almPrice = usePriceCakeBusd()
+  const almPrice = usePriceAlmBusd()
 
+  const stakedBalanceNotZero = !stakedBalance.eq(0)
+
+  // conditions
+  const FARM_NOT_ENABLED = account && !isApproved
+  const STAKE_ALLOW = isApproved && !stakedBalanceNotZero
+  const EMPTY_STAKE_ACTION = !FARM_NOT_ENABLED && !STAKE_ALLOW
+
+  // handlers
   const handleStake = async (amount: string) => {
     await onStake(amount)
     await farmUserDataUpdate(account, [pid])
@@ -365,20 +377,6 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     await onUnstake(amount)
     await farmUserDataUpdate(account, [pid])
   }
-
-  const displayBalance = useCallback(() => {
-    if (!account) {
-      return '0.000'
-    }
-    const stakedBalanceBigNumber = getBalanceAmount(stakedBalance)
-    if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.0000001)) {
-      return '<0.0000001'
-    }
-    if (stakedBalanceBigNumber.gt(0)) {
-      return stakedBalanceBigNumber.toFixed(8, BigNumber.ROUND_DOWN)
-    }
-    return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
-  }, [stakedBalance, account])
 
   const [onPresentDeposit] = useModal(
     <DepositModal
@@ -394,19 +392,6 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     <WithdrawModal farm={farm} max={stakedBalance} onConfirm={handleUnstake} tokenName={tokenName} />,
   )
 
-  const { t } = useTranslation()
-  const [requestedApproval, setRequestedApproval] = useState(false)
-
-  const { lpAddresses } = farm
-  const allowance = new BigNumber(allowanceAsString)
-
-  const lpAddress = getAddress(lpAddresses)
-  const isApproved = account && allowance && allowance.isGreaterThan(0)
-
-  const lpContract = useTokenContract(lpAddress)
-
-  const { onApprove } = useApproveFarm(lpContract)
-
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true)
@@ -418,13 +403,30 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     }
   }, [onApprove, account, pid])
 
-  const FARM_NOT_ENABLED = account && !isApproved
-  const STAKE_ALLOW = isApproved && !stakedBalanceNotZero
-  const EMPTY_STAKE_ACTION = !FARM_NOT_ENABLED && !STAKE_ALLOW
+  const displayBalance = useCallback(() => {
+    if (FARM_NOT_ENABLED) {
+      return ''
+    }
+    if (!account) {
+      return '0.000'
+    }
+    const stakedBalanceBigNumber = getBalanceAmount(stakedBalance)
+    if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.0000001)) {
+      return '<0.0000001'
+    }
+    if (stakedBalanceBigNumber.gt(0)) {
+      return stakedBalanceBigNumber.toFixed(8, BigNumber.ROUND_DOWN)
+    }
+    return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
+  }, [FARM_NOT_ENABLED, account, stakedBalance])
 
   return {
     titleNode: `${tokenName} Staked`,
-    displayBalanceNode: loading ? <Skeleton width='50px' /> : <div className='staked-token'>{displayBalance()}</div>,
+    displayBalanceNode: FARM_NOT_ENABLED ? null : loading ? (
+      <Skeleton width='50px' />
+    ) : (
+      <div className='staked-token'>{displayBalance()}</div>
+    ),
     balanceNode: account && stakedBalance.gt(0) && lpPrice.gt(0) && (
       <Balance
         before='~'

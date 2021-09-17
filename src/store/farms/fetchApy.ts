@@ -1,12 +1,11 @@
 import { ChainId, Fetcher, Route, Token } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
-import Cookies from 'universal-cookie'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getEthersProvider } from 'utils/bridge/providers'
 import { BSC_ALM, DAI, TESTDAI } from '../../constants'
 import { fetchTokenPriceFromCoingecko } from './../../services/coingecko'
+import { getAlmPrice } from './../../utils/prices/getAlmPrice'
 import { calcApy, calcFarmLpPrice } from './farms.functions'
-const cookies = new Cookies()
 
 export const lpTokenPriceToStable = async (
   tokenA: Token,
@@ -59,7 +58,7 @@ export const almToStablePrice = async () => {
   const chainId = ChainId.MAINNET
   const ALM = BSC_ALM
   const price = await tokenToStablePrice(ALM, chainId)
-  const cookieAlmPrice = cookies.get('alm-price')
+  const cookieAlmPrice = getAlmPrice()
 
   return cookieAlmPrice || price
 }
@@ -104,7 +103,7 @@ export const tokenToStablePrice = async (token: Token, network: ChainId = ChainI
 // alternative fetcher if sdk result = 0
 const stablePriceValidator = async (symbol: string, firstResult: string): Promise<string> => {
   if (!firstResult || firstResult === '0') {
-    const cookieAlmPrice = cookies.get('alm-price')
+    const cookieAlmPrice = getAlmPrice()
     // defaults tokens list for fetch from coingecko
     const defaultsTokens = {
       ALM: 'alium-swap',
