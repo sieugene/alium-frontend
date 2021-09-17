@@ -33,5 +33,10 @@ const farmsMasterChef: FarmConfig[] = [
     quoteToken: TEST_BSC_WBNB,
   },
 ]
+const mocked = farmsMasterChef.map((mock) => ({
+  ...mock,
+  pid: 20 + Math.random(),
+  lpSymbol: 'MOCKED TEST' + mock.lpSymbol,
+}))
 
-export const farmsConfig = [...farmsMasterChef, ...farmsMasterChef, ...farmsMasterChef]
+export const farmsConfig = [...farmsMasterChef, ...mocked, ...mocked]
