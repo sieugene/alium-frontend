@@ -198,6 +198,7 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
   const almPrice = usePriceCakeBusd()
   const rawEarningsBalance = account ? getBalanceAmount(earnings) : BIG_ZERO
   const displayBalance = rawEarningsBalance.toFixed(3, BigNumber.ROUND_DOWN)
+
   const earningsBusd = rawEarningsBalance ? rawEarningsBalance.multipliedBy(almPrice).toNumber() : 0
 
   const loading = useFarmsLoading()

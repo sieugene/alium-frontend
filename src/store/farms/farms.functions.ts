@@ -35,7 +35,7 @@ export const calcFarmLpPrice = (
   console.log('--------------------------- Вычисление ')
   console.log('result', PLP)
 
-  return PLP > 1 ? PLP : 1
+  return PLP
 }
 
 /**
@@ -48,7 +48,7 @@ export const calcFarmLpPrice = (
  */
 export const calcApy = (tokenPrice: number, POOLshare: number, farmLpBalanceBn: BigNumber, priceLpToken: number) => {
   const TOKEN_PER_YEAR = ALM_PER_YEAR
-  const farmLpBalance = Number(formatEther(String(farmLpBalanceBn)))
+  const farmLpBalance = Number(formatEther(String(farmLpBalanceBn))) || 0.1
 
   console.log('--------------- apy calc')
   console.log('TOKEN per year', Number(TOKEN_PER_YEAR))
