@@ -84,8 +84,9 @@ const IconSearch = styled.div`
   svg {
     stroke: #8990a5;
   }
-  cursor: pointer;
+
   @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
+    cursor: pointer;
     height: 48px;
     width: 48px;
     box-sizing: border-box;
