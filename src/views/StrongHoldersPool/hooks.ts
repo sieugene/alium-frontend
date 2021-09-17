@@ -1,152 +1,141 @@
+import { parseUnits } from '@ethersproject/units'
 import { useWeb3React } from '@web3-react/core'
-import { BigNumber, Contract } from 'ethers'
-import { useMasterchef, useShpContract, useTokenContract } from 'hooks/useContract'
-import times from 'lodash/times'
+import { BigNumber, BigNumberish } from 'ethers'
+import { useToken } from 'hooks/Tokens'
+import { useShpContract, useTokenContract } from 'hooks/useContract'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { getAllPoolsIds, shpSelectors, useShpStore } from 'store/shp'
 import { useCallWithGasPrice } from 'utils/useCallWithGasPrice'
-import create from 'zustand'
 
-export interface ShpState {
-  maxPoolLength?: BigNumber
-  fetchMaxPoolLength: (contract: Contract) => any
-
-  currentPoolId?: BigNumber
-  currentPoolLoading: boolean
-  fetchCurrentPoolId: (contract: Contract) => any
-
-  totalLocked?: BigNumber
-  fetchTotalLocked: (contract: Contract, poolsCount: BigNumber) => any
-}
-
-export const useShpStore = create<ShpState>((set, get) => ({
-  currentPoolLoading: false,
-  async fetchMaxPoolLength(contract) {
-    set({
-      maxPoolLength: await contract.MAX_POOL_LENGTH(),
-    })
-  },
-  async fetchCurrentPoolId(contract) {
-    // Simple request deduplication
-    if (get().currentPoolLoading) {
-      return
-    }
-
-    set({
-      currentPoolLoading: true,
-    })
-    set({
-      currentPoolId: await contract.getCurrentPoolId(),
-      currentPoolLoading: false,
-    })
-  },
-  async fetchTotalLocked(contract, poolsCount) {
-    let totalLocked = BigNumber.from(0)
-    await Promise.all(
-      times(poolsCount.toNumber(), async (poolId) => {
-        totalLocked = totalLocked.add(await contract.totalLockedPoolTokens(poolId))
-      }),
-    )
-    set({
-      totalLocked,
-    })
-  },
-}))
+export const bnEqualityFn = (prev?: BigNumber, next?: BigNumber) => prev?.eq(next)
 
 export function useMaxPoolLength() {
   const contract = useShpContract()
-  const maxPoolLength = useShpStore((state) => state.maxPoolLength)
+  const maxPoolLength = useShpStore((state) => state.maxPoolLength, bnEqualityFn)
   const fetchMaxPoolLength = useShpStore((state) => state.fetchMaxPoolLength)
+  const refetch = useMemo(() => contract && (() => fetchMaxPoolLength(contract)), [contract, fetchMaxPoolLength])
   useEffect(() => {
-    // maxPoolLength - contract constant
-    if (!maxPoolLength && contract) {
-      fetchMaxPoolLength(contract)
+    if (!maxPoolLength) {
+      refetch?.()
     }
-  }, [contract, fetchMaxPoolLength, maxPoolLength])
-  return maxPoolLength
+  }, [maxPoolLength, refetch])
+  return { maxPoolLength, refetch }
+}
+
+export function useRewardToken() {
+  const contract = useShpContract()
+  const rewardToken = useShpStore((state) => state.rewardToken)
+  const fetchRewardToken = useShpStore((state) => state.fetchRewardToken)
+  const refetch = useMemo(() => contract && (() => fetchRewardToken(contract)), [contract, fetchRewardToken])
+  useEffect(() => {
+    if (!rewardToken) {
+      refetch?.()
+    }
+  }, [refetch, rewardToken])
+  return {
+    rewardToken: useToken(rewardToken),
+    refetch,
+  }
 }
 
 export function useCurrentPoolId() {
   const contract = useShpContract()
-  const currentPoolId = useShpStore((state) => state.currentPoolId)
+  const currentPoolId = useShpStore((state) => state.currentPoolId, bnEqualityFn)
   const fetchCurrentPoolId = useShpStore((state) => state.fetchCurrentPoolId)
+  const refetch = useMemo(() => contract && (() => fetchCurrentPoolId(contract)), [contract, fetchCurrentPoolId])
   useEffect(() => {
-    if (contract) {
-      fetchCurrentPoolId(contract)
-    }
-  }, [contract, fetchCurrentPoolId])
-  return currentPoolId
+    refetch?.()
+  }, [refetch])
+  return { currentPoolId, refetch }
 }
 
 export function usePoolsCount() {
-  const currentPoolId = useCurrentPoolId()
+  const { currentPoolId } = useCurrentPoolId()
   // add 1 cuz currentPoolId starts with 0
   return useMemo(() => currentPoolId?.add(1), [currentPoolId])
 }
 
 export function useTotalLocked() {
   const contract = useShpContract()
-  const totalLocked = useShpStore((state) => state.totalLocked)
+  const totalLocked = useShpStore(shpSelectors.totalLocked)
   const fetchTotalLocked = useShpStore((state) => state.fetchTotalLocked)
-  const poolsCount = usePoolsCount()
+  const { currentPoolId } = useCurrentPoolId()
+  const refetch = useMemo(
+    () => contract && currentPoolId && (() => fetchTotalLocked(contract, currentPoolId)),
+    [contract, currentPoolId, fetchTotalLocked],
+  )
   useEffect(() => {
-    if (contract && poolsCount) {
-      fetchTotalLocked(contract, poolsCount)
-    }
-  }, [contract, fetchTotalLocked, poolsCount])
-  return totalLocked
+    refetch?.()
+  }, [refetch])
+  return { totalLocked, refetch }
 }
 
 export function usePoolLength(poolId?: BigNumber) {
   const contract = useShpContract()
-  const [length, setLength] = useState<BigNumber>()
+  const lengthByPoolId = useShpStore((state) => state.lengthByPoolId)
+  const fetchPoolLength = useShpStore((state) => state.fetchPoolLength)
+  const refetch = useMemo(
+    () => contract && poolId && (() => fetchPoolLength(contract, poolId)),
+    [contract, fetchPoolLength, poolId],
+  )
   useEffect(() => {
-    if (contract && poolId) {
-      contract.poolLength(poolId).then(setLength)
-    }
-  }, [contract, poolId])
-  return length
+    refetch?.()
+  }, [refetch])
+  return {
+    poolLength: lengthByPoolId[poolId?.toString()],
+    refetch,
+  }
 }
 
 export function usePoolLocked(poolId?: BigNumber) {
   const contract = useShpContract()
-  const [locked, setLocked] = useState<BigNumber>()
+  const lockedByPoolId = useShpStore((state) => state.lockedByPoolId)
+  const fetchPoolLocked = useShpStore((state) => state.fetchPoolLocked)
+  const refetch = useMemo(
+    () => contract && poolId && (() => fetchPoolLocked(contract, poolId)),
+    [contract, fetchPoolLocked, poolId],
+  )
   useEffect(() => {
-    if (contract && poolId) {
-      contract.totalLockedPoolTokens(poolId).then(setLocked)
-    }
-  }, [contract, poolId])
-  return locked
+    refetch?.()
+  }, [refetch])
+  return {
+    poolLocked: lockedByPoolId[poolId?.toString()],
+    refetch,
+  }
 }
 
 export function useJoinPool() {
-  const masterChefContract = useMasterchef()
-  const shpContract = useShpContract()
+  const contract = useShpContract()
   const { account } = useWeb3React()
-  const lpContract = useTokenContract('0x6f58acfaeb1bfdc9c4959c43adde7a3b63bf019f')
+  const { rewardToken } = useRewardToken()
+  const tokenContract = useTokenContract(rewardToken?.address)
   const { callWithGasPrice } = useCallWithGasPrice()
-  const amount = 100000
-  return useCallback(async () => {
-    if (shpContract && masterChefContract) {
-      const tx = await callWithGasPrice(lpContract, 'approve', [masterChefContract.address, amount])
-      await tx.wait()
-      console.log(await shpContract.lock(account, amount))
+  const approve = useMemo(() => {
+    if (!tokenContract || !contract) return
+    return async (amount: number) => {
+      const tx = await callWithGasPrice(tokenContract, 'approve', [contract.address, toWei(amount)])
+      return tx.wait()
     }
-  }, [account, callWithGasPrice, lpContract, masterChefContract, shpContract])
+  }, [callWithGasPrice, contract, tokenContract])
+  const join = useMemo(() => {
+    if (!contract) return
+    return async (amount: number) => {
+      const tx = await contract.lock(account, toWei(amount))
+      return tx.wait()
+    }
+  }, [account, contract])
+  return {
+    approve,
+    join,
+  }
 }
 
 export function useYourPools() {
-  const currentPoolId = useCurrentPoolId()
+  const { currentPoolId } = useCurrentPoolId()
   const contract = useShpContract()
   const fetchYourPools = useCallback(async () => {
     if (currentPoolId && contract) {
-      const promises = []
-      let iterator = currentPoolId
-      // Fetch all pools
-      while (iterator.gte(0)) {
-        promises.push(contract.pools(iterator))
-        iterator = iterator.sub(1)
-      }
-      const pools = await Promise.all(promises)
+      const pools = await Promise.all(getAllPoolsIds(currentPoolId).map((poolId) => contract.pools(poolId)))
       console.log({ pools })
     }
   }, [contract, currentPoolId])
@@ -154,4 +143,27 @@ export function useYourPools() {
     fetchYourPools()
   }, [fetchYourPools])
   return []
+}
+
+export function useRewardTokenBalance() {
+  const { rewardToken } = useRewardToken()
+  const tokenContract = useTokenContract(rewardToken?.address)
+  const [balance, setBalance] = useState<BigNumber>()
+  const { account } = useWeb3React()
+  const refetch = useMemo(
+    () => tokenContract && (() => tokenContract.balanceOf(account).then(setBalance)),
+    [account, tokenContract],
+  )
+  useEffect(() => {
+    refetch?.()
+  }, [refetch])
+  return { balance, refetch }
+}
+
+export function toWei(ether: BigNumberish) {
+  return parseUnits(ether.toString())
+}
+
+export function toEther(wei: BigNumber): BigNumber {
+  return wei.div(BigNumber.from(10).pow(18))
 }

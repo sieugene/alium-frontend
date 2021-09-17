@@ -1,9 +1,10 @@
 import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
 import { StyledInternalLink } from 'components/Shared'
+import { useCallback } from 'react'
 import styled from 'styled-components'
 import {
+  toEther,
   useCurrentPoolId,
-  useJoinPool,
   useMaxPoolLength,
   usePoolLength,
   usePoolLocked,
@@ -17,29 +18,34 @@ import Title from '../Title'
 import UsersProgressBar from '../UsersProgressBar'
 
 export default function JoinPoolCard() {
-  const currentPoolId = useCurrentPoolId()
-  const currentPoolLength = usePoolLength(currentPoolId)
-  const currentPoolLocked = usePoolLocked(currentPoolId)
-  const maxPoolLength = useMaxPoolLength()
-  const joinPool = useJoinPool()
-  const [onModal] = useModal(<JoinPoolModal />)
+  const { currentPoolId, refetch: refetchCurrentPoolId } = useCurrentPoolId()
+  const { poolLength, refetch: refetchPoolLength } = usePoolLength(currentPoolId)
+  const { poolLocked, refetch: refetchPoolLocked } = usePoolLocked(currentPoolId)
+  const { maxPoolLength } = useMaxPoolLength()
+  const onJoin = useCallback(() => {
+    refetchCurrentPoolId?.()
+    refetchPoolLength?.()
+    refetchPoolLocked?.()
+  }, [refetchCurrentPoolId, refetchPoolLength, refetchPoolLocked])
+  // should refetch the current pool after joining
+  const [openModal] = useModal(<JoinPoolModal onJoin={onJoin} />, false)
   return (
     <JoinPoolCard.Root>
       <JoinPoolCard.Content>
         <JoinPoolCard.Info>
           <JoinPoolCard.Field>
             <Title>Pool Amount</Title>
-            {currentPoolLocked ? <FormattedValue value={currentPoolLocked} suffix=' ALM' /> : <Skeleton />}
+            {poolLocked ? <FormattedValue value={toEther(poolLocked)} suffix=' ALM' /> : <Skeleton />}
           </JoinPoolCard.Field>
-          <JoinPoolCard.Join onClick={onModal}>Join the pool</JoinPoolCard.Join>
+          <JoinPoolCard.Join onClick={openModal}>Join the pool</JoinPoolCard.Join>
           <JoinPoolCard.Field>
             <Title>Bonus NFT</Title>
             <NftItemCounter />
           </JoinPoolCard.Field>
         </JoinPoolCard.Info>
-        {currentPoolLength && maxPoolLength && (
+        {poolLength && maxPoolLength && (
           <JoinPoolCard.Progress>
-            <UsersProgressBar current={currentPoolLength.toNumber()} all={maxPoolLength.toNumber()} />
+            <UsersProgressBar current={poolLength.toNumber()} all={maxPoolLength.toNumber()} />
           </JoinPoolCard.Progress>
         )}
       </JoinPoolCard.Content>
@@ -58,6 +64,9 @@ JoinPoolCard.Content = styled.div`
   padding: 32px 32px 16px 24px;
   display: flex;
   justify-content: space-between;
+  & > * {
+    flex-shrink: 0;
+  }
 `
 
 JoinPoolCard.Info = styled.div`
