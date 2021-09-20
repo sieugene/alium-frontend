@@ -29,6 +29,7 @@ export const fetchFarmUserDataAsync = async (account: string, currentPids?: numb
   const pids = currentPids || farmsConfig.map((farmToFetch) => farmToFetch.pid)
 
   const farmsToFetch = farms.filter((farmConfig) => pids.includes(farmConfig.pid))
+
   const userFarmAllowances = await fetchFarmUserAllowances(account, farmsToFetch)
   const userFarmTokenBalances = await fetchFarmUserTokenBalances(account, farmsToFetch)
   const userStakedBalances = await fetchFarmUserStakedBalances(account, farmsToFetch)
