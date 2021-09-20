@@ -25,13 +25,14 @@ const Wrapper = styled.div`
 
 const Info = styled.div<{ type: ViewMode }>`
   .label {
+    text-align: right;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
     line-height: 30px;
     letter-spacing: 0.3px;
-
+    margin-bottom: 8px;
     color: #ffffff;
   }
   @media ${down(breakpoints.sm)} {
@@ -43,6 +44,7 @@ const Info = styled.div<{ type: ViewMode }>`
       .label{
         font-size: 18px;
         margin-right: 8px;
+        margin-bottom: 0px;
       }
     `}
   }
@@ -50,6 +52,7 @@ const Info = styled.div<{ type: ViewMode }>`
 
 const Tags = styled.div`
   display: flex;
+  justify-content: flex-end;
 `
 
 const Core = styled.div<{ type: ViewMode }>`

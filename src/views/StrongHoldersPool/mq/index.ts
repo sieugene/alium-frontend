@@ -15,7 +15,7 @@ export function up(value: number) {
 }
 
 export function down(value: number) {
-  return `(max-width: ${value - gap}px)`
+  return `(max-width: ${value}px)`
 }
 
 export function between(min: number, max: number) {
