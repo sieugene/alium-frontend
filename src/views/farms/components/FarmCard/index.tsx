@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import styled from 'styled-components'
-import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import DetailsSection from '../DetailsSection'
 import { EarnsFarm, InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEarned, useInfoStaked } from '../Info'
 import CardHeading from './CardHeading'
@@ -39,7 +39,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
 
   return (
     <StyledCard className='farm__card'>
-      <CardHeading farm={farm} />
+      <CardHeading farm={farm} type={ViewMode.CARD} />
       <ContentCard>
         <InfoRow>
           <InfoApr farm={farm} almPrice={almPrice} />

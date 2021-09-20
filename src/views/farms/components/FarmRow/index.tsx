@@ -3,6 +3,8 @@ import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import { useMedia, useToggle } from 'react-use'
 import styled from 'styled-components'
+import { ViewMode } from 'views/farms/farms.types'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import type { FarmCardProps } from '../FarmCard'
 import CardHeading from '../FarmCard/CardHeading'
 import {
@@ -35,7 +37,7 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
     () => ({
       heading: (
         <FarmRow.HeadingCell>
-          <CardHeading farm={farm} />
+          <CardHeading farm={farm} type={ViewMode.TABLE} />
         </FarmRow.HeadingCell>
       ),
       apr: (
@@ -227,11 +229,19 @@ FarmRow.Cell = styled.td`
 `
 
 FarmRow.HeadingCell = styled(FarmRow.Cell)`
-  width: 260px;
+  width: 292px;
   padding: 4px;
+  @media ${down(breakpoints.md)} {
+    width: 268px;
+  }
 
   & > * {
     height: 90px;
+  }
+  @media ${down(breakpoints.sm)} {
+    & > * {
+      height: 64px;
+    }
   }
 `
 
