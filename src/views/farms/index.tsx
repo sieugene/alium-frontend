@@ -150,7 +150,7 @@ const Farms = () => {
         </div>
         <FarmContent.Container>
           <FarmContent viewMode={viewMode} farms={items} almPrice={almPrice} />
-          <FarmPaginate {...paginate} viewMode={viewMode} />
+          <FarmPaginate {...paginate} viewMode={viewMode} count={items?.length} />
         </FarmContent.Container>
       </AvailableAccount>
     </FarmContainer>
