@@ -75,7 +75,9 @@ export const EarnsFarm = styled.div<{ earningsBusdExist: boolean }>`
     color: #8990a5;
     margin-left: 4px;
   }
-  .earned-token,
+  .earned-token {
+    color: #6c5dd3;
+  }
   .staked-token {
     color: ${(props) => (props.earningsBusdExist ? '#6C5DD3' : '#8990a5')};
   }
