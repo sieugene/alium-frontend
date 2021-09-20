@@ -1,13 +1,14 @@
 import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
 import { StyledInternalLink } from 'components/Shared'
-import { useCallback } from 'react'
 import styled from 'styled-components'
+import { ethersToBigNumber } from 'utils/bigNumber'
+import { getBalanceAmount } from 'utils/formatBalance'
 import {
-  toEther,
   useCurrentPoolId,
   useMaxPoolLength,
-  usePoolLength,
   usePoolLocked,
+  usePoolUsers,
+  useRewardTokenInfo,
 } from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import Card from '../Card'
@@ -18,24 +19,26 @@ import Title from '../Title'
 import UsersProgressBar from '../UsersProgressBar'
 
 export default function JoinPoolCard() {
-  const { currentPoolId, refetch: refetchCurrentPoolId } = useCurrentPoolId()
-  const { poolLength, refetch: refetchPoolLength } = usePoolLength(currentPoolId)
-  const { poolLocked, refetch: refetchPoolLocked } = usePoolLocked(currentPoolId)
-  const { maxPoolLength } = useMaxPoolLength()
-  const onJoin = useCallback(() => {
-    refetchCurrentPoolId?.()
-    refetchPoolLength?.()
-    refetchPoolLocked?.()
-  }, [refetchCurrentPoolId, refetchPoolLength, refetchPoolLocked])
-  // should refetch the current pool after joining
-  const [openModal] = useModal(<JoinPoolModal onJoin={onJoin} />, false)
+  const { data: currentPoolId } = useCurrentPoolId()
+  const { data: poolUsers } = usePoolUsers(currentPoolId)
+  const { data: poolLocked } = usePoolLocked(currentPoolId)
+  const { data: maxPoolLength } = useMaxPoolLength()
+  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const [openModal] = useModal(<JoinPoolModal />, false)
   return (
     <JoinPoolCard.Root>
       <JoinPoolCard.Content>
         <JoinPoolCard.Info>
           <JoinPoolCard.Field>
             <Title>Pool Amount</Title>
-            {poolLocked ? <FormattedValue value={toEther(poolLocked)} suffix=' ALM' /> : <Skeleton />}
+            {poolLocked ? (
+              <FormattedValue
+                value={getBalanceAmount(ethersToBigNumber(poolLocked))}
+                suffix={' ' + rewardTokenSymbol}
+              />
+            ) : (
+              <Skeleton />
+            )}
           </JoinPoolCard.Field>
           <JoinPoolCard.Join onClick={openModal}>Join the pool</JoinPoolCard.Join>
           <JoinPoolCard.Field>
@@ -43,9 +46,9 @@ export default function JoinPoolCard() {
             <NftItemCounter />
           </JoinPoolCard.Field>
         </JoinPoolCard.Info>
-        {poolLength && maxPoolLength && (
+        {poolUsers && maxPoolLength && (
           <JoinPoolCard.Progress>
-            <UsersProgressBar current={poolLength.toNumber()} all={maxPoolLength.toNumber()} />
+            <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />
           </JoinPoolCard.Progress>
         )}
       </JoinPoolCard.Content>

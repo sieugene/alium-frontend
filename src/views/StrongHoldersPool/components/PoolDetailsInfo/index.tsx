@@ -1,20 +1,40 @@
+import { Percent } from '@alium-official/sdk'
+import BigNumber from 'bignumber.js'
+import { format, fromUnixTime } from 'date-fns'
+import { useMemo } from 'react'
 import styled from 'styled-components'
 
-export default function PoolDetailsInfo() {
+export interface PoolDetailsInfoProps {
+  leftId?: BigNumber
+  createdAt?: BigNumber
+  poolShare?: Percent
+}
+
+export default function PoolDetailsInfo({ leftId, createdAt, poolShare }: PoolDetailsInfoProps) {
+  const formattedCreatedAt = useMemo(
+    () => createdAt && format(fromUnixTime(createdAt.toNumber()), 'dd/MM/yyyy, HH:mm:ss'),
+    [createdAt],
+  )
   return (
     <PoolDetailsInfo.Root>
-      <PoolDetailsInfo.Field>
-        <span>Pool share</span>
-        <span>0,34%</span>
-      </PoolDetailsInfo.Field>
-      <PoolDetailsInfo.Field>
-        <span>Participant number</span>
-        <span>26</span>
-      </PoolDetailsInfo.Field>
-      <PoolDetailsInfo.Field>
-        <span>Pool creation date</span>
-        <span>18/08/2021, 18:34:40</span>
-      </PoolDetailsInfo.Field>
+      {poolShare && (
+        <PoolDetailsInfo.Field>
+          <span>Pool share</span>
+          <span>{poolShare.toFixed(2)}%</span>
+        </PoolDetailsInfo.Field>
+      )}
+      {leftId && (
+        <PoolDetailsInfo.Field>
+          <span>Participant number</span>
+          <span>{leftId.toString()}</span>
+        </PoolDetailsInfo.Field>
+      )}
+      {formattedCreatedAt && (
+        <PoolDetailsInfo.Field>
+          <span>Pool creation date</span>
+          <span>{formattedCreatedAt}</span>
+        </PoolDetailsInfo.Field>
+      )}
     </PoolDetailsInfo.Root>
   )
 }

@@ -1,4 +1,4 @@
-import { BigNumber } from '@ethersproject/bignumber'
+import BigNumber from 'bignumber.js'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
@@ -11,8 +11,7 @@ export interface FormattedValueProps {
 export default function FormattedValue({ value, suffix, className }: FormattedValueProps) {
   return (
     <FormattedValue.Root className={className}>
-      {/* TODO: value.toFormat() */}
-      {value.toString()}
+      {value.toFormat()}
       {suffix && <FormattedValue.Suffix>{suffix}</FormattedValue.Suffix>}
     </FormattedValue.Root>
   )
