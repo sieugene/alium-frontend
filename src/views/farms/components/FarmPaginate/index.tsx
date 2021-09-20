@@ -78,7 +78,11 @@ const CenterContent = styled(Block)`
   }
 `
 
-export const FarmPaginate: FC<PaginateProps & { viewMode: ViewMode }> = ({ viewMode, ...paginate }) => {
+export const FarmPaginate: FC<PaginateProps & { viewMode: ViewMode; count: number }> = ({
+  viewMode,
+  count,
+  ...paginate
+}) => {
   const isLastPage = paginate?.currentPage >= paginate?.totalPages
 
   const onMore = () => {
@@ -87,6 +91,9 @@ export const FarmPaginate: FC<PaginateProps & { viewMode: ViewMode }> = ({ viewM
     }
   }
   const ViewType = viewMode === ViewMode.TABLE ? Flex : Grid
+  if (!count) {
+    return <> </>
+  }
   return (
     <ViewType>
       <LeftContent>
