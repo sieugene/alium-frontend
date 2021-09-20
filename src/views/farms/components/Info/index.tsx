@@ -9,6 +9,7 @@ import useToast from 'hooks/useToast'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useCallback, useMemo, useState } from 'react'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
@@ -16,7 +17,7 @@ import { getAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount, getBalanceNumber } from 'utils/formatBalance'
 import DepositModal from 'views/farms/components/Modals/DepositModal'
-import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import useApproveFarm from 'views/farms/hooks/useApproveFarm'
 import {
   farmUserDataUpdate,
@@ -27,6 +28,7 @@ import {
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
 import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
+import { down } from 'views/StrongHoldersPool/mq'
 import RoiModal from '../Modals/RoiModal'
 import WithdrawModal from '../Modals/WithdrawModal'
 
@@ -94,7 +96,7 @@ export const InfoValue = styled.div`
   color: #0b1359;
 `
 
-const StakeCounter = styled(IconButton)`
+const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
   svg {
     path {
       fill: #8990a5;
@@ -102,6 +104,16 @@ const StakeCounter = styled(IconButton)`
   }
   background: transparent;
   border: 1px solid #d2d6e5;
+  height: 40px;
+  width: 40px;
+  @media ${down(376)} {
+    ${({ viewMode }) =>
+      viewMode === ViewMode.TABLE &&
+      `
+      height: 28px;
+      width: 28px;
+    `}
+  }
 
   &:hover {
     opacity: 0.75;
@@ -352,6 +364,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const loading = useFarmsLoading()
+  const viewMode = useStoreFarms((state) => state.viewMode)
 
   const {
     tokenBalance: tokenBalanceAsString = 0,
@@ -460,15 +473,16 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
     stakingButtonsNode:
       account && stakedBalanceNotZero ? (
         <IconButtonWrapper>
-          <StakeCounter variant='tertiary' onClick={onPresentWithdraw} mr='6px'>
-            <MinusIcon color='primary' width='14px' />
+          <StakeCounter variant='tertiary' onClick={onPresentWithdraw} mr='6px' viewMode={viewMode}>
+            <MinusIcon color='primary' />
           </StakeCounter>
           <StakeCounter
+            viewMode={viewMode}
             variant='tertiary'
             onClick={onPresentDeposit}
             disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
           >
-            <AddIcon color='primary' width='14px' />
+            <AddIcon.Small color='primary' />
           </StakeCounter>
         </IconButtonWrapper>
       ) : (

@@ -41,7 +41,6 @@ const ShowMore = styled(Button)`
   }
   width: 167px;
   @media ${down(breakpoints.sm)} {
-    max-width: 375px;
     width: 100%;
   }
 `
@@ -49,6 +48,10 @@ const ShowMore = styled(Button)`
 const Block = styled.div`
   width: 354px;
   margin-top: 32px;
+  @media ${down(breakpoints.sm)} {
+    min-width: 320px;
+    width: 100%;
+  }
 `
 
 const LeftContent = styled(Block)``
@@ -63,7 +66,7 @@ const RightContent = styled(Block)`
     flex-direction: column;
     .pagination {
       margin-top: 8px;
-      max-width: 375px;
+      max-width: none;
       width: 100%;
       justify-content: space-between;
     }

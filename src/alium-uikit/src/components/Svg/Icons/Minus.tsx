@@ -1,12 +1,11 @@
 import { FC } from 'react'
-import Svg from '../Svg'
 import { SvgProps } from '../types'
 
 const Icon: FC<SvgProps> = (props) => {
   return (
-    <Svg viewBox='0 0 15 2' {...props}>
-      <path d='M13.2 2L1.20004 2C0.650043 2 0.200043 1.55 0.200043 1C0.200043 0.45 0.650043 0 1.20004 0L13.2 0C13.75 0 14.2 0.45 14.2 1C14.2 1.55 13.75 2 13.2 2Z' />
-    </Svg>
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <path d='M18 11.9999H6' stroke='#8990A5' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
+    </svg>
   )
 }
 
