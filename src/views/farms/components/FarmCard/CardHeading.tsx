@@ -2,12 +2,14 @@ import { Skeleton } from 'alium-uikit/src'
 import CurrencyLogo from 'components/CurrencyLogo'
 import React from 'react'
 import styled from 'styled-components'
-import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import { useFarmsLoading } from 'views/farms/hooks/useFarmingPools'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { useFarmLpLabel } from '../Info'
 
 export interface CardHeadingProps {
   farm: FarmWithStakedValue
+  type: ViewMode
 }
 
 const Wrapper = styled.div`
@@ -21,7 +23,7 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
-const Info = styled.div`
+const Info = styled.div<{ type: ViewMode }>`
   .label {
     font-family: Roboto;
     font-style: normal;
@@ -32,13 +34,25 @@ const Info = styled.div`
 
     color: #ffffff;
   }
+  @media ${down(breakpoints.sm)} {
+    ${({ type }) =>
+      type === ViewMode.TABLE &&
+      `
+      display: flex;
+      align-items: center;
+      .label{
+        font-size: 18px;
+        margin-right: 8px;
+      }
+    `}
+  }
 `
 
 const Tags = styled.div`
   display: flex;
 `
 
-const Core = styled.div`
+const Core = styled.div<{ type: ViewMode }>`
   margin-right: 4px;
   background: rgba(41, 217, 143, 0.3);
   border: 1px solid #29d98f;
@@ -65,8 +79,22 @@ const Core = styled.div`
     border-radius: 14px;
     display: block;
   }
+  @media ${down(breakpoints.sm)} {
+    ${({ type }) =>
+      type === ViewMode.TABLE &&
+      `
+      padding: 0;
+      padding-left: 1px;
+      width: 58px;
+      height: 22px;
+      span{
+        height: 18px;
+        width: 18px;
+      }
+    `}
+  }
 `
-const Multiplier = styled.div`
+const Multiplier = styled.div<{ type: ViewMode }>`
   background: rgba(255, 161, 0, 0.3);
   border: 1px solid #ffa100;
   box-sizing: border-box;
@@ -84,47 +112,80 @@ const Multiplier = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media ${down(breakpoints.sm)} {
+    ${({ type }) =>
+      type === ViewMode.TABLE &&
+      `
+      height: 22px;
+      padding: 0;
+      margin: 0;
+      width: fit-content;
+      min-width: 31px;
+    `}
+  }
 `
-const DoubleLogo = styled.div`
+const DoubleLogo = styled.div<{ type: ViewMode }>`
   display: flex;
+
+  @media ${down(breakpoints.sm)} {
+    ${({ type }) =>
+      type === ViewMode.TABLE &&
+      `
+      img {
+        width: 35px;
+        height: 35px;
+      }
+    `}
+  }
 `
 
 const WrapMainLogo = styled.div`
   position: relative;
   z-index: 1;
 `
-const WrapSecondLogo = styled.div`
+const WrapSecondLogo = styled.div<{ type: ViewMode }>`
   position: relative;
   z-index: 0;
   right: 20px;
+  @media ${down(breakpoints.sm)} {
+    ${({ type }) =>
+      type === ViewMode.TABLE &&
+      `
+      right: 13px;
+    `}
+  }
 `
 
 const MultiplierSkeleton = styled(Skeleton)`
   border-radius: 16px;
 `
 
-const CardHeading: React.FC<CardHeadingProps> = ({ farm }) => {
+const CardHeading: React.FC<CardHeadingProps> = ({ farm, type }) => {
   const loading = useFarmsLoading()
   return (
     <Wrapper className='farm__head'>
       <div className='icons'>
-        <DoubleLogo>
+        <DoubleLogo type={type}>
           <WrapMainLogo>
             <CurrencyLogo size='48px' currency={farm.token} />
           </WrapMainLogo>
-          <WrapSecondLogo>
+          <WrapSecondLogo type={type}>
             <CurrencyLogo size='48px' currency={farm.quoteToken} />
           </WrapSecondLogo>
         </DoubleLogo>
       </div>
-      <Info>
+      <Info type={type}>
         <div className='label'>{useFarmLpLabel(farm).split(' ')[0]}</div>
         <Tags>
-          <Core>
+          <Core type={type}>
             <span />
             {farm.isCommunity ? 'Community' : 'Core'}
           </Core>
-          {loading ? <MultiplierSkeleton width='41px' height='32px' /> : <Multiplier>{farm.multiplier}</Multiplier>}
+          {loading ? (
+            <MultiplierSkeleton width='41px' height='32px' />
+          ) : (
+            <Multiplier type={type}>{farm.multiplier}</Multiplier>
+          )}
         </Tags>
       </Info>
     </Wrapper>
