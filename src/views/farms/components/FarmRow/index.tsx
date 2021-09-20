@@ -238,7 +238,7 @@ FarmRow.HeadingCell = styled(FarmRow.Cell)`
   & > * {
     height: 90px;
   }
-  @media ${down(breakpoints.sm)} {
+  @media ${down(375)} {
     & > * {
       height: 64px;
     }
