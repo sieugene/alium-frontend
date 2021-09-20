@@ -1,5 +1,5 @@
 import { useWeb3React } from '@web3-react/core'
-import { AddIcon, Button, CalculateIcon, IconButton, MinusIcon, Skeleton, useModal } from 'alium-uikit/src'
+import { AddIcon, Button, CalculateIcon, IconButton, LinkIcon, MinusIcon, Skeleton, useModal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
 import ConnectWalletButton from 'components/ConnectWalletButton'
@@ -9,6 +9,7 @@ import useToast from 'hooks/useToast'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useCallback, useMemo, useState } from 'react'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
 import { getAddress } from 'utils/addressHelpers'
@@ -252,12 +253,28 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
 export interface InfoDepositProps {
   farm: FarmWithStakedValue
 }
+const LpLink = styled(InfoValue)`
+  a {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  svg {
+    margin-left: 8px;
+  }
+`
 
 export function InfoDeposit({ farm }: InfoDepositProps) {
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const address = getExplorerLink(97, farm.lpAddresses[currentChainId], 'address')
   return (
     <>
       <InfoTitle>Deposit:</InfoTitle>
-      <InfoValue>{useFarmLpLabel(farm)}</InfoValue>
+      <LpLink>
+        <a href={address} target='_blank'>
+          {useFarmLpLabel(farm)} <LinkIcon />
+        </a>
+      </LpLink>
     </>
   )
 }
