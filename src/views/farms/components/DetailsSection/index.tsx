@@ -52,7 +52,7 @@ const Info = styled.div`
     letter-spacing: 0.3px;
     color: #0b1359;
   }
-  a {
+  .scan-link {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
