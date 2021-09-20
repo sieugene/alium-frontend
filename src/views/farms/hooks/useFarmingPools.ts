@@ -147,7 +147,7 @@ export const useLpTokenPrice = (symbol: string) => {
   const farmTokenPriceInUsd = usePriceAlmBusd()
   let lpTokenPrice = BIG_ZERO
 
-  if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {
+  if (farm?.lpTotalSupply && farm?.lpTotalInQuoteToken) {
     // Total value of base token in LP
     const valueOfBaseTokenInFarm = farmTokenPriceInUsd.times(farm.tokenAmountTotal)
     // Double it to get overall value in LP

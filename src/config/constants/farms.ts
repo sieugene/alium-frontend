@@ -35,7 +35,7 @@ const farmsMasterChef: FarmConfig[] = [
 ]
 const mocked = farmsMasterChef.map((mock) => ({
   ...mock,
-  pid: 20 + Math.random(),
+  pid: 2,
   lpSymbol: 'MOCKED TEST' + mock.lpSymbol,
 }))
 
