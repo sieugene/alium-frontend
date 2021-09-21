@@ -326,8 +326,8 @@ export function InfoViewBscScan({ farm }: InfoViewBscScanProps) {
   }
   return (
     <InfoTitle>
-      <a href={getExplorerLink(97, address, 'address')} target='_blank'>
-        View on BacScan
+      <a href={getExplorerLink(97, address, 'address')} target='_blank' style={{ whiteSpace: 'nowrap' }}>
+        View on BscScan
       </a>
     </InfoTitle>
   )
