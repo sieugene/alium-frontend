@@ -2,6 +2,7 @@ import { DropdownList } from 'alium-uikit/src/components/DropdownList'
 import {
   FARM_DESKTOP_MEDIA,
   FARM_EXT_MOBILE_MEDIA,
+  FARM_LAPTOP_MEDIA,
   FARM_MOBILE_MEDIA,
   FARM_TABLET_MEDIA,
 } from 'constants/layout/farm.layout'
@@ -12,7 +13,8 @@ import { FarmSortOption } from 'views/farms/farms.types'
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+
   h2 {
     font-family: Roboto;
     font-style: normal;
@@ -22,6 +24,9 @@ const Wrapper = styled.div`
     letter-spacing: 0.3px;
     color: #8990a5;
     margin-right: 16px;
+  }
+  @media screen and (max-width: ${FARM_LAPTOP_MEDIA}) {
+    justify-content: center;
   }
   @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
     h2 {
