@@ -2,7 +2,6 @@ import { Percent } from '@alium-official/sdk'
 import { Button, InjectedModalProps, Modal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
-import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import { useTranslation } from 'next-i18next'
 import { useCallback, useMemo, useState } from 'react'
 import { useToast } from 'state/hooks'
@@ -15,10 +14,12 @@ import {
   useJoinPool,
   usePoolLocked,
   usePoolUsers,
+  useRewardTokenAllowance,
   useRewardTokenBalance,
   useRewardTokenInfo,
   useTotalLocked,
 } from 'views/StrongHoldersPool/hooks'
+import Web3 from 'web3'
 import PoolDetailsInfo from '../PoolDetailsInfo'
 
 export type JoinPoolModalProps = InjectedModalProps
@@ -29,22 +30,26 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(currentPoolId)
   const { mutate: mutateTotalLocked } = useTotalLocked()
   const { approve, join } = useJoinPool()
-  const [approved, setApproved] = useState(false)
   const [loading, setLoading] = useState(false)
   const { rewardTokenInfo, rewardTokenSymbol } = useRewardTokenInfo()
+  const { data: rewardTokenAllowance, mutate: mutateRewardTokenAllowance } = useRewardTokenAllowance()
   const { data: balance, mutate: mutateBalance } = useRewardTokenBalance()
   const balanceNumber = useMemo(() => balance && getBalanceNumber(ethersToBigNumber(balance)), [balance])
   const [amount, setAmount] = useState('')
   const amountNumber = useMemo(() => Number(amount), [amount])
   const hasAmount = amountNumber > 0
+  const amountWei = useMemo(() => hasAmount && Web3.utils.toWei(amountNumber.toString()), [amountNumber, hasAmount])
+  const needApprove = useMemo(
+    () => rewardTokenAllowance && amountWei && ethersToBigNumber(rewardTokenAllowance).minus(amountWei).lt(0),
+    [amountWei, rewardTokenAllowance],
+  )
   const isInsufficientFunds = amountNumber > balanceNumber
   const poolShare = useMemo(() => {
-    if (poolLocked && hasAmount) {
-      const amountWei = new BigNumber(amountNumber).multipliedBy(DEFAULT_TOKEN_DECIMAL)
+    if (poolLocked && amountWei) {
       return new Percent(amountWei.toString(), ethersToBigNumber(poolLocked).plus(amountWei).toString())
     }
     return new Percent('0')
-  }, [amountNumber, hasAmount, poolLocked])
+  }, [amountWei, poolLocked])
   const accountUser = useAccountUser(poolUsers)
   const leftId = useMemo(() => {
     return accountUser?.leftId ? ethersToBigNumber(accountUser.leftId) : new BigNumber(poolUsers?.length || 0).plus(1)
@@ -53,10 +58,10 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const { t } = useTranslation()
   const protectedSetAmount = useCallback(
     (value: string) => {
-      if (approved || loading) return
+      if (loading) return
       setAmount(value)
     },
-    [approved, loading],
+    [loading],
   )
   return (
     <Modal
@@ -84,8 +89,8 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                 try {
                   setLoading(true)
                   await approve(amountNumber)
+                  await mutateRewardTokenAllowance()
                   toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('approved')}`)
-                  setApproved(true)
                 } catch (error) {
                   console.error(error)
                   toastError(error.data?.message || error.message)
@@ -93,7 +98,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                   setLoading(false)
                 }
               }}
-              disabled={!approve || loading || !hasAmount || isInsufficientFunds}
+              disabled={!approve || loading || !hasAmount || isInsufficientFunds || !needApprove}
             >
               {t('Approve')}
             </Button>
@@ -103,8 +108,8 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                   setLoading(true)
                   await join(amountNumber)
                   toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('added to the pool')}`)
-                  setApproved(false)
                   mutateBalance()
+                  mutateRewardTokenAllowance()
                   // should refetch the current pool after joining
                   mutateCurrentPoolId()
                   mutatePoolUsers()
@@ -118,7 +123,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                   setLoading(false)
                 }
               }}
-              disabled={!join || loading || !hasAmount || !approved || isInsufficientFunds}
+              disabled={!join || loading || !hasAmount || isInsufficientFunds || needApprove}
             >
               {t('Join')}
             </Button>

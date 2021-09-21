@@ -103,6 +103,18 @@ export function useRewardTokenBalance() {
   return useSWR<BigNumber>(
     rewardTokenContract ? ['balanceOf', account] : null,
     createContractFetcher(rewardTokenContract),
+    defaultSWROptions,
+  )
+}
+
+export function useRewardTokenAllowance() {
+  const rewardTokenContract = useRewardTokenContract()
+  const shpContract = useShpContract()
+  const { account } = useWeb3React()
+  return useSWR<BigNumber>(
+    rewardTokenContract && account && shpContract ? ['allowance', account, shpContract.address] : null,
+    createContractFetcher(rewardTokenContract),
+    defaultSWROptions,
   )
 }
 
