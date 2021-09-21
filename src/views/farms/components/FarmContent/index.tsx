@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import { farmBgForNthChild, farmCardsBg } from 'views/farms/helpers/farms.styles'
+import { breakpoints, up } from 'views/StrongHoldersPool/mq'
 import FarmCard from '../FarmCard'
 import FarmRow from '../FarmRow'
 
@@ -68,6 +69,7 @@ FarmContent.Container = styled.div`
   }
 `
 
+export const FarmContentXLGap = 150
 FarmContent.Grid = styled.div`
   display: grid;
   column-gap: 16px;
@@ -75,15 +77,18 @@ FarmContent.Grid = styled.div`
   grid-template-columns: repeat(1, max-content);
   justify-content: center;
 
-  @media screen and (min-width: 768px) {
+  @media ${up(breakpoints.md)} {
     grid-template-columns: repeat(2, max-content);
     row-gap: 24px;
   }
 
-  @media screen and (min-width: 1440px) {
+  @media ${up(breakpoints.lg)} {
     grid-template-columns: repeat(3, max-content);
     column-gap: 30px;
     row-gap: 30px;
+  }
+  @media ${up(breakpoints.xl, FarmContentXLGap)} {
+    grid-template-columns: repeat(4, max-content);
   }
 `
 
