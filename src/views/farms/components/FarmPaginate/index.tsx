@@ -4,7 +4,7 @@ import { FC } from 'hoist-non-react-statics/node_modules/@types/react'
 import styled from 'styled-components'
 import { ViewMode } from 'views/farms/farms.types'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
-import FarmContent from '../FarmContent'
+import FarmContent, { FarmContentXLGap } from '../FarmContent'
 
 const Grid = styled(FarmContent.Grid)`
   @media screen and (max-width: 768px) {
@@ -44,9 +44,9 @@ const ShowMore = styled(Button)`
     width: 100%;
   }
 `
-
+const BLOCK_WIDTH = 354
 const Block = styled.div`
-  width: 354px;
+  width: ${BLOCK_WIDTH}px;
   margin-top: 32px;
   @media ${down(breakpoints.sm)} {
     min-width: 320px;
@@ -76,7 +76,11 @@ const RightContent = styled(Block)`
   }
 `
 const CenterContent = styled(Block)`
-  @media screen and (max-width: 1440px) {
+  width: ${BLOCK_WIDTH * 2}px;
+  @media ${down(breakpoints.xl, FarmContentXLGap)} {
+    width: ${BLOCK_WIDTH}px;
+  }
+  @media ${down(breakpoints.lg)} {
     display: none;
   }
 `

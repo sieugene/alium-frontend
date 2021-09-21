@@ -139,7 +139,7 @@ const Farms = () => {
 
   chosenFarmsLength.current = chosenFarmsMemoized.length
 
-  const { items, ...paginate } = usePaginate({ items: chosenFarmsMemoized, pageLimit: 3 })
+  const { items, ...paginate } = usePaginate({ items: chosenFarmsMemoized, pageLimit: 4 })
 
   return (
     <FarmContainer>
