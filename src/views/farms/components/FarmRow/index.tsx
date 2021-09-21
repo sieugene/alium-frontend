@@ -268,6 +268,11 @@ FarmRow.MobileView = styled(FarmRow.Summary)`
     width: 100%;
     display: flex;
     align-items: center;
+    &:first-child {
+      @media ${down(375)} {
+        padding: 0;
+      }
+    }
 
     & > * {
       flex: 1;
