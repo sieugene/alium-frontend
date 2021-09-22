@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   display: grid;
 
   position: relative;
-  grid-template-columns: 0.7fr 0.8fr 0.3fr 1.4fr 0.3fr;
+  grid-template-columns: 186px 149px 56px 1.4fr 0.3fr;
   grid-gap: 16px;
   @media screen and (max-width: ${FARM_LAPTOP_MEDIA}) {
     height: auto;

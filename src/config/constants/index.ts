@@ -1,4 +1,4 @@
-import farmsConfig from './farms'
+import { farmsConfig } from './farms'
 
 const communityFarms = farmsConfig.filter((farm) => farm.isCommunity).map((farm) => farm.lpSymbol)
 

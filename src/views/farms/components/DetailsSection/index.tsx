@@ -1,9 +1,10 @@
-import { ChevronDownIcon, Skeleton } from 'alium-uikit/src'
+import { Skeleton } from 'alium-uikit/src'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
 import { useFarmsLoading } from 'views/farms/hooks/useFarmingPools'
+import DetailsButton from 'views/StrongHoldersPool/components/DetailsButton'
 import { InfoDeposit, InfoLpType, InfoViewBscScan } from '../Info'
 
 const Wrapper = styled.div<{ open: boolean }>`
@@ -51,7 +52,7 @@ const Info = styled.div`
     letter-spacing: 0.3px;
     color: #0b1359;
   }
-  a {
+  .scan-link {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
@@ -84,14 +85,13 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLa
   const toggle = () => {
     setOpen(!open)
   }
-  const totalLiqudidty = farm.liquidity?.gt(0) ? `$${farm.liquidity.toNumber()}` : '0$'
+  const totalLiqudidty = farm.liquidity?.gt(0) ? `$${farm.liquidity.precision(6)}` : '0$'
 
   return (
     <>
       {!open && (
         <DetailsLabel onClick={toggle}>
-          <p>Details</p>
-          <ChevronDownIcon />
+          <DetailsButton className='hide' isOpen={open} onClick={toggle} />
         </DetailsLabel>
       )}
       <Wrapper open={open}>
@@ -116,9 +116,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLa
             <Info>
               <InfoViewBscScan farm={farm} />
             </Info>
-            <div className='hide' onClick={toggle}>
-              Hide
-            </div>
+            <DetailsButton className='hide' isOpen={open} onClick={toggle} />
           </>
         )}
       </Wrapper>

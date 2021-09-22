@@ -1,6 +1,7 @@
 import { ChainId } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
+import { usePaginate } from 'components/Pagination/hooks/usePaginate'
 import { orderBy } from 'lodash'
 import { useRouter } from 'next/router'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
@@ -8,12 +9,14 @@ import { Farm } from 'state/types'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
+import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount'
 import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
+import { FarmPaginate } from './components/FarmPaginate'
 import FarmContainer from './FarmContainer'
-import { FarmWithStakedValue } from './farms.types'
-import { useFarms, usePollFarmsWithUserData, usePriceCakeBusd } from './hooks/useFarmingPools'
+import { FarmTab, FarmWithStakedValue } from './farms.types'
+import { useFarms, usePollFarmsWithUserData, usePriceAlmBusd } from './hooks/useFarmingPools'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
 
@@ -29,19 +32,22 @@ const getDisplayApr = (cakeRewardsApr?: number, lpRewardsApr?: number) => {
 
 const Farms = () => {
   const { pathname } = useRouter()
+  // Farm hooks
   const farmsLP = useFarms()
-  // make here real loader!
-  const almPrice = usePriceCakeBusd()
+  const almPrice = usePriceAlmBusd()
+  // Farm Filters
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
   const sortOption = useStoreFarms((state) => state.sortOption)
+  const stakedOnly = useStoreFarms((state) => state.stakedOnly)
+  const activeTab = useStoreFarms((state) => state.activeTab)
 
   const { account } = useWeb3React()
 
   const chosenFarmsLength = useRef(0)
 
   const isArchived = pathname.includes('archived')
-  const isInactive = pathname.includes('history')
+  const isInactive = activeTab === FarmTab.finished
   const isActive = !isInactive && !isArchived
 
   const { farmsUserDataLoading: userDataLoaded } = usePollFarmsWithUserData(isArchived)
@@ -49,8 +55,6 @@ const Farms = () => {
   // Users with no wallet connected should see 0 as Earned amount
   // Connected users should see loading indicator until first userData has loaded
   const userDataReady = !account || (!!account && userDataLoaded)
-
-  const stakedOnly = useStoreFarms((state) => state.stakedOnly)
 
   // const [stakedOnly] = useUserFarmStakedOnly(isActive)
 
@@ -99,13 +103,13 @@ const Farms = () => {
 
     const sortFarms = (farms: FarmWithStakedValue[]) => {
       switch (sortOption) {
-        case 'apr':
+        case 'Hot':
           return orderBy(farms, (farm) => farm.apr + farm.lpRewardsApr, 'desc')
-        case 'multiplier':
+        case 'Multiplier':
           return orderBy(farms, (farm) => (farm.multiplier ? Number(farm.multiplier.slice(0, -1)) : 0), 'desc')
-        case 'earned':
+        case 'Earned':
           return orderBy(farms, (farm) => (farm.userData ? Number(farm.userData.earnings) : 0), 'desc')
-        case 'liquidity':
+        case 'Liquidity':
           return orderBy(farms, (farm) => Number(farm.liquidity), 'desc')
         default:
           return farms
@@ -135,18 +139,20 @@ const Farms = () => {
 
   chosenFarmsLength.current = chosenFarmsMemoized.length
 
-  const farms = useMemo(
-    () => [...chosenFarmsMemoized, ...chosenFarmsMemoized, ...chosenFarmsMemoized],
-    [chosenFarmsMemoized],
-  )
+  const { items, ...paginate } = usePaginate({ items: chosenFarmsMemoized, pageLimit: 4 })
 
   return (
     <FarmContainer>
-      <div>
-        <FarmBanner />
-        <FarmFilters />
-      </div>
-      <FarmContent viewMode={viewMode} farms={farms} almPrice={almPrice} />
+      <AvailableAccount title='Farms'>
+        <div>
+          <FarmBanner />
+          <FarmFilters />
+        </div>
+        <FarmContent.Container>
+          <FarmContent viewMode={viewMode} farms={items} almPrice={almPrice} />
+          <FarmPaginate {...paginate} viewMode={viewMode} count={items?.length} />
+        </FarmContent.Container>
+      </AvailableAccount>
     </FarmContainer>
   )
 }

@@ -1,6 +1,6 @@
-import { farms as farmsConfig } from 'config/constants/farms'
+import { farmsConfig } from 'config/constants/farms'
 import { Farm } from 'state/types'
-import { FarmSortOption, ViewMode } from 'views/farms/farms.types'
+import { FarmSortOption, FarmTab, ViewMode } from 'views/farms/farms.types'
 import create from 'zustand'
 import createVanilla from 'zustand/vanilla'
 import { FarmWithUserData } from './../../state/types'
@@ -21,6 +21,8 @@ export interface StoreFarmsState {
   setSortOption: (sortOption: FarmSortOption) => void
   stakedOnly: boolean
   setStakedOnly: (stakedOnly: boolean) => void
+  activeTab: FarmTab
+  setActiveTab: (tab: FarmTab) => void
 }
 
 const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
@@ -40,8 +42,12 @@ export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
   farmsUserDataLoading: false,
   farms: noAccountFarmConfig,
   query: '',
-  sortOption: FarmSortOption.hot,
+  sortOption: FarmSortOption.Hot,
   stakedOnly: false,
+  activeTab: FarmTab.live,
+  setActiveTab: (tab: FarmTab) => {
+    set({ activeTab: tab })
+  },
   setStakedOnly: (stakedOnly: boolean) => {
     set({ stakedOnly })
   },

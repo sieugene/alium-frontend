@@ -17,14 +17,11 @@ export const stakeFarm = async (masterChefContract: Contract, pid: number, amoun
     return receipt.status
   }
 
-  try {
-    const tx = await masterChefContract.deposit(pid, value, { ...options, gasPrice })
-    const receipt = await tx.wait()
+  const tx = await masterChefContract.deposit(pid, value, { ...options, gasPrice })
 
-    return receipt.status
-  } catch (error) {
-    return false
-  }
+  const receipt = await tx.wait()
+
+  return receipt.status
 }
 
 export const unstakeFarm = async (masterChefContract: Contract, pid, amount) => {

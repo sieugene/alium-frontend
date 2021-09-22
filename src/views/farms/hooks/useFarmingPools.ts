@@ -1,11 +1,14 @@
+import { ChainId } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import useRefresh from 'hooks/useRefresh'
 import { useEffect, useMemo } from 'react'
 import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from 'store/farms'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
-import { farms } from './../../../config/constants/farms'
+import { getAlmPrice } from 'utils/prices/getAlmPrice'
+import { farmsConfig } from './../../../config/constants/farms'
 import { storeFarms, useStoreFarms } from './../../../store/farms/useStoreFarms'
 
 export const usePollFarmsPublicData = () => {
@@ -13,18 +16,23 @@ export const usePollFarmsPublicData = () => {
   const farmsLoading = useStoreFarms((state) => state.farmsLoading)
   const setLoading = useStoreFarms((state) => state.toggleFarmsFetched)
   const farmsList = useFarms()
+  const supportLoaders = useFarmSupportNetwork()
 
   useEffect(() => {
     ;(async () => {
-      if (farmsLoading) return
+      if (farmsLoading || !supportLoaders) return
       setLoading(true)
-      const farmsConfig = farms
-      const farmsFetched = await fetchFarmsPublicDataAsync(farmsConfig)
-
-      setFarms(farmsFetched)
-      setLoading(false)
+      const farms = farmsConfig
+      try {
+        const farmsFetched = await fetchFarmsPublicDataAsync(farms)
+        setFarms(farmsFetched)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
     })()
-  }, [])
+  }, [supportLoaders])
 
   return farmsList
 }
@@ -46,17 +54,25 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
     ;(async () => {
       if (loading || farmsUserDataLoading) return
       setLoading(true)
-
-      const farmsConfig = farms
-      const pids = farmsConfig.map((farmToFetch) => farmToFetch.pid)
-
-      const fetchedFarms = await fetchFarmUserDataAsync(account, pids)
-      setFarmsUserData(fetchedFarms)
-
-      setLoading(false)
+      const farms = farmsConfig
+      const pids = farms.map((farmToFetch) => farmToFetch.pid)
+      try {
+        const fetchedFarms = await fetchFarmUserDataAsync(account, pids)
+        setFarmsUserData(fetchedFarms)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
     })()
-  }, [loading, slowRefresh])
+  }, [loading, slowRefresh, account])
   return { farmsList, farmsUserDataLoading }
+}
+
+const useFarmSupportNetwork = () => {
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const supportLoaders = useMemo(() => [ChainId.BSCTESTNET, ChainId.MAINNET].includes(currentChainId), [currentChainId])
+  return supportLoaders
 }
 
 // refact this later (vanilla like method) <-- maybe in store
@@ -106,16 +122,18 @@ export const useFarmUser = (pid: number) => {
   }
 }
 
-export const usePriceCakeBusd = (): BigNumber => {
-  const cakeBnbFarm = useFarmFromPid(1)
+export const usePriceAlmBusd = (): BigNumber => {
+  const almBnbFarm = useFarmFromPid(1)
 
-  const cakePriceBusdAsString = cakeBnbFarm.token.busdPrice
+  const almPriceBusdAsString = almBnbFarm.token.busdPrice
 
-  const cakePriceBusd = useMemo(() => {
-    return new BigNumber(cakePriceBusdAsString)
-  }, [cakePriceBusdAsString])
+  const almPriceBusd = useMemo(() => {
+    const almCookiePrice = getAlmPrice()
+    const price = almPriceBusdAsString && !!Number(almPriceBusdAsString) ? almPriceBusdAsString : almCookiePrice
+    return new BigNumber(price)
+  }, [almPriceBusdAsString])
 
-  return cakePriceBusd
+  return almPriceBusd
 }
 
 // Return the base token price for a farm, from a given pid
@@ -126,10 +144,10 @@ export const useBusdPriceFromPid = (pid: number): BigNumber => {
 
 export const useLpTokenPrice = (symbol: string) => {
   const farm = useFarmFromLpSymbol(symbol)
-  const farmTokenPriceInUsd = usePriceCakeBusd()
+  const farmTokenPriceInUsd = usePriceAlmBusd()
   let lpTokenPrice = BIG_ZERO
 
-  if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {
+  if (farm?.lpTotalSupply && farm?.lpTotalInQuoteToken) {
     // Total value of base token in LP
     const valueOfBaseTokenInFarm = farmTokenPriceInUsd.times(farm.tokenAmountTotal)
     // Double it to get overall value in LP

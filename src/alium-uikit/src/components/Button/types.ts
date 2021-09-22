@@ -36,6 +36,7 @@ export type ButtonProps = {
   endIcon?: ReactNode
   fullwidth?: boolean
   as?: 'a' | 'button' | typeof Link
+  target?: string
   href?: string
   external?: boolean
   isloading?: boolean

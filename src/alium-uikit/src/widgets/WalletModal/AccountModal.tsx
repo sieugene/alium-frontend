@@ -32,15 +32,12 @@ interface Props {
 const StyledBackGround = styled.div`
   background-position: center;
   height: 128px;
-  width: 694px;
+  width: auto;
   margin: 0 -25px;
   display: flex;
   align-items: center;
   padding: 24px;
   background-clip: padding-box;
-  @media screen and (max-width: 800px) {
-    width: auto;
-  }
 `
 
 const StyledInfo = styled.div`
@@ -89,7 +86,6 @@ const StyledButton = styled(Button)`
   svg * {
     transition: stroke 200ms ease-in-out;
   }
-  max-width: 225px;
   :hover {
     svg * {
       stroke: white;
@@ -109,6 +105,13 @@ const StyledFlex = styled(Flex)`
     }
     > *:not(:last-child) {
       margin-bottom: 8px;
+    }
+  }
+
+  ${StyledButton} {
+    margin-right: 8px;
+    &:last-child {
+      margin: 0;
     }
   }
 `

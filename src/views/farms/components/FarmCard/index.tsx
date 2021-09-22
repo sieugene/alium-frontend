@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import styled from 'styled-components'
-import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import DetailsSection from '../DetailsSection'
-import { InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEarned, useInfoStaked } from '../Info'
+import { EarnsFarm, InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEarned, useInfoStaked } from '../Info'
 import CardHeading from './CardHeading'
 
 const StyledCard = styled.div`
@@ -13,6 +14,11 @@ const StyledCard = styled.div`
   border-radius: 6px;
   padding: 4px 4px 24px 4px;
   position: relative;
+  @media ${down(breakpoints.sm)} {
+    width: 100%;
+    max-width: 354px;
+    min-width: 320px;
+  }
 `
 
 export const ContentCard = styled.div`
@@ -28,42 +34,44 @@ const FooterCard = styled.div<{ isSingle: boolean }>`
 export interface FarmCardProps {
   farm: FarmWithStakedValue
   almPrice: BigNumber
+  removed?: boolean
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({
     farm,
-    addLiquidityUrl: '/none',
   })
 
   return (
-    <StyledCard>
-      <CardHeading farm={farm} />
+    <StyledCard className='farm__card'>
+      <CardHeading farm={farm} type={ViewMode.CARD} />
       <ContentCard>
         <InfoRow>
-          <InfoApr farm={farm} />
+          <InfoApr farm={farm} almPrice={almPrice} />
         </InfoRow>
         <InfoRow withBg>
           <InfoEarn farm={farm} />
         </InfoRow>
-        <InfoRow>
+        <InfoRow style={{ minHeight: '70px' }}>
           <InfoTitle>
             {earned.titleNode}
-            {earned.displayBalanceNode}
-            {earned.earningsBusdNode}
+            <EarnsFarm>
+              {earned.displayBalanceNode}
+              {earned.earningsBusdNode}
+            </EarnsFarm>
           </InfoTitle>
           <InfoValue>{earned.harvestButtonNode}</InfoValue>
         </InfoRow>
         <InfoRow withBg>
           <InfoTitle>
             <p>{staked.titleNode}</p>
-            <p>{staked.displayBalanceNode}</p>
+            <EarnsFarm>
+              <p>{staked.displayBalanceNode}</p>
+              <p> {staked.balanceNode}</p>
+            </EarnsFarm>
           </InfoTitle>
-          <InfoValue>
-            {staked.stakingButtonsNode}
-            {/* {staked.balanceNode} */}
-          </InfoValue>
+          <InfoValue>{staked.stakingButtonsNode}</InfoValue>
         </InfoRow>
         <FooterCard isSingle={!staked.actionsNode}>
           {staked.actionsNode}

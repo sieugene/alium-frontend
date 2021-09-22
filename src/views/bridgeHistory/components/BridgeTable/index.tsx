@@ -1,8 +1,8 @@
+import Paginate from 'components/Pagination'
+import { usePaginate } from 'components/Pagination/hooks/usePaginate'
 import React from 'react'
 import styled from 'styled-components'
 import { BridgeHistoryStatuses } from 'views/bridgeHistory/bridgeHistory.types'
-import { useBridgePaginate } from 'views/bridgeHistory/hooks/useBridgePaginate'
-import BridgePaginate from '../BridgePaginate'
 import BridgeTableCol, { RowItem } from '../BridgeTableCol'
 import BridgeTableHeader from '../BridgeTableHeader'
 import BridgeEmptyTable from './BridgeEmptyTable'
@@ -86,7 +86,7 @@ const BridgeTable = () => {
     ...item,
     amount: index + ' DAI',
   }))
-  const { items, ...paginate } = useBridgePaginate({ items: historyItems, pageLimit: 10 })
+  const { items, ...paginate } = usePaginate({ items: historyItems, pageLimit: 10 })
 
   if (items?.length === 0 || !items?.length) {
     return <BridgeEmptyTable />
@@ -107,7 +107,7 @@ const BridgeTable = () => {
             </Content>
           ))}
       </Mobile>
-      <BridgePaginate {...paginate} />
+      <Paginate {...paginate} />
     </Table>
   )
 }
