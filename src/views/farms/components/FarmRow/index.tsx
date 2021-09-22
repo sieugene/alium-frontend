@@ -18,7 +18,7 @@ import {
   InfoTotalLiquidity,
   InfoViewBscScan,
   useInfoEarned,
-  useInfoStaked
+  useInfoStaked,
 } from '../Info'
 
 export type FarmRowProps = FarmCardProps & {
@@ -78,10 +78,13 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
-      stakedButtons: (
+      stakedButtonsOrActionsNode: (
         <FarmRow.Cell>
-          {isDesktop && staked.stakedBalanceNotZero && staked.stakingButtonsNode}
-          {!isDesktop && !isMobile && (staked.stakedBalanceNotZero ? staked.stakingButtonsNode : staked.actionsNode)}
+          {!isMobile
+            ? staked.stakedBalanceNotZero
+              ? staked.stakingButtonsNode
+              : staked.actionsNode
+            : staked.stakedBalanceNotZero && staked.stakingButtonsNode}
         </FarmRow.Cell>
       ),
       stakedActions: <FarmRow.Cell>{staked.actionsNode}</FarmRow.Cell>,
@@ -168,7 +171,7 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
               <tr>{[cells.totalLiquidity, cells.deposit]}</tr>
               <tr>{[cells.lpType, cells.depositFee]}</tr>
               <tr>{[cells.earned, cells.harvest]}</tr>
-              <tr>{[cells.staked, cells.stakedButtons]}</tr>
+              <tr>{[cells.staked, cells.stakedButtonsOrActionsNode]}</tr>
               <tr>{[cells.bscScan]}</tr>
               <tr>{[cells.stakedActions, cells.indicator]}</tr>
             </>
@@ -189,8 +192,7 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
               cells.earn,
               cells.earned,
               cells.staked,
-              cells.stakedButtons,
-              cells.stakedActions,
+              cells.stakedButtonsOrActionsNode,
               cells.indicator,
             ]
           : [cells.heading, cells.apr, cells.earn, cells.earned, cells.indicator]}
@@ -199,23 +201,22 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
         <>
           {isDesktop ? (
             <FarmRow.Details>
-              {[
-                cells.deposit,
-                cells.depositFee,
-                cells.lpType,
-                cells.earned,
-                cells.harvest,
-                cells.empty,
-                cells.bscScan,
-                cells.empty,
-              ]}
+              {[cells.deposit, cells.depositFee, cells.lpType, cells.earned, cells.harvest, cells.bscScan, cells.empty]}
             </FarmRow.Details>
           ) : (
             <FarmRow.Details>
               <td colSpan={100}>
                 <table style={{ width: '100%' }}>
                   <tbody>
-                    <tr>{[cells.deposit, cells.totalLiquidity, cells.staked, cells.stakedButtons, cells.bscScan]}</tr>
+                    <tr>
+                      {[
+                        cells.deposit,
+                        cells.totalLiquidity,
+                        cells.staked,
+                        cells.stakedButtonsOrActionsNode,
+                        cells.bscScan,
+                      ]}
+                    </tr>
                     <tr>{[cells.lpType, cells.depositFee, cells.earned, cells.harvest]}</tr>
                   </tbody>
                 </table>
