@@ -18,7 +18,7 @@ import {
   InfoTotalLiquidity,
   InfoViewBscScan,
   useInfoEarned,
-  useInfoStaked,
+  useInfoStaked
 } from '../Info'
 
 export type FarmRowProps = FarmCardProps & {
@@ -32,7 +32,7 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
   const [isOpen, toggleOpen] = useToggle(false)
   const isDesktop = useMedia(`screen and (min-width: 1240px)`)
 
-  const isMobile = useMedia(`screen and (max-width: 767px)`)
+  const isMobile = useMedia(`screen and (max-width: 678px)`)
   const farmClassname = farmNum < 3 ? `farm__row${farmNum}` : 'farm__row'
 
   const cells = useMemo(
