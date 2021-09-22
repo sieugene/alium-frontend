@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { BigNumber, Contract } from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useShpContract, useTokenContract } from 'hooks/useContract'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import useSWR, { SWRConfiguration } from 'swr'
 import { useCallWithGasPrice } from 'utils/useCallWithGasPrice'
 
@@ -184,4 +184,16 @@ export function useYourPoolsIds() {
     },
     defaultSWROptions,
   )
+}
+
+export function useLeavePool(poolId?: BigNumber) {
+  const contract = useShpContract()
+  const fetcher = useMemo(() => contract && createContractFetcher(contract), [contract])
+  useEffect(() => {
+    if (contract) {
+      const filter = contract.filters.Withdrawn()
+      contract.queryFilter(filter).then(console.log)
+    }
+  }, [contract])
+  return useMemo(() => poolId && fetcher && (() => fetcher('withdraw', poolId)), [fetcher, poolId])
 }

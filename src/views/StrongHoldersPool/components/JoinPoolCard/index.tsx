@@ -64,7 +64,7 @@ export default function JoinPoolCard() {
 }
 
 JoinPoolCard.Content = styled.div`
-  padding: 32px 32px 16px 24px;
+  padding: 32px 32px 24px 24px;
   display: flex;
   justify-content: space-between;
   & > * {
@@ -98,7 +98,7 @@ JoinPoolCard.Footer = styled.div`
   line-height: 20px;
   letter-spacing: 0.3px;
   color: #8990a5;
-  padding: 16px 24px;
+  padding: 15px 24px;
   border-top: 1px solid #f4f5fa;
 
   svg {

@@ -20,8 +20,8 @@ export default function StrongHoldersPool() {
 
 StrongHoldersPool.Root = styled.div`
   margin: 0 auto;
-  padding: 16px 30px;
-  max-width: 1122px;
+  padding: 16px 33px 16px 29px;
+  max-width: 1184px;
   min-height: calc(100vh - ${MENU_HEIGHT}px);
   position: relative;
 

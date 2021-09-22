@@ -9,6 +9,7 @@ import { getBalanceAmount } from 'utils/formatBalance'
 import {
   Pool,
   useAccountUser,
+  useLeavePool,
   useMaxPoolLength,
   usePoolById,
   usePoolLocked,
@@ -30,11 +31,12 @@ export interface YourPoolCardProps {
 
 export default function YourPoolCard({ poolId }: YourPoolCardProps) {
   const [isDetails, toggleDetails] = useToggle(false)
-  const { data: pool } = usePoolById(poolId)
+  const { data: pool, mutate: mutatePool } = usePoolById(poolId)
   const { rewardTokenSymbol } = useRewardTokenInfo()
-  const { data: poolUsers } = usePoolUsers(poolId)
+  const { data: poolUsers, mutate: mutateUsers } = usePoolUsers(poolId)
   const { data: poolLocked } = usePoolLocked(poolId)
   const { data: maxPoolLength } = useMaxPoolLength()
+  const leavePool = useLeavePool(poolId)
   const accountUser = useAccountUser(poolUsers)
   const usersCount = useMemo(
     () => pool && poolUsers && new BigNumber(poolUsers.length).minus(ethersToBigNumber(pool.leftTracker)),
@@ -69,7 +71,17 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
             </YourPoolCard.Field>
           </YourPoolCard.InfoFields>
           <YourPoolCard.InfoActions>
-            <Button disabled={disabledLeave}>Leave the pool</Button>
+            <Button
+              disabled={disabledLeave || !leavePool || accountUser?.paid}
+              onClick={async () => {
+                if (!window.confirm('Are you sure you want to leave the pool?')) return
+                await leavePool()
+                mutatePool()
+                mutateUsers()
+              }}
+            >
+              Leave the pool
+            </Button>
             <DetailsButton isOpen={isDetails} onClick={toggleDetails} />
           </YourPoolCard.InfoActions>
         </YourPoolCard.Info>
@@ -160,7 +172,7 @@ YourPoolCard.Details = styled.div`
 `
 
 YourPoolCard.Root = styled(Card)`
-  padding: 24px;
+  padding: 24px 24px 32px;
   position: relative;
 
   @media ${down(breakpoints.lg)} {
