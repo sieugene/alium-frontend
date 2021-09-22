@@ -31,7 +31,6 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
   const staked = useInfoStaked({ farm })
   const [isOpen, toggleOpen] = useToggle(false)
   const isDesktop = useMedia(`screen and (min-width: 1240px)`)
-  const isMdSize = useMedia(`screen and (min-width: 1024px)`)
 
   const isMobile = useMedia(`screen and (max-width: 767px)`)
   const farmClassname = farmNum < 3 ? `farm__row${farmNum}` : 'farm__row'
@@ -204,33 +203,13 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
                 cells.empty,
               ]}
             </FarmRow.Details>
-          ) : isMdSize ? (
+          ) : (
             <FarmRow.Details>
               <td colSpan={100}>
-                <tr>
-                  {[
-                    cells.deposit,
-                    cells.totalLiquidity,
-                    cells.earned,
-                    cells.harvest,
-                    cells.staked,
-                    cells.stakedButtons,
-                    cells.stakedActions,
-                  ]}
-                </tr>
-                <tr>{[cells.lpType, cells.depositFee, cells.bscScan]}</tr>
+                <tr>{[cells.deposit, cells.totalLiquidity, cells.staked, cells.stakedButtons, cells.bscScan]}</tr>
+                <tr>{[cells.lpType, cells.depositFee, cells.earned, cells.harvest]}</tr>
               </td>
             </FarmRow.Details>
-          ) : (
-            !isDesktop &&
-            !isMdSize && (
-              <FarmRow.Details>
-                <td colSpan={100}>
-                  <tr>{[cells.deposit, cells.totalLiquidity, cells.staked, cells.stakedButtons, cells.bscScan]}</tr>
-                  <tr>{[cells.lpType, cells.depositFee, cells.earned, cells.harvest]}</tr>
-                </td>
-              </FarmRow.Details>
-            )
           )}
         </>
       )}
