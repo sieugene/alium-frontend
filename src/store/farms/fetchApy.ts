@@ -1,17 +1,12 @@
-import { ChainId, Fetcher, Route, Token, WETH } from '@alium-official/sdk'
+import { ChainId, Fetcher, Route, Token } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
-import { ALM_PER_YEAR } from 'config'
-import { storeNetwork } from 'store/network/useStoreNetwork'
+import { BIG_ZERO } from 'utils/bigNumber'
 import { getEthersProvider } from 'utils/bridge/providers'
-import { TESTDAI, TEST_BSC_ALM_OLD } from '../../constants'
+import { BSC_ALM, DAI, TESTDAI } from '../../constants'
+import { fetchTokenPriceFromCoingecko } from './../../services/coingecko'
+import { getAlmPrice } from './../../utils/prices/getAlmPrice'
+import { calcApy, calcFarmLpPrice } from './farms.functions'
 
-// P(LP) =(PtokenA * LPBalance tokenA  + PtokenB * LP Balance tokenB)LP Total Supply
-// -------------
-// LP - liquidity pool ( address )
-// P - price token X
-// LP Balance tokenA - token A balance on LP contract address
-// LP Balance tokenB - token B balance on LP contract address
-// LP Total Supply - total supply LP token
 export const lpTokenPriceToStable = async (
   tokenA: Token,
   tokenB: Token,
@@ -22,8 +17,8 @@ export const lpTokenPriceToStable = async (
   try {
     const PTokenA = await tokenToStablePrice(tokenA)
     const PTokenB = await tokenToStablePrice(tokenB)
-    const PLP =
-      (Number(PTokenA) * Number(lpBalanceTokenA) + Number(PTokenB) * Number(lpBalanceTokenB)) / Number(lpTotalSupply)
+
+    const PLP = calcFarmLpPrice(Number(PTokenA), lpBalanceTokenA, Number(PTokenB), lpBalanceTokenB, lpTotalSupply)
     return PLP
   } catch (error) {
     console.error('Failure calc lptokenPrice!', error)
@@ -31,57 +26,109 @@ export const lpTokenPriceToStable = async (
   }
 }
 
-// reference calc price
-// https://docs.uniswap.org/sdk/2.0.0/guides/pricing
-export const tokenToStablePrice = async (token: Token, signify = 6) => {
-  const chainId = storeNetwork.getState().currentChainId
-  const ethersProvider = await getEthersProvider(chainId)
-  // Stable coin
-  const DAI = TESTDAI
-
-  try {
-    const tokenWithStablePair = await Fetcher.fetchPairData(token, DAI, ethersProvider)
-    const route = new Route(ChainId.BSCTESTNET, [tokenWithStablePair], DAI)
-    return route.midPrice.toSignificant(signify)
-  } catch (error) {
-    return '0'
-  }
-}
-
-export const almToStablePrice = async () => {
-  const ALM = TEST_BSC_ALM_OLD
-  const price = await tokenToStablePrice(ALM)
-  return price
-}
-
-export const fetchBnbBusdPrice = async () => {
-  const chainId = storeNetwork.getState().currentChainId
-  const ethersProvider = await getEthersProvider(chainId)
-
-  // Stable coin
-  const DAI = TESTDAI
-  // Core token
-  const _WETH = WETH[chainId]
-  const pair = await Fetcher.fetchPairData(DAI, _WETH, ethersProvider)
-  const route = new Route(chainId, [pair], _WETH)
-
-  return new BigNumber(Number(route.midPrice.toSignificant(6)) * 100)
-}
-
-//   APY = TOKEN per year POOLshare(%) * TOKEN priceFARM LP balance * P(LP)
-// ---------
-// TOKEN per year- расчетное к-во токенов ALM за год
-// TOKEN price - Цена ALM, $
-// POOLshare(%) - Процент пула (pool Shares %) от общего значения пула (total Shares)
-// FARM LP balance- баланс LP токена на контракте фермы
-// P(LP) - цена LP токена, $
-export const apyCalc = async (poolWeight: BigNumber, farmLpBalance: number, farmLpBalanceToStable: number) => {
-  const TOKEN_PER_YEAR = ALM_PER_YEAR
-  const POOLshare = poolWeight
+// like container fetcher with pure calc
+export const fetchApy = async (
+  tokenA: Token,
+  tokenB: Token,
+  lpBalanceTokenA: BigNumber,
+  lpBalanceTokenB: BigNumber,
+  lpTotalSupply: BigNumber,
+  poolWeight: BigNumber,
+  farmLpBalance: BigNumber,
+) => {
+  const POOLshare = Number(poolWeight)
   const tokenPrice = await almToStablePrice()
 
-  const apy =
-    (Number(TOKEN_PER_YEAR.dividedBy(POOLshare)) * Number(tokenPrice)) / (Number(farmLpBalance) * farmLpBalanceToStable)
+  const farmLpBalanceToStable = await lpTokenPriceToStable(
+    tokenA,
+    tokenB,
+    lpBalanceTokenA,
+    lpBalanceTokenB,
+    lpTotalSupply,
+  )
+  const apy = calcApy(Number(tokenPrice), POOLshare, farmLpBalance, farmLpBalanceToStable)
 
   return apy
+}
+
+// Helpers *
+
+export const almToStablePrice = async () => {
+  // const ALM = TEST_BSC_ALM_OLD
+  const chainId = ChainId.MAINNET
+  const ALM = BSC_ALM
+  const price = await tokenToStablePrice(ALM, chainId)
+  const cookieAlmPrice = getAlmPrice()
+
+  return cookieAlmPrice || price
+}
+
+export const fetchBnbDaiPrice = async () => {
+  // const chainId = ChainId.MAINNET
+  // const ethersProvider = await getEthersProvider(chainId)
+
+  // const pair = await Fetcher.fetchPairData(DAI, WETH[DAI.chainId], ethersProvider)
+  // const route = new Route(chainId, [pair], WETH[DAI.chainId])
+  // const price = new BigNumber(route.midPrice.toSignificant(6))
+
+  // Fetch gecko
+  const geckoResponse = await fetchTokenPriceFromCoingecko('wbnb')
+  const priceGecko = geckoResponse?.data?.market_data?.current_price?.usd
+  if (priceGecko) {
+    const fixedPrice = Number(priceGecko).toFixed(3)
+    return new BigNumber(fixedPrice)
+  }
+
+  return BIG_ZERO
+}
+
+// reference calc price
+// https://docs.uniswap.org/sdk/2.0.0/guides/pricing
+export const tokenToStablePrice = async (token: Token, network: ChainId = ChainId.BSCTESTNET) => {
+  const chainId = network
+  const ethersProvider = await getEthersProvider(chainId)
+  const _DAI = network === ChainId.BSCTESTNET ? TESTDAI : DAI
+
+  try {
+    const tokenWithStablePair = await Fetcher.fetchPairData(token, _DAI, ethersProvider)
+    const route = new Route(network, [tokenWithStablePair], _DAI)
+    const price = await stablePriceValidator(token.symbol, route.midPrice.toSignificant(6))
+    return price
+  } catch (error) {
+    const price = await stablePriceValidator(token.symbol, '0')
+    return price
+  }
+}
+// Todo make save in session / localstorage (after refresh clear)
+// alternative fetcher if sdk result = 0
+const stablePriceValidator = async (symbol: string, firstResult: string): Promise<string> => {
+  if (!firstResult || firstResult === '0') {
+    const cookieAlmPrice = getAlmPrice()
+    // defaults tokens list for fetch from coingecko
+    const defaultsTokens = {
+      ALM: 'alium-swap',
+      ETH: 'ethereum',
+      WBNB: 'wbnb',
+    }
+    // default prices
+    const defaultsStables = {
+      USDT: '1',
+      ALM: cookieAlmPrice || 0,
+    }
+    if (defaultsStables[symbol]) {
+      return defaultsStables[symbol]
+    }
+    if (defaultsTokens[symbol]) {
+      const response = await fetchTokenPriceFromCoingecko(defaultsTokens[symbol])
+      const price = response?.data?.market_data?.current_price?.usd
+
+      if (price) {
+        const fixedPrice = Number(price).toFixed(3)
+        return fixedPrice
+      }
+      return firstResult
+    }
+    return firstResult
+  }
+  return firstResult
 }

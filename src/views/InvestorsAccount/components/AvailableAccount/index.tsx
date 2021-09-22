@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 interface Props {
   children: React.ReactNode
+  title?: string
 }
 
 const Wrapper = styled.div`
@@ -103,7 +104,7 @@ const Button = styled.button`
   }
 `
 
-const AvailableAccount: FC<Props> = ({ children }) => {
+const AvailableAccount: FC<Props> = ({ children, title = 'Your NFT deck' }) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const isDev = process.env.APP_ENV === 'development'
   const networks = isDev ? networksDev : networksProd
@@ -117,7 +118,7 @@ const AvailableAccount: FC<Props> = ({ children }) => {
     return (
       <Wrapper>
         <Message>
-          <h2>Your NFT deck</h2>
+          <h2>{title}</h2>
           <p>This section is only available on Binance Smart Chain. Please switch the network</p>
           <Button onClick={setBinanceChain}>
             <Binance />

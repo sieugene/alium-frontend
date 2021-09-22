@@ -1,10 +1,14 @@
 import { ChevronDownIcon, ChevronUpIcon } from 'alium-uikit/src'
+import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import { useMedia, useToggle } from 'react-use'
 import styled from 'styled-components'
+import { ViewMode } from 'views/farms/farms.types'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import type { FarmCardProps } from '../FarmCard'
 import CardHeading from '../FarmCard/CardHeading'
 import {
+  EarnsFarm,
   InfoApr,
   InfoDeposit,
   InfoDepositFee,
@@ -12,31 +16,36 @@ import {
   InfoLpType,
   InfoTitle,
   InfoTotalLiquidity,
-  InfoValue,
   InfoViewBscScan,
   useInfoEarned,
-  useInfoStaked,
+  useInfoStaked
 } from '../Info'
 
-export type FarmRowProps = FarmCardProps
+export type FarmRowProps = FarmCardProps & {
+  farmNum: number
+  almPrice: BigNumber
+}
 
-export default function FarmRow({ farm }: FarmRowProps) {
+export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
   const earned = useInfoEarned(farm)
-  const staked = useInfoStaked({ farm, addLiquidityUrl: '/none' })
+  const staked = useInfoStaked({ farm })
   const [isOpen, toggleOpen] = useToggle(false)
-  const isDesktop = useMedia(`screen and (min-width: 1440px)`)
-  const isMobile = useMedia(`screen and (max-width: 767px)`)
+  const isDesktop = useMedia(`screen and (min-width: 1240px)`)
+
+  const isMobile = useMedia(`screen and (max-width: 678px)`)
+  const farmClassname = farmNum < 3 ? `farm__row${farmNum}` : 'farm__row'
+
   const cells = useMemo(
     () => ({
       heading: (
         <FarmRow.HeadingCell>
-          <CardHeading farm={farm} />
+          <CardHeading farm={farm} type={ViewMode.TABLE} />
         </FarmRow.HeadingCell>
       ),
       apr: (
         <FarmRow.Cell>
           <FarmRow.Field>
-            <InfoApr farm={farm} />
+            <InfoApr farm={farm} almPrice={almPrice} />
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
@@ -50,26 +59,31 @@ export default function FarmRow({ farm }: FarmRowProps) {
       earned: (
         <FarmRow.Cell>
           <FarmRow.Field>
-            <InfoTitle>{earned.titleNode}</InfoTitle>
-            <InfoValue>
+            <StyledInfoTitle>{earned.titleNode}</StyledInfoTitle>
+            <EarnsFarm>
               {earned.displayBalanceNode}
               {earned.earningsBusdNode}
-            </InfoValue>
+            </EarnsFarm>
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
       staked: (
         <FarmRow.Cell>
           <FarmRow.Field>
-            <InfoTitle>{staked.titleNode}</InfoTitle>
-            <InfoValue>
-              {staked.displayBalanceNode}
+            <StyledInfoTitle>{staked.titleNode}</StyledInfoTitle>
+            <EarnsFarm>
+              {staked.displayBalanceNode || '-'}
               {staked.balanceNode}
-            </InfoValue>
+            </EarnsFarm>
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
-      stakedButtons: <FarmRow.Cell>{staked.stakedBalanceNotZero && staked.stakingButtonsNode}</FarmRow.Cell>,
+      stakedButtons: (
+        <FarmRow.Cell>
+          {isDesktop && staked.stakedBalanceNotZero && staked.stakingButtonsNode}
+          {!isDesktop && !isMobile && (staked.stakedBalanceNotZero ? staked.stakingButtonsNode : staked.actionsNode)}
+        </FarmRow.Cell>
+      ),
       stakedActions: <FarmRow.Cell>{staked.actionsNode}</FarmRow.Cell>,
       indicator: (
         <FarmRow.IndicatorCell onClick={toggleOpen}>
@@ -78,9 +92,20 @@ export default function FarmRow({ farm }: FarmRowProps) {
       ),
       deposit: (
         <FarmRow.Cell>
-          <FarmRow.Field>
-            <InfoDeposit farm={farm} />
-          </FarmRow.Field>
+          {isDesktop ? (
+            <MultipleField>
+              <FarmRow.Field>
+                <InfoDeposit farm={farm} />
+              </FarmRow.Field>
+              <FarmRow.Field>
+                <InfoTotalLiquidity farm={farm} />
+              </FarmRow.Field>
+            </MultipleField>
+          ) : (
+            <FarmRow.Field>
+              <InfoDeposit farm={farm} />
+            </FarmRow.Field>
+          )}
         </FarmRow.Cell>
       ),
       totalLiquidity: (
@@ -93,7 +118,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
       depositFee: (
         <FarmRow.Cell>
           <FarmRow.Field>
-            <InfoDepositFee depositFee={farm?.depositFee}/>
+            <InfoDepositFee depositFee={farm?.depositFee} />
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
@@ -110,13 +135,17 @@ export default function FarmRow({ farm }: FarmRowProps) {
           <InfoViewBscScan farm={farm} />
         </FarmRow.Cell>
       ),
+      empty: <FarmRow.Cell />,
     }),
     [
+      almPrice,
       earned.displayBalanceNode,
       earned.earningsBusdNode,
       earned.harvestButtonNode,
       earned.titleNode,
       farm,
+      isDesktop,
+      isMobile,
       isOpen,
       staked.actionsNode,
       staked.balanceNode,
@@ -131,7 +160,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
   if (isMobile) {
     return (
       <>
-        <FarmRow.MobileView>
+        <FarmRow.MobileView className={farmClassname}>
           <tr>{cells.heading}</tr>
           <tr>{[cells.apr, cells.earn, !isOpen && cells.indicator]}</tr>
           {isOpen && (
@@ -152,7 +181,7 @@ export default function FarmRow({ farm }: FarmRowProps) {
 
   return (
     <>
-      <FarmRow.Summary>
+      <FarmRow.Summary className={farmClassname}>
         {isDesktop
           ? [
               cells.heading,
@@ -167,41 +196,33 @@ export default function FarmRow({ farm }: FarmRowProps) {
           : [cells.heading, cells.apr, cells.earn, cells.earned, cells.indicator]}
       </FarmRow.Summary>
       {isOpen && (
-        <FarmRow.Details>
-          <td colSpan={100}>
-            <FarmRow.DetailsTable>
-              <tbody>
-                {isDesktop ? (
-                  <tr>
-                    {[
-                      cells.deposit,
-                      cells.totalLiquidity,
-                      cells.depositFee,
-                      cells.lpType,
-                      cells.earned,
-                      cells.harvest,
-                      cells.bscScan,
-                    ]}
-                  </tr>
-                ) : (
-                  <>
-                    <tr>
-                      {[
-                        cells.deposit,
-                        cells.totalLiquidity,
-                        cells.earned,
-                        cells.staked,
-                        cells.stakedButtons,
-                        cells.stakedActions,
-                      ]}
-                    </tr>
-                    <tr>{[cells.lpType, cells.depositFee, cells.bscScan]}</tr>
-                  </>
-                )}
-              </tbody>
-            </FarmRow.DetailsTable>
-          </td>
-        </FarmRow.Details>
+        <>
+          {isDesktop ? (
+            <FarmRow.Details>
+              {[
+                cells.deposit,
+                cells.depositFee,
+                cells.lpType,
+                cells.earned,
+                cells.harvest,
+                cells.empty,
+                cells.bscScan,
+                cells.empty,
+              ]}
+            </FarmRow.Details>
+          ) : (
+            <FarmRow.Details>
+              <td colSpan={100}>
+                <table style={{ width: '100%' }}>
+                  <tbody>
+                    <tr>{[cells.deposit, cells.totalLiquidity, cells.staked, cells.stakedButtons, cells.bscScan]}</tr>
+                    <tr>{[cells.lpType, cells.depositFee, cells.earned, cells.harvest]}</tr>
+                  </tbody>
+                </table>
+              </td>
+            </FarmRow.Details>
+          )}
+        </>
       )}
       <FarmRow.Separator />
     </>
@@ -220,11 +241,22 @@ FarmRow.Cell = styled.td`
 `
 
 FarmRow.HeadingCell = styled(FarmRow.Cell)`
-  width: 260px;
+  min-width: 292px;
+  max-width: 292px;
+  width: 292px;
   padding: 4px;
+  @media ${down(breakpoints.md)} {
+    width: 268px;
+    max-width: none;
+  }
 
   & > * {
     height: 90px;
+  }
+  @media ${down(375)} {
+    & > * {
+      height: 64px;
+    }
   }
 `
 
@@ -251,6 +283,11 @@ FarmRow.MobileView = styled(FarmRow.Summary)`
     width: 100%;
     display: flex;
     align-items: center;
+    &:first-child {
+      @media ${down(375)} {
+        padding: 0;
+      }
+    }
 
     & > * {
       flex: 1;
@@ -281,4 +318,15 @@ FarmRow.Field = styled.div`
   align-items: center;
   gap: 8px;
   width: 100%;
+`
+
+const MultipleField = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const StyledInfoTitle = styled(InfoTitle)`
+  & {
+    white-space: nowrap;
+  }
 `

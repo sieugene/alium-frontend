@@ -44,8 +44,8 @@ export const FarmStakedSwitcher = () => {
   const stakedOnly = useStoreFarms((state) => state.stakedOnly)
   const setStakedOnly = useStoreFarms((state) => state.setStakedOnly)
   return (
-    <SwitchWrap onClick={() => setStakedOnly(!stakedOnly)}>
-      <Switch align={stakedOnly ? 'end' : 'start'} active={stakedOnly}>
+    <SwitchWrap>
+      <Switch align={stakedOnly ? 'end' : 'start'} active={stakedOnly} onClick={() => setStakedOnly(!stakedOnly)}>
         <span />
       </Switch>
       <h3>Staked only</h3>

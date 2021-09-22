@@ -4,7 +4,7 @@ import { Text } from 'alium-uikit/src'
 import useI18n from 'hooks/useI18n'
 import CardBusdValue from './CardBusdValue'
 // import useAllEarnings from 'hooks/useAllEarnings'
-// import { usePriceCakeBusd } from 'state/hooks'
+// import { usePriceAlmBusd } from 'state/hooks'
 import CardValue from './CardValue'
 
 const CakeHarvestBalance = () => {
@@ -14,7 +14,7 @@ const CakeHarvestBalance = () => {
   const earningsSum = 1000 // allEarnings.reduce((accum, earning) => {
   // return accum + new BigNumber(earning).div(new BigNumber(10).pow(18)).toNumber()
   // }, 0)
-  const earningsBusd = 10000 // new BigNumber(earningsSum).multipliedBy(usePriceCakeBusd()).toNumber() || 100
+  const earningsBusd = 10000 // new BigNumber(earningsSum).multipliedBy(usePriceAlmBusd()).toNumber() || 100
 
   if (!account) {
     return (

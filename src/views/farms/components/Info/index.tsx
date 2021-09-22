@@ -1,5 +1,5 @@
 import { useWeb3React } from '@web3-react/core'
-import { AddIcon, Button, IconButton, MinusIcon, Skeleton, useModal } from 'alium-uikit/src'
+import { AddIcon, Button, CalculateIcon, IconButton, LinkIcon, MinusIcon, Skeleton, useModal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
 import ConnectWalletButton from 'components/ConnectWalletButton'
@@ -9,24 +9,33 @@ import useToast from 'hooks/useToast'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useCallback, useMemo, useState } from 'react'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
 import { getAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount, getBalanceNumber } from 'utils/formatBalance'
 import DepositModal from 'views/farms/components/Modals/DepositModal'
-import { FarmWithStakedValue } from 'views/farms/farms.types'
+import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import useApproveFarm from 'views/farms/hooks/useApproveFarm'
 import {
   farmUserDataUpdate,
   useFarmsLoading,
   useLpTokenPrice,
-  usePriceCakeBusd,
+  usePriceAlmBusd,
 } from 'views/farms/hooks/useFarmingPools'
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
 import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import RoiModal from '../Modals/RoiModal'
 import WithdrawModal from '../Modals/WithdrawModal'
+
+const StyledConnectBtn = styled(ConnectWalletButton)`
+  max-width: 300px;
+  width: auto !important;
+`
 
 export const InfoRow = styled.div<{ withBg?: boolean }>`
   border-radius: 6px;
@@ -60,6 +69,23 @@ export const InfoTitle = styled.div`
   }
 `
 
+export const EarnsFarm = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  word-break: break-all;
+  .balance {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 1px;
+    color: #8990a5;
+    margin-left: 4px;
+  }
+`
+
 export const InfoValue = styled.div`
   font-family: Roboto;
   font-style: normal;
@@ -70,19 +96,90 @@ export const InfoValue = styled.div`
   color: #0b1359;
 `
 
+const ColoredPrice = styled.div<{ color: 'textDisabled' | 'text' }>`
+  color: ${({ color }) => (color === 'textDisabled' ? '#8990a5' : '#6c5dd3')};
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+`
+
+const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
+  svg {
+    path {
+      fill: #8990a5;
+    }
+  }
+  background: transparent;
+  border: 1px solid #d2d6e5;
+  height: 40px;
+  width: 40px;
+  @media ${down(breakpoints.sm)} {
+    ${({ viewMode }) =>
+      viewMode === ViewMode.TABLE &&
+      `
+      height: 28px;
+      width: 28px;
+    `}
+  }
+
+  &:hover {
+    opacity: 0.75;
+    border: 1px solid #d2d6e5 !important;
+    background-color: transparent !important;
+  }
+`
+
+const HarvestButton = styled(Button)`
+  width: 81px;
+  height: 32px;
+  font-size: 12px;
+`
+
 export interface InfoAPRProps {
   farm: FarmWithStakedValue
+  almPrice: BigNumber
 }
 
-export function InfoApr({ farm }: InfoAPRProps) {
+const AprItem = styled.div`
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 10px;
+  }
+`
+const IconCalculateWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+`
+export function InfoApr({ farm, almPrice }: InfoAPRProps) {
   const loading = useFarmsLoading()
+  const [onShowRoi] = useModal(<RoiModal almPrice={almPrice} farm={farm} />)
   return (
     <>
       <InfoTitle>
         APR
         <InfoApr.Question />
       </InfoTitle>
-      <InfoValue>{!loading ? `${farm.apr || 0}%` : <Skeleton width='75px' />}</InfoValue>
+      <InfoValue>
+        <AprItem>
+          {!loading ? (
+            <>
+              <IconCalculateWrap onClick={onShowRoi}>
+                <CalculateIcon />
+              </IconCalculateWrap>
+              {farm.apr || 0}%
+            </>
+          ) : (
+            <Skeleton width='75px' />
+          )}
+        </AprItem>
+      </InfoValue>
     </>
   )
 }
@@ -123,9 +220,10 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
   const { onReward } = useHarvestFarm(farm.pid)
   const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
-  const almPrice = usePriceCakeBusd()
+  const almPrice = usePriceAlmBusd()
   const rawEarningsBalance = account ? getBalanceAmount(earnings) : BIG_ZERO
   const displayBalance = rawEarningsBalance.toFixed(3, BigNumber.ROUND_DOWN)
+
   const earningsBusd = rawEarningsBalance ? rawEarningsBalance.multipliedBy(almPrice).toNumber() : 0
 
   const loading = useFarmsLoading()
@@ -139,22 +237,21 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
     displayBalanceNode: loading ? (
       <Skeleton width='50px' />
     ) : (
-      <div color={rawEarningsBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance}</div>
+      <ColoredPrice color={rawEarningsBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance}</ColoredPrice>
     ),
-    earningsBusdNode: earningsBusd > 0 && (
-      <Balance fontSize='12px' color='textSubtle' decimals={2} value={earningsBusd} unit=' USD' />
-    ),
+    earningsBusdNode:
+      earningsBusd > 0 ? (
+        <Balance before='~' fontSize='12px' color='textSubtle' decimals={2} value={earningsBusd} unit=' USD' />
+      ) : null,
     harvestButtonNode: (
-      <Button
+      <HarvestButton
         disabled={rawEarningsBalance.eq(0) || pendingTx || loading}
+        variant='secondary'
         onClick={async () => {
           setPendingTx(true)
           try {
             await onReward()
-            toastSuccess(
-              `${t('Harvested')}!`,
-              t('Your %symbol% earnings have been sent to your wallet!', { symbol: 'CAKE' }),
-            )
+            toastSuccess(`${t('Harvested')}!`, t('Your ALM earnings have been sent to your wallet!'))
           } catch (e) {
             toastError(
               t('Error'),
@@ -168,7 +265,7 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
         }}
       >
         {t('Harvest')}
-      </Button>
+      </HarvestButton>
     ),
   }
 }
@@ -176,12 +273,28 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
 export interface InfoDepositProps {
   farm: FarmWithStakedValue
 }
+const LpLink = styled(InfoValue)`
+  a {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  svg {
+    margin-left: 8px;
+  }
+`
 
 export function InfoDeposit({ farm }: InfoDepositProps) {
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const address = getExplorerLink(97, farm.lpAddresses[currentChainId], 'address')
   return (
     <>
       <InfoTitle>Deposit:</InfoTitle>
-      <InfoValue>{useFarmLpLabel(farm)}</InfoValue>
+      <LpLink>
+        <a href={address} target='_blank'>
+          {useFarmLpLabel(farm)} <LinkIcon />
+        </a>
+      </LpLink>
     </>
   )
 }
@@ -214,14 +327,15 @@ export interface InfoViewBscScanProps {
 }
 
 export function InfoViewBscScan({ farm }: InfoViewBscScanProps) {
+  const address = useFarmLpAddress(farm)
   const loading = useFarmsLoading()
   if (loading) {
     return <Skeleton width={75} height={25} />
   }
   return (
     <InfoTitle>
-      <a href={getExplorerLink(97, useFarmLpAddress(farm), 'address')} target='_blank'>
-        View on BacScan
+      <a href={getExplorerLink(97, address, 'address')} target='_blank' style={{ whiteSpace: 'nowrap' }}>
+        View on BscScan
       </a>
     </InfoTitle>
   )
@@ -233,7 +347,8 @@ export interface InfoTotalLiquidityProps {
 
 export function InfoTotalLiquidity({ farm }: InfoTotalLiquidityProps) {
   const loading = useFarmsLoading()
-  const totalLiqudidty = farm.liquidity?.gt(0) ? `$${farm.liquidity.toNumber()}` : '0$'
+
+  const totalLiqudidty = farm.liquidity?.gt(0) ? `$${farm.liquidity.precision(6)}` : '0$'
   return (
     <>
       <InfoTitle>Total Liquidity</InfoTitle>
@@ -251,35 +366,49 @@ const IconButtonWrapper = styled.div`
 
 export interface UseInfoStakedParams {
   farm: FarmWithStakedValue
-  addLiquidityUrl: string
 }
 
-export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
+export function useInfoStaked({ farm }: UseInfoStakedParams) {
+  const [requestedApproval, setRequestedApproval] = useState(false)
+  const { t } = useTranslation()
+  const { account } = useWeb3React()
   const loading = useFarmsLoading()
+  const viewMode = useStoreFarms((state) => state.viewMode)
 
   const {
     tokenBalance: tokenBalanceAsString = 0,
     stakedBalance: stakedBalanceAsString = 0,
     allowance: allowanceAsString = 0,
   } = farm.userData || {}
+
   const pid = farm.pid
   const tokenName = farm.lpSymbol
-  const multiplier = farm.multiplier
   const apr = farm.apr
-  const displayApr = `${apr}`
-
+  const { lpAddresses } = farm
+  const allowance = new BigNumber(allowanceAsString)
+  const lpAddress = getAddress(lpAddresses)
+  const isApproved = account && allowance && allowance.isGreaterThan(0)
   const tokenBalance = new BigNumber(tokenBalanceAsString)
-  const stakedBalance = useMemo(() => new BigNumber(stakedBalanceAsString), [stakedBalanceAsString])
-  const stakedBalanceNotZero = !stakedBalance.eq(0)
 
+  // hooks
+  const lpContract = useTokenContract(lpAddress)
+  const { onApprove } = useApproveFarm(lpContract)
+  const stakedBalance = useMemo(() => new BigNumber(stakedBalanceAsString), [stakedBalanceAsString])
   const { onStake } = useStakeFarms(pid)
   const { onUnstake } = useUnstakeFarms(pid)
   const location = useRouter()
-  const { account } = useWeb3React()
+  // TODO provide lp price here
   const lpPrice = useLpTokenPrice(tokenName)
-  const lpLabel = useFarmLpLabel(farm)
-  const almPrice = usePriceCakeBusd()
+  const almPrice = usePriceAlmBusd()
 
+  const stakedBalanceNotZero = account ? !stakedBalance.eq(0) : false
+
+  // conditions
+  const FARM_NOT_ENABLED = account && !isApproved
+  const STAKE_ALLOW = isApproved && !stakedBalanceNotZero
+  const EMPTY_STAKE_ACTION = !FARM_NOT_ENABLED && !STAKE_ALLOW
+
+  // handlers
   const handleStake = async (amount: string) => {
     await onStake(amount)
     await farmUserDataUpdate(account, [pid])
@@ -289,17 +418,6 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     await onUnstake(amount)
     await farmUserDataUpdate(account, [pid])
   }
-
-  const displayBalance = useCallback(() => {
-    const stakedBalanceBigNumber = getBalanceAmount(stakedBalance)
-    if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.0000001)) {
-      return '<0.0000001'
-    }
-    if (stakedBalanceBigNumber.gt(0)) {
-      return stakedBalanceBigNumber.toFixed(8, BigNumber.ROUND_DOWN)
-    }
-    return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
-  }, [stakedBalance])
 
   const [onPresentDeposit] = useModal(
     <DepositModal
@@ -315,19 +433,6 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     <WithdrawModal farm={farm} max={stakedBalance} onConfirm={handleUnstake} tokenName={tokenName} />,
   )
 
-  const { t } = useTranslation()
-  const [requestedApproval, setRequestedApproval] = useState(false)
-
-  const { lpAddresses } = farm
-  const allowance = new BigNumber(allowanceAsString)
-
-  const lpAddress = getAddress(lpAddresses)
-  const isApproved = account && allowance && allowance.isGreaterThan(0)
-
-  const lpContract = useTokenContract(lpAddress)
-
-  const { onApprove } = useApproveFarm(lpContract)
-
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true)
@@ -339,15 +444,33 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
     }
   }, [onApprove, account, pid])
 
-  const FARM_NOT_ENABLED = account && !isApproved
-  const STAKE_ALLOW = isApproved && !stakedBalanceNotZero
-  const EMPTY_STAKE_ACTION = !FARM_NOT_ENABLED && !STAKE_ALLOW
+  const displayBalance = useCallback(() => {
+    if (FARM_NOT_ENABLED) {
+      return ''
+    }
+    if (!account) {
+      return '0.000'
+    }
+    const stakedBalanceBigNumber = getBalanceAmount(stakedBalance)
+    if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.0000001)) {
+      return '<0.0000001'
+    }
+    if (stakedBalanceBigNumber.gt(0)) {
+      return stakedBalanceBigNumber.toFixed(8, BigNumber.ROUND_DOWN)
+    }
+    return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
+  }, [FARM_NOT_ENABLED, account, stakedBalance])
 
   return {
     titleNode: `${tokenName} Staked`,
-    displayBalanceNode: loading ? <Skeleton width='50px' /> : displayBalance(),
-    balanceNode: stakedBalance.gt(0) && lpPrice.gt(0) && (
+    displayBalanceNode: FARM_NOT_ENABLED ? null : loading ? (
+      <Skeleton width='50px' />
+    ) : (
+      <ColoredPrice color='text'>{displayBalance()}</ColoredPrice>
+    ),
+    balanceNode: account && stakedBalance.gt(0) && lpPrice.gt(0) && (
       <Balance
+        before='~'
         fontSize='12px'
         color='textSubtle'
         decimals={2}
@@ -356,28 +479,30 @@ export function useInfoStaked({ farm, addLiquidityUrl }: UseInfoStakedParams) {
       />
     ),
     stakedBalanceNotZero,
-    stakingButtonsNode: stakedBalanceNotZero ? (
-      <IconButtonWrapper>
-        <IconButton variant='tertiary' onClick={onPresentWithdraw} mr='6px'>
-          <MinusIcon color='primary' width='14px' />
-        </IconButton>
-        <IconButton
-          variant='tertiary'
-          onClick={onPresentDeposit}
-          disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
-        >
-          <AddIcon color='primary' width='14px' />
-        </IconButton>
-      </IconButtonWrapper>
-    ) : (
-      <div>-</div>
-    ),
-    actionsNode: EMPTY_STAKE_ACTION ? null : !account ? (
-      <ConnectWalletButton />
-    ) : (
+    stakingButtonsNode:
+      account && stakedBalanceNotZero ? (
+        <IconButtonWrapper>
+          <StakeCounter variant='tertiary' onClick={onPresentWithdraw} mr='6px' viewMode={viewMode}>
+            <MinusIcon color='primary' />
+          </StakeCounter>
+          <StakeCounter
+            viewMode={viewMode}
+            variant='tertiary'
+            onClick={onPresentDeposit}
+            disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
+          >
+            <AddIcon.Small color='primary' />
+          </StakeCounter>
+        </IconButtonWrapper>
+      ) : (
+        <div>-</div>
+      ),
+    actionsNode: !account ? (
+      <StyledConnectBtn />
+    ) : EMPTY_STAKE_ACTION ? null : (
       <>
         {FARM_NOT_ENABLED && (
-          <Button mt='8px' disabled={requestedApproval} onClick={handleApprove}>
+          <Button mt='8px' disabled={requestedApproval || loading} onClick={handleApprove}>
             {t('Enable Farm')}
           </Button>
         )}

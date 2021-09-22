@@ -1,7 +1,9 @@
 import { externalLinks } from 'alium-uikit/src/config'
 import { FC, useEffect, useState } from 'react'
+import { fetchTokenPriceFromCoingecko } from 'services/coingecko'
 import styled from 'styled-components'
 import Cookies from 'universal-cookie'
+import { getAlmPrice } from 'utils/prices/getAlmPrice'
 import { getCookieOptions } from '../../config/getCookieOptions'
 import { IconTokenAlm } from './icons/IconTokenAlm'
 
@@ -77,19 +79,17 @@ const ViewAlmPrice: FC<props> = ({ ispushed }) => {
   const [price, setPrice] = useState<null | string>(null)
 
   useEffect(() => {
-    const cookieAlmPrice = cookies.get('alm-price')
+    const cookieAlmPrice = getAlmPrice()
     setPrice(cookieAlmPrice ? String(cookieAlmPrice) : null)
 
-    fetch('https://api.coingecko.com/api/v3/coins/alium-swap')
-      .then((rawResponse) => rawResponse.json())
-      .then((response) => {
-        const price = response?.market_data?.current_price?.usd
-        if (price) {
-          const fixedPrice = Number(price).toFixed(3)
-          setPrice(fixedPrice)
-          cookies.set('alm-price', fixedPrice, getCookieOptions())
-        }
-      })
+    fetchTokenPriceFromCoingecko('alium-swap').then((response) => {
+      const price = response?.data?.market_data?.current_price?.usd
+      if (price) {
+        const fixedPrice = Number(price).toFixed(3)
+        setPrice(fixedPrice)
+        cookies.set('alm-price', fixedPrice, getCookieOptions())
+      }
+    })
   }, [])
 
   return (

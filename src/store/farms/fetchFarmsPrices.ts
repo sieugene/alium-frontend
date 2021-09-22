@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Farm } from 'state/types'
 import { BIG_ONE, BIG_ZERO } from 'utils/bigNumber'
 import filterFarmsByQuoteToken from 'utils/farm/farmsPriceHelpers'
-import { fetchBnbBusdPrice } from './fetchApy'
+import { fetchBnbDaiPrice } from './fetchApy'
 
 const getFarmFromTokenSymbol = (farms: Farm[], tokenSymbol: string, preferredQuoteTokens?: string[]): Farm => {
   const farmsWithTokenSymbol = farms.filter((farm) => farm.token.symbol === tokenSymbol)
@@ -74,7 +74,7 @@ const getFarmQuoteTokenPrice = (farm: Farm, quoteTokenFarm: Farm, bnbPriceBusd: 
 }
 
 const fetchFarmsPrices = async (farms: Farm[]) => {
-  const bnbPriceBusd = await fetchBnbBusdPrice()
+  const bnbPriceBusd = await fetchBnbDaiPrice()
 
   const farmsWithPrices = farms.map((farm) => {
     const quoteTokenFarm = getFarmFromTokenSymbol(farms, farm.token.symbol)

@@ -1,12 +1,9 @@
 import { ChainId } from '@alium-official/sdk'
 import { NoBscProviderError } from '@binance-chain/bsc-connector'
 import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
-import {
-  NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected,
-} from '@web3-react/injected-connector'
-import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@web3-react/walletconnect-connector'
+import { useWeb3React } from '@web3-react/core'
+import { NoEthereumProviderError } from '@web3-react/injected-connector'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { ConnectorNames } from 'alium-uikit/src'
 import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
 import { useActiveWeb3React } from 'hooks'
@@ -48,23 +45,13 @@ const useAuth = () => {
       connector,
       retryConnect: (chainId: ChainId, connector: any) => Promise<void>,
     ) => {
-      if (error instanceof UnsupportedChainIdError) {
-        await retryConnect(chainId, connector)
-      } else {
-        removeConnectorId()
-        if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
-          toastError(WEB3NetworkErrors.NOPROVIDER)
-        } else if (
-          error instanceof UserRejectedRequestErrorInjected ||
-          error instanceof UserRejectedRequestErrorWalletConnect
-        ) {
-          toastError(WEB3NetworkErrors.NOAUTH)
-        } else {
-          // dispatch(setConnectionError({ error }))
-          // toastError(error.name, error.message)
-          // toastError(WEB3NetworkErrors.NOPROVIDER)
-        }
+      if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
+        toastError(WEB3NetworkErrors.NOPROVIDER)
+        return
       }
+      removeConnectorId()
+      // case like => user closed qr modal, but connection wait approve connect
+      await retryConnect(chainId, connector)
     },
     [toastError],
   )
@@ -84,7 +71,9 @@ const useAuth = () => {
   const retryConnect = useCallback(
     async (chainId: ChainId, connector) => {
       const hasSetup = await storeNetwork.getState().setupNetwork(chainId)
-      if (hasSetup) {
+      const isWalletConnect = connector instanceof WalletConnectConnector
+
+      if (hasSetup || isWalletConnect) {
         try {
           await activate(connector, async (err) => {
             const messageErr = WEB3NetworkErrors.UNSUPPORTED_CHAIN
@@ -111,6 +100,12 @@ const useAuth = () => {
     [activate, logout, setConnectionError, toastError],
   )
 
+  const endConnection = (chainId: any) => {
+    GTM.connectWallet(sendDataToGTM, chainId)
+    setConnectionError(null)
+    toggleLoadConnection(false)
+  }
+
   const login = useCallback(
     // offIndicate for eager connect
     async (connectorID: ConnectorNames, offIndicate?: boolean) => {
@@ -123,9 +118,11 @@ const useAuth = () => {
         if (connector) {
           await activate(connector, async (error: Error) => {
             await errorHandlerWithRetry(error, chainId, connector, retryConnect)
+            // can long wait, clear here
+            endConnection(chainId)
+            // end
           })
-          GTM.connectWallet(sendDataToGTM, chainId)
-          setConnectionError(null)
+          endConnection(chainId)
         } else {
           !offIndicate && !web3 && toastError(WEB3NetworkErrors.WEB3NOTEXIST)
         }

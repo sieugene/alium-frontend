@@ -41,14 +41,14 @@ const EXPLORER_URLS: { [chainId in ChainId]: string } = {
 }
 
 const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: 'BscScan',
-  [ChainId.BSCTESTNET]: 'BscScan Testnet',
-  [ChainId.HECOMAINNET]: 'HecoScan',
-  [ChainId.HECOTESTNET]: 'HecoScan Testnet',
-  [ChainId.ETHER_MAINNET]: 'Etherscan',
-  [ChainId.ETHER_TESTNET]: 'Etherscan Rinkeby Testnet',
-  [ChainId.MATIC_MAINNET]: 'PolygonScan',
-  [ChainId.MATIC_TESTNET]: 'PolygonScan Mumbai Testnet',
+  [ChainId.MAINNET]: 'Binance Smart Chain',
+  [ChainId.BSCTESTNET]: 'Binance Smart Chain',
+  [ChainId.HECOMAINNET]: 'Huobi ECO Chain',
+  [ChainId.HECOTESTNET]: 'Huobi ECO Chain',
+  [ChainId.ETHER_MAINNET]: 'Ethereum Chain',
+  [ChainId.ETHER_TESTNET]: 'Ethereum Chain',
+  [ChainId.MATIC_MAINNET]: 'Polygon Matic Chain',
+  [ChainId.MATIC_TESTNET]: 'Polygon Matic Chain',
 }
 
 export const getExplorerName = (chainId: ChainId) => {
