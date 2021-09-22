@@ -34,6 +34,7 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
 
   const isMobile = useMedia(`screen and (max-width: 767px)`)
   const farmClassname = farmNum < 3 ? `farm__row${farmNum}` : 'farm__row'
+
   const cells = useMemo(
     () => ({
       heading: (
@@ -77,7 +78,12 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
-      stakedButtons: <FarmRow.Cell>{staked.stakedBalanceNotZero && staked.stakingButtonsNode}</FarmRow.Cell>,
+      stakedButtons: (
+        <FarmRow.Cell>
+          {isDesktop && staked.stakedBalanceNotZero && staked.stakingButtonsNode}
+          {!isDesktop && !isMobile && (staked.stakedBalanceNotZero ? staked.stakingButtonsNode : staked.actionsNode)}
+        </FarmRow.Cell>
+      ),
       stakedActions: <FarmRow.Cell>{staked.actionsNode}</FarmRow.Cell>,
       indicator: (
         <FarmRow.IndicatorCell onClick={toggleOpen}>
@@ -139,6 +145,7 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
       earned.titleNode,
       farm,
       isDesktop,
+      isMobile,
       isOpen,
       staked.actionsNode,
       staked.balanceNode,
@@ -206,8 +213,12 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
           ) : (
             <FarmRow.Details>
               <td colSpan={100}>
-                <tr>{[cells.deposit, cells.totalLiquidity, cells.staked, cells.stakedButtons, cells.bscScan]}</tr>
-                <tr>{[cells.lpType, cells.depositFee, cells.earned, cells.harvest]}</tr>
+                <table style={{ width: '100%' }}>
+                  <tbody>
+                    <tr>{[cells.deposit, cells.totalLiquidity, cells.staked, cells.stakedButtons, cells.bscScan]}</tr>
+                    <tr>{[cells.lpType, cells.depositFee, cells.earned, cells.harvest]}</tr>
+                  </tbody>
+                </table>
               </td>
             </FarmRow.Details>
           )}

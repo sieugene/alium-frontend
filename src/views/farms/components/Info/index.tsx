@@ -28,9 +28,14 @@ import {
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
 import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
-import { down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import RoiModal from '../Modals/RoiModal'
 import WithdrawModal from '../Modals/WithdrawModal'
+
+const StyledConnectBtn = styled(ConnectWalletButton)`
+  max-width: 300px;
+  width: auto !important;
+`
 
 export const InfoRow = styled.div<{ withBg?: boolean }>`
   border-radius: 6px;
@@ -106,7 +111,7 @@ const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
   border: 1px solid #d2d6e5;
   height: 40px;
   width: 40px;
-  @media ${down(376)} {
+  @media ${down(breakpoints.sm)} {
     ${({ viewMode }) =>
       viewMode === ViewMode.TABLE &&
       `
@@ -392,7 +397,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
   const lpPrice = useLpTokenPrice(tokenName)
   const almPrice = usePriceAlmBusd()
 
-  const stakedBalanceNotZero = !stakedBalance.eq(0)
+  const stakedBalanceNotZero = account ? !stakedBalance.eq(0) : false
 
   // conditions
   const FARM_NOT_ENABLED = account && !isApproved
@@ -489,7 +494,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
         <div>-</div>
       ),
     actionsNode: !account ? (
-      <ConnectWalletButton />
+      <StyledConnectBtn />
     ) : EMPTY_STAKE_ACTION ? null : (
       <>
         {FARM_NOT_ENABLED && (
