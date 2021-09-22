@@ -76,6 +76,9 @@ FarmContent.Grid = styled.div`
   row-gap: 16px;
   grid-template-columns: repeat(1, max-content);
   justify-content: center;
+  @media ${up(breakpoints.sm, 100)} {
+    grid-template-columns: repeat(2, max-content);
+  }
 
   @media ${up(breakpoints.md)} {
     grid-template-columns: repeat(2, max-content);
