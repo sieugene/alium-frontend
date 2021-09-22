@@ -79,9 +79,15 @@ const Indicator = styled.div<{ isSelected: boolean }>`
   cursor: pointer;
 `
 
+interface Slides {
+  label: string
+  title: React.ReactNode
+  image: string
+  subTitle?: React.ReactNode
+}
 const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
   const isMobile = useMedia(`screen and (min-width: 575px)`)
-  const slides = [
+  const slides: Slides[] = [
     {
       label: 'Coming soon',
       title: (
@@ -173,7 +179,7 @@ const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
 
 export default MainSlider
 
-const Slide = (props: typeof slides[0]) => (
+const Slide = (props: Slides) => (
   <SlideW bgImage={props.image}>
     <SlideInfoW>
       {props.label && <Label>{props.label}</Label>}
