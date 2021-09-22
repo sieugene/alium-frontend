@@ -69,10 +69,11 @@ export const InfoTitle = styled.div`
   }
 `
 
-export const EarnsFarm = styled.div<{ earningsBusdExist: boolean }>`
+export const EarnsFarm = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  word-break: break-all;
   .balance {
     font-family: Roboto;
     font-style: normal;
@@ -82,12 +83,6 @@ export const EarnsFarm = styled.div<{ earningsBusdExist: boolean }>`
     letter-spacing: 1px;
     color: #8990a5;
     margin-left: 4px;
-  }
-  .earned-token {
-    color: #6c5dd3;
-  }
-  .staked-token {
-    color: ${(props) => (props.earningsBusdExist ? '#6C5DD3' : '#8990a5')};
   }
 `
 
@@ -99,6 +94,16 @@ export const InfoValue = styled.div`
   line-height: 20px;
   letter-spacing: 0.3px;
   color: #0b1359;
+`
+
+const ColoredPrice = styled.div<{ color: 'textDisabled' | 'text' }>`
+  color: ${({ color }) => (color === 'textDisabled' ? '#8990a5' : '#6c5dd3')};
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
 `
 
 const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
@@ -232,9 +237,7 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
     displayBalanceNode: loading ? (
       <Skeleton width='50px' />
     ) : (
-      <div color={rawEarningsBalance.eq(0) ? 'textDisabled' : 'text'} className='earned-token'>
-        {displayBalance}
-      </div>
+      <ColoredPrice color={rawEarningsBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance}</ColoredPrice>
     ),
     earningsBusdNode:
       earningsBusd > 0 ? (
@@ -462,7 +465,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
     displayBalanceNode: FARM_NOT_ENABLED ? null : loading ? (
       <Skeleton width='50px' />
     ) : (
-      <div className='staked-token'>{displayBalance()}</div>
+      <ColoredPrice color='text'>{displayBalance()}</ColoredPrice>
     ),
     balanceNode: account && stakedBalance.gt(0) && lpPrice.gt(0) && (
       <Balance

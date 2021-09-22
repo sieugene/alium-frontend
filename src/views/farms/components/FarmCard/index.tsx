@@ -56,7 +56,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
         <InfoRow style={{ minHeight: '70px' }}>
           <InfoTitle>
             {earned.titleNode}
-            <EarnsFarm earningsBusdExist={Boolean(earned.earningsBusdNode)}>
+            <EarnsFarm>
               {earned.displayBalanceNode}
               {earned.earningsBusdNode}
             </EarnsFarm>
@@ -66,7 +66,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
         <InfoRow withBg>
           <InfoTitle>
             <p>{staked.titleNode}</p>
-            <EarnsFarm earningsBusdExist={Boolean(earned.displayBalanceNode)}>
+            <EarnsFarm>
               <p>{staked.displayBalanceNode}</p>
               <p> {staked.balanceNode}</p>
             </EarnsFarm>

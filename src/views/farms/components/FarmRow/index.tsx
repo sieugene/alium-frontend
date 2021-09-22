@@ -8,6 +8,7 @@ import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import type { FarmCardProps } from '../FarmCard'
 import CardHeading from '../FarmCard/CardHeading'
 import {
+  EarnsFarm,
   InfoApr,
   InfoDeposit,
   InfoDepositFee,
@@ -15,7 +16,6 @@ import {
   InfoLpType,
   InfoTitle,
   InfoTotalLiquidity,
-  InfoValue,
   InfoViewBscScan,
   useInfoEarned,
   useInfoStaked,
@@ -60,10 +60,10 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
         <FarmRow.Cell>
           <FarmRow.Field>
             <StyledInfoTitle>{earned.titleNode}</StyledInfoTitle>
-            <InfoValue>
+            <EarnsFarm>
               {earned.displayBalanceNode}
               {earned.earningsBusdNode}
-            </InfoValue>
+            </EarnsFarm>
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
@@ -71,10 +71,10 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
         <FarmRow.Cell>
           <FarmRow.Field>
             <StyledInfoTitle>{staked.titleNode}</StyledInfoTitle>
-            <InfoValue>
+            <EarnsFarm>
               {staked.displayBalanceNode || '-'}
               {staked.balanceNode}
-            </InfoValue>
+            </EarnsFarm>
           </FarmRow.Field>
         </FarmRow.Cell>
       ),
