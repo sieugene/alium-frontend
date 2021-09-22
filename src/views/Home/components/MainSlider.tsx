@@ -1,6 +1,7 @@
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { useMedia } from 'react-use'
 import styled, { css } from 'styled-components'
 
 interface MainSliderProps {
@@ -11,55 +12,6 @@ interface MainSliderProps {
 // md = 768
 // ld = 1024
 // xl = 1440
-
-const slides = [
-  {
-    label: 'Coming soon',
-    title: (
-      <>
-        Earn ALM Farming <br className='md lg' /> and <br className='sm xl' /> Strong Holders <br className='md lg' />{' '}
-        Pools. <br className='xl sm' /> Up to 3000% <br className='md lg' /> APY
-      </>
-    ),
-    image: '/images/home-new/slider/farming-bg.svg',
-  },
-  {
-    label: 'Coming soon',
-    title: (
-      <>
-        "Cyber City Inc" <br className='xl sm md lg' /> Character Boxes Drop
-      </>
-    ),
-    subTitle: (
-      <>
-        NFT Game with open economy and <br className='md lg' /> 10 000 <br className='sm' /> cool and exciting{' '}
-        <br className='xl' /> Cyberpunk <br className='md lg' /> NFT Characters
-      </>
-    ),
-    image: '/images/home-new/slider/cyper-city-bg.svg',
-  },
-  {
-    label: 'September 9th',
-    title: 'Alpaca Grazing Range',
-    subTitle: (
-      <>
-        Earn ALM in an exciting Alium <br className='md lg' /> partnership with <br className='sm' /> Alpaca Finance
-      </>
-    ),
-    image: '/images/home-new/slider/alpaca-grazing-bg.svg',
-  },
-  {
-    label: 'September 13th',
-    title: 'ALM x Krystal Trading Competition',
-    subTitle: (
-      <>
-        Participate in Krystal.app Alium <br className='md lg' /> Trading <br className='sm' /> competition{' '}
-        <br className='xl' /> and win one <br className='md lg' /> of 20 000$ worth <br className='sm' /> of Prizes!
-      </>
-    ),
-    image: '/images/home-new/slider/krystal-trading.svg',
-  },
-]
 
 const CarouselStyled = styled(Carousel)`
   .carousel-status {
@@ -128,6 +80,55 @@ const Indicator = styled.div<{ isSelected: boolean }>`
 `
 
 const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
+  const isMobile = useMedia(`screen and (min-width: 575px)`)
+  const slides = [
+    {
+      label: 'Coming soon',
+      title: (
+        <>
+          Earn ALM Farming <br className='md lg' /> and <br className='sm xl' /> Strong Holders <br className='md lg' />{' '}
+          Pools. <br className='xl sm' /> Up to 3000% <br className='md lg' /> APY
+        </>
+      ),
+      image: !isMobile ? '/images/home-new/slider/farming-bg.svg' : '/images/home-new/slider/farming-bg-small.svg',
+    },
+    {
+      label: 'Coming soon',
+      title: (
+        <>
+          "Cyber City Inc" <br className='xl sm md lg' /> Character Boxes Drop
+        </>
+      ),
+      subTitle: (
+        <>
+          NFT Game with open economy and <br className='md lg' /> 10 000 <br className='sm' /> cool and exciting{' '}
+          <br className='xl' /> Cyberpunk <br className='md lg' /> NFT Characters
+        </>
+      ),
+      image: '/images/home-new/slider/cyper-city-bg.svg',
+    },
+    {
+      label: 'September 9th',
+      title: 'Alpaca Grazing Range',
+      subTitle: (
+        <>
+          Earn ALM in an exciting Alium <br className='md lg' /> partnership with <br className='sm' /> Alpaca Finance
+        </>
+      ),
+      image: '/images/home-new/slider/alpaca-grazing-bg.svg',
+    },
+    {
+      label: 'September 13th',
+      title: 'ALM x Krystal Trading Competition',
+      subTitle: (
+        <>
+          Participate in Krystal.app Alium <br className='md lg' /> Trading <br className='sm' /> competition{' '}
+          <br className='xl' /> and win one <br className='md lg' /> of 20 000$ worth <br className='sm' /> of Prizes!
+        </>
+      ),
+      image: '/images/home-new/slider/krystal-trading.svg',
+    },
+  ]
   return (
     <CarouselStyled
       className={className}
