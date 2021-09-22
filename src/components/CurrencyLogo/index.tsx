@@ -5,12 +5,10 @@ import { WrappedTokenInfo } from 'state/lists/hooks'
 import { Farm } from 'state/types'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { getTokenLogoURL } from 'utils/common/getTokenLogoURL'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import CoinLogo from '../alium/CoinLogo'
 import Logo from '../Logo'
-
-const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/${address}/logo.png`
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
@@ -55,11 +53,8 @@ export default function CurrencyLogo({
         const sources = [
           ...uriLocations,
           `/images/coins/${currency?.symbol ?? 'token'}.png`,
-          getTokenLogoURL(currency.address),
+          getTokenLogoURL(currency.address, currency.symbol),
         ]
-        if (defaultIcons[currency.symbol]) {
-          sources.push(defaultIcons[currency.symbol])
-        }
         return sources
       }
 
