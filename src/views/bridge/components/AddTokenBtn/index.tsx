@@ -3,6 +3,7 @@ import React from 'react'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { getTokenLogoURL } from 'utils/common/getTokenLogoURL'
 import { registerToken } from 'utils/wallet'
 import BridgeBtnWithIcon from '../BridgeBtnWithIcon'
 
@@ -27,12 +28,12 @@ const AddTokenBtn = () => {
   const fromToken = useStoreBridge((state) => state.tokens.fromToken)
   const toToken = useStoreBridge((state) => state.tokens.toToken)
   const token = fromToken?.chainId === currentChainId ? fromToken : toToken
-
+  const tokenImage = getTokenLogoURL(token.address, token.symbol)
   const [added, setAdded] = React.useState(false)
   const onAdd = async () => {
     if (!added && token) {
       try {
-        await registerToken(token.address, token.symbol, token.decimals, '')
+        await registerToken(token.address, token.symbol, token.decimals, tokenImage)
         setAdded(true)
       } catch (error) {}
     } else {
