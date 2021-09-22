@@ -5,9 +5,9 @@ import { Button } from '../../components/Button'
 import { Heading } from '../../components/Heading'
 import { SocialNetworks } from '../../components/SocialNetworks'
 import { Text } from '../../components/Text'
+import { ReactComponent as NotfoundPreview } from './assets/404.svg'
 import CloudLeft from './assets/background-cloud-left'
 import CloudRight from './assets/background-cloud-right'
-import NotfoundPreview from './assets/notfound-preview'
 
 const StyledWrapper = styled.div`
   width: 100%;
