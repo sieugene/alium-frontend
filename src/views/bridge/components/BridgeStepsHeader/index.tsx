@@ -43,9 +43,9 @@ const Step = styled.div<{ active: boolean; success: boolean }>`
   transition: 0.3s all ease;
   border-bottom: 1px solid ${(props) => (props.active ? '#6c5dd3' : 'transparent')};
 `
+import { CheckMarkDoneIcon } from 'alium-uikit/src'
 import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
 import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
-import { BridgeCheckIcon } from 'images/bridge/BridgeCheckIcon'
 import React, { useMemo } from 'react'
 import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
@@ -89,7 +89,7 @@ const BridgeStepsHeader = () => {
           <p>{step} STEP</p>
           <div className='title'>
             <h2>{title}</h2>
-            {stepStatuses[step] && <BridgeCheckIcon />}
+            {stepStatuses[step] && <CheckMarkDoneIcon />}
           </div>
         </Step>
       ))}

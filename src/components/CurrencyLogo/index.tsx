@@ -22,10 +22,6 @@ const StyledLogo = styled(Logo)<{ size: string }>`
   height: ${({ size }) => size};
 `
 
-const defaultIcons = {
-  ALM: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11/logo.png',
-}
-
 export default function CurrencyLogo({
   currency,
   size = '24px',

@@ -1,5 +1,5 @@
+import { CheckMarkDoneIcon } from 'alium-uikit/src'
 import Tooltip from 'components/Tooltip'
-import { BridgeCheckIcon } from 'images/bridge/BridgeCheckIcon'
 import { BridgeQuestionIcon } from 'images/bridge/BridgeQuestionIcon'
 import { BridgeRepeatIcon } from 'images/bridge/BridgeRepeatIcon'
 import React, { FC, useCallback, useState } from 'react'
@@ -85,7 +85,7 @@ const BridgeStatusItem: FC<{ status: BridgeHistoryStatuses }> = ({ status }) => 
 const IconStatus: FC<{ status: BridgeHistoryStatuses }> = ({ status }) => {
   switch (status) {
     case BridgeHistoryStatuses.Transferred:
-      return <BridgeCheckIcon />
+      return <CheckMarkDoneIcon />
     case BridgeHistoryStatuses.Cancellation:
       return <BridgeQuestionIcon />
     case BridgeHistoryStatuses.ClaimToken:
