@@ -176,7 +176,6 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
     token1: farm.quoteToken,
     pairName: tokenName,
   }
-  const wrongAmount = !val || Number(val) < 0 || Number(val) > Number(fullBalance)
 
   const link = getExplorerLink(97, useFarmLpAddress(farm), 'address')
 
@@ -194,6 +193,10 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
   }, [fullBalance, setPrincipalFromTokenValue])
 
   const [onShowRoi] = useModal(<RoiModal almPrice={almPrice} farm={farm} />)
+
+  const wrongAmount = !val || Number(val) <= 0 || Number(val) > Number(fullBalance)
+
+  const lockBtn = pendingTx || wrongAmount
 
   return (
     <Modal title={title} onDismiss={onDismiss} withoutContentWrapper>
@@ -230,7 +233,7 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
             </Button>
             <Button
               fullwidth
-              disabled={pendingTx || wrongAmount}
+              disabled={lockBtn}
               onClick={async () => {
                 try {
                   setPendingTx(true)
