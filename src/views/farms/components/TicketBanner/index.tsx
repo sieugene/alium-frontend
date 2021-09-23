@@ -2,6 +2,7 @@ import { Button, WarningIcon } from 'alium-uikit/src'
 import React from 'react'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
+import { useFarmTicket } from 'views/farms/hooks/useFarmTicket'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { FarmContentXLGap } from '../FarmContent'
 
@@ -173,6 +174,7 @@ const TicketBanner = () => {
   // remove banner from DOM for grid layout
   const removeBanner = useMedia(External_breakpoints.SM)
   const imgSrc = isXl ? 'farm-ticket-banner-lg.png' : 'farm-ticket-banner.png'
+  const { buyTicket, hasTicket } = useFarmTicket()
   return (
     <Wrapper>
       <Warning>
@@ -189,7 +191,9 @@ const TicketBanner = () => {
           <p>The ticket price is:</p>
           <h2>1500 ALM</h2>
         </TicketInfo>
-        <Buy>To buy a ticket</Buy>
+        <Buy disabled={hasTicket} onClick={buyTicket}>
+          To buy a ticket
+        </Buy>
       </FlexEnd>
     </Wrapper>
   )
