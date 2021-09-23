@@ -198,7 +198,16 @@ export function useYourPoolsIds() {
 export function useLeavePool(poolId?: ethers.BigNumber) {
   const contract = useShpContract()
   const fetcher = useMemo(() => contract && createContractFetcher(contract), [contract])
-  return useMemo(() => poolId && fetcher && (() => fetcher('withdraw', poolId)), [fetcher, poolId])
+  return useMemo(
+    () =>
+      poolId &&
+      fetcher &&
+      (async () => {
+        const tx: ethers.ContractTransaction = await fetcher('withdraw', poolId)
+        return tx.wait()
+      }),
+    [fetcher, poolId],
+  )
 }
 
 export function usePoolWithdrawals(poolId?: ethers.BigNumber) {
