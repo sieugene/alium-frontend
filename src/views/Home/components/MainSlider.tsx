@@ -86,7 +86,7 @@ interface Slides {
   subTitle?: React.ReactNode
 }
 const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
-  const isMobile = useMedia(`screen and (min-width: 575px)`)
+  const isMobile = useMedia(`screen and (max-width: 575px)`)
   const slides: Slides[] = [
     {
       label: 'Coming soon',
