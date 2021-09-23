@@ -30,6 +30,14 @@ const LinkItem = styled.a<SocialNetworksProps>`
   border: none;
   background: none;
 
+  svg * {
+    transition: fill 100ms ease-in-out;
+  }
+
+  &:hover svg * {
+    fill: #6c5dd3;
+  }
+
   &:not(:last-child) {
     margin-right: 16px;
 
