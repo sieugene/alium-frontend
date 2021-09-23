@@ -1,4 +1,5 @@
 import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
+import { MENU_HEIGHT } from 'alium-uikit/src/widgets/Menu/config'
 import { FC } from 'react'
 import styled from 'styled-components'
 import { Button } from '../../components/Button'
@@ -6,28 +7,29 @@ import { Heading } from '../../components/Heading'
 import { SocialNetworks } from '../../components/SocialNetworks'
 import { Text } from '../../components/Text'
 import { ReactComponent as NotfoundPreview } from './assets/404.svg'
-import CloudLeft from './assets/background-cloud-left'
-import CloudRight from './assets/background-cloud-right'
+import { ReactComponent as CloudLeft } from './assets/background-cloud-left.svg'
+import { ReactComponent as CloudRight } from './assets/background-cloud-right.svg'
 
 const StyledWrapper = styled.div`
   width: 100%;
-  min-height: calc(100vh - 64px);
-  height: 100%;
+  height: calc(100vh - ${MENU_HEIGHT}px);
   position: relative;
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
-  padding: 32px;
+  justify-content: center;
+  padding: 40px;
   box-sizing: border-box;
   overflow: auto;
   overflow-x: hidden;
 
-  @media screen and (max-width: 1024px) {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-end;
+  @media screen and (max-width: 1439px) {
+    flex-direction: column;
+    justify-content: flex-start;
   }
+
   @media screen and (max-width: 768px) {
-    padding: 8px;
+    padding: 32px;
   }
 `
 
@@ -35,10 +37,18 @@ const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 2;
-  width: 40%;
+  min-width: 300px;
+  max-width: 558px;
+  margin-right: 30px;
 
-  @media screen and (max-width: 1024px) {
-    width: 80%;
+  @media screen and (max-width: 1439px) {
+    margin-right: inherit;
+    margin-top: 30px;
+    align-items: center;
+
+    & > * {
+      text-align: center;
+    }
   }
   @media screen and (max-width: 480px) {
     width: 100%;
@@ -46,9 +56,24 @@ const InfoWrapper = styled.div`
 `
 
 const ImageWrapper = styled.div`
-  & > svg {
-    width: 100%;
-    height: auto;
+  margin-top: -54px;
+
+  @media screen and (max-width: 1439px) {
+    margin-top: inherit;
+
+    & > svg {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    margin-top: inherit;
+
+    & > svg {
+      width: 100%;
+      height: auto;
+    }
   }
 `
 
@@ -56,7 +81,7 @@ const CloudsWrapper = styled.div`
   top: 0;
   left: 0;
   position: absolute;
-  height: calc(100vh - 64px);
+  height: calc(100vh - ${MENU_HEIGHT}px);
   width: 100vw;
   overflow: hidden;
 `
@@ -65,29 +90,26 @@ const CloudWrapper = styled.div`
   position: absolute;
   z-index: -1;
 
-  & > img {
-    width: 100%;
-  }
-
   &.left {
-    top: -200px;
-    left: -200px;
+    top: calc(50% - 552px);
+    left: calc(50% - 888px);
   }
 
   &.right {
-    right: -200px;
-    bottom: -200px;
+    right: calc(50% - 750px);
+    bottom: calc(50% - 970px);
   }
 
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 1439px) {
     &.left {
-      top: -300px;
-      left: -300px;
+      top: -134px;
+      left: calc(50% - 682px);
     }
 
     &.right {
-      right: -300px;
-      bottom: -300px;
+      right: calc(50% - 955px);
+      top: 655px;
+      bottom: inherit;
     }
   }
 `
@@ -97,9 +119,6 @@ const StyledHeading = styled(Heading)`
   font-size: 64px;
   line-height: 72px;
 
-  @media screen and (max-width: 1024px) {
-    text-align: center;
-  }
   @media screen and (max-width: 768px) {
     font-size: 56px;
     line-height: 64px;
@@ -111,23 +130,20 @@ const StyledHeading = styled(Heading)`
 `
 
 const StyledText = styled(Text)`
-  width: 70%;
+  max-width: 430px;
+  min-width: 300px;
   font-size: 24px;
   line-height: 30px;
-  margin: 24px 0 30px 0;
+  margin: 24px 0 40px 0;
   letter-spacing: 0.3px;
   color: #8990a5;
 
   &.small {
+    margin: 24px 0 30px 0;
     font-size: 16px;
     line-height: 22px;
   }
 
-  @media screen and (max-width: 1024px) {
-    text-align: center;
-    margin: 24px auto 32px auto;
-    width: 90%;
-  }
   @media screen and (max-width: 480px) {
     font-size: 16px;
     line-height: 20px;
@@ -136,7 +152,8 @@ const StyledText = styled(Text)`
 `
 
 const StyledButton = styled(Button)`
-  margin: 32px auto 48px auto;
+  margin: 0 auto 38px auto;
+
   @media screen and (max-width: 1024px) {
     display: block;
   }
@@ -152,6 +169,9 @@ interface PropsType {
 const NotFound: FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` }) => {
   return (
     <StyledWrapper>
+      <ImageWrapper>
+        <NotfoundPreview />
+      </ImageWrapper>
       <InfoWrapper>
         <StyledHeading>Oops, your force is not strong enough</StyledHeading>
         <StyledText>This page you requested could not be found. May the force be with you!</StyledText>
@@ -164,9 +184,6 @@ const NotFound: FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` })
 
         <SocialNetworks />
       </InfoWrapper>
-      <ImageWrapper>
-        <NotfoundPreview />
-      </ImageWrapper>
 
       <CloudsWrapper>
         <CloudWrapper className='left'>
