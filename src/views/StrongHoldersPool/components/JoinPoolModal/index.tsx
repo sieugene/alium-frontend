@@ -7,7 +7,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { useToast } from 'state/hooks'
 import styled from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
-import { formatNumber, getBalanceNumber } from 'utils/formatBalance'
+import { getBalanceAmount } from 'utils/formatBalance'
 import {
   useCurrentPoolId,
   useJoinPool,
@@ -34,7 +34,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const { rewardTokenInfo, rewardTokenSymbol } = useRewardTokenInfo()
   const { data: rewardTokenAllowance, mutate: mutateRewardTokenAllowance } = useRewardTokenAllowance()
   const { data: balance, mutate: mutateBalance } = useRewardTokenBalance()
-  const balanceNumber = useMemo(() => balance && getBalanceNumber(ethersToBigNumber(balance)), [balance])
+  const balanceAmount = useMemo(() => balance && getBalanceAmount(ethersToBigNumber(balance)), [balance])
   const [amount, setAmount] = useState('')
   const amountNumber = useMemo(() => Number(amount), [amount])
   const hasAmount = amountNumber > 0
@@ -43,7 +43,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
     () => rewardTokenAllowance && amountWei && ethersToBigNumber(rewardTokenAllowance).minus(amountWei).lt(0),
     [amountWei, rewardTokenAllowance],
   )
-  const isInsufficientFunds = amountNumber > balanceNumber
+  const isInsufficientFunds = balanceAmount?.lt(amountNumber)
   const poolShare = useMemo(() => {
     if (poolLocked && amountWei) {
       return new Percent(amountWei.toString(), ethersToBigNumber(poolLocked).plus(amountWei).toString())
@@ -78,8 +78,8 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
             showMaxButton
             value={amount}
             onUserInput={protectedSetAmount}
-            balance={formatNumber(balanceNumber, 2, 4)}
-            onMax={() => protectedSetAmount(String(balanceNumber || 0))}
+            balance={balanceAmount?.decimalPlaces(4, BigNumber.ROUND_FLOOR).toFormat()}
+            onMax={() => protectedSetAmount(String(balanceAmount || 0))}
             currency={rewardTokenInfo}
             label={t('Amount')}
           />

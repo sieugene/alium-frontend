@@ -14,10 +14,11 @@ import {
   useMaxPoolLength,
   usePoolAccountUser,
   usePoolById,
-  usePoolHistory,
   usePoolLocked,
   usePoolUsers,
+  usePoolWithdrawals,
   useRewardTokenInfo,
+  Withdrawn,
 } from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import Card from '../Card'
@@ -294,12 +295,21 @@ interface DetailsProps {
 function Details({ poolId }: DetailsProps) {
   const { data: pool } = usePoolById(poolId)
   const { data: poolLocked } = usePoolLocked(poolId)
+  const { data: withdrawals } = usePoolWithdrawals(poolId)
+  const { data: poolUsers } = usePoolUsers(poolId)
+  const { rewardTokenSymbol } = useRewardTokenInfo()
   const accountUser = usePoolAccountUser(poolId)
-  usePoolHistory(poolId)
   const poolShare = useMemo(
     () => accountUser && poolLocked && new Percent(accountUser.balance.toString(), poolLocked.toString()),
     [accountUser, poolLocked],
   )
+  const withdrawalByAccount = useMemo(() => {
+    const ret: Record<Withdrawn['account'], Withdrawn> = {}
+    withdrawals?.forEach((withdrawal) => {
+      ret[withdrawal.account] = withdrawal
+    })
+    return ret
+  }, [withdrawals])
   return (
     <Details.Root>
       <PoolDetailsInfo
@@ -317,21 +327,32 @@ function Details({ poolId }: DetailsProps) {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
+          {poolUsers?.map((user) => {
+            const wallet = `${user.account.substring(0, 9)}...${user.account.substring(user.account.length - 5)}`
+            const withdrawal = withdrawalByAccount?.[user.account]
+            const added = `${getBalanceAmount(ethersToBigNumber(user.balance))
+              .decimalPlaces(4, BigNumber.ROUND_FLOOR)
+              .toFormat()} ${rewardTokenSymbol}`
+            return (
+              <tr key={user.account}>
+                <td>{wallet}</td>
+                <td>{added}</td>
+                {user.paid ? (
+                  <td>
+                    {withdrawal ? (
+                      `${getBalanceAmount(ethersToBigNumber(withdrawal.amount))
+                        .decimalPlaces(4, BigNumber.ROUND_FLOOR)
+                        .toFormat()} ${rewardTokenSymbol}`
+                    ) : (
+                      <Skeleton animation='waves' />
+                    )}
+                  </td>
+                ) : (
+                  <td>-</td>
+                )}
+              </tr>
+            )
+          })}
         </tbody>
       </Details.HistoryTable>
     </Details.Root>
@@ -387,6 +408,7 @@ Details.HistoryTable = styled.table`
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
+    vertical-align: middle;
 
     &:first-child {
       border-top-left-radius: 6px;

@@ -4,9 +4,10 @@ import { useWeb3React } from '@web3-react/core'
 import * as ethers from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useShpContract, useTokenContract } from 'hooks/useContract'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import useSWR, { SWRConfiguration } from 'swr'
 import { useCallWithGasPrice } from 'utils/useCallWithGasPrice'
+import { getWeb3NoAccount } from 'utils/web3'
 
 export interface Pool {
   id: ethers.BigNumber
@@ -20,6 +21,12 @@ export interface User {
   balance: ethers.BigNumber
   paid: boolean
   leftId: ethers.BigNumber
+}
+
+export interface Withdrawn {
+  poolId: ethers.BigNumber
+  account: string
+  amount: ethers.BigNumber
 }
 
 export function getAllPoolsIds(currentPoolId: ethers.BigNumber): ethers.BigNumber[] {
@@ -194,13 +201,31 @@ export function useLeavePool(poolId?: ethers.BigNumber) {
   return useMemo(() => poolId && fetcher && (() => fetcher('withdraw', poolId)), [fetcher, poolId])
 }
 
-export function usePoolHistory(poolId?: ethers.BigNumber) {
+export function usePoolWithdrawals(poolId?: ethers.BigNumber) {
   const contract = useShpContract()
-  useEffect(() => {
-    if (contract && poolId) {
-      contract.queryFilter(contract.filters.Withdrawn(poolId), 0, 'latest').then(console.log)
-    }
-  }, [contract, poolId])
+  const web3 = getWeb3NoAccount()
+  const { data: poolUsers } = usePoolUsers(poolId)
+  const paidUsers = useMemo(() => poolUsers?.filter((user) => user.paid), [poolUsers])
+  return useSWR<Withdrawn[]>(
+    contract && poolId && paidUsers ? ['withdrawals', poolId, paidUsers.length] : null,
+    async () => {
+      const blockNumber = await web3.eth.getBlockNumber()
+      const filter = contract.filters.Withdrawn(poolId)
+      const withdrawals: Withdrawn[] = []
+      let iterator = blockNumber
+      while (withdrawals.length < paidUsers.length) {
+        // TODO: probably it's very slow!
+        const fromBlock = iterator - 5000
+        const res = await contract.queryFilter(filter, fromBlock, iterator)
+        if (res.length > 0) {
+          withdrawals.push(...res.map((e) => e.args as any as Withdrawn))
+        }
+        iterator = fromBlock
+      }
+      return withdrawals
+    },
+    defaultSWROptions,
+  )
 }
 
 export function useCountReward(poolId?: ethers.BigNumber) {
