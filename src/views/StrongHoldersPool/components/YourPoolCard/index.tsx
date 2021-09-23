@@ -3,15 +3,18 @@ import { Button, Skeleton } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import { useToggle } from 'react-use'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import {
   Pool,
-  useAccountUser,
+  useCountReward,
+  useCountRewardPercent,
   useLeavePool,
   useMaxPoolLength,
+  usePoolAccountUser,
   usePoolById,
+  usePoolHistory,
   usePoolLocked,
   usePoolUsers,
   useRewardTokenInfo,
@@ -33,11 +36,12 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
   const [isDetails, toggleDetails] = useToggle(false)
   const { data: pool, mutate: mutatePool } = usePoolById(poolId)
   const { rewardTokenSymbol } = useRewardTokenInfo()
-  const { data: poolUsers, mutate: mutateUsers } = usePoolUsers(poolId)
+  const { data: poolUsers, mutate: mutatePoolUsers } = usePoolUsers(poolId)
   const { data: poolLocked } = usePoolLocked(poolId)
   const { data: maxPoolLength } = useMaxPoolLength()
   const leavePool = useLeavePool(poolId)
-  const accountUser = useAccountUser(poolUsers)
+  const { isLoss } = useCountRewardPercent(poolId)
+  const accountUser = usePoolAccountUser(poolId)
   const usersCount = useMemo(
     () => pool && poolUsers && new BigNumber(poolUsers.length).minus(ethersToBigNumber(pool.leftTracker)),
     [pool, poolUsers],
@@ -63,7 +67,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
               )}
             </YourPoolCard.Field>
             <YourPoolCard.Field>
-              <PickUpFunds />
+              <PickUpFunds poolId={poolId} />
             </YourPoolCard.Field>
             <YourPoolCard.Field>
               <Title>Bonus NFT</Title>
@@ -76,8 +80,8 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
               onClick={async () => {
                 if (!window.confirm('Are you sure you want to leave the pool?')) return
                 await leavePool()
-                mutatePool()
-                mutateUsers()
+                await mutatePool()
+                await mutatePoolUsers()
               }}
             >
               Leave the pool
@@ -88,7 +92,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
         <YourPoolCard.PoolCounters>
           <YourPoolCard.Field>
             <Title>Users In the pool</Title>
-            {usersCount ? <YourPoolCard.UsersCounter value={usersCount} /> : <Skeleton />}
+            {usersCount ? <YourPoolCard.UsersCounter isLoss={isLoss} value={usersCount} /> : <Skeleton />}
           </YourPoolCard.Field>
           <YourPoolCard.Field>
             <Title>Pool Amount</Title>
@@ -157,7 +161,7 @@ YourPoolCard.PoolCounters = styled.div`
   padding: 16px 24px 16px 16px;
 `
 
-YourPoolCard.UsersCounter = styled(YourPoolCard.Value)`
+YourPoolCard.UsersCounter = styled(YourPoolCard.Value)<{ isLoss?: boolean }>`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -165,6 +169,12 @@ YourPoolCard.UsersCounter = styled(YourPoolCard.Value)`
   line-height: 72px;
   letter-spacing: 0.3px;
   color: #1ea76d;
+
+  ${(props) =>
+    props.isLoss &&
+    css`
+      color: #ff4d00;
+    `}
 `
 
 YourPoolCard.Details = styled.div`
@@ -212,17 +222,38 @@ YourPoolCard.Root = styled(Card)`
   }
 `
 
-function PickUpFunds() {
-  const value = useMemo(() => new BigNumber(103400), [])
+interface PickUpFundsProps {
+  poolId: Pool['id']
+}
+
+function PickUpFunds({ poolId }: PickUpFundsProps) {
+  const { data: countReward } = useCountReward(poolId)
+  const { countRewardPercent, isLoss } = useCountRewardPercent(poolId)
+  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const accountUser = usePoolAccountUser(poolId)
   return (
     <>
       <Title>Pick up funds</Title>
       <PickUpFunds.Value>
         <PickUpFunds.Counters>
-          <YourPoolCard.Value value={value} suffix=' ALM' />
-          <PickUpFunds.Profit>+3.4%</PickUpFunds.Profit>
+          {countReward ? (
+            <YourPoolCard.Value
+              value={getBalanceAmount(ethersToBigNumber(countReward))}
+              suffix={' ' + rewardTokenSymbol}
+            />
+          ) : (
+            <Skeleton />
+          )}
+          {countRewardPercent ? (
+            <PickUpFunds.Profit style={{ visibility: accountUser?.paid ? 'hidden' : undefined }} isLoss={isLoss}>{`${
+              isLoss ? '' : '+'
+            } ${countRewardPercent.toFixed()}%`}</PickUpFunds.Profit>
+          ) : (
+            <Skeleton />
+          )}
         </PickUpFunds.Counters>
-        <NftItemReward />
+        {/* TODO: NFT */}
+        {/* <NftItemReward /> */}
       </PickUpFunds.Value>
     </>
   )
@@ -239,7 +270,7 @@ PickUpFunds.Value = styled.div`
   }
 `
 
-PickUpFunds.Profit = styled.div`
+PickUpFunds.Profit = styled.div<{ isLoss?: boolean }>`
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
@@ -248,6 +279,12 @@ PickUpFunds.Profit = styled.div`
   letter-spacing: 0.3px;
   color: #1ea76d;
   margin-top: 4px;
+
+  ${(props) =>
+    props.isLoss &&
+    css`
+      color: #ff4d00;
+    `}
 `
 
 interface DetailsProps {
@@ -257,8 +294,8 @@ interface DetailsProps {
 function Details({ poolId }: DetailsProps) {
   const { data: pool } = usePoolById(poolId)
   const { data: poolLocked } = usePoolLocked(poolId)
-  const { data: poolUsers } = usePoolUsers(poolId)
-  const accountUser = useAccountUser(poolUsers)
+  const accountUser = usePoolAccountUser(poolId)
+  usePoolHistory(poolId)
   const poolShare = useMemo(
     () => accountUser && poolLocked && new Percent(accountUser.balance.toString(), poolLocked.toString()),
     [accountUser, poolLocked],

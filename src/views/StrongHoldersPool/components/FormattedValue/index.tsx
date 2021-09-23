@@ -11,7 +11,7 @@ export interface FormattedValueProps {
 export default function FormattedValue({ value, suffix, className }: FormattedValueProps) {
   return (
     <FormattedValue.Root className={className}>
-      {value.toFormat()}
+      {value.isInteger() ? value.toFormat() : value.decimalPlaces(4, BigNumber.ROUND_FLOOR).toFormat()}
       {suffix && <FormattedValue.Suffix>{suffix}</FormattedValue.Suffix>}
     </FormattedValue.Root>
   )

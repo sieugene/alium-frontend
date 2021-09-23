@@ -12,7 +12,7 @@ export default function NestedYour() {
       <NestedYour.Pools>
         {data
           ? data.map((poolId) => <YourPoolCard key={poolId.toString()} poolId={poolId} />)
-          : times(4, (i) => <Skeleton animation='waves' key={i} height={450} />)}
+          : times(4, (i) => <Skeleton animation='waves' key={i} height={400} />)}
       </NestedYour.Pools>
       {/* TODO: Pagination? */}
     </NestedYour.Root>

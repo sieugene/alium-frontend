@@ -1,6 +1,7 @@
+import { Percent } from '@alium-official/sdk'
 import { parseUnits } from '@ethersproject/units'
 import { useWeb3React } from '@web3-react/core'
-import { BigNumber, Contract } from 'ethers'
+import * as ethers from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useShpContract, useTokenContract } from 'hooks/useContract'
 import { useEffect, useMemo } from 'react'
@@ -8,21 +9,21 @@ import useSWR, { SWRConfiguration } from 'swr'
 import { useCallWithGasPrice } from 'utils/useCallWithGasPrice'
 
 export interface Pool {
-  id: BigNumber
-  withheldFunds: BigNumber
-  leftTracker: BigNumber
-  createdAt: BigNumber
+  id: ethers.BigNumber
+  withheldFunds: ethers.BigNumber
+  leftTracker: ethers.BigNumber
+  createdAt: ethers.BigNumber
 }
 
 export interface User {
   account: string
-  balance: BigNumber
+  balance: ethers.BigNumber
   paid: boolean
-  leftId: BigNumber
+  leftId: ethers.BigNumber
 }
 
-export function getAllPoolsIds(currentPoolId: BigNumber): BigNumber[] {
-  const ids: BigNumber[] = []
+export function getAllPoolsIds(currentPoolId: ethers.BigNumber): ethers.BigNumber[] {
+  const ids: ethers.BigNumber[] = []
   let iterator = currentPoolId
   while (iterator.gte(0)) {
     ids.push(iterator)
@@ -38,7 +39,7 @@ const defaultSWROptions: SWRConfiguration = {
 }
 
 const createContractFetcher =
-  (contract: Contract) =>
+  (contract: ethers.Contract) =>
   <T>(method, ...args): T =>
     contract[method](...args)
 
@@ -51,11 +52,11 @@ export function useShpSWR<T>(methodAndArgs: [string, ...any], options?: SWRConfi
 }
 
 export function useCurrentPoolId() {
-  return useShpSWR<BigNumber>(['getCurrentPoolId'])
+  return useShpSWR<ethers.BigNumber>(['getCurrentPoolId'])
 }
 
 export function useMaxPoolLength() {
-  return useShpSWR<BigNumber>(['MAX_POOL_LENGTH'], {
+  return useShpSWR<ethers.BigNumber>(['MAX_POOL_LENGTH'], {
     revalidateIfStale: false,
   })
 }
@@ -66,21 +67,22 @@ export function useRewardToken() {
   })
 }
 
-export function usePoolLocked(poolId?: BigNumber) {
-  return useShpSWR<BigNumber>(poolId ? ['totalLockedPoolTokens', poolId] : null)
+export function usePoolLocked(poolId?: ethers.BigNumber) {
+  return useShpSWR<ethers.BigNumber>(poolId ? ['totalLockedPoolTokens', poolId] : null)
 }
 
-export function usePoolUsers(poolId?: BigNumber) {
+export function usePoolUsers(poolId?: ethers.BigNumber) {
   return useShpSWR<User[]>(poolId ? ['users', poolId] : null)
 }
 
-export function useAccountUser(poolUsers?: User[]) {
-  const { account } = useWeb3React()
-  return useMemo(() => poolUsers?.find((user) => user.account === account), [account, poolUsers])
+export function usePoolById(poolId?: ethers.BigNumber) {
+  return useShpSWR<Pool>(poolId ? ['pools', poolId] : null)
 }
 
-export function usePoolById(poolId?: BigNumber) {
-  return useShpSWR<Pool>(poolId ? ['pools', poolId] : null)
+export function usePoolAccountUser(poolId?: ethers.BigNumber) {
+  const { data: poolUsers } = usePoolUsers(poolId)
+  const { account } = useWeb3React()
+  return useMemo(() => poolUsers?.find((user) => user.account === account), [account, poolUsers])
 }
 
 export function useRewardTokenInfo() {
@@ -100,7 +102,7 @@ export function useRewardTokenContract() {
 export function useRewardTokenBalance() {
   const rewardTokenContract = useRewardTokenContract()
   const { account } = useWeb3React()
-  return useSWR<BigNumber>(
+  return useSWR<ethers.BigNumber>(
     rewardTokenContract ? ['balanceOf', account] : null,
     createContractFetcher(rewardTokenContract),
     defaultSWROptions,
@@ -111,7 +113,7 @@ export function useRewardTokenAllowance() {
   const rewardTokenContract = useRewardTokenContract()
   const shpContract = useShpContract()
   const { account } = useWeb3React()
-  return useSWR<BigNumber>(
+  return useSWR<ethers.BigNumber>(
     rewardTokenContract && account && shpContract ? ['allowance', account, shpContract.address] : null,
     createContractFetcher(rewardTokenContract),
     defaultSWROptions,
@@ -121,13 +123,13 @@ export function useRewardTokenAllowance() {
 export function useTotalLocked() {
   const contract = useShpContract()
   const { data: currentPoolId } = useCurrentPoolId()
-  return useSWR<BigNumber>(
+  return useSWR<ethers.BigNumber>(
     contract && currentPoolId ? ['useTotalLocked', currentPoolId] : null,
     async () => {
-      const lockedInPools: BigNumber[] = await Promise.all(
+      const lockedInPools: ethers.BigNumber[] = await Promise.all(
         getAllPoolsIds(currentPoolId).map((poolId) => contract.totalLockedPoolTokens(poolId)),
       )
-      return lockedInPools.reduce((acc, locked) => acc.add(locked), BigNumber.from(0))
+      return lockedInPools.reduce((acc, locked) => acc.add(locked), ethers.BigNumber.from(0))
     },
     defaultSWROptions,
   )
@@ -165,10 +167,10 @@ export function useYourPoolsIds() {
   const contract = useShpContract()
   const { account } = useWeb3React()
   const { data: currentPoolId } = useCurrentPoolId()
-  return useSWR<BigNumber[]>(
+  return useSWR<ethers.BigNumber[]>(
     contract && currentPoolId ? ['useYourPoolIds', account, currentPoolId] : null,
     async () => {
-      const ids: BigNumber[] = []
+      const ids: ethers.BigNumber[] = []
       const poolsUsers = await Promise.all(
         getAllPoolsIds(currentPoolId).map(async (poolId) => ({
           users: (await contract.users(poolId)) as User[],
@@ -186,14 +188,39 @@ export function useYourPoolsIds() {
   )
 }
 
-export function useLeavePool(poolId?: BigNumber) {
+export function useLeavePool(poolId?: ethers.BigNumber) {
   const contract = useShpContract()
   const fetcher = useMemo(() => contract && createContractFetcher(contract), [contract])
-  useEffect(() => {
-    if (contract) {
-      const filter = contract.filters.Withdrawn()
-      contract.queryFilter(filter).then(console.log)
-    }
-  }, [contract])
   return useMemo(() => poolId && fetcher && (() => fetcher('withdraw', poolId)), [fetcher, poolId])
+}
+
+export function usePoolHistory(poolId?: ethers.BigNumber) {
+  const contract = useShpContract()
+  useEffect(() => {
+    if (contract && poolId) {
+      contract.queryFilter(contract.filters.Withdrawn(poolId), 0, 'latest').then(console.log)
+    }
+  }, [contract, poolId])
+}
+
+export function useCountReward(poolId?: ethers.BigNumber) {
+  const { account } = useWeb3React()
+  return useShpSWR<ethers.BigNumber>(poolId && account ? ['countReward', poolId, account] : null)
+}
+
+export function useCountRewardPercent(poolId?: ethers.BigNumber) {
+  const { data: countReward } = useCountReward(poolId)
+  const accountUser = usePoolAccountUser(poolId)
+  const countRewardPercent = useMemo(
+    () =>
+      accountUser &&
+      countReward &&
+      new Percent(countReward.sub(accountUser.balance).toString(), accountUser.balance.toString()),
+    [accountUser, countReward],
+  )
+  const isLoss = useMemo(() => countRewardPercent?.lessThan('0'), [countRewardPercent])
+  return {
+    countRewardPercent,
+    isLoss,
+  }
 }

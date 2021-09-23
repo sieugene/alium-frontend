@@ -9,9 +9,9 @@ import styled from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
 import { formatNumber, getBalanceNumber } from 'utils/formatBalance'
 import {
-  useAccountUser,
   useCurrentPoolId,
   useJoinPool,
+  usePoolAccountUser,
   usePoolLocked,
   usePoolUsers,
   useRewardTokenAllowance,
@@ -50,7 +50,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
     }
     return new Percent('0')
   }, [amountWei, poolLocked])
-  const accountUser = useAccountUser(poolUsers)
+  const accountUser = usePoolAccountUser(currentPoolId)
   const leftId = useMemo(() => {
     return accountUser?.leftId ? ethersToBigNumber(accountUser.leftId) : new BigNumber(poolUsers?.length || 0).plus(1)
   }, [accountUser?.leftId, poolUsers?.length])
