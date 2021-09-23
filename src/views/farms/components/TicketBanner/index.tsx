@@ -1,4 +1,6 @@
 import { Button, WarningIcon } from 'alium-uikit/src'
+import ConnectWalletButton from 'components/ConnectWalletButton'
+import { useActiveWeb3React } from 'hooks'
 import React from 'react'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
@@ -169,12 +171,22 @@ const Buy = styled(Button)`
   }
 `
 
+const StyledConnectWallet = styled(ConnectWalletButton)`
+  border: 1px solid white;
+  max-width: 340px;
+  width: 100% !important;
+`
+
 const TicketBanner = () => {
+  const { account } = useActiveWeb3React()
   const isXl = useMedia(External_breakpoints.XL)
   // remove banner from DOM for grid layout
   const removeBanner = useMedia(External_breakpoints.SM)
   const imgSrc = isXl ? 'farm-ticket-banner-lg.png' : 'farm-ticket-banner.png'
   const { buyTicket, hasTicket } = useFarmTicket()
+  if (hasTicket) {
+    return
+  }
   return (
     <Wrapper>
       <Warning>
@@ -191,9 +203,13 @@ const TicketBanner = () => {
           <p>The ticket price is:</p>
           <h2>1500 ALM</h2>
         </TicketInfo>
-        <Buy disabled={hasTicket} onClick={buyTicket}>
-          To buy a ticket
-        </Buy>
+        {!account ? (
+          <StyledConnectWallet title='Connect Wallet' />
+        ) : (
+          <Buy disabled={hasTicket} onClick={buyTicket}>
+            To buy a ticket
+          </Buy>
+        )}
       </FlexEnd>
     </Wrapper>
   )

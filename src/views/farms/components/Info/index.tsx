@@ -498,7 +498,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
         <div>-</div>
       ),
     actionsNode: !account ? (
-      <StyledConnectBtn />
+      <StyledConnectBtn title='Connect Wallet' />
     ) : EMPTY_STAKE_ACTION ? null : (
       <>
         {FARM_NOT_ENABLED && (
