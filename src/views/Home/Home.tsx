@@ -11,8 +11,16 @@ const PageWrap = styled.div`
 `
 const Wrapper = styled.div`
   max-width: 1440px;
-  padding: 30px;
+  padding: 33px;
   width: 100%;
+
+  @media screen and (max-width: 1439px) {
+    padding: 24px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 10px;
+  }
 `
 
 const Home: FC = () => {
