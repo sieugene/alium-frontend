@@ -35,7 +35,9 @@ export default function Header() {
           ))}
         </Header.Tabs>
       </Header.Main>
-      <Header.Image src='/images/shp/header-bg.svg' />
+      <Header.ImageContainer>
+        <img src='/images/shp/header-bg.svg' />
+      </Header.ImageContainer>
     </Header.Root>
   )
 }
@@ -47,7 +49,13 @@ Header.Main = styled.div`
   flex: 1;
 `
 
-Header.Image = styled.img``
+Header.ImageContainer = styled.div`
+  max-height: 200px;
+
+  img {
+    object-fit: contain;
+  }
+`
 
 Header.Title = styled.h2`
   font-family: Roboto;
@@ -66,7 +74,6 @@ Header.Tabs = styled.div`
   border-radius: 6px;
   padding: 8px;
   display: flex;
-  margin-bottom: 24px;
 
   & > * + * {
     margin-left: 8px;
@@ -91,6 +98,14 @@ Header.Root = styled.div`
       line-height: 48px;
       letter-spacing: 0.3px;
     }
+
+    ${Header.ImageContainer} {
+      max-width: 350px;
+
+      img {
+        max-height: 100%;
+      }
+    }
   }
 
   @media ${down(breakpoints.md)} {
@@ -103,6 +118,10 @@ Header.Root = styled.div`
       letter-spacing: 0.3px;
       margin-bottom: 24px;
     }
+
+    ${Header.ImageContainer} {
+      max-height: 150px;
+    }
   }
 
   @media ${down(breakpoints.sm)} {
@@ -111,7 +130,7 @@ Header.Root = styled.div`
       flex: 1;
     }
 
-    ${Header.Image} {
+    ${Header.ImageContainer} {
       display: none;
     }
 

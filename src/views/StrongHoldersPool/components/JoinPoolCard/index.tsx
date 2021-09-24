@@ -31,7 +31,7 @@ export default function JoinPoolCard() {
           <JoinPoolCard.Field>
             <Title>Pool Amount</Title>
             {poolLocked ? (
-              <FormattedValue
+              <JoinPoolCard.Amount
                 value={getBalanceAmount(ethersToBigNumber(poolLocked))}
                 suffix={' ' + rewardTokenSymbol}
               />
@@ -45,11 +45,7 @@ export default function JoinPoolCard() {
             <NftItemCounter />
           </JoinPoolCard.Field>
         </JoinPoolCard.Info>
-        {poolUsers && maxPoolLength && (
-          <JoinPoolCard.Progress>
-            <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />
-          </JoinPoolCard.Progress>
-        )}
+        {poolUsers && maxPoolLength && <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />}
       </JoinPoolCard.Content>
       <JoinPoolCard.Footer>
         <span>Increase your ALM Tokens by joining the Strong Holders Pool. </span>
@@ -85,6 +81,11 @@ JoinPoolCard.Field = styled.div`
   }
 `
 
+JoinPoolCard.Amount = styled(FormattedValue)`
+  font-size: 40px;
+  line-height: 48px;
+`
+
 JoinPoolCard.Join = styled(Button)`
   margin: 16px 0 32px;
 `
@@ -105,11 +106,6 @@ JoinPoolCard.Footer = styled.div`
   }
 `
 
-JoinPoolCard.Progress = styled.div`
-  width: 280px;
-  height: 280px;
-`
-
 JoinPoolCard.Root = styled(Card)`
   @media ${down(breakpoints.sm)} {
     ${JoinPoolCard.Content} {
@@ -118,7 +114,11 @@ JoinPoolCard.Root = styled(Card)`
       padding: 24px 0;
     }
 
-    ${JoinPoolCard.Info},
+    ${JoinPoolCard.Info} {
+      align-items: center;
+      margin-top: 24px;
+    }
+
     ${JoinPoolCard.Field} {
       align-items: center;
     }

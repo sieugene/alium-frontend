@@ -4,7 +4,7 @@ import { FC } from 'hoist-non-react-statics/node_modules/@types/react'
 import styled from 'styled-components'
 import { ViewMode } from 'views/farms/farms.types'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
-import FarmContent, { FarmContentXLGap } from '../FarmContent'
+import FarmContent from '../FarmContent'
 
 const Grid = styled(FarmContent.Grid)`
   @media screen and (max-width: 768px) {
@@ -77,7 +77,7 @@ const RightContent = styled(Block)`
 `
 const CenterContent = styled(Block)`
   width: ${BLOCK_WIDTH * 2}px;
-  @media ${down(breakpoints.xl, FarmContentXLGap)} {
+  @media ${down(breakpoints.xl)} {
     width: ${BLOCK_WIDTH}px;
   }
   @media ${down(breakpoints.lg)} {

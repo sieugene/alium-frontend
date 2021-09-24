@@ -154,8 +154,13 @@ YourPoolCard.Summary = styled.div`
 
 YourPoolCard.Value = styled(FormattedValue)`
   font-weight: 500;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 24px;
+  line-height: 30px;
+
+  @media ${down(breakpoints.lg)} {
+    font-size: 18px;
+    line-height: 24px;
+  }
 `
 
 YourPoolCard.PoolCounters = styled.div`

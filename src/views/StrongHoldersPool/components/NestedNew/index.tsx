@@ -8,9 +8,7 @@ import StatsCard from '../StatsCard'
 export default function NestedNew() {
   return (
     <NestedNew.Root>
-      <NestedNew.Pools>
-        <JoinPoolCard />
-      </NestedNew.Pools>
+      <JoinPoolCard />
       <NestedNew.Stats>
         <OpenedPoolsCard />
         <LockedInPoolsCard />
@@ -18,11 +16,6 @@ export default function NestedNew() {
     </NestedNew.Root>
   )
 }
-
-NestedNew.Pools = styled.div`
-  display: grid;
-  gap: 30px;
-`
 
 NestedNew.Stats = styled.div`
   display: grid;
@@ -41,10 +34,6 @@ NestedNew.Root = styled.div`
 
     ${NestedNew.Stats} {
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    ${NestedNew.Pools} {
       gap: 16px;
     }
   }
