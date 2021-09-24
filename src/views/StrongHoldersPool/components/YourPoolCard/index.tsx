@@ -1,6 +1,7 @@
 import { Percent } from '@alium-official/sdk'
 import { Button, Skeleton } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
+import useToast from 'hooks/useToast'
 import { useMemo } from 'react'
 import { useToggle } from 'react-use'
 import styled, { css } from 'styled-components'
@@ -34,13 +35,14 @@ export interface YourPoolCardProps {
 }
 
 export default function YourPoolCard({ poolId }: YourPoolCardProps) {
+  const { toastError } = useToast()
   const [isDetails, toggleDetails] = useToggle(false)
   const { data: pool, mutate: mutatePool } = usePoolById(poolId)
   const { rewardTokenSymbol } = useRewardTokenInfo()
   const { data: poolUsers, mutate: mutatePoolUsers } = usePoolUsers(poolId)
   const { data: poolLocked } = usePoolLocked(poolId)
   const { data: maxPoolLength } = useMaxPoolLength()
-  const leavePool = useLeavePool(poolId)
+  const { leavePool, loading: leavePoolLoading } = useLeavePool(poolId)
   const { isLoss } = useCountRewardPercent(poolId)
   const accountUser = usePoolAccountUser(poolId)
   const usersCount = useMemo(
@@ -48,9 +50,6 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
     [pool, poolUsers],
   )
   const isFullPool = maxPoolLength?.eq(poolUsers?.length || 0)
-  const disabledLeave = useMemo(() => {
-    return !isFullPool
-  }, [isFullPool])
   return (
     <YourPoolCard.Root>
       <YourPoolCard.Summary>
@@ -77,12 +76,17 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
           </YourPoolCard.InfoFields>
           <YourPoolCard.InfoActions>
             <Button
-              disabled={disabledLeave || !leavePool || accountUser?.paid}
+              disabled={!isFullPool || !leavePool || accountUser?.paid || leavePoolLoading}
               onClick={async () => {
                 if (!window.confirm('Are you sure you want to leave the pool?')) return
-                await leavePool()
-                await mutatePool()
-                await mutatePoolUsers()
+                try {
+                  await leavePool()
+                  await mutatePool()
+                  await mutatePoolUsers()
+                } catch (error) {
+                  console.error(error)
+                  toastError(error.data?.message || error.message)
+                }
               }}
             >
               Leave the pool

@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core'
 import * as ethers from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useShpContract, useTokenContract } from 'hooks/useContract'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import useSWR, { SWRConfiguration } from 'swr'
 import { useCallWithGasPrice } from 'utils/useCallWithGasPrice'
 import { getWeb3NoAccount } from 'utils/web3'
@@ -198,16 +198,26 @@ export function useYourPoolsIds() {
 export function useLeavePool(poolId?: ethers.BigNumber) {
   const contract = useShpContract()
   const fetcher = useMemo(() => contract && createContractFetcher(contract), [contract])
-  return useMemo(
+  const [loading, setLoading] = useState(false)
+  const leavePool = useMemo(
     () =>
       poolId &&
       fetcher &&
       (async () => {
-        const tx: ethers.ContractTransaction = await fetcher('withdraw', poolId)
-        return tx.wait()
+        try {
+          setLoading(true)
+          const tx: ethers.ContractTransaction = await fetcher('withdraw', poolId)
+          await tx.wait()
+        } finally {
+          setLoading(false)
+        }
       }),
     [fetcher, poolId],
   )
+  return {
+    leavePool,
+    loading,
+  }
 }
 
 export function usePoolWithdrawals(poolId?: ethers.BigNumber) {
