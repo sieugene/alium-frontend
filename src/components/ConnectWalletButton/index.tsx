@@ -1,7 +1,8 @@
-import { AddIcon, Button, useWalletModal } from 'alium-uikit/src'
+import { Button, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
+import { ReactComponent as AddIcon } from './assets/Plus.svg'
 
 const StyledButtonUnlockWallet = styled.div`
   button {
@@ -10,25 +11,13 @@ const StyledButtonUnlockWallet = styled.div`
   }
 
   .icon {
-    border: 1.5px solid rgb(255, 255, 255);
-    padding: 0 0 0.5px 0.5px;
-    display: flex;
-    border-radius: 6px;
-    margin-right: 14px;
+    margin-right: 18px;
   }
 
   @media screen and (min-width: 768px) {
     button {
       width: 150px;
       padding: 0 13px;
-    }
-
-    .icon {
-      border: 1.5px solid rgb(255, 255, 255);
-      padding: 0 0 0.5px 0.5px;
-      display: flex;
-      border-radius: 6px;
-      margin-right: 14px;
     }
   }
 `
