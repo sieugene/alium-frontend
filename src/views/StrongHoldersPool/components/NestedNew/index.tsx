@@ -10,7 +10,6 @@ export default function NestedNew() {
     <NestedNew.Root>
       <NestedNew.Pools>
         <JoinPoolCard />
-        <JoinPoolCard />
       </NestedNew.Pools>
       <NestedNew.Stats>
         <OpenedPoolsCard />
