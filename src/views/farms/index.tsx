@@ -14,6 +14,7 @@ import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
 import { FarmPaginate } from './components/FarmPaginate'
+import FarmLoader from './components/Loaders/FarmLoader'
 import TicketBanner from './components/TicketBanner'
 import FarmContainer from './FarmContainer'
 import { FarmTab, FarmWithStakedValue } from './farms.types'
@@ -50,8 +51,9 @@ const Farms = () => {
   const isArchived = pathname.includes('archived')
   const isInactive = activeTab === FarmTab.finished
   const isActive = !isInactive && !isArchived
-
+  // Loaders
   const { farmsUserDataLoading: userDataLoaded } = usePollFarmsWithUserData(isArchived)
+  const ticketLoader = useStoreFarms((state) => state.ticketLoader)
 
   // Users with no wallet connected should see 0 as Earned amount
   // Connected users should see loading indicator until first userData has loaded
@@ -150,9 +152,11 @@ const Farms = () => {
           <FarmFilters />
         </div>
         <FarmContent.Container>
-          <TicketBanner />
-          <FarmContent viewMode={viewMode} farms={items} almPrice={almPrice} />
-          <FarmPaginate {...paginate} viewMode={viewMode} count={items?.length} />
+          <FarmLoader loading={ticketLoader}>
+            <TicketBanner />
+            <FarmContent viewMode={viewMode} farms={items} almPrice={almPrice} />
+            <FarmPaginate {...paginate} viewMode={viewMode} count={items?.length} />
+          </FarmLoader>
         </FarmContent.Container>
       </AvailableAccount>
     </FarmContainer>
