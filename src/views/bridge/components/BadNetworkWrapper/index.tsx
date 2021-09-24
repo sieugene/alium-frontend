@@ -1,6 +1,6 @@
 import { Button } from 'alium-uikit/src'
 import { ShadowComponent } from 'components/Main/ShadowComponent'
-import { CloseItem } from 'components/Modal/BridgeModal'
+import { CloseItem } from 'components/Modal/transaction/TransactionModal'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'

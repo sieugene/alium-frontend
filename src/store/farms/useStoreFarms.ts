@@ -1,4 +1,5 @@
 import { farmsConfig } from 'config/constants/farms'
+import { ethers } from 'ethers'
 import { Farm } from 'state/types'
 import { FarmSortOption, FarmTab, ViewMode } from 'views/farms/farms.types'
 import create from 'zustand'
@@ -23,6 +24,10 @@ export interface StoreFarmsState {
   setStakedOnly: (stakedOnly: boolean) => void
   activeTab: FarmTab
   setActiveTab: (tab: FarmTab) => void
+  hasTicket: boolean
+  checkHasTicket: (contract: ethers.Contract, account: string) => Promise<boolean>
+  ticketLoader: boolean
+  toggleTicketLoader: (toggle: boolean) => void
 }
 
 const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
@@ -37,6 +42,8 @@ const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
 
 // store for usage outside of react
 export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
+  hasTicket: false,
+  ticketLoader: false,
   farmsLoading: false,
   viewMode: ViewMode.CARD,
   farmsUserDataLoading: false,
@@ -45,6 +52,22 @@ export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
   sortOption: FarmSortOption.Hot,
   stakedOnly: false,
   activeTab: FarmTab.live,
+  toggleTicketLoader: (ticketLoader) => {
+    set({ ticketLoader })
+  },
+  checkHasTicket: async (contract, account) => {
+    const toggleTicketLoader = get().toggleTicketLoader
+    try {
+      toggleTicketLoader(true)
+      const hasTicket: boolean = await contract.hasTicket(account)
+      set({ hasTicket })
+      return hasTicket
+    } catch (error) {
+      return false
+    } finally {
+      toggleTicketLoader(false)
+    }
+  },
   setActiveTab: (tab: FarmTab) => {
     set({ activeTab: tab })
   },

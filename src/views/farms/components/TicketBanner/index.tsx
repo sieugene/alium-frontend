@@ -1,4 +1,4 @@
-import { Button, WarningIcon } from 'alium-uikit/src'
+import { WarningIcon } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useActiveWeb3React } from 'hooks'
 import React from 'react'
@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { useFarmTicket } from 'views/farms/hooks/useFarmTicket'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { FarmContentXLGap } from '../FarmContent'
+import { BuyTicketBtn } from './BuyTicketBtn'
 
 const External_breakpoints = {
   XL: down(breakpoints.xl, FarmContentXLGap),
@@ -164,13 +165,6 @@ const TicketInfo = styled.div`
   }
 `
 
-const Buy = styled(Button)`
-  background: #1ea76d;
-  &:hover {
-    background: #3c9c73 !important;
-  }
-`
-
 const StyledConnectWallet = styled(ConnectWalletButton)`
   border: 1px solid white;
   max-width: 340px;
@@ -183,9 +177,9 @@ const TicketBanner = () => {
   // remove banner from DOM for grid layout
   const removeBanner = useMedia(External_breakpoints.SM)
   const imgSrc = isXl ? 'farm-ticket-banner-lg.png' : 'farm-ticket-banner.png'
-  const { buyTicket, hasTicket } = useFarmTicket()
+  const { hasTicket } = useFarmTicket()
   if (hasTicket) {
-    return
+    return <></>
   }
   return (
     <Wrapper>
@@ -203,13 +197,7 @@ const TicketBanner = () => {
           <p>The ticket price is:</p>
           <h2>1500 ALM</h2>
         </TicketInfo>
-        {!account ? (
-          <StyledConnectWallet title='Connect Wallet' />
-        ) : (
-          <Buy disabled={hasTicket} onClick={buyTicket}>
-            To buy a ticket
-          </Buy>
-        )}
+        {!account ? <StyledConnectWallet title='Connect Wallet' /> : <BuyTicketBtn />}
       </FlexEnd>
     </Wrapper>
   )

@@ -1,7 +1,8 @@
 import { FARM_BSC_ALM } from 'config/constants/farms'
 import { ethers } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { approveTokenToSpender } from 'utils/callHelpers'
 import { useFarmingTicketWindow, useTokenContract } from './../../../hooks/useContract'
 
@@ -11,14 +12,9 @@ export const useFarmTicket = () => {
   const approve = useApproveTicket(contract?.address)
 
   const buyTicket = async () => {
-    try {
-      await approve()
-      const buyRes = await contract.buyTicket()
-    } catch (error) {
-      console.error(error)
-    }
+    return await contract.buyTicket()
   }
-  return { hasTicket, buyTicket }
+  return { hasTicket, buyTicket, approve }
 }
 
 const useApproveTicket = (address: string) => {
@@ -31,32 +27,20 @@ const useApproveTicket = (address: string) => {
 }
 
 export const useHasTicket = () => {
-  const [hasTicket, setHasTicket] = useState<null | boolean>(null)
-  const [loading, setloading] = useState(false)
+  const loading = useStoreFarms((state) => state.ticketLoader)
+  const hasTicket = useStoreFarms((state) => state.hasTicket)
+  const checkHasTicket = useStoreFarms((state) => state.checkHasTicket)
   const { account } = useActiveWeb3React()
   const contract = useFarmingTicketWindow()
-
-  const onHasTicket = useCallback(async () => {
-    if (loading) {
-      return
-    }
-    setloading(true)
-    try {
-      const has = await contract.hasTicket(account)
-
-      setHasTicket(has)
-    } catch (error) {
-    } finally {
-      setloading(false)
-    }
-  }, [account, contract, loading])
-
   const allowFetch = useMemo(() => contract && account, [account, contract])
+  const onCheckHasTicket = async () => {
+    await checkHasTicket(contract, account)
+  }
 
   useEffect(() => {
     if (allowFetch) {
-      onHasTicket()
+      onCheckHasTicket()
     }
   }, [allowFetch])
-  return { hasTicket }
+  return { hasTicket, onCheckHasTicket, loading }
 }
