@@ -14,6 +14,9 @@ export const getCakeAddress = () => {
 export const getMasterChefAddress = () => {
   return getAddress(addresses.masterChef)
 }
+export const getFarmingTicketWindow = () => {
+  return getAddress(addresses.farmingTicketWindow)
+}
 export const getMulticallAddress = () => {
   return getAddress(addresses.mulltiCall)
 }

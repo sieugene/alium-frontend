@@ -1,5 +1,5 @@
 import { Skeleton } from 'alium-uikit/src'
-import BridgeModal, { CloseItem } from 'components/Modal/BridgeModal'
+import TransactionModal, { CloseItem } from 'components/Modal/transaction/TransactionModal'
 import { MAINNET_BDRIGE_OWNER, TESTNET_BDRIGE_OWNER } from 'constants/bridge/bridge.constants'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import React, { FC } from 'react'
@@ -196,7 +196,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
     },
   ]
   return (
-    <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
+    <TransactionModal isOpen={modalOpen} onDismiss={onDismiss}>
       <Wrapper>
         <Header>
           <CloseItem onClick={onDismiss} />
@@ -214,7 +214,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
           ))}
         </Table>
       </Wrapper>
-    </BridgeModal>
+    </TransactionModal>
   )
 }
 

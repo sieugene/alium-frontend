@@ -1,4 +1,5 @@
 import { Token } from '@alium-official/sdk'
+import TransferLoader from 'components/Modal/transaction/TransferLoader'
 import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import { FC } from 'react'
 import { ChevronRight } from 'react-feather'
@@ -43,16 +44,14 @@ interface Props {
   token: Token
   amount: string
 }
-const TransferLoader: FC<Props> = ({ token, amount }) => {
+const BridgeTransferLoader: FC<Props> = ({ token, amount }) => {
   const loadingText = useStoreBridge((state) => state.transactionText)
   const txHash = useStoreBridge((state) => state.txHash)
   const { providerChainId } = useWeb3Context()
 
   const link = getExplorerLink(providerChainId, txHash, 'transaction')
   return (
-    <>
-      <StyledLoader type='TailSpin' color='#6C5DD3' />
-
+    <TransferLoader>
       <h2>
         Transfer {amount} {token?.symbol} pending...
       </h2>
@@ -64,8 +63,8 @@ const TransferLoader: FC<Props> = ({ token, amount }) => {
           </a>
         </View>
       )}
-    </>
+    </TransferLoader>
   )
 }
 
-export default TransferLoader
+export default BridgeTransferLoader

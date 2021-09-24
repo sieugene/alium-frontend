@@ -14,6 +14,7 @@ import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
 import { FarmPaginate } from './components/FarmPaginate'
+import TicketBanner from './components/TicketBanner'
 import FarmContainer from './FarmContainer'
 import { FarmTab, FarmWithStakedValue } from './farms.types'
 import { useFarms, usePollFarmsWithUserData, usePriceAlmBusd } from './hooks/useFarmingPools'
@@ -149,6 +150,7 @@ const Farms = () => {
           <FarmFilters />
         </div>
         <FarmContent.Container>
+          <TicketBanner />
           <FarmContent viewMode={viewMode} farms={items} almPrice={almPrice} />
           <FarmPaginate {...paginate} viewMode={viewMode} count={items?.length} />
         </FarmContent.Container>

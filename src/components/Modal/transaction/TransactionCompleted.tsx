@@ -1,50 +1,15 @@
 import { Token } from '@alium-official/sdk'
-import AddTokenBtn from 'components/Buttons/AddTokenBtn'
-import { CloseItem } from 'components/Modal/BridgeModal'
-import { FC } from 'hoist-non-react-statics/node_modules/@types/react'
 import { BridgeSuccessIcon } from 'images/bridge/BridgeSuccessIcon'
-import React from 'react'
+import React, { FC } from 'react'
 import { ChevronRight } from 'react-feather'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink, getExplorerName } from 'utils'
+import { CloseItem, TransactionWrapper } from './TransactionModal'
 
-const Wrapper = styled.div`
-  width: 500px;
-  min-height: 363px;
-  padding: 8px;
-
-  @media screen and (max-width: 768px) {
-    max-width: 354px;
-  }
-`
 const Header = styled.div`
   display: flex;
   justify-content: flex-end;
-`
-const Content = styled.div`
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-  text-align: center;
-  letter-spacing: 0.3px;
-  color: #0b1359;
-  .title {
-    margin-top: 24px;
-  }
-  b {
-    color: #1ea86d;
-  }
-  .amount {
-    margin-top: 4px;
-  }
 `
 export const ViewOnWrapper = styled.div`
   cursor: pointer;
@@ -72,28 +37,74 @@ export const ViewOnWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+interface MainProps {
+  children?: React.ReactNode
+  cancel?: () => void
+  withoutHeader?: boolean
+  withoutWrapper?: boolean
+}
+const TransactionCompleted: FC<MainProps> = ({ cancel, children, withoutHeader, withoutWrapper }) => {
+  const Wrapper = withoutWrapper ? React.Fragment : TransactionWrapper
+  return (
+    <Wrapper>
+      {!withoutHeader && (
+        <Header>
+          <CloseItem onClick={cancel} />
+        </Header>
+      )}
+      <ContentWrapper>
+        <BridgeSuccessIcon />
+      </ContentWrapper>
+      {children && children}
+    </Wrapper>
+  )
+}
+
+const Content = styled(ContentWrapper)`
+  margin-top: 16px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: #0b1359;
+  .title {
+    margin-top: 24px;
+  }
+
+  .amount {
+    margin-top: 4px;
+  }
+  b {
+    color: #1ea86d;
+  }
+`
+
 interface Props {
   cancel: () => void
   amount?: string | number
   token: Token
   txHash: string
 }
-const TransactionCompleted: FC<Props> = ({ cancel, amount, token, txHash }) => {
+
+export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, token, txHash }) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const link = getExplorerLink(currentChainId, txHash, 'transaction')
-  const onDismiss = () => {
-    cancel()
-  }
-
   return (
-    <Wrapper>
-      <Header>
-        <CloseItem onClick={onDismiss} />
-      </Header>
+    <TransactionCompleted cancel={cancel}>
       <Content>
-        <BridgeSuccessIcon />
         <h2 className='title'>Transaction completed</h2>
-        <p className='amount'>
+        <p>
           Amount:{' '}
           <b>
             {amount || ''} {token?.symbol}
@@ -107,9 +118,8 @@ const TransactionCompleted: FC<Props> = ({ cancel, amount, token, txHash }) => {
             </a>
           </ViewOnWrapper>
         )}
-        <AddTokenBtn token={token} />
       </Content>
-    </Wrapper>
+    </TransactionCompleted>
   )
 }
 

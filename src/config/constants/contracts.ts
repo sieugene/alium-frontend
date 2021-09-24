@@ -1,4 +1,5 @@
-export const MASTER_CHEF_FARMING_ADDRESS = '0xA79cd28b81f09564Ce27Ff97C7fE983600022096'
+export const MASTER_CHEF_FARMING_ADDRESS = '0x9d419eBd2dA3fae11d4709b12154262cDfE4BF7D'
+export const FARMING_TICKET_WINDOW_ADDRESS = '0x2ecD95E4554E55d65CFaA62F3Ff0e9Eb5724b045'
 
 export default {
   cake: {
@@ -11,6 +12,10 @@ export default {
   },
   masterChef: {
     97: MASTER_CHEF_FARMING_ADDRESS,
+    56: '',
+  },
+  farmingTicketWindow: {
+    97: FARMING_TICKET_WINDOW_ADDRESS,
     56: '',
   },
   sousChef: {

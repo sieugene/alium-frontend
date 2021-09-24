@@ -1,3 +1,5 @@
+import { TransactionIndicateWrapper } from 'components/Modal/transaction/TransactionModal'
+import TransferError from 'components/Modal/transaction/TransferError'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
 import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
@@ -9,16 +11,9 @@ import styled from 'styled-components'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import { useBridgeTransfer } from 'views/bridge/hooks/useBridgeTransfer'
-import TransferError from '../Errors/TransferError'
-import TransferLoader from '../Loaders/TransferLoader'
+import TransferLoader from '../Loaders/BridgeTransferLoader'
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  flex-direction: column;
-  margin-top: 40px;
   h2 {
     font-family: Roboto;
     font-style: normal;
@@ -176,10 +171,12 @@ const StyledConfirm = styled.div`
 `
 const ConfirmMessage = () => {
   return (
-    <StyledConfirm>
-      <BridgeConfirmIcon />
-      <p>Confirm the transaction in your wallet</p>
-    </StyledConfirm>
+    <TransactionIndicateWrapper>
+      <StyledConfirm>
+        <BridgeConfirmIcon />
+        <p>Confirm the transaction in your wallet</p>
+      </StyledConfirm>
+    </TransactionIndicateWrapper>
   )
 }
 

@@ -13,7 +13,6 @@ const StyledButtonUnlockWallet = styled.div`
     > button {
       width: 100%;
     }
-    
   }
   .icon {
     border: 1.5px solid rgb(255, 255, 255);
@@ -42,9 +41,10 @@ const StyledButtonUnlockWallet = styled.div`
 interface props extends ButtonProps {
   alt?: boolean
   fullwidth?: boolean
+  title?: string
 }
 
-const UnlockButton: FC<props> = (props) => {
+const UnlockButton: FC<props> = ({ title, ...props }) => {
   const { t } = useTranslation()
   const { login, logout } = useAuth()
   const { onPresentConnectModal } = useWalletModal(login, logout)
@@ -60,7 +60,7 @@ const UnlockButton: FC<props> = (props) => {
             Connect
           </div>
         ) : (
-          <div>{t('unlockWallet')}</div>
+          <div>{title ? title : t('unlockWallet')}</div>
         )}
       </Button>
     </StyledButtonUnlockWallet>

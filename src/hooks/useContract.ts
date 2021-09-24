@@ -1,6 +1,7 @@
 import { ChainId, WETH } from '@alium-official/sdk'
 import { Contract } from '@ethersproject/contracts'
 import AbiAliumFactory from 'config/abi/AbiAliumFactory.json'
+import farmingTicketWindow from 'config/abi/FarmingTicketWindow.json'
 import masterChef from 'config/abi/masterchef.json'
 import shp from 'config/abi/shp.json'
 import MULTICALL_ABI from 'config/abis/MULTICALL_ABI.json'
@@ -27,7 +28,7 @@ import {
 } from 'utils/contractHelpers'
 import { ENS_ABI, ENS_PUBLIC_RESOLVER_ABI, ERC20_BYTES32_ABI, IPAIR_ABI, WETH_ABI } from '../config/abis'
 import UNISOCKS_ABI from '../constants/abis/unisocks.json'
-import { getMasterChefAddress } from './../utils/addressHelpers'
+import { getFarmingTicketWindow, getMasterChefAddress } from './../utils/addressHelpers'
 import { useActiveWeb3React } from './index'
 import useWeb3 from './useWeb3'
 
@@ -157,6 +158,10 @@ export const useLotteryTicket = () => {
 
 export const useMasterchef = () => {
   const contract = useContract(getMasterChefAddress(), masterChef)
+  return useMemo(() => contract, [contract])
+}
+export const useFarmingTicketWindow = () => {
+  const contract = useContract(getFarmingTicketWindow(), farmingTicketWindow)
   return useMemo(() => contract, [contract])
 }
 

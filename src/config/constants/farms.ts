@@ -3,7 +3,7 @@ import { newTokenChecksummed } from 'utils/newTokenChecksummed'
 import { TEST_BSC_ETH_Migration, TEST_BSC_USDT_Migration, TEST_BSC_WBNB } from './../../constants/index'
 import { FarmConfig } from './types'
 
-const FARM_BSC_ALM = newTokenChecksummed(
+export const FARM_BSC_ALM = newTokenChecksummed(
   ChainId.BSCTESTNET,
   '0xfECb47AFD19d96F6bDa5d5883FcA7230beb6fD70',
   18,
