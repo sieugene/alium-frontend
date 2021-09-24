@@ -1,16 +1,55 @@
-import { Button } from 'alium-uikit/src'
+import { Percent } from '@alium-official/sdk'
+import { Button, Skeleton } from 'alium-uikit/src'
+import BigNumber from 'bignumber.js'
+import useToast from 'hooks/useToast'
+import { useMemo } from 'react'
 import { useToggle } from 'react-use'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { ethersToBigNumber } from 'utils/bigNumber'
+import { getBalanceAmount } from 'utils/formatBalance'
+import {
+  Pool,
+  useCountReward,
+  useCountRewardPercent,
+  useLeavePool,
+  useMaxPoolLength,
+  usePoolAccountUser,
+  usePoolById,
+  usePoolLocked,
+  usePoolUsers,
+  usePoolWithdrawals,
+  useRewardTokenInfo,
+  Withdrawn,
+} from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import Card from '../Card'
 import DetailsButton from '../DetailsButton'
 import FormattedValue from '../FormattedValue'
 import NftItemCounter from '../NftItemCounter'
 import NftItemReward from '../NftItemReward'
+import PoolDetailsInfo from '../PoolDetailsInfo'
 import Title from '../Title'
 
-export default function YourPoolCard() {
+export interface YourPoolCardProps {
+  poolId: Pool['id']
+}
+
+export default function YourPoolCard({ poolId }: YourPoolCardProps) {
+  const { toastError } = useToast()
   const [isDetails, toggleDetails] = useToggle(false)
+  const { data: pool, mutate: mutatePool } = usePoolById(poolId)
+  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const { data: poolUsers, mutate: mutatePoolUsers } = usePoolUsers(poolId)
+  const { data: poolLocked } = usePoolLocked(poolId)
+  const { data: maxPoolLength } = useMaxPoolLength()
+  const { leavePool, loading: leavePoolLoading } = useLeavePool(poolId)
+  const { isLoss } = useCountRewardPercent(poolId)
+  const accountUser = usePoolAccountUser(poolId)
+  const usersCount = useMemo(
+    () => pool && poolUsers && new BigNumber(poolUsers.length).minus(ethersToBigNumber(pool.leftTracker)),
+    [pool, poolUsers],
+  )
+  const isFullPool = maxPoolLength?.eq(poolUsers?.length || 0)
   return (
     <YourPoolCard.Root>
       <YourPoolCard.Summary>
@@ -18,10 +57,17 @@ export default function YourPoolCard() {
           <YourPoolCard.InfoFields>
             <YourPoolCard.Field>
               <Title>Your contribution</Title>
-              <YourPoolCard.Value value={100000} suffix=' ALM' />
+              {accountUser ? (
+                <YourPoolCard.Value
+                  value={getBalanceAmount(ethersToBigNumber(accountUser.balance))}
+                  suffix={' ' + rewardTokenSymbol}
+                />
+              ) : (
+                <Skeleton />
+              )}
             </YourPoolCard.Field>
             <YourPoolCard.Field>
-              <PickUpFunds />
+              <PickUpFunds poolId={poolId} />
             </YourPoolCard.Field>
             <YourPoolCard.Field>
               <Title>Bonus NFT</Title>
@@ -29,24 +75,46 @@ export default function YourPoolCard() {
             </YourPoolCard.Field>
           </YourPoolCard.InfoFields>
           <YourPoolCard.InfoActions>
-            <Button>Leave the pool</Button>
+            <Button
+              disabled={!isFullPool || !leavePool || accountUser?.paid || leavePoolLoading}
+              onClick={async () => {
+                if (!window.confirm('Are you sure you want to leave the pool?')) return
+                try {
+                  await leavePool()
+                  await mutatePool()
+                  await mutatePoolUsers()
+                } catch (error) {
+                  console.error(error)
+                  toastError(error.data?.message || error.message)
+                }
+              }}
+            >
+              Leave the pool
+            </Button>
             <DetailsButton isOpen={isDetails} onClick={toggleDetails} />
           </YourPoolCard.InfoActions>
         </YourPoolCard.Info>
         <YourPoolCard.PoolCounters>
           <YourPoolCard.Field>
             <Title>Users In the pool</Title>
-            <YourPoolCard.UsersCounter value={24} />
+            {usersCount ? <YourPoolCard.UsersCounter isLoss={isLoss} value={usersCount} /> : <Skeleton />}
           </YourPoolCard.Field>
           <YourPoolCard.Field>
             <Title>Pool Amount</Title>
-            <YourPoolCard.Value value={100886.0027} suffix=' ALM' />
+            {poolLocked ? (
+              <YourPoolCard.Value
+                value={getBalanceAmount(ethersToBigNumber(poolLocked))}
+                suffix={' ' + rewardTokenSymbol}
+              />
+            ) : (
+              <Skeleton />
+            )}
           </YourPoolCard.Field>
         </YourPoolCard.PoolCounters>
       </YourPoolCard.Summary>
       {isDetails && (
         <YourPoolCard.Details>
-          <Details />
+          <Details poolId={poolId} />
         </YourPoolCard.Details>
       )}
     </YourPoolCard.Root>
@@ -98,7 +166,7 @@ YourPoolCard.PoolCounters = styled.div`
   padding: 16px 24px 16px 16px;
 `
 
-YourPoolCard.UsersCounter = styled(YourPoolCard.Value)`
+YourPoolCard.UsersCounter = styled(YourPoolCard.Value)<{ isLoss?: boolean }>`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -106,6 +174,12 @@ YourPoolCard.UsersCounter = styled(YourPoolCard.Value)`
   line-height: 72px;
   letter-spacing: 0.3px;
   color: #1ea76d;
+
+  ${(props) =>
+    props.isLoss &&
+    css`
+      color: #ff4d00;
+    `}
 `
 
 YourPoolCard.Details = styled.div`
@@ -113,7 +187,7 @@ YourPoolCard.Details = styled.div`
 `
 
 YourPoolCard.Root = styled(Card)`
-  padding: 24px;
+  padding: 24px 24px 32px;
   position: relative;
 
   @media ${down(breakpoints.lg)} {
@@ -153,16 +227,38 @@ YourPoolCard.Root = styled(Card)`
   }
 `
 
-function PickUpFunds() {
+interface PickUpFundsProps {
+  poolId: Pool['id']
+}
+
+function PickUpFunds({ poolId }: PickUpFundsProps) {
+  const { data: countReward } = useCountReward(poolId)
+  const { countRewardPercent, isLoss } = useCountRewardPercent(poolId)
+  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const accountUser = usePoolAccountUser(poolId)
   return (
     <>
       <Title>Pick up funds</Title>
       <PickUpFunds.Value>
         <PickUpFunds.Counters>
-          <YourPoolCard.Value value={103400} suffix=' ALM' />
-          <PickUpFunds.Profit>+3.4%</PickUpFunds.Profit>
+          {countReward ? (
+            <YourPoolCard.Value
+              value={getBalanceAmount(ethersToBigNumber(countReward))}
+              suffix={' ' + rewardTokenSymbol}
+            />
+          ) : (
+            <Skeleton />
+          )}
+          {countRewardPercent ? (
+            <PickUpFunds.Profit style={{ visibility: accountUser?.paid ? 'hidden' : undefined }} isLoss={isLoss}>{`${
+              isLoss ? '' : '+'
+            } ${countRewardPercent.toFixed()}%`}</PickUpFunds.Profit>
+          ) : (
+            <Skeleton />
+          )}
         </PickUpFunds.Counters>
-        <NftItemReward />
+        {/* TODO: NFT */}
+        {/* <NftItemReward /> */}
       </PickUpFunds.Value>
     </>
   )
@@ -179,7 +275,7 @@ PickUpFunds.Value = styled.div`
   }
 `
 
-PickUpFunds.Profit = styled.div`
+PickUpFunds.Profit = styled.div<{ isLoss?: boolean }>`
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
@@ -188,25 +284,43 @@ PickUpFunds.Profit = styled.div`
   letter-spacing: 0.3px;
   color: #1ea76d;
   margin-top: 4px;
+
+  ${(props) =>
+    props.isLoss &&
+    css`
+      color: #ff4d00;
+    `}
 `
 
-function Details() {
+interface DetailsProps {
+  poolId: Pool['id']
+}
+
+function Details({ poolId }: DetailsProps) {
+  const { data: pool } = usePoolById(poolId)
+  const { data: poolLocked } = usePoolLocked(poolId)
+  const { data: withdrawals } = usePoolWithdrawals(poolId)
+  const { data: poolUsers } = usePoolUsers(poolId)
+  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const accountUser = usePoolAccountUser(poolId)
+  const poolShare = useMemo(
+    () => accountUser && poolLocked && new Percent(accountUser.balance.toString(), poolLocked.toString()),
+    [accountUser, poolLocked],
+  )
+  const withdrawalByAccount = useMemo(() => {
+    const ret: Record<Withdrawn['account'], Withdrawn> = {}
+    withdrawals?.forEach((withdrawal) => {
+      ret[withdrawal.account] = withdrawal
+    })
+    return ret
+  }, [withdrawals])
   return (
     <Details.Root>
-      <Details.Fields>
-        <Details.Field>
-          <span>Pool share</span>
-          <span>0,34%</span>
-        </Details.Field>
-        <Details.Field>
-          <span>Participant number</span>
-          <span>26</span>
-        </Details.Field>
-        <Details.Field>
-          <span>Pool creation date</span>
-          <span>18/08/2021, 18:34:40</span>
-        </Details.Field>
-      </Details.Fields>
+      <PoolDetailsInfo
+        leftId={accountUser?.leftId && ethersToBigNumber(accountUser.leftId)}
+        poolShare={poolShare}
+        createdAt={pool?.createdAt && ethersToBigNumber(pool.createdAt)}
+      />
       <Details.HistoryTitle>History</Details.HistoryTitle>
       <Details.HistoryTable>
         <thead>
@@ -217,21 +331,32 @@ function Details() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
+          {poolUsers?.map((user) => {
+            const wallet = `${user.account.substring(0, 9)}...${user.account.substring(user.account.length - 5)}`
+            const withdrawal = withdrawalByAccount?.[user.account]
+            const added = `${getBalanceAmount(ethersToBigNumber(user.balance))
+              .decimalPlaces(4, BigNumber.ROUND_FLOOR)
+              .toFormat()} ${rewardTokenSymbol}`
+            return (
+              <tr key={user.account}>
+                <td>{wallet}</td>
+                <td>{added}</td>
+                {user.paid ? (
+                  <td>
+                    {withdrawal ? (
+                      `${getBalanceAmount(ethersToBigNumber(withdrawal.amount))
+                        .decimalPlaces(4, BigNumber.ROUND_FLOOR)
+                        .toFormat()} ${rewardTokenSymbol}`
+                    ) : (
+                      <Skeleton animation='waves' />
+                    )}
+                  </td>
+                ) : (
+                  <td>-</td>
+                )}
+              </tr>
+            )
+          })}
         </tbody>
       </Details.HistoryTable>
     </Details.Root>
@@ -239,42 +364,6 @@ function Details() {
 }
 
 Details.Root = styled.div``
-
-Details.Fields = styled.div``
-
-Details.Field = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 8px;
-  border-radius: 6px;
-
-  &:nth-child(even) {
-    background: #f4f5fa;
-  }
-
-  & > span {
-    &:nth-child(1) {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.3px;
-      color: #8990a5;
-    }
-
-    &:nth-child(2) {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.3px;
-      color: #0b1359;
-    }
-  }
-`
 
 Details.HistoryTitle = styled.div`
   font-family: Roboto;
@@ -323,6 +412,7 @@ Details.HistoryTable = styled.table`
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #8990a5;
+    vertical-align: middle;
 
     &:first-child {
       border-top-left-radius: 6px;

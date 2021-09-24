@@ -1,3 +1,4 @@
+import { MENU_HEIGHT } from 'alium-uikit/src/widgets/Menu/config'
 import { useRouter } from 'next/router'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
@@ -19,8 +20,10 @@ export default function StrongHoldersPool() {
 
 StrongHoldersPool.Root = styled.div`
   margin: 0 auto;
-  padding: 16px 30px;
-  max-width: 1122px;
+  padding: 16px 33px 16px 29px;
+  max-width: 1184px;
+  min-height: calc(100vh - ${MENU_HEIGHT}px);
+  position: relative;
 
   @media ${down(breakpoints.lg)} {
     padding: 16px 24px;

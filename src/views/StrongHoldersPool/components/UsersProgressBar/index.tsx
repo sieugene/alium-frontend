@@ -14,10 +14,12 @@ function getPoint(center: number, radius: number, degrees: number) {
   }
 }
 
-export default function UsersProgressBar() {
-  const current = 24
-  const all = 100
+export interface UsersProgressBarProps {
+  current: number
+  all: number
+}
 
+export default function UsersProgressBar({ current, all }: UsersProgressBarProps) {
   const padding = 10
   const radius = 250 / 2 - padding
   const center = radius

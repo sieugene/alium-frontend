@@ -1,34 +1,59 @@
-import { Button, ChevronRightIcon } from 'alium-uikit/src'
+import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
 import { StyledInternalLink } from 'components/Shared'
 import styled from 'styled-components'
+import { ethersToBigNumber } from 'utils/bigNumber'
+import { getBalanceAmount } from 'utils/formatBalance'
+import {
+  useCurrentPoolId,
+  useMaxPoolLength,
+  usePoolLocked,
+  usePoolUsers,
+  useRewardTokenInfo,
+} from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import Card from '../Card'
 import FormattedValue from '../FormattedValue'
+import JoinPoolModal from '../JoinPoolModal'
 import NftItemCounter from '../NftItemCounter'
 import Title from '../Title'
 import UsersProgressBar from '../UsersProgressBar'
 
 export default function JoinPoolCard() {
+  const { data: currentPoolId } = useCurrentPoolId()
+  const { data: poolUsers } = usePoolUsers(currentPoolId)
+  const { data: poolLocked } = usePoolLocked(currentPoolId)
+  const { data: maxPoolLength } = useMaxPoolLength()
+  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const [openModal] = useModal(<JoinPoolModal />, false)
   return (
     <JoinPoolCard.Root>
       <JoinPoolCard.Content>
         <JoinPoolCard.Info>
           <JoinPoolCard.Field>
             <Title>Pool Amount</Title>
-            <FormattedValue value={10345.1334} suffix=' ALM' />
+            {poolLocked ? (
+              <FormattedValue
+                value={getBalanceAmount(ethersToBigNumber(poolLocked))}
+                suffix={' ' + rewardTokenSymbol}
+              />
+            ) : (
+              <Skeleton />
+            )}
           </JoinPoolCard.Field>
-          <JoinPoolCard.Join>Join the pool</JoinPoolCard.Join>
+          <JoinPoolCard.Join onClick={openModal}>Join the pool</JoinPoolCard.Join>
           <JoinPoolCard.Field>
             <Title>Bonus NFT</Title>
             <NftItemCounter />
           </JoinPoolCard.Field>
         </JoinPoolCard.Info>
-        <JoinPoolCard.Progress>
-          <UsersProgressBar />
-        </JoinPoolCard.Progress>
+        {poolUsers && maxPoolLength && (
+          <JoinPoolCard.Progress>
+            <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />
+          </JoinPoolCard.Progress>
+        )}
       </JoinPoolCard.Content>
       <JoinPoolCard.Footer>
-        Increase your ALM Tokens by joining the Strong Holders Pool.{' '}
+        <span>Increase your ALM Tokens by joining the Strong Holders Pool. </span>
         <StyledInternalLink href='#more'>
           More details
           <ChevronRightIcon color='currentColor' />
@@ -39,9 +64,12 @@ export default function JoinPoolCard() {
 }
 
 JoinPoolCard.Content = styled.div`
-  padding: 32px 32px 16px 24px;
+  padding: 32px 32px 24px 24px;
   display: flex;
   justify-content: space-between;
+  & > * {
+    flex-shrink: 0;
+  }
 `
 
 JoinPoolCard.Info = styled.div`
@@ -70,10 +98,8 @@ JoinPoolCard.Footer = styled.div`
   line-height: 20px;
   letter-spacing: 0.3px;
   color: #8990a5;
-  padding: 16px 24px;
+  padding: 15px 24px;
   border-top: 1px solid #f4f5fa;
-  display: flex;
-  align-items: center;
 
   svg {
     vertical-align: middle;
@@ -99,6 +125,7 @@ JoinPoolCard.Root = styled(Card)`
     }
 
     ${JoinPoolCard.Footer} {
+      display: flex;
       text-align: center;
       flex-direction: column;
     }

@@ -1,8 +1,9 @@
+import BigNumber from 'bignumber.js'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 export interface FormattedValueProps {
-  value: number
+  value: BigNumber
   suffix?: ReactNode
   className?: string
 }
@@ -10,7 +11,7 @@ export interface FormattedValueProps {
 export default function FormattedValue({ value, suffix, className }: FormattedValueProps) {
   return (
     <FormattedValue.Root className={className}>
-      {value}
+      {value.decimalPlaces(4, BigNumber.ROUND_FLOOR).toFormat()}
       {suffix && <FormattedValue.Suffix>{suffix}</FormattedValue.Suffix>}
     </FormattedValue.Root>
   )
