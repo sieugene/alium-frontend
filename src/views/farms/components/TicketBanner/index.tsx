@@ -166,9 +166,12 @@ const TicketInfo = styled.div`
 `
 
 const StyledConnectWallet = styled(ConnectWalletButton)`
-  border: 1px solid white;
   max-width: 340px;
   width: 100% !important;
+  background: #1ea76d;
+  &:hover {
+    background: #3c9c73 !important;
+  }
 `
 
 const TicketBanner = () => {
