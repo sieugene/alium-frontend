@@ -1,8 +1,8 @@
 import { Skeleton } from 'alium-uikit/src'
 import { useBridgeContext } from 'contexts/BridgeContext'
-import { BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { ExchangeIcon } from 'images/Exchange-icon'
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { storeBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
@@ -87,12 +87,17 @@ const BridgeInput = () => {
     setAmount(balance)
   }
 
+  // validate receiver
+  const { receiver } = useBridgeContext()
+  const valid = React.useMemo(() => (receiver?.length ? utils.isAddress(receiver) : true), [receiver])
+
   const disableBtn =
     toAmount <= BigNumber.from(0) ||
     fromAmount <= BigNumber.from(0) ||
     Boolean(Number(input) <= 0) ||
     tokensDetailLoader ||
-    toAmountLoading
+    toAmountLoading ||
+    !valid
 
   const isRebaseToken = isRebasingToken(token)
   const disabledApprove = allowed || isRebaseToken || toAmountLoading
@@ -125,7 +130,7 @@ const BridgeInput = () => {
                 balance={balance}
                 approve={approve}
                 buttonDisabled={disabledApprove}
-                unlockLoading={unlockLoading}
+                unlockLoading={unlockLoading || !valid}
                 desktop
               />
             )}
@@ -142,7 +147,7 @@ const BridgeInput = () => {
                 balance={balance}
                 approve={approve}
                 buttonDisabled={disabledApprove}
-                unlockLoading={unlockLoading}
+                unlockLoading={unlockLoading || !valid}
                 mobile
               />
             )}
