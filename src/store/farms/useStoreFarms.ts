@@ -43,7 +43,7 @@ const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
 // store for usage outside of react
 export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
   hasTicket: false,
-  ticketLoader: false,
+  ticketLoader: true,
   farmsLoading: false,
   viewMode: ViewMode.CARD,
   farmsUserDataLoading: false,
@@ -57,6 +57,7 @@ export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
   },
   checkHasTicket: async (contract, account) => {
     const toggleTicketLoader = get().toggleTicketLoader
+
     try {
       toggleTicketLoader(true)
       const hasTicket: boolean = await contract.hasTicket(account)
