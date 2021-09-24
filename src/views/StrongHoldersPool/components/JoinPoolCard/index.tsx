@@ -1,5 +1,4 @@
-import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
-import { StyledInternalLink } from 'components/Shared'
+import { Button, Skeleton, useModal } from 'alium-uikit/src'
 import styled from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
@@ -54,10 +53,10 @@ export default function JoinPoolCard() {
       </JoinPoolCard.Content>
       <JoinPoolCard.Footer>
         <span>Increase your ALM Tokens by joining the Strong Holders Pool. </span>
-        <StyledInternalLink href='#more'>
+        {/* <StyledInternalLink href='#more'>
           More details
           <ChevronRightIcon color='currentColor' />
-        </StyledInternalLink>
+        </StyledInternalLink> */}
       </JoinPoolCard.Footer>
     </JoinPoolCard.Root>
   )
