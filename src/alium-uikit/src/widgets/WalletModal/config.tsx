@@ -55,7 +55,9 @@ export const wallets = (): WalletsConfig[] => [
   {
     title: 'Metamask',
     icon: Metamask,
-    connectorId: connector(),
+    connectorId: connector({
+      mobileConnector: ConnectorNames.Injected,
+    }),
   },
   {
     title: 'Trust Wallet',
@@ -177,12 +179,11 @@ export const getNetworks = () => {
 
 export const getBridgeNetworks = (): NetworksConfig[] => {
   const networks = getNetworks()
-  const available = networks.reduce((configs, network) => {
+  return networks.reduce((configs, network) => {
     const exist = bridgeNetworksChains.find((bridge) => bridge === network.chainId)
     if (exist) {
       configs.push(network)
     }
     return configs
   }, [])
-  return available
 }
