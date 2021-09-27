@@ -208,6 +208,12 @@ YourPoolCard.Root = styled(Card)`
       padding: 16px 16px 0;
     }
 
+    ${YourPoolCard.InfoFields} {
+      & > * + * {
+        margin-top: 16px;
+      }
+    }
+
     ${YourPoolCard.PoolCounters} {
       grid-template-columns: 1fr 1fr;
       padding: 16px;
@@ -269,7 +275,10 @@ function PickUpFunds({ poolId }: PickUpFundsProps) {
   )
 }
 
-PickUpFunds.Counters = styled.div``
+PickUpFunds.Counters = styled.div`
+  min-width: 140px;
+  max-width: 100%;
+`
 
 PickUpFunds.Value = styled.div`
   display: flex;
