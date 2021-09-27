@@ -1,6 +1,7 @@
 import { Button } from 'alium-uikit/src'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useHasTicket } from 'views/farms/hooks/useFarmTicket'
 import BuyTicketModal from './modals/BuyTicketModal'
 
 export const BuyButton = styled(Button)`
@@ -12,11 +13,13 @@ export const BuyButton = styled(Button)`
 
 export const BuyTicketBtn = () => {
   const [modalOpen, setmodalOpen] = useState(false)
+  const { onCheckHasTicket } = useHasTicket()
   const show = () => {
     setmodalOpen(true)
   }
-  const onDismiss = () => {
+  const onDismiss = async () => {
     setmodalOpen(false)
+    await onCheckHasTicket()
   }
   return (
     <>

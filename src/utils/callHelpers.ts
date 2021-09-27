@@ -38,7 +38,7 @@ export const approveTokenToSpender = (
       const result = await transaction.wait()
       return result
     } catch (error) {
-      return false
+      throw new Error('transaction failed or denied')
     }
   }
   return approve

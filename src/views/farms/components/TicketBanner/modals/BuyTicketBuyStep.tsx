@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink, getExplorerName } from 'utils'
-import { useFarmTicket, useHasTicket } from 'views/farms/hooks/useFarmTicket'
+import { useFarmTicket } from 'views/farms/hooks/useFarmTicket'
 import { BuyButton } from '../BuyTicketBtn'
 import { TicketLoadingText } from './BuyTicketModal'
 
@@ -55,7 +55,6 @@ const BuyTicketBuyStep = () => {
   const [success, setsuccess] = useState(false)
   const [txHash, setTxHash] = useState('')
   const { buyTicket } = useFarmTicket()
-  const { onCheckHasTicket } = useHasTicket()
   const onRepeat = () => {
     setLoading(false)
     seterror(false)
@@ -65,15 +64,9 @@ const BuyTicketBuyStep = () => {
   const onBuyTicket = async () => {
     try {
       setLoading(true)
-      // const buyresult = await buyTicket()
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(new Error('test'))
-        }, 3000)
-      })
-      // maybe checkout after
-      await onCheckHasTicket()
-      // setTxHash !
+      const transaction = await buyTicket()
+      const buyResult = await transaction?.wait()
+      setTxHash(buyResult?.transactionHash)
       setsuccess(true)
     } catch (error) {
       seterror(true)

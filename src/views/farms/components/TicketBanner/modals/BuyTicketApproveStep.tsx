@@ -55,11 +55,6 @@ export const BuyTicketApproveStep: FC<Props> = ({ nextStep }) => {
     try {
       setLoading(true)
       await approve()
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(new Error('test'))
-        }, 3000)
-      })
       nextStep()
     } catch (error) {
       seterror(true)
@@ -75,7 +70,7 @@ export const BuyTicketApproveStep: FC<Props> = ({ nextStep }) => {
     )
   }
   if (error) {
-    return <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} withoutHeader withoutWrapper/>
+    return <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} withoutHeader withoutWrapper />
   }
   return (
     <WrapperApprove>

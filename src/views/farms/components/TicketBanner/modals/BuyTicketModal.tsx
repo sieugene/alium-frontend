@@ -2,7 +2,7 @@ import TransactionModal, { CloseItem } from 'components/Modal/transaction/Transa
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 import BuyTicketApproveStep from './BuyTicketApproveStep'
-import ButTicketBuyStep from './BuyTicketBuyStep'
+import BuyTicketBuyStep from './BuyTicketBuyStep'
 
 const Wrapper = styled.div`
   width: 354px;
@@ -46,7 +46,7 @@ const BuyTicketModal: FC<Props> = ({ modalOpen, onDismiss }) => {
             <CloseItem />
           </div>
         </Header>
-        <div>{buyStep ? <ButTicketBuyStep /> : <BuyTicketApproveStep nextStep={nextStep} />}</div>
+        <div>{buyStep ? <BuyTicketBuyStep /> : <BuyTicketApproveStep nextStep={nextStep} />}</div>
       </Wrapper>
     </TransactionModal>
   )
