@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import { farmBgForNthChild, farmCardsBg } from 'views/farms/helpers/farms.styles'
-import { breakpoints, up } from 'views/StrongHoldersPool/mq'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import FarmCard from '../FarmCard'
 import FarmRow from '../FarmRow'
 
@@ -72,26 +72,22 @@ FarmContent.Container = styled.div`
 export const FarmContentXLGap = 150
 FarmContent.Grid = styled.div`
   display: grid;
-  column-gap: 16px;
-  row-gap: 16px;
-  grid-template-columns: repeat(1, max-content);
+  gap: 34px 30px;
+  grid-template-columns: repeat(4, 378px);
   justify-content: center;
-  @media ${up(breakpoints.sm, 100)} {
-    grid-template-columns: repeat(2, max-content);
+
+  @media ${down(breakpoints.xl)} {
+    grid-template-columns: repeat(3, 354px);
   }
 
-  @media ${up(breakpoints.md)} {
-    grid-template-columns: repeat(2, max-content);
-    row-gap: 24px;
+  @media ${down(breakpoints.lg)} {
+    gap: 24px 16px;
+    grid-template-columns: repeat(2, 354px);
   }
 
-  @media ${up(breakpoints.lg)} {
-    grid-template-columns: repeat(3, max-content);
-    column-gap: 30px;
-    row-gap: 30px;
-  }
-  @media ${up(breakpoints.xl, FarmContentXLGap)} {
-    grid-template-columns: repeat(4, max-content);
+  @media ${down(breakpoints.sm)} {
+    gap: 16px;
+    grid-template-columns: repeat(1, 354px);
   }
 `
 
