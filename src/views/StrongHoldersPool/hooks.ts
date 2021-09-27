@@ -170,25 +170,23 @@ export function useJoinPool() {
   }
 }
 
-export function useYourPoolsIds() {
+export function useYourPools() {
   const contract = useShpContract()
-  const { account } = useWeb3React()
   const { data: currentPoolId } = useCurrentPoolId()
+  const { account } = useWeb3React()
+  const allPoolsIds = useMemo(() => currentPoolId && getAllPoolsIds(currentPoolId), [currentPoolId])
   return useSWR<ethers.BigNumber[]>(
-    contract && currentPoolId ? ['useYourPoolIds', account, currentPoolId] : null,
+    contract && allPoolsIds && account ? ['yourPools', account, allPoolsIds.length] : null,
     async () => {
       const ids: ethers.BigNumber[] = []
-      const poolsUsers = await Promise.all(
-        getAllPoolsIds(currentPoolId).map(async (poolId) => ({
-          users: (await contract.users(poolId)) as User[],
-          poolId,
-        })),
+      await Promise.all(
+        allPoolsIds.map(async (poolId) => {
+          const users: User[] = await contract.users(poolId)
+          if (users.find((user) => user.account === account)) {
+            ids.push(poolId)
+          }
+        }),
       )
-      poolsUsers.forEach((item) => {
-        if (item.users.find((user) => user.account === account)) {
-          ids.push(item.poolId)
-        }
-      })
       return ids
     },
     defaultSWROptions,

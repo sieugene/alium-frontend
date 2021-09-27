@@ -1,6 +1,7 @@
 import { ChainId } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
+import PaginateWithMore from 'components/PaginateWithMore'
 import { usePaginate } from 'components/Pagination/hooks/usePaginate'
 import { orderBy } from 'lodash'
 import { useRouter } from 'next/router'
@@ -13,7 +14,6 @@ import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount
 import FarmBanner from './components/FarmBanner'
 import FarmContent from './components/FarmContent'
 import FarmFilters from './components/FarmFilters'
-import { FarmPaginate } from './components/FarmPaginate'
 import FarmLoader from './components/Loaders/FarmLoader'
 import TicketBanner from './components/TicketBanner'
 import FarmContainer from './FarmContainer'
@@ -155,7 +155,7 @@ const Farms = () => {
           <FarmLoader loading={ticketLoader}>
             <TicketBanner />
             <FarmContent viewMode={viewMode} farms={items} almPrice={almPrice} />
-            <FarmPaginate {...paginate} viewMode={viewMode} count={items?.length} />
+            <PaginateWithMore {...paginate} />
           </FarmLoader>
         </FarmContent.Container>
       </AvailableAccount>
