@@ -34,7 +34,7 @@ export const Step1Connect: FC = () => {
       <div className='title'>Migrate Alium Liquidity</div>
       <div className='title2'>Connect to a wallet to view your liquidity</div>
       <div className='button-wrap'>
-        <UnlockButton alt={true} />
+        <UnlockButton alt />
       </div>
     </Root>
   )

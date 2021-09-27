@@ -8,15 +8,22 @@ const md = '768px'
 const lg = '1024px'
 const xl = '1280px'
 
-// MainSlider
-
-interface MainSliderProps {
+interface IMainSliderProps {
   className?: string
 }
 
-const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
+interface ISlide {
+  label: string
+  title: React.ReactNode
+  image: string
+  subTitle?: React.ReactNode
+}
+
+// MainSlider
+
+const MainSlider: React.FC<IMainSliderProps> = ({ className }) => {
   const isNotMobile = useMedia(`screen and (min-width: ${md})`)
-  const slides: Slides[] = [
+  const slides: ISlide[] = [
     {
       label: 'Coming soon',
       title: 'Earn ALM Farming and Strong Holders Pools. Up to 3000% APY',
@@ -169,18 +176,11 @@ const Indicator = styled.div<{ isSelected: boolean }>`
   }
 `
 
-interface Slides {
-  label: string
-  title: React.ReactNode
-  image: string
-  subTitle?: React.ReactNode
-}
-
 export default MainSlider
 
 // Slide
 
-const Slide = (props: Slides) => (
+const Slide = (props: ISlide) => (
   <SlideW bgImage={props.image}>
     <SlideInfoW>
       {props.label && <Label>{props.label}</Label>}
