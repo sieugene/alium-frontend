@@ -1,3 +1,4 @@
+import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { FARM_BSC_ALM } from 'config/constants/farms'
 import { ethers } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
@@ -11,7 +12,7 @@ export const useFarmTicket = () => {
   const { hasTicket } = useHasTicket()
   const approve = useApproveTicket(contract?.address)
 
-  const buyTicket = async () => {
+  const buyTicket = async (): Promise<TransactionResponse> => {
     return await contract.buyTicket()
   }
   return { hasTicket, buyTicket, approve }
