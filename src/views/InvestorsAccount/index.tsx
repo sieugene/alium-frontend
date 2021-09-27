@@ -1,7 +1,6 @@
-import { Button, Flex, Heading, Text } from 'alium-uikit/src'
+import { Flex, Heading, Text } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import Modal from 'components/Modal'
-import { NextLink } from 'components/NextLink'
 import { Dots } from 'components/swap/styleds'
 import { TransactionSubmittedContent, TransactionSucceedContent } from 'components/TransactionConfirmationModal'
 import { useActiveWeb3React } from 'hooks'
@@ -10,7 +9,6 @@ import useNftPoolHook from 'hooks/useNftPool'
 import { useTranslation } from 'next-i18next'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ROUTES } from 'routes'
 import { AppState } from 'state'
 import { removePopup } from 'state/application/actions'
 import { PopupList } from 'state/application/reducer'
@@ -288,7 +286,7 @@ const InvestorsAccount = () => {
             </Flex>
           </Modal>
           <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
-            <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
+            <TransactionSubmittedContent hash={txHash} onDismiss={handleTxClose} />
           </Modal>
 
           <Modal isOpen={isSucceedPopupVisible} onDismiss={handleSucceedModalClose} maxHeight={90} padding='24px'>
@@ -312,7 +310,7 @@ const InvestorsAccount = () => {
             ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
               <NoNFT>
                 <NoNFTText>You don&apos;t have NFT tokens.</NoNFTText>
-              {/* <NextLink.Multiple href={ROUTES.public} target='_blank' as='a'>
+                {/* <NextLink.Multiple href={ROUTES.public} target='_blank' as='a'>
                 <Button>Buy NFT</Button>
               </NextLink.Multiple> */}
               </NoNFT>

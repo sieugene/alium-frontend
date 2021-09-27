@@ -41,7 +41,10 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, padding, mobile, isO
   &[data-reach-dialog-overlay] {
     background-color: rgb(11, 19, 89, 0.9);
   }
-  ,
+  #transaction_wrapper {
+    width: 100%;
+    max-width: none;
+  }
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
     // border: 1px solid ${({ theme }) => theme.colors.invertedContrast};/

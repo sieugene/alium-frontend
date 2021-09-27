@@ -273,6 +273,21 @@ const Swap = () => {
     }
   }, [onUserInput, txHash, setSwapState])
 
+  const handleShow = () => {
+    setSwapState({
+      tradeToConfirm: trade,
+      attemptingTxn: false,
+      swapErrorMessage: undefined,
+      showConfirm: true,
+      txHash: undefined,
+    })
+  }
+
+  const handleOnRepeat = () => {
+    handleConfirmDismiss()
+    handleShow()
+  }
+
   const handleAcceptChanges = useCallback(() => {
     setSwapState((prevState) => ({ ...prevState, tradeToConfirm: trade }))
   }, [trade])
@@ -320,6 +335,7 @@ const Swap = () => {
             onConfirm={handleSwap}
             swapErrorMessage={swapErrorMessage}
             onDismiss={handleConfirmDismiss}
+            onRepeat={handleOnRepeat}
           />
           <PageHeader title={t('swap')} description={t('swapHeaderDescription')} />
           <StyledCardBody>
@@ -444,13 +460,7 @@ const Swap = () => {
                         if (isExpertMode) {
                           handleSwap()
                         } else {
-                          setSwapState({
-                            tradeToConfirm: trade,
-                            attemptingTxn: false,
-                            swapErrorMessage: undefined,
-                            showConfirm: true,
-                            txHash: undefined,
-                          })
+                          handleShow()
                         }
                       }}
                       style={{ width: '48%' }}
