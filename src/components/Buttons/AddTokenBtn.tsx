@@ -26,7 +26,7 @@ interface Props {
   token: Token
 }
 const AddTokenBtn: FC<Props> = ({ token }) => {
-  const tokenImage = getTokenLogoURL(token.address, token.symbol)
+  const tokenImage = getTokenLogoURL(token?.address, token?.symbol)
   const [added, setAdded] = React.useState(false)
   const onAdd = async () => {
     if (!added && token) {
@@ -39,6 +39,9 @@ const AddTokenBtn: FC<Props> = ({ token }) => {
     }
   }
 
+  if (!token?.address) {
+    return <></>
+  }
   return (
     <StyledBtn onClick={onAdd} variant='secondary' active={added}>
       {added ? <CheckMarkDoneIcon /> : <CoinLogoIcon />}

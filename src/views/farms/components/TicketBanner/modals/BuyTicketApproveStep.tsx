@@ -69,13 +69,13 @@ export const BuyTicketApproveStep: FC<Props> = ({ nextStep }) => {
   }
   if (loading) {
     return (
-      <TransferLoader>
+      <TransferLoader withoutWrapper withoutHeader>
         <TicketLoadingText>Confirmation process...</TicketLoadingText>
       </TransferLoader>
     )
   }
   if (error) {
-    return <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} />
+    return <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} withoutHeader withoutWrapper/>
   }
   return (
     <WrapperApprove>

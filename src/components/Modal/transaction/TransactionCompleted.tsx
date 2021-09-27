@@ -5,6 +5,7 @@ import { ChevronRight } from 'react-feather'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink, getExplorerName } from 'utils'
+import AddTokenBtn from '../../../components/Buttons/AddTokenBtn'
 import { CloseItem, TransactionWrapper } from './TransactionModal'
 
 const Header = styled.div`
@@ -53,8 +54,13 @@ interface MainProps {
 }
 const TransactionCompleted: FC<MainProps> = ({ cancel, children, withoutHeader, withoutWrapper }) => {
   const Wrapper = withoutWrapper ? React.Fragment : TransactionWrapper
+  const params = withoutWrapper
+    ? {}
+    : {
+        id: 'transaction_wrapper',
+      }
   return (
-    <Wrapper>
+    <Wrapper {...params}>
       {!withoutHeader && (
         <Header>
           <CloseItem onClick={cancel} />
@@ -93,7 +99,7 @@ const Content = styled(ContentWrapper)`
 interface Props {
   cancel: () => void
   amount?: string | number
-  token: Token
+  token?: Token
   txHash: string
 }
 
@@ -105,7 +111,7 @@ export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, toke
       <Content>
         <h2 className='title'>Transaction completed</h2>
         <p>
-          Amount:{' '}
+          {amount && 'Amount:'}
           <b>
             {amount || ''} {token?.symbol}
           </b>
@@ -118,6 +124,7 @@ export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, toke
             </a>
           </ViewOnWrapper>
         )}
+        <AddTokenBtn token={token} />
       </Content>
     </TransactionCompleted>
   )

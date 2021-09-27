@@ -1,33 +1,21 @@
-import { Button, Text } from 'alium-uikit/src'
-import { useContext } from 'react';
-import { AlertTriangle } from 'react-feather'
-import { ThemeContext } from 'styled-components'
-import { AutoColumn } from '../Column'
-import { BottomSection, ContentHeader, Section, Wrapper } from './helpers'
+import TransferError from 'components/Modal/transaction/TransferError'
+import { useContext } from 'react'
+import styled, { ThemeContext } from 'styled-components'
 
 interface TransactionErrorContentProps {
   message: string
   onDismiss: () => void
+  onRepeat: () => void
 }
 
-const TransactionErrorContent = ({ message, onDismiss }: TransactionErrorContentProps) => {
+const StyledTransferError = styled(TransferError)`
+  width: 100%;
+  min-height: 363px;
+`
+
+const TransactionErrorContent = ({ message, onDismiss, onRepeat }: TransactionErrorContentProps) => {
   const theme = useContext(ThemeContext)
-  return (
-    <Wrapper>
-      <Section>
-        <ContentHeader onDismiss={onDismiss}>Error</ContentHeader>
-        <AutoColumn style={{ marginTop: 20, padding: '2rem 0' }} gap='24px' justify='center'>
-          <AlertTriangle color={theme.colors.failure} style={{ strokeWidth: 1.5 }} size={64} />
-          <Text fontSize='16px' color='failure' style={{ textAlign: 'center', width: '85%' }}>
-            {message}
-          </Text>
-        </AutoColumn>
-      </Section>
-      <BottomSection gap='12px'>
-        <Button onClick={onDismiss}>Dismiss</Button>
-      </BottomSection>
-    </Wrapper>
-  )
+  return <StyledTransferError onRepeat={onRepeat} onClose={onDismiss} withoutWrapper />
 }
 
 export default TransactionErrorContent

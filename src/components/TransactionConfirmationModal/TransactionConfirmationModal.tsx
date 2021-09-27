@@ -1,3 +1,4 @@
+import { Token } from '@alium-official/sdk'
 import { SwapModal } from 'components/Modal/SwapModal'
 import { useActiveWeb3React } from 'hooks'
 import { ReactNode } from 'react'
@@ -11,6 +12,7 @@ interface ConfirmationModalProps {
   content: () => ReactNode
   attemptingTxn: boolean
   pendingText: string
+  token?: Token
 }
 
 const TransactionConfirmationModal = ({
@@ -20,6 +22,7 @@ const TransactionConfirmationModal = ({
   hash,
   pendingText,
   content,
+  token,
 }: ConfirmationModalProps) => {
   const { chainId } = useActiveWeb3React()
 
@@ -31,7 +34,7 @@ const TransactionConfirmationModal = ({
       {attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (
-        <TransactionSubmittedContent chainId={chainId} hash={hash} onDismiss={onDismiss} />
+        <TransactionSubmittedContent token={token} hash={hash} onDismiss={onDismiss} />
       ) : (
         content()
       )}

@@ -83,13 +83,13 @@ const BuyTicketBuyStep = () => {
   }
   if (loading) {
     return (
-      <TransferLoader>
+      <TransferLoader withoutWrapper withoutHeader>
         <TicketLoadingText>Purchase process…</TicketLoadingText>
       </TransferLoader>
     )
   }
   if (error) {
-    return <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} />
+    return <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} withoutWrapper withoutHeader />
   }
   if (success) {
     const link = getExplorerLink(currentChainId, txHash, 'transaction')
