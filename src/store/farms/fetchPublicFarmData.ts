@@ -98,7 +98,8 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     const allocPoint = info ? new BigNumber(info.allocPoint?._hex) : BIG_ZERO
     const poolWeight = totalAllocPoint ? allocPoint.div(new BigNumber(totalAllocPoint)).times(100) : BIG_ZERO
 
-    const depositFee = Number(info?.depositFee / 1000000) || 0
+    const depositFee = Number(info?.depositFee) === 0 ? 0 : 100000 / (info?.depositFee * 100) / 100
+    console.log(Number(info?.depositFee), 'depositFee')
 
     // apy fetch and calc
     const apy = await fetchApy(

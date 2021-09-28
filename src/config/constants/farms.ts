@@ -39,4 +39,4 @@ const mocked = farmsMasterChef.map((mock) => ({
   lpSymbol: 'MOCKED TEST' + mock.lpSymbol,
 }))
 
-export const farmsConfig = [...farmsMasterChef, ...mocked, ...mocked]
+export const farmsConfig = [...farmsMasterChef]
