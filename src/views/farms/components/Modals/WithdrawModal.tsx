@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import FarmActionModal, { FarmActionModalProps } from './FarmActionModal'
 
-const WithdrawModal: FC<Omit<FarmActionModalProps, 'title'>> = ({
+const WithdrawModal: FC<Omit<FarmActionModalProps, 'title' | 'type'>> = ({
   max,
   onConfirm,
   onDismiss,
