@@ -3,7 +3,8 @@ import { ethers } from 'ethers'
 import { Farm } from 'state/types'
 import { FarmSortOption, FarmTab, ViewMode } from 'views/farms/farms.types'
 import create from 'zustand'
-import createVanilla from 'zustand/vanilla'
+import { devtools, persist } from 'zustand/middleware'
+import createVanilla, { GetState, SetState } from 'zustand/vanilla'
 import { FarmWithUserData } from './../../state/types'
 
 export interface StoreFarmsState {
@@ -39,9 +40,8 @@ const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
     earnings: '0',
   },
 }))
-
-// store for usage outside of react
-export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
+// store like reducer
+const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>) => ({
   hasTicket: false,
   ticketLoader: true,
   farmsLoading: false,
@@ -107,7 +107,15 @@ export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
     })
     set({ farms: data })
   },
-}))
+})
+
+// store for usage outside of react
+export const storeFarms = createVanilla<StoreFarmsState>(
+  persist(devtools(store, 'farm-store'), {
+    name: 'farms-storage', // unique name
+    blacklist: ['farmsLoading', 'farmsUserDataLoading', 'farms', 'hasTicket', 'ticketLoader', 'query'],
+  }),
+)
 
 // store for usage inside of react
 export const useStoreFarms = create<StoreFarmsState>(storeFarms)
