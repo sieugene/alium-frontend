@@ -20,6 +20,7 @@ const DepositModal: FC<Omit<FarmActionModalProps, 'title'>> = ({
       farm={farm}
       almPrice={almPrice}
       title={title}
+      type='stake'
     />
   )
 }

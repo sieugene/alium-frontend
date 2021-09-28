@@ -20,6 +20,7 @@ const WithdrawModal: FC<Omit<FarmActionModalProps, 'title'>> = ({
       almPrice={almPrice}
       title={title}
       withoutRoi
+      type='unstake'
     />
   )
 }
