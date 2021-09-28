@@ -10,10 +10,10 @@ import {
   useRewardTokenInfo,
 } from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
+import BonusNft from '../BonusNft'
 import Card from '../Card'
 import FormattedValue from '../FormattedValue'
 import JoinPoolModal from '../JoinPoolModal'
-import NftItemCounter from '../NftItemCounter'
 import Title from '../Title'
 import UsersProgressBar from '../UsersProgressBar'
 
@@ -41,8 +41,7 @@ export default function JoinPoolCard() {
           </JoinPoolCard.Field>
           <JoinPoolCard.Join onClick={openModal}>Join the pool</JoinPoolCard.Join>
           <JoinPoolCard.Field>
-            <Title>Bonus NFT</Title>
-            <NftItemCounter />
+            <BonusNft />
           </JoinPoolCard.Field>
         </JoinPoolCard.Info>
         {poolUsers && maxPoolLength && <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />}
