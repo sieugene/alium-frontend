@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
   align-items: flex-start;
   overflow-x: hidden;
-  width: 100%;
+  max-width: 1664px;
+  margin: 0 auto;
 `
 
 const BodyWrapper = styled.div`
@@ -15,14 +17,14 @@ const BodyWrapper = styled.div`
   overflow-x: hidden;
   z-index: 1;
   min-height: 100vh;
-  padding: 10px;
+  padding: 32px 33px 32px 29px;
 
-  @media screen and (min-width: 768px) {
+  @media ${down(breakpoints.lg)} {
     padding: 24px;
   }
 
-  @media screen and (min-width: 1440px) {
-    padding: 32px;
+  @media ${down(breakpoints.sm)} {
+    padding: 16px 10px;
   }
 `
 

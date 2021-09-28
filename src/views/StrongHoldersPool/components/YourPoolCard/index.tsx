@@ -154,8 +154,13 @@ YourPoolCard.Summary = styled.div`
 
 YourPoolCard.Value = styled(FormattedValue)`
   font-weight: 500;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 24px;
+  line-height: 30px;
+
+  @media ${down(breakpoints.lg)} {
+    font-size: 18px;
+    line-height: 24px;
+  }
 `
 
 YourPoolCard.PoolCounters = styled.div`
@@ -201,6 +206,12 @@ YourPoolCard.Root = styled(Card)`
     ${YourPoolCard.Info},
     ${YourPoolCard.Details} {
       padding: 16px 16px 0;
+    }
+
+    ${YourPoolCard.InfoFields} {
+      & > * + * {
+        margin-top: 16px;
+      }
     }
 
     ${YourPoolCard.PoolCounters} {
@@ -264,7 +275,10 @@ function PickUpFunds({ poolId }: PickUpFundsProps) {
   )
 }
 
-PickUpFunds.Counters = styled.div``
+PickUpFunds.Counters = styled.div`
+  min-width: 140px;
+  max-width: 100%;
+`
 
 PickUpFunds.Value = styled.div`
   display: flex;
