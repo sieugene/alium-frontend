@@ -9,7 +9,7 @@ import {
   usePoolUsers,
   useRewardTokenInfo,
 } from 'views/StrongHoldersPool/hooks'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
 import Card from '../Card'
 import FormattedValue from '../FormattedValue'
 import JoinPoolModal from '../JoinPoolModal'
@@ -82,8 +82,10 @@ JoinPoolCard.Field = styled.div`
 `
 
 JoinPoolCard.Amount = styled(FormattedValue)`
-  font-size: 40px;
-  line-height: 48px;
+  @media ${up(breakpoints.sm)} {
+    font-size: 40px;
+    line-height: 48px;
+  }
 `
 
 JoinPoolCard.Join = styled(Button)`
