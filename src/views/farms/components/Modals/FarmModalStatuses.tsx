@@ -1,7 +1,7 @@
 import { ShadowComponent } from 'components/Main/ShadowComponent'
 import { BridgeSuccessIcon } from 'images/bridge/BridgeSuccessIcon'
 import { BridgeTransferErrorIcon } from 'images/bridge/BridgeTransferErrorIcon'
-import React, { FC } from 'react'
+import React from 'react'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import { FarmActionModalProps } from './FarmActionModal'
@@ -19,8 +19,8 @@ export const FarmModalStatuses = ({ loading, success, error, children, type }: A
 
   return (
     <FarmModalStatuses.Wrapper>
-      {loading && <ActionFarmLoader />}
-      {success && <ActionFarmSuccess type={type} />}
+      {loading && <FarmModalStatuses.ActionFarmLoader />}
+      {success && <FarmModalStatuses.ActionFarmSuccess type={type} />}
       {error && <FarmModalStatuses.ActionFarmError />}
       <ShadowComponent hide={hideOn} style={{ width: '100%' }}>
         {children}
@@ -29,7 +29,7 @@ export const FarmModalStatuses = ({ loading, success, error, children, type }: A
   )
 }
 
-const ActionFarmLoader = () => {
+FarmModalStatuses.ActionFarmLoader = () => {
   return (
     <FarmModalStatuses.Wrapper>
       <FarmModalStatuses.Loading type='TailSpin' color='#6C5DD3' />
@@ -38,7 +38,7 @@ const ActionFarmLoader = () => {
   )
 }
 
-const ActionFarmSuccess: FC<{ type: FarmActionModalProps['type'] }> = ({ type }) => {
+FarmModalStatuses.ActionFarmSuccess = ({ type }: { type: FarmActionModalProps['type'] }) => {
   const isStake = type === 'stake'
   const title = isStake ? 'Staked' : 'Unstaked'
   const text = `Your funds have been ${isStake ? 'staked' : 'unstaked'} in the farm`
