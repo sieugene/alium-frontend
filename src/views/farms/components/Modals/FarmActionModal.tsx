@@ -1,7 +1,7 @@
 import { Button, CalculateIcon, LinkIcon, Modal, useModal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
-import React, { FC, useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
 import { getFullDisplayBalance } from 'utils/formatBalance'
@@ -27,107 +27,10 @@ export interface FarmActionModalProps {
   apr?: number
   almPrice?: BigNumber
   withoutRoi?: boolean
+  type: 'stake' | 'unstake'
 }
 
-const ModalWrapper = styled(ModalFarmBaseWrap)`
-  /* min-height: 224px; */
-  padding: 24px;
-
-  .symbol-title {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    color: #6c5dd3;
-  }
-`
-
-const Roi = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 16px;
-  h3 {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 14px;
-    letter-spacing: 0.3px;
-    color: #8990a5;
-  }
-  .price {
-    display: flex;
-    align-items: center;
-    p {
-      display: block;
-      max-width: 120px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: normal;
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 11px;
-      line-height: 14px;
-      letter-spacing: 0.3px;
-      color: #0b1359;
-    }
-
-    svg {
-      margin-left: 10px;
-    }
-  }
-`
-
-const ModalActions = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-  button {
-    &:first-child {
-      margin-right: 16px;
-    }
-  }
-`
-
-const ModalFooter = styled.div`
-  padding: 24px 24px 0px 24px;
-  border-top: 1px solid #f4f5fa;
-  margin-top: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  .link {
-    display: flex;
-    cursor: pointer;
-    h3 {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.3px;
-      color: #6c5dd3;
-    }
-    svg {
-      margin-left: 8px;
-    }
-  }
-`
-
-const IconCalculateWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  cursor: pointer;
-`
-
-const FarmActionModal: FC<FarmActionModalProps> = ({
+const FarmActionModal = ({
   max,
   onConfirm,
   onDismiss,
@@ -136,7 +39,8 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
   almPrice,
   title,
   withoutRoi,
-}) => {
+  type
+}: FarmActionModalProps) => {
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -200,8 +104,8 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
 
   return (
     <Modal title={title} onDismiss={onDismiss} withoutContentWrapper>
-      <FarmModalStatuses loading={pendingTx} success={success} error={error}>
-        <ModalWrapper>
+      <FarmModalStatuses loading={pendingTx} success={success} error={error} type={type}>
+        <FarmActionModal.ModalWrapper>
           <CurrencyInputPanel
             label='Stake'
             value={val}
@@ -217,17 +121,17 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
             pair={pair}
           />
           {!withoutRoi && (
-            <Roi>
+            <FarmActionModal.Roi>
               <h3>Annual ROI at current rates:</h3>
               <div className='price'>
                 <p title={roiUsdFormatted}>${roiUsdFormatted}</p>
-                <IconCalculateWrap onClick={onShowRoi}>
+                <FarmActionModal.IconCalculateWrap onClick={onShowRoi}>
                   <CalculateIcon />
-                </IconCalculateWrap>
+                </FarmActionModal.IconCalculateWrap>
               </div>
-            </Roi>
+            </FarmActionModal.Roi>
           )}
-          <ModalActions>
+          <FarmActionModal.ModalActions>
             <Button fullwidth variant='secondary' onClick={onDismiss}>
               {TranslateString(462, 'Cancel')}
             </Button>
@@ -249,17 +153,115 @@ const FarmActionModal: FC<FarmActionModalProps> = ({
             >
               {pendingTx ? TranslateString(488, 'Pending Confirmation') : TranslateString(464, 'Confirm')}
             </Button>
-          </ModalActions>
-          <ModalFooter>
+          </FarmActionModal.ModalActions>
+          <FarmActionModal.ModalFooter>
             <a className='link' href={link} target='_blank'>
               <h3>Get {tokenName}</h3>
               <LinkIcon />
             </a>
-          </ModalFooter>
-        </ModalWrapper>
+          </FarmActionModal.ModalFooter>
+        </FarmActionModal.ModalWrapper>
       </FarmModalStatuses>
     </Modal>
   )
 }
+
+FarmActionModal.ModalWrapper = styled(ModalFarmBaseWrap)`
+  /* min-height: 224px; */
+  padding: 24px;
+
+  .symbol-title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    color: #6c5dd3;
+  }
+`
+
+FarmActionModal.Roi = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  h3 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.3px;
+    color: #8990a5;
+  }
+  .price {
+    display: flex;
+    align-items: center;
+    p {
+      display: block;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 14px;
+      letter-spacing: 0.3px;
+      color: #0b1359;
+    }
+
+    svg {
+      margin-left: 10px;
+    }
+  }
+`
+
+FarmActionModal.ModalActions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  button {
+    &:first-child {
+      margin-right: 16px;
+    }
+  }
+`
+
+FarmActionModal.ModalFooter = styled.div`
+  padding: 24px 24px 0px 24px;
+  border-top: 1px solid #f4f5fa;
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  .link {
+    display: flex;
+    cursor: pointer;
+    h3 {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.3px;
+      color: #6c5dd3;
+    }
+    svg {
+      margin-left: 8px;
+    }
+  }
+`
+
+FarmActionModal.IconCalculateWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+`
 
 export default FarmActionModal

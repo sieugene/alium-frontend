@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import FarmActionModal, { FarmActionModalProps } from './FarmActionModal'
 
-const DepositModal: FC<Omit<FarmActionModalProps, 'title'>> = ({
+const DepositModal: FC<Omit<FarmActionModalProps, 'title' | 'type'>> = ({
   max,
   onConfirm,
   onDismiss,
@@ -20,6 +20,7 @@ const DepositModal: FC<Omit<FarmActionModalProps, 'title'>> = ({
       farm={farm}
       almPrice={almPrice}
       title={title}
+      type='stake'
     />
   )
 }
