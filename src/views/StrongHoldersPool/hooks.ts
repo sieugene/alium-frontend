@@ -3,13 +3,14 @@ import { parseUnits } from '@ethersproject/units'
 import { useWeb3React } from '@web3-react/core'
 import * as ethers from 'ethers'
 import { useToken } from 'hooks/Tokens'
-import { useShpContract, useTokenContract } from 'hooks/useContract'
+import { useShpContract, useShpNftContract, useTokenContract } from 'hooks/useContract'
 import { useMemo, useState } from 'react'
 import useSWR, { SWRConfiguration } from 'swr'
 import { useCallWithGasPrice } from 'utils/useCallWithGasPrice'
 import { getWeb3NoAccount } from 'utils/web3'
 
 const SHP_NAMESPACE = 'shp'
+const SHP_NFT_NAMESPACE = 'shp_nft'
 
 export interface Pool {
   id: ethers.BigNumber
@@ -28,6 +29,11 @@ export interface User {
 export interface Withdrawn {
   poolId: ethers.BigNumber
   account: string
+  amount: ethers.BigNumber
+}
+
+export interface Reward {
+  tokenId: ethers.BigNumber
   amount: ethers.BigNumber
 }
 
@@ -54,8 +60,7 @@ const createContractFetcher =
   <T>(...[_swrNamespace, method, ...args]: ContractFetcherArgs): T =>
     contract[method](...args)
 
-export function useShpSWR<T>(args: ContractFetcherArgs, options?: SWRConfiguration) {
-  const contract = useShpContract()
+export function useSWRContract<T>(args: ContractFetcherArgs, contract?: ethers.Contract, options?: SWRConfiguration) {
   return useSWR<T>(contract && args ? args : null, createContractFetcher(contract), {
     ...defaultSWROptions,
     ...options,
@@ -63,31 +68,34 @@ export function useShpSWR<T>(args: ContractFetcherArgs, options?: SWRConfigurati
 }
 
 export function useCurrentPoolId() {
-  return useShpSWR<ethers.BigNumber>([SHP_NAMESPACE, 'getCurrentPoolId'])
+  return useSWRContract<ethers.BigNumber>([SHP_NAMESPACE, 'getCurrentPoolId'], useShpContract())
 }
 
 export function useMaxPoolLength() {
-  return useShpSWR<ethers.BigNumber>([SHP_NAMESPACE, 'MAX_POOL_LENGTH'], {
+  return useSWRContract<ethers.BigNumber>([SHP_NAMESPACE, 'MAX_POOL_LENGTH'], useShpContract(), {
     revalidateIfStale: false,
   })
 }
 
 export function useRewardToken() {
-  return useShpSWR<string>([SHP_NAMESPACE, 'rewardToken'], {
+  return useSWRContract<string>([SHP_NAMESPACE, 'rewardToken'], useShpContract(), {
     revalidateIfStale: false,
   })
 }
 
 export function usePoolLocked(poolId?: ethers.BigNumber) {
-  return useShpSWR<ethers.BigNumber>(poolId ? [SHP_NAMESPACE, 'totalLockedPoolTokens', poolId] : null)
+  return useSWRContract<ethers.BigNumber>(
+    poolId ? [SHP_NAMESPACE, 'totalLockedPoolTokens', poolId] : null,
+    useShpContract(),
+  )
 }
 
 export function usePoolUsers(poolId?: ethers.BigNumber) {
-  return useShpSWR<User[]>(poolId ? [SHP_NAMESPACE, 'users', poolId] : null)
+  return useSWRContract<User[]>(poolId ? [SHP_NAMESPACE, 'users', poolId] : null, useShpContract())
 }
 
 export function usePoolById(poolId?: ethers.BigNumber) {
-  return useShpSWR<Pool>(poolId ? [SHP_NAMESPACE, 'pools', poolId] : null)
+  return useSWRContract<Pool>(poolId ? [SHP_NAMESPACE, 'pools', poolId] : null, useShpContract())
 }
 
 export function usePoolAccountUser(poolId?: ethers.BigNumber) {
@@ -113,21 +121,16 @@ export function useRewardTokenContract() {
 export function useRewardTokenBalance() {
   const rewardTokenContract = useRewardTokenContract()
   const { account } = useWeb3React()
-  return useSWR<ethers.BigNumber>(
-    rewardTokenContract ? [SHP_NAMESPACE, 'balanceOf', account] : null,
-    createContractFetcher(rewardTokenContract),
-    defaultSWROptions,
-  )
+  return useSWRContract<ethers.BigNumber>([SHP_NAMESPACE, 'balanceOf', account], rewardTokenContract)
 }
 
 export function useRewardTokenAllowance() {
   const rewardTokenContract = useRewardTokenContract()
   const shpContract = useShpContract()
   const { account } = useWeb3React()
-  return useSWR<ethers.BigNumber>(
-    rewardTokenContract && account && shpContract ? [SHP_NAMESPACE, 'allowance', account, shpContract.address] : null,
-    createContractFetcher(rewardTokenContract),
-    defaultSWROptions,
+  return useSWRContract<ethers.BigNumber>(
+    account && shpContract ? [SHP_NAMESPACE, 'allowance', account, shpContract.address] : null,
+    rewardTokenContract,
   )
 }
 
@@ -182,16 +185,15 @@ export function useYourPools() {
   return useSWR<ethers.BigNumber[]>(
     contract && allPoolsIds && account ? [SHP_NAMESPACE, 'useYourPools', account, allPoolsIds.length] : null,
     async () => {
-      const ids: ethers.BigNumber[] = []
-      await Promise.all(
+      const ids: ethers.BigNumber[] = await Promise.all(
         allPoolsIds.map(async (poolId) => {
           const users: User[] = await contract.users(poolId)
           if (users.find((user) => user.account === account)) {
-            ids.push(poolId)
+            return poolId
           }
         }),
       )
-      return ids
+      return ids.filter(Boolean)
     },
     defaultSWROptions,
   )
@@ -250,7 +252,10 @@ export function usePoolWithdrawals(poolId?: ethers.BigNumber) {
 
 export function useCountReward(poolId?: ethers.BigNumber) {
   const { account } = useWeb3React()
-  return useShpSWR<ethers.BigNumber>(poolId && account ? [SHP_NAMESPACE, 'countReward', poolId, account] : null)
+  return useSWRContract<ethers.BigNumber>(
+    poolId && account ? [SHP_NAMESPACE, 'countReward', poolId, account] : null,
+    useShpContract(),
+  )
 }
 
 export function useCountRewardPercent(poolId?: ethers.BigNumber) {
@@ -268,4 +273,20 @@ export function useCountRewardPercent(poolId?: ethers.BigNumber) {
     countRewardPercent,
     isLoss,
   }
+}
+
+export function useNftRewardPoolAddress() {
+  return useSWRContract<string>([SHP_NAMESPACE, 'nftRewardPool'], useShpContract(), {
+    revalidateIfStale: false,
+  })
+}
+
+export function useNftContract() {
+  const { data: address } = useNftRewardPoolAddress()
+  return useShpNftContract(address)
+}
+
+export function useNftRewardToken() {
+  const nftContract = useNftContract()
+  return useSWRContract<string>([SHP_NFT_NAMESPACE, 'rewardToken'], nftContract)
 }
