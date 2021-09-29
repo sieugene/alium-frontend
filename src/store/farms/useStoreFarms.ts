@@ -26,7 +26,7 @@ export interface StoreFarmsState {
   activeTab: FarmTab
   setActiveTab: (tab: FarmTab) => void
   hasTicket: boolean
-  checkHasTicket: (contract: ethers.Contract, account: string) => Promise<boolean>
+  checkHasTicket: (contract: ethers.Contract, account: string | undefined) => Promise<boolean>
   ticketLoader: boolean
   toggleTicketLoader: (toggle: boolean) => void
 }
@@ -41,7 +41,7 @@ const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
   },
 }))
 // store like reducer
-const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>) => ({
+const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>): StoreFarmsState => ({
   hasTicket: false,
   ticketLoader: true,
   farmsLoading: false,
