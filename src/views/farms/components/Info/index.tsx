@@ -214,6 +214,7 @@ export function useFarmEarnings(farm: FarmWithStakedValue) {
   return new BigNumber(earningsAsString)
 }
 
+export type InfoEarnedElement = ReturnType<typeof useInfoEarned>
 export function useInfoEarned(farm: FarmWithStakedValue) {
   const earnings = useFarmEarnings(farm)
   const { account } = useWeb3React()

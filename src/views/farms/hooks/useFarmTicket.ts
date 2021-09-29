@@ -33,7 +33,7 @@ export const useHasTicket = () => {
   const checkHasTicket = useStoreFarms((state) => state.checkHasTicket)
   const { account } = useActiveWeb3React()
   const contract = useFarmingTicketWindow()
-  const allowFetch = useMemo(() => contract && account, [account, contract])
+  const allowFetch = useMemo(() => (contract && account) || !account, [account, contract])
   const onCheckHasTicket = async () => {
     await checkHasTicket(contract, account)
   }
