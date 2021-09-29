@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
+import { formatBigNumber } from 'views/StrongHoldersPool/utils'
 
 export interface FormattedValueProps {
   value: BigNumber
@@ -11,7 +12,7 @@ export interface FormattedValueProps {
 export default function FormattedValue({ value, suffix, className }: FormattedValueProps) {
   return (
     <FormattedValue.Root className={className}>
-      {value.decimalPlaces(4, BigNumber.ROUND_FLOOR).toFormat()}
+      {formatBigNumber(value)}
       {suffix && <FormattedValue.Suffix>{suffix}</FormattedValue.Suffix>}
     </FormattedValue.Root>
   )

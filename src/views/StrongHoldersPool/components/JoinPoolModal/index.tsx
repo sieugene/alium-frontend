@@ -19,6 +19,7 @@ import {
   useRewardTokenInfo,
   useTotalLocked,
 } from 'views/StrongHoldersPool/hooks'
+import { formatBigNumber } from 'views/StrongHoldersPool/utils'
 import Web3 from 'web3'
 import PoolDetailsInfo from '../PoolDetailsInfo'
 
@@ -78,7 +79,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
             showMaxButton
             value={amount}
             onUserInput={protectedSetAmount}
-            balance={balanceAmount?.decimalPlaces(4, BigNumber.ROUND_FLOOR).toFormat()}
+            balance={balanceAmount && formatBigNumber(balanceAmount)}
             onMax={() => protectedSetAmount(String(balanceAmount || 0))}
             currency={rewardTokenInfo}
             label={t('Amount')}

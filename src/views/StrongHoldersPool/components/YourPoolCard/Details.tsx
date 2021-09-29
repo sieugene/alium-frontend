@@ -1,6 +1,5 @@
 import { Percent } from '@alium-official/sdk'
 import { Skeleton } from 'alium-uikit/src'
-import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
@@ -15,6 +14,7 @@ import {
   useRewardTokenInfo,
   Withdrawn,
 } from 'views/StrongHoldersPool/hooks'
+import { formatBigNumber } from 'views/StrongHoldersPool/utils'
 import PoolDetailsInfo from '../PoolDetailsInfo'
 
 export interface DetailsProps {
@@ -59,19 +59,14 @@ export default function Details({ poolId }: DetailsProps) {
           {poolUsers?.map((user) => {
             const wallet = `${user.account.substring(0, 9)}...${user.account.substring(user.account.length - 5)}`
             const withdrawal = withdrawalByAccount?.[user.account]
-            const added = `${getBalanceAmount(ethersToBigNumber(user.balance))
-              .decimalPlaces(4, BigNumber.ROUND_FLOOR)
-              .toFormat()} ${rewardTokenSymbol}`
             return (
               <tr key={user.account}>
                 <td>{wallet}</td>
-                <td>{added}</td>
+                <td>{`${formatBigNumber(getBalanceAmount(ethersToBigNumber(user.balance)))} ${rewardTokenSymbol}`}</td>
                 {user.paid ? (
                   <td>
                     {withdrawal ? (
-                      `${getBalanceAmount(ethersToBigNumber(withdrawal.amount))
-                        .decimalPlaces(4, BigNumber.ROUND_FLOOR)
-                        .toFormat()} ${rewardTokenSymbol}`
+                      `${formatBigNumber(getBalanceAmount(ethersToBigNumber(withdrawal.amount)))} ${rewardTokenSymbol}`
                     ) : (
                       <Skeleton animation='waves' />
                     )}
