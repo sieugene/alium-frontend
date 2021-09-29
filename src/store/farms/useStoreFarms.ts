@@ -57,6 +57,10 @@ const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>): 
   },
   checkHasTicket: async (contract, account) => {
     const toggleTicketLoader = get().toggleTicketLoader
+    if (!account) {
+      toggleTicketLoader(false)
+      set({ hasTicket: false })
+    }
 
     try {
       toggleTicketLoader(true)
