@@ -16,7 +16,7 @@ module.exports = {
   ],
   APP_NODES_HECO: ['https://http-testnet.hecochain.com'],
   APP_NODES_ETHEREUM: ['https://rinkeby.infura.io/v3/d32640fa3a7f4a149068228024a399e4'],
-  APP_NODES_MATIC: ['https://rpc-mumbai.matic.today'],
+  APP_NODES_MATIC: ['https://rpc-mainnet.maticvigil.com/'],
   APP_NFT_PUBLIC_SELLER_ADDRESS: '0xF92dC46c2F373480cbC7Dacb0A003C4a2c23ea78',
   APP_NFT_COLLECTIBLE_ADDRESS: '0xD06E646C1bf3fA870875A375C58A6b5326b6bC49',
   APP_NFT_ALIUM_ARCHIVEMENT_COLLECTIBLE: '0x1b1CD5E15C1d0E84cbffF8F7Df514e4f90031FdC',
