@@ -3,10 +3,9 @@ import { Contract } from '@ethersproject/contracts'
 import AbiAliumFactory from 'config/abi/AbiAliumFactory.json'
 import farmingTicketWindow from 'config/abi/FarmingTicketWindow.json'
 import masterChef from 'config/abi/masterchef.json'
-import shp from 'config/abi/shp.json'
 import MULTICALL_ABI from 'config/abis/MULTICALL_ABI.json'
 import MULTICALL_ADDRESS from 'config/addresses/MULTICALL_ADDRESS'
-import { SHP_ADDRESS } from 'config/constants/shp'
+import { SHP_ABI, SHP_ADDRESS, SHP_NFT_ABI } from 'config/constants/shp'
 import LP_ABI from 'config/vampiring/LP_ABI.json'
 import { VAMPIRE_ABI } from 'config/vampiring/VAMPIRE_ABI'
 import ERC20_ABI from 'constants/abis/erc20'
@@ -181,5 +180,9 @@ export const useClaimRefundContract = () => {
 }
 
 export function useShpContract() {
-  return useContract(SHP_ADDRESS, shp)
+  return useContract(SHP_ADDRESS, SHP_ABI)
+}
+
+export function useShpNftContract(address?: string) {
+  return useContract(address, SHP_NFT_ABI)
 }
