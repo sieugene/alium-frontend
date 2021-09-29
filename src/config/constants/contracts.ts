@@ -14,6 +14,10 @@ export default {
     97: MASTER_CHEF_FARMING_ADDRESS,
     56: '',
   },
+  shp: {
+    97: '0x62c7037102542A0d3f2e7E149790767b67B1247f',
+    56: '',
+  },
   farmingTicketWindow: {
     97: FARMING_TICKET_WINDOW_ADDRESS,
     56: '',

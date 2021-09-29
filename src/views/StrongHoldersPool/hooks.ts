@@ -1,13 +1,14 @@
 import { Percent } from '@alium-official/sdk'
 import { parseUnits } from '@ethersproject/units'
 import { useWeb3React } from '@web3-react/core'
-import { SHP_ABI, SHP_ADDRESS, SHP_NFT_ABI } from 'config/constants/shp'
+import { SHP_ABI, SHP_NFT_ABI } from 'config/constants/shp'
 import * as ethers from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useShpContract, useShpNftContract, useTokenContract } from 'hooks/useContract'
 import times from 'lodash/times'
 import { useMemo, useState } from 'react'
 import useSWR, { SWRConfiguration } from 'swr'
+import { getShpAddress } from 'utils/addressHelpers'
 import { multicallWithDecoder } from 'utils/multicall'
 import { useCallWithGasPrice } from 'utils/useCallWithGasPrice'
 import { getWeb3NoAccount } from 'utils/web3'
@@ -143,10 +144,11 @@ export function useTotalLocked() {
     currentPoolId ? [SHP_NAMESPACE, 'useTotalLocked', currentPoolId] : null,
     async () => {
       let ret: ethers.BigNumber = ethers.BigNumber.from(0)
+      const shpAddress = getShpAddress()
       const results: Array<[ethers.BigNumber]> = await multicallWithDecoder(
         SHP_ABI,
         getAllPoolsIds(currentPoolId).map((poolId) => ({
-          address: SHP_ADDRESS,
+          address: shpAddress,
           name: 'totalLockedPoolTokens',
           params: [poolId],
         })),
@@ -196,10 +198,11 @@ export function useYourPools() {
     allPoolsIds && account ? [SHP_NAMESPACE, 'useYourPools', account, allPoolsIds.length] : null,
     async () => {
       const ids: ethers.BigNumber[] = []
+      const shpAddress = getShpAddress()
       const results: Array<[User[]]> = await multicallWithDecoder(
         SHP_ABI,
         allPoolsIds.map((poolId) => ({
-          address: SHP_ADDRESS,
+          address: shpAddress,
           name: 'users',
           params: [poolId],
         })),
