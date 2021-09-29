@@ -5,8 +5,8 @@ export interface NftItemProps {
   tokenId: NftReward['tokenId']
 }
 
-export default function NftItem({ tokenId }: NftItemProps) {
-  return <NftItem.Root src={`/images/shp/nft.png?=tokenId=${tokenId}`} />
+export default function NftItem(_: NftItemProps) {
+  return <NftItem.Root src='/images/shp/nft.png' />
 }
 
 NftItem.Root = styled.img`
