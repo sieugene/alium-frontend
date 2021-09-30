@@ -125,6 +125,8 @@ Header.Root = styled.div`
   }
 
   @media ${down(breakpoints.sm)} {
+    margin-bottom: 24px;
+
     ${Header.Tab} {
       min-width: auto;
       flex: 1;

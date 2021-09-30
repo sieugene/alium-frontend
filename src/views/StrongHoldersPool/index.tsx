@@ -2,6 +2,7 @@ import { MENU_HEIGHT } from 'alium-uikit/src/widgets/Menu/config'
 import { useRouter } from 'next/router'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
+import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount'
 import Header from './components/Header'
 import NestedNew from './components/NestedNew'
 import NestedYour from './components/NestedYour'
@@ -10,11 +11,13 @@ import { breakpoints, down } from './mq'
 export default function StrongHoldersPool() {
   const router = useRouter()
   return (
-    <StrongHoldersPool.Root>
-      <Header />
-      {router.pathname === ROUTES.shp && <NestedNew />}
-      {router.pathname === ROUTES.shpYour && <NestedYour />}
-    </StrongHoldersPool.Root>
+    <AvailableAccount title='Strong Holders Pool'>
+      <StrongHoldersPool.Root>
+        <Header />
+        {router.pathname === ROUTES.shp && <NestedNew />}
+        {router.pathname === ROUTES.shpYour && <NestedYour />}
+      </StrongHoldersPool.Root>
+    </AvailableAccount>
   )
 }
 
