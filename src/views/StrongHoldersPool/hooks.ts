@@ -2,7 +2,7 @@ import { Percent } from '@alium-official/sdk'
 import { parseUnits } from '@ethersproject/units'
 import { useWeb3React } from '@web3-react/core'
 import { SHP_ABI, SHP_NFT_ABI } from 'config/constants/shp'
-import * as ethers from 'ethers'
+import { ethers } from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useShpContract, useShpNftContract, useTokenContract } from 'hooks/useContract'
 import times from 'lodash/times'
@@ -17,7 +17,6 @@ const SHP_NAMESPACE = 'shp'
 const SHP_NFT_NAMESPACE = 'shp_nft'
 
 export interface Pool {
-  id: ethers.BigNumber
   withheldFunds: ethers.BigNumber
   leftTracker: ethers.BigNumber
   createdAt: ethers.BigNumber

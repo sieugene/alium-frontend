@@ -1,9 +1,9 @@
 import { Skeleton } from 'alium-uikit/src'
+import { ethers } from 'ethers'
 import styled, { css } from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import {
-  Pool,
   useCountReward,
   useCountRewardPercent,
   useIsFullPool,
@@ -16,7 +16,7 @@ import NftItemReward from '../NftItemReward'
 import Title from '../Title'
 
 export interface PickUpFundsProps {
-  poolId: Pool['id']
+  poolId: ethers.BigNumber
 }
 
 export default function PickUpFunds({ poolId }: PickUpFundsProps) {
