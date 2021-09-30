@@ -10,74 +10,6 @@ const MAX_SLIPPAGE = 5000
 const RISKY_SLIPPAGE_LOW = 50
 const RISKY_SLIPPAGE_HIGH = 500
 
-const StyledSlippageToleranceSettings = styled.div`
-  margin-bottom: 16px;
-`
-
-const Field = styled.div`
-  display: flex;
-  align-items: center;
-
-  & > ${Text} {
-    width: 52px;
-    font-size: 14px;
-    margin-left: 18px;
-  }
-`
-
-const Options = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-
-  & > div {
-    width: 100%;
-    height: 48px;
-    &:first-child {
-      padding-top: 8px;
-      padding-bottom: 8px;
-      flex-basis: 90%;
-      margin-right: 8px;
-    }
-  }
-
-  @media screen and (max-width: 480px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`
-
-const StyledButtonMenu = styled(ButtonMenu)`
-  padding-top: 8px;
-  padding-bottom: 8px;
-`
-
-const StyledButtonItem = styled(ButtonMenuItem)`
-  padding: 6px 20px;
-  width: 100%;
-`
-
-const Label = styled.div`
-  align-items: center;
-  display: flex;
-  margin-bottom: 12px;
-  > div {
-    letter-spacing: -0.1px;
-  }
-  @media screen and (max-width: 480px) {
-    margin-bottom: 8px;
-  }
-`
-
-const PercentInputWrapper = styled.div`
-  margin-left: 10px;
-
-  @media screen and (max-width: 480px) {
-    margin-left: 0;
-    margin-top: 18px;
-  }
-`
-
 const predefinedValues = [
   { label: '0,1%', value: 0.1 },
   { label: '0,5%', value: 0.5 },
@@ -85,6 +17,7 @@ const predefinedValues = [
 ]
 
 const SlippageToleranceSettings = () => {
+  const { t } = useTranslation()
   const theme = useTheme()
   const [userSlippageTolerance, setUserslippageTolerance] = useUserSlippageTolerance()
   const [value, setValue] = useState(userSlippageTolerance / 100)
@@ -96,8 +29,6 @@ const SlippageToleranceSettings = () => {
     setValue(parseFloat(inputValue))
   }
 
-  const { t } = useTranslation()
-
   // Updates local storage if value is valid
   useEffect(() => {
     try {
@@ -106,19 +37,19 @@ const SlippageToleranceSettings = () => {
         setUserslippageTolerance(rawValue)
         setError(null)
       } else {
-        setError(t('errors.enterValidPercentage'))
+        setError(t('common.messages.validDeadline'))
       }
     } catch {
-      setError(t('errors.enterValidPercentage'))
+      setError(t('common.messages.validDeadline'))
     }
   }, [t, value, setError, setUserslippageTolerance])
 
   // Notify user if slippage is risky
   useEffect(() => {
     if (userSlippageTolerance < RISKY_SLIPPAGE_LOW) {
-      setError('Your transaction may fail')
+      setError(t('common.messages.yourTransactionMayFail'))
     } else if (userSlippageTolerance > RISKY_SLIPPAGE_HIGH) {
-      setError('Your transaction may be frontrun')
+      setError(t('common.messages.yourTransactionMayBeFrontrun'))
     }
   }, [userSlippageTolerance, setError])
 
@@ -132,8 +63,8 @@ const SlippageToleranceSettings = () => {
   return (
     <StyledSlippageToleranceSettings>
       <Label>
-        <Text style={{ fontWeight: 600 }}>{t('slippedTolerance')}</Text>
-        <QuestionHelper text={t('questionHelperMessages.transactionRevert')} />
+        <Text style={{ fontWeight: 600 }}>{t('swap.settingsModal.slippedTolerance')}</Text>
+        <QuestionHelper text={t('swap.settingsModal.transactionRevert')} />
       </Label>
 
       <Options>
@@ -186,3 +117,76 @@ const SlippageToleranceSettings = () => {
 }
 
 export default SlippageToleranceSettings
+
+// styles
+
+const StyledSlippageToleranceSettings = styled.div`
+  margin-bottom: 16px;
+`
+
+const Field = styled.div`
+  display: flex;
+  align-items: center;
+
+  & > ${Text} {
+    width: 52px;
+    font-size: 14px;
+    margin-left: 18px;
+  }
+`
+
+const Options = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+
+  & > div {
+    width: 100%;
+    height: 48px;
+
+    &:first-child {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      flex-basis: 90%;
+      margin-right: 8px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`
+
+const StyledButtonMenu = styled(ButtonMenu)`
+  padding-top: 8px;
+  padding-bottom: 8px;
+`
+
+const StyledButtonItem = styled(ButtonMenuItem)`
+  padding: 6px 20px;
+  width: 100%;
+`
+
+const Label = styled.div`
+  align-items: center;
+  display: flex;
+  margin-bottom: 12px;
+
+  & > div {
+    letter-spacing: -0.1px;
+  }
+
+  @media screen and (max-width: 480px) {
+    margin-bottom: 8px;
+  }
+`
+
+const PercentInputWrapper = styled.div`
+  margin-left: 10px;
+
+  @media screen and (max-width: 480px) {
+    margin-left: 0;
+    margin-top: 18px;
+  }
+`

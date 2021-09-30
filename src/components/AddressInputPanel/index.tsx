@@ -2,11 +2,77 @@ import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
 import { useCallback, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { getExplorerLink, getExplorerName } from 'utils'
+import { getExplorerLink, useExplorerName } from 'utils'
 import useENS from '../../hooks/useENS'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { ExternalLink, TYPE } from '../Shared'
+
+export default function AddressInputPanel({
+  id,
+  value,
+  onChange,
+}: {
+  id?: string
+  // the typed string value
+  value: string
+  // triggers whenever the typed value changes
+  onChange: (value: string) => void
+}) {
+  const { chainId } = useActiveWeb3React()
+  const theme = useContext(ThemeContext)
+  const { t } = useTranslation()
+
+  const { address, loading, name } = useENS(value)
+
+  const handleInput = useCallback(
+    (event) => {
+      const input = event.target.value
+      const withoutSpaces = input.replace(/\s+/g, '')
+      onChange(withoutSpaces)
+    },
+    [onChange],
+  )
+
+  const error = Boolean(value.length > 0 && !loading && !address)
+  const { explorerName } = useExplorerName(chainId)
+
+  return (
+    <InputPanel id={id}>
+      <ContainerRow error={error}>
+        <InputContainer>
+          <AutoColumn gap='md'>
+            <RowBetween>
+              <Black color={theme.colors.textSubtle} fontWeight={500} fontSize={14}>
+                {t('swap.recipient')}
+              </Black>
+              {address && chainId && (
+                <ExternalLink href={getExplorerLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
+                  {t('swap.viewOnExplorerName', { explorerName })}
+                </ExternalLink>
+              )}
+            </RowBetween>
+            <Input
+              className='recipient-address-input'
+              type='text'
+              autoComplete='off'
+              autoCorrect='off'
+              autoCapitalize='off'
+              spellCheck='false'
+              placeholder={t('swap.walletAddressOrEnsName')}
+              error={error}
+              pattern='^(0x[a-fA-F0-9]{40})$'
+              onChange={handleInput}
+              value={value}
+            />
+          </AutoColumn>
+        </InputContainer>
+      </ContainerRow>
+    </InputPanel>
+  )
+}
+
+// styles
 
 const { black: Black } = TYPE
 
@@ -41,18 +107,19 @@ const Input = styled.input<{ error?: boolean }>`
   outline: none;
   border: none;
   flex: 1 1 auto;
-  width: 0;
   background-color: ${({ theme }) => theme.colors.invertedContrast};
   transition: color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')};
   color: ${({ error, theme }) => (error ? theme.colors.failure : theme.colors.primary)};
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 500;
+  padding: 0;
   width: 100%;
+
   ::placeholder {
     color: ${({ theme }) => theme.colors.textDisabled};
   }
-  padding: 0;
+
   -webkit-appearance: textfield;
 
   ::-webkit-search-decoration {
@@ -68,66 +135,3 @@ const Input = styled.input<{ error?: boolean }>`
     color: ${({ theme }) => theme.colors.textDisabled};
   }
 `
-
-export default function AddressInputPanel({
-  id,
-  value,
-  onChange,
-}: {
-  id?: string
-  // the typed string value
-  value: string
-  // triggers whenever the typed value changes
-  onChange: (value: string) => void
-}) {
-  const { chainId } = useActiveWeb3React()
-  const theme = useContext(ThemeContext)
-  const { t } = useTranslation()
-
-  const { address, loading, name } = useENS(value)
-
-  const handleInput = useCallback(
-    (event) => {
-      const input = event.target.value
-      const withoutSpaces = input.replace(/\s+/g, '')
-      onChange(withoutSpaces)
-    },
-    [onChange],
-  )
-
-  const error = Boolean(value.length > 0 && !loading && !address)
-
-  return (
-    <InputPanel id={id}>
-      <ContainerRow error={error}>
-        <InputContainer>
-          <AutoColumn gap='md'>
-            <RowBetween>
-              <Black color={theme.colors.textSubtle} fontWeight={500} fontSize={14}>
-                {t('recipient')}
-              </Black>
-              {address && chainId && (
-                <ExternalLink href={getExplorerLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
-                  (View on {getExplorerName(chainId)})
-                </ExternalLink>
-              )}
-            </RowBetween>
-            <Input
-              className='recipient-address-input'
-              type='text'
-              autoComplete='off'
-              autoCorrect='off'
-              autoCapitalize='off'
-              spellCheck='false'
-              placeholder={t('walletAddressOrEnsName')}
-              error={error}
-              pattern='^(0x[a-fA-F0-9]{40})$'
-              onChange={handleInput}
-              value={value}
-            />
-          </AutoColumn>
-        </InputContainer>
-      </ContainerRow>
-    </InputPanel>
-  )
-}

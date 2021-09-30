@@ -16,19 +16,9 @@ interface Props {
   pairState: PairState
   oneCurrencyIsWETH: boolean
 }
+
 interface Components {
   Currencies: FC<CurrenciesProps>
-}
-
-export const InvalidPair: FC<Props> & Components = ({ pair, noLiquidity, pairState, oneCurrencyIsWETH }) => {
-  if (pair && !noLiquidity && pairState !== PairState.INVALID) {
-    return (
-      <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
-        <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
-      </AutoColumn>
-    )
-  }
-  return null
 }
 
 interface CurrenciesProps {
@@ -42,15 +32,22 @@ interface CurrenciesProps {
   price: Price
 }
 
-const StyledUIKitText = styled(UIKitText)`
-  @media screen and (max-width: 600px) {
-    text-align: center;
+export const InvalidPair: FC<Props> & Components = ({ pair, noLiquidity, pairState, oneCurrencyIsWETH }) => {
+  if (pair && !noLiquidity && pairState !== PairState.INVALID) {
+    return (
+      <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
+        <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+      </AutoColumn>
+    )
   }
-`
+  return null
+}
 
 InvalidPair.Currencies = ({ currencies, pairState, noLiquidity, poolTokenPercentage, price }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { t } = useTranslation()
+
+  /* TODO: ducker / из-за странного создания компонента не работает перевод (disable до добра не доведет :)) */
 
   if (currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID) {
     return (
@@ -61,7 +58,7 @@ InvalidPair.Currencies = ({ currencies, pairState, noLiquidity, poolTokenPercent
           fontSize='12px'
           mb='2px'
         >
-          {noLiquidity ? t('initialPricesAndPoolShare') : t('pricesAndPoolShare')}
+          {noLiquidity ? t('liquidity.initialPricesAndPoolShare') : t('liquidity.pricesAndPoolShare')}
         </StyledUIKitText>
         <Pane>
           <PoolPriceBar
@@ -76,3 +73,11 @@ InvalidPair.Currencies = ({ currencies, pairState, noLiquidity, poolTokenPercent
   }
   return null
 }
+
+// styles
+
+const StyledUIKitText = styled(UIKitText)`
+  @media screen and (max-width: 600px) {
+    text-align: center;
+  }
+`

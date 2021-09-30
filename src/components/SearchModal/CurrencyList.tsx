@@ -27,35 +27,9 @@ function currencyKey(currency: Currency): string {
   return currency instanceof Token ? currency.address : currency === nativeCurrency ? 'ETHER' : ''
 }
 
-const StyledBalanceText = styled(Text)`
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 141px;
-  text-overflow: ellipsis;
-`
-
-const Tag = styled.div`
-  background-color: ${({ theme }) => theme.colors.tertiary};
-  color: ${({ theme }) => theme.colors.textSubtle};
-  font-size: 14px;
-  border-radius: 4px;
-  padding: 0.25rem 0.3rem 0.25rem 0.3rem;
-  max-width: 6rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  justify-self: flex-end;
-  margin-right: 4px;
-`
-
 function Balance({ balance }: { balance: CurrencyAmount }) {
   return <StyledBalanceText title={balance.toExact()}>{toSignificantCurrency(balance)}</StyledBalanceText>
 }
-
-const TagContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
 
 function TokenTags({ currency }: { currency: Currency }) {
   if (!(currency instanceof WrappedTokenInfo)) {
@@ -126,27 +100,27 @@ function CurrencyRow({
         <FadedSpan>
           {!isOnSelectedList && customAdded && !(currency instanceof WrappedTokenInfo) ? (
             <Main fontWeight={500}>
-              {t('addedByUser')}
+              ???
               <LinkStyledButton
                 onClick={(event) => {
                   event.stopPropagation()
                   if (chainId && currency instanceof Token) removeToken(chainId, currency.address)
                 }}
               >
-                (Remove)
+                ({t('common.button.remove')})
               </LinkStyledButton>
             </Main>
           ) : null}
           {!isOnSelectedList && !customAdded && !(currency instanceof WrappedTokenInfo) ? (
             <Main fontWeight={500}>
-              Found by address
+              ???
               <LinkStyledButton
                 onClick={(event) => {
                   event.stopPropagation()
                   if (currency instanceof Token) addToken(currency)
                 }}
               >
-                (Add)
+                ({t('common.button.add')})
               </LinkStyledButton>
             </Main>
           ) : null}
@@ -216,3 +190,31 @@ export default function CurrencyList({
     </FixedSizeList>
   )
 }
+
+// styles
+
+const StyledBalanceText = styled(Text)`
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 141px;
+  text-overflow: ellipsis;
+`
+
+const Tag = styled.div`
+  background-color: ${({ theme }) => theme.colors.tertiary};
+  color: ${({ theme }) => theme.colors.textSubtle};
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 0.25rem 0.3rem 0.25rem 0.3rem;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  justify-self: flex-end;
+  margin-right: 4px;
+`
+
+const TagContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`

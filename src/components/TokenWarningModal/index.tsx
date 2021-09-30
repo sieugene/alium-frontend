@@ -6,7 +6,7 @@ import { transparentize } from 'polished'
 import { useCallback, useMemo, useState } from 'react'
 import { AlertTriangle } from 'react-feather'
 import styled from 'styled-components'
-import { getExplorerLink, getExplorerName, shortenAddress } from 'utils'
+import { getExplorerLink, useExplorerName, shortenAddress } from 'utils'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import Modal from '../Modal'
@@ -41,6 +41,7 @@ interface TokenWarningCardProps {
 
 function TokenWarningCard({ token }: TokenWarningCardProps) {
   const { chainId } = useActiveWeb3React()
+  const { explorerName } = useExplorerName(chainId)
 
   const tokenSymbol = token?.symbol?.toLowerCase() ?? ''
   const tokenName = token?.name?.toLowerCase() ?? ''
@@ -77,7 +78,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
           {chainId && (
             <ExternalLink style={{ fontWeight: 400 }} href={getExplorerLink(chainId, token.address, 'token')}>
               <Blue title={token.address}>
-                {shortenAddress(token.address)} (View on {getExplorerName(chainId)})
+                {shortenAddress(token.address)} (View on {explorerName})
               </Blue>
             </ExternalLink>
           )}

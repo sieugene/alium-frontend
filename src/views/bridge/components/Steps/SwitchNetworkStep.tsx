@@ -1,5 +1,6 @@
 import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
+import { Trans, useTranslation} from 'next-i18next'
 import React from 'react'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -13,9 +14,9 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 40px;
+
   .message {
     max-width: 350px;
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -23,19 +24,19 @@ const Wrapper = styled.div`
     text-align: center;
     letter-spacing: 0.3px;
     color: #0b1359;
+    margin-top: 16px;
+
     b {
       color: #6c5dd3;
     }
-    margin-top: 16px;
   }
+
   .title {
     text-align: center;
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
-    text-align: center;
     letter-spacing: 0.3px;
     color: #8990a5;
     margin-top: 16px;
@@ -52,27 +53,28 @@ const NetworksIcon = styled.div`
 `
 
 const Info = styled.div`
+  width: 100%;
   background: #e6e6f6;
   border-radius: 6px;
   display: flex;
   padding: 16px 16px 16px 16px;
   margin-top: 40px;
+
   img {
     max-width: 24px;
     max-height: 24px;
     margin-right: 16px;
   }
-  p {
-    font-family: Roboto;
+
+  .message__text {
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.3px;
     color: #0b1359;
-  }
-  .message__text {
     width: max-content;
+
     @media screen and (max-width: 768px) {
       width: auto;
     }
@@ -80,11 +82,10 @@ const Info = styled.div`
 `
 
 const SwitchNetworkStep = () => {
+  const { t } = useTranslation()
+
   const token = useStoreBridge((state) => state.tokens.fromToken)
   const { networkTo } = useBridgeNetworks()
-  const txHash = useStoreBridge((state) => state.txHash)
-  // const toNetwork = useStoreBridge((state) => state.toNetwork)
-  // const network = networkFinder(toNetwork)
   const Icon = networkTo?.icon
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
@@ -106,7 +107,8 @@ const SwitchNetworkStep = () => {
     setChainId(networkTo?.chainId)
   }
 
-  const shortedNetworkLabel = networkTo?.label && networkTo?.label?.split(' ')[0]
+  const networkToLabel = networkTo?.type && t(`networks.${networkTo?.type}.label`)
+  const shortedNetworkLabel = networkToLabel.split(' ')[0]
 
   return (
     <Wrapper>
@@ -115,22 +117,20 @@ const SwitchNetworkStep = () => {
       </NetworksIcon>
 
       <p className='message'>
-        Please switch the network in your wallet to <b>{networkTo?.label}</b>
+        <Trans
+          i18nKey='bridge.pleaseSwitchNetwork'
+          values={{ networkToLabel: networkToLabel }}
+          components={{ b: <b /> }}
+        />
       </p>
-      {/* <p className='title'>Transaction Hash:</p>
-      <CopyInput value={txHash} /> */}
       <BridgeBtnWithIcon onClick={changeNetwork} variant='secondary'>
         <Icon />
-        <p className='text'>{networkTo?.label}</p>
+        <p className='text'>{networkToLabel}</p>
       </BridgeBtnWithIcon>
       <Info>
         <BridgeInfoIcon />
         <div className='message__text'>
-          <p>After you switch networks, you will complete a second</p>
-          <p>
-            transaction on {shortedNetworkLabel} to claim your 
-            {token?.symbol} tokens.
-          </p>
+          {t('bridge.afterYouSwitchNetworks', { shortedNetworkLabel, tokenSymbol: token?.symbol })}
         </div>
       </Info>
     </Wrapper>

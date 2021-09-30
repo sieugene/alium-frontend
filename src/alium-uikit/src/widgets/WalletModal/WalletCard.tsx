@@ -1,4 +1,5 @@
 import { setConnectorId } from 'alium-uikit/src/util/connectorId/setConnectorId'
+import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
@@ -13,64 +14,8 @@ interface Props {
   onDismiss: () => void
   selected?: boolean
   setSelectedWallet: (arg0: string) => void
-  selectedNetwork: string
   availableConnectors: ConnectorNames[]
 }
-
-const StyledButton = styled(Button)`
-  position: relative;
-  width: 48px;
-  height: 48px;
-  background: #f5f7ff;
-  border-radius: 6px;
-  display: flex;
-  padding: 0;
-
-  > * {
-    margin: auto;
-  }
-
-  svg{
-    fill: transparent;
-  }
-`
-
-const StyledFlex = styled(Flex)<{ isBlurred?: boolean }>`
-  > button {
-    border: 1px solid white !important;
-    ${({ isBlurred }) => (isBlurred ? 'opacity: 0.5;' : '')}
-    transition: border 200ms ease-in-out;
-  }
-  > div {
-    ${({ isBlurred }) => (isBlurred ? 'opacity: 0.5;' : '')}
-    transition: color 200ms ease-in-out;
-  }
-  ${({ isBlurred }) =>
-    isBlurred
-      ? `
-    > button {
-        background: #f5f7ff !important;
-    }
-  `
-      : `:hover {
-      > button {
-        background: #f5f7ff !important;
-        border: 1px solid #6c5dd3 !important;
-      }
-  
-      > div {
-        color: #6c5dd3;
-      }
-    }`}
-`
-
-const StyledCheckMarkInCircle = styled(CheckmarkCircleIcon)`
-  position: absolute;
-  right: -5px;
-  top: -5px;
-  width: 16px;
-  height: 16px;
-`
 
 const WalletCard: FC<Props> = ({
   login,
@@ -80,12 +25,13 @@ const WalletCard: FC<Props> = ({
   setSelectedWallet,
   availableConnectors,
 }) => {
-  const { title, icon: Icon } = walletConfig
+  const { t } = useTranslation()
+  const { type, icon: Icon } = walletConfig
   const onClickHandler = async () => {
     try {
       setConnectorId(walletConfig.connectorId)
       await login(walletConfig.connectorId)
-      setSelectedWallet(title)
+      setSelectedWallet(type)
       onDismiss()
     } catch (error) {
       console.error(error)
@@ -105,16 +51,76 @@ const WalletCard: FC<Props> = ({
         fullwidth
         variant='tertiary'
         style={{ justifyContent: 'space-between' }}
-        id={`wallet-connect-${title.toLocaleLowerCase()}`}
+        id={`wallet-connect-${type.toLocaleLowerCase()}`}
       >
         <Icon width='32px' />
         {selected && <StyledCheckMarkInCircle />}
       </StyledButton>
       <Text color='#8990A5' fontSize='11px' mb='8px' style={{ textAlign: 'center' }}>
-        {title}
+        {t(`wallets.${type}.title`)}
       </Text>
     </StyledFlex>
   )
 }
 
 export default WalletCard
+
+// styles
+
+const StyledButton = styled(Button)`
+  position: relative;
+  width: 48px;
+  height: 48px;
+  background: #f5f7ff;
+  border-radius: 6px;
+  display: flex;
+  padding: 0;
+
+  & > * {
+    margin: auto;
+  }
+
+  svg {
+    fill: transparent;
+  }
+`
+
+const StyledFlex = styled(Flex)<{ isBlurred?: boolean }>`
+  & > button {
+    border: 1px solid white !important;
+    ${({ isBlurred }) => (isBlurred ? 'opacity: 0.5;' : '')}
+    transition: border 200ms ease-in-out;
+  }
+
+  & > div {
+    ${({ isBlurred }) => (isBlurred ? 'opacity: 0.5;' : '')}
+    transition: color 200ms ease-in-out;
+  }
+
+  ${({ isBlurred }) =>
+    isBlurred
+      ? `
+         & > button {
+          background: #f5f7ff !important;
+         }
+        `
+      : `
+         &:hover {
+          & > button {
+           background: #f5f7ff !important;
+           border: 1px solid #6c5dd3 !important;
+          }
+  
+          & > div {
+           color: #6c5dd3;
+          }
+        }`}
+`
+
+const StyledCheckMarkInCircle = styled(CheckmarkCircleIcon)`
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  width: 16px;
+  height: 16px;
+`

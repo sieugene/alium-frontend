@@ -1,166 +1,440 @@
 {
-  "noWallet": "No Binance Smart Chain wallet found",
-  "wrongNetwork": "You are on the wrong network",
-  "switchNetwork": "Please switch to {{ correctNetwork }}",
-  "installWeb3MobileBrowser": "Please visit us from a web3-enabled mobile browser such as Trust Wallet or Coinbase Wallet.",
-  "installMetamask": "Please visit us after installing Metamask on Chrome or Brave.",
-  "disconnected": "Disconnected",
-  "swap": "Exchange",
-  "swapAnyway": "Swap Anyway",
-  "send": "Send",
-  "sendAnyway": "Send Anyway",
-  "pool": "Pool",
-  "betaWarning": "This project is in beta. Use at your own risk.",
-  "input": "Input",
-  "output": "Output",
-  "estimated": "estimated",
-  "balance": "Balance: {{ balanceInput }}",
-  "unlock": "Unlock",
-  "pending": "Pending",
-  "selectToken": "Select a token",
-  "searchOrPaste": "Search Token Name, Symbol, or Address",
-  "searchOrPasteMobile": "Name, Symbol, or Address",
-  "noExchange": "No Exchange Found",
-  "noToken": "No Token Found",
-  "exchangeRate": "Exchange Rate",
-  "unknownError": "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device.",
-  "enterValueCont": "Enter a {{ missingCurrencyValue }} value to continue.",
-  "selectTokenCont": "Select a token to continue.",
-  "noLiquidity": "No liquidity.",
-  "insufficientLiquidity": "Insufficient liquidity.",
-  "insufficientLiquidityForThisTrade": "Insufficient liquidity for this trade.",
-  "unlockTokenCont": "Please unlock token to continue.",
-  "transactionDetails": "Advanced Details",
-  "hideDetails": "Hide Details",
-  "slippageWarning": "Slippage Warning",
-  "highSlippageWarning": "High Slippage Warning",
-  "youAreSelling": "You are selling",
-  "orTransFail": "or the transaction will fail.",
-  "youWillReceive": "You will receive at least",
-  "youAreBuying": "You are buying",
-  "itWillCost": "It will cost at most",
-  "forAtMost": "for at most",
-  "insufficientBalance": "Insufficient Balance",
-  "inputNotValid": "Not a valid input value",
-  "differentToken": "Must be different token.",
-  "noRecipient": "Enter a wallet address to send to.",
-  "invalidRecipient": "Please enter a valid wallet address recipient.",
-  "liquidityConnectToWallet": "Connect to a wallet to view your {{text}} liquidity.",
-  "liquidityNotFound": "No {{text}} liquidity found.",
-  "noJoinedPool": "Don't see a pool you joined?",
-  "importPoolMessage": "Import it.",
-  "migrateNow": "Migrate now.",
-  "uniSwapLiquidityFound": "Uniswap V1 liquidity found!",
-  "recipientAddress": "Recipient Address",
-  "youAreSending": "You are sending",
-  "willReceive": "will receive at least",
-  "to": "to",
-  "addLiquidity": "Add Liquidity",
-  "liquidityDescription": "Add liquidity to receive LP tokens",
-  "deposit": "Deposit",
-  "currentPoolSize": "Current Pool Size",
-  "yourPoolShare": "Your Pool Share",
-  "noZero": "Amount cannot be zero.",
-  "mustBeETH": "One of the input must be BNB.",
-  "enterCurrencyOrLabelCont": "Enter a {{ inputCurrency }} or {{ label }} value to continue.",
-  "youAreAdding": "You are adding",
-  "and": "and",
-  "intoPool": "into the liquidity pool.",
-  "outPool": "from the liquidity pool.",
-  "youWillMint": "You will mint",
-  "liquidityTokens": "liquidity tokens.",
-  "totalSupplyIs": "Current total supply of liquidity tokens is",
-  "youAreSettingExRate": "You are setting the initial exchange rate to",
-  "totalSupplyIs0": "Current total supply of liquidity tokens is 0.",
-  "tokenWorth": "At current exchange rate, each pool token is worth",
-  "firstLiquidity": "You are the first person to add liquidity!",
-  "initialExchangeRate": "The initial exchange rate will be set based on your deposits. Please make sure that your BNB and {{ label }} deposits have the same fiat value.",
-  "removeLiquidity": "Remove Liquidity",
-  "poolTokens": "Pool Tokens",
-  "enterLabelCont": "Enter a {{ label }} value to continue.",
-  "youAreRemoving": "You are removing between",
-  "youWillRemove": "You will remove",
-  "createExchange": "Create Exchange",
-  "invalidTokenAddress": "Not a valid token address",
-  "exchangeExists": "{{ label }} Exchange already exists!",
-  "invalidSymbol": "Invalid symbol",
-  "invalidDecimals": "Invalid decimals",
-  "tokenAddress": "Token Address",
-  "label": "Label",
-  "name": "Name",
-  "symbol": "Symbol",
-  "decimals": "Decimals",
-  "enterTokenCont": "Enter a token address to continue",
-  "priceChange": "Expected price slippage",
-  "forAtLeast": "for at least ",
-  "brokenToken": "The selected token is not compatible with Uniswap V1. Adding liquidity will result in locked funds.",
-  "toleranceExplanation": "Lowering this limit decreases your risk of frontrunning. However, this makes more likely that your transaction will fail due to normal price movements.",
-  "tokenSearchPlaceholder": "Search name or paste address",
-  "swapHeaderDescription": "Trade tokens in an instant",
-  "settings": "Settings",
-  "recentTransactions": "Recent Transactions",
-  "account": "Account",
-  "disconnect": "Disconnect",
-  "change": "Change",
-  "copyAddress": "Copy Address",
-  "viewOnBscscan": "View on explorer",
-  "clearAll": "clear all",
-  "close": "Close",
-  "noRecentTransactions": "No recent transactions",
-  "pleaseConnectWallet": "Please connect your wallet to view your recent transactions",
-  "transactionsWillAppear": "Your transactions will appear here",
-  "unlockWallet": "Unlock Wallet",
-  "yourLiquidity": "Your Liquidity",
-  "loading": "Loading",
-  "slippedTolerance": "Slippage tolerance",
-  "transactionDeadline": "Transaction deadline",
-  "minutes": "Minutes",
-  "connectToWallet": "Connect to a wallet",
-  "migrateV1Liquidity": "Migrate V1 Liquidity",
-  "migrateTokens": "Migrate your liquidity tokens from Uniswap V1 to Uniswap V2.",
-  "clickToRemoveLiquidity": " For each pool shown below, click migrate to remove your liquidity from Uniswap V1 and deposit it into Uniswap\n          V2.",
-  "enterTokenAddress": "Enter a token address to find liquidity",
-  "connectToFindPools": "Connect to a wallet to find pools",
-  "selectToFindLiquidity": "Select a token to find your liquidity.",
-  "poolFound": "Pool Found!",
-  "noLiquidityInPool": "You don’t have liquidity in this pool yet.",
-  "noPool": "No pool found.",
-  "createPool": "Create pool.",
-  "invalidPair": "Invalid pair.",
-  "from": "From",
-  "upperTo": "To",
-  "connect": "Connect",
-  "learnHowConnect": "Learn how to connect",
-  "logout": "Logout",
-  "initialPricesAndPoolShare": "Initial prices and pool share",
-  "pricesAndPoolShare": "Prices and pool share",
+  "common": {
+    "button": {
+      "cancel": "NEW - Cancel",
+      "continue": "NEW - Continue",
+      "connect": "NEW - Connect",
+      "disconnect": "NEW - Disconnect",
+      "repeat": "NEW - Repeat",
+      "claim": "NEW - Claim",
+      "added": "NEW - Added",
+      "addTokenToWallet": "NEW - Add token to wallet",
+      "transfer": "NEW - Transfer",
+      "maxCaps": "NEW - MAX",
+      "unlocked": "NEW - Unlocked",
+      "unlock": "NEW - Unlock",
+      "unlockWallet": "NEW - Unlock Wallet",
+      "transactionHistory": "NEW - Transaction History",
+      "viewOnExplorerName": "NEW - View on {{explorerName}}",
+      "close": "NEW - Close",
+      "back": "NEW - Back",
+      "wrap": "NEW - Wrap",
+      "unwrap": "NEW - Unwrap",
+      "approving": "NEW - Approving",
+      "approved": "NEW - Approved",
+      "approve": "NEW - Approve {{currencySymbol}}",
+      "priceImpactHigh": "NEW - Price Impact High",
+      "priceImpactTooHigh": "NEW - Price Impact Too High",
+      "swap": "NEW - Swap {{stringValue}}",
+      "viewList": "NEW - View list",
+      "remove": "NEW - Remove",
+      "removeList": "NEW - Remove list",
+      "updateList": "NEW - Update list",
+      "selected": "NEW - Selected",
+      "select": "NEW - Select",
+      "add": "NEW - Add",
+      "enterAnAmount": "NEW - Enter an amount"
+    },
+    "text": {
+      "or": "NEW - or",
+      "loading": "NEW - Loading"
+    },
+    "messages": {
+      "pleaseSpecify": "NEW - Please specify amount",
+      "notEnough": "NEW - Not enough balance",
+      "thereIsProblemToken": "NEW - There is problem with the token unlock. Try to revoke previous approval if any on https://revoke.cash/",
+      "impossibleToPerform": "NEW - Impossible to perform the operation. Reload the application and try again.",
+      "pleaseConfirmYouWouldLike": "NEW - Please confirm you would like to remove this list by typing REMOVE",
+      "validDeadline": "NEW - Enter a valid deadline",
+      "yourTransactionMayFail": "NEW - Your transaction may fail",
+      "yourTransactionMayBeFrontrun": "NEW - Your transaction may be frontrun"
+    }
+  },
+  "menu": {
+    "home": "NEW - Home",
 
-  "errorMessages": {
-    "validDeadline": "Enter a valid deadline"
+    "trade": "NEW - Trade",
+    "swap": "NEW - Swap",
+    "liquidity": "NEW - Liquidity",
+    "migrate": "NEW - Migrate",
+
+    "tokenHolderArea": "NEW - Token holder area",
+
+    "overview": "NEW - Overview",
+    "tokens": "NEW - Tokens",
+    "pairs": "NEW - Pairs",
+
+    "more": "NEW - More",
+    "audits": "NEW - Audits",
+    "voting": "NEW - Voting",
+    "github": "NEW - GitHub",
+    "docs": "NEW - Docs",
+    "blog": "NEW - Blog",
+
+    "aliumArt": "NEW - Alium.art"
   },
-  "questionHelperMessages": {
-    "addLiquidity": "When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.",
-    "removeTokens": "Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive.",
-    "transactionRevert": "Your transaction will revert if the price changes unfavorably by more than this percentage.",
-    "transactionRevertPending": "Your transaction will revert if it is pending for more than this long."
+  "header": {
+    "almPrice": "NEW - ALM Price:"
   },
-  "mainMenu": {
-    "liquidity": "Liquidity",
-    "home": "Home",
-    "trade": "Trade",
-    "more": "More",
-    "github": "GitHub",
-    "blog": "Blog",
-    "docs": "Docs"
+  "networks": {
+    "invalidNetwork": "NEW - Invalid network",
+    "binance": {
+      "title": "NEW - Binance",
+      "label": "NEW - Binance Smart Chain"
+    },
+    "huobi": {
+      "title": "NEW - Huobi",
+      "label": "NEW - Huobi ECO Chain"
+    },
+    "polygon": {
+      "title": "NEW - Polygon",
+      "label": "NEW - Polygon Matic Chain"
+    },
+    "ethereum": {
+      "title": "NEW - Ethereum",
+      "label": "NEW - Ethereum Chain"
+    }
   },
-  "hurray": "Hurray",
-  "greetingsMessage": "We're up and running. Join us now to get the maximum benefit from the very beginning!",
-  "startTrading": "Start trading",
+  "wallets": {
+    "metamask": {
+      "title": "NEW - Metamask"
+    },
+    "trustWallet": {
+      "title":  "NEW - Trust Wallet"
+    },
+    "mathWallet": {
+      "title":  "NEW - Math Wallet"
+    },
+    "tokenPocket": {
+      "title":  "NEW - Token Pocket"
+    },
+    "walletConnect": {
+      "title":  "NEW - Wallet Connect"
+    },
+    "binanceChain": {
+      "title":  "NEW - Binance Chain Wallet"
+    },
+    "ontoWallet": {
+      "title":  "NEW - ONTO Wallet"
+    }
+  },
+  "walletModal": {
+    "1": {
+      "tokenSymbol": "NEW - ETH",
+      "networkName": "NEW - Ethereum Chain"
+    },
+    "4": {
+      "tokenSymbol": "NEW - ETH",
+      "networkName": "NEW - Ethereum Chain Testnet Ropsten"
+    },
+    "56": {
+      "tokenSymbol": "NEW - BNB",
+      "networkName": "NEW - Binance Smart Chain"
+    },
+    "97": {
+      "tokenSymbol": "NEW - BNB",
+      "networkName": "NEW - Binance Smart Chain Testnet"
+    },
+    "128": {
+      "tokenSymbol": "NEW - HT",
+      "networkName": "NEW - Huobi ECO Chain"
+    },
+    "137": {
+      "tokenSymbol": "NEW - MATIC",
+      "networkName": "NEW - Polygon Matic Chain"
+    },
+    "256": {
+      "tokenSymbol": "NEW - HT",
+      "networkName": "NEW - Huobi ECO Chain Testnet"
+    },
+    "80001": {
+      "tokenSymbol": "NEW - MATIC",
+      "networkName": "NEW - Polygon Matic Chain Testnet"
+    },
+
+    "undefinedToken": "NEW - Undefined Token",
+    "undefinedChain": "NEW - Undefined Chain (ID: {{currentChainId}})"
+  },
+  "connectModal": {
+    "title": "NEW - Connect Wallet",
+    "chooseNetwork": "NEW - Choose Network",
+    "chooseWallet": "NEW - Choose Wallet",
+    "learnHowTtoConnect": "NEW - Learn how to connect"
+  },
+  "accountModal": {
+    "title": "NEW - Account",
+    "logoutTitle": "NEW - Logout",
+    "balance": "NEW - Balance",
+    "loadingBalance": "NEW - Loading balance...",
+    "network": "NEW - Network"
+  },
+  "recentTransactionsModal": {
+    "title": "NEW - Recent Transactions",
+    "pleaseConnectWallet": "NEW - Please connect your wallet to view your recent transactions",
+    "noRecentTransactions": "NEW - No recent transactions"
+  },
+  "bridge": {
+    "pageTitle": "NEW - Bridge",
+    "connectWallet": "NEW - Connect Wallet",
+    "toGetStarted": "NEW - To get started, connect your wallet.",
+    "switchYourNetwork": "NEW - Switch your network",
+    "toAccessTheBridge": "NEW - To access the <b>{{fromTokenSymbol}} > {{toTokenSymbol}}</b> bridge, please switch to",
+    "bridgeSteps": {
+      "stepMeasuredIn": "NEW - STEP",
+      "oneStep": "NEW - Transfer",
+      "twoStep": "NEW - Switch network",
+      "threeStep": "NEW - Claim token"
+    },
+    "pleaseSwitchNetwork": "NEW - Please switch the network in your wallet to <b>{{networkToLabel}}</b>",
+    "afterYouSwitchNetworks": "NEW - After you switch networks, you will complete a second transaction on {{shortedNetworkLabel}} to claim your {{tokenSymbol}} tokens.",
+    "transactionFailed": "NEW - Transaction failed",
+    "transferPending": "NEW - Transfer {{amount}} {{tokenSymbol}} pending...",
+    "transactionIsPending": "NEW - Transaction is pending...",
+    "confirmTheTransaction": "NEW - Confirm the transaction in your wallet",
+    "claimPending": "NEW - Claim pending...",
+    "minutesLeft": "NEW - 2 minutes left",
+    "veryLittleLeft": "NEW - Very little left",
+    "transactionCompleted": "NEW - Transaction completed",
+    "amount": "NEW - Amount: <b>{{amount}} {{tokenSymbol}}</b>",
+    "confirmTransfer": "NEW - Confirm Transfer",
+    "bridgeFees": "NEW - Bridge Fees 0.5%",
+    "pleaseConfirmThat": "NEW - Please confirm that you would like to send <b>{{amountsFrom}} {{tokenSymbol}}</b> from {{networkFromLabel}} and receive <b>{{amountsTo}} {{tokenSymbol}}</b> on {{networkToLabel}}",
+    "theClaimProcess": "NEW - The claim process requires 2 transactions, one on {{networkFromLabel}} and one on {{networkToLabel}}",
+    "history": {
+      "linkTitle": "NEW - History",
+      "noHistory": "NEW - No History",
+      "makeFirstExchange": "NEW - Make the first exchange",
+      "tableHeader": {
+        "date": "NEW - Date",
+        "direction": "NEW - Direction",
+        "sending": "NEW - Sending tx",
+        "receiving": "NEW - Receiving tx",
+        "amount": "NEW - Amount",
+        "status": "NEW - Status"
+      },
+      "paginationText": "NEW - Page {{currentPage}} of {{totalPages}}"
+    },
+    "recipientAddress": "NEW - Recipient Address",
+    "wrongAddress": "NEW - Wrong address",
+    "advanced": "NEW - Advanced",
+    "bridgeScan": {
+      "defaultRPCURL": "NEW - Default RPC URL",
+      "bridgeForeignAddress": "NEW - Bridge Foreign Address",
+      "tokenAddress": "NEW - Token Address",
+      "tokenName": "NEW - Token Name",
+      "remainingDaily": "NEW - Remaining Daily {{tokenSymbol}} Quota",
+      "maximumAmount": "NEW - Maximum Amount Per Transaction",
+      "minimumAmount": "NEW - Minimum Amount Per Transaction",
+      "tokensAmount": "NEW - {{tokenSymbol}} Tokens Amount",
+      "yourBalance": "NEW - Your {{tokenSymbol}} Balance"
+    }
+  },
+  "swap": {
+    "header": "NEW - Swap",
+    "headerDescription": "NEW - Trade tokens in an instant",
+    "fromEstimated": "NEW - From (estimated)",
+    "from": "NEW - From",
+    "toEstimated": "NEW - To (estimated)",
+    "to": "NEW - To",
+    "balance": "NEW - Balance {{balance}}",
+    "balanceLoading": "NEW - Balance loading",
+    "selectToken": "NEW - Select a token",
+    "tokenName": "NEW - Token name",
+    "findTokenBySearching": "NEW - Find a token by searching for its name or symbol or by pasting its address below.",
+    "tokenSearchPlaceholder": "NEW - Search name or paste address",
+    "removeSend": "NEW - - Remove send",
+    "price": "NEW - Price",
+    "slippageTolerance": "NEW - Slippage Tolerance",
+    "insufficientLiquidityForThisTrade": "NEW - Insufficient liquidity for this trade.",
+    "recipient": "NEW - recipient",
+    "walletAddressOrEnsName": "NEW - Wallet address or ens name",
+    "viewOnExplorerName": "NEW - (View on {{explorerName}})",
+    "manageLists": "NEW - Manage Lists",
+    "addAList": "NEW - Add a list",
+    "addAListQuestionHelper": "NEW - Token lists are an open specification for lists of BEP20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious BEP20 tokens.",
+    "listSelectInputPlaceholder": "NEW - https:// or ipfs:// or ENS name",
+    "browseLists": "NEW - Browse lists",
+    "addASend": "NEW - + Add a send (optional)",
+    "minimumReceived": "NEW - Minimum received",
+    "maximumSold": "NEW - Maximum sold",
+    "yourTransactionWillRevert": "NEW - Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.",
+    "priceImpact": "NEW - Price Impact",
+    "theDifferenceBetween": "NEW - The difference between the market price and estimated price due to trade size.",
+    "liquidityProvider": "NEW - Liquidity Provider Fee",
+    "forEachTradeAFeeIsPaid": "NEW - For each trade a 0.25% fee is paid. 0.20% goes to liquidity providers and 0.05% goes to the AliumSwap treasury.",
+    "route": "NEW - Route",
+    "routingThroughThese": "NEW - Routing through these tokens resulted in the best price for your trade.",
+    "settingsModal" : {
+      "modalTitle": "New - Settings",
+      "slippedTolerance": "NEW - Slippage tolerance",
+      "transactionRevert": "NEW - Your transaction will revert if the price changes unfavorably by more than this percentage.",
+      "transactionDeadline": "NEW - Transaction deadline",
+      "transactionRevertPending": "NEW - Your transaction will revert if it is pending for more than this long.",
+      "minutes": "NEW - Minutes"
+    }
+  },
+  "liquidity": {
+    "header": "NEW - Liquidity",
+    "headerDescription": "NEW - Add liquidity to receive LP tokens",
+    "addLiquidity": "NEW - Add Liquidity",
+    "yourLiquidity": "NEW - Your Liquidity",
+    "whenYouAddLiquidity": "NEW - When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.",
+    "liquidityConnectToWallet": "NEW - Connect to a wallet to view your liquidity.",
+    "liquidityNotFound": "NEW - No liquidity found.",
+    "noJoinedPool": "NEW - Don't see a pool you joined?",
+    "importPoolMessage": "NEW - Import it.",
+    "lpTokensInYourWallet": "NEW - LP Tokens in your Wallet",
+    "importPool": "NEW - Import Pool",
+    "useThisTool": "NEW - Use this tool to find pairs that don't automatically appear in the interface",
+    "removeTokens": "NEW - Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive.",
+    "selectToFindLiquidity": "NEW - Select a token to find your liquidity.",
+    "youAreTheFirstLiquidity": "NEW - You are the first liquidity provider.",
+    "theRatioOfTokens": "NEW - The ratio of tokens you add will set the price of this pool.",
+    "onceYouAreHappy": "NEW - Once you are happy with the rate click supply to review.",
+    "pricesAndPoolShare": "NEW - Prices and pool share",
+    "initialPricesAndPoolShare": "NEW - Initial prices and pool share",
+    "connectToFindPools": "NEW - Connect to a wallet to find pools",
+    "invalidPair": "NEW - Invalid pair.",
+    "poolFound": "NEW - Pool Found!",
+    "noLiquidityInPool": "NEW - You don’t have liquidity in this pool yet.",
+    "noPool": "NEW - No pool found.",
+    "yourPoolTokens": "NEW - Your pool tokens:",
+    "yourPoolShare": "NEW - Your pool share:",
+    "createPool": "NEW - Create pool.",
+    "selectToken": "NEW - Select a token",
+    "copyLPToken": "NEW - Copy LP Token address",
+    "pooled": "NEW - Pooled {{currencySymbol}}:",
+    "shareOfPool": "NEW - Share of Pool",
+    "confirmThisTransaction": "NEW - Confirm this transaction in your wallet",
+    "labelFrom": "NEW - From",
+    "labelToEstimated": "NEW - To (estimated)"
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  "noWallet": "OLD - No Binance Smart Chain wallet found",
+  "wrongNetwork": "OLD - You are on the wrong network",
+  "switchNetwork": "OLD - Please switch to {{ correctNetwork }}",
+  "installWeb3MobileBrowser": "OLD - Please visit us from a web3-enabled mobile browser such as Trust Wallet or Coinbase Wallet.",
+  "installMetamask": "OLD - Please visit us after installing Metamask on Chrome or Brave.",
+  "disconnected": "OLD - Disconnected",
+  "swapAnyway": "OLD - Swap Anyway",
+  "send": "OLD - Send",
+  "sendAnyway": "OLD - Send Anyway",
+  "pool": "OLD - Pool",
+  "betaWarning": "OLD - This project is in beta. Use at your own risk.",
+  "input": "OLD - Input",
+  "output": "OLD - Output",
+  "estimated": "OLD - estimated",
+  "balance": "OLD - Balance: {{ balanceInput }}",
+  "unlock": "OLD - Unlock",
+  "pending": "OLD - Pending",
+  "searchOrPaste": "OLD - Search Token Name, Symbol, or Address",
+  "searchOrPasteMobile": "OLD - Name, Symbol, or Address",
+  "noExchange": "OLD - No Exchange Found",
+  "noToken": "OLD - No Token Found",
+  "exchangeRate": "OLD - Exchange Rate",
+  "unknownError": "OLD - Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device.",
+  "enterValueCont": "OLD - Enter a {{ missingCurrencyValue }} value to continue.",
+  "selectTokenCont": "OLD - Select a token to continue.",
+  "noLiquidity": "OLD - No liquidity.",
+  "insufficientLiquidity": "OLD - Insufficient liquidity.",
+  "unlockTokenCont": "OLD - Please unlock token to continue.",
+  "transactionDetails": "OLD - Advanced Details",
+  "hideDetails": "OLD - Hide Details",
+  "slippageWarning": "OLD - Slippage Warning",
+  "highSlippageWarning": "OLD - High Slippage Warning",
+  "youAreSelling": "OLD - You are selling",
+  "orTransFail": "OLD - or the transaction will fail.",
+  "youWillReceive": "OLD - You will receive at least",
+  "youAreBuying": "OLD - You are buying",
+  "itWillCost": "OLD - It will cost at most",
+  "forAtMost": "OLD - for at most",
+  "insufficientBalance": "OLD - Insufficient Balance",
+  "inputNotValid": "OLD - Not a valid input value",
+  "differentToken": "OLD - Must be different token.",
+  "noRecipient": "OLD - Enter a wallet address to send to.",
+  "invalidRecipient": "OLD - Please enter a valid wallet address recipient.",
+  "migrateNow": "OLD - Migrate now.",
+  "uniSwapLiquidityFound": "OLD - Uniswap V1 liquidity found!",
+  "recipientAddress": "OLD - Recipient Address",
+  "youAreSending": "OLD - You are sending",
+  "willReceive": "OLD - will receive at least",
+  "to": "OLD - to",
+  "deposit": "OLD - Deposit",
+  "currentPoolSize": "OLD - Current Pool Size",
+  "yourPoolShare": "OLD - Your Pool Share",
+  "noZero": "OLD - Amount cannot be zero.",
+  "mustBeETH": "OLD - One of the input must be BNB.",
+  "enterCurrencyOrLabelCont": "OLD - Enter a {{ inputCurrency }} or {{ label }} value to continue.",
+  "youAreAdding": "OLD - You are adding",
+  "and": "OLD - and",
+  "intoPool": "OLD - into the liquidity pool.",
+  "outPool": "OLD - from the liquidity pool.",
+  "youWillMint": "OLD - You will mint",
+  "liquidityTokens": "OLD - liquidity tokens.",
+  "totalSupplyIs": "OLD - Current total supply of liquidity tokens is",
+  "youAreSettingExRate": "OLD - You are setting the initial exchange rate to",
+  "totalSupplyIs0": "OLD - Current total supply of liquidity tokens is 0.",
+  "tokenWorth": "OLD - At current exchange rate, each pool token is worth",
+  "firstLiquidity": "OLD - You are the first person to add liquidity!",
+  "initialExchangeRate": "OLD - The initial exchange rate will be set based on your deposits. Please make sure that your BNB and {{ label }} deposits have the same fiat value.",
+  "removeLiquidity": "OLD - Remove Liquidity",
+  "poolTokens": "OLD - Pool Tokens",
+  "enterLabelCont": "OLD - Enter a {{ label }} value to continue.",
+  "youAreRemoving": "OLD - You are removing between",
+  "youWillRemove": "OLD - You will remove",
+  "createExchange": "OLD - Create Exchange",
+  "invalidTokenAddress": "OLD - Not a valid token address",
+  "exchangeExists": "OLD - {{ label }} Exchange already exists!",
+  "invalidSymbol": "OLD - Invalid symbol",
+  "invalidDecimals": "OLD - Invalid decimals",
+  "tokenAddress": "OLD - Token Address",
+  "label": "OLD - Label",
+  "name": "OLD - Name",
+  "symbol": "OLD - Symbol",
+  "decimals": "OLD - Decimals",
+  "enterTokenCont": "OLD - Enter a token address to continue",
+  "priceChange": "OLD - Expected price slippage",
+  "forAtLeast": "OLD - for at least ",
+  "brokenToken": "OLD - The selected token is not compatible with Uniswap V1. Adding liquidity will result in locked funds.",
+  "toleranceExplanation": "OLD - Lowering this limit decreases your risk of frontrunning. However, this makes more likely that your transaction will fail due to normal price movements.",
+  "account": "OLD - Account",
+  "disconnect": "OLD - Disconnect",
+  "change": "OLD - Change",
+  "copyAddress": "OLD - Copy Address",
+  "viewOnBscscan": "OLD - View on explorer",
+  "clearAll": "OLD - clear all",
+  "transactionsWillAppear": "OLD - Your transactions will appear here",
+  "connectToWallet": "OLD - Connect to a wallet",
+  "migrateV1Liquidity": "OLD - Migrate V1 Liquidity",
+  "migrateTokens": "OLD - Migrate your liquidity tokens from Uniswap V1 to Uniswap V2.",
+  "clickToRemoveLiquidity": "OLD - For each pool shown below, click migrate to remove your liquidity from Uniswap V1 and deposit it into Uniswap V2.",
+  "enterTokenAddress": "OLD - Enter a token address to find liquidity",
+  "connect": "OLD - Connect",
+  "learnHowConnect": "OLD - Learn how to connect",
+  "logout": "OLD - Logout",
+
+  "hurray": "OLD - Hurray",
+  "greetingsMessage": "OLD - We're up and running. Join us now to get the maximum benefit from the very beginning!",
+  "startTrading": "OLD - Start trading",
   "errors": {
-    "enterValidPercentage": "Enter valid percentage"
+    "enterValidPercentage": "OLD - Enter valid percentage"
   },
-  "boughtCards": "Claim ALM tokens {{count}}",
-  "questionHelpers": {
-    "useThisTool": "Use this tool to find pairs that don't automatically appear in the interface"
-  }
+  "boughtCards": "OLD - Claim ALM tokens {{count}}"
 }

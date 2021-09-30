@@ -1,9 +1,18 @@
 import { Text } from 'alium-uikit/src'
 import styled from 'styled-components'
 
+export const BlueCard = ({ children, ...rest }: any) => {
+  return (
+    <BlueCardStyled {...rest}>
+      <Text color='#24c7d6'>{children}</Text>
+    </BlueCardStyled>
+  )
+}
+
+// styles
+
 const Card = styled.div<any>`
   width: 100%;
-  border-radius: 16px;
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
@@ -43,11 +52,3 @@ const BlueCardStyled = styled(Card)`
   border-radius: 12px;
   width: fit-content;
 `
-
-export const BlueCard = ({ children, ...rest }: any) => {
-  return (
-    <BlueCardStyled {...rest}>
-      <Text color='#24c7d6'>{children}</Text>
-    </BlueCardStyled>
-  )
-}

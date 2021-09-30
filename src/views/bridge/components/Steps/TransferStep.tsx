@@ -4,6 +4,7 @@ import { useBridgeContext } from 'contexts/BridgeContext'
 import { useBridgeDirection } from 'hooks/bridge/useBridgeDirection'
 import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import { BridgeConfirmIcon } from 'images/bridge/BridgeConfirmIcon'
+import { useTranslation } from 'next-i18next'
 import React, { useState } from 'react'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -12,31 +13,6 @@ import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import { useBridgeTransfer } from 'views/bridge/hooks/useBridgeTransfer'
 import TransferLoader from '../Loaders/BridgeTransferLoader'
-
-const Wrapper = styled.div`
-  h2 {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 22px;
-    text-align: center;
-    letter-spacing: 0.3px;
-    color: #0b1359;
-    margin-top: 24px;
-  }
-  p {
-    margin-top: 8px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-    letter-spacing: 0.3px;
-    color: #0b1359;
-  }
-`
 
 const TransferStep = () => {
   const [approved, setApproved] = useState(false)
@@ -150,14 +126,55 @@ const TransferStep = () => {
   )
 }
 
+const ConfirmMessage = () => {
+  const { t } = useTranslation()
+
+  return (
+    <TransactionIndicateWrapper>
+      <StyledConfirm>
+        <BridgeConfirmIcon />
+        <p>{t('bridge.confirmTheTransaction')}</p>
+      </StyledConfirm>
+    </TransactionIndicateWrapper>
+  )
+}
+
+export default TransferStep
+
+// styles
+
+const Wrapper = styled.div`
+  h2 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.3px;
+    color: #0b1359;
+    margin-top: 24px;
+  }
+
+  p {
+    margin-top: 8px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 0.3px;
+    color: #0b1359;
+  }
+`
+
 const StyledConfirm = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   margin-top: 40px;
+
   p {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -169,15 +186,3 @@ const StyledConfirm = styled.div`
     color: #0b1359;
   }
 `
-const ConfirmMessage = () => {
-  return (
-    <TransactionIndicateWrapper>
-      <StyledConfirm>
-        <BridgeConfirmIcon />
-        <p>Confirm the transaction in your wallet</p>
-      </StyledConfirm>
-    </TransactionIndicateWrapper>
-  )
-}
-
-export default TransferStep

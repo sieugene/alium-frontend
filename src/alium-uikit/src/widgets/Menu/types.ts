@@ -40,14 +40,6 @@ export interface MenuEntry {
   triggers?: string[]
 }
 
-export interface ModalOptions {
-  modalTitle?: string
-  modalFooter?: string
-  modelCopyAddress?: string
-  modelLogout?: string
-  modalBscScan?: string
-}
-
 export interface PanelProps {
   isDark: boolean
   toggleTheme: (isDark: boolean) => void
@@ -60,7 +52,6 @@ export interface NavProps extends PanelProps {
   loginBlockVisible?: boolean
   logout: () => void
   buttonTitle?: string
-  options?: ModalOptions
   balance?: string
   explorerName?: string
   explorerLink?: string

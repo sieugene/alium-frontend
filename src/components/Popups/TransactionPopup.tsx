@@ -2,7 +2,7 @@ import { PopupCheckIcon, PopupFailIcon } from 'alium-uikit/src'
 import { useActiveWeb3React } from 'hooks'
 import { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { getExplorerLink, getExplorerName } from 'utils'
+import { getExplorerLink, useExplorerName } from 'utils'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
 import { ExternalLink, TYPE } from '../Shared'
@@ -23,7 +23,7 @@ export default function TransactionPopup({
   summary?: string
 }) {
   const { chainId } = useActiveWeb3React()
-
+  const { explorerName } = useExplorerName(chainId)
   const theme = useContext(ThemeContext)
 
   return (
@@ -41,7 +41,7 @@ export default function TransactionPopup({
         </Body>
         {chainId && (
           <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
-            View on {getExplorerName(chainId)}
+            View on {explorerName}
           </ExternalLink>
         )}
       </AutoColumn>

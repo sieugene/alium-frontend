@@ -41,53 +41,6 @@ import SwapAppBody from './SwapAppBody'
 
 const { main: Main } = TYPE
 
-const CardWrapper = styled.div`
-  width: 100%;
-`
-
-const StyledIconButton = styled.button`
-  border: none;
-  outline: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 12px;
-  background: #fff;
-  transition: 0.4s;
-  :hover {
-    background: ${({ theme }) => theme.colors.primary};
-
-    & svg path {
-      stroke: #fff;
-    }
-  }
-`
-
-const StyledCardBody = styled.div`
-  > div {
-    padding: 40px 24px 24px 24px;
-  }
-  @media screen and (max-width: 376px) {
-    > div {
-      padding: 36px 16px 16px 16px;
-    }
-  }
-`
-
-const StyledRowBetween = styled(RowBetween)`
-  @media screen and (max-width: 530px) {
-    flex-direction: column;
-    > button {
-      width: 100% !important;
-      :first-child {
-        margin-bottom: 8px;
-      }
-    }
-  }
-`
-
 const Swap = () => {
   const loadedUrlParams = useExchangeInputsRedirect()
 
@@ -337,12 +290,14 @@ const Swap = () => {
             onDismiss={handleConfirmDismiss}
             onRepeat={handleOnRepeat}
           />
-          <PageHeader title={t('swap')} description={t('swapHeaderDescription')} />
+          <PageHeader title={t('swap.header')} description={t('swap.headerDescription')} />
           <StyledCardBody>
             <CardBody>
               <AutoColumn gap='md'>
                 <CurrencyInputPanel
-                  label={independentField === Field.OUTPUT && !showWrap && trade ? 'From (estimated)' : t('from')}
+                  label={
+                    independentField === Field.OUTPUT && !showWrap && trade ? t('swap.fromEstimated') : t('swap.from')
+                  }
                   value={formattedAmounts[Field.INPUT]}
                   showMaxButton={!atMaxAmountInput}
                   currency={currencies[Field.INPUT]}
@@ -366,7 +321,7 @@ const Swap = () => {
                     </ArrowWrapper>
                     {recipient === null && !showWrap && isExpertMode ? (
                       <LinkStyledButton id='add-recipient-button' onClick={() => onChangeRecipient('')}>
-                        + Add a send (optional)
+                        {t('swap.addASend')}
                       </LinkStyledButton>
                     ) : null}
                   </AutoRow>
@@ -374,7 +329,7 @@ const Swap = () => {
                 <CurrencyInputPanel
                   value={formattedAmounts[Field.OUTPUT]}
                   onUserInput={handleTypeOutput}
-                  label={independentField === Field.INPUT && !showWrap && trade ? 'To (estimated)' : t('upperTo')}
+                  label={independentField === Field.INPUT && !showWrap && trade ? t('swap.toEstimated') : t('swap.to')}
                   showMaxButton={false}
                   currency={currencies[Field.OUTPUT]}
                   onCurrencySelect={handleOutputSelect}
@@ -389,7 +344,7 @@ const Swap = () => {
                         <ArrowDown size='16' color={theme.colors.textSubtle} />
                       </ArrowWrapper>
                       <LinkStyledButton id='remove-recipient-button' onClick={() => onChangeRecipient(null)}>
-                        - Remove send
+                        {t('swap.removeSend')}
                       </LinkStyledButton>
                     </AutoRow>
                     <AddressInputPanel id='recipient' value={recipient} onChange={onChangeRecipient} />
@@ -402,7 +357,7 @@ const Swap = () => {
                       {Boolean(trade) && (
                         <AutoRow align='center'>
                           <Text fontSize='14px' paddingRight='8px' color='#8990A5'>
-                            Price
+                            {t('swap.price')}
                           </Text>
                           <TradePrice
                             price={trade?.executionPrice}
@@ -414,7 +369,7 @@ const Swap = () => {
                       {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
                         <Flex alignItems='center' justifyContent='flex-start'>
                           <Text fontSize='14px' color={theme.colors.basic}>
-                            Slippage Tolerance
+                            {t('swap.slippageTolerance')}
                           </Text>
                           <Text fontSize='14px' style={{ marginLeft: 10, color: '#6C5DD3' }}>
                             {allowedSlippage / 100}%
@@ -425,17 +380,22 @@ const Swap = () => {
                   </Card>
                 )}
               </AutoColumn>
+
               <BottomGrouping>
                 {!account ? (
                   <ConnectWalletButton />
                 ) : showWrap ? (
                   <Button disabled={Boolean(wrapInputError)} onClick={onWrap}>
                     {wrapInputError ??
-                      (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
+                      (wrapType === WrapType.WRAP
+                        ? t('common.button.wrap')
+                        : wrapType === WrapType.UNWRAP
+                        ? t('common.button.unwrap')
+                        : null)}
                   </Button>
                 ) : noRoute && userHasSpecifiedInputOutput ? (
                   <GreyCard style={{ textAlign: 'center' }}>
-                    <Main>{t('insufficientLiquidityForThisTrade')}</Main>
+                    <Main>{t('swap.insufficientLiquidityForThisTrade')}</Main>
                   </GreyCard>
                 ) : showApproveFlow ? (
                   <StyledRowBetween>
@@ -447,12 +407,12 @@ const Swap = () => {
                     >
                       {approval === ApprovalState.PENDING ? (
                         <AutoRow gap='6px' justify='center'>
-                          Approving <Loader stroke='white' />
+                          {t('common.button.approving')} <Loader stroke='white' />
                         </AutoRow>
                       ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
-                        'Approved'
+                        t('common.button.approved')
                       ) : (
-                        `Approve ${currencies[Field.INPUT]?.symbol}`
+                        t('common.button.approve', { currencySymbol: currencies[Field.INPUT]?.symbol })
                       )}
                     </Button>
                     <Button
@@ -471,8 +431,8 @@ const Swap = () => {
                       variant={isValid && priceImpactSeverity > 2 ? 'danger' : 'primary'}
                     >
                       {priceImpactSeverity > 3 && !isExpertMode
-                        ? `Price Impact High`
-                        : `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
+                        ? t('common.button.priceImpactHigh')
+                        : t('common.button.swap', { stringValue: priceImpactSeverity > 2 ? ' Anyway' : '' })}
                     </Button>
                   </StyledRowBetween>
                 ) : (
@@ -494,14 +454,13 @@ const Swap = () => {
                     disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
                     variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
                   >
-                    {swapInputError ||
+                    {t('common.button.enterAnAmount') ||
                       (priceImpactSeverity > 3 && !isExpertMode
-                        ? `Price Impact Too High`
-                        : `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`)}
+                        ? t('common.button.priceImpactHigh')
+                        : t('common.button.swap', { stringValue: priceImpactSeverity > 2 ? ' Anyway' : '' }))}
                   </Button>
                 )}
                 {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}
-                {/* <ProgressSteps steps={[approval === ApprovalState.APPROVED]} /> */}
                 {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
               </BottomGrouping>
             </CardBody>
@@ -514,3 +473,55 @@ const Swap = () => {
 }
 
 export default Swap
+
+// styles
+
+const CardWrapper = styled.div`
+  width: 100%;
+`
+
+const StyledIconButton = styled.button`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 12px;
+  background: #fff;
+  transition: 0.4s;
+  :hover {
+    background: ${({ theme }) => theme.colors.primary};
+
+    & svg path {
+      stroke: #fff;
+    }
+  }
+`
+
+const StyledCardBody = styled.div`
+  & > div {
+    padding: 40px 24px 24px 24px;
+  }
+
+  @media screen and (max-width: 376px) {
+    & > div {
+      padding: 36px 16px 16px 16px;
+    }
+  }
+`
+
+const StyledRowBetween = styled(RowBetween)`
+  @media screen and (max-width: 530px) {
+    flex-direction: column;
+
+    & > button {
+      width: 100% !important;
+
+      &:first-child {
+        margin-bottom: 8px;
+      }
+    }
+  }
+`
