@@ -12,10 +12,9 @@ export default function BonusNft() {
       Object.values(nftAllRewards).forEach((rewards) => {
         rewards.forEach((reward) => {
           const tokenId = reward.tokenId.toString()
-          if (rewardsByTokenId[tokenId]) {
-            rewardsByTokenId[tokenId].amount = rewardsByTokenId[tokenId].amount.add(reward.amount)
-          } else {
-            rewardsByTokenId[tokenId] = reward
+          rewardsByTokenId[tokenId] = {
+            tokenId: reward.tokenId,
+            amount: rewardsByTokenId[tokenId] ? rewardsByTokenId[tokenId].amount.add(reward.amount) : reward.amount,
           }
         })
       })
