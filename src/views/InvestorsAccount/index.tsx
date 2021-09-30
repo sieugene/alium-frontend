@@ -24,7 +24,7 @@ import NftPoolsHeader from './components/NftPoolsHeader'
 
 const ContentHolder = styled.div`
   position: relative;
-  margin: -11px 9px;
+  margin: -11px 10px;
 `
 
 const CardWrapper = styled.div`
