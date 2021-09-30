@@ -6,6 +6,8 @@ import times from 'lodash/times'
 import styled from 'styled-components'
 import { useYourPools } from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import ConnectWallet from '../ConnectWallet'
+import EmptyYourPools from '../EmptyYourPools'
 import YourPoolCard from '../YourPoolCard'
 
 const PAGE_LIMIT = 6
@@ -17,7 +19,16 @@ export default function NestedYour() {
     items: data || [],
     pageLimit: PAGE_LIMIT,
   })
-  return account ? (
+
+  if (!account) {
+    return <ConnectWallet />
+  }
+
+  if (data?.length === 0) {
+    return <EmptyYourPools />
+  }
+
+  return (
     <NestedYour.Root>
       <NestedYour.Pools>
         {data && items
@@ -26,7 +37,7 @@ export default function NestedYour() {
       </NestedYour.Pools>
       <PaginateWithMore {...paginate} />
     </NestedYour.Root>
-  ) : null
+  )
 }
 
 NestedYour.Pools = styled.div`
