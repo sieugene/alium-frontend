@@ -1,12 +1,12 @@
 import { Button, Skeleton } from 'alium-uikit/src'
 import ConnectionLoad from 'alium-uikit/src/components/ConnectionLoad'
+import { ethers } from 'ethers'
 import useToast from 'hooks/useToast'
 import { useToggle } from 'react-use'
 import styled, { css } from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import {
-  Pool,
   useCountRewardPercent,
   useIsFullPool,
   useLeavePool,
@@ -27,7 +27,7 @@ import Details from './Details'
 import PickUpFunds from './PickUpFunds'
 
 export interface YourPoolCardProps {
-  poolId: Pool['id']
+  poolId: ethers.BigNumber
 }
 
 export default function YourPoolCard({ poolId }: YourPoolCardProps) {

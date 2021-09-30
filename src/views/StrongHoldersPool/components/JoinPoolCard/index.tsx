@@ -1,3 +1,4 @@
+import { useWeb3React } from '@web3-react/core'
 import { Button, Skeleton, useModal } from 'alium-uikit/src'
 import styled from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
@@ -18,6 +19,7 @@ import Title from '../Title'
 import UsersProgressBar from '../UsersProgressBar'
 
 export default function JoinPoolCard() {
+  const { account } = useWeb3React()
   const { data: currentPoolId } = useCurrentPoolId()
   const { data: poolUsers } = usePoolUsers(currentPoolId)
   const { data: poolLocked } = usePoolLocked(currentPoolId)
@@ -39,7 +41,9 @@ export default function JoinPoolCard() {
               <Skeleton />
             )}
           </JoinPoolCard.Field>
-          <JoinPoolCard.Join onClick={openModal}>Join the pool</JoinPoolCard.Join>
+          <JoinPoolCard.Join disabled={!account} onClick={openModal}>
+            Join the pool
+          </JoinPoolCard.Join>
           <JoinPoolCard.Field>
             <BonusNft />
           </JoinPoolCard.Field>
