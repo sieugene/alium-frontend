@@ -83,6 +83,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
             />
             <JoinPoolModal.Actions>
               <Button
+                isloading={loading}
                 onClick={async () => {
                   try {
                     setLoading(true)
@@ -101,6 +102,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                 {t('Approve')}
               </Button>
               <Button
+                isloading={loading}
                 onClick={async () => {
                   try {
                     setLoading(true)

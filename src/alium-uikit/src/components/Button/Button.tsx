@@ -1,3 +1,4 @@
+import BtnLoader from 'components/Loaders/BtnLoader'
 import { NextLink } from 'components/NextLink'
 import { cloneElement, FC, isValidElement } from 'react'
 import getExternalLinkProps from '../../util/getExternalLinkProps'
@@ -21,17 +22,21 @@ const Button: FC<ButtonProps> = ({ startIcon, endIcon, children, external, as, i
 
   return (
     <StyledButton {...internalProps} {...props} isloading={isloading} disabled={isDisabled} as={as || null}>
-      <LinkWrapped as={as} href={props.href} target={props?.target || ''}>
-        {isValidElement(startIcon) &&
-          cloneElement(startIcon, {
-            mr: '0.5rem',
-          })}
-        {children}
-        {isValidElement(endIcon) &&
-          cloneElement(endIcon, {
-            ml: '0.5rem',
-          })}
-      </LinkWrapped>
+      {isloading ? (
+        <BtnLoader />
+      ) : (
+        <LinkWrapped as={as} href={props.href} target={props?.target || ''}>
+          {isValidElement(startIcon) &&
+            cloneElement(startIcon, {
+              mr: '0.5rem',
+            })}
+          {children}
+          {isValidElement(endIcon) &&
+            cloneElement(endIcon, {
+              ml: '0.5rem',
+            })}
+        </LinkWrapped>
+      )}
     </StyledButton>
   )
 }
