@@ -1,4 +1,3 @@
-import { ChainId } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import PaginateWithMore from 'components/PaginateWithMore'
@@ -8,6 +7,7 @@ import { useRouter } from 'next/router'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Farm } from 'state/types'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
 import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount'
@@ -37,6 +37,7 @@ const Farms = () => {
   // Farm hooks
   const farmsLP = useFarms()
   const almPrice = usePriceAlmBusd()
+  const chainId = useStoreNetwork((state) => state.currentChainId)
   // Farm Filters
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
@@ -81,7 +82,7 @@ const Farms = () => {
         const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.busdPrice)
 
         const { cakeRewardsApr, lpRewardsApr } = isActive
-          ? getFarmApr(new BigNumber(farm.poolWeight), almPrice, totalLiquidity, farm.lpAddresses[ChainId.BSCTESTNET])
+          ? getFarmApr(new BigNumber(farm.poolWeight), almPrice, totalLiquidity, farm.lpAddresses[chainId])
           : { cakeRewardsApr: 0, lpRewardsApr: 0 }
 
         // return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
@@ -142,7 +143,7 @@ const Farms = () => {
 
   chosenFarmsLength.current = chosenFarmsMemoized.length
 
-  const { items, ...paginate } = usePaginate({ items: chosenFarmsMemoized, pageLimit: 4 })
+  const { items, ...paginate } = usePaginate({ items: chosenFarmsMemoized, pageLimit: 10 })
 
   return (
     <FarmContainer>

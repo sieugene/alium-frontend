@@ -4,7 +4,6 @@ import ERC20_ABI from 'config/abi/erc20.json'
 import ifoAbi from 'config/abi/ifo.json'
 import lotteryAbi from 'config/abi/lottery.json'
 import lotteryTicketAbi from 'config/abi/lotteryNft.json'
-import masterChef from 'config/abi/masterchef.json'
 // ABI
 import profileABI from 'config/abi/pancakeProfile.json'
 import pancakeRabbitsAbi from 'config/abi/pancakeRabbits.json'
@@ -21,7 +20,6 @@ import {
   getClaimRefundAddress,
   getLotteryAddress,
   getLotteryTicketAddress,
-  getMasterChefAddress,
   getPancakeProfileAddress,
   getPancakeRabbitsAddress,
   getPointCenterIfoAddress,
@@ -65,10 +63,7 @@ export const getLotteryContract = (web3?: Web3) => {
 export const getLotteryTicketContract = (web3?: Web3) => {
   return getContract2(lotteryTicketAbi, getLotteryTicketAddress(), web3)
 }
-// export const getMasterchefContract = (web3?: Web3) => {
-//   console.info('IS DEPRECATED');
-//   return getContract2(masterChef, getMasterChefAddress(), web3)
-// }
+
 export const getClaimRefundContract = (web3?: Web3) => {
   return getContract2(claimRefundAbi, getClaimRefundAddress(), web3)
 }

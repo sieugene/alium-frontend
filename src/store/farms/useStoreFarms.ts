@@ -1,4 +1,4 @@
-import { farmsConfig } from 'config/constants/farms'
+import { getFarmsConfig } from 'config/constants/farms/farms'
 import { ethers } from 'ethers'
 import { Farm } from 'state/types'
 import { FarmSortOption, FarmTab, ViewMode } from 'views/farms/farms.types'
@@ -31,7 +31,7 @@ export interface StoreFarmsState {
   toggleTicketLoader: (toggle: boolean) => void
 }
 
-const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
+const noAccountFarmConfig: Farm[] = getFarmsConfig().map((farm) => ({
   ...farm,
   userData: {
     allowance: '0',
