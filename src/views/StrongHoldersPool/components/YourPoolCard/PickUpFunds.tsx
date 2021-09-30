@@ -62,7 +62,7 @@ PickUpFunds.Counters = styled.div`
 
 PickUpFunds.Value = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 
   ${NftItemReward.Root} {
     height: 50px;
