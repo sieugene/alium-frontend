@@ -39,6 +39,7 @@ ConnectWallet.Text = styled.div`
 `
 
 ConnectWallet.Root = styled(Card)`
+  padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
