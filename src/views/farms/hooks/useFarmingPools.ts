@@ -1,6 +1,7 @@
 import { ChainId } from '@alium-official/sdk'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
+import { getFarmsConfig } from 'config/constants/farms/farms'
 import useRefresh from 'hooks/useRefresh'
 import { useEffect, useMemo } from 'react'
 import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from 'store/farms'
@@ -8,7 +9,6 @@ import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import { getAlmPrice } from 'utils/prices/getAlmPrice'
-import { farmsConfig } from './../../../config/constants/farms'
 import { storeFarms, useStoreFarms } from './../../../store/farms/useStoreFarms'
 
 export const usePollFarmsPublicData = () => {
@@ -22,7 +22,7 @@ export const usePollFarmsPublicData = () => {
     ;(async () => {
       if (farmsLoading || !supportLoaders) return
       setLoading(true)
-      const farms = farmsConfig
+      const farms = getFarmsConfig()
       try {
         const farmsFetched = await fetchFarmsPublicDataAsync(farms)
         setFarms(farmsFetched)
@@ -54,7 +54,7 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
     ;(async () => {
       if (loading || farmsUserDataLoading) return
       setLoading(true)
-      const farms = farmsConfig
+      const farms = getFarmsConfig()
       const pids = farms.map((farmToFetch) => farmToFetch.pid)
       try {
         const fetchedFarms = await fetchFarmUserDataAsync(account, pids)
