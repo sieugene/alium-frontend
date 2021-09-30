@@ -51,6 +51,7 @@ Header.Main = styled.div`
 
 Header.ImageContainer = styled.div`
   max-height: 200px;
+  z-index: -1;
 
   img {
     object-fit: contain;
