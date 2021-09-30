@@ -36,7 +36,8 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
   const { mutate: mutatePool } = usePoolById(poolId)
   const { rewardTokenSymbol } = useRewardTokenInfo()
   const { mutate: mutatePoolUsers } = usePoolUsers(poolId)
-  const { data: poolLocked } = usePoolLocked(poolId)
+  const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(poolId)
+
   const { leavePool, loading: leavePoolLoading } = useLeavePool(poolId)
   const { isLoss } = useCountRewardPercent(poolId)
   const accountUser = usePoolAccountUser(poolId)
@@ -75,6 +76,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
                     await leavePool()
                     await mutatePool()
                     await mutatePoolUsers()
+                    await mutatePoolLocked()
                   } catch (error) {
                     console.error(error)
                     toastError(error.data?.message || error.message)
