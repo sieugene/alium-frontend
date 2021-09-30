@@ -1,4 +1,4 @@
-import Loader from 'components/Loader'
+import Loader from 'components/Loaders/Loader'
 import { ShadowComponent } from 'components/Main/ShadowComponent'
 import React, { FC } from 'react'
 import styled from 'styled-components'
