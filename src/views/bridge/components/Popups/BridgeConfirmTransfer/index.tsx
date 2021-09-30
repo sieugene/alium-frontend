@@ -1,4 +1,5 @@
 import { Button } from 'alium-uikit/src'
+import TransactionModal, { CloseItem } from 'components/Modal/transaction/TransactionModal'
 import { BridgeWarningInDetail } from 'images/bridge/BridgeWarningInDetail'
 import { ChevronRight } from 'react-feather'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
@@ -6,7 +7,6 @@ import styled from 'styled-components'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
-import BridgeModal, { CloseItem } from '../../../../../components/Modal/BridgeModal'
 import BadNetworkWrapper from '../../BadNetworkWrapper'
 
 const Wrapper = styled.div`
@@ -216,7 +216,7 @@ const BridgeConfirmTransfer = () => {
   }
 
   return (
-    <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
+    <TransactionModal isOpen={modalOpen} onDismiss={onDismiss}>
       <BadNetworkWrapper>
         <Wrapper>
           <Header>
@@ -274,7 +274,7 @@ const BridgeConfirmTransfer = () => {
           </Footer>
         </Wrapper>
       </BadNetworkWrapper>
-    </BridgeModal>
+    </TransactionModal>
   )
 }
 

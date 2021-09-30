@@ -179,7 +179,7 @@ const NftAccountCard = ({ card }: PropsType) => {
   return (
     <NFTWrapper>
       <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
-        <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
+        <TransactionSubmittedContent hash={txHash} onDismiss={handleTxClose} />
       </Modal>
       <StyledFlex>
         {isMp4 ? (

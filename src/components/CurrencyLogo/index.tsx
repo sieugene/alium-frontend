@@ -5,12 +5,10 @@ import { WrappedTokenInfo } from 'state/lists/hooks'
 import { Farm } from 'state/types'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { getTokenLogoURL } from 'utils/common/getTokenLogoURL'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import CoinLogo from '../alium/CoinLogo'
 import Logo from '../Logo'
-
-const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/${address}/logo.png`
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
@@ -23,10 +21,6 @@ const StyledLogo = styled(Logo)<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
 `
-
-const defaultIcons = {
-  ALM: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11/logo.png',
-}
 
 export default function CurrencyLogo({
   currency,
@@ -55,11 +49,8 @@ export default function CurrencyLogo({
         const sources = [
           ...uriLocations,
           `/images/coins/${currency?.symbol ?? 'token'}.png`,
-          getTokenLogoURL(currency.address),
+          getTokenLogoURL(currency.address, currency.symbol),
         ]
-        if (defaultIcons[currency.symbol]) {
-          sources.push(defaultIcons[currency.symbol])
-        }
         return sources
       }
 

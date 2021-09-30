@@ -7,6 +7,24 @@ import { animated, useTransition } from 'react-spring'
 import styled, { css } from 'styled-components'
 import { IconClose } from 'views/Migrate/components/IconClose'
 
+export const TransactionWrapper = styled.div`
+  width: 500px;
+  min-height: 363px;
+  padding: 8px;
+
+  @media screen and (max-width: 768px) {
+    max-width: 354px;
+  }
+`
+export const TransactionIndicateWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  margin-top: 40px;
+`
+
 const AnimatedDialogOverlay = animated(DialogOverlay)
 
 const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
@@ -63,7 +81,7 @@ interface ModalProps {
   children?: ReactNode
 }
 
-const BridgeModal = ({
+const TransactionModal = ({
   isOpen,
   onDismiss,
   minHeight = false,
@@ -125,4 +143,4 @@ export const CloseItem: FC<CloseProps> = (props) => {
   )
 }
 
-export default BridgeModal
+export default TransactionModal

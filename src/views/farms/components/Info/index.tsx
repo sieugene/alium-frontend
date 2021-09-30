@@ -31,6 +31,7 @@ import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import RoiModal from '../Modals/RoiModal'
 import WithdrawModal from '../Modals/WithdrawModal'
+import { BuyTicketBtn } from '../TicketBanner/BuyTicketBtn'
 
 const StyledConnectBtn = styled(ConnectWalletButton)`
   max-width: 300px;
@@ -213,6 +214,7 @@ export function useFarmEarnings(farm: FarmWithStakedValue) {
   return new BigNumber(earningsAsString)
 }
 
+export type InfoEarnedElement = ReturnType<typeof useInfoEarned>
 export function useInfoEarned(farm: FarmWithStakedValue) {
   const earnings = useFarmEarnings(farm)
   const { account } = useWeb3React()
@@ -397,6 +399,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
   const { onStake } = useStakeFarms(pid)
   const { onUnstake } = useUnstakeFarms(pid)
   const location = useRouter()
+  const hasTicket = useStoreFarms((state) => state.hasTicket)
   // TODO provide lp price here
   const lpPrice = useLpTokenPrice(tokenName)
   const almPrice = usePriceAlmBusd()
@@ -406,7 +409,8 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
   // conditions
   const FARM_NOT_ENABLED = account && !isApproved
   const STAKE_ALLOW = isApproved && !stakedBalanceNotZero
-  const EMPTY_STAKE_ACTION = !FARM_NOT_ENABLED && !STAKE_ALLOW
+  const TICKET_NOT_BUYED = !hasTicket
+  const EMPTY_STAKE_ACTION = !TICKET_NOT_BUYED && !FARM_NOT_ENABLED && !STAKE_ALLOW
 
   // handlers
   const handleStake = async (amount: string) => {
@@ -445,7 +449,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
   }, [onApprove, account, pid])
 
   const displayBalance = useCallback(() => {
-    if (FARM_NOT_ENABLED) {
+    if (FARM_NOT_ENABLED || TICKET_NOT_BUYED) {
       return ''
     }
     if (!account) {
@@ -459,15 +463,16 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
       return stakedBalanceBigNumber.toFixed(8, BigNumber.ROUND_DOWN)
     }
     return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
-  }, [FARM_NOT_ENABLED, account, stakedBalance])
+  }, [FARM_NOT_ENABLED, TICKET_NOT_BUYED, account, stakedBalance])
 
   return {
     titleNode: `${tokenName} Staked`,
-    displayBalanceNode: FARM_NOT_ENABLED ? null : loading ? (
-      <Skeleton width='50px' />
-    ) : (
-      <ColoredPrice color='text'>{displayBalance()}</ColoredPrice>
-    ),
+    displayBalanceNode:
+      FARM_NOT_ENABLED || TICKET_NOT_BUYED ? null : loading ? (
+        <Skeleton width='50px' />
+      ) : (
+        <ColoredPrice color='text'>{displayBalance()}</ColoredPrice>
+      ),
     balanceNode: account && stakedBalance.gt(0) && lpPrice.gt(0) && (
       <Balance
         before='~'
@@ -498,13 +503,17 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
         <div>-</div>
       ),
     actionsNode: !account ? (
-      <StyledConnectBtn />
+      <StyledConnectBtn title='Connect Wallet' />
     ) : EMPTY_STAKE_ACTION ? null : (
       <>
-        {FARM_NOT_ENABLED && (
-          <Button mt='8px' disabled={requestedApproval || loading} onClick={handleApprove}>
-            {t('Enable Farm')}
-          </Button>
+        {TICKET_NOT_BUYED ? (
+          <BuyTicketBtn />
+        ) : (
+          FARM_NOT_ENABLED && (
+            <Button mt='8px' disabled={requestedApproval || loading} onClick={handleApprove}>
+              {t('Enable Farm')}
+            </Button>
+          )
         )}
         {STAKE_ALLOW && (
           <Button

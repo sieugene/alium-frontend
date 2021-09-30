@@ -8,7 +8,6 @@ import { EarnsFarm, InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEar
 import CardHeading from './CardHeading'
 
 const StyledCard = styled.div`
-  width: 354px;
   height: 100%;
   background: #ffffff;
   border-radius: 6px;
@@ -16,8 +15,6 @@ const StyledCard = styled.div`
   position: relative;
   @media ${down(breakpoints.sm)} {
     width: 100%;
-    max-width: 354px;
-    min-width: 320px;
   }
 `
 

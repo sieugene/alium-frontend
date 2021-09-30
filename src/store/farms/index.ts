@@ -1,3 +1,4 @@
+import { getFarmsConfig } from 'config/constants/farms/farms'
 import { FarmConfig } from 'config/constants/types'
 import { FarmWithUserData } from 'state/types'
 import fetchFarms from './fetchFarms'
@@ -25,7 +26,7 @@ export const fetchFarmsPublicDataAsync = async (farmsList: FarmConfig[]) => {
 // Farm Data with user data
 export const fetchFarmUserDataAsync = async (account: string, currentPids?: number[]): Promise<FarmWithUserData[]> => {
   const farms = storeFarms.getState().farms
-  const farmsConfig = farms
+  const farmsConfig = getFarmsConfig()
   const pids = currentPids || farmsConfig.map((farmToFetch) => farmToFetch.pid)
 
   const farmsToFetch = farms.filter((farmConfig) => pids.includes(farmConfig.pid))

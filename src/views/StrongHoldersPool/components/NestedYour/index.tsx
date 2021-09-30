@@ -1,20 +1,28 @@
+import { Skeleton } from 'alium-uikit/src'
+import PaginateWithMore from 'components/PaginateWithMore'
+import { usePaginate } from 'components/Pagination/hooks/usePaginate'
+import times from 'lodash/times'
 import styled from 'styled-components'
+import { useYourPools } from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import YourPoolCard from '../YourPoolCard'
 
+const PAGE_LIMIT = 6
+
 export default function NestedYour() {
+  const { data } = useYourPools()
+  const { items, ...paginate } = usePaginate({
+    items: data || [],
+    pageLimit: PAGE_LIMIT,
+  })
   return (
     <NestedYour.Root>
       <NestedYour.Pools>
-        <YourPoolCard />
-        <YourPoolCard />
-        <YourPoolCard />
-        <YourPoolCard />
-        <YourPoolCard />
-        <YourPoolCard />
-        <YourPoolCard />
+        {data && items
+          ? items.map((poolId) => <YourPoolCard key={poolId.toString()} poolId={poolId} />)
+          : times(PAGE_LIMIT, (i) => <Skeleton animation='waves' key={i} height={400} />)}
       </NestedYour.Pools>
-      {/* TODO: Pagination? */}
+      <PaginateWithMore {...paginate} />
     </NestedYour.Root>
   )
 }

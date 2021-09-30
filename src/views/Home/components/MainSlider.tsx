@@ -1,133 +1,54 @@
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import styled, { css } from 'styled-components'
+import { useMedia } from 'react-use'
+import styled from 'styled-components'
 
-interface MainSliderProps {
+const md = '768px'
+const lg = '1024px'
+const xl = '1280px'
+
+interface IMainSliderProps {
   className?: string
 }
 
-// sm =  375
-// md = 768
-// ld = 1024
-// xl = 1440
+interface ISlide {
+  label: string
+  title: React.ReactNode
+  image: string
+  subTitle?: React.ReactNode
+}
 
-const slides = [
-  {
-    label: 'Coming soon',
-    title: (
-      <>
-        Earn ALM Farming <br className='md lg' /> and <br className='sm xl' /> Strong Holders <br className='md lg' />{' '}
-        Pools. <br className='xl sm' /> Up to 3000% <br className='md lg' /> APY
-      </>
-    ),
-    image: '/images/home-new/slider/farming-bg.svg',
-  },
-  {
-    label: 'Coming soon',
-    title: (
-      <>
-        "Cyber City Inc" <br className='xl sm md lg' /> Character Boxes Drop
-      </>
-    ),
-    subTitle: (
-      <>
-        NFT Game with open economy and <br className='md lg' /> 10 000 <br className='sm' /> cool and exciting{' '}
-        <br className='xl' /> Cyberpunk <br className='md lg' /> NFT Characters
-      </>
-    ),
-    image: '/images/home-new/slider/cyper-city-bg.svg',
-  },
-  {
-    label: 'September 9th',
-    title: 'Alpaca Grazing Range',
-    subTitle: (
-      <>
-        Earn ALM in an exciting Alium <br className='md lg' /> partnership with <br className='sm' /> Alpaca Finance
-      </>
-    ),
-    image: '/images/home-new/slider/alpaca-grazing-bg.svg',
-  },
-  {
-    label: 'September 13th',
-    title: 'ALM x Krystal Trading Competition',
-    subTitle: (
-      <>
-        Participate in Krystal.app Alium <br className='md lg' /> Trading <br className='sm' /> competition{' '}
-        <br className='xl' /> and win one <br className='md lg' /> of 20 000$ worth <br className='sm' /> of Prizes!
-      </>
-    ),
-    image: '/images/home-new/slider/krystal-trading.svg',
-  },
-]
+// MainSlider
 
-const CarouselStyled = styled(Carousel)`
-  .carousel-status {
-    display: none;
-  }
-  .control-dots {
-    position: absolute;
-    bottom: 35px;
-    left: 81px;
-    width: fit-content;
-    display: flex;
-    margin: 0;
-  }
+const MainSlider: React.FC<IMainSliderProps> = ({ className }) => {
+  const isNotMobile = useMedia(`screen and (min-width: ${md})`)
+  const slides: ISlide[] = [
+    {
+      label: 'Coming soon',
+      title: 'Earn ALM Farming and Strong Holders Pools. Up to 3000% APY',
+      image: isNotMobile ? '/images/home-new/slider/farming-bg.svg' : '/images/home-new/slider/farming-bg-small.svg',
+    },
+    {
+      label: 'Coming soon',
+      title: '"Cyber City Inc" Character Boxes Drop',
+      subTitle: 'NFT Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters',
+      image: '/images/home-new/slider/cyper-city-bg.svg',
+    },
+    {
+      label: 'September 9th',
+      title: 'Alpaca Grazing Range',
+      subTitle: 'Earn ALM in an exciting Alium partnership with Alpaca Finance',
+      image: '/images/home-new/slider/alpaca-grazing-bg.svg',
+    },
+    {
+      label: 'September 13th',
+      title: 'ALM x Krystal Trading Competition',
+      subTitle: 'Participate in Krystal.app Alium Trading competition and win one of 20 000$ worth of Prizes!',
+      image: '/images/home-new/slider/krystal-trading.svg',
+    },
+  ]
 
-  @media screen and (max-width: 575px) {
-    .control-dots {
-      position: absolute;
-      top: 43%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  @media screen and (max-width: 395px) {
-    .control-dots {
-      top: 57%;
-    }
-  }
-`
-
-const ArrowItem = styled.div<{ type: 'next' | 'prev' }>`
-  position: absolute;
-  bottom: 24px;
-  left: ${({ type }) => (type === 'next' ? '167px' : '40px')};
-  z-index: 99;
-  cursor: pointer;
-  svg {
-    ${({ type }) =>
-      type === 'next' &&
-      `transform: rotate(
-180deg);`}
-  }
-  outline: none;
-  @media screen and (max-width: 575px) {
-    position: absolute;
-    top: 43%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    left: ${({ type }) => (type === 'next' ? '70%' : '26%')};
-  }
-  @media screen and (max-width: 395px) {
-    top: 57%;
-  }
-`
-const Indicator = styled.div<{ isSelected: boolean }>`
-  background: #ffffff;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-right: 12px;
-  opacity: ${(props) => (props.isSelected ? 1 : 0.4)};
-  cursor: pointer;
-`
-
-const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
   return (
     <CarouselStyled
       className={className}
@@ -138,12 +59,12 @@ const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
       autoPlay
       infiniteLoop
       interval={10000}
-      renderArrowPrev={(onClickHandler, hasPrev, label) => (
+      renderArrowPrev={(onClickHandler) => (
         <ArrowItem onClick={onClickHandler} type='prev'>
           <Arrow />
         </ArrowItem>
       )}
-      renderArrowNext={(onClickHandler, hasNext, label) => (
+      renderArrowNext={(onClickHandler) => (
         <ArrowItem onClick={onClickHandler} type='next'>
           <Arrow />
         </ArrowItem>
@@ -170,9 +91,96 @@ const MainSlider: React.FC<MainSliderProps> = ({ className }) => {
   )
 }
 
+const CarouselStyled = styled(Carousel)`
+  margin-bottom: 32px;
+
+  .control-dots {
+    position: absolute;
+    top: 240px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: fit-content;
+    display: flex;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media screen and (min-width: ${md}) {
+    margin-bottom: 48px;
+
+    .control-dots {
+      transform: initial;
+      top: initial;
+      bottom: 32px;
+      left: 57px;
+    }
+  }
+
+  @media screen and (min-width: ${lg}) {
+    .control-dots {
+      left: 67px;
+    }
+  }
+
+  @media screen and (min-width: ${xl}) {
+    .control-dots {
+      left: 80px;
+    }
+  }
+`
+
+const ArrowItem = styled.div<{ type: 'next' | 'prev' }>`
+  position: absolute;
+  top: 240px;
+  left: ${({ type }) => (type === 'next' ? 'calc(50% + 60px)' : 'calc(50% - 60px)')};
+  transform: translate(-50%, -50%);
+  z-index: 99;
+
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+
+  svg {
+    ${({ type }) => type === 'next' && `transform: rotate(180deg);`}
+  }
+
+  @media screen and (min-width: ${md}) {
+    transform: initial;
+    top: initial;
+    bottom: 24px;
+    left: ${({ type }) => (type === 'next' ? '141px' : '17px')};
+  }
+
+  @media screen and (min-width: ${lg}) {
+    left: ${({ type }) => (type === 'next' ? '151px' : '27px')};
+  }
+
+  @media screen and (min-width: ${xl}) {
+    left: ${({ type }) => (type === 'next' ? '164px' : '40px')};
+  }
+`
+
+const Indicator = styled.div<{ isSelected: boolean }>`
+  background: #ffffff;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: ${(props) => (props.isSelected ? 1 : 0.4)};
+  cursor: pointer;
+
+  &:not(:last-child) {
+    margin-right: 12px;
+  }
+`
+
 export default MainSlider
 
-const Slide = (props: typeof slides[0]) => (
+// Slide
+
+const Slide = (props: ISlide) => (
   <SlideW bgImage={props.image}>
     <SlideInfoW>
       {props.label && <Label>{props.label}</Label>}
@@ -192,31 +200,38 @@ const SlideW = styled.div<{ bgImage: string }>`
   background-color: #6c5dd3;
   border-radius: 6px;
 
-  ${({ theme }) => theme.mediaQueries.sm} {
-    flex-direction: row;
-    min-height: 280px;
-  }
-  ${({ theme }) => theme.mediaQueries.xl} {
-    min-height: 380px;
-  }
   &:after {
     content: '';
-
     display: block;
     position: absolute;
-    top: 0;
+    bottom: -1px;
+    right: 0;
     left: 0;
-    bottom: 0;
-    width: 100%;
+    width: 356px;
+    min-height: 246px;
+    margin: 0 auto;
     background-repeat: no-repeat;
-    background-position: right 2px;
     background-size: contain;
-    ${({ bgImage }) => css`
-      background-image: url('${bgImage}');
-    `}
-    @media screen and (max-width: 700px) {
-      background-position-y: calc(100% + 2px);
+    background-image: ${({ bgImage }) => `url('${bgImage}')`};
+    background-position: center bottom;
+  }
+
+  @media screen and (min-width: ${md}) {
+    min-height: 280px;
+
+    &:after {
+      width: 100%;
+      height: initial;
+      margin: initial;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-position: right 2px;
     }
+  }
+
+  @media screen and (min-width: ${xl}) {
+    min-height: 380px;
   }
 `
 
@@ -224,44 +239,21 @@ const SlideInfoW = styled.div`
   width: 100%;
   padding: 24px;
   z-index: 2;
-  & br {
-    display: none;
-  }
-  & br.sm {
-    display: block;
-  }
-  ${({ theme }) => theme.mediaQueries.sm} {
-    width: 60%;
+
+  @media screen and (min-width: ${md}) {
+    width: 264px;
+    padding: 32px 0 32px 24px;
     text-align: left;
   }
 
-  @media screen and (min-width: 768px) {
-    padding: 32px 24px;
-    & br.sm {
-      display: none;
-    }
-    & br.md {
-      display: block;
-    }
+  @media screen and (min-width: ${lg}) {
+    width: 274px;
+    padding: 32px 0 32px 32px;
   }
 
-  @media screen and (min-width: 1024px) {
-    padding: 32px 32px;
-    & br.md {
-      display: none;
-    }
-    & br.lg {
-      display: block;
-    }
-  }
-  @media screen and (min-width: 1440px) {
-    padding: 70px 40px;
-    & br.lg {
-      display: none;
-    }
-    & br.xl {
-      display: block;
-    }
+  @media screen and (min-width: ${xl}) {
+    width: 460px;
+    padding: 70px 0 70px 40px;
   }
 `
 
@@ -271,8 +263,6 @@ const Label = styled.span`
   background: rgba(255, 114, 172, 0.1);
   border: 1px solid #ff72ac;
   border-radius: 6px;
-
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 12px;
@@ -280,70 +270,36 @@ const Label = styled.span`
   letter-spacing: 0.3px;
   text-transform: uppercase;
   color: #ff72ac;
-
   margin-bottom: 16px;
 `
+
 const SliderTitle = styled.h2`
-  font-family: Roboto;
-  font-style: normal;
   font-weight: 500;
-  font-size: 24px;
-  line-height: 30px;
-  text-align: center;
+  font-size: 28px;
+  line-height: 36px;
   letter-spacing: 0.3px;
   color: #ffffff;
   margin-bottom: 8px;
-  ${({ theme }) => theme.mediaQueries.sm} {
-    text-align: left;
+
+  @media screen and (min-width: ${md}) {
+    font-size: 24px;
+    line-height: 30px;
   }
-  ${({ theme }) => theme.mediaQueries.xl} {
+
+  @media screen and (min-width: ${xl}) {
     font-size: 40px;
     line-height: 48px;
   }
 `
+
 const SliderSubtitle = styled.span`
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
   color: #ffffff;
 `
 
-const SliderImage = styled.div<{ bgSrc: string }>`
-  position: absolute;
-  width: 100%;
-  padding-bottom: 80%;
-  position: relative;
-  &:after {
-    content: '';
-    position: absolute;
-    display: block;
-
-    ${({ bgSrc }) => css`
-      background-image: url('${bgSrc}');
-    `}
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-  }
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    width: 50%;
-    padding-bottom: 280px;
-  }
-  ${({ theme }) => theme.mediaQueries.xl} {
-    width: 50%;
-    padding-bottom: 320px;
-  }
-`
-
-// Icons
+// Arrow
 
 const Arrow = () => {
   return (

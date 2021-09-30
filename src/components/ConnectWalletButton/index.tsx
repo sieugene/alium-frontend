@@ -1,50 +1,34 @@
-import { AddIcon, Button, ButtonProps, useWalletModal } from 'alium-uikit/src'
+import { Button, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'next-i18next'
-import { FC } from 'react'
 import styled from 'styled-components'
+import { ReactComponent as AddIcon } from './assets/Plus.svg'
 
 const StyledButtonUnlockWallet = styled.div`
-  > button {
-    width: 333px;
+  button {
+    width: 100%;
     margin-top: 10px;
   }
-  @media screen and (max-width: 376px) {
-    > button {
-      width: 100%;
-    }
-    
-  }
+
   .icon {
-    border: 1.5px solid rgb(255, 255, 255);
-    padding: 0 0 0.5px 0.5px;
-    display: flex;
-    border-radius: 6px;
-    margin-right: 14px;
+    margin-right: 18px;
   }
 
   @media screen and (min-width: 768px) {
-    > button {
+    button {
       width: 150px;
       padding: 0 13px;
-    }
-    .icon {
-      border: 1.5px solid rgb(255, 255, 255);
-      padding: 0 0 0.5px 0.5px;
-      display: flex;
-      border-radius: 6px;
-      margin-right: 14px;
     }
   }
 `
 
-// @ts-ignore
-interface props extends ButtonProps {
+interface IUnlockButtonProps {
   alt?: boolean
   fullwidth?: boolean
+  title?: string
 }
 
-const UnlockButton: FC<props> = (props) => {
+const UnlockButton = ({ title, ...props }: IUnlockButtonProps) => {
   const { t } = useTranslation()
   const { login, logout } = useAuth()
   const { onPresentConnectModal } = useWalletModal(login, logout)
@@ -55,12 +39,12 @@ const UnlockButton: FC<props> = (props) => {
         {props.alt ? (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div className='icon'>
-              <AddIcon color='#ffffff' />
+              <AddIcon color='#fff' />
             </div>
             Connect
           </div>
         ) : (
-          <div>{t('unlockWallet')}</div>
+          <div>{title ? title : t('unlockWallet')}</div>
         )}
       </Button>
     </StyledButtonUnlockWallet>

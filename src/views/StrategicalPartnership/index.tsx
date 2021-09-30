@@ -413,7 +413,7 @@ const StrategicalPartnershipHome = () => {
           </Flex>
         </Modal>
         <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
-          <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
+          <TransactionSubmittedContent hash={txHash} onDismiss={handleTxClose} />
         </Modal>
 
         <Modal isOpen={isSucceedPopupVisible} onDismiss={handleSucceedModalClose} maxHeight={90} padding='24px'>

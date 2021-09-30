@@ -1,8 +1,10 @@
-import { farmsConfig } from 'config/constants/farms'
+import { getFarmsConfig } from 'config/constants/farms/farms'
+import { ethers } from 'ethers'
 import { Farm } from 'state/types'
 import { FarmSortOption, FarmTab, ViewMode } from 'views/farms/farms.types'
 import create from 'zustand'
-import createVanilla from 'zustand/vanilla'
+import { devtools, persist } from 'zustand/middleware'
+import createVanilla, { GetState, SetState } from 'zustand/vanilla'
 import { FarmWithUserData } from './../../state/types'
 
 export interface StoreFarmsState {
@@ -23,9 +25,13 @@ export interface StoreFarmsState {
   setStakedOnly: (stakedOnly: boolean) => void
   activeTab: FarmTab
   setActiveTab: (tab: FarmTab) => void
+  hasTicket: boolean
+  checkHasTicket: (contract: ethers.Contract, account: string | undefined) => Promise<boolean>
+  ticketLoader: boolean
+  toggleTicketLoader: (toggle: boolean) => void
 }
 
-const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
+const noAccountFarmConfig: Farm[] = getFarmsConfig().map((farm) => ({
   ...farm,
   userData: {
     allowance: '0',
@@ -34,9 +40,10 @@ const noAccountFarmConfig: Farm[] = farmsConfig.map((farm) => ({
     earnings: '0',
   },
 }))
-
-// store for usage outside of react
-export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
+// store like reducer
+const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>): StoreFarmsState => ({
+  hasTicket: false,
+  ticketLoader: true,
   farmsLoading: false,
   viewMode: ViewMode.CARD,
   farmsUserDataLoading: false,
@@ -45,6 +52,27 @@ export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
   sortOption: FarmSortOption.Hot,
   stakedOnly: false,
   activeTab: FarmTab.live,
+  toggleTicketLoader: (ticketLoader) => {
+    set({ ticketLoader })
+  },
+  checkHasTicket: async (contract, account) => {
+    const toggleTicketLoader = get().toggleTicketLoader
+    if (!account) {
+      toggleTicketLoader(false)
+      set({ hasTicket: false })
+    }
+
+    try {
+      toggleTicketLoader(true)
+      const hasTicket: boolean = await contract.hasTicket(account)
+      set({ hasTicket })
+      return hasTicket
+    } catch (error) {
+      return false
+    } finally {
+      toggleTicketLoader(false)
+    }
+  },
   setActiveTab: (tab: FarmTab) => {
     set({ activeTab: tab })
   },
@@ -83,7 +111,15 @@ export const storeFarms = createVanilla<StoreFarmsState>((set, get) => ({
     })
     set({ farms: data })
   },
-}))
+})
+
+// store for usage outside of react
+export const storeFarms = createVanilla<StoreFarmsState>(
+  persist(devtools(store, 'farm-store'), {
+    name: 'farms-storage', // unique name
+    blacklist: ['farmsLoading', 'farmsUserDataLoading', 'farms', 'hasTicket', 'ticketLoader', 'query'],
+  }),
+)
 
 // store for usage inside of react
 export const useStoreFarms = create<StoreFarmsState>(storeFarms)

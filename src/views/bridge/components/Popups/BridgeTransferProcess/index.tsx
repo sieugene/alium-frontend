@@ -1,4 +1,4 @@
-import BridgeModal from 'components/Modal/BridgeModal'
+import TransactionModal from 'components/Modal/transaction/TransactionModal'
 import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { useBridge } from 'views/bridge/hooks/useBridge'
@@ -29,7 +29,7 @@ const BridgeTransferProcess = () => {
   }
 
   return (
-    <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
+    <TransactionModal isOpen={modalOpen} onDismiss={onDismiss}>
       <BadNetworkWrapper>
         {currentStep !== BRIDGE_STEPS.SUCCESS && (
           <Wrapper>
@@ -41,7 +41,7 @@ const BridgeTransferProcess = () => {
         )}
         {currentStep === BRIDGE_STEPS.SUCCESS && <SuccessStep />}
       </BadNetworkWrapper>
-    </BridgeModal>
+    </TransactionModal>
   )
 }
 

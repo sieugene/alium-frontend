@@ -53,7 +53,7 @@ const StyledInput = styled(Input)<{ notValid: boolean }>`
     color: #8990a5;
   }
 
-  ${(props) => props.notValid && 'border: 1px solid #ff0000a1;'}
+  ${(props) => props.notValid && 'border: 1px solid #FF4D00;'}
 
   margin-top: 8px;
   max-width: 340px;
@@ -64,25 +64,29 @@ const StyledInput = styled(Input)<{ notValid: boolean }>`
     max-width: initial;
   }
 `
+const ErrorText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: #ff4d00;
+  margin-top: 4px;
+`
 
 const AdvancedInput: FC<{ children: React.ReactNode }> = ({ children }) => {
   const [showInput, setShowInput] = useState(false)
-  const { receiver, setReceiver } = useBridgeContext()
-  const [shadowInput, setshadowInput] = useState('')
+  const { setReceiver, receiver } = useBridgeContext()
+
   const [touched, setTouched] = useState(false)
-  const valid = React.useMemo(() => utils.isAddress(shadowInput), [shadowInput])
+  const valid = React.useMemo(() => utils.isAddress(receiver), [receiver])
 
   const updateInput = (value: string) => {
-    setshadowInput(value)
-    if (utils.isAddress(value)) {
-      setReceiver(value)
-    } else {
-      setReceiver('')
-    }
+    setReceiver(value)
   }
 
   const clear = () => {
-    if (!valid && receiver) {
+    if (!valid) {
       setReceiver('')
       setTouched(false)
     }
@@ -92,20 +96,24 @@ const AdvancedInput: FC<{ children: React.ReactNode }> = ({ children }) => {
       clear()
     }
   }, [showInput])
+  const showError = touched && !valid && receiver?.length >= 1
   return (
     <>
       {showInput && (
-        <StyledInput
-          placeholder='Recipient Address'
-          value={shadowInput}
-          onChange={({ target }) => {
-            updateInput(target?.value)
-          }}
-          onFocus={(event) => {
-            setTouched(true)
-          }}
-          notValid={touched && !valid}
-        />
+        <>
+          <StyledInput
+            placeholder='Recipient Address'
+            value={receiver}
+            onChange={({ target }) => {
+              updateInput(target?.value)
+            }}
+            onFocus={(event) => {
+              setTouched(true)
+            }}
+            notValid={showError}
+          />
+          {showError && <ErrorText>Wrong address</ErrorText>}
+        </>
       )}
       <AdvanceWrapper>
         {children && children}

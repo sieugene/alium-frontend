@@ -1,9 +1,11 @@
 import { ChainId, WETH } from '@alium-official/sdk'
 import { Contract } from '@ethersproject/contracts'
 import AbiAliumFactory from 'config/abi/AbiAliumFactory.json'
+import farmingTicketWindow from 'config/abi/FarmingTicketWindow.json'
 import masterChef from 'config/abi/masterchef.json'
 import MULTICALL_ABI from 'config/abis/MULTICALL_ABI.json'
 import MULTICALL_ADDRESS from 'config/addresses/MULTICALL_ADDRESS'
+import { SHP_ABI, SHP_NFT_ABI } from 'config/constants/shp'
 import LP_ABI from 'config/vampiring/LP_ABI.json'
 import { VAMPIRE_ABI } from 'config/vampiring/VAMPIRE_ABI'
 import ERC20_ABI from 'constants/abis/erc20'
@@ -25,7 +27,7 @@ import {
 } from 'utils/contractHelpers'
 import { ENS_ABI, ENS_PUBLIC_RESOLVER_ABI, ERC20_BYTES32_ABI, IPAIR_ABI, WETH_ABI } from '../config/abis'
 import UNISOCKS_ABI from '../constants/abis/unisocks.json'
-import { getMasterChefAddress } from './../utils/addressHelpers'
+import { getFarmingTicketWindow, getMasterChefAddress, getShpAddress } from './../utils/addressHelpers'
 import { useActiveWeb3React } from './index'
 import useWeb3 from './useWeb3'
 
@@ -157,6 +159,10 @@ export const useMasterchef = () => {
   const contract = useContract(getMasterChefAddress(), masterChef)
   return useMemo(() => contract, [contract])
 }
+export const useFarmingTicketWindow = () => {
+  const contract = useContract(getFarmingTicketWindow(), farmingTicketWindow)
+  return useMemo(() => contract, [contract])
+}
 
 export const useSousChef = (id) => {
   const web3 = useWeb3()
@@ -171,4 +177,12 @@ export const usePointCenterIfoContract = () => {
 export const useClaimRefundContract = () => {
   const web3 = useWeb3()
   return useMemo(() => getClaimRefundContract(web3), [web3])
+}
+
+export function useShpContract() {
+  return useContract(getShpAddress(), SHP_ABI)
+}
+
+export function useShpNftContract(address?: string) {
+  return useContract(address, SHP_NFT_ABI)
 }
