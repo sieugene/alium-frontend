@@ -5,38 +5,38 @@ import styled from 'styled-components'
 
 const metaTags = [
   {
-    title: 'Home Aluim Swap',
+    title: 'Home Alium Swap',
     link: ROUTES.home,
     description:
-      'Aluim Swap - DeFi aggregator on Ethereum, Polygon, Huobi and Binance Smart Chain. Buy ALM token on Alium DEX.',
+      'Alium Swap - DeFi aggregator on Ethereum, Polygon, Huobi and Binance Smart Chain. Buy ALM token on Alium DEX.',
     seo: '',
   },
   {
-    title: 'Exchange | Aluim Swap',
+    title: 'Exchange | Alium Swap',
     link: ROUTES.exchange,
     description: '',
     seo: 'Exchange',
   },
   {
-    title: 'Liquidity | Aluim Swap',
+    title: 'Liquidity | Alium Swap',
     link: ROUTES.pool,
     description: '',
     seo: 'Trade',
   },
   {
-    title: 'Migrate | Aluim Swap',
+    title: 'Migrate | Alium Swap',
     link: ROUTES.migrate,
     description: '',
     seo: 'Trade',
   },
   {
-    title: 'NFT deck | Aluim Swap',
+    title: 'NFT deck | Alium Swap',
     link: ROUTES.tokenHolderArea,
     description: '',
     seo: 'Your NFT deck',
   },
   {
-    title: 'Audits | Aluim Swap',
+    title: 'Audits | Alium Swap',
     link: ROUTES.audits,
     description: '',
     seo: 'Our completed audits',
