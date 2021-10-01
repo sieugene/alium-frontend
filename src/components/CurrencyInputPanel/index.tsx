@@ -174,7 +174,6 @@ export default function CurrencyInputPanel({
 }
 
 // styles
-
 const InputRow = styled.div<{ selected: boolean; customHeight?: number }>`
   display: flex;
   flex-flow: row nowrap;
@@ -200,13 +199,14 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
 `
 
 const LabelRow = styled.div`
+  width: -webkit-fill-available;
+  width: -moz-available;
   position: absolute;
   padding: 4px 0.75rem;
   top: -17px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-
   & ${Text} {
     background: #fff;
     padding: 4px;
@@ -215,7 +215,6 @@ const LabelRow = styled.div`
     font-weight: 500;
     color: ${({ theme }) => theme.colors.primaryBright};
   }
-
   span:hover {
     cursor: pointer;
     color: ${({ theme }) => darken(0.2, theme.colors.textSubtle)};
