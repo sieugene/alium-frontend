@@ -22,153 +22,11 @@ import NftNavTabs from './components/NftNavTabs'
 import NftPoolCard from './components/NftPoolCard'
 import NftPoolsHeader from './components/NftPoolsHeader'
 
-const ContentHolder = styled.div`
-  position: relative;
-  margin: -11px 10px;
-`
-
-const CardWrapper = styled.div`
-  font-family: Roboto, sans-serif;
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-
-  @media screen and (max-width: 1024px) {
-    max-width: 954px;
-  }
-
-  @media screen and (max-width: 1016px) {
-    padding: 0 32px 0 32px;
-  }
-  @media screen and (max-width: 790px) {
-    padding: 0;
-  }
-`
-
-const StyledHeading = styled(Heading)`
-  &.heading--desktop {
-    display: none;
-  }
-
-  &.heading--mobile {
-    display: none;
-  }
-
-  @media screen and (max-width: 1170px) {
-    &.heading--desktop {
-      display: block;
-      font-size: 32px;
-      text-align: center;
-    }
-  }
-  @media screen and (max-width: 850px) {
-    &.heading--desktop {
-      display: block;
-      font-size: 32px;
-      text-align: left;
-      margin: 36px 0 24px 0;
-    }
-  }
-  @media screen and (max-width: 850px) {
-    &.heading--desktop {
-      display: none;
-    }
-
-    &.heading--mobile {
-      display: block;
-      text-align: left;
-      letter-spacing: 0.3px;
-      margin-bottom: 24px;
-    }
-  }
-  @media screen and (max-width: 790px) {
-    &.heading--mobile {
-      font-size: 28px;
-      text-align: center;
-      line-height: 34.1px;
-    }
-  }
-  @media screen and (max-width: 544px) {
-    padding: 0 78px;
-  }
-  @media screen and (max-width: 482px) {
-    padding: 0 60px;
-  }
-  @media screen and (max-width: 446px) {
-    padding: 0 60px;
-  }
-  @media screen and (max-width: 446px) {
-    padding: 0 30px;
-  }
-  @media screen and (max-width: 386px) {
-    padding: 0;
-  }
-  @media screen and (max-width: 480px) {
-    &.heading--mobile {
-      // margin-bottom: 70px
-    }
-  }
-`
-
-const NftCardsContainer = styled(Flex)`
-  flex-wrap: wrap;
-  align-content: flex-start;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin-left: -15px;
-  margin-right: -15px;
-`
-
-const HelperDiv = styled(Text)`
-  padding: 8px 16px;
-  border: 1px solid #d2d6e5;
-  box-sizing: border-box;
-  border-radius: 6px;
-  margin-top: 17px;
-  width: fit-content;
-
-  span {
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 30px;
-    letter-spacing: 0.3px;
-    color: #ff4d00;
-    margin-right: 8px;
-    position: relative;
-    top: 5px;
-  }
-`
-
-const NftTable = styled.div`
-  margin-top: 24px;
-`
-const NftTableContent = styled(Flex)`
-  margin-top: 8px;
-  flex-direction: column;
-  width: 100%;
-`
-
-const NoNFT = styled(Flex)`
-  margin-top: 16px;
-  flex-direction: column;
-  width: 100%;
-`
-
-const NoNFTText = styled(Flex)`
-  font-size: 22px;
-  line-height: 1.5;
-  font-weight: 500;
-  color: #000;
-  margin-bottom: 16px;
-`
-
 const InvestorsAccount = () => {
-  // const [poolsWithData, setPoolsWithData] = useState<PoolsTypes[]>(pools)
+  const { t } = useTranslation()
   const [isTransactionLoading, setIsTransactionLoading] = useState(false)
   const [isHideModalOpen, setHideModalOpen] = useState(false)
   const { account, chainId, library } = useActiveWeb3React()
-
-  const { t } = useTranslation()
 
   const { poolsWithData, onClaim, pendingClaimResult, filterPools } = useNftPoolHook()
   const { balanceAccount, strategicalCardsWithCount, publicCardsWithCount, privateCardsWithCount } = useCollectionNft()
@@ -260,7 +118,7 @@ const InvestorsAccount = () => {
       <AvailableAccount>
         <CardWrapper>
           <Text fontSize='48px' style={{ fontWeight: 700, marginBottom: '32px' }}>
-            Your NFT deck
+            {t('tokenHolderArea.yourNFTDeck')}
           </Text>
           <Modal
             isOpen={isHideModalOpen}
@@ -280,7 +138,7 @@ const InvestorsAccount = () => {
                   color: '#0B1359',
                 }}
               >
-                {t('pleaseUnlockWallet')}
+                ???
               </Text>
               <ConnectWalletButton fullwidth />
             </Flex>
@@ -293,33 +151,23 @@ const InvestorsAccount = () => {
             <TransactionSucceedContent hash={succeedHash} onDismiss={handleSucceedModalClose} />
           </Modal>
 
-          {/* <StyledHeading as='h1' size='xl' color='heading' mb='40px' mt='20px' className='heading--desktop'>
-            {t('strategicalPartnership')}
-          </StyledHeading>
-          <StyledHeading as='h1' size='xl' color='heading' mb='40px' className='heading--mobile'>
-            {t('strategicalPartnership')}
-          </StyledHeading> */}
-
           <AppInvestorsAccountBody>
             {!account ? (
-              'Please connect to your wallet first.'
+              t('tokenHolderArea.pleaseConnectTo')
             ) : balanceAccount === undefined || accountTotalBalance === -1 ? (
               <Dots>
-                <span style={{ fontSize: '20px' }}>Loading please wait</span>
+                <span style={{ fontSize: '20px' }}>{t('tokenHolderArea.loadingPleaseWait')}</span>
               </Dots>
             ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
               <NoNFT>
-                <NoNFTText>You don&apos;t have NFT tokens.</NoNFTText>
-                {/* <NextLink.Multiple href={ROUTES.public} target='_blank' as='a'>
-                <Button>Buy NFT</Button>
-              </NextLink.Multiple> */}
+                <NoNFTText>{t('tokenHolderArea.youDontHaveNFT')}</NoNFTText>
               </NoNFT>
             ) : (
               <>
                 {privateCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                   <>
                     <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                      Private Pool Cards
+                      {t('tokenHolderArea.privatePoolCards')}
                     </StyledHeading>
                     <NftCardsContainer>
                       {privateCardsWithCount
@@ -333,7 +181,7 @@ const InvestorsAccount = () => {
                 {strategicalCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                   <>
                     <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                      Strategical Pool Cards
+                      {t('tokenHolderArea.strategicalPoolCards')}
                     </StyledHeading>
                     <NftCardsContainer>
                       {strategicalCardsWithCount
@@ -349,7 +197,7 @@ const InvestorsAccount = () => {
                 {publicCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                   <>
                     <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                      Public Pool Cards
+                      {t('tokenHolderArea.publicPoolCards')}
                     </StyledHeading>
                     <NftCardsContainer>
                       {publicCardsWithCount
@@ -362,7 +210,7 @@ const InvestorsAccount = () => {
                 )}
                 <HelperDiv>
                   <span>*</span>
-                  Please note that converting Private NFTs to ALMs is an irreversible action.
+                  {t('tokenHolderArea.pleaseNoteThat')}
                 </HelperDiv>
                 <NftNavTabs />
                 <NftTable>
@@ -371,11 +219,6 @@ const InvestorsAccount = () => {
                     {poolsWithData.filter(filterPools).map((pool) => (
                       <NftPoolCard
                         key={`Pool-Nft-${pool.id}`}
-                        // price emulate
-                        // pool={{
-                        //   ...pool,
-                        //   unlocked: 4445
-                        // }}
                         pool={pool}
                         onClaim={onClaimHandler}
                         pending={Boolean(pendingClaimResult?.[0] === pool.id)}
@@ -394,3 +237,149 @@ const InvestorsAccount = () => {
 }
 
 export default InvestorsAccount
+
+// styles
+
+const ContentHolder = styled.div`
+  position: relative;
+  margin: -11px 10px;
+`
+
+const CardWrapper = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+
+  @media screen and (max-width: 1024px) {
+    max-width: 954px;
+  }
+
+  @media screen and (max-width: 1016px) {
+    padding: 0 32px 0 32px;
+  }
+
+  @media screen and (max-width: 790px) {
+    padding: 0;
+  }
+`
+
+const StyledHeading = styled(Heading)`
+  &.heading--desktop {
+    display: none;
+  }
+
+  &.heading--mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 1170px) {
+    &.heading--desktop {
+      display: block;
+      font-size: 32px;
+      text-align: center;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    &.heading--desktop {
+      display: block;
+      font-size: 32px;
+      text-align: left;
+      margin: 36px 0 24px 0;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    &.heading--desktop {
+      display: none;
+    }
+
+    &.heading--mobile {
+      display: block;
+      text-align: left;
+      letter-spacing: 0.3px;
+      margin-bottom: 24px;
+    }
+  }
+
+  @media screen and (max-width: 790px) {
+    &.heading--mobile {
+      font-size: 28px;
+      text-align: center;
+      line-height: 34.1px;
+    }
+  }
+
+  @media screen and (max-width: 544px) {
+    padding: 0 78px;
+  }
+
+  @media screen and (max-width: 482px) {
+    padding: 0 60px;
+  }
+
+  @media screen and (max-width: 446px) {
+    padding: 0 60px;
+  }
+
+  @media screen and (max-width: 446px) {
+    padding: 0 30px;
+  }
+
+  @media screen and (max-width: 386px) {
+    padding: 0;
+  }
+`
+
+const NftCardsContainer = styled(Flex)`
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: -15px;
+  margin-right: -15px;
+`
+
+const HelperDiv = styled(Text)`
+  padding: 8px 16px;
+  border: 1px solid #d2d6e5;
+  box-sizing: border-box;
+  border-radius: 6px;
+  margin-top: 17px;
+  width: fit-content;
+
+  span {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 0.3px;
+    color: #ff4d00;
+    margin-right: 8px;
+    position: relative;
+    top: 5px;
+  }
+`
+
+const NftTable = styled.div`
+  margin-top: 24px;
+`
+
+const NftTableContent = styled(Flex)`
+  margin-top: 8px;
+  flex-direction: column;
+  width: 100%;
+`
+
+const NoNFT = styled(Flex)`
+  margin-top: 16px;
+  flex-direction: column;
+  width: 100%;
+`
+
+const NoNFTText = styled(Flex)`
+  font-size: 22px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 16px;
+`

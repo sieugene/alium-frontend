@@ -84,12 +84,12 @@ const PageHeader = ({ title, description, children }: PageHeaderProps) => {
             </Text>
           )}
         </Details>
-        <StyledIcon margin={6} title={t('settings')}>
+        <StyledIcon margin={6} title={t('settings?')}>
           <IconButton variant='text' onClick={onPresentSettings}>
             <CogIcon />
           </IconButton>
         </StyledIcon>
-        <StyledIcon title={t('recentTransactions')}>
+        <StyledIcon title={t('recentTransactions?')}>
           <IconButton variant='text' onClick={onPresentRecentTransactions}>
             <HistoryIcon />
           </IconButton>

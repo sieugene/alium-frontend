@@ -2,11 +2,13 @@ import { Button, Flex } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
 import { AlmTokenStatsIcon } from 'images/account/AlmTokenStatsIcon'
 import { MyCollectionIcon } from 'images/account/MyCollectionIcon'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
 function NftNavTabs() {
+  const { t } = useTranslation()
   const location = useRouter()
 
   return (
@@ -16,7 +18,7 @@ function NftNavTabs() {
           <IconWrapper active={location.pathname === ROUTES.tokenHolderArea} size={16}>
             <AlmTokenStatsIcon />
           </IconWrapper>
-          ALM token stats
+          {t('tokenHolderArea.almTokenStats')}
         </NftButton>
       </NextLink>
       <NextLink href={ROUTES.collection}>
@@ -24,7 +26,7 @@ function NftNavTabs() {
           <IconWrapper active={location.pathname === ROUTES.collection} size={16}>
             <MyCollectionIcon />
           </IconWrapper>
-          My collection
+          {t('tokenHolderArea.myCollection')}
         </NftButton>
       </NextLink>
     </NavWrap>

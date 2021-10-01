@@ -5,6 +5,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import Loader from 'components/Loaders/Loader'
 import { AutoRow, RowBetween } from 'components/Row'
 import { ApprovalState } from 'hooks/useApproveCallback'
+import { useTranslation } from 'next-i18next'
 import { FC, memo, SetStateAction } from 'react'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
@@ -32,12 +33,6 @@ interface Props {
   error: string
 }
 
-const StyledButton = styled(Button)`
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
-`
-
 export const AddLiquditySupply: FC<Props> = memo(
   ({
     user,
@@ -53,8 +48,9 @@ export const AddLiquditySupply: FC<Props> = memo(
     setShowConfirm,
     parsedAmounts,
     onAdd,
-    error,
   }) => {
+    const { t } = useTranslation()
+
     if (!user) {
       return <ConnectWalletButton fullwidth />
     }
@@ -75,10 +71,10 @@ export const AddLiquditySupply: FC<Props> = memo(
                 >
                   {approvalA === ApprovalState.PENDING || approvalSubmittedA ? (
                     <AutoRow gap='6px' justify='center'>
-                      Approving {currencies[Field.CURRENCY_A]?.symbol} <Loader stroke='white' />
+                      {t('common.button.approving')} {currencies[Field.CURRENCY_A]?.symbol} <Loader stroke='white' />
                     </AutoRow>
                   ) : (
-                    `Approve ${currencies[Field.CURRENCY_A]?.symbol}`
+                    t('common.button.approveCurrencySymbol', { currencySymbol: currencies[Field.CURRENCY_A]?.symbol })
                   )}
                 </Button>
               )}
@@ -90,10 +86,10 @@ export const AddLiquditySupply: FC<Props> = memo(
                 >
                   {approvalB === ApprovalState.PENDING || approvalSubmittedB ? (
                     <AutoRow gap='6px' justify='center'>
-                      Approving {currencies[Field.CURRENCY_B]?.symbol} <Loader stroke='white' />
+                      {t('common.button.approving')} {currencies[Field.CURRENCY_B]?.symbol} <Loader stroke='white' />
                     </AutoRow>
                   ) : (
-                    `Approve ${currencies[Field.CURRENCY_B]?.symbol}`
+                    t('common.button.approveCurrencySymbol', { currencySymbol: currencies[Field.CURRENCY_B]?.symbol })
                   )}
                 </Button>
               )}
@@ -113,9 +109,17 @@ export const AddLiquditySupply: FC<Props> = memo(
             !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B] ? 'danger' : 'primary'
           }
         >
-          {error ?? 'Supply'}
+          {t('common.button.enterAnAmount')}
         </StyledButton>
       </AutoColumn>
     )
   },
 )
+
+// styles
+
+const StyledButton = styled(Button)`
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+`

@@ -1,40 +1,6 @@
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import styled from 'styled-components'
-
-const Arrow = styled.div`
-  padding: 24px 24px 0px 24px;
-  a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  width: fit-content;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 1px;
-  color: #8990a5;
-
-  svg {
-    margin-right: 16px;
-  }
-`
-
-const BridgeBackItem = () => {
-  return (
-    <Arrow>
-      <Link href='/bridge'>
-        <a href='/bridge'>
-          <ArrowLeft />
-          <p>Back</p>
-        </a>
-      </Link>
-    </Arrow>
-  )
-}
 
 const ArrowLeft = () => {
   return (
@@ -45,4 +11,42 @@ const ArrowLeft = () => {
   )
 }
 
+const BridgeBackItem = () => {
+  const { t } = useTranslation()
+
+  return (
+    <Arrow>
+      <Link href='/bridge'>
+        <a href='/bridge'>
+          <ArrowLeft />
+          <p>{t('common.button.back')}</p>
+        </a>
+      </Link>
+    </Arrow>
+  )
+}
+
 export default BridgeBackItem
+
+// styles
+
+const Arrow = styled.div`
+  padding: 24px 24px 0;
+  width: fit-content;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  color: #8990a5;
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  svg {
+    margin-right: 16px;
+  }
+`

@@ -40,8 +40,8 @@ export default function CommonBases({
   return (
     <AutoColumn gap='md'>
       <AutoRow>
-        <Text fontSize='14px'>{t('commonBases')}</Text>
-        <QuestionHelper text={t('pairedWithOthers')} />
+        <Text fontSize='14px'>?</Text>
+        <QuestionHelper text='?' />
       </AutoRow>
       <AutoRow gap='4px'>
         <BaseWrapper
@@ -53,7 +53,7 @@ export default function CommonBases({
           disable={selectedCurrency === nativeCurrency}
         >
           <CurrencyLogo currency={nativeCurrency} style={{ marginRight: 8 }} />
-          <Text>BNB</Text>
+          <Text>?</Text>
         </BaseWrapper>
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address

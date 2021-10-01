@@ -245,7 +245,7 @@ export default function WalletModal({
                 id={`connect-${key}`}
                 key={key}
                 color='#E8831D'
-                header={t('installMetaMask')}
+                header={t('walletModal.installMetaMask')}
                 subheader={null}
                 link='https://metamask.io/'
                 icon={MetamaskIcon}

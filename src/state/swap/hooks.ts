@@ -203,7 +203,7 @@ export function useDerivedSwapInfo(): {
   }
 
   if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT]) {
-    inputError = inputError ?? t('selectToken')
+    inputError = inputError ?? '???'
   }
 
   const formattedTo = isAddress(to)
@@ -299,7 +299,7 @@ export function useMigrateInfo(): {
   }
 
   if (!currencies[Field.INPUT]) {
-    inputError = inputError ?? t('selectToken')
+    inputError = inputError ?? '???'
   }
 
   const formattedTo = isAddress(to)

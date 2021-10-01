@@ -18,6 +18,10 @@ import SwapAppBody from 'views/Swap/SwapAppBody'
 
 const md = '768px'
 
+interface StyledLiquidityProps {
+  found?: boolean
+}
+
 const { body: Body } = TYPE
 
 const Pool = React.memo(() => {
@@ -35,34 +39,35 @@ const Pool = React.memo(() => {
           router.push(ROUTES.addByOne('ETH'))
         }}
       >
-        {t('addLiquidity')}
+        {t('liquidity.addLiquidity')}
       </AddLiquidityBtn>
     )
   }
+
   return (
     <CardWrapper>
       <CardNav activeIndex={1} />
       <SwapAppBody>
-        <PageHeader title={t('mainMenu.liquidity')} description={t('liquidityDescription')} />
+        <PageHeader title={t('liquidity.header')} description={t('liquidity.headerDescription')} />
         <StyledCardBody singleBlock={data?.length > 0}>
           {!account ? <UnlockButton /> : getButton()}
           <div>
             {data?.length === 0 && (
               <>
                 <StyledLiquidity>
-                  <Text color={theme.colors.text}>{t('yourLiquidity')}</Text>
-                  <Question text={t('questionHelperMessages.addLiquidity')} />
+                  <Text color={theme.colors.text}>{t('liquidity.yourLiquidity')}</Text>
+                  <Question text={t('liquidity.whenYouAddLiquidity')} />
                 </StyledLiquidity>
                 {!account ? (
                   <LightCard>
                     <Body color={theme.colors.textDisabled} textAlign='center' style={{ fontSize: '14px' }}>
-                      {t('liquidityConnectToWallet')}
+                      {t('liquidity.liquidityConnectToWallet')}
                     </Body>
                   </LightCard>
                 ) : loading ? (
                   <LightCard>
                     <Body color={theme.colors.textDisabled} textAlign='center'>
-                      <Dots>{t('loading')}</Dots>
+                      <Dots>{t('common.text.loading')}</Dots>
                     </Body>
                   </LightCard>
                 ) : data?.length > 0 ? (
@@ -74,7 +79,7 @@ const Pool = React.memo(() => {
                 ) : (
                   <LightCard>
                     <Body color={theme.colors.textDisabled} textAlign='center'>
-                      {t('liquidityNotFound')}
+                      {t('liquidity.liquidityNotFound')}
                     </Body>
                   </LightCard>
                 )}
@@ -85,8 +90,8 @@ const Pool = React.memo(() => {
         {data?.length > 0 && (
           <StyledYourLiquidity>
             <StyledLiquidity found>
-              <Text color={theme.colors.text}>{t('yourLiquidity')}</Text>
-              <Question text={t('questionHelperMessages.addLiquidity')} />
+              <Text color={theme.colors.text}>{t('liquidity.yourLiquidity')}</Text>
+              <Question text={t('liquidity.whenYouAddLiquidity')} />
             </StyledLiquidity>
             <StyledFoundLiquidity>
               {data.map((v2Pair) => (
@@ -98,10 +103,10 @@ const Pool = React.memo(() => {
           </StyledYourLiquidity>
         )}
         <NoJoinedPoolText small>
-          {t('noJoinedPool')}
+          {t('liquidity.noJoinedPool')}
           &nbsp;
           <StyledInternalLink id='import-pool-link' href='/find'>
-            {t('importPoolMessage')}
+            {t('liquidity.importPoolMessage')}
           </StyledInternalLink>
         </NoJoinedPoolText>
       </SwapAppBody>
@@ -110,10 +115,6 @@ const Pool = React.memo(() => {
 })
 
 // styles
-
-interface StyledLiquidityProps {
-  found?: boolean
-}
 
 const CardWrapper = styled.div`
   width: 100%;

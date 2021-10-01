@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import styled from 'styled-components'
 import { AddIcon } from '../../components/Svg'
@@ -67,6 +68,8 @@ interface props {
 }
 
 export const ConnectButton: FC<props> = ({ isAccount, accountEllipsis, onClick }) => {
+  const { t } = useTranslation()
+
   return (
     <StyledButton className={isAccount ? 'logged-in' : ''} onClick={onClick}>
       {!isAccount && (
@@ -74,7 +77,7 @@ export const ConnectButton: FC<props> = ({ isAccount, accountEllipsis, onClick }
           <AddIcon color='#ffffff' />
         </div>
       )}
-      {isAccount ? accountEllipsis : 'Connect'}
+      {isAccount ? accountEllipsis : t('common.button.connect')}
     </StyledButton>
   )
 }

@@ -14,8 +14,6 @@ interface Props {
   login: Login
   logout: () => void
   buttonTitle?: string
-  modalTitle?: string
-  modelLogout?: string
   balance?: string
   explorerName?: string
   explorerLink?: string
@@ -50,24 +48,12 @@ const StyledButtonTitle = styled.div`
 
 const UserBlock: FC<Props> = (props) => {
   const modalConnect = useStoreAccount((state) => state.modalConnect)
-  const {
-    account,
-    login,
-    logout,
-    buttonTitle,
-    modalTitle,
-    modelLogout,
-    explorerName,
-    explorerLink,
-    onTransactionHistoryHandler,
-  } = props
+  const { account, login, logout, explorerName, explorerLink, onTransactionHistoryHandler } = props
 
-  const { onPresentConnectModal, onPresentAccountModal, chainId } = useWalletModal(
+  const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(
     login,
     logout,
     account,
-    modalTitle,
-    modelLogout,
     explorerName,
     explorerLink,
     onTransactionHistoryHandler,
@@ -79,6 +65,7 @@ const UserBlock: FC<Props> = (props) => {
       onPresentConnectModal()
     }
   }, [modalConnect])
+
   return (
     <Flex alignItems='center'>
       <NetworkSwitch />

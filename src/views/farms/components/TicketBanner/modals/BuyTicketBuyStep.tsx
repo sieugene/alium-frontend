@@ -5,7 +5,7 @@ import TransferLoader from 'components/Modal/transaction/TransferLoader'
 import { useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { getExplorerLink, getExplorerName } from 'utils'
+import { getExplorerLink, useExplorerName } from 'utils'
 import { useFarmTicket } from 'views/farms/hooks/useFarmTicket'
 import { BuyButton } from '../BuyTicketBtn'
 import { TicketLoadingText } from './BuyTicketModal'
@@ -50,6 +50,7 @@ const ViewOn = styled(Button)``
 
 const BuyTicketBuyStep = () => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const { explorerName } = useExplorerName(currentChainId)
   const [loading, setLoading] = useState(false)
   const [error, seterror] = useState(false)
   const [success, setsuccess] = useState(false)
@@ -94,7 +95,7 @@ const BuyTicketBuyStep = () => {
             Amount: <b>1500 ALM</b>
           </Amount>
           <a href={link} target='_blank'>
-            <ViewOn variant='secondary'>View on {getExplorerName(currentChainId)}</ViewOn>
+            <ViewOn variant='secondary'>View on {explorerName}</ViewOn>
           </a>
         </CompletedWrapper>
       </TransactionCompleted>

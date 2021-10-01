@@ -1,4 +1,5 @@
 import { externalLinks } from 'alium-uikit/src/config'
+import { useTranslation } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
 import { fetchTokenPriceFromCoingecko } from 'services/coingecko'
 import styled from 'styled-components'
@@ -76,6 +77,7 @@ interface props {
 }
 
 const ViewAlmPrice: FC<props> = ({ ispushed }) => {
+  const { t } = useTranslation()
   const [price, setPrice] = useState<null | string>(null)
 
   useEffect(() => {
@@ -98,7 +100,7 @@ const ViewAlmPrice: FC<props> = ({ ispushed }) => {
         <IconTokenAlm />
       </IconWrapper>
       <TextWrapper>
-        <span>ALM Price:&nbsp;</span>
+        <span>{t('header.almPrice')}&nbsp;</span>
         <span style={{ color: '#6C5DD3' }}>
           <a href={externalLinks.bscscan}>${price}</a>
         </span>

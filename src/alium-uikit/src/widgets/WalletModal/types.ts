@@ -15,15 +15,14 @@ export enum WalletShowOn {
   desktop = 'desktop',
 }
 export interface WalletsConfig {
-  title: string
+  type: string
   icon: FC<SvgProps>
   connectorId: ConnectorNames
   showOn?: WalletShowOn
 }
 
 export interface NetworksConfig {
-  title: string
-  label: string
+  type: string
   chainId: any
   icon: FC<SvgProps>
   supportConnectors: ConnectorNames[]

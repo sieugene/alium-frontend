@@ -1,5 +1,6 @@
 import { Button, Flex, Heading, Text } from 'alium-uikit/src'
 import { BigNumber, ethers } from 'ethers'
+import { useTranslation } from 'next-i18next'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { PoolsTypes } from '../../constants/pools'
@@ -12,132 +13,15 @@ interface NftPoolCardProps {
   isLoading?: boolean
 }
 
-const NftPoolCardWrap = styled(Flex)`
-  justify-content: space-between;
-  align-items: center;
-  align-content: center;
-  background: #ffffff;
-  border-radius: 6px;
-  width: 100%;
-  padding: 24px;
-  margin-bottom: 16px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-  @media (max-width: 1024px) {
-    flex-direction: column;
-  }
-`
-
-const Field = styled(Flex)<{ maxWidth: string }>`
-  font-style: normal;
-  justify-content: flex-start;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  color: #0b1359;
-  width: 100%;
-  max-width: ${({ maxWidth }) => maxWidth};
-  flex: 1;
-  &:last-child {
-    justify-content: flex-end;
-  }
-  @media (max-width: 1024px) {
-    max-width: unset;
-    padding: 10px 16px;
-    justify-content: space-between;
-    text-align: right;
-    &:nth-child(2n + 1) {
-      background-color: #f4f5fa;
-    }
-    &:first-child {
-      background-color: #fff;
-    }
-    &:last-child {
-      justify-content: space-between;
-    }
-  }
-`
-
-const FieldName = styled(Text)`
-  display: none;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: #8990a5;
-  text-align: left;
-  @media (max-width: 1024px) {
-    display: block;
-  }
-`
-const FieldValue = styled(Flex)`
-  flex-direction: row;
-  align-items: center;
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    align-items: flex-end;
-  }
-`
-
-const FieldPool = styled(Field)`
-  flex-direction: column;
-  text-align: left;
-  @media (max-width: 1024px) {
-    margin-bottom: 16px;
-    padding: 0;
-  }
-`
-const FieldClaim = styled(Field)`
-  align-items: center;
-  align-content: center;
-  & > div {
-    width: 100%;
-    justify-content: space-between;
-    flex-direction: row-reverse;
-  }
-  button {
-    margin-left: 8px;
-  }
-  @media (max-width: 1024px) {
-    align-items: flex-start;
-    justify-content: space-between;
-    button {
-      margin-top: 8px;
-      margin-left: 0;
-    }
-    & > div {
-      width: unset;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-  }
-`
-
-const FieldPoolDescription = styled(Flex)`
-  margin-top: 8px;
-  flex-direction: row;
-`
-
 function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
+  const { t } = useTranslation()
   const total = ethers.utils.formatEther(pool.total || BigNumber.from(0))
   const locked = ethers.utils.formatEther(pool.locked || BigNumber.from(0))
   const unlocked = ethers.utils.formatEther(pool.unlocked || BigNumber.from(0))
   const claimed = ethers.utils.formatEther(pool.claimed || BigNumber.from(0))
-  // Temp formatter date
   const original_timestamp = pool?.timestamp || '0'
-  // const { extensionUpToAWeekTimeStamp, TEMP_CONDITION_21, canClaim } = getExtensionUpToAWeekTimeStamp(
-  //   original_timestamp,
-  //   unlocked,
-  // )
-  // unlock with timestamp
-  // unlockWithTimestamp = TEMP_CONDITION_21 ? canClaim : !!Number(unlocked)
-  const unlockWithTimestamp = !!Number(unlocked)
-  //
-  const isUnlocked = unlockWithTimestamp
+  const isUnlocked = !!Number(unlocked)
   const [isLoadingLocal, setIsLoadingLocal] = useState(false)
-
   const [initClaimed, setInitClaimed] = useState<string>('')
 
   useEffect(() => {
@@ -165,19 +49,19 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
         </FieldPoolDescription>
       </FieldPool>
       <Field maxWidth='96px'>
-        <FieldName>Total ALMs</FieldName>
+        <FieldName>{t('tokenHolderArea.totalALM')}</FieldName>
         {total}
       </Field>
       <Field maxWidth='96px'>
-        <FieldName>Locked</FieldName>
+        <FieldName>{t('tokenHolderArea.locked')}</FieldName>
         {locked}
       </Field>
       <Field maxWidth='80px'>
-        <FieldName>Unlocked</FieldName>
+        <FieldName>{t('tokenHolderArea.unlocked')}</FieldName>
         {unlocked}
       </Field>
       <FieldClaim maxWidth='172px'>
-        <FieldName>Claimed</FieldName>
+        <FieldName>{t('tokenHolderArea.claimed')}</FieldName>
         <FieldValue>
           {claimed}
           {isUnlocked && (
@@ -189,14 +73,13 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
                 onClaim(pool.id)
               }}
             >
-              {pending ? 'Wait' : 'Claim'}
+              {pending ? t('common.button.wait') : t('common.button.claim')}
             </Button>
           )}
         </FieldValue>
       </FieldClaim>
       <Field maxWidth='140px'>
-        <FieldName>Next unclocked date</FieldName>
-        {/* {getTimeFormat(pool.timestamp)} */}
+        <FieldName>{t('tokenHolderArea.nextUnlockedDate')}</FieldName>
         {getTimeFormatNft(original_timestamp)}
       </Field>
     </NftPoolCardWrap>
@@ -204,3 +87,130 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
 }
 
 export default NftPoolCard
+
+// styles
+
+const NftPoolCardWrap = styled(Flex)`
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  background: #ffffff;
+  border-radius: 6px;
+  width: 100%;
+  padding: 24px;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
+`
+
+const Field = styled(Flex)<{ maxWidth: string }>`
+  font-style: normal;
+  justify-content: flex-start;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  color: #0b1359;
+  width: 100%;
+  max-width: ${({ maxWidth }) => maxWidth};
+  flex: 1;
+
+  &:last-child {
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 1024px) {
+    max-width: unset;
+    padding: 10px 16px;
+    justify-content: space-between;
+    text-align: right;
+
+    &:nth-child(2n + 1) {
+      background-color: #f4f5fa;
+    }
+
+    &:first-child {
+      background-color: #fff;
+    }
+
+    &:last-child {
+      justify-content: space-between;
+    }
+  }
+`
+
+const FieldName = styled(Text)`
+  display: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  color: #8990a5;
+  text-align: left;
+
+  @media (max-width: 1024px) {
+    display: block;
+  }
+`
+
+const FieldValue = styled(Flex)`
+  flex-direction: row;
+  align-items: center;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+`
+
+const FieldPool = styled(Field)`
+  flex-direction: column;
+  text-align: left;
+
+  @media (max-width: 1024px) {
+    margin-bottom: 16px;
+    padding: 0;
+  }
+`
+
+const FieldClaim = styled(Field)`
+  align-items: center;
+  align-content: center;
+
+  & > div {
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+  }
+
+  button {
+    margin-left: 8px;
+  }
+
+  @media (max-width: 1024px) {
+    align-items: flex-start;
+    justify-content: space-between;
+
+    button {
+      margin-top: 8px;
+      margin-left: 0;
+    }
+
+    & > div {
+      width: unset;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+  }
+`
+
+const FieldPoolDescription = styled(Flex)`
+  margin-top: 8px;
+  flex-direction: row;
+`
