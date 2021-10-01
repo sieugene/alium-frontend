@@ -3,7 +3,6 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateUserBalance, updateUserPendingReward, updateUserStakedBalance } from 'state/actions'
 import { sousEmegencyUnstake, sousUnstake, unstake } from 'utils/callHelpers'
-import { farmUserDataUpdate } from './../views/farms/hooks/useFarmingPools'
 import { useMasterchef, useSousChef } from './useContract'
 
 const useUnstake = (pid: number) => {
@@ -14,7 +13,7 @@ const useUnstake = (pid: number) => {
   const handleUnstake = useCallback(
     async (amount: string) => {
       const txHash = await unstake(masterChefContract, pid, amount, account)
-      await farmUserDataUpdate(account)
+
       console.info(txHash)
     },
     [account, dispatch, masterChefContract, pid],
