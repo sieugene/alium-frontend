@@ -111,6 +111,11 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                     setjoinLoading(true)
                     await join(amountNumber)
                     toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('added to the pool')}`)
+                    onDismiss()
+                  } catch (error) {
+                    console.error(error)
+                    toastError(error.data?.message || error.message)
+                  } finally {
                     mutateBalance()
                     mutateRewardTokenAllowance()
                     // should refetch the current pool after joining
@@ -119,10 +124,6 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                     mutatePoolLocked()
                     mutateTotalLocked()
                     onDismiss()
-                  } catch (error) {
-                    console.error(error)
-                    toastError(error.data?.message || error.message)
-                  } finally {
                     setjoinLoading(false)
                   }
                 }}
