@@ -74,12 +74,13 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
                   if (!window.confirm('Are you sure you want to leave the pool?')) return
                   try {
                     await leavePool()
-                    await mutatePool()
-                    await mutatePoolUsers()
-                    await mutatePoolLocked()
                   } catch (error) {
                     console.error(error)
                     toastError(error.data?.message || error.message)
+                  } finally {
+                    mutatePool()
+                    mutatePoolUsers()
+                    mutatePoolLocked()
                   }
                 }}
               >
