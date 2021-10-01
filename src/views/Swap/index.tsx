@@ -290,13 +290,13 @@ const Swap = () => {
             onDismiss={handleConfirmDismiss}
             onRepeat={handleOnRepeat}
           />
-          <PageHeader title={t('swap.header')} description={t('swap.headerDescription')} />
+          <PageHeader title={t('exchange.header')} description={t('exchange.headerDescription')} />
           <StyledCardBody>
             <CardBody>
               <AutoColumn gap='md'>
                 <CurrencyInputPanel
                   label={
-                    independentField === Field.OUTPUT && !showWrap && trade ? t('swap.fromEstimated') : t('swap.from')
+                    independentField === Field.OUTPUT && !showWrap && trade ? t('exchange.fromEstimated') : t('exchange.from')
                   }
                   value={formattedAmounts[Field.INPUT]}
                   showMaxButton={!atMaxAmountInput}
@@ -321,7 +321,7 @@ const Swap = () => {
                     </ArrowWrapper>
                     {recipient === null && !showWrap && isExpertMode ? (
                       <LinkStyledButton id='add-recipient-button' onClick={() => onChangeRecipient('')}>
-                        {t('swap.addASend')}
+                        {t('exchange.addASend')}
                       </LinkStyledButton>
                     ) : null}
                   </AutoRow>
@@ -329,7 +329,7 @@ const Swap = () => {
                 <CurrencyInputPanel
                   value={formattedAmounts[Field.OUTPUT]}
                   onUserInput={handleTypeOutput}
-                  label={independentField === Field.INPUT && !showWrap && trade ? t('swap.toEstimated') : t('swap.to')}
+                  label={independentField === Field.INPUT && !showWrap && trade ? t('exchange.toEstimated') : t('exchange.to')}
                   showMaxButton={false}
                   currency={currencies[Field.OUTPUT]}
                   onCurrencySelect={handleOutputSelect}
@@ -344,7 +344,7 @@ const Swap = () => {
                         <ArrowDown size='16' color={theme.colors.textSubtle} />
                       </ArrowWrapper>
                       <LinkStyledButton id='remove-recipient-button' onClick={() => onChangeRecipient(null)}>
-                        {t('swap.removeSend')}
+                        {t('exchange.removeSend')}
                       </LinkStyledButton>
                     </AutoRow>
                     <AddressInputPanel id='recipient' value={recipient} onChange={onChangeRecipient} />
@@ -357,7 +357,7 @@ const Swap = () => {
                       {Boolean(trade) && (
                         <AutoRow align='center'>
                           <Text fontSize='14px' paddingRight='8px' color='#8990A5'>
-                            {t('swap.price')}
+                            {t('exchange.price')}
                           </Text>
                           <TradePrice
                             price={trade?.executionPrice}
@@ -369,7 +369,7 @@ const Swap = () => {
                       {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
                         <Flex alignItems='center' justifyContent='flex-start'>
                           <Text fontSize='14px' color={theme.colors.basic}>
-                            {t('swap.slippageTolerance')}
+                            {t('exchange.slippageTolerance')}
                           </Text>
                           <Text fontSize='14px' style={{ marginLeft: 10, color: '#6C5DD3' }}>
                             {allowedSlippage / 100}%
@@ -395,7 +395,7 @@ const Swap = () => {
                   </Button>
                 ) : noRoute && userHasSpecifiedInputOutput ? (
                   <GreyCard style={{ textAlign: 'center' }}>
-                    <Main>{t('swap.insufficientLiquidityForThisTrade')}</Main>
+                    <Main>{t('exchange.insufficientLiquidityForThisTrade')}</Main>
                   </GreyCard>
                 ) : showApproveFlow ? (
                   <StyledRowBetween>

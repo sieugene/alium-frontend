@@ -26,12 +26,12 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
       icon: 'TradeIcon',
       triggers: [ROUTES.pool, ROUTES.exchange],
       items: [
-        { label: t('menu.swap'), href: ROUTES.exchange },
+        { label: t('menu.exchange'), href: ROUTES.exchange },
         { label: t('menu.liquidity'), href: ROUTES.pool },
         { label: t('menu.migrate'), href: ROUTES.migrate },
       ],
     },
-    { label: 'Strong Holders Pool', icon: 'ShpIcon', href: ROUTES.shp },
+    // { label: 'Strong Holders Pool', icon: 'ShpIcon', href: ROUTES.shp },
     { label: t('menu.tokenHolderArea'), icon: 'PrivateRoundIcon', href: ROUTES.tokenHolderArea },
     /* {
       label: 'Analytics',

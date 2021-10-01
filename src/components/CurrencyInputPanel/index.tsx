@@ -83,9 +83,9 @@ export default function CurrencyInputPanel({
                   style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
                 >
                   {!hideBalance && ((!!currency && selectedCurrencyBalance) || balance) ? (
-                    t('swap.balance', { balance: balance || toSignificantCurrency(selectedCurrencyBalance) })
+                    t('exchange.balance', { balance: balance || toSignificantCurrency(selectedCurrencyBalance) })
                   ) : (
-                    <Dots>{t('swap.balanceLoading')}</Dots>
+                    <Dots>{t('exchange.balanceLoading')}</Dots>
                   )}
                 </Text>
               )}
@@ -148,7 +148,7 @@ export default function CurrencyInputPanel({
                       )}`
                     : currency?.symbol) || (
                     <Text color={theme.colors.textSubtle} style={{ fontSize: '14px' }}>
-                      {t('swap.selectToken')}
+                      {t('exchange.selectToken')}
                     </Text>
                   )}
                 </Text>

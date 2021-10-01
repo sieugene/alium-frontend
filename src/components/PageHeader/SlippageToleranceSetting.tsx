@@ -63,8 +63,8 @@ const SlippageToleranceSettings = () => {
   return (
     <StyledSlippageToleranceSettings>
       <Label>
-        <Text style={{ fontWeight: 600 }}>{t('swap.settingsModal.slippedTolerance')}</Text>
-        <QuestionHelper text={t('swap.settingsModal.transactionRevert')} />
+        <Text style={{ fontWeight: 600 }}>{t('exchange.settingsModal.slippedTolerance')}</Text>
+        <QuestionHelper text={t('exchange.settingsModal.transactionRevert')} />
       </Label>
 
       <Options>
