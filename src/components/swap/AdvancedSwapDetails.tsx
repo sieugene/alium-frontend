@@ -26,8 +26,8 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
       <CardBody>
         <RowBetween>
           <RowFixed>
-            <Text fontSize='14px'>{isExactIn ? t('swap.minimumReceived') : t('swap.maximumSold')}</Text>
-            <QuestionHelper text={t('swap.yourTransactionWillRevert')} />
+            <Text fontSize='14px'>{isExactIn ? t('exchange.minimumReceived') : t('exchange.maximumSold')}</Text>
+            <QuestionHelper text={t('exchange.yourTransactionWillRevert')} />
           </RowFixed>
           <RowFixed>
             <Text fontSize='14px'>
@@ -41,16 +41,16 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
         </RowBetween>
         <RowBetween>
           <RowFixed>
-            <Text fontSize='14px'>{t('swap.priceImpact')}</Text>
-            <QuestionHelper text={t('swap.theDifferenceBetween')} />
+            <Text fontSize='14px'>{t('exchange.priceImpact')}</Text>
+            <QuestionHelper text={t('exchange.theDifferenceBetween')} />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
         </RowBetween>
 
         <RowBetween>
           <RowFixed>
-            <Text fontSize='14px'>{t('swap.liquidityProvider')}</Text>
-            <QuestionHelper text={t('swap.forEachTradeAFeeIsPaid')} />
+            <Text fontSize='14px'>{t('exchange.liquidityProvider')}</Text>
+            <QuestionHelper text={t('exchange.forEachTradeAFeeIsPaid')} />
           </RowFixed>
           <StyledText fontSize='16px'>
             {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
@@ -79,9 +79,9 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
               <AutoColumn style={{ padding: '0 24px' }}>
                 <RowFixed>
                   <Text fontSize='14px' bold>
-                    {t('swap.route')}
+                    {t('exchange.route')}
                   </Text>
-                  <QuestionHelper text={t('swap.routingThroughThese')} />
+                  <QuestionHelper text={t('exchange.routingThroughThese')} />
                 </RowFixed>
                 <SwapRoute trade={trade} />
               </AutoColumn>

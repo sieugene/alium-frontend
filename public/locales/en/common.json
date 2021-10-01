@@ -61,7 +61,7 @@
     "home": "Home",
 
     "trade": "Trade",
-    "swap": "Swap",
+    "exchange": "Exchange",
     "liquidity": "Liquidity",
     "migrate": "Migrate",
 
@@ -239,8 +239,8 @@
       "yourBalance": "Your {{tokenSymbol}} Balance"
     }
   },
-  "swap": {
-    "header": "Swap",
+  "exchange": {
+    "header": "Exchange",
     "headerDescription": "Trade tokens in an instant",
     "fromEstimated": "From (estimated)",
     "from": "From",

@@ -33,7 +33,7 @@ const NetworkSelector: FC<Props> = ({ chainId, selected, networkConfig, setSelec
         <Icon />
       </StyledNetworkSelector>
       <Text color='#8990A5' fontSize='11px' mb='10px' style={{ userSelect: 'none' }}>
-        {t(`networks.${type}.label`)}
+        {t(`networks.${type}.title`)}
       </Text>
     </StyledFlex>
   )

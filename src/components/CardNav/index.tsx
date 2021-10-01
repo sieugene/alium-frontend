@@ -11,7 +11,7 @@ interface props {
 export const CardNav: FC<props> = ({ activeIndex = 0 }) => {
   const { t } = useTranslation()
   const routes = [
-    { href: ROUTES.exchange, title: t('menu.swap') },
+    { href: ROUTES.exchange, title: t('menu.exchange') },
     { href: ROUTES.pool, title: t('menu.liquidity') },
     { href: ROUTES.migrate, title: t('menu.migrate') },
   ]
