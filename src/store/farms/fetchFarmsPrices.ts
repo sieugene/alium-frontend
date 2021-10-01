@@ -13,7 +13,7 @@ const getFarmFromTokenSymbol = (farms: Farm[], tokenSymbol: string, preferredQuo
 const ProfitsSymbols = ['USDT', 'WBNB']
 
 const getFarmBaseTokenPrice = (farm: Farm, quoteTokenFarm: Farm, bnbPriceBusd: BigNumber): BigNumber => {
-  const hasTokenPriceVsQuote = Boolean(farm.tokenPriceVsQuote)
+  const hasTokenPriceVsQuote = Boolean(farm.tokenPriceVsQuote) && Number(farm.tokenPriceVsQuote) !== Infinity
 
   if (ProfitsSymbols.includes(farm.quoteToken.symbol)) {
     return hasTokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : BIG_ZERO
