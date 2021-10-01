@@ -5,7 +5,6 @@ import { storeFarms } from 'store/farms/useStoreFarms'
 // User farms data pooling
 export const useFarmsPooling = (_account: string) => {
   const timeout = useRef<any>()
-  const interval = useRef<any>()
   const poolingEnd = useRef(false)
   const account = useRef(_account)
 
@@ -33,7 +32,6 @@ export const useFarmsPooling = (_account: string) => {
   const clear = () => {
     console.info('Pooling : was ended')
     poolingEnd.current = true
-    clearInterval(interval.current)
     clearTimeout(timeout.current)
   }
 
