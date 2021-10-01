@@ -32,8 +32,8 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const { mutate: mutateTotalLocked } = useTotalLocked()
   const { approve, join } = useJoinPool()
   // loaders
-  const [approveLoading, setapproveLoading] = useState(false)
-  const [joinLoading, setjoinLoading] = useState(false)
+  const [approveLoading, setApproveLoading] = useState(false)
+  const [joinLoading, setJoinLoading] = useState(false)
   const loading = joinLoading || approveLoading
 
   const { rewardTokenInfo, rewardTokenSymbol } = useRewardTokenInfo()
@@ -89,7 +89,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                 isloading={approveLoading}
                 onClick={async () => {
                   try {
-                    setapproveLoading(true)
+                    setApproveLoading(true)
                     await approve(amountNumber)
                     await mutateRewardTokenAllowance()
                     toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('approved')}`)
@@ -97,7 +97,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                     console.error(error)
                     toastError(error.data?.message || error.message)
                   } finally {
-                    setapproveLoading(false)
+                    setApproveLoading(false)
                   }
                 }}
                 disabled={!approve || approveLoading || !hasAmount || isInsufficientFunds || !needApprove}
@@ -108,9 +108,14 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                 isloading={joinLoading}
                 onClick={async () => {
                   try {
-                    setjoinLoading(true)
+                    setJoinLoading(true)
                     await join(amountNumber)
                     toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('added to the pool')}`)
+                    onDismiss()
+                  } catch (error) {
+                    console.error(error)
+                    toastError(error.data?.message || error.message)
+                  } finally {
                     mutateBalance()
                     mutateRewardTokenAllowance()
                     // should refetch the current pool after joining
@@ -119,11 +124,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                     mutatePoolLocked()
                     mutateTotalLocked()
                     onDismiss()
-                  } catch (error) {
-                    console.error(error)
-                    toastError(error.data?.message || error.message)
-                  } finally {
-                    setjoinLoading(false)
+                    setJoinLoading(false)
                   }
                 }}
                 disabled={!join || joinLoading || !hasAmount || isInsufficientFunds || needApprove}
