@@ -54,7 +54,6 @@ export const fetchApy = async (
 // Helpers *
 
 export const almToStablePrice = async () => {
-  // const ALM = TEST_BSC_ALM_OLD
   const chainId = ChainId.MAINNET
   const ALM = BSC_ALM
   const price = await tokenToStablePrice(ALM, chainId)
