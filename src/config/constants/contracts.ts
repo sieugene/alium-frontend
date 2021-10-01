@@ -18,7 +18,7 @@ export default {
   },
   shp: {
     97: '0xE0fb64E2D6d39265B3F5940B9517B5637CB3E26D',
-    56: '',
+    56: '0x03e1867C16b971961913A65B0ca563ede2e966cD',
   },
   farmingTicketWindow: {
     97: FARMING_TICKET_WINDOW_ADDRESS,
