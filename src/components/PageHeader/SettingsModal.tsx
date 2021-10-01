@@ -21,7 +21,7 @@ const SettingsModal = ({ onDismiss = defaultOnDismiss }: SettingsModalProps) => 
   const { t } = useTranslation()
   return (
     <StyledModal>
-      <Modal title={t('settings')} onDismiss={onDismiss}>
+      <Modal title={t('exchange.settingsModal.modalTitle')} onDismiss={onDismiss}>
         <SlippageToleranceSetting />
         <TransactionDeadlineSetting />
       </Modal>

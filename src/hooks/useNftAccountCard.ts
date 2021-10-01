@@ -1,7 +1,8 @@
 import { Contract } from '@ethersproject/contracts'
+import { useTranslation } from 'next-i18next'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTransactionAdder } from 'state/transactions/hooks'
 import { useSingleCallResult } from 'state/multicall/hooks'
+import { useTransactionAdder } from 'state/transactions/hooks'
 import { getContract } from 'utils'
 import {
   AliumCollectibleAbi,
@@ -15,6 +16,7 @@ import { useActiveWeb3React } from './index'
 import useCollectionNft from './useCollectionNft'
 
 export default function useNftAccountCard(tokenId: number | string, cardId: number) {
+  const { t } = useTranslation()
   const [collectibleContract, setCollectibleContract] = useState<Contract | null>(null)
   const [privateExchangerContract, setPrivateExchangerContract] = useState<Contract | null>(null)
   const [publicExchangerContract, setPublicExchangerContract] = useState<Contract | null>(null)
@@ -69,7 +71,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
           .setApprovalForAll(privateCall ? NFT_EXCHANGER_PRIVATE : NFT_EXCHANGER_PUBLIC, true, { from: account })
           .then((response) => {
             addTransaction(response, {
-              summary: `Approve for all nft tokens`,
+              summary: t('tokenHolderArea.approveForAllNftTokens'),
             })
             return response.hash
           })
@@ -85,7 +87,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
   )
 
   if (account && ownerOfToken?.[0] !== account) {
-    error = 'You don`t have this token!'
+    error = t('tokenHolderArea.youDontHaveThisToken')
   }
 
   const onConvert = useCallback(
@@ -97,7 +99,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
           .charge(token, { from: account })
           .then((response) => {
             addTransaction(response, {
-              summary: `Convert token with id - ${token}`,
+              summary: t('tokenHolderArea.convertTokenWith', { token }),
             })
             return response.hash
           })
@@ -114,11 +116,11 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
   )
 
   if (tokenType && parseInt(tokenType, 10) !== cardId) {
-    error = 'Invalid Pool ID'
+    error = t('tokenHolderArea.invalidPoolID')
   }
 
   if (tokenId === '' || tokenId === '-') {
-    error = 'Enter NFT ID'
+    error = t('tokenHolderArea.enterNFTID')
   }
 
   return {

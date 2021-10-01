@@ -1,38 +1,27 @@
-import { Spinner, Text } from 'alium-uikit/src'
-import styled from 'styled-components'
+import { Text } from 'alium-uikit/src'
+import TransferLoader from 'components/Modal/transaction/TransferLoader'
+import { useTranslation } from 'next-i18next'
 import { AutoColumn } from '../Column'
-import { ConfirmedIcon, ContentHeader, Section, Wrapper } from './helpers'
-
-const Circle = '/images/blue-loader.svg'
 
 interface ConfirmationPendingContentProps {
   onDismiss: () => void
   pendingText: string
 }
 
-const CustomLightSpinner = styled<any>(Spinner)<{ size: string }>`
-  height: ${({ size }) => size};
-  width: ${({ size }) => size};
-`
-
 const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPendingContentProps) => {
+  const { t } = useTranslation()
+
   return (
-    <Wrapper>
-      <Section>
-        <ContentHeader onDismiss={onDismiss}>Waiting for confirmation</ContentHeader>
-        <ConfirmedIcon>
-          <CustomLightSpinner src={Circle} alt='loader' size='90px' />
-        </ConfirmedIcon>
+    <TransferLoader onCancel={onDismiss}>
+      <AutoColumn gap='12px' justify='center' style={{ marginTop: 24 }}>
         <AutoColumn gap='12px' justify='center'>
-          <AutoColumn gap='12px' justify='center'>
-            <Text fontSize='14px'>
-              <strong>{pendingText}</strong>
-            </Text>
-          </AutoColumn>
-          <Text fontSize='14px'>Confirm this transaction in your wallet</Text>
+          <Text fontSize='14px'>
+            <strong>{pendingText}</strong>
+          </Text>
         </AutoColumn>
-      </Section>
-    </Wrapper>
+        <Text fontSize='14px'>{t('liquidity.confirmThisTransaction')}</Text>
+      </AutoColumn>
+    </TransferLoader>
   )
 }
 

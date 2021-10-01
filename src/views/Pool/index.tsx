@@ -1,7 +1,6 @@
-import { Button, CardBody, Text } from 'alium-uikit/src'
+import { Button, Text } from 'alium-uikit/src'
 import { LightCard } from 'components/Card'
 import { CardNav } from 'components/CardNav'
-import { AutoColumn } from 'components/Column'
 import UnlockButton from 'components/ConnectWalletButton'
 import PageHeader from 'components/PageHeader'
 import FullPositionCard from 'components/PositionCard'
@@ -17,7 +16,105 @@ import { ROUTES } from 'routes'
 import styled, { ThemeContext } from 'styled-components'
 import SwapAppBody from 'views/Swap/SwapAppBody'
 
+const md = '768px'
+
+interface StyledLiquidityProps {
+  found?: boolean
+}
+
 const { body: Body } = TYPE
+
+const Pool = React.memo(() => {
+  const { data, loading } = useAllV2PairsWithLiquidity()
+  const router = useRouter()
+  const theme = useContext(ThemeContext)
+  const { account } = useActiveWeb3React()
+  const { t } = useTranslation()
+
+  const getButton = () => {
+    return (
+      <AddLiquidityBtn
+        id='join-pool-button'
+        onClick={() => {
+          router.push(ROUTES.addByOne('ETH'))
+        }}
+      >
+        {t('liquidity.addLiquidity')}
+      </AddLiquidityBtn>
+    )
+  }
+
+  return (
+    <CardWrapper>
+      <CardNav activeIndex={1} />
+      <SwapAppBody>
+        <PageHeader title={t('liquidity.header')} description={t('liquidity.headerDescription')} />
+        <StyledCardBody singleBlock={data?.length > 0}>
+          {!account ? <UnlockButton /> : getButton()}
+          <div>
+            {data?.length === 0 && (
+              <>
+                <StyledLiquidity>
+                  <Text color={theme.colors.text}>{t('liquidity.yourLiquidity')}</Text>
+                  <Question text={t('liquidity.whenYouAddLiquidity')} />
+                </StyledLiquidity>
+                {!account ? (
+                  <LightCard>
+                    <Body color={theme.colors.textDisabled} textAlign='center' style={{ fontSize: '14px' }}>
+                      {t('liquidity.liquidityConnectToWallet')}
+                    </Body>
+                  </LightCard>
+                ) : loading ? (
+                  <LightCard>
+                    <Body color={theme.colors.textDisabled} textAlign='center'>
+                      <Dots>{t('common.text.loading')}</Dots>
+                    </Body>
+                  </LightCard>
+                ) : data?.length > 0 ? (
+                  <>
+                    {data.map((v2Pair) => (
+                      <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                    ))}
+                  </>
+                ) : (
+                  <LightCard>
+                    <Body color={theme.colors.textDisabled} textAlign='center'>
+                      {t('liquidity.liquidityNotFound')}
+                    </Body>
+                  </LightCard>
+                )}
+              </>
+            )}
+          </div>
+        </StyledCardBody>
+        {data?.length > 0 && (
+          <StyledYourLiquidity>
+            <StyledLiquidity found>
+              <Text color={theme.colors.text}>{t('liquidity.yourLiquidity')}</Text>
+              <Question text={t('liquidity.whenYouAddLiquidity')} />
+            </StyledLiquidity>
+            <StyledFoundLiquidity>
+              {data.map((v2Pair) => (
+                <StyledFullPositionCard key={v2Pair.liquidityToken.address}>
+                  <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                </StyledFullPositionCard>
+              ))}
+            </StyledFoundLiquidity>
+          </StyledYourLiquidity>
+        )}
+        <NoJoinedPoolText small>
+          {t('liquidity.noJoinedPool')}
+          &nbsp;
+          <StyledInternalLink id='import-pool-link' href='/find'>
+            {t('liquidity.importPoolMessage')}
+          </StyledInternalLink>
+        </NoJoinedPoolText>
+      </SwapAppBody>
+    </CardWrapper>
+  )
+})
+
+// styles
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -28,26 +125,25 @@ const StyledCardBody = styled.div<{ singleBlock?: boolean }>`
   justify-content: space-between;
   padding: 34px 24px 32px 24px;
   align-items: center;
-  // max-width: 48%;
   height: 114px;
   border-bottom: 1px solid #f4f5fa;
 
-  > div {
+  & > div {
     text-align: center;
-  }
 
-  > div:last-child {
-    flex-basis: 80%;
-  }
+    &:last-child {
+      flex-basis: 80%;
+    }
 
-  > div:first-child {
-    display: flex;
-    > button {
-      margin-top: 0;
+    &:first-child {
+      display: flex;
+      > button {
+        margin-top: 0;
+      }
     }
   }
 
-  > a {
+  & > a {
     width: 173px;
   }
 
@@ -78,18 +174,16 @@ const StyledCardBody = styled.div<{ singleBlock?: boolean }>`
   }
 `
 
-interface StyledLiquidityProps {
-  found?: boolean
-}
-
 const StyledLiquidity = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 5px;
+
   @media screen and (max-width: 414px) {
     padding-left: 24px;
   }
+
   ${(props: StyledLiquidityProps) =>
     props.found &&
     `
@@ -98,8 +192,6 @@ const StyledLiquidity = styled.div`
     padding: 16px;
   `}
 `
-
-const StyledRightSide = styled.div``
 
 const StyledYourLiquidity = styled.div`
   margin: 24px;
@@ -115,6 +207,7 @@ const StyledYourLiquidity = styled.div`
 const StyledFoundLiquidity = styled.div`
   padding: 16px;
   overflow-y: auto;
+
   > div:not(:last-child) {
     border-bottom: 1px solid #f4f5fa;
   }
@@ -124,20 +217,27 @@ const StyledFullPositionCard = styled.div`
   div {
     padding: 6px 6px 6px 2px;
     border: none;
+
+    &:hover {
+      border: none;
+    }
   }
-  div:hover {
-    border: none;
-  }
+
   > a {
     width: auto !important;
   }
-  > div > div > div div:last-child {
-    justify-content: flex-start;
+
+  // TODO: bad practice
+  > div > div > div div {
+    &:last-child {
+      justify-content: flex-start;
+    }
+
+    &:last-child a {
+      margin-right: 20px;
+    }
   }
 
-  > div > div > div div:last-child a {
-    margin-right: 20px;
-  }
   @media screen and (max-width: 576px) {
     div {
       padding: 6px 6px 6px 0;
@@ -151,112 +251,13 @@ const AddLiquidityBtn = styled(Button)`
   flex-shrink: 0;
 `
 
-const Pool = React.memo(() => {
-  const { data, loading } = useAllV2PairsWithLiquidity()
-  const router = useRouter()
-  const theme = useContext(ThemeContext)
-  const { account /* , chainId */ } = useActiveWeb3React()
-  const { t } = useTranslation()
+const NoJoinedPoolText = styled(Text)`
+  width: fit-content;
+  margin: 16px auto;
 
-  console.log('liq:token', data)
-
-  const getButton = () => {
-    return (
-      // chainId === 56 || chainId === 128 ?
-      // (
-      //   <Button disabled style={{ background: "#CBC8EE" }} id="join-pool-button" as={Link} to="/add/ETH">
-      //     {t('addLiquidity')}
-      //   </Button>
-      // ) : (
-      <AddLiquidityBtn
-        id='join-pool-button'
-        onClick={() => {
-          router.push(ROUTES.addByOne('ETH'))
-        }}
-      >
-        {t('addLiquidity')}
-      </AddLiquidityBtn>
-      // )
-    )
+  @media screen and (min-width: ${md}) {
+    margin: 16px 24px;
   }
-  return (
-    <CardWrapper>
-      <CardNav activeIndex={1} />
-      <SwapAppBody>
-        <PageHeader title={t('mainMenu.liquidity')} description={t('liquidityDescription')} />
-        <StyledCardBody singleBlock={data?.length > 0}>
-          {!account ? <UnlockButton /> : getButton()}
-          <StyledRightSide>
-            {data?.length === 0 && (
-              <>
-                <StyledLiquidity>
-                  <Text color={theme.colors.text}>{t('yourLiquidity')}</Text>
-                  <Question text={t('questionHelperMessages.addLiquidity')} />
-                </StyledLiquidity>
-                {!account ? (
-                  <LightCard>
-                    <Body color={theme.colors.textDisabled} textAlign='center' style={{ fontSize: '14px' }}>
-                      {t('liquidityConnectToWallet')}
-                    </Body>
-                  </LightCard>
-                ) : loading ? (
-                  <LightCard>
-                    <Body color={theme.colors.textDisabled} textAlign='center'>
-                      <Dots>{t('loading')}</Dots>
-                    </Body>
-                  </LightCard>
-                ) : data?.length > 0 ? (
-                  <>
-                    {data.map((v2Pair) => (
-                      <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
-                    ))}
-                  </>
-                ) : (
-                  <LightCard>
-                    <Body color={theme.colors.textDisabled} textAlign='center'>
-                      {t('liquidityNotFound')}
-                    </Body>
-                  </LightCard>
-                )}
-              </>
-            )}
-          </StyledRightSide>
-        </StyledCardBody>
-        {data?.length > 0 && (
-          <StyledYourLiquidity>
-            <StyledLiquidity found>
-              <Text color={theme.colors.text}>{t('yourLiquidity')}</Text>
-              <Question text={t('questionHelperMessages.addLiquidity')} />
-            </StyledLiquidity>
-            <StyledFoundLiquidity>
-              {data.map((v2Pair) => (
-                <StyledFullPositionCard key={v2Pair.liquidityToken.address}>
-                  <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
-                </StyledFullPositionCard>
-              ))}
-            </StyledFoundLiquidity>
-          </StyledYourLiquidity>
-        )}
-        <AutoColumn gap='lg'>
-          <CardBody>
-            <AutoColumn gap='12px' style={{ width: '100%' }}>
-              <div>
-                <Text fontSize='14px' style={{ padding: '.5rem 0 .5rem 0', display: 'flex', justifyContent: 'center'}}>
-                  {t('noJoinedPool')}{' '}
-                  <StyledInternalLink id='import-pool-link' href='/find'>
-                    {t('importPoolMessage')}
-                  </StyledInternalLink>
-                </Text>
-                {/* <Text fontSize="14px" style={{ padding: '.5rem 0 .5rem 0' }}>
-                  Or, if you staked your FLIP tokens in a farm, unstake them to see them here.
-                </Text> */}
-              </div>
-            </AutoColumn>
-          </CardBody>
-        </AutoColumn>
-      </SwapAppBody>
-    </CardWrapper>
-  )
-})
+`
 
 export default Pool

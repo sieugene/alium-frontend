@@ -3,7 +3,7 @@ import { CheckCircle, Triangle } from 'react-feather'
 import { useAllTransactions } from 'state/transactions/hooks'
 import styled from 'styled-components'
 import { getEtherscanLink } from 'utils'
-import Loader from '../Loader'
+import Loader from '../Loaders/Loader'
 import { RowFixed } from '../Row'
 import { ExternalLink } from '../Shared'
 

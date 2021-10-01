@@ -51,6 +51,14 @@ export const ETH = newTokenChecksummed(
   'ETH',
   'Binance-Peg Ethereum Token',
 )
+export const WBNB = newTokenChecksummed(
+  ChainId.MAINNET,
+  '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+  18,
+  'WBNB',
+  'Wrapped BNB',
+)
+
 export const BETH = newTokenChecksummed(
   ChainId.MAINNET,
   '0x250632378E573c6Be1AC2f97Fcdf00515d0Aa91B',
@@ -64,6 +72,14 @@ export const BSC_ALM = newTokenChecksummed(
   18,
   'ALM',
   'Alium Swap',
+)
+
+export const BSC_CAKE = newTokenChecksummed(
+  ChainId.MAINNET,
+  '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
+  18,
+  'CAKE',
+  'PancakeSwap Token',
 )
 export const TESTALM = newTokenChecksummed(
   ChainId.BSCTESTNET,
@@ -123,13 +139,7 @@ export const TEST_BSC_ALM = newTokenChecksummed(
   'ALM',
   'Alium Token',
 )
-export const TEST_BSC_ALM_OLD = newTokenChecksummed(
-  ChainId.BSCTESTNET,
-  '0x6f58aCfaEB1BfDC9c4959c43aDdE7a3b63BF019f',
-  18,
-  'ALM',
-  'Alium Token',
-)
+
 export const TEST_BSC_WBNB = newTokenChecksummed(
   ChainId.BSCTESTNET,
   '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
@@ -410,16 +420,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]: [Token, Token][] } = {
   [ChainId.MAINNET]: [
-    [
-      newTokenChecksummed(
-        ChainId.MAINNET,
-        '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
-        18,
-        'CAKE',
-        'PancakeSwap Token',
-      ),
-      newTokenChecksummed(ChainId.MAINNET, '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', 18, 'WBNB', 'Wrapped BNB'),
-    ],
+    [BSC_CAKE, WBNB],
     [BUSD, USDT],
     [DAI, USDT],
   ],

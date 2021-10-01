@@ -25,6 +25,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
   try {
     const { pid, lpAddresses, token, quoteToken } = farm
     const lpAddress = getAddress(lpAddresses)
+
     const calls = [
       // Balance of token in the LP contract
       {
@@ -98,7 +99,8 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     const allocPoint = info ? new BigNumber(info.allocPoint?._hex) : BIG_ZERO
     const poolWeight = totalAllocPoint ? allocPoint.div(new BigNumber(totalAllocPoint)).times(100) : BIG_ZERO
 
-    const depositFee = Number(info?.depositFee / 1000000) || 0
+    const depositFee = Number(info?.depositFee) === 0 ? 0 : 100000 / (info?.depositFee * 100) / 100
+    console.log(Number(info?.depositFee), 'depositFee')
 
     // apy fetch and calc
     const apy = await fetchApy(
@@ -124,7 +126,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       depositFee,
       apy,
     }
-  } catch {
+  } catch (error) {
     return {
       tokenAmountMc: '0',
       quoteTokenAmountMc: '0',
@@ -134,8 +136,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       lpTotalInQuoteToken: '0',
       tokenPriceVsQuote: '0',
       poolWeight: '0',
-      // TODO MAKE HERE 0X!!!
-      multiplier: `${1}X`,
+      multiplier: `${0}X`,
       depositFee: 0,
       apy: 0,
     }

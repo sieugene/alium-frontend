@@ -166,7 +166,6 @@ const Menu: FC<NavProps> = ({
   links,
   loginBlockVisible = true,
   buttonTitle = 'Connect',
-  options,
   children,
   explorerName,
   explorerLink,
@@ -234,7 +233,6 @@ const Menu: FC<NavProps> = ({
                 explorerName={explorerName}
                 explorerLink={explorerLink}
                 onTransactionHistoryHandler={onTransactionHistoryHandler}
-                {...options}
               />
             )}
             <MenuButton2 aria-label='Toggle menu' onClick={() => setIsPushed((prevState: boolean) => !prevState)}>

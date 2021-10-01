@@ -1,117 +1,26 @@
 import { Button, Flex } from 'alium-uikit/src'
+import Modal from 'components/Modal'
 import { Dots } from 'components/swap/styleds'
-import { useActiveWeb3React } from 'hooks'
+import { TransactionSubmittedContent } from 'components/TransactionConfirmationModal'
+import useNftAccountCard from 'hooks/useNftAccountCard'
+import { useTranslation } from 'next-i18next'
 import { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import Modal from '../../../../components/Modal'
-import { TransactionSubmittedContent } from '../../../../components/TransactionConfirmationModal'
-import useNftAccountCard from '../../../../hooks/useNftAccountCard'
 import { CardType } from '../../constants/cards'
-
-const NFTWrapper = styled.div`
-  border: none;
-  box-sizing: border-box;
-  border-radius: 6px;
-  outline: none;
-  background: none;
-  position: relative;
-  width: 100%;
-  max-width: 320px;
-  background-color: white;
-  margin: 0 15px 15px;
-  @media (min-width: 568px) {
-    width: calc(100% / 2 - 30px);
-    max-width: 280px;
-  }
-  @media (min-width: 768px) {
-    width: calc(100% / 3 - 30px);
-    max-width: 280px;
-  }
-  @media (min-width: 1024px) {
-    max-width: 354px;
-    width: calc(100% / 3 - 30px);
-  }
-`
-
-const StyledFlex = styled(Flex)`
-  flex-direction: column;
-  padding: 16px;
-  box-sizing: border-box;
-`
-const ButtonFlex = styled(Flex)`
-  padding: 0;
-  margin-top: 16px;
-  box-sizing: border-box;
-  width: 100%;
-
-  button {
-    width: 100%;
-  }
-`
-
-const Image = styled.img`
-  max-width: 100%;
-  max-height: 333px;
-  margin: 0 auto;
-`
-const Video = styled.video`
-  max-width: 100%;
-  max-height: 333px;
-  margin: 0 auto;
-`
-
-const InputWrapper = styled(Flex)`
-  margin-top: 32px;
-  position: relative;
-  width: 100%;
-`
-const Label = styled.label`
-  font-size: 12px;
-  color: #6c5dd3;
-  position: absolute;
-  background-color: white;
-  line-height: 14px;
-  left: 12px;
-  padding: 0 4px;
-  top: calc(0% - 14px / 2);
-  @media (min-width: 568px) {
-    font-size: 10px;
-  }
-  @media (min-width: 1024px) {
-    font-size: 12px;
-  }
-`
-
-const Select = styled.select`
-  background-color: transparent;
-  border: 1px solid #d2d6e5;
-  border-radius: 6px;
-  box-shadow: inset 0 2px 2px -1px rgb(74 74 104 / 10%);
-  color: #0b1359;
-  display: block;
-  font-size: 16px;
-  height: 48px;
-  outline: 0;
-  padding: 0 16px;
-  width: 100%;
-`
-
-const Option = styled.option``
 
 interface PropsType {
   card: CardType
 }
 
 const NftAccountCard = ({ card }: PropsType) => {
+  const { t } = useTranslation()
   const isMp4 = card.img.split('.')[1] === 'mp4'
   const [value, setValue] = useState<number | string>('-')
   const [isTxOpen, setTxOpen] = useState(false)
   const [txHash, setTxHash] = useState('xczxczxczxc')
-  const { chainId } = useActiveWeb3React()
   const handleTxClose = () => {
     setTxOpen(false)
   }
-  const nftAccountCard = useNftAccountCard(value, card.id)
   const {
     totalSupply,
     error,
@@ -123,13 +32,7 @@ const NftAccountCard = ({ card }: PropsType) => {
     cardIds,
     setPendingConvert,
     setPendingApprove,
-  } = nftAccountCard
-
-  // there is no suitable place to stop the PENDING
-  // const endPending = () => {
-  //   setPendingConvert(false)
-  //   setPendingApprove(false)
-  // }
+  } = useNftAccountCard(value, card.id)
 
   const limitId: number = useMemo(() => {
     return totalSupply ? parseInt(totalSupply, 10) : 1
@@ -179,7 +82,7 @@ const NftAccountCard = ({ card }: PropsType) => {
   return (
     <NFTWrapper>
       <Modal isOpen={isTxOpen} onDismiss={handleTxClose} maxHeight={90} padding='24px' isTransparancy>
-        <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={handleTxClose} />
+        <TransactionSubmittedContent hash={txHash} onDismiss={handleTxClose} />
       </Modal>
       <StyledFlex>
         {isMp4 ? (
@@ -190,8 +93,7 @@ const NftAccountCard = ({ card }: PropsType) => {
           <Image src={card.img} alt='nft-preview' className='nft-preview' />
         )}
         <InputWrapper>
-          <Label>Select you NFT id</Label>
-          {/* <Input type="number" scale="lg" step={1} min={1} placeholder="1" value={value} onChange={handleInput} /> */}
+          <Label>{t('tokenHolderArea.selectYouNFTId')}</Label>
           <Select value={value} onChange={handleInput}>
             <Option value='-'>-</Option>
             {cardIds.map((cardId, key) => {
@@ -206,11 +108,11 @@ const NftAccountCard = ({ card }: PropsType) => {
         <ButtonFlex>
           {(card.privateCall && isApprovedPrivate) || (!card.privateCall && isApprovedPublic) ? (
             <Button onClick={onConvertHandler} disabled={Boolean(error || pending)}>
-              {pending ? <Dots>Converting</Dots> : error || 'Convert to ALMs'}
+              {pending ? <Dots>{t('common.button.converting')}</Dots> : error || t('common.button.convertToALMs')}
             </Button>
           ) : (
             <Button onClick={onApproveHandler} disabled={pending}>
-              {pending ? <Dots>Approving</Dots> : 'Approve'}
+              {pending ? <Dots>{t('common.button.approving')}</Dots> : t('common.button.approve')}
             </Button>
           )}
         </ButtonFlex>
@@ -220,3 +122,102 @@ const NftAccountCard = ({ card }: PropsType) => {
 }
 
 export default NftAccountCard
+
+// styles
+
+const NFTWrapper = styled.div`
+  border: none;
+  box-sizing: border-box;
+  border-radius: 6px;
+  outline: none;
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  background-color: white;
+  margin: 0 15px 15px;
+
+  @media (min-width: 568px) {
+    width: calc(100% / 2 - 30px);
+    max-width: 280px;
+  }
+
+  @media (min-width: 768px) {
+    width: calc(100% / 3 - 30px);
+    max-width: 280px;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 354px;
+    width: calc(100% / 3 - 30px);
+  }
+`
+
+const StyledFlex = styled(Flex)`
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+`
+
+const ButtonFlex = styled(Flex)`
+  padding: 0;
+  margin-top: 16px;
+  box-sizing: border-box;
+  width: 100%;
+
+  button {
+    width: 100%;
+  }
+`
+
+const Image = styled.img`
+  max-width: 100%;
+  max-height: 333px;
+  margin: 0 auto;
+`
+
+const Video = styled.video`
+  max-width: 100%;
+  max-height: 333px;
+  margin: 0 auto;
+`
+
+const InputWrapper = styled(Flex)`
+  margin-top: 32px;
+  position: relative;
+  width: 100%;
+`
+
+const Label = styled.label`
+  font-size: 12px;
+  color: #6c5dd3;
+  position: absolute;
+  background-color: white;
+  line-height: 14px;
+  left: 12px;
+  padding: 0 4px;
+  top: calc(0% - 14px / 2);
+
+  @media (min-width: 568px) {
+    font-size: 10px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 12px;
+  }
+`
+
+const Select = styled.select`
+  background-color: transparent;
+  border: 1px solid #d2d6e5;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 2px -1px rgb(74 74 104 / 10%);
+  color: #0b1359;
+  display: block;
+  font-size: 16px;
+  height: 48px;
+  outline: 0;
+  padding: 0 16px;
+  width: 100%;
+`
+
+const Option = styled.option``

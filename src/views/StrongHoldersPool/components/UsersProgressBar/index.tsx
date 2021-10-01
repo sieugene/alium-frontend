@@ -1,6 +1,8 @@
 import { rgba } from 'polished'
 import { Fragment, useMemo } from 'react'
+import { useMedia } from 'react-use'
 import styled from 'styled-components'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 
 function toRadians(degrees: number) {
   return degrees * (Math.PI / 180)
@@ -14,17 +16,32 @@ function getPoint(center: number, radius: number, degrees: number) {
   }
 }
 
-export default function UsersProgressBar() {
-  const current = 24
-  const all = 100
+export interface UsersProgressBarProps {
+  current: number
+  all: number
+}
 
-  const padding = 10
-  const radius = 250 / 2 - padding
-  const center = radius
-
+export default function UsersProgressBar({ current, all }: UsersProgressBarProps) {
+  const isNotLg = useMedia(down(breakpoints.lg))
+  const isNotSm = useMedia(down(breakpoints.sm))
+  const outerPadding = isNotSm ? 0 : 15
+  const innerRadius = useMemo(() => {
+    switch (true) {
+      case isNotSm:
+        return 190
+      case isNotLg:
+        return 220
+      default:
+        return 250
+    }
+  }, [isNotLg, isNotSm])
+  const size = innerRadius + outerPadding * 2
+  const svgPadding = 10
+  const svgRadius = innerRadius / 2 - svgPadding
+  const svgCenter = svgRadius
   // gap in degrees
-  const areaGap = 3
-  const areas = useMemo(
+  const svgAreaGap = 3
+  const svgAreas = useMemo(
     () => [
       {
         start: 0,
@@ -45,28 +62,28 @@ export default function UsersProgressBar() {
     ],
     [],
   )
-  const areaMax = all / areas.length
+  const areaMax = all / svgAreas.length
   return (
-    <UsersProgressBar.Root>
+    <UsersProgressBar.Root style={{ width: size, height: size, padding: outerPadding }}>
       <UsersProgressBar.Inner>
-        <UsersProgressBar.Svg style={{ padding: padding }}>
-          {areas.map((area, i) => {
-            const startDegrees = area.start + areaGap
-            const endDegrees = area.end - areaGap
-            const startPoint = getPoint(center, radius, startDegrees)
-            const endPoint = getPoint(center, radius, endDegrees)
+        <UsersProgressBar.Svg style={{ padding: svgPadding }}>
+          {svgAreas.map((area, i) => {
+            const startDegrees = area.start + svgAreaGap
+            const endDegrees = area.end - svgAreaGap
+            const startPoint = getPoint(svgCenter, svgRadius, startDegrees)
+            const endPoint = getPoint(svgCenter, svgRadius, endDegrees)
             const progress = Math.max(0, current - areaMax * i) / areaMax
             const progressDegrees = Math.min(startDegrees + (endDegrees - startDegrees) * progress, endDegrees)
-            const progressPoint = getPoint(center, radius, progressDegrees)
+            const progressPoint = getPoint(svgCenter, svgRadius, progressDegrees)
             return (
               <Fragment key={i}>
                 <UsersProgressBar.Arc
-                  d={`M ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 0 1 ${endPoint.x} ${endPoint.y}`}
+                  d={`M ${startPoint.x} ${startPoint.y} A ${svgRadius} ${svgRadius} 0 0 1 ${endPoint.x} ${endPoint.y}`}
                   opacity='0.1'
                 />
                 {progress > 0 && (
                   <UsersProgressBar.Arc
-                    d={`M ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 0 1 ${progressPoint.x} ${progressPoint.y}`}
+                    d={`M ${startPoint.x} ${startPoint.y} A ${svgRadius} ${svgRadius} 0 0 1 ${progressPoint.x} ${progressPoint.y}`}
                   />
                 )}
               </Fragment>
@@ -76,7 +93,7 @@ export default function UsersProgressBar() {
         <UsersProgressBar.Counters>
           <UsersProgressBar.Value>
             {current}
-            <UsersProgressBar.Sup>/ {all}</UsersProgressBar.Sup>
+            <UsersProgressBar.Text as='span'>/ {all}</UsersProgressBar.Text>
           </UsersProgressBar.Value>
           <UsersProgressBar.Text>
             Users In the pool
@@ -89,10 +106,8 @@ export default function UsersProgressBar() {
 }
 
 UsersProgressBar.Root = styled.div`
-  border: 15px solid ${rgba('#6c5dd3', 0.05)};
+  background: ${rgba('#6c5dd3', 0.05)};
   border-radius: 50%;
-  width: 100%;
-  height: 100%;
 `
 
 UsersProgressBar.Inner = styled.div`
@@ -136,14 +151,12 @@ UsersProgressBar.Value = styled.div`
   color: #ffffff;
   position: relative;
   margin-bottom: 8px;
-`
 
-UsersProgressBar.Sup = styled(UsersProgressBar.Text).attrs({
-  as: 'span',
-})`
-  position: absolute;
-  top: 5px;
-  white-space: nowrap;
+  & > span {
+    position: absolute;
+    top: 5px;
+    white-space: nowrap;
+  }
 `
 
 UsersProgressBar.Svg = styled.svg`

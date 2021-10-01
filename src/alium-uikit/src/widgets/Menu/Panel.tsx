@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { SIDEBAR_WIDTH_FULL, SIDEBAR_WIDTH_REDUCED } from './config'
+import { MENU_HEIGHT, SIDEBAR_WIDTH_FULL, SIDEBAR_WIDTH_REDUCED } from './config'
 import PanelBody from './PanelBody'
 import PanelFooter from './PanelFooter'
 import { PanelProps, PushedProps } from './types'
@@ -19,10 +19,9 @@ const StyledPanel = styled.div<{ ispushed: boolean; showMenu: boolean }>`
   justify-content: space-between;
   flex-shrink: 0;
   background-color: ${({ theme }) => theme.nav.background};
-  height: 100vh;
+  height: calc(100vh - ${MENU_HEIGHT}px);
   transition: padding-top 0.2s, width 0.2s;
   border-right: ${({ ispushed }) => (ispushed ? '2px solid rgba(133, 133, 133, 0.1)' : 0)};
-  z-index: 11;
   overflow: ${({ ispushed }) => (ispushed ? 'initial' : 'initial')};
   transform: translate3d(0, 0, 0);
   z-index: 20;
@@ -36,6 +35,7 @@ const StyledPanel = styled.div<{ ispushed: boolean; showMenu: boolean }>`
     top: 0;
     left: 0;
     padding-top: 28px;
+    height: 100vh;
   }
   @media screen and (max-width: 480px) {
     width: ${({ ispushed }) => `${ispushed ? '100vw' : '0px'}`};

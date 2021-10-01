@@ -26,18 +26,6 @@ enum Fields {
   TOKEN1 = 1,
 }
 
-const StyledAddIcon = styled.div`
-  border: 1.5px solid #6c5dd3;
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  display: flex;
-
-  > * {
-    margin: auto;
-  }
-`
-
 export default function PoolFinder() {
   const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   const { account } = useActiveWeb3React()
@@ -51,6 +39,7 @@ export default function PoolFinder() {
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
   const addPair = usePairAdder()
+
   useEffect(() => {
     if (pair) {
       addPair(pair)
@@ -86,7 +75,9 @@ export default function PoolFinder() {
 
   const prerequisiteMessage = (
     <LightCard padding='30px 10px'>
-      <Text style={{ textAlign: 'center' }}>{!account ? t('connectToFindPools') : t('selectToFindLiquidity')}</Text>
+      <Text style={{ textAlign: 'center' }}>
+        {!account ? t('liquidity.connectToFindPools') : t('liquidity.selectToFindLiquidity')}
+      </Text>
     </LightCard>
   )
 
@@ -106,7 +97,7 @@ export default function PoolFinder() {
               endIcon={<ChevronDownIcon width='24px' color='white' />}
               fullwidth
             >
-              {currency0 ? currency0.symbol : t('selectToken')}
+              {currency0 ? currency0.symbol : t('liquidity.selectToken')}
             </Button>
 
             <ColumnCenter>
@@ -124,14 +115,14 @@ export default function PoolFinder() {
               endIcon={<ChevronDownIcon width='24px' color='white' />}
               fullwidth
             >
-              {currency1 ? currency1.symbol : t('selectToken')}
+              {currency1 ? currency1.symbol : t('liquidity.selectToken')}
             </Button>
 
             {hasPosition && (
               <ColumnCenter
                 style={{ justifyItems: 'center', backgroundColor: '', padding: '12px 0px', borderRadius: '12px' }}
               >
-                <Text style={{ textAlign: 'center' }}>{t('poolFound')}</Text>
+                <Text style={{ textAlign: 'center' }}>{t('liquidity.poolFound')}</Text>
               </ColumnCenter>
             )}
 
@@ -142,9 +133,9 @@ export default function PoolFinder() {
                 ) : (
                   <LightCard padding='30px 10px'>
                     <AutoColumn gap='sm' justify='center'>
-                      <Text style={{ textAlign: 'center' }}>{t('noLiquidityInPool')}</Text>
+                      <Text style={{ textAlign: 'center' }}>{t('liquidity.noLiquidityInPool')}</Text>
                       <StyledInternalLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
-                        <Text style={{ textAlign: 'center' }}>{t('addLiquidity')}</Text>
+                        <Text style={{ textAlign: 'center' }}>{t('liquidity.addLiquidity')}</Text>
                       </StyledInternalLink>
                     </AutoColumn>
                   </LightCard>
@@ -152,23 +143,23 @@ export default function PoolFinder() {
               ) : validPairNoLiquidity ? (
                 <LightCard padding='30px 10px'>
                   <AutoColumn gap='sm' justify='center'>
-                    <Text style={{ textAlign: 'center' }}>{t('noPool')}</Text>
+                    <Text style={{ textAlign: 'center' }}>{t('liquidity.noPool')}</Text>
                     <StyledInternalLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
-                      {t('createPool')}
+                      {t('liquidity.createPool')}
                     </StyledInternalLink>
                   </AutoColumn>
                 </LightCard>
               ) : pairState === PairState.INVALID ? (
                 <LightCard padding='30px 10px'>
                   <AutoColumn gap='sm' justify='center'>
-                    <Text style={{ textAlign: 'center' }}>{t('invalidPair')}</Text>
+                    <Text style={{ textAlign: 'center' }}>{t('liquidity.invalidPair')}</Text>
                   </AutoColumn>
                 </LightCard>
               ) : pairState === PairState.LOADING ? (
                 <LightCard padding='30px 10px'>
                   <AutoColumn gap='sm' justify='center'>
                     <Text style={{ textAlign: 'center' }}>
-                      {t('loading')}
+                      {t('common.text.loading')}
                       <Dots />
                     </Text>
                   </AutoColumn>
@@ -191,3 +182,17 @@ export default function PoolFinder() {
     </>
   )
 }
+
+// styles
+
+const StyledAddIcon = styled.div`
+  border: 1.5px solid #6c5dd3;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  display: flex;
+
+  & > * {
+    margin: auto;
+  }
+`

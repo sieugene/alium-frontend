@@ -305,7 +305,7 @@ export default function AccountDetails({
         <CloseIcon onClick={toggleWalletModal}>
           <CloseColor />
         </CloseIcon>
-        <HeaderRow>{t('account')}</HeaderRow>
+        <HeaderRow>{t('others.account')}</HeaderRow>
         <AccountSection>
           <YourAccount>
             <InfoCard>
@@ -319,7 +319,7 @@ export default function AccountDetails({
                         ;(connector as any).close()
                       }}
                     >
-                      {t('disconnect')}
+                      {t('others.disconnect')}
                     </WalletAction>
                   )}
                   <WalletAction
@@ -328,7 +328,7 @@ export default function AccountDetails({
                       openOptions()
                     }}
                   >
-                    {t('change')}
+                    {t('others.change')}
                   </WalletAction>
                 </div>
               </AccountGroupingRow>
@@ -353,7 +353,7 @@ export default function AccountDetails({
                     <div>
                       {account && (
                         <Copy toCopy={account}>
-                          <span style={{ marginLeft: '4px' }}>{t('copyAddress')}</span>
+                          <span style={{ marginLeft: '4px' }}>{t('others.copyAddress')}</span>
                         </Copy>
                       )}
                       {chainId && account && (
@@ -363,7 +363,7 @@ export default function AccountDetails({
                           href={chainId && getEtherscanLink(chainId, ENSName, 'address')}
                         >
                           <LinkIcon size={16} />
-                          <span style={{ marginLeft: '4px' }}>{t('viewOnBscScan')}</span>
+                          <span style={{ marginLeft: '4px' }}>{t('others.viewOnBscScan')}</span>
                         </AddressLink>
                       )}
                     </div>
@@ -373,7 +373,7 @@ export default function AccountDetails({
                     <div>
                       {account && (
                         <Copy toCopy={account}>
-                          <span style={{ marginLeft: '4px' }}>{t('copyAddress')}</span>
+                          <span style={{ marginLeft: '4px' }}>{t('others.copyAddress')}</span>
                         </Copy>
                       )}
                       {chainId && account && (
@@ -383,7 +383,7 @@ export default function AccountDetails({
                           href={getEtherscanLink(chainId, account, 'address')}
                         >
                           <LinkIcon size={16} />
-                          <span style={{ marginLeft: '4px' }}>{t('viewOnBscScan')}</span>
+                          <span style={{ marginLeft: '4px' }}>{t('others.viewOnBscScan')}</span>
                         </AddressLink>
                       )}
                     </div>
@@ -398,14 +398,14 @@ export default function AccountDetails({
         <LowerSection>
           <AutoRow mb='1rem' style={{ justifyContent: 'space-between' }}>
             <Body>Recent Transactions</Body>
-            <LinkStyledButton onClick={clearAllTransactionsCallback}>({t('clearAll')})</LinkStyledButton>
+            <LinkStyledButton onClick={clearAllTransactionsCallback}>({t('others.clearAll')})</LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}
           {renderTransactions(confirmedTransactions)}
         </LowerSection>
       ) : (
         <LowerSection>
-          <Body color={theme.colors.text}>{t('transactionsWillAppear')}</Body>
+          <Body color={theme.colors.text}>{t('others.transactionsWillAppear')}</Body>
         </LowerSection>
       )}
     </>

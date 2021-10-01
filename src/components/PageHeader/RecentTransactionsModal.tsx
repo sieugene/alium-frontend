@@ -1,5 +1,5 @@
 import { Button, CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Modal, Text } from 'alium-uikit/src'
-import Loader from 'components/Loader'
+import Loader from 'components/Loaders/Loader'
 import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react';
@@ -57,22 +57,22 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
 
   return (
     <StyledWrapper>
-      <Modal title={t('recentTransactions')} onDismiss={onDismiss}>
+      <Modal title={t('recentTransactionsModal.title')} onDismiss={onDismiss}>
         {!account && (
           <Flex justifyContent='center' flexDirection='column' alignItems='center'>
             <Text mb='20px' bold mt='12px' style={{ textAlign: 'center' }}>
-              {t('pleaseConnectWallet')}
+              {t('recentTransactionsModal.pleaseConnectWallet')}
             </Text>
             <Button variant='secondary' size='md' onClick={onDismiss}>
-              {t('close')}
+              {t('common.button.close')}
             </Button>
           </Flex>
         )}
         {account && chainId && sortedRecentTransactions.length === 0 && (
           <Flex justifyContent='center' flexDirection='column' alignItems='center'>
-            <Text mb='8px'>{t('noRecentTransactions')}</Text>
+            <Text mb='8px'>{t('recentTransactionsModal.noRecentTransactions')}</Text>
             <Button variant='secondary' size='md' onClick={onDismiss} mt='10px'>
-              {t('close')}
+              {t('common.button.close')}
             </Button>
           </Flex>
         )}

@@ -1,201 +1,18 @@
 import { Button } from 'alium-uikit/src'
+import TransactionModal, { CloseItem } from 'components/Modal/transaction/TransactionModal'
 import { BridgeWarningInDetail } from 'images/bridge/BridgeWarningInDetail'
+import { Trans, useTranslation } from 'next-i18next'
+import React from 'react'
 import { ChevronRight } from 'react-feather'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
-import BridgeModal, { CloseItem } from '../../../../../components/Modal/BridgeModal'
 import BadNetworkWrapper from '../../BadNetworkWrapper'
 
-const Wrapper = styled.div`
-  max-width: 500px;
-`
-const Header = styled.div`
-  padding: 16px;
-  border-bottom: 1px solid #f4f5fa;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`
-const Content = styled.div`
-  padding: 32px 24px 16px 24px;
-`
-const TokensBridge = styled.div`
-  display: flex;
-  position: relative;
-  margin-bottom: 24px;
-`
-const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
-  width: 50%;
-  height: 120px;
-  background: #f4f5fa;
-  border: 1px solid #f4f5fa;
-  box-sizing: border-box;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-
-  ${(props) => `padding-${props.align}: 24px`};
-  @media screen and (max-width: 768px) {
-    ${(props) => `padding-${props.align}: 16px`};
-  }
-  @media screen and (max-width: 480px) {
-    ${(props) => `padding-${props.align}: 10px`};
-  }
-
-  ${(props) => `justify-content: flex-${props.justify}`};
-  .count {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: 0.3px;
-    color: #0b1359;
-    margin-right: 8px;
-    @media screen and (max-width: 768px) {
-      font-size: 24px;
-    }
-    @media screen and (max-width: 480px) {
-      margin: 0;
-    }
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  .symbol {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    color: #8990a5;
-    position: relative;
-    bottom: 4px;
-    @media screen and (max-width: 768px) {
-      bottom: 8px;
-    }
-  }
-  .text {
-    display: flex;
-    align-items: flex-end;
-    max-width: 175px;
-    @media screen and (max-width: 768px) {
-      /* max-width: 165px; */
-    }
-    @media screen and (max-width: 480px) {
-      max-width: 120px;
-    }
-    @media screen and (max-width: 375px) {
-      max-width: 110px;
-    }
-    @media screen and (max-width: 330px) {
-      max-width: 90px;
-    }
-  }
-`
-const Fees = styled.div`
-  position: absolute;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  flex-direction: column;
-  .chevron {
-    background: #ffffff;
-    box-shadow: 0px 6px 8px rgba(220, 224, 244, 0.56);
-    border-radius: 36px;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    svg {
-      width: 32px;
-      height: 32px;
-      stroke: #6c5dd3;
-    }
-  }
-  p {
-    margin-top: 4px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 14px;
-    text-align: center;
-    letter-spacing: 0.3px;
-    color: #8990a5;
-  }
-`
-
-const Detail = styled.div`
-  margin-bottom: 16px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: #0b1359;
-  b {
-    font-weight: 500;
-    color: #6c5dd3;
-  }
-`
-
-const Info = styled.div`
-  width: 100%;
-  height: auto;
-
-  p {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    color: #0b1359;
-    max-width: 360px;
-    padding-left: 18px;
-  }
-  display: flex;
-  padding: 16px;
-  @media screen and (max-width: 480px) {
-    padding: 16px 5px 16px 16px;
-  }
-  svg {
-    min-width: 24px;
-    min-height: 24px;
-  }
-  background: rgba(255, 77, 0, 0.1);
-  border-radius: 6px;
-`
-
-const Footer = styled.div`
-  padding: 0px 24px 32px 24px;
-  display: flex;
-  justify-content: space-between;
-  .dismiss {
-    width: 97px;
-    height: 48px;
-  }
-  .continue {
-    height: 48px;
-    width: 112px;
-  }
-  @media screen and (max-width: 480px) {
-    padding: 0px 24px 24px 24px;
-  }
-`
-
 const BridgeConfirmTransfer = () => {
+  const { t } = useTranslation()
   const token = useStoreBridge((state) => state.tokens.fromToken)
   const { install } = useBridge()
   const toggleModal = storeBridge.getState().toggleModal
@@ -215,12 +32,15 @@ const BridgeConfirmTransfer = () => {
     install({ step: BRIDGE_STEPS.TRANSFER })
   }
 
+  const networkToLabel = networkTo?.type && t(`networks.${networkTo?.type}.label`)
+  const networkFromLabel = networkFrom?.type && t(`networks.${networkFrom?.type}.label`)
+
   return (
-    <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
+    <TransactionModal isOpen={modalOpen} onDismiss={onDismiss}>
       <BadNetworkWrapper>
         <Wrapper>
           <Header>
-            <h2 className='title'>Confirm Transfer</h2>
+            <h2 className='title'>{t('bridge.confirmTransfer')}</h2>
             <div onClick={onDismiss}>
               <CloseItem />
             </div>
@@ -237,7 +57,7 @@ const BridgeConfirmTransfer = () => {
                 <div className='chevron'>
                   <ChevronRight />
                 </div>
-                <p>Bridge Fees 0.5%</p>
+                <p>{t('bridge.bridgeFees')}</p>
               </Fees>
               <Token align='right' justify='end'>
                 <div className='text'>
@@ -247,35 +67,243 @@ const BridgeConfirmTransfer = () => {
               </Token>
             </TokensBridge>
             <Detail>
-              Please confirm that you would like to send{' '}
-              <b>
-                {amounts.from} {token?.symbol}
-              </b>{' '}
-              from {networkFrom?.label} and receive{' '}
-              <b>
-                {amounts.to} {token?.symbol}
-              </b>{' '}
-              on {networkTo?.label}
+              <Trans
+                i18nKey='bridge.pleaseConfirmThat'
+                values={{
+                  amountsFrom: amounts?.from,
+                  amountsTo: amounts?.to,
+                  tokenSymbol: token?.symbol,
+                  networkFromLabel,
+                  networkToLabel,
+                }}
+                components={{ b: <b /> }}
+              />
             </Detail>
             <Info>
               <BridgeWarningInDetail />
-              <p>
-                The claim process requires 2 transactions, one on {networkFrom?.label} and one on {networkTo?.label}
-              </p>
+              <p>{t(`bridge.theClaimProcess`, { networkFromLabel, networkToLabel })}</p>
             </Info>
           </Content>
           <Footer>
             <Button variant='secondary' onClick={onDismiss} className='dismiss'>
-              Cancel
+              {t(`common.button.cancel`)}
             </Button>
             <Button onClick={confirm} className='continue'>
-              Continue
+              {t(`common.button.continue`)}
             </Button>
           </Footer>
         </Wrapper>
       </BadNetworkWrapper>
-    </BridgeModal>
+    </TransactionModal>
   )
 }
 
 export default BridgeConfirmTransfer
+
+// styles
+
+const Wrapper = styled.div`
+  max-width: 500px;
+`
+
+const Header = styled.div`
+  padding: 16px;
+  border-bottom: 1px solid #f4f5fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+
+const Content = styled.div`
+  padding: 32px 24px 16px 24px;
+`
+
+const TokensBridge = styled.div`
+  display: flex;
+  position: relative;
+  margin-bottom: 24px;
+`
+
+const Token = styled.div<{ align: 'left' | 'right'; justify: 'end' | 'start' }>`
+  width: 50%;
+  height: 120px;
+  background: #f4f5fa;
+  border: 1px solid #f4f5fa;
+  box-sizing: border-box;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+
+  ${(props) => `padding-${props.align}: 24px`};
+
+  @media screen and (max-width: 768px) {
+    ${(props) => `padding-${props.align}: 16px`};
+  }
+
+  @media screen and (max-width: 480px) {
+    ${(props) => `padding-${props.align}: 10px`};
+  }
+
+  ${(props) => `justify-content: flex-${props.justify}`};
+
+  .count {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: 0.3px;
+    color: #0b1359;
+    margin-right: 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    @media screen and (max-width: 768px) {
+      font-size: 24px;
+    }
+
+    @media screen and (max-width: 480px) {
+      margin: 0;
+    }
+  }
+
+  .symbol {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    color: #8990a5;
+    position: relative;
+    bottom: 4px;
+
+    @media screen and (max-width: 768px) {
+      bottom: 8px;
+    }
+  }
+
+  .text {
+    display: flex;
+    align-items: flex-end;
+    max-width: 175px;
+
+    @media screen and (max-width: 768px) {
+      /* max-width: 165px; */
+    }
+
+    @media screen and (max-width: 480px) {
+      max-width: 120px;
+    }
+
+    @media screen and (max-width: 375px) {
+      max-width: 110px;
+    }
+
+    @media screen and (max-width: 330px) {
+      max-width: 90px;
+    }
+  }
+`
+
+const Fees = styled.div`
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+
+  .chevron {
+    background: #ffffff;
+    box-shadow: 0 6px 8px rgba(220, 224, 244, 0.56);
+    border-radius: 36px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 32px;
+      height: 32px;
+      stroke: #6c5dd3;
+    }
+  }
+
+  p {
+    margin-top: 4px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 14px;
+    text-align: center;
+    letter-spacing: 0.3px;
+    color: #8990a5;
+  }
+`
+
+const Detail = styled.div`
+  margin-bottom: 16px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  color: #0b1359;
+
+  b {
+    font-weight: 500;
+    color: #6c5dd3;
+  }
+`
+
+const Info = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: 16px;
+  background: rgba(255, 77, 0, 0.1);
+  border-radius: 6px;
+
+  p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    color: #0b1359;
+    max-width: 360px;
+    padding-left: 18px;
+  }
+
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 16px 5px 16px 16px;
+  }
+`
+
+const Footer = styled.div`
+  padding: 0 24px 32px 24px;
+  display: flex;
+  justify-content: space-between;
+
+  .dismiss {
+    width: 97px;
+    height: 48px;
+  }
+
+  .continue {
+    height: 48px;
+    width: 112px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 0 24px 24px 24px;
+  }
+`

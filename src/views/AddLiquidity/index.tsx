@@ -331,6 +331,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
         <AddRemoveTabs adding />
         <Wrapper>
           <TransactionConfirmationModal
+            token={pair?.liquidityToken}
             isOpen={showConfirm}
             onDismiss={() => {
               handleDismissConfirmation()

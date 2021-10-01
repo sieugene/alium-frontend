@@ -1,55 +1,124 @@
-import { Button } from 'alium-uikit/src'
+import { Button, Skeleton } from 'alium-uikit/src'
+import ConnectionLoad from 'alium-uikit/src/components/ConnectionLoad'
+import { ethers } from 'ethers'
+import useToast from 'hooks/useToast'
 import { useToggle } from 'react-use'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { ethersToBigNumber } from 'utils/bigNumber'
+import { getBalanceAmount } from 'utils/formatBalance'
+import {
+  useCountRewardPercent,
+  useIsFullPool,
+  useLeavePool,
+  usePoolAccountUser,
+  usePoolById,
+  usePoolLocked,
+  usePoolUsers,
+  usePoolWithdrawPosition,
+  useRewardTokenInfo,
+} from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import BonusNft from '../BonusNft'
 import Card from '../Card'
 import DetailsButton from '../DetailsButton'
 import FormattedValue from '../FormattedValue'
-import NftItemCounter from '../NftItemCounter'
-import NftItemReward from '../NftItemReward'
 import Title from '../Title'
+import Details from './Details'
+import PickUpFunds from './PickUpFunds'
 
-export default function YourPoolCard() {
+export interface YourPoolCardProps {
+  poolId: ethers.BigNumber
+}
+
+export default function YourPoolCard({ poolId }: YourPoolCardProps) {
+  const { toastError } = useToast()
   const [isDetails, toggleDetails] = useToggle(false)
+  const { mutate: mutatePool } = usePoolById(poolId)
+  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const { mutate: mutatePoolUsers } = usePoolUsers(poolId)
+  const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(poolId)
+
+  const { leavePool, loading: leavePoolLoading } = useLeavePool(poolId)
+  const { isLoss } = useCountRewardPercent(poolId)
+  const accountUser = usePoolAccountUser(poolId)
+  const withdrawPosition = usePoolWithdrawPosition(poolId)
+  const isFullPool = useIsFullPool(poolId)
   return (
-    <YourPoolCard.Root>
-      <YourPoolCard.Summary>
-        <YourPoolCard.Info>
-          <YourPoolCard.InfoFields>
+    <>
+      <YourPoolCard.Root>
+        <YourPoolCard.Summary>
+          <YourPoolCard.Info>
+            <YourPoolCard.InfoFields>
+              <YourPoolCard.Field>
+                <Title>Your contribution</Title>
+                {accountUser ? (
+                  <YourPoolCard.Value
+                    value={getBalanceAmount(ethersToBigNumber(accountUser.balance))}
+                    suffix={' ' + rewardTokenSymbol}
+                  />
+                ) : (
+                  <Skeleton />
+                )}
+              </YourPoolCard.Field>
+              <YourPoolCard.Field>
+                <PickUpFunds poolId={poolId} />
+              </YourPoolCard.Field>
+              <YourPoolCard.Field>
+                <BonusNft />
+              </YourPoolCard.Field>
+            </YourPoolCard.InfoFields>
+            <YourPoolCard.InfoActions>
+              <Button
+                disabled={!isFullPool || !leavePool || accountUser?.paid || leavePoolLoading}
+                onClick={async () => {
+                  if (!window.confirm('Are you sure you want to leave the pool?')) return
+                  try {
+                    await leavePool()
+                  } catch (error) {
+                    console.error(error)
+                    toastError(error.data?.message || error.message)
+                  } finally {
+                    mutatePool()
+                    mutatePoolUsers()
+                    mutatePoolLocked()
+                  }
+                }}
+              >
+                Leave the pool
+              </Button>
+              <DetailsButton isOpen={isDetails} onClick={toggleDetails} />
+            </YourPoolCard.InfoActions>
+          </YourPoolCard.Info>
+          <YourPoolCard.PoolCounters>
             <YourPoolCard.Field>
-              <Title>Your contribution</Title>
-              <YourPoolCard.Value value={100000} suffix=' ALM' />
+              <Title>Users In the pool</Title>
+              {withdrawPosition ? (
+                <YourPoolCard.UsersCounter isLoss={isLoss} value={ethersToBigNumber(withdrawPosition)} />
+              ) : (
+                <Skeleton />
+              )}
             </YourPoolCard.Field>
             <YourPoolCard.Field>
-              <PickUpFunds />
+              <Title>Pool Amount</Title>
+              {poolLocked ? (
+                <YourPoolCard.Value
+                  value={getBalanceAmount(ethersToBigNumber(poolLocked))}
+                  suffix={' ' + rewardTokenSymbol}
+                />
+              ) : (
+                <Skeleton />
+              )}
             </YourPoolCard.Field>
-            <YourPoolCard.Field>
-              <Title>Bonus NFT</Title>
-              <NftItemCounter />
-            </YourPoolCard.Field>
-          </YourPoolCard.InfoFields>
-          <YourPoolCard.InfoActions>
-            <Button>Leave the pool</Button>
-            <DetailsButton isOpen={isDetails} onClick={toggleDetails} />
-          </YourPoolCard.InfoActions>
-        </YourPoolCard.Info>
-        <YourPoolCard.PoolCounters>
-          <YourPoolCard.Field>
-            <Title>Users In the pool</Title>
-            <YourPoolCard.UsersCounter value={24} />
-          </YourPoolCard.Field>
-          <YourPoolCard.Field>
-            <Title>Pool Amount</Title>
-            <YourPoolCard.Value value={100886.0027} suffix=' ALM' />
-          </YourPoolCard.Field>
-        </YourPoolCard.PoolCounters>
-      </YourPoolCard.Summary>
-      {isDetails && (
-        <YourPoolCard.Details>
-          <Details />
-        </YourPoolCard.Details>
-      )}
-    </YourPoolCard.Root>
+          </YourPoolCard.PoolCounters>
+        </YourPoolCard.Summary>
+        {isDetails && (
+          <YourPoolCard.Details>
+            <Details poolId={poolId} />
+          </YourPoolCard.Details>
+        )}
+      </YourPoolCard.Root>
+      <ConnectionLoad load={leavePoolLoading} />
+    </>
   )
 }
 
@@ -86,8 +155,13 @@ YourPoolCard.Summary = styled.div`
 
 YourPoolCard.Value = styled(FormattedValue)`
   font-weight: 500;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 24px;
+  line-height: 30px;
+
+  @media ${down(breakpoints.lg)} {
+    font-size: 18px;
+    line-height: 24px;
+  }
 `
 
 YourPoolCard.PoolCounters = styled.div`
@@ -98,7 +172,7 @@ YourPoolCard.PoolCounters = styled.div`
   padding: 16px 24px 16px 16px;
 `
 
-YourPoolCard.UsersCounter = styled(YourPoolCard.Value)`
+YourPoolCard.UsersCounter = styled(YourPoolCard.Value)<{ isLoss?: boolean }>`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -106,6 +180,12 @@ YourPoolCard.UsersCounter = styled(YourPoolCard.Value)`
   line-height: 72px;
   letter-spacing: 0.3px;
   color: #1ea76d;
+
+  ${(props) =>
+    props.isLoss &&
+    css`
+      color: #ff4d00;
+    `}
 `
 
 YourPoolCard.Details = styled.div`
@@ -113,7 +193,7 @@ YourPoolCard.Details = styled.div`
 `
 
 YourPoolCard.Root = styled(Card)`
-  padding: 24px;
+  padding: 24px 24px 32px;
   position: relative;
 
   @media ${down(breakpoints.lg)} {
@@ -127,6 +207,12 @@ YourPoolCard.Root = styled(Card)`
     ${YourPoolCard.Info},
     ${YourPoolCard.Details} {
       padding: 16px 16px 0;
+    }
+
+    ${YourPoolCard.InfoFields} {
+      & > * + * {
+        margin-top: 16px;
+      }
     }
 
     ${YourPoolCard.PoolCounters} {
@@ -149,195 +235,6 @@ YourPoolCard.Root = styled(Card)`
       & > * + * {
         margin-left: 58px;
       }
-    }
-  }
-`
-
-function PickUpFunds() {
-  return (
-    <>
-      <Title>Pick up funds</Title>
-      <PickUpFunds.Value>
-        <PickUpFunds.Counters>
-          <YourPoolCard.Value value={103400} suffix=' ALM' />
-          <PickUpFunds.Profit>+3.4%</PickUpFunds.Profit>
-        </PickUpFunds.Counters>
-        <NftItemReward />
-      </PickUpFunds.Value>
-    </>
-  )
-}
-
-PickUpFunds.Counters = styled.div``
-
-PickUpFunds.Value = styled.div`
-  display: flex;
-  align-items: flex-start;
-
-  ${NftItemReward.Root} {
-    height: 50px;
-  }
-`
-
-PickUpFunds.Profit = styled.div`
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
-  line-height: 14px;
-  letter-spacing: 0.3px;
-  color: #1ea76d;
-  margin-top: 4px;
-`
-
-function Details() {
-  return (
-    <Details.Root>
-      <Details.Fields>
-        <Details.Field>
-          <span>Pool share</span>
-          <span>0,34%</span>
-        </Details.Field>
-        <Details.Field>
-          <span>Participant number</span>
-          <span>26</span>
-        </Details.Field>
-        <Details.Field>
-          <span>Pool creation date</span>
-          <span>18/08/2021, 18:34:40</span>
-        </Details.Field>
-      </Details.Fields>
-      <Details.HistoryTitle>History</Details.HistoryTitle>
-      <Details.HistoryTable>
-        <thead>
-          <tr>
-            <th>Wallet</th>
-            <th>Added</th>
-            <th>Withdraw</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
-          <tr>
-            <td>0xf420c82...AA26E</td>
-            <td>13.4340 ALM</td>
-            <td>5.2238 ALM</td>
-          </tr>
-        </tbody>
-      </Details.HistoryTable>
-    </Details.Root>
-  )
-}
-
-Details.Root = styled.div``
-
-Details.Fields = styled.div``
-
-Details.Field = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 8px;
-  border-radius: 6px;
-
-  &:nth-child(even) {
-    background: #f4f5fa;
-  }
-
-  & > span {
-    &:nth-child(1) {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.3px;
-      color: #8990a5;
-    }
-
-    &:nth-child(2) {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.3px;
-      color: #0b1359;
-    }
-  }
-`
-
-Details.HistoryTitle = styled.div`
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-  letter-spacing: 0.3px;
-  color: #6c5dd3;
-  margin: 24px 0 16px;
-`
-
-Details.HistoryTable = styled.table`
-  width: 100%;
-
-  thead {
-    border-bottom: 1px solid #f4f5fa;
-  }
-
-  th {
-    padding: 8px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 14px;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: #0b1359;
-    text-align: left;
-  }
-
-  td,
-  th {
-    &:last-child {
-      text-align: right;
-    }
-  }
-
-  td {
-    padding: 6px 8px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    color: #8990a5;
-
-    &:first-child {
-      border-top-left-radius: 6px;
-      border-bottom-left-radius: 6px;
-    }
-
-    &:last-child {
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
-    }
-  }
-
-  tr {
-    &:nth-child(even) {
-      background: #f4f5fa;
     }
   }
 `

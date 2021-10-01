@@ -6,40 +6,6 @@ import { useUserDeadline } from 'state/user/hooks'
 import styled, { useTheme } from 'styled-components'
 import QuestionHelper from '../QuestionHelper'
 
-const StyledTransactionDeadlineSetting = styled.div`
-  margin-bottom: 16px;
-  margin-top: 20px;
-
-  @media screen and (max-width: 480px) {
-    margin-top: 10px;
-  }
-`
-
-const Label = styled.div`
-  align-items: center;
-  display: flex;
-  margin-bottom: 14px;
-
-  > div {
-    letter-spacing: -0.1px;
-  }
-
-  @media screen and (max-width: 480px) {
-    margin-bottom: 8px;
-  }
-`
-
-const Field = styled.div`
-  display: flex;
-  align-items: center;
-
-  & > ${Text} {
-    min-width: 52px;
-    font-size: 14px;
-    margin-left: 16px;
-  }
-`
-
 const TransactionDeadlineSetting = () => {
   const theme = useTheme()
   const { t } = useTranslation()
@@ -61,18 +27,18 @@ const TransactionDeadlineSetting = () => {
         setDeadline(rawValue)
         setError(null)
       } else {
-        setError(t('errorMessages.validDeadline'))
+        setError(t('common.messages.validDeadline'))
       }
     } catch {
-      setError(t('errorMessages.validDeadline'))
+      setError(t('common.messages.validDeadline'))
     }
   }, [t, value, setError, setDeadline])
 
   return (
     <StyledTransactionDeadlineSetting>
       <Label>
-        <Text style={{ fontWeight: 600 }}>{t('transactionDeadline')}</Text>
-        <QuestionHelper text={t('questionHelperMessages.transactionRevertPending')} />
+        <Text style={{ fontWeight: 600 }}>{t('exchange.settingsModal.transactionDeadline')}</Text>
+        <QuestionHelper text={t('exchange.settingsModal.transactionRevertPending')} />
       </Label>
       <Field>
         <Numeric
@@ -88,7 +54,7 @@ const TransactionDeadlineSetting = () => {
             height: '48px',
           }}
         />
-        <Text color={theme.colors.textSubtle}>{t('minutes')}</Text>
+        <Text color={theme.colors.textSubtle}>{t('exchange.settingsModal.minutes')}</Text>
       </Field>
       {error && (
         <Text mt='8px' color='failure'>
@@ -100,3 +66,39 @@ const TransactionDeadlineSetting = () => {
 }
 
 export default TransactionDeadlineSetting
+
+// styles
+
+const StyledTransactionDeadlineSetting = styled.div`
+  margin-bottom: 16px;
+  margin-top: 20px;
+
+  @media screen and (max-width: 480px) {
+    margin-top: 10px;
+  }
+`
+
+const Label = styled.div`
+  align-items: center;
+  display: flex;
+  margin-bottom: 14px;
+
+  & > div {
+    letter-spacing: -0.1px;
+  }
+
+  @media screen and (max-width: 480px) {
+    margin-bottom: 8px;
+  }
+`
+
+const Field = styled.div`
+  display: flex;
+  align-items: center;
+
+  & > ${Text} {
+    min-width: 52px;
+    font-size: 14px;
+    margin-left: 16px;
+  }
+`

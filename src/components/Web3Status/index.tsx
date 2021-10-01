@@ -15,7 +15,7 @@ import styled, { css } from 'styled-components'
 import { shortenAddress } from 'utils'
 import useENSName from '../../hooks/useENSName'
 import Identicon from '../Identicon'
-import Loader from '../Loader'
+import Loader from '../Loaders/Loader'
 import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
 

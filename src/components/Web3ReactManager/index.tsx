@@ -5,7 +5,7 @@ import { useEagerConnect, useInactiveListener } from 'hooks'
 import { useTranslation } from 'next-i18next'
 import { ReactChildren, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Loader from '../Loader'
+import Loader from '../Loaders/Loader'
 
 const MessageWrapper = styled.div`
   display: flex;
@@ -58,7 +58,7 @@ export default function Web3ReactManager({ children }: { children: ReactChildren
   if (!active && networkError) {
     return (
       <MessageWrapper>
-        <Message>{t('unknownError')}</Message>
+        <Message>{t('common.messages.unknownError')}</Message>
       </MessageWrapper>
     )
   }

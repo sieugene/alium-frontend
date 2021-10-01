@@ -35,17 +35,16 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
     background-color: ${({ theme }) => theme.colors.invertedContrast};
     box-shadow: 0 4px 8px 0 ${transparentize(0.95, '#191326')};
     padding: 0;
-    width: 80%;
-
-    @media screen and (max-width: 500px) {
-      width: 100%;
+    width: 100%;
+    max-width: 450px;
+    @media screen and (max-width: 768px) {
+      max-width: 354px;
     }
 
     overflow: hidden;
 
     align-self: center;
 
-    max-width: 450px;
     ${({ maxHeight }) =>
       maxHeight &&
       css`
@@ -59,12 +58,6 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
     display: flex;
     border-radius: 6px;
 
-    ${({ theme }) => theme.mediaQueries.lg} {
-      width: 65vw;
-    }
-    ${({ theme }) => theme.mediaQueries.sm} {
-      width: 85vw;
-    }
     margin: 0 10px;
   }
 `

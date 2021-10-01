@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
 import masterChefABI from 'config/abi/masterchef.json'
-import { farmsConfig } from 'config/constants'
+import { getFarmsConfig } from 'config/constants/farms/farms'
 import { useEffect, useState } from 'react'
 import { getMasterChefAddress } from 'utils/addressHelpers'
 import multicall from 'utils/multicall'
@@ -13,7 +13,7 @@ const useAllEarnings = () => {
 
   useEffect(() => {
     const fetchAllBalances = async () => {
-      const calls = farmsConfig.map((farm) => ({
+      const calls = getFarmsConfig().map((farm) => ({
         address: getMasterChefAddress(),
         name: 'pendingCake',
         params: [farm.pid, account],

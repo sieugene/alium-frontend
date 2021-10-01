@@ -3,20 +3,24 @@ import { CloseIcon, IconButton, Text } from 'alium-uikit/src'
 import { useActiveWeb3React } from 'hooks'
 import { useAllTokens, useToken } from 'hooks/Tokens'
 import { useTranslation } from 'next-i18next'
-import { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+// import { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { KeyboardEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
-import { useSelectedListInfo } from 'state/lists/hooks'
+// import { useSelectedListInfo } from 'state/lists/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
-import styled, { ThemeContext } from 'styled-components'
+// import styled, { ThemeContext } from 'styled-components'
+import styled from 'styled-components'
 import { isAddress } from 'utils'
 import { arrayElementToTop } from 'utils/arrayElementToTop'
-import Card from '../Card'
+// import Card from '../Card'
 import Column from '../Column'
-import ListLogo from '../ListLogo'
+// import ListLogo from '../ListLogo'
 import QuestionHelper from '../QuestionHelper'
-import Row, { RowBetween } from '../Row'
-import { LinkStyledButton, TYPE } from '../Shared'
+// import Row, { RowBetween } from '../Row'
+import { RowBetween } from '../Row'
+// import { LinkStyledButton, TYPE } from '../Shared'
+// import { TYPE } from '../Shared'
 import TranslatedText from '../TranslatedText'
 import CommonBases from './CommonBases'
 import CurrencyList from './CurrencyList'
@@ -25,7 +29,7 @@ import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
 
-const { main: Main } = TYPE
+// const { main: Main } = TYPE
 
 interface CurrencySearchProps {
   isOpen: boolean
@@ -37,26 +41,6 @@ interface CurrencySearchProps {
   onChangeList: () => void
   currencyList?: any
 }
-
-const StyledRowBetween = styled.div`
-  padding: 0 22px 2px 22px;
-`
-
-const StyledCurrencyList = styled.div`
-  flex: 1;
-  padding-left: 16px;
-`
-
-const StyledSearchInput = styled.div`
-  position: relative;
-`
-
-const StyledRemoveIcon = styled.div`
-  position: absolute;
-  top: 15px;
-  right: 40px;
-  cursor: pointer;
-`
 
 export function CurrencySearch({
   selectedCurrency,
@@ -72,7 +56,7 @@ export function CurrencySearch({
   const nativeSymbol = currentNetwork?.providerParams?.nativeCurrency?.symbol?.toLowerCase() || 'bnb'
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
-  const theme = useContext(ThemeContext)
+  // const theme = useContext(ThemeContext)
 
   const fixedList = useRef<FixedSizeList>()
   const [searchQuery, setSearchQuery] = useState<string>('')
@@ -160,15 +144,15 @@ export function CurrencySearch({
     [filteredSortedTokens, handleCurrencySelect, searchQuery],
   )
 
-  const selectedListInfo = useSelectedListInfo()
+  // const selectedListInfo = useSelectedListInfo()
 
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
       <PaddedColumn gap='14px'>
         <RowBetween>
           <Text style={{ display: 'flex', alignItems: 'center', fontSize: '18px' }} bold>
-            {t('selectToken')}
-            <QuestionHelper text='Find a token by searching for its name or symbol or by pasting its address below.' />
+            {t('exchange.selectToken')}
+            <QuestionHelper text={t('exchange.findTokenBySearching')} />
           </Text>
           <IconButton buttonType='close' buttonSize='40px' onClick={onDismiss}>
             <CloseIcon />
@@ -179,7 +163,7 @@ export function CurrencySearch({
           <SearchInput
             type='text'
             id='token-search-input'
-            placeholder={t('tokenSearchPlaceholder')}
+            placeholder={t('exchange.tokenSearchPlaceholder')}
             value={searchQuery}
             ref={inputRef as RefObject<HTMLInputElement>}
             onChange={handleInput}
@@ -195,7 +179,7 @@ export function CurrencySearch({
         <StyledRowBetween>
           <RowBetween>
             <Text fontSize='16px' bold>
-              <TranslatedText translationId={126}>Token name</TranslatedText>
+              <TranslatedText translationId={126}>{t('exchange.tokenName')}</TranslatedText>
             </Text>
             <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder((iso) => !iso)} />
           </RowBetween>
@@ -218,9 +202,8 @@ export function CurrencySearch({
         </AutoSizer>
       </StyledCurrencyList>
 
-      {null && (
-        <>
-          <Separator />
+      {/*
+         <Separator />
           <Card>
             <RowBetween>
               {selectedListInfo.current ? (
@@ -244,10 +227,31 @@ export function CurrencySearch({
               </LinkStyledButton>
             </RowBetween>
           </Card>
-        </>
-      )}
+      */}
     </Column>
   )
 }
 
 export default CurrencySearch
+
+// styles
+
+const StyledRowBetween = styled.div`
+  padding: 0 22px 2px 22px;
+`
+
+const StyledCurrencyList = styled.div`
+  flex: 1;
+  padding-left: 16px;
+`
+
+const StyledSearchInput = styled.div`
+  position: relative;
+`
+
+const StyledRemoveIcon = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 40px;
+  cursor: pointer;
+`

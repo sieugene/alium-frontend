@@ -8,10 +8,7 @@ import StatsCard from '../StatsCard'
 export default function NestedNew() {
   return (
     <NestedNew.Root>
-      <NestedNew.Pools>
-        <JoinPoolCard />
-        <JoinPoolCard />
-      </NestedNew.Pools>
+      <JoinPoolCard />
       <NestedNew.Stats>
         <OpenedPoolsCard />
         <LockedInPoolsCard />
@@ -20,41 +17,43 @@ export default function NestedNew() {
   )
 }
 
-NestedNew.Pools = styled.div`
-  display: grid;
-  gap: 30px;
-`
-
 NestedNew.Stats = styled.div`
   display: grid;
   gap: 30px;
+  flex-basis: 354px;
+  margin-left: 30px;
 `
 
 NestedNew.Root = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 354px;
-  align-items: start;
-  gap: 30px;
+  display: flex;
+  align-items: flex-start;
+
+  & > ${JoinPoolCard.Root} {
+    flex: 1;
+  }
 
   @media ${down(breakpoints.lg)} {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    flex-direction: column;
+    align-items: stretch;
 
     ${NestedNew.Stats} {
+      flex-basis: auto;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
-    }
-
-    ${NestedNew.Pools} {
-      gap: 16px;
+      margin-left: 0;
+      margin-top: 16px;
     }
   }
 
   @media ${down(breakpoints.sm)} {
+    flex-direction: column-reverse;
+
     ${NestedNew.Stats} {
       gap: 0;
       background: #fff;
       border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 8px;
     }
 
     && ${StatsCard.Header} {

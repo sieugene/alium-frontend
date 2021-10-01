@@ -3,25 +3,9 @@ import { Text } from 'alium-uikit/src'
 import { AutoColumn } from 'components/Column'
 import { AutoRow } from 'components/Row'
 import { ONE_BIPS } from 'config/settings'
+import { useTranslation } from 'next-i18next'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
-import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-
-// import { TYPE } from '../../components/Shared'
-
-// const { black: Black } = TYPE
-
-const StyledPoolPriceBar = styled.div`
-  @media screen and (max-width: 600px) {
-    > div > div {
-      flex-direction: column;
-    }
-
-    > div > div > div:not(:last-child) {
-      margin-bottom: 6px !important;
-    }
-  }
-`
 
 export function PoolPriceBar({
   currencies,
@@ -34,6 +18,8 @@ export function PoolPriceBar({
   poolTokenPercentage?: Percent
   price?: Price
 }) {
+  const { t } = useTranslation()
+
   return (
     <StyledPoolPriceBar>
       <AutoColumn gap='md'>
@@ -62,7 +48,7 @@ export function PoolPriceBar({
               %
             </Text>
             <Text fontSize='14px' color='#8990a5' pt={1}>
-              Share of Pool
+              {t('liquidity.shareOfPool')}
             </Text>
           </AutoColumn>
         </AutoRow>
@@ -72,3 +58,17 @@ export function PoolPriceBar({
 }
 
 export default PoolPriceBar
+
+// styles
+
+const StyledPoolPriceBar = styled.div`
+  @media screen and (max-width: 600px) {
+    & > div > div {
+      flex-direction: column;
+    }
+
+    & > div > div > div:not(:last-child) {
+      margin-bottom: 6px !important;
+    }
+  }
+`

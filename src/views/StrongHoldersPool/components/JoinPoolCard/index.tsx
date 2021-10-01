@@ -1,47 +1,73 @@
-import { Button, ChevronRightIcon } from 'alium-uikit/src'
-import { StyledInternalLink } from 'components/Shared'
+import { useWeb3React } from '@web3-react/core'
+import { Button, Skeleton, useModal } from 'alium-uikit/src'
 import styled from 'styled-components'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { ethersToBigNumber } from 'utils/bigNumber'
+import { getBalanceAmount } from 'utils/formatBalance'
+import {
+  useCurrentPoolId,
+  useMaxPoolLength,
+  usePoolLocked,
+  usePoolUsers,
+  useRewardTokenInfo,
+} from 'views/StrongHoldersPool/hooks'
+import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
+import BonusNft from '../BonusNft'
 import Card from '../Card'
 import FormattedValue from '../FormattedValue'
-import NftItemCounter from '../NftItemCounter'
+import JoinPoolModal from '../JoinPoolModal'
 import Title from '../Title'
 import UsersProgressBar from '../UsersProgressBar'
 
 export default function JoinPoolCard() {
+  const { account } = useWeb3React()
+  const { data: currentPoolId } = useCurrentPoolId()
+  const { data: poolUsers } = usePoolUsers(currentPoolId)
+  const { data: poolLocked } = usePoolLocked(currentPoolId)
+  const { data: maxPoolLength } = useMaxPoolLength()
+  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const [openModal] = useModal(<JoinPoolModal />, false)
   return (
     <JoinPoolCard.Root>
       <JoinPoolCard.Content>
         <JoinPoolCard.Info>
           <JoinPoolCard.Field>
             <Title>Pool Amount</Title>
-            <FormattedValue value={10345.1334} suffix=' ALM' />
+            {poolLocked ? (
+              <JoinPoolCard.Amount
+                value={getBalanceAmount(ethersToBigNumber(poolLocked))}
+                suffix={' ' + rewardTokenSymbol}
+              />
+            ) : (
+              <Skeleton />
+            )}
           </JoinPoolCard.Field>
-          <JoinPoolCard.Join>Join the pool</JoinPoolCard.Join>
+          <JoinPoolCard.Join disabled={!account} onClick={openModal}>
+            Join the pool
+          </JoinPoolCard.Join>
           <JoinPoolCard.Field>
-            <Title>Bonus NFT</Title>
-            <NftItemCounter />
+            <BonusNft />
           </JoinPoolCard.Field>
         </JoinPoolCard.Info>
-        <JoinPoolCard.Progress>
-          <UsersProgressBar />
-        </JoinPoolCard.Progress>
+        {poolUsers && maxPoolLength && <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />}
       </JoinPoolCard.Content>
       <JoinPoolCard.Footer>
-        Increase your ALM Tokens by joining the Strong Holders Pool.{' '}
-        <StyledInternalLink href='#more'>
+        <span>Increase your ALM Tokens by joining the Strong Holders Pool. </span>
+        {/* <StyledInternalLink href='#more'>
           More details
           <ChevronRightIcon color='currentColor' />
-        </StyledInternalLink>
+        </StyledInternalLink> */}
       </JoinPoolCard.Footer>
     </JoinPoolCard.Root>
   )
 }
 
 JoinPoolCard.Content = styled.div`
-  padding: 32px 32px 16px 24px;
+  padding: 32px 32px 24px 24px;
   display: flex;
   justify-content: space-between;
+  & > * {
+    flex-shrink: 0;
+  }
 `
 
 JoinPoolCard.Info = styled.div`
@@ -58,6 +84,13 @@ JoinPoolCard.Field = styled.div`
   }
 `
 
+JoinPoolCard.Amount = styled(FormattedValue)`
+  @media ${up(breakpoints.sm)} {
+    font-size: 40px;
+    line-height: 48px;
+  }
+`
+
 JoinPoolCard.Join = styled(Button)`
   margin: 16px 0 32px;
 `
@@ -70,19 +103,12 @@ JoinPoolCard.Footer = styled.div`
   line-height: 20px;
   letter-spacing: 0.3px;
   color: #8990a5;
-  padding: 16px 24px;
+  padding: 15px 24px;
   border-top: 1px solid #f4f5fa;
-  display: flex;
-  align-items: center;
 
   svg {
     vertical-align: middle;
   }
-`
-
-JoinPoolCard.Progress = styled.div`
-  width: 280px;
-  height: 280px;
 `
 
 JoinPoolCard.Root = styled(Card)`
@@ -93,12 +119,17 @@ JoinPoolCard.Root = styled(Card)`
       padding: 24px 0;
     }
 
-    ${JoinPoolCard.Info},
+    ${JoinPoolCard.Info} {
+      align-items: center;
+      margin-top: 24px;
+    }
+
     ${JoinPoolCard.Field} {
       align-items: center;
     }
 
     ${JoinPoolCard.Footer} {
+      display: flex;
       text-align: center;
       flex-direction: column;
     }

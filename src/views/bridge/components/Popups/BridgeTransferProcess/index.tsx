@@ -1,4 +1,4 @@
-import BridgeModal from 'components/Modal/BridgeModal'
+import TransactionModal from 'components/Modal/transaction/TransactionModal'
 import { BRIDGE_STEPS, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { useBridge } from 'views/bridge/hooks/useBridge'
@@ -8,16 +8,6 @@ import ClaimTokenStep from '../../Steps/ClaimTokenStep'
 import SuccessStep from '../../Steps/SuccessStep'
 import SwitchNetworkStep from '../../Steps/SwitchNetworkStep'
 import TransferStep from '../../Steps/TransferStep'
-
-const Wrapper = styled.div`
-  width: 500px;
-  min-height: 473px;
-  padding: 40px 24px 24px 24px;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    max-width: 354px;
-  }
-`
 
 const BridgeTransferProcess = () => {
   const currentStep = useStoreBridge((state) => state.step)
@@ -29,7 +19,7 @@ const BridgeTransferProcess = () => {
   }
 
   return (
-    <BridgeModal isOpen={modalOpen} onDismiss={onDismiss}>
+    <TransactionModal isOpen={modalOpen} onDismiss={onDismiss}>
       <BadNetworkWrapper>
         {currentStep !== BRIDGE_STEPS.SUCCESS && (
           <Wrapper>
@@ -41,8 +31,21 @@ const BridgeTransferProcess = () => {
         )}
         {currentStep === BRIDGE_STEPS.SUCCESS && <SuccessStep />}
       </BadNetworkWrapper>
-    </BridgeModal>
+    </TransactionModal>
   )
 }
 
 export default BridgeTransferProcess
+
+// styles
+
+const Wrapper = styled.div`
+  width: 500px;
+  min-height: 473px;
+  padding: 40px 24px 24px 24px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    max-width: 354px;
+  }
+`

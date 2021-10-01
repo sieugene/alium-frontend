@@ -2,6 +2,7 @@ import { Button, Text } from 'alium-uikit/src'
 import { useFetchListCallback } from 'hooks/useFetchListCallback'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import { Dropdown } from 'images/Dropdown'
+import { useTranslation } from 'next-i18next'
 import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { ArrowLeft } from 'react-feather'
 import { usePopper } from 'react-popper'
@@ -22,48 +23,6 @@ import { CloseIcon, ExternalLink, LinkStyledButton, TYPE } from '../Shared'
 import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds'
 
 const { error: Error } = TYPE
-
-const UnpaddedLinkStyledButton = styled(LinkStyledButton)`
-  padding: 0;
-  font-size: 1rem;
-  opacity: ${({ disabled }) => (disabled ? '0.4' : '1')};
-`
-
-const PopoverContainer = styled.div<{ show: boolean }>`
-  z-index: 100;
-  visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
-  opacity: ${(props) => (props.show ? 1 : 0)};
-  transition: visibility 150ms linear, opacity 150ms linear;
-  background: ${({ theme }) => theme.colors.invertedContrast};
-  border: 1px solid ${({ theme }) => theme.colors.tertiary};
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.01), 0 4px 8px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04),
-    0 24px 32px rgba(0, 0, 0, 0.01);
-  color: ${({ theme }) => theme.colors.textSubtle};
-  border-radius: 0.5rem;
-  padding: 1rem;
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-gap: 8px;
-  font-size: 1rem;
-  text-align: left;
-`
-
-const StyledMenu = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  border: none;
-`
-
-const StyledListUrlText = styled.div`
-  max-width: 160px;
-  opacity: 0.6;
-  margin-right: 0.5rem;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
 
 function ListOrigin({ listUrl }: { listUrl: string }) {
   const ensName = useMemo(() => parseENSAddress(listUrl)?.ensName, [listUrl])
@@ -89,6 +48,7 @@ function listUrlRowHTMLId(listUrl: string) {
 }
 
 const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void }) => {
+  const { t } = useTranslation()
   const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl)
   const selectedListUrl = useSelectedListUrl()
   const dispatch = useDispatch<AppDispatch>()
@@ -122,7 +82,7 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
   }, [dispatch, listUrl, pending])
 
   const handleRemoveList = useCallback(() => {
-    if (window.prompt(`Please confirm you would like to remove this list by typing REMOVE`) === `REMOVE`) {
+    if (window.prompt(t('common.messages.pleaseConfirmYouWouldLike')) === `REMOVE`) {
       dispatch(removeList(listUrl))
     }
   }, [dispatch, listUrl])
@@ -170,19 +130,23 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
           <PopoverContainer show ref={setPopperElement as any} style={styles.popper} {...attributes.popper}>
             <div>{list && listVersionLabel(list.version)}</div>
             <SeparatorDark />
-            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>View list</ExternalLink>
+            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>
+              {t('common.button.viewList')}
+            </ExternalLink>
             <UnpaddedLinkStyledButton onClick={handleRemoveList} disabled={Object.keys(listsByUrl).length === 1}>
-              Remove list
+              {t('common.button.removeList')}
             </UnpaddedLinkStyledButton>
             {pending && (
-              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>Update list</UnpaddedLinkStyledButton>
+              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>
+                {t('common.button.updateList')}
+              </UnpaddedLinkStyledButton>
             )}
           </PopoverContainer>
         )}
       </StyledMenu>
       {isSelected ? (
         <Button disabled style={{ width: '5rem', minWidth: '5rem' }}>
-          Selected
+          {t('common.button.selected')}
         </Button>
       ) : (
         <Button
@@ -193,21 +157,17 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
           }}
           onClick={selectThisList}
         >
-          Select
+          {t('common.button.select')}
         </Button>
       )}
     </Row>
   )
 })
 
-const ListContainer = styled.div`
-  flex: 1;
-  overflow: auto;
-`
-
 export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBack: () => void }) {
   const [listUrlInput, setListUrlInput] = useState<string>('')
 
+  const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
   const lists = useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl)
   const adding = Boolean(lists[listUrlInput]?.loadingRequestId)
@@ -274,7 +234,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
           <div>
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} />
           </div>
-          <Text fontSize='20px'>Manage Lists</Text>
+          <Text fontSize='20px'>{t('exchange.manageLists')}</Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
       </PaddedColumn>
@@ -283,21 +243,21 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
 
       <PaddedColumn gap='14px'>
         <Text bold>
-          Add a list{' '}
-          <QuestionHelper text='Token lists are an open specification for lists of BEP20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious BEP20 tokens.' />
+          {t('exchange.addAList')}
+          <QuestionHelper text={t('exchange.addAListQuestionHelper')} />
         </Text>
         <Row>
           <SearchInput
             type='text'
             id='list-add-input'
-            placeholder='https:// or ipfs:// or ENS name'
+            placeholder={t('exchange.listSelectInputPlaceholder')}
             value={listUrlInput}
             onChange={handleInput}
             onKeyDown={handleEnterKey}
             style={{ height: '2.75rem', borderRadius: 12, padding: '12px' }}
           />
           <Button onClick={handleAddList} style={{ maxWidth: '4em', marginLeft: '1em' }} disabled={!validUrl}>
-            Add
+            {t('common.button.add')}
           </Button>
         </Row>
         {addError ? (
@@ -317,10 +277,59 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       <Separator />
 
       <div style={{ padding: '16px', textAlign: 'center' }}>
-        <ExternalLink href='https://tokenlists.org'>Browse lists</ExternalLink>
+        <ExternalLink href='https://tokenlists.org'>{t('exchange.browseLists')}</ExternalLink>
       </div>
     </Column>
   )
 }
 
 export default ListSelect
+
+// styles
+
+const UnpaddedLinkStyledButton = styled(LinkStyledButton)`
+  padding: 0;
+  font-size: 1rem;
+  opacity: ${({ disabled }) => (disabled ? '0.4' : '1')};
+`
+
+const PopoverContainer = styled.div<{ show: boolean }>`
+  z-index: 100;
+  visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  transition: visibility 150ms linear, opacity 150ms linear;
+  background: ${({ theme }) => theme.colors.invertedContrast};
+  border: 1px solid ${({ theme }) => theme.colors.tertiary};
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.01), 0 4px 8px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04),
+    0 24px 32px rgba(0, 0, 0, 0.01);
+  color: ${({ theme }) => theme.colors.textSubtle};
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-gap: 8px;
+  font-size: 1rem;
+  text-align: left;
+`
+
+const StyledMenu = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: none;
+`
+
+const StyledListUrlText = styled.div`
+  max-width: 160px;
+  opacity: 0.6;
+  margin-right: 0.5rem;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const ListContainer = styled.div`
+  flex: 1;
+  overflow: auto;
+`

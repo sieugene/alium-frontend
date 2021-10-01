@@ -31,6 +31,7 @@ StatsCard.Header = styled.div`
 
 StatsCard.Content = styled.div`
   padding: 41px 24px;
+  flex: 1;
 `
 
 StatsCard.Icon = styled.div`
@@ -42,6 +43,9 @@ StatsCard.Value = styled(FormattedValue)`
 `
 
 StatsCard.Root = styled(Card)`
+  display: flex;
+  flex-direction: column;
+
   @media ${down(breakpoints.lg)} {
     ${StatsCard.Content} {
       padding: 24px;

@@ -1,3 +1,6 @@
+import { TransactionResponse } from '@ethersproject/abstract-provider'
+import { BigNumber as BigNumberEthers } from '@ethersproject/bignumber'
+import { Contract } from '@ethersproject/contracts'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 
@@ -5,6 +8,40 @@ export const approve = async (lpContract, masterChefContract, account) => {
   return lpContract.methods
     .approve(masterChefContract.options.address, ethers.constants.MaxUint256)
     .send({ from: account })
+}
+
+export const approveTokenToSpender = (
+  tokenContract: Contract,
+  amountBN: BigNumber | BigNumberEthers,
+  spender: string,
+  account: string,
+) => {
+  const amount = amountBN.toString()
+  const allowance = async () => {
+    try {
+      const allowanceWei = await tokenContract.allowance(account, spender)
+      const isApproveNeeded = amount > allowanceWei
+      return isApproveNeeded
+    } catch (error) {
+      console.error(error)
+      return false
+    }
+  }
+  const approve = async () => {
+    const approveNeed = await allowance()
+    if (!approveNeed) {
+      return true
+    }
+
+    try {
+      const transaction: TransactionResponse = await tokenContract.approve(spender, amount)
+      const result = await transaction.wait()
+      return result
+    } catch (error) {
+      throw new Error('transaction failed or denied')
+    }
+  }
+  return approve
 }
 
 export const stake = async (masterChefContract, pid, amount, account) => {

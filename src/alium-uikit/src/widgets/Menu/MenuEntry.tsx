@@ -65,7 +65,7 @@ const MenuEntry = styled.div<Props>`
   }
 
   svg {
-    fill: ${({ theme }) => theme.colors.textSubtle};
+    color: inherit;
   }
 
   svg * {
@@ -85,10 +85,6 @@ const MenuEntry = styled.div<Props>`
 
   &:hover a {
     color: #24ba7b !important;
-  }
-
-  &:hover svg:not(:last-child) * {
-    stroke: #24ba7b;
   }
 
   // Safari fix
