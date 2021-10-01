@@ -3,7 +3,6 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateUserBalance, updateUserPendingReward } from 'state/actions'
 import { harvest, soushHarvest, soushHarvestBnb } from 'utils/callHelpers'
-import { farmUserDataUpdate } from 'views/farms/hooks/useFarmingPools'
 import { useMasterchef, useSousChef } from './useContract'
 
 export const useHarvest = (farmPid: number) => {
@@ -13,7 +12,6 @@ export const useHarvest = (farmPid: number) => {
 
   const handleHarvest = useCallback(async () => {
     const txHash = await harvest(masterChefContract, farmPid, account)
-    await farmUserDataUpdate(account)
 
     return txHash
   }, [account, dispatch, farmPid, masterChefContract])
