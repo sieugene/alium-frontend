@@ -139,13 +139,7 @@ export const TEST_BSC_ALM = newTokenChecksummed(
   'ALM',
   'Alium Token',
 )
-export const TEST_BSC_ALM_OLD = newTokenChecksummed(
-  ChainId.BSCTESTNET,
-  '0x6f58aCfaEB1BfDC9c4959c43aDdE7a3b63BF019f',
-  18,
-  'ALM',
-  'Alium Token',
-)
+
 export const TEST_BSC_WBNB = newTokenChecksummed(
   ChainId.BSCTESTNET,
   '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
