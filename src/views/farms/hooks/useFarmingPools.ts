@@ -75,7 +75,7 @@ const useFarmSupportNetwork = () => {
   return supportLoaders
 }
 
-// refact this later (vanilla like method) <-- maybe in store
+// refact this later (vanilla like method) <-- maybe in store (deprecated, buy use pooling)
 export const farmUserDataUpdate = async (account: string, currentPids?: number[]) => {
   const setFarmsUserData = storeFarms.getState().setFarmsUserData
   const setLoading = storeFarms.getState().toggleUserDataFarmsFetched

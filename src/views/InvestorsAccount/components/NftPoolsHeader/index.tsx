@@ -1,5 +1,25 @@
 import { Flex } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
+
+function NftPoolsHeader() {
+  const { t } = useTranslation()
+
+  return (
+    <NftPoolsHeaderWrap>
+      <Field maxWidth='310px'>{t('tokenHolderArea.pool')}</Field>
+      <Field maxWidth='96px'>{t('tokenHolderArea.totalALM')}</Field>
+      <Field maxWidth='96px'>{t('tokenHolderArea.locked')}</Field>
+      <Field maxWidth='172px'>{t('tokenHolderArea.unlocked')}</Field>
+      <FieldEnd maxWidth='80px'>{t('tokenHolderArea.claimed')}</FieldEnd>
+      <FieldEnd maxWidth='140px'>{t('tokenHolderArea.nextUnlockedDate')}</FieldEnd>
+    </NftPoolsHeaderWrap>
+  )
+}
+
+export default NftPoolsHeader
+
+// styles
 
 const NftPoolsHeaderWrap = styled(Flex)`
   justify-content: space-between;
@@ -9,6 +29,7 @@ const NftPoolsHeaderWrap = styled(Flex)`
   border-radius: 6px;
   width: 100%;
   padding: 16px 24px;
+
   @media (max-width: 1024px) {
     display: none;
   }
@@ -31,18 +52,3 @@ const Field = styled(Flex)<{ maxWidth: string }>`
 const FieldEnd = styled(Field)`
   justify-content: flex-end;
 `
-
-function NftPoolsHeader() {
-  return (
-    <NftPoolsHeaderWrap>
-      <Field maxWidth='310px'>pool</Field>
-      <Field maxWidth='96px'>Total ALMs</Field>
-      <Field maxWidth='96px'>Locked</Field>
-      <Field maxWidth='172px'>Unlocked</Field>
-      <FieldEnd maxWidth='80px'>Claimed</FieldEnd>
-      <FieldEnd maxWidth='140px'>Next unclocked date</FieldEnd>
-    </NftPoolsHeaderWrap>
-  )
-}
-
-export default NftPoolsHeader

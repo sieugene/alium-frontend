@@ -1,4 +1,5 @@
 import { removeConnectorId } from 'alium-uikit/src/util/connectorId/removeConnectorId'
+import { useTranslation } from 'next-i18next'
 import React, { FC } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { useStoreAccount } from 'store/account/useStoreAccount'
@@ -29,107 +30,19 @@ interface Props {
   balanceHook?: any
 }
 
-const StyledBackGround = styled.div`
-  background-position: center;
-  height: 128px;
-  width: auto;
-  margin: 0 -25px;
-  display: flex;
-  align-items: center;
-  padding: 24px;
-  background-clip: padding-box;
-`
-
-const StyledInfo = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const StyledInput = styled.input`
-  width: 100%;
-  padding: 16px 16px 16px 46px;
-  border: 1px solid #d2d6e5;
-  box-sizing: border-box;
-  border-radius: 6px;
-  color: #8990a5;
-  overflow: hidden;
-  padding-right: 50px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16px;
-  letter-spacing: 0.1;
-  text-align: left;
-  :focus {
-    border: 1px solid #d2d6e5;
-    outline: none;
-  }
-`
-
-const StyledInputContainer = styled.div`
-  margin-top: 24px;
-  position: relative;
-  > svg:first-child {
-    cursor: pointer;
-    position: absolute;
-    left: 8px;
-    top: 10px;
-  }
-  > svg:last-child {
-    cursor: pointer;
-    position: absolute;
-    right: 16px;
-    top: 12px;
-  }
-`
-
-const StyledButton = styled(Button)`
-  svg * {
-    transition: stroke 200ms ease-in-out;
-  }
-  :hover {
-    svg * {
-      stroke: white;
-    }
-  }
-  @media screen and (max-width: 800px) {
-    max-width: none;
-    width: 100%;
-  }
-`
-
-const StyledFlex = styled(Flex)`
-  @media screen and (max-width: 800px) {
-    flex-direction: column;
-    > * {
-      width: 100%;
-    }
-    > *:not(:last-child) {
-      margin-bottom: 8px;
-    }
-  }
-
-  ${StyledButton} {
-    margin-right: 8px;
-    &:last-child {
-      margin: 0;
-    }
-  }
-`
-
 const svgString = encodeURIComponent(renderToStaticMarkup(<ModalBackgroundIcon />))
 
 const AccountModal: FC<Props> = ({
   account,
   logout,
   onDismiss = () => null,
-  title = 'Account',
-  logoutTitle = 'Disconnect',
-  explorerName = 'View on BscScan',
+  explorerName,
   explorerLink,
-  tokenSymbol = 'BNB',
-  networkName = 'Binance Smart Chain',
+  tokenSymbol,
+  networkName,
   onTransactionHistoryHandler,
 }) => {
+  const { t } = useTranslation()
   const balance = useStoreAccount((state) => state.balance)
   const [etherBalance] = useStoreAccount((state) => [state.etherBalance])
   const currentBalance = toSignificantCurrency(balance?.currencyBalance)
@@ -141,24 +54,23 @@ const AccountModal: FC<Props> = ({
   }, [])
 
   return (
-    <Modal title={title} onDismiss={onDismiss} styledModalContent={{ padding: '0 24px 32px 24px' }}>
+    <Modal title={t('accountModal.title')} onDismiss={onDismiss} styledModalContent={{ padding: '0 24px 32px 24px' }}>
       <StyledBackGround style={{ backgroundImage: `url("data:image/svg+xml,${svgString}")` }}>
         <StyledInfo>
           <DefaultAvatar width='80px' height='80px' />
           <StyledFlex>
             <Flex flexDirection='column' marginLeft={40}>
-              <Text color='#CBC8EE'>Balance</Text>
+              <Text color='#CBC8EE'>{t('accountModal.balance')}</Text>
               <Text color='white'>
                 {!currentBalance || currentBalance === '-' ? (
-                  <p>Loading balance...</p>
+                  <p>{t('accountModal.loadingBalance')}</p>
                 ) : (
                   `${currentBalance} ${tokenSymbol}`
                 )}
-                {/* {balance} {tokenSymbol} */}
               </Text>
             </Flex>
             <Flex flexDirection='column' marginLeft={40}>
-              <Text color='#CBC8EE'>Network</Text>
+              <Text color='#CBC8EE'>{t('accountModal.network')}</Text>
               <Text color='white'>{networkName}</Text>
             </Flex>
           </StyledFlex>
@@ -180,11 +92,11 @@ const AccountModal: FC<Props> = ({
       <StyledFlex mt='16px' justifyContent='space-between'>
         <StyledButton size='md' variant='secondary' onClick={() => window.open(explorerLink)}>
           <BSCScanIcon mr={16} />
-          View on {explorerName}
+          {t('common.button.viewOnExplorerName', { explorerName })}
         </StyledButton>
         <StyledButton size='md' variant='secondary' onClick={onTransactionHistoryHandler}>
           <TransactionHistoryIcon mr={16} />
-          Transaction History
+          {t('common.button.transactionHistory')}
         </StyledButton>
         <StyledButton
           size='md'
@@ -196,7 +108,7 @@ const AccountModal: FC<Props> = ({
           }}
         >
           <ExitIcon mr={16} />
-          {logoutTitle}
+          {t('accountModal.logoutTitle')}
         </StyledButton>
       </StyledFlex>
     </Modal>
@@ -204,3 +116,101 @@ const AccountModal: FC<Props> = ({
 }
 
 export default AccountModal
+
+// styles
+
+const StyledBackGround = styled.div`
+  background-position: center;
+  height: 128px;
+  width: auto;
+  margin: 0 -25px;
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  background-clip: padding-box;
+`
+
+const StyledInfo = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 16px 50px 16px 46px;
+  border: 1px solid #d2d6e5;
+  box-sizing: border-box;
+  border-radius: 6px;
+  color: #8990a5;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.1px;
+  text-align: left;
+
+  &:focus {
+    border: 1px solid #d2d6e5;
+    outline: none;
+  }
+`
+
+const StyledInputContainer = styled.div`
+  margin-top: 24px;
+  position: relative;
+
+  & > svg {
+    &:first-child {
+      cursor: pointer;
+      position: absolute;
+      left: 8px;
+      top: 10px;
+    }
+
+    &:last-child {
+      cursor: pointer;
+      position: absolute;
+      right: 16px;
+      top: 12px;
+    }
+  }
+`
+
+const StyledButton = styled(Button)`
+  svg * {
+    transition: stroke 200ms ease-in-out;
+  }
+
+  &:hover {
+    svg * {
+      stroke: white;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    max-width: none;
+    width: 100%;
+  }
+`
+
+const StyledFlex = styled(Flex)`
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+
+    & > * {
+      width: 100%;
+    }
+
+    & > *:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+
+  ${StyledButton} {
+    margin-right: 8px;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+`

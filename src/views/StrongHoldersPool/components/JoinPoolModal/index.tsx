@@ -1,6 +1,5 @@
 import { Percent } from '@alium-official/sdk'
 import { Button, InjectedModalProps, Modal } from 'alium-uikit/src'
-import ConnectionLoad from 'alium-uikit/src/components/ConnectionLoad'
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { useTranslation } from 'next-i18next'
@@ -32,7 +31,11 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(currentPoolId)
   const { mutate: mutateTotalLocked } = useTotalLocked()
   const { approve, join } = useJoinPool()
-  const [loading, setLoading] = useState(false)
+  // loaders
+  const [approveLoading, setApproveLoading] = useState(false)
+  const [joinLoading, setJoinLoading] = useState(false)
+  const loading = joinLoading || approveLoading
+
   const { rewardTokenInfo, rewardTokenSymbol } = useRewardTokenInfo()
   const { data: rewardTokenAllowance, mutate: mutateRewardTokenAllowance } = useRewardTokenAllowance()
   const { data: balance, mutate: mutateBalance } = useRewardTokenBalance()
@@ -83,9 +86,10 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
             />
             <JoinPoolModal.Actions>
               <Button
+                isloading={approveLoading}
                 onClick={async () => {
                   try {
-                    setLoading(true)
+                    setApproveLoading(true)
                     await approve(amountNumber)
                     await mutateRewardTokenAllowance()
                     toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('approved')}`)
@@ -93,19 +97,25 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                     console.error(error)
                     toastError(error.data?.message || error.message)
                   } finally {
-                    setLoading(false)
+                    setApproveLoading(false)
                   }
                 }}
-                disabled={!approve || loading || !hasAmount || isInsufficientFunds || !needApprove}
+                disabled={!approve || approveLoading || !hasAmount || isInsufficientFunds || !needApprove}
               >
                 {t('Approve')}
               </Button>
               <Button
+                isloading={joinLoading}
                 onClick={async () => {
                   try {
-                    setLoading(true)
+                    setJoinLoading(true)
                     await join(amountNumber)
                     toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('added to the pool')}`)
+                    onDismiss()
+                  } catch (error) {
+                    console.error(error)
+                    toastError(error.data?.message || error.message)
+                  } finally {
                     mutateBalance()
                     mutateRewardTokenAllowance()
                     // should refetch the current pool after joining
@@ -114,14 +124,10 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                     mutatePoolLocked()
                     mutateTotalLocked()
                     onDismiss()
-                  } catch (error) {
-                    console.error(error)
-                    toastError(error.data?.message || error.message)
-                  } finally {
-                    setLoading(false)
+                    setJoinLoading(false)
                   }
                 }}
-                disabled={!join || loading || !hasAmount || isInsufficientFunds || needApprove}
+                disabled={!join || joinLoading || !hasAmount || isInsufficientFunds || needApprove}
               >
                 {t('Join')}
               </Button>
@@ -132,7 +138,6 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
           </JoinPoolModal.Details>
         </JoinPoolModal.Content>
       </Modal>
-      <ConnectionLoad load={loading} />
     </>
   )
 }

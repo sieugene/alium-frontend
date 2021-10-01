@@ -1,3 +1,4 @@
+import { useTranslation, Trans } from 'next-i18next'
 import React from 'react'
 import styled from 'styled-components'
 import MainSlider from './MainSlider'
@@ -41,18 +42,20 @@ const PlayButton = () => {
 }
 
 const HomeNew = () => {
+  const { t } = useTranslation()
+
   return (
     <>
       <MainSlider />
 
-      <H1>Road Map</H1>
+      <H1>{t('home.roadMap.title')}</H1>
 
       <RoadMapContainer>
         <CardContainer>
           <CardLogoFarming />
           <div className='card-content'>
-            <div className='title'>Farming Launch</div>
-            <ExtraButton>September, 2021</ExtraButton>
+            <div className='title'>{t('home.roadMap.oneTitle')}</div>
+            <ExtraButton>{t('home.roadMap.oneButtonText')}</ExtraButton>
           </div>
         </CardContainer>
 
@@ -63,8 +66,8 @@ const HomeNew = () => {
         <CardContainer>
           <CardLogoCross />
           <div className='card-content'>
-            <div className='title'>Cross-blockhain Swaps </div>
-            <ExtraButton>October, 2021</ExtraButton>
+            <div className='title'>{t('home.roadMap.twoTitle')}</div>
+            <ExtraButton>{t('home.roadMap.twoButtonText')}</ExtraButton>
           </div>
         </CardContainer>
 
@@ -75,8 +78,8 @@ const HomeNew = () => {
         <CardContainer>
           <CardLogoAvalanche />
           <div className='card-content'>
-            <div className='title'>Avalanche & Solana Integration</div>
-            <ExtraButton>December, 2021</ExtraButton>
+            <div className='title'>{t('home.roadMap.threeTitle')}</div>
+            <ExtraButton>{t('home.roadMap.threeButtonText')}</ExtraButton>
           </div>
         </CardContainer>
       </RoadMapContainer>
@@ -85,16 +88,13 @@ const HomeNew = () => {
         <img src='/images/home-new/alm-left.png' alt='Buy alm img' />
         <div>
           <H1>
-            Buy Alium Finance <br /> (ALM) token
+            <Trans i18nKey='home.buyAliumFinance' components={{ br: <br /> }} />
           </H1>
-          <h2>
-            Alium Finance team is on the way to reach several milestones aimed on increasing of ALM token value. Be
-            ahead of the market and join the ALM holders community!
-          </h2>
+          <h2>{t('home.aliumFinanceTeamIs')}</h2>
 
           <ActionButton>
             <a href='https://alium.finance/swap/ETH/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11' target='_blank'>
-              Buy ALM
+              {t('home.buyALM')}
             </a>
           </ActionButton>
         </div>
@@ -103,19 +103,19 @@ const HomeNew = () => {
       <FooterContainer>
         <a className='overlay' href='https://www.youtube.com/watch?v=9j3M7qz2Z04' target='_blank'>
           <PlayButton />
-          <p>How it works?</p>
+          <p>{t('home.howItWorks')}</p>
         </a>
         <div className='left'>
           <h1>
-            <div className='title'>Alium Swap is always at hand</div>
+            <div className='title'>{t('home.aliumSwapIsAlways')}</div>
           </h1>
           <SocialItem href='https://play.google.com/store/apps/details?id=com.alium.finance' target='_blank'>
             <div className='icon'>
               <PlayMarket />
             </div>
             <div className='info'>
-              <p className='title'>Get it on</p>
-              <p className='social'>Google Play</p>
+              <p className='title'>{t('home.getItOn')}</p>
+              <p className='social'>{t('home.googlePlay')}</p>
             </div>
           </SocialItem>
         </div>

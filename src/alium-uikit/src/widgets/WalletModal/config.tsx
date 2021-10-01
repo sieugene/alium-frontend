@@ -53,14 +53,14 @@ const connector = (args: ConnectorArgs = {}) => {
 // When load isMobile not working, bad init, fix wallets as function
 export const wallets = (): WalletsConfig[] => [
   {
-    title: 'Metamask',
+    type: 'metamask',
     icon: Metamask,
     connectorId: connector({
       mobileConnector: ConnectorNames.Injected,
     }),
   },
   {
-    title: 'Trust Wallet',
+    type: 'trustWallet',
     icon: TrustWallet,
     connectorId: connector({
       mobileConnector: ConnectorNames.Injected,
@@ -69,12 +69,12 @@ export const wallets = (): WalletsConfig[] => [
     showOn: WalletShowOn.mobile,
   },
   // {
-  //   title: 'Math Wallet',
+  //   type: 'mathWallet',
   //   icon: MathWallet,
   //   connectorId: ConnectorNames.Injected,
   // },
   {
-    title: 'Token Pocket',
+    type: 'tokenPocket',
     icon: TokenPocket,
     connectorId: connector({
       mobileConnector: ConnectorNames.Injected,
@@ -82,12 +82,12 @@ export const wallets = (): WalletsConfig[] => [
     }),
   },
   {
-    title: 'Wallet Connect',
+    type: 'walletConnect',
     icon: WalletConnect,
     connectorId: ConnectorNames.WalletConnect,
   },
   {
-    title: 'Binance Chain Wallet',
+    type: 'binanceChain',
     icon: BinanceChain,
     connectorId: connector({
       mobileConnector: ConnectorNames.WalletConnect,
@@ -97,7 +97,7 @@ export const wallets = (): WalletsConfig[] => [
     showOn: WalletShowOn.desktop,
   },
   {
-    title: 'ONTO Wallet',
+    type: 'ontoWallet',
     icon: OntoWallet,
     connectorId: ConnectorNames.WalletConnect,
   },
@@ -105,33 +105,29 @@ export const wallets = (): WalletsConfig[] => [
 
 export const networksProd: NetworksConfig[] = [
   {
-    title: 'Binance',
+    type: 'binance',
     icon: Binance,
-    label: 'Binance Smart Chain',
     chainId: 56,
     supportConnectors: [ConnectorNames.BSC, ConnectorNames.WalletConnect, ConnectorNames.Injected],
     direction: 'bsc',
   },
   {
-    title: 'Huobi',
+    type: 'huobi',
     icon: Huobi,
-    label: 'Huobi ECO Chain',
     chainId: 128,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'heco',
   },
   {
-    title: 'Polygon',
+    type: 'polygon',
     icon: PolygonMatic,
-    label: 'Polygon Matic Chain',
     chainId: 137,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'polygon',
   },
   {
-    title: 'Ethereum',
+    type: 'ethereum',
     icon: EtherIcon,
-    label: 'Ethereum Chain',
     chainId: 1,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'eth',
@@ -139,33 +135,29 @@ export const networksProd: NetworksConfig[] = [
 ]
 export const networksDev: NetworksConfig[] = [
   {
-    title: 'Binance',
+    type: 'binance',
     icon: Binance,
-    label: 'Binance Smart Chain',
     chainId: 97,
     supportConnectors: [ConnectorNames.BSC, ConnectorNames.WalletConnect, ConnectorNames.Injected],
     direction: 'bsc',
   },
   {
-    title: 'Huobi',
+    type: 'huobi',
     icon: Huobi,
-    label: 'Huobi ECO Chain',
     chainId: 256,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'heco',
   },
   {
-    title: 'Polygon',
+    type: 'polygon',
     icon: PolygonMatic,
-    label: 'Polygon Matic Chain',
     chainId: 80001,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'polygon_test',
   },
   {
-    title: 'Ethereum',
+    type: 'ethereum',
     icon: EtherIcon,
-    label: 'Ethereum Chain',
     chainId: 4,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'rinkeby',

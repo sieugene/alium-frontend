@@ -1,10 +1,10 @@
 import { GTMProvider } from '@elgorditosalsero/react-gtm-hook'
 import BigNumber from 'bignumber.js'
 import Loaders from 'components/Loaders'
+import MetaHeader from 'components/MetaHeader'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
-import Head from 'next/head'
 import { InitStores } from 'store/InitStores'
 import 'typeface-roboto'
 import GTM from 'utils/gtm'
@@ -24,28 +24,27 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 })
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
-  <>
-    <Head>
-      <title>Alium Swap</title>
-      <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1' />
-    </Head>
-    <InitStores />
-    <GTMProvider state={GTM.params}>
-      <Providers>
-        <EagerConnectContainer />
-        <Popups />
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <>
+      <MetaHeader />
+      <InitStores />
+      <GTMProvider state={GTM.params}>
+        <Providers>
+          <EagerConnectContainer />
+          <Popups />
 
-        <ResetCSS />
-        <GlobalStyle />
-        <MenuWrappedRoute loginBlockVisible>
-          <Loaders />
-          <Component {...pageProps} />
-        </MenuWrappedRoute>
-        <ToastListener />
-      </Providers>
-    </GTMProvider>
-  </>
-)
+          <ResetCSS />
+          <GlobalStyle />
+          <MenuWrappedRoute loginBlockVisible>
+            <Loaders />
+            <Component {...pageProps} />
+          </MenuWrappedRoute>
+          <ToastListener />
+        </Providers>
+      </GTMProvider>
+    </>
+  )
+}
 
 export default appWithTranslation(MyApp, nextI18NextConfig)

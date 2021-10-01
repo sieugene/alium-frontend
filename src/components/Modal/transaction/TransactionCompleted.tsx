@@ -1,50 +1,13 @@
 import { Token } from '@alium-official/sdk'
 import { BridgeSuccessIcon } from 'images/bridge/BridgeSuccessIcon'
+import { Trans, useTranslation } from 'next-i18next'
 import React, { FC } from 'react'
 import { ChevronRight } from 'react-feather'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { getExplorerLink, getExplorerName } from 'utils'
+import { getExplorerLink, useExplorerName } from 'utils'
 import AddTokenBtn from '../../../components/Buttons/AddTokenBtn'
 import { CloseItem, TransactionWrapper } from './TransactionModal'
-
-const Header = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-export const ViewOnWrapper = styled.div`
-  cursor: pointer;
-  margin-top: 8px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 20px;
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  letter-spacing: 1px;
-
-  color: #6c5dd3;
-  svg {
-    stroke: #6c5dd3;
-    width: 18px;
-    height: 16px;
-  }
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
 
 interface MainProps {
   children?: React.ReactNode
@@ -52,13 +15,18 @@ interface MainProps {
   withoutHeader?: boolean
   withoutWrapper?: boolean
 }
+
+interface Props {
+  cancel: () => void
+  amount?: string | number
+  token?: Token
+  txHash: string
+}
+
 const TransactionCompleted: FC<MainProps> = ({ cancel, children, withoutHeader, withoutWrapper }) => {
   const Wrapper = withoutWrapper ? React.Fragment : TransactionWrapper
-  const params = withoutWrapper
-    ? {}
-    : {
-        id: 'transaction_wrapper',
-      }
+  const params = withoutWrapper ? {} : { id: 'transaction_wrapper' }
+
   return (
     <Wrapper {...params}>
       {!withoutHeader && (
@@ -74,52 +42,23 @@ const TransactionCompleted: FC<MainProps> = ({ cancel, children, withoutHeader, 
   )
 }
 
-const Content = styled(ContentWrapper)`
-  margin-top: 16px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-  text-align: center;
-  letter-spacing: 0.3px;
-  color: #0b1359;
-  .title {
-    margin-top: 24px;
-  }
-
-  .amount {
-    margin-top: 4px;
-  }
-  b {
-    color: #1ea86d;
-  }
-`
-
-interface Props {
-  cancel: () => void
-  amount?: string | number
-  token?: Token
-  txHash: string
-}
-
 export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, token, txHash }) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const link = getExplorerLink(currentChainId, txHash, 'transaction')
+  const { explorerName } = useExplorerName(currentChainId)
+  const { t } = useTranslation()
+
   return (
     <TransactionCompleted cancel={cancel}>
       <Content>
-        <h2 className='title'>Transaction completed</h2>
+        <h2 className='title'>{t('bridge.transactionCompleted')}</h2>
         <p>
-          {amount && 'Amount:'}
-          <b>
-            {amount || ''} {token?.symbol}
-          </b>
+          <Trans i18nKey='bridge.amount' values={{ amount, tokenSymbol: token?.symbol }} components={{ b: <b /> }} />
         </p>
         {txHash && (
           <ViewOnWrapper>
             <a href={link} target='_blank'>
-              View on {getExplorerName(currentChainId)}
+              {t('bridge.transactionCompleted', { explorerName })}
               <ChevronRight />
             </a>
           </ViewOnWrapper>
@@ -131,3 +70,66 @@ export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, toke
 }
 
 export default TransactionCompleted
+
+// styles
+
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
+const ViewOnWrapper = styled.div`
+  cursor: pointer;
+  margin-top: 8px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  color: #6c5dd3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  svg {
+    stroke: #6c5dd3;
+    width: 18px;
+    height: 16px;
+  }
+`
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+const Content = styled(ContentWrapper)`
+  margin-top: 16px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: #0b1359;
+
+  .title {
+    margin-top: 24px;
+  }
+
+  .amount {
+    margin-top: 4px;
+  }
+
+  b {
+    color: #1ea86d;
+  }
+`

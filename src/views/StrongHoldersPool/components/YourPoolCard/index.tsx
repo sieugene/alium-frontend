@@ -1,12 +1,12 @@
 import { Button, Skeleton } from 'alium-uikit/src'
 import ConnectionLoad from 'alium-uikit/src/components/ConnectionLoad'
+import { ethers } from 'ethers'
 import useToast from 'hooks/useToast'
 import { useToggle } from 'react-use'
 import styled, { css } from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import {
-  Pool,
   useCountRewardPercent,
   useIsFullPool,
   useLeavePool,
@@ -27,7 +27,7 @@ import Details from './Details'
 import PickUpFunds from './PickUpFunds'
 
 export interface YourPoolCardProps {
-  poolId: Pool['id']
+  poolId: ethers.BigNumber
 }
 
 export default function YourPoolCard({ poolId }: YourPoolCardProps) {
@@ -36,7 +36,8 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
   const { mutate: mutatePool } = usePoolById(poolId)
   const { rewardTokenSymbol } = useRewardTokenInfo()
   const { mutate: mutatePoolUsers } = usePoolUsers(poolId)
-  const { data: poolLocked } = usePoolLocked(poolId)
+  const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(poolId)
+
   const { leavePool, loading: leavePoolLoading } = useLeavePool(poolId)
   const { isLoss } = useCountRewardPercent(poolId)
   const accountUser = usePoolAccountUser(poolId)
@@ -73,11 +74,13 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
                   if (!window.confirm('Are you sure you want to leave the pool?')) return
                   try {
                     await leavePool()
-                    await mutatePool()
-                    await mutatePoolUsers()
                   } catch (error) {
                     console.error(error)
                     toastError(error.data?.message || error.message)
+                  } finally {
+                    mutatePool()
+                    mutatePoolUsers()
+                    mutatePoolLocked()
                   }
                 }}
               >

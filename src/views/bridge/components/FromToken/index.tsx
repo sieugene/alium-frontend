@@ -6,7 +6,7 @@ import BridgeNetwork from '../BridgeNetwork'
 export const useDelay = (fn, ms) => {
   const timer = useRef(null)
 
-  const delayCallBack = useCallback(
+  return useCallback(
     (...args) => {
       clearTimeout(timer.current)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
@@ -14,21 +14,17 @@ export const useDelay = (fn, ms) => {
     },
     [fn, ms],
   )
-
-  return delayCallBack
 }
 
 export const FromToken = React.memo(() => {
   const { fromToken: token, balancesLoading, fromAmount: amount } = useBridgeContext()
 
   return (
-    <div>
-      <BridgeNetwork
-        type='fromNetwork'
-        value={token ? utils.formatUnits(amount, token?.decimals) : '0'}
-        token={token}
-        balanceLoading={balancesLoading}
-      />
-    </div>
+    <BridgeNetwork
+      type='fromNetwork'
+      value={token ? utils.formatUnits(amount, token?.decimals) : '0'}
+      token={token}
+      balanceLoading={balancesLoading}
+    />
   )
 })

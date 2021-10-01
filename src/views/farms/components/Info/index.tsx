@@ -19,12 +19,7 @@ import { getBalanceAmount, getBalanceNumber } from 'utils/formatBalance'
 import DepositModal from 'views/farms/components/Modals/DepositModal'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import useApproveFarm from 'views/farms/hooks/useApproveFarm'
-import {
-  farmUserDataUpdate,
-  useFarmsLoading,
-  useLpTokenPrice,
-  usePriceAlmBusd,
-} from 'views/farms/hooks/useFarmingPools'
+import { useFarmsLoading, useLpTokenPrice, usePriceAlmBusd } from 'views/farms/hooks/useFarmingPools'
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
 import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
@@ -263,7 +258,6 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
           } finally {
             setPendingTx(false)
           }
-          await farmUserDataUpdate(account, [farm.pid])
         }}
       >
         {t('Harvest')}
@@ -415,12 +409,10 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
   // handlers
   const handleStake = async (amount: string) => {
     await onStake(amount)
-    await farmUserDataUpdate(account, [pid])
   }
 
   const handleUnstake = async (amount: string) => {
     await onUnstake(amount)
-    await farmUserDataUpdate(account, [pid])
   }
 
   const [onPresentDeposit] = useModal(
@@ -441,7 +433,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
     try {
       setRequestedApproval(true)
       await onApprove()
-      await farmUserDataUpdate(account, [pid])
+
       setRequestedApproval(false)
     } catch (e) {
       console.error(e)

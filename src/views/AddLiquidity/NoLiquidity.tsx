@@ -1,18 +1,21 @@
 import { Text as UIKitText } from 'alium-uikit/src'
 import { AutoColumn, ColumnCenter } from 'components/Column'
+import { useTranslation } from 'next-i18next'
 
 export const NoLiquidity = () => {
+  const { t } = useTranslation()
+
   return (
     <ColumnCenter>
       <AutoColumn style={{ marginTop: '-15px', marginBottom: '10px' }}>
         <UIKitText style={{ fontSize: '14px', color: '#8990A5', textAlign: 'center' }}>
-          You are the first liquidity provider.
+          {t('liquidity.youAreTheFirstLiquidity')}
         </UIKitText>
         <UIKitText style={{ fontSize: '14px', color: '#8990A5', textAlign: 'center' }}>
-          The ratio of tokens you add will set the price of this pool.
+          {t('liquidity.theRatioOfTokens')}
         </UIKitText>
         <UIKitText style={{ fontSize: '14px', color: '#8990A5', textAlign: 'center' }}>
-          Once you are happy with the rate click supply to review.
+          {t('liquidity.onceYouAreHappy')}
         </UIKitText>
       </AutoColumn>
     </ColumnCenter>

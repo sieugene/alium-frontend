@@ -19,6 +19,7 @@ import TicketBanner from './components/TicketBanner'
 import FarmContainer from './FarmContainer'
 import { FarmTab, FarmWithStakedValue } from './farms.types'
 import { useFarms, usePollFarmsWithUserData, usePriceAlmBusd } from './hooks/useFarmingPools'
+import { useFarmsPooling } from './hooks/useFarmsPooling'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
 
@@ -36,6 +37,7 @@ const Farms = () => {
   const { pathname } = useRouter()
   // Farm hooks
   const farmsLP = useFarms()
+
   const almPrice = usePriceAlmBusd()
   const chainId = useStoreNetwork((state) => state.currentChainId)
   // Farm Filters
@@ -46,6 +48,7 @@ const Farms = () => {
   const activeTab = useStoreFarms((state) => state.activeTab)
 
   const { account } = useWeb3React()
+  useFarmsPooling(account)
 
   const chosenFarmsLength = useRef(0)
 

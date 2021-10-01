@@ -5,6 +5,7 @@ import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Provider, Web3Provider } from '@ethersproject/providers'
 import { ROUTER_ABI } from 'config/contracts'
+import { useTranslation } from 'next-i18next'
 import { TokenAddressMap } from 'state/lists/hooks'
 import { storeNetwork } from 'store/network/useStoreNetwork'
 import { AliumVestingAbi, NFT_VESTING } from 'views/InvestorsAccount/constants'
@@ -40,19 +41,22 @@ const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.MATIC_TESTNET]: 'mumbai.polygonscan.com',
 }
 
-const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: 'Binance Smart Chain',
-  [ChainId.BSCTESTNET]: 'Binance Smart Chain',
-  [ChainId.HECOMAINNET]: 'Huobi ECO Chain',
-  [ChainId.HECOTESTNET]: 'Huobi ECO Chain',
-  [ChainId.ETHER_MAINNET]: 'Ethereum Chain',
-  [ChainId.ETHER_TESTNET]: 'Ethereum Chain',
-  [ChainId.MATIC_MAINNET]: 'Polygon Matic Chain',
-  [ChainId.MATIC_TESTNET]: 'Polygon Matic Chain',
-}
+export const useExplorerName = (chainId: ChainId) => {
+  const { t } = useTranslation()
 
-export const getExplorerName = (chainId: ChainId) => {
-  return EXPLORER_NAMES[chainId]
+  const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
+    [ChainId.MAINNET]: t('networks.binance.label'),
+    [ChainId.BSCTESTNET]: t('networks.binance.label'),
+    [ChainId.HECOMAINNET]: t('networks.huobi.label'),
+    [ChainId.HECOTESTNET]: t('networks.huobi.label'),
+    [ChainId.ETHER_MAINNET]: t('networks.ethereum.label'),
+    [ChainId.ETHER_TESTNET]: t('networks.ethereum.label'),
+    [ChainId.MATIC_MAINNET]: t('networks.polygon.label'),
+    [ChainId.MATIC_TESTNET]: t('networks.polygon.label'),
+  }
+  const explorerName = EXPLORER_NAMES[chainId]
+
+  return { explorerName }
 }
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {

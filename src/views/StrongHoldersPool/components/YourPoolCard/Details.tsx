@@ -1,11 +1,11 @@
 import { Percent } from '@alium-official/sdk'
 import { Skeleton } from 'alium-uikit/src'
+import { ethers } from 'ethers'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import {
-  Pool,
   usePoolAccountUser,
   usePoolById,
   usePoolLocked,
@@ -18,7 +18,7 @@ import { formatBigNumber } from 'views/StrongHoldersPool/utils'
 import PoolDetailsInfo from '../PoolDetailsInfo'
 
 export interface DetailsProps {
-  poolId: Pool['id']
+  poolId: ethers.BigNumber
 }
 
 export default function Details({ poolId }: DetailsProps) {

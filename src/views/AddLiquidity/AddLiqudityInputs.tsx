@@ -2,37 +2,10 @@ import { Currency, TokenAmount } from '@alium-official/sdk'
 import { ColumnCenter } from 'components/Column'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { LiqudityIcon } from 'images/Liqudity-icon'
+import { useTranslation } from 'next-i18next'
 import { FC, memo, useState } from 'react'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
-
-const StyledAddIcon = styled.div`
-  border: none;
-  outline: none;
-  /* cursor: pointer; */
-  display: flex;
-
-  align-items: center;
-  margin-bottom: 7px;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 12px;
-  background: #fff;
-  transition: 0.4s;
-  svg {
-    outline: none;
-  }
-  /* :hover {
-    background: ${({ theme }) => theme.colors.primary};
-
-    & svg path {
-      stroke: #fff;
-    }
-  }
-  > * {
-    margin: auto;
-  } */
-`
 
 interface Props {
   formattedAmounts: any
@@ -65,6 +38,8 @@ export const AddLiqudityInputs: FC<Props> = memo(
     onFieldBInput,
     handleCurrencyBSelect,
   }) => {
+    const { t } = useTranslation()
+
     // Use local inputs, but formattedAmounts recalculate and give wrong values
     const [inputs, setInputs] = useState({
       a: '',
@@ -79,10 +54,10 @@ export const AddLiqudityInputs: FC<Props> = memo(
       updateInputs('', '')
     }
 
-    const updateFormattedInputs = (a: string, b: string) => {
-      onFieldAInput(a)
-      onFieldBInput(b)
-    }
+    // const updateFormattedInputs = (a: string, b: string) => {
+    //   onFieldAInput(a)
+    //   onFieldBInput(b)
+    // }
 
     const onSwitchTokens = () => {
       // handleCurrencyASelect(currencies[Field.CURRENCY_B])
@@ -110,7 +85,7 @@ export const AddLiqudityInputs: FC<Props> = memo(
     return (
       <>
         <CurrencyInputPanel
-          label='From'
+          label={t('liquidity.labelFrom')}
           value={inputs.a || formattedAmounts[Field.CURRENCY_A]}
           onUserInput={onInputA}
           onMax={() => {
@@ -132,7 +107,7 @@ export const AddLiqudityInputs: FC<Props> = memo(
           </StyledAddIcon>
         </ColumnCenter>
         <CurrencyInputPanel
-          label='To (estimated)'
+          label={t('liquidity.labelToEstimated')}
           value={inputs.b || formattedAmounts[Field.CURRENCY_B]}
           onUserInput={onInputB}
           onCurrencySelect={handleCurrencyBSelect}
@@ -148,3 +123,22 @@ export const AddLiqudityInputs: FC<Props> = memo(
     )
   },
 )
+
+// styles
+
+const StyledAddIcon = styled.div`
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  margin-bottom: 7px;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 12px;
+  background: #fff;
+  transition: 0.4s;
+
+  svg {
+    outline: none;
+  }
+`

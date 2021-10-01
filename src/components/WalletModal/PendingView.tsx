@@ -4,7 +4,7 @@ import { SUPPORTED_WALLETS } from 'constants/index'
 import { useTranslation } from 'next-i18next'
 import { darken } from 'polished'
 import styled from 'styled-components'
-import Loader from '../Loader'
+import Loader from '../Loaders/Loader'
 import Option from './Option'
 
 const PendingSection = styled.div`

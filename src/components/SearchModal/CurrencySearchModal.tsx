@@ -55,17 +55,6 @@ export default function CurrencySearchModal({
     <SwapModal isOpen={isOpen} onDismiss={onDismiss} maxHeight={90} minHeight={listView ? 40 : noListSelected ? 0 : 80}>
       {listView ? (
         <ListSelect onDismiss={onDismiss} onBack={handleClickBack} />
-      ) : noListSelected ? (
-        <CurrencySearch
-          isOpen={isOpen}
-          onDismiss={onDismiss}
-          onCurrencySelect={handleCurrencySelect}
-          onChangeList={handleClickChangeList}
-          selectedCurrency={selectedCurrency}
-          otherSelectedCurrency={otherSelectedCurrency}
-          showCommonBases={false}
-          currencyList={currencyList}
-        />
       ) : (
         <CurrencySearch
           isOpen={isOpen}
@@ -77,7 +66,7 @@ export default function CurrencySearchModal({
           showCommonBases={false}
           currencyList={currencyList}
         />
-      )}
+      ) }
     </SwapModal>
   )
 }

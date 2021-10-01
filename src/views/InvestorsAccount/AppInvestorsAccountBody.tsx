@@ -2,6 +2,15 @@ import { Card } from 'alium-uikit/src'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
+/**
+ * The styled container element that wraps the content of most pages and the tabs.
+ */
+export default function AppInvestorsAccountBody({ children }: { children: ReactNode }) {
+  return <BodyWrapper>{children}</BodyWrapper>
+}
+
+// styles
+
 export const BodyWrapper = styled(Card)`
   position: relative;
   width: 100%;
@@ -13,17 +22,6 @@ export const BodyWrapper = styled(Card)`
   padding: 0;
 
   @media screen and (max-width: 790px) {
-    padding: 16px 10px;
+    padding: 16px 0;
   }
-
-  // @media screen and (max-width: 641px) {
-  //   padding: 16px;
-  // }
 `
-
-/**
- * The styled container element that wraps the content of most pages and the tabs.
- */
-export default function AppInvestorsAccountBody({ children }: { children: ReactNode }) {
-  return <BodyWrapper>{children}</BodyWrapper>
-}
