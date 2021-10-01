@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
@@ -22,29 +23,30 @@ interface ISlide {
 // MainSlider
 
 const MainSlider: React.FC<IMainSliderProps> = ({ className }) => {
+  const { t } = useTranslation()
   const isNotMobile = useMedia(`screen and (min-width: ${md})`)
   const slides: ISlide[] = [
     {
-      label: 'Coming soon',
-      title: 'Earn ALM Farming and Strong Holders Pools. Up to 3000% APY',
+      label: t('home.mainSlider.labelComingSoon'),
+      title: t('home.mainSlider.titleEarnALMFarming'),
       image: isNotMobile ? '/images/home-new/slider/farming-bg.svg' : '/images/home-new/slider/farming-bg-small.svg',
     },
     {
-      label: 'Coming soon',
-      title: '"Cyber City Inc" Character Boxes Drop',
-      subTitle: 'NFT Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters',
+      label: t('home.mainSlider.labelComingSoon'),
+      title: t('home.mainSlider.titleCyberCityInc'),
+      subTitle: t('home.mainSlider.subTitleNFTGameWithOpen'),
       image: '/images/home-new/slider/cyper-city-bg.svg',
     },
     {
-      label: 'September 9th',
-      title: 'Alpaca Grazing Range',
-      subTitle: 'Earn ALM in an exciting Alium partnership with Alpaca Finance',
+      label: t('home.mainSlider.labelSeptember9th'),
+      title: t('home.mainSlider.titleAlpacaGrazingRange'),
+      subTitle: t('home.mainSlider.subTitleEarnALMInAnExciting'),
       image: '/images/home-new/slider/alpaca-grazing-bg.svg',
     },
     {
-      label: 'September 13th',
-      title: 'ALM x Krystal Trading Competition',
-      subTitle: 'Participate in Krystal.app Alium Trading competition and win one of 20 000$ worth of Prizes!',
+      label: t('home.mainSlider.labelSeptember13th'),
+      title: t('home.mainSlider.titleALMXKrystal'),
+      subTitle: t('home.mainSlider.subTitleParticipateInKrystal'),
       image: '/images/home-new/slider/krystal-trading.svg',
     },
   ]

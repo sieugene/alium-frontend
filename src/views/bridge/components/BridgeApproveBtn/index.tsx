@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers'
+import { useTranslation } from 'next-i18next'
 import React, { FC, useCallback } from 'react'
 import { useToast } from 'state/hooks'
 import { isRevertedError } from 'utils/bridge/amb'
@@ -14,24 +15,29 @@ interface ApproveProps {
   buttonDisabled: boolean
   approve: () => Promise<void>
 }
+
 const BridgeApproveBtn: FC<ApproveProps> = ({ amount, balance, unlockLoading, buttonDisabled, approve, ...props }) => {
+  const { t } = useTranslation()
   const { toastError } = useToast()
+
   const showError = useCallback((msg) => {
     if (msg) {
       toastError(msg)
     }
   }, [])
+
   const valid = useCallback(() => {
     if (amount.lte(0)) {
-      showError('Please specify amount')
+      showError(t('common.messages.pleaseSpecify'))
       return false
     }
     if (balance.lt(amount)) {
-      showError('Not enough balance')
+      showError(t('common.messages.notEnough'))
       return false
     }
     return true
   }, [amount, balance, showError])
+
   const onClick = useCallback(() => {
     if (!unlockLoading && !buttonDisabled && valid()) {
       approve().catch((error) => {
@@ -40,26 +46,21 @@ const BridgeApproveBtn: FC<ApproveProps> = ({ amount, balance, unlockLoading, bu
             isRevertedError(error) ||
             (error.data && (error.data.includes('Bad instruction fe') || error.data.includes('Reverted')))
           ) {
-            toastError(
-              `There is problem with the token unlock. 
-			   Try to revoke previous approval if 
-			   any on https://revoke.cash/`,
-            )
+            toastError(t('common.messages.thereIsProblemToken'))
           } else {
             logError(error)
           }
         } else {
-          showError('Impossible to perform the operation. Reload the application and try again.')
+          showError(t('common.messages.impossibleToPerform'))
         }
       })
     }
   }, [unlockLoading, buttonDisabled, valid, showError, approve])
+
   return (
-    <>
-      <BridgeTransferButton onClick={onClick} {...props} disabled={unlockLoading}>
-        {buttonDisabled ? 'Unlocked' : 'Unlock'}
-      </BridgeTransferButton>
-    </>
+    <BridgeTransferButton onClick={onClick} {...props} disabled={unlockLoading}>
+      {buttonDisabled ? t('common.button.unlocked') : t('common.button.unlock')}
+    </BridgeTransferButton>
   )
 }
 

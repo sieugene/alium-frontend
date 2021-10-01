@@ -116,16 +116,16 @@ const HomeGreetings: FC = () => {
       <GreetingsConfetti />
       <InfoWrapper>
         <StyledHeading className='animate__animated animate__fadeInUp animate__delay-2s animate__fast '>
-          {t('hurray')}!
+          {t('others.hurray')}!
         </StyledHeading>
         <StyledText className='animate__animated animate__fadeInUp animate__delay-2s animate__fast'>
-          {t('greetingsMessage')}
+          {t('others.greetingsMessage')}
         </StyledText>
         <NextLink.Multiple
           href={ROUTES.exchange}
           className='animate__animated animate__fadeInUp animate__delay-2s animate__fast'
         >
-          <StyledButton>{t('startTrading')}</StyledButton>
+          <StyledButton>{t('others.startTrading')}</StyledButton>
         </NextLink.Multiple>
       </InfoWrapper>
 

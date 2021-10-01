@@ -1,5 +1,6 @@
 import { Text } from 'alium-uikit/src'
 import TransferLoader from 'components/Modal/transaction/TransferLoader'
+import { useTranslation } from 'next-i18next'
 import { AutoColumn } from '../Column'
 
 interface ConfirmationPendingContentProps {
@@ -8,6 +9,8 @@ interface ConfirmationPendingContentProps {
 }
 
 const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPendingContentProps) => {
+  const { t } = useTranslation()
+
   return (
     <TransferLoader onCancel={onDismiss}>
       <AutoColumn gap='12px' justify='center' style={{ marginTop: 24 }}>
@@ -16,7 +19,7 @@ const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPend
             <strong>{pendingText}</strong>
           </Text>
         </AutoColumn>
-        <Text fontSize='14px'>Confirm this transaction in your wallet</Text>
+        <Text fontSize='14px'>{t('liquidity.confirmThisTransaction')}</Text>
       </AutoColumn>
     </TransferLoader>
   )

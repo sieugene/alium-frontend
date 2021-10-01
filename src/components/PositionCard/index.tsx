@@ -10,15 +10,15 @@ import {
   Text,
 } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
-import { useRouter } from 'next/router'
+import { useTotalSupply } from 'data/TotalSupply'
+import { useActiveWeb3React } from 'hooks'
+import { useTranslation } from 'next-i18next'
 import { darken } from 'polished'
 import { MouseEvent, useState } from 'react'
 import { ROUTES } from 'routes'
+import { useTokenBalance } from 'state/wallet/hooks'
 import styled from 'styled-components'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import { useTotalSupply } from 'data/TotalSupply'
-import { useActiveWeb3React } from 'hooks'
-import { useTokenBalance } from 'state/wallet/hooks'
 import { currencyId } from 'utils/currencyId'
 import { unwrappedToken } from 'utils/wrappedCurrency'
 import Card from '../Card'
@@ -32,45 +32,13 @@ interface FixedHeightProps {
   background?: boolean
 }
 
-export const FixedHeightRow = styled(RowBetween)`
-  height: 36px;
-  ${(props: FixedHeightProps) =>
-    props.background &&
-    `
-    background: #F5F7FF;
-    border-radius: 6px;
-  `}// > *:first-child {
-  //   padding-left: 8px;
-  // }
-`
-
-export const HoverCard = styled(Card)`
-  border: 1px solid ${({ theme }) => theme.colors.invertedContrast};
-  :hover {
-    border: 1px solid ${({ theme }) => darken(0.06, theme.colors.invertedContrast)};
-  }
-`
-
-const CopyButtonWrapper = styled(IconButton)`
-  width: 30px;
-  height: 30px;
-`
-
-const StyledUIKitCard = styled(UIKitCard)`
-  border-radius: 6px;
-  max-width: 738px;
-`
-
-const StyledCardBody = styled(CardBody)`
-  padding: 24px;
-`
-
 interface PositionCardProps {
   pair: Pair
   showUnwrapped?: boolean
 }
 
 export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCardProps) {
+  const { t } = useTranslation()
   const { account } = useActiveWeb3React()
 
   const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0)
@@ -102,7 +70,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
               <FixedHeightRow>
                 <RowFixed>
                   <Text style={{ textTransform: 'uppercase', fontWeight: 600 }} fontSize='14px' color='textSubtle'>
-                    LP Tokens in your Wallet
+                    {t('liquidity.lpTokensInYourWallet')}
                   </Text>
                 </RowFixed>
               </FixedHeightRow>
@@ -163,6 +131,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
 }
 
 export default function FullPositionCard({ pair }: PositionCardProps) {
+  const { t } = useTranslation()
   const { account } = useActiveWeb3React()
 
   const currency0 = unwrappedToken(pair.token0)
@@ -197,8 +166,6 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
     e.stopPropagation()
   }
 
-  const router = useRouter()
-
   return (
     <HoverCard>
       <AutoColumn gap='12px'>
@@ -209,7 +176,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
               {!currency0 || !currency1 ? <Dots>Loading</Dots> : `${currency0.symbol}/${currency1.symbol}`}
             </Text>
 
-            <CopyButtonWrapper variant='text' onClick={handleAddressCopy} title='Copy LP Token address'>
+            <CopyButtonWrapper variant='text' onClick={handleAddressCopy} title={t('liquidity.copyLPToken')}>
               <ColoredCopyIcon width='24px' height='24px' />
             </CopyButtonWrapper>
           </RowFixed>
@@ -225,7 +192,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
           <AutoColumn gap='8px' triggerMobile>
             <FixedHeightRow background>
               <RowFixed>
-                <Text color='#8990a5'>Pooled {currency0.symbol}:</Text>
+                <Text color='#8990a5'>{t('liquidity.pooled', { currencySymbol: currency0.symbol })}</Text>
               </RowFixed>
               {token0Deposited ? (
                 <RowFixed>
@@ -241,7 +208,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
 
             <FixedHeightRow>
               <RowFixed>
-                <Text color='#8990a5'>Pooled {currency1.symbol}:</Text>
+                <Text color='#8990a5'>{t('liquidity.pooled', { currencySymbol: currency1.symbol })}</Text>
               </RowFixed>
               {token1Deposited ? (
                 <RowFixed>
@@ -255,20 +222,20 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
               )}
             </FixedHeightRow>
             <FixedHeightRow background>
-              <Text color='#8990a5'>Your pool tokens:</Text>
+              <Text color='#8990a5'>{t('liquidity.yourPoolTokens')}</Text>
               <Text color='#6c5dd3'>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}</Text>
             </FixedHeightRow>
             <FixedHeightRow>
-              <Text color='#8990a5'>Your pool share:</Text>
+              <Text color='#8990a5'>{t('liquidity.yourPoolShare')}</Text>
               <Text color='#6c5dd3'>{poolTokenPercentage ? `${poolTokenPercentage.toFixed(2)}%` : '-'}</Text>
             </FixedHeightRow>
 
             <RowBetween marginTop='10px'>
               <NextLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
-                <Button>Add</Button>
+                <Button>{t('common.button.add')}</Button>
               </NextLink>
               <NextLink href={ROUTES.removeByMultiple(currencyId(currency0), currencyId(currency1))}>
-                <Button variant='secondary'>Remove</Button>
+                <Button variant='secondary'>{t('common.button.remove')}</Button>
               </NextLink>
             </RowBetween>
           </AutoColumn>
@@ -277,3 +244,37 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
     </HoverCard>
   )
 }
+
+// styles
+
+export const FixedHeightRow = styled(RowBetween)`
+  height: 36px;
+  ${(props: FixedHeightProps) =>
+    props.background &&
+    `
+    background: #F5F7FF;
+    border-radius: 6px;
+  `}
+`
+
+export const HoverCard = styled(Card)`
+  border: 1px solid ${({ theme }) => theme.colors.invertedContrast};
+
+  &:hover {
+    border: 1px solid ${({ theme }) => darken(0.06, theme.colors.invertedContrast)};
+  }
+`
+
+const CopyButtonWrapper = styled(IconButton)`
+  width: 30px;
+  height: 30px;
+`
+
+const StyledUIKitCard = styled(UIKitCard)`
+  border-radius: 6px;
+  max-width: 738px;
+`
+
+const StyledCardBody = styled(CardBody)`
+  padding: 24px;
+`

@@ -1,5 +1,6 @@
 import { getConnectorId } from 'alium-uikit/src/util/connectorId/getConnectorId'
-import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
@@ -143,6 +144,8 @@ interface Props {
   chainId?: number | null
 }
 const NetworkSwitch: FC<Props> = () => {
+  const { t } = useTranslation()
+
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const connectIsFailed = useStoreNetwork((state) => state.connectIsFailed)
@@ -151,14 +154,17 @@ const NetworkSwitch: FC<Props> = () => {
 
   const networks = getNetworks()
   const networkExist = networks.find((x) => x.chainId === currentChainId)
-  const { icon: Icon, label } = networkExist ?? networks[0]
+  const { icon: Icon, type } = networkExist ?? networks[0]
 
-  const [selectedOption, setSelectedOption] = useState(label)
+  const [selectedOption, setSelectedOption] = useState(type)
 
-  const handleClick = (item: NetworksConfig) => {
-    setSelectedOption(item.label)
-    setChainId(item.chainId)
-  }
+  const handleClick = useCallback(
+    (item: NetworksConfig) => {
+      setSelectedOption(item.type)
+      setChainId(item.chainId)
+    },
+    [setChainId],
+  )
 
   const validSupportConnector = (network: NetworksConfig) => {
     const currentConnectorId = getConnectorId()
@@ -178,8 +184,8 @@ const NetworkSwitch: FC<Props> = () => {
 
   // Update label when chainId change in modal
   useEffect(() => {
-    if (networkExist?.label && selectedOption !== networkExist.label) {
-      setSelectedOption(networkExist.label)
+    if (networkExist?.type && selectedOption !== networkExist.type) {
+      setSelectedOption(networkExist.type)
     }
   }, [selectedOption, networkExist])
 
@@ -188,11 +194,11 @@ const NetworkSwitch: FC<Props> = () => {
       <StyledIconContainer>{hasError ? <FailureNetwork /> : Icon && <Icon />}</StyledIconContainer>
       {hasError ? (
         <>
-          <StyledSelectedOptionError>{selectedOption}</StyledSelectedOptionError>
-          <StyledDropDownMessage>Invalid network</StyledDropDownMessage>
+          <StyledSelectedOptionError>{t(`networks.${selectedOption}.label`)}</StyledSelectedOptionError>
+          <StyledDropDownMessage>{t('networks.invalidNetwork')}</StyledDropDownMessage>
         </>
       ) : (
-        <StyledSelectedOption>{selectedOption}</StyledSelectedOption>
+        <StyledSelectedOption>{t(`networks.${selectedOption}.label`)}</StyledSelectedOption>
       )}
       {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
       {showOptions && (
@@ -201,7 +207,7 @@ const NetworkSwitch: FC<Props> = () => {
             const support = validSupportConnector(item)
             return (
               <StyledOption disabled={!support} key={item.chainId} onClick={() => support && handleClick(item)}>
-                {item.label}
+                {t(`networks.${item.type}.label`)}
               </StyledOption>
             )
           })}

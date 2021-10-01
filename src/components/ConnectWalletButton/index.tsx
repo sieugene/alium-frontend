@@ -4,24 +4,6 @@ import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import { ReactComponent as AddIcon } from './assets/Plus.svg'
 
-const StyledButtonUnlockWallet = styled.div`
-  button {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .icon {
-    margin-right: 18px;
-  }
-
-  @media screen and (min-width: 768px) {
-    button {
-      width: 150px;
-      padding: 0 13px;
-    }
-  }
-`
-
 interface IUnlockButtonProps {
   alt?: boolean
   fullwidth?: boolean
@@ -41,10 +23,10 @@ const UnlockButton = ({ title, ...props }: IUnlockButtonProps) => {
             <div className='icon'>
               <AddIcon color='#fff' />
             </div>
-            Connect
+            {t('common.button.connect')}
           </div>
         ) : (
-          <div>{title ? title : t('unlockWallet')}</div>
+          <div>{title ? title : t('common.button.unlockWallet')}</div>
         )}
       </Button>
     </StyledButtonUnlockWallet>
@@ -52,3 +34,23 @@ const UnlockButton = ({ title, ...props }: IUnlockButtonProps) => {
 }
 
 export default UnlockButton
+
+// styles
+
+const StyledButtonUnlockWallet = styled.div`
+  button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .icon {
+    margin-right: 18px;
+  }
+
+  @media screen and (min-width: 768px) {
+    button {
+      width: 150px;
+      padding: 0 13px;
+    }
+  }
+`
