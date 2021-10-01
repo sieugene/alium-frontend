@@ -234,7 +234,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
           <div>
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} />
           </div>
-          <Text fontSize='20px'>{t('swap.manageLists')}</Text>
+          <Text fontSize='20px'>{t('exchange.manageLists')}</Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
       </PaddedColumn>
@@ -243,14 +243,14 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
 
       <PaddedColumn gap='14px'>
         <Text bold>
-          {t('swap.addAList')}
-          <QuestionHelper text={t('swap.addAListQuestionHelper')} />
+          {t('exchange.addAList')}
+          <QuestionHelper text={t('exchange.addAListQuestionHelper')} />
         </Text>
         <Row>
           <SearchInput
             type='text'
             id='list-add-input'
-            placeholder={t('swap.listSelectInputPlaceholder')}
+            placeholder={t('exchange.listSelectInputPlaceholder')}
             value={listUrlInput}
             onChange={handleInput}
             onKeyDown={handleEnterKey}
@@ -277,7 +277,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       <Separator />
 
       <div style={{ padding: '16px', textAlign: 'center' }}>
-        <ExternalLink href='https://tokenlists.org'>{t('swap.browseLists')}</ExternalLink>
+        <ExternalLink href='https://tokenlists.org'>{t('exchange.browseLists')}</ExternalLink>
       </div>
     </Column>
   )

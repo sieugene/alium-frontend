@@ -44,11 +44,11 @@ export default function AddressInputPanel({
           <AutoColumn gap='md'>
             <RowBetween>
               <Black color={theme.colors.textSubtle} fontWeight={500} fontSize={14}>
-                {t('swap.recipient')}
+                {t('exchange.recipient')}
               </Black>
               {address && chainId && (
                 <ExternalLink href={getExplorerLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
-                  {t('swap.viewOnExplorerName', { explorerName })}
+                  {t('exchange.viewOnExplorerName', { explorerName })}
                 </ExternalLink>
               )}
             </RowBetween>
@@ -59,7 +59,7 @@ export default function AddressInputPanel({
               autoCorrect='off'
               autoCapitalize='off'
               spellCheck='false'
-              placeholder={t('swap.walletAddressOrEnsName')}
+              placeholder={t('exchange.walletAddressOrEnsName')}
               error={error}
               pattern='^(0x[a-fA-F0-9]{40})$'
               onChange={handleInput}
