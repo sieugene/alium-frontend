@@ -1,11 +1,15 @@
 import styled from 'styled-components'
-import NftItem from '../NftItem'
+import NftItem, { NftItemProps } from '../NftItem'
 
-export default function NftItemCounter() {
+export interface NftItemCounterProps extends NftItemProps {
+  counter: number
+}
+
+export default function NftItemCounter({ counter, tokenId }: NftItemCounterProps) {
   return (
     <NftItemCounter.Root>
-      <NftItem />
-      <NftItemCounter.Counter>X8</NftItemCounter.Counter>
+      <NftItem tokenId={tokenId} />
+      <NftItemCounter.Counter>X{counter}</NftItemCounter.Counter>
     </NftItemCounter.Root>
   )
 }

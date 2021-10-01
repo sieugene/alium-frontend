@@ -1,5 +1,5 @@
 import { Button, CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Modal, Text } from 'alium-uikit/src'
-import Loader from 'components/Loader'
+import Loader from 'components/Loaders/Loader'
 import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react';

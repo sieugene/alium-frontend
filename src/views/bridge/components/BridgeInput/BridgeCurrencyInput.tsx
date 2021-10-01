@@ -1,6 +1,6 @@
 import { Currency, Pair } from '@alium-official/sdk'
 import { ArrowDropDownIcon, Button, Text } from 'alium-uikit/src'
-import Loader from 'components/Loader'
+import Loader from 'components/Loaders/Loader'
 import { Input as NumericalInput } from 'components/NumericalInput'
 import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { useActiveWeb3React } from 'hooks'
