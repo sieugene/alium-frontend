@@ -1,49 +1,23 @@
 import { useEffect, useRef } from 'react'
 import { fetchFarmUserDataAsync } from 'store/farms'
 import { storeFarms } from 'store/farms/useStoreFarms'
+import useSWR from 'swr'
 
 // User farms data pooling
 export const useFarmsPooling = (_account: string) => {
-  const timeout = useRef<any>()
-  const poolingEnd = useRef(false)
   const account = useRef(_account)
-
   const setFarmsUserData = storeFarms.getState().setFarmsUserData
-
-  async function subscribe() {
+  async function fetcher() {
     if (!account.current) {
       return
     }
-    if (poolingEnd.current) {
-      return
-    }
-    console.info('Pooling : was started')
-    // может быть утечка если зафейлится?
+    console.log('Pooling : start')
     const fetchedFarms = await fetchFarmUserDataAsync(account.current)
     setFarmsUserData(fetchedFarms)
-    console.info('Pooling : was success, retry after 6 seconds')
-    await new Promise((resolve) => {
-      timeout.current = setTimeout(resolve, 6000)
-    })
-    // И снова вызовем subscribe() для получения следующего сообщения
-    await subscribe()
+    console.log('Pooling : end')
   }
-
-  const clear = () => {
-    console.info('Pooling : was ended')
-    poolingEnd.current = true
-    clearTimeout(timeout.current)
-  }
-
+  useSWR('farms/pooling', fetcher, { refreshInterval: 6000 })
   useEffect(() => {
-    clear()
-    // restart
     account.current = _account
-    poolingEnd.current = false
-    subscribe()
-
-    return () => {
-      clear()
-    }
   }, [_account])
 }
