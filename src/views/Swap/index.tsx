@@ -412,7 +412,7 @@ const Swap = () => {
                       ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
                         t('common.button.approved')
                       ) : (
-                        t('common.button.approve', { currencySymbol: currencies[Field.INPUT]?.symbol })
+                        t('common.button.approveCurrencySymbol', { currencySymbol: currencies[Field.INPUT]?.symbol })
                       )}
                     </Button>
                     <Button

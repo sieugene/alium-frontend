@@ -74,7 +74,7 @@ export const AddLiquditySupply: FC<Props> = memo(
                       {t('common.button.approving')} {currencies[Field.CURRENCY_A]?.symbol} <Loader stroke='white' />
                     </AutoRow>
                   ) : (
-                    t('common.button.approve', { currencySymbol: currencies[Field.CURRENCY_A]?.symbol })
+                    t('common.button.approveCurrencySymbol', { currencySymbol: currencies[Field.CURRENCY_A]?.symbol })
                   )}
                 </Button>
               )}
@@ -89,7 +89,7 @@ export const AddLiquditySupply: FC<Props> = memo(
                       {t('common.button.approving')} {currencies[Field.CURRENCY_B]?.symbol} <Loader stroke='white' />
                     </AutoRow>
                   ) : (
-                    t('common.button.approve', { currencySymbol: currencies[Field.CURRENCY_B]?.symbol })
+                    t('common.button.approveCurrencySymbol', { currencySymbol: currencies[Field.CURRENCY_B]?.symbol })
                   )}
                 </Button>
               )}

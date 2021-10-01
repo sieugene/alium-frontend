@@ -108,7 +108,7 @@ export default function useNftPool() {
         .claim(pid, { from: account })
         .then((response: any) => {
           addTransaction(response, {
-            summary: t('boughtCards', { count: '1' }),
+            summary: t('others.boughtCards', { count: '1' }),
             additionalData: {
               count: '1',
               card: cards.filter((card) => card.id === pid)?.[0],
