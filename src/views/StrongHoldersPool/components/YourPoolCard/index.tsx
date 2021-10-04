@@ -31,7 +31,7 @@ export interface YourPoolCardProps {
 }
 
 export default function YourPoolCard({ poolId }: YourPoolCardProps) {
-  const { toastError } = useToast()
+  const { toastError, toastSuccess } = useToast()
   const [isDetails, toggleDetails] = useToggle(false)
   const { mutate: mutatePool } = usePoolById(poolId)
   const { rewardTokenSymbol } = useRewardTokenInfo()
@@ -74,6 +74,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
                   if (!window.confirm('Are you sure you want to leave the pool?')) return
                   try {
                     await leavePool()
+                    toastSuccess('Operation completed')
                   } catch (error) {
                     console.error(error)
                     toastError(error.data?.message || error.message)
