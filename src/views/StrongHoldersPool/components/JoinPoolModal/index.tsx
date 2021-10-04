@@ -41,14 +41,17 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const { data: balance, mutate: mutateBalance } = useRewardTokenBalance()
   const balanceAmount = useMemo(() => balance && getBalanceAmount(ethersToBigNumber(balance)), [balance])
   const [amount, setAmount] = useState('')
-  const amountNumber = useMemo(() => Number(amount), [amount])
-  const hasAmount = amountNumber > 0
-  const amountWei = useMemo(() => hasAmount && Web3.utils.toWei(amountNumber.toString()), [amountNumber, hasAmount])
+  const amountBigNumber = useMemo(() => new BigNumber(amount), [amount])
+  const hasAmount = amountBigNumber.gte(0)
+  const amountWei = useMemo(
+    () => hasAmount && Web3.utils.toWei(amountBigNumber.toString()),
+    [amountBigNumber, hasAmount],
+  )
   const needApprove = useMemo(
     () => rewardTokenAllowance && amountWei && ethersToBigNumber(rewardTokenAllowance).minus(amountWei).lt(0),
     [amountWei, rewardTokenAllowance],
   )
-  const isInsufficientFunds = balanceAmount?.lt(amountNumber)
+  const isInsufficientFunds = balanceAmount?.lt(amountBigNumber)
   const poolShare = useMemo(() => {
     if (poolLocked && amountWei) {
       return new Percent(amountWei.toString(), ethersToBigNumber(poolLocked).plus(amountWei).toString())
@@ -90,9 +93,9 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                 onClick={async () => {
                   try {
                     setApproveLoading(true)
-                    await approve(amountNumber)
+                    await approve(amountBigNumber)
                     await mutateRewardTokenAllowance()
-                    toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('approved')}`)
+                    toastSuccess(`${formatBigNumber(amountBigNumber)} ${rewardTokenSymbol} ${t('approved')}`)
                   } catch (error) {
                     console.error(error)
                     toastError(error.data?.message || error.message)
@@ -109,8 +112,8 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
                 onClick={async () => {
                   try {
                     setJoinLoading(true)
-                    await join(amountNumber)
-                    toastSuccess(`${amountNumber} ${rewardTokenSymbol} ${t('added to the pool')}`)
+                    await join(amountBigNumber)
+                    toastSuccess(`${formatBigNumber(amountBigNumber)} ${rewardTokenSymbol} ${t('added to the pool')}`)
                     onDismiss()
                   } catch (error) {
                     console.error(error)

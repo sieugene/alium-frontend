@@ -2,6 +2,7 @@ import { Percent } from '@alium-official/sdk'
 import { AddressZero } from '@ethersproject/constants'
 import { parseUnits } from '@ethersproject/units'
 import { useWeb3React } from '@web3-react/core'
+import BigNumber from 'bignumber.js'
 import { SHP_ABI, SHP_NFT_ABI } from 'config/constants/shp'
 import { ethers } from 'ethers'
 import { useToken } from 'hooks/Tokens'
@@ -169,7 +170,7 @@ export function useJoinPool() {
   const { callWithGasPrice } = useCallWithGasPrice()
   const approve = useMemo(() => {
     if (!rewardTokenContract || !contract) return
-    return async (amount: number) => {
+    return async (amount: BigNumber) => {
       const tx = await callWithGasPrice(rewardTokenContract, 'approve', [
         contract.address,
         parseUnits(amount.toString()),
@@ -179,7 +180,7 @@ export function useJoinPool() {
   }, [callWithGasPrice, contract, rewardTokenContract])
   const join = useMemo(() => {
     if (!contract) return
-    return async (amount: number) => {
+    return async (amount: BigNumber) => {
       const tx = await contract.lock(account, parseUnits(amount.toString()))
       return tx.wait()
     }
