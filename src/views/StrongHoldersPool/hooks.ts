@@ -1,4 +1,5 @@
 import { Percent } from '@alium-official/sdk'
+import { AddressZero } from '@ethersproject/constants'
 import { parseUnits } from '@ethersproject/units'
 import { useWeb3React } from '@web3-react/core'
 import { SHP_ABI, SHP_NFT_ABI } from 'config/constants/shp'
@@ -225,21 +226,20 @@ export function useLeavePool(poolId?: ethers.BigNumber) {
     () =>
       poolId &&
       shpContract &&
-      nftContract &&
       (async () => {
         try {
           setLoading(true)
           // ALM
           const shpTx: ethers.ContractTransaction = await shpContract.withdraw(poolId)
           await shpTx.wait()
-          // NFT
-          const nftTx: ethers.ContractTransaction = await nftContract.claim()
-          await nftTx.wait()
+          // TODO: NFT
+          // const nftTx: ethers.ContractTransaction = await nftContract.claim()
+          // await nftTx.wait()
         } finally {
           setLoading(false)
         }
       }),
-    [poolId, shpContract, nftContract],
+    [poolId, shpContract],
   )
   return {
     leavePool,
@@ -322,7 +322,7 @@ export function useNftRewardPoolAddress() {
 
 export function useNftContract() {
   const { data: address } = useNftRewardPoolAddress()
-  return useShpNftContract(address)
+  return useShpNftContract(address === AddressZero ? null : address)
 }
 
 export function useNftRewardToken() {
