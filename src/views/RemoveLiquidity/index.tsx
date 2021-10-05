@@ -362,8 +362,7 @@ export const RemoveLiquidity: FC = () => {
         gasLimit: safeGasEstimate,
         gasPrice,
       })
-        .then((response: TransactionResponse) => {
-          setAttemptingTxn(false)
+        .then(async (response: TransactionResponse) => {
           if (innerLiquidityPercentage === 100) {
             onClear()
           }
@@ -374,6 +373,9 @@ export const RemoveLiquidity: FC = () => {
           })
 
           setTxHash(response.hash)
+
+          await response.wait()
+          setAttemptingTxn(false)
         })
         .catch((e: Error) => {
           setAttemptingTxn(false)
@@ -532,14 +534,14 @@ export const RemoveLiquidity: FC = () => {
         onDismiss={handleDismissConfirmation}
         attemptingTxn={attemptingTxn}
         hash={txHash || ''}
-        content={() => (
+        content={
           <ConfirmationModalContent
             title='You will receive'
             onDismiss={handleDismissConfirmation}
             topContent={modalHeader}
             bottomContent={modalBottom}
           />
-        )}
+        }
         pendingText={pendingText}
       />
       <SwapAppBody>
@@ -873,7 +875,6 @@ const Detailed: FC<DetailedProps> = React.memo(
               </StyledTextAddIcon>
             </ColumnCenter>
             <CurrencyInputPanel
-              hideBalance
               value={formattedAmounts[Field.CURRENCY_A]}
               onUserInput={onCurrencyAInput}
               onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
@@ -890,7 +891,6 @@ const Detailed: FC<DetailedProps> = React.memo(
               </StyledTextAddIcon>
             </ColumnCenter>
             <CurrencyInputPanel
-              hideBalance
               value={formattedAmounts[Field.CURRENCY_B]}
               onUserInput={onCurrencyBInput}
               onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}

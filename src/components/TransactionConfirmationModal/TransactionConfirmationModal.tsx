@@ -9,7 +9,7 @@ interface ConfirmationModalProps {
   isOpen: boolean
   onDismiss: () => void
   hash: string | undefined
-  content: () => ReactNode
+  content: ReactNode
   attemptingTxn: boolean
   pendingText: string
   token?: Token
@@ -36,7 +36,7 @@ const TransactionConfirmationModal = ({
       ) : hash ? (
         <TransactionSubmittedContent token={token} hash={hash} onDismiss={onDismiss} />
       ) : (
-        content()
+        content
       )}
     </SwapModal>
   )
