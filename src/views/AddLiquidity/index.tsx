@@ -293,7 +293,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
     setTxHash('')
   }, [onFieldAInput, txHash])
 
-  const modalContent = useCallback(() => {
+  const modalContent = useMemo(() => {
     return (
       <AddLiqudityModalContent
         noLiquidity={noLiquidity}
