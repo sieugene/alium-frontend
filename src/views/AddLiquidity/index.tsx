@@ -132,7 +132,6 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmittedA, setApprovalSubmittedA] = useState<boolean>(false)
   const [approvalSubmittedB, setApprovalSubmittedB] = useState<boolean>(false)
-
   // mark when a user has submitted an approval, reset onTokenSelection for input field
   useEffect(() => {
     if (approvalA === ApprovalState.PENDING) {
@@ -222,9 +221,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit),
           gasPrice,
-        }).then((response) => {
-          setAttemptingTxn(false)
-
+        }).then(async (response) => {
           GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
           addTransaction(response, {
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
@@ -233,6 +230,9 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           })
 
           setTxHash(response.hash)
+
+          await response.wait()
+          setAttemptingTxn(false)
         })
       })
       .catch((e) => {
