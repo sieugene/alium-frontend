@@ -42,7 +42,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const balanceAmount = useMemo(() => balance && getBalanceAmount(ethersToBigNumber(balance)), [balance])
   const [amount, setAmount] = useState('')
   const amountBigNumber = useMemo(() => new BigNumber(amount), [amount])
-  const hasAmount = amountBigNumber.gte(0)
+  const hasAmount = amountBigNumber.gt(0)
   const amountWei = useMemo(
     () => hasAmount && Web3.utils.toWei(amountBigNumber.toString()),
     [amountBigNumber, hasAmount],
