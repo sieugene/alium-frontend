@@ -7,6 +7,7 @@ import styled, { css } from 'styled-components'
 import { ethersToBigNumber } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import {
+  useCountReward,
   useCountRewardPercent,
   useIsFullPool,
   useLeavePool,
@@ -39,6 +40,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
   const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(poolId)
 
   const { leavePool, loading: leavePoolLoading } = useLeavePool(poolId)
+  const { mutate: mutateCountReward } = useCountReward(poolId)
   const { isLoss } = useCountRewardPercent(poolId)
   const accountUser = usePoolAccountUser(poolId)
   const withdrawPosition = usePoolWithdrawPosition(poolId)
@@ -82,6 +84,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
                     mutatePool()
                     mutatePoolUsers()
                     mutatePoolLocked()
+                    mutateCountReward()
                   }
                 }}
               >
