@@ -394,6 +394,12 @@
     "getItOn": "Get it on",
     "googlePlay": "Google Play"
   },
+  "404": {
+    "oopsYourForce": "Oops, your force is not strong enough",
+    "thisPageYouRequested": "This page you requested could not be found. May the force be with you!",
+    "backToMainSite": "Back to main site",
+    "orSubscribeTo": "Or subscribe to our social networks"
+  },
 
   "others": {
     "insufficientBalance": "Insufficient Balance",
