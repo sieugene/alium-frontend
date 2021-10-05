@@ -24,7 +24,6 @@ interface CurrencyInputPanelProps {
   onCurrencySelect?: (currency: Currency) => void
   currency?: Currency | null
   disableCurrencySelect?: boolean
-  hideBalance?: boolean
   pair?: Pair | FarmPair | null
   hideInput?: boolean
   otherCurrency?: Currency | null
@@ -45,7 +44,6 @@ export default function CurrencyInputPanel({
   onCurrencySelect,
   currency,
   disableCurrencySelect = false,
-  hideBalance = false,
   pair = null, // used for double token logo
   hideInput = false,
   otherCurrency,
@@ -82,7 +80,7 @@ export default function CurrencyInputPanel({
                   fontSize='14px'
                   style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
                 >
-                  {!hideBalance && ((!!currency && selectedCurrencyBalance) || balance) ? (
+                  {(!!currency && selectedCurrencyBalance) || balance ? (
                     t('exchange.balance', { balance: balance || toSignificantCurrency(selectedCurrencyBalance) })
                   ) : (
                     <Dots>{t('exchange.balanceLoading')}</Dots>
@@ -199,8 +197,7 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
 `
 
 const LabelRow = styled.div`
-  width: -webkit-fill-available;
-  width: -moz-available;
+  width: 100%;
   position: absolute;
   padding: 4px 0.75rem;
   top: -17px;
