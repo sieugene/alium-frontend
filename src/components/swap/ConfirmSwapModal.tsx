@@ -87,7 +87,7 @@ export default function ConfirmSwapModal({
   // swap to token
   const token = trade?.route.pairs[0]?.token1
 
-  const confirmationContent = useCallback(
+  const confirmationContent = useMemo(
     () =>
       swapErrorMessage ? (
         <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} onRepeat={onRepeat} />
