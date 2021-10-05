@@ -1,5 +1,6 @@
 import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
 import { MENU_HEIGHT } from 'alium-uikit/src/widgets/Menu/config'
+import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import styled from 'styled-components'
 import { Button } from '../../components/Button'
@@ -9,6 +10,46 @@ import { Text } from '../../components/Text'
 import { ReactComponent as NotfoundPreview } from './assets/404.svg'
 import { ReactComponent as CloudLeft } from './assets/background-cloud-left.svg'
 import { ReactComponent as CloudRight } from './assets/background-cloud-right.svg'
+
+interface PropsType {
+  redirectURL?: string
+}
+
+const NotFound: FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` }) => {
+  const { t } = useTranslation()
+  return (
+    <StyledWrapper>
+      <ImageWrapper>
+        <NotfoundPreview />
+      </ImageWrapper>
+      <InfoWrapper>
+        <StyledHeading>{t('404.oopsYourForce')}</StyledHeading>
+        <StyledText>{t('404.thisPageYouRequested')}</StyledText>
+
+        <a href={redirectURL} rel='noreferrer noopener'>
+          <StyledButton>{t('404.backToMainSite')}</StyledButton>
+        </a>
+
+        <StyledText className='small'>{t('404.orSubscribeTo')}</StyledText>
+
+        <SocialNetworks />
+      </InfoWrapper>
+
+      <CloudsWrapper>
+        <CloudWrapper className='left'>
+          <CloudLeft />
+        </CloudWrapper>
+        <CloudWrapper className='right'>
+          <CloudRight />
+        </CloudWrapper>
+      </CloudsWrapper>
+    </StyledWrapper>
+  )
+}
+
+export default NotFound
+
+// styles
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -161,40 +202,3 @@ const StyledButton = styled(Button)`
     margin: 20px auto;
   }
 `
-
-interface PropsType {
-  redirectURL?: string
-}
-
-const NotFound: FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` }) => {
-  return (
-    <StyledWrapper>
-      <ImageWrapper>
-        <NotfoundPreview />
-      </ImageWrapper>
-      <InfoWrapper>
-        <StyledHeading>Oops, your force is not strong enough</StyledHeading>
-        <StyledText>This page you requested could not be found. May the force be with you!</StyledText>
-
-        <a href={redirectURL} rel='noreferrer noopener'>
-          <StyledButton>Back to main site</StyledButton>
-        </a>
-
-        <StyledText className='small'>Or subscribe to our social networks</StyledText>
-
-        <SocialNetworks />
-      </InfoWrapper>
-
-      <CloudsWrapper>
-        <CloudWrapper className='left'>
-          <CloudLeft />
-        </CloudWrapper>
-        <CloudWrapper className='right'>
-          <CloudRight />
-        </CloudWrapper>
-      </CloudsWrapper>
-    </StyledWrapper>
-  )
-}
-
-export default NotFound
