@@ -15,10 +15,7 @@ import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useRouter } from 'next/router'
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { ROUTES } from 'routes'
-import { AppState } from 'state'
-import { PopupList } from 'state/application/reducer'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
@@ -135,16 +132,6 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmittedA, setApprovalSubmittedA] = useState<boolean>(false)
   const [approvalSubmittedB, setApprovalSubmittedB] = useState<boolean>(false)
-
-  const popupList = useSelector<AppState, PopupList | any>((s) => s.application.popupList)
-
-  useEffect(() => {
-    const isSuccessTransaction = popupList.some((popup) => popup.key === txHash)
-    if (isSuccessTransaction) {
-      setAttemptingTxn(false)
-    }
-  }, [popupList])
-
   // mark when a user has submitted an approval, reset onTokenSelection for input field
   useEffect(() => {
     if (approvalA === ApprovalState.PENDING) {
@@ -234,7 +221,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit),
           gasPrice,
-        }).then((response) => {
+        }).then(async (response) => {
           GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
           addTransaction(response, {
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
@@ -243,6 +230,9 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
           })
 
           setTxHash(response.hash)
+
+          await response.wait()
+          setAttemptingTxn(false)
         })
       })
       .catch((e) => {
