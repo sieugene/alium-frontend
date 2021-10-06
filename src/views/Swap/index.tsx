@@ -454,10 +454,7 @@ const Swap = () => {
                     disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
                     variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
                   >
-                    {t('common.button.enterAnAmount') ||
-                      (priceImpactSeverity > 3 && !isExpertMode
-                        ? t('common.button.priceImpactHigh')
-                        : t('common.button.swap', { stringValue: priceImpactSeverity > 2 ? ' Anyway' : '' }))}
+                    {t('common.button.swap', { stringValue: 'Anyway' })}
                   </Button>
                 )}
                 {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}
