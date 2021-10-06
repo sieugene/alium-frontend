@@ -45,7 +45,7 @@ export default function JoinPoolCard() {
             Join the pool
           </JoinPoolCard.Join>
           <JoinPoolCard.Field>
-            <BonusNft />
+            <BonusNft poolId={currentPoolId} />
           </JoinPoolCard.Field>
         </JoinPoolCard.Info>
         {poolUsers && maxPoolLength && <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />}

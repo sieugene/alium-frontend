@@ -1,26 +1,44 @@
+import { ethers } from 'ethers'
 import { useMemo } from 'react'
 import styled from 'styled-components'
-import { NftReward, useNftAllRewards } from 'views/StrongHoldersPool/hooks'
+import { NftReward, useIsFullPool, useNftAllRewards, usePoolWithdrawPosition } from 'views/StrongHoldersPool/hooks'
 import NftItemCounter from '../NftItemCounter'
 import Title from '../Title'
 
-export default function BonusNft() {
+export interface BonusNftProps {
+  poolId?: ethers.BigNumber
+}
+
+export default function BonusNft({ poolId }: BonusNftProps) {
+  const isFullPool = useIsFullPool(poolId)
+  const withdrawPosition = usePoolWithdrawPosition(poolId)
   const { data: nftAllRewards } = useNftAllRewards()
   const bonusNft = useMemo<NftReward[]>(() => {
     const rewardsByTokenId: Record<string, NftReward> = {}
-    if (nftAllRewards) {
-      Object.values(nftAllRewards).forEach((rewards) => {
-        rewards.forEach((reward) => {
+
+    if (nftAllRewards && withdrawPosition) {
+      Object.keys(nftAllRewards).forEach((position) => {
+        const isAlreadyClaimed = isFullPool && withdrawPosition.toNumber() < Number(position)
+
+        nftAllRewards[position].forEach((reward) => {
           const tokenId = reward.tokenId.toString()
+          const rewardAmount = isAlreadyClaimed ? ethers.BigNumber.from(0) : reward.amount
+
+          if (rewardsByTokenId[tokenId]) {
+            rewardsByTokenId[tokenId].amount = rewardsByTokenId[tokenId].amount.add(rewardAmount)
+            return
+          }
+
           rewardsByTokenId[tokenId] = {
             tokenId: reward.tokenId,
-            amount: rewardsByTokenId[tokenId] ? rewardsByTokenId[tokenId].amount.add(reward.amount) : reward.amount,
+            amount: rewardAmount,
           }
         })
       })
     }
+
     return Object.values(rewardsByTokenId)
-  }, [nftAllRewards])
+  }, [isFullPool, nftAllRewards, withdrawPosition])
 
   return bonusNft.length > 0 ? (
     <>
