@@ -21,7 +21,6 @@ const CompletedWrapper = styled.div`
     margin-bottom: 24px;
   }
   h2 {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
@@ -33,7 +32,6 @@ const CompletedWrapper = styled.div`
   }
 `
 const Amount = styled.p`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;

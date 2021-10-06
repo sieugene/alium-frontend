@@ -12,7 +12,6 @@ const StyledStatus = styled.div<{ status: BridgeHistoryStatuses }>`
   justify-content: flex-end;
   min-width: 104px;
   text-align: right;
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;

@@ -31,7 +31,6 @@ const Border = styled.div`
 `
 
 const Text = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 10px;

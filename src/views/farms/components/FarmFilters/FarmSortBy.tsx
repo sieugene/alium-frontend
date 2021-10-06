@@ -16,7 +16,6 @@ const Wrapper = styled.div`
   justify-content: flex-end;
 
   h2 {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;

@@ -54,7 +54,6 @@ StatsCard.Root = styled(Card)`
 
   @media ${down(breakpoints.sm)} {
     ${StatsCard.Value} {
-      font-family: Roboto;
       font-style: normal;
       font-weight: 500;
       font-size: 16px;

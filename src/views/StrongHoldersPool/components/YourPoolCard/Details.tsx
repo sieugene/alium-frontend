@@ -86,7 +86,6 @@ export default function Details({ poolId }: DetailsProps) {
 Details.Root = styled.div``
 
 Details.HistoryTitle = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -105,7 +104,6 @@ Details.HistoryTable = styled.table`
 
   th {
     padding: 8px;
-    font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -125,7 +123,6 @@ Details.HistoryTable = styled.table`
 
   td {
     padding: 6px 8px;
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;

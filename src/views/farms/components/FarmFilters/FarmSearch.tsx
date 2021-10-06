@@ -40,7 +40,6 @@ const Wrapper = styled.div<{ activeFullWidth: boolean }>`
 const SearchInput = styled.input<{ isFilled: boolean; activeFullWidth: boolean }>`
   width: 257px;
   height: 48px;
-  font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

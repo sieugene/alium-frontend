@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { TranslateString } from 'utils/translateTextHelpers'
 
 const LabelRow = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 11px;

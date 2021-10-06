@@ -132,7 +132,6 @@ UsersProgressBar.Counters = styled.div`
 `
 
 UsersProgressBar.Text = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -142,7 +141,6 @@ UsersProgressBar.Text = styled.div`
 `
 
 UsersProgressBar.Value = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 48px;

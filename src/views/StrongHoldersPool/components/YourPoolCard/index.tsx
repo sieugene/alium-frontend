@@ -177,7 +177,6 @@ YourPoolCard.PoolCounters = styled.div`
 `
 
 YourPoolCard.UsersCounter = styled(YourPoolCard.Value)<{ isLoss?: boolean }>`
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 64px;
@@ -227,7 +226,6 @@ YourPoolCard.Root = styled(Card)`
     }
 
     ${YourPoolCard.UsersCounter} {
-      font-family: Roboto;
       font-style: normal;
       font-weight: bold;
       font-size: 32px;

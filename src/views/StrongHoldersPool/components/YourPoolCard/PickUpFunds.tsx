@@ -70,7 +70,6 @@ PickUpFunds.Value = styled.div`
 `
 
 PickUpFunds.Profit = styled.div<{ isLoss?: boolean }>`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 11px;

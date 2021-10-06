@@ -29,7 +29,6 @@ const Row = styled.div`
     padding: 0;
   }
   div {
-    font-family: Roboto;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -83,7 +82,6 @@ const Direction = styled.div<{ desktop: boolean }>`
     justify-content: center;
     border-radius: 6px;
     align-items: center;
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
