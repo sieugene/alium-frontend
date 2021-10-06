@@ -90,9 +90,15 @@ export function useRewardToken() {
 }
 
 export function usePoolLocked(poolId?: ethers.BigNumber) {
-  return useSWRContract<ethers.BigNumber>(
-    poolId ? [SHP_NAMESPACE, 'totalLockedPoolTokens', poolId] : null,
-    useShpContract(),
+  const { data: pool } = usePoolById(poolId)
+  const shpContract = useShpContract()
+  return useSWR<ethers.BigNumber>(
+    shpContract && pool && poolId ? [SHP_NAMESPACE, 'usePoolLocked', poolId, pool.withdrawn] : null,
+    async () => {
+      const locked: ethers.BigNumber = await shpContract.totalLockedPoolTokens(poolId)
+      return locked.sub(pool.withdrawn)
+    },
+    defaultSWROptions,
   )
 }
 
@@ -147,16 +153,25 @@ export function useTotalLocked() {
     async () => {
       let ret: ethers.BigNumber = ethers.BigNumber.from(0)
       const shpAddress = getShpAddress()
+      const poolIds = getAllPoolsIds(currentPoolId)
+      const pools: Array<Pool> = await multicallWithDecoder(
+        SHP_ABI,
+        poolIds.map((poolId) => ({
+          address: shpAddress,
+          name: 'pools',
+          params: [poolId],
+        })),
+      )
       const results: Array<[ethers.BigNumber]> = await multicallWithDecoder(
         SHP_ABI,
-        getAllPoolsIds(currentPoolId).map((poolId) => ({
+        poolIds.map((poolId) => ({
           address: shpAddress,
           name: 'totalLockedPoolTokens',
           params: [poolId],
         })),
       )
-      results.forEach(([value]) => {
-        ret = ret.add(value)
+      results.forEach(([value], i) => {
+        ret = ret.add(value).sub(pools[i].withdrawn)
       })
       return ret
     },
@@ -270,6 +285,7 @@ export function usePoolWithdrawals(poolId?: ethers.BigNumber) {
       let iterator = blockNumber
       while (withdrawals.length < paidUsers.length) {
         // TODO: probably it's very slow!
+        // https://github.com/binance-chain/bsc/issues/113
         const fromBlock = iterator - 5000
         const res = await contract.queryFilter(filter, fromBlock, iterator)
         if (res.length > 0) {
