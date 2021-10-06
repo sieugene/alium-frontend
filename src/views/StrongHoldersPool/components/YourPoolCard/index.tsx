@@ -66,7 +66,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
                 <PickUpFunds poolId={poolId} />
               </YourPoolCard.Field>
               <YourPoolCard.Field>
-                <BonusNft />
+                <BonusNft poolId={poolId} />
               </YourPoolCard.Field>
             </YourPoolCard.InfoFields>
             <YourPoolCard.InfoActions>
