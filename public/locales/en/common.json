@@ -38,7 +38,8 @@
       "enterAnAmount": "Enter an amount",
       "converting": "Converting",
       "convertToALMs": "Convert to ALMs",
-      "wait": "Wait"
+      "wait": "Wait",
+      "supply": "Supply"
     },
     "text": {
       "or": "or",
