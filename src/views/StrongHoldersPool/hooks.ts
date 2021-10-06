@@ -22,6 +22,7 @@ export interface Pool {
   withheldFunds: ethers.BigNumber
   leftTracker: ethers.BigNumber
   createdAt: ethers.BigNumber
+  withdrawn: ethers.BigNumber
 }
 
 export interface User {
@@ -227,20 +228,21 @@ export function useLeavePool(poolId?: ethers.BigNumber) {
     () =>
       poolId &&
       shpContract &&
+      nftContract &&
       (async () => {
         try {
           setLoading(true)
           // ALM
           const shpTx: ethers.ContractTransaction = await shpContract.withdraw(poolId)
           await shpTx.wait()
-          // TODO: NFT
-          // const nftTx: ethers.ContractTransaction = await nftContract.claim()
-          // await nftTx.wait()
+          // NFT
+          const nftTx: ethers.ContractTransaction = await nftContract.claim()
+          await nftTx.wait()
         } finally {
           setLoading(false)
         }
       }),
-    [poolId, shpContract],
+    [nftContract, poolId, shpContract],
   )
   return {
     leavePool,
