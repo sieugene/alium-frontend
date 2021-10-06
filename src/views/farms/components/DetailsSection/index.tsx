@@ -1,6 +1,5 @@
 import { Skeleton } from 'alium-uikit/src'
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
 import { useFarmsLoading } from 'views/farms/hooks/useFarmingPools'
@@ -8,7 +7,7 @@ import DetailsButton from 'views/StrongHoldersPool/components/DetailsButton'
 import { InfoDeposit, InfoLpType, InfoViewBscScan } from '../Info'
 
 const Wrapper = styled.div<{ open: boolean }>`
-  padding: 0px 16px 24px 16px;
+  padding: 0 16px 24px 16px;
   position: absolute;
   width: 100%;
   left: 0;
@@ -34,7 +33,6 @@ const Info = styled.div`
   min-height: 32px;
   align-items: center;
   .title {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -43,7 +41,6 @@ const Info = styled.div`
     color: #8990a5;
   }
   .field {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -53,7 +50,6 @@ const Info = styled.div`
     color: #0b1359;
   }
   .scan-link {
-    font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 14px;
@@ -81,7 +77,6 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLa
   const loading = useFarmsLoading()
 
   const [open, setOpen] = useState(false)
-  const { t } = useTranslation()
   const toggle = () => {
     setOpen(!open)
   }

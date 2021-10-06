@@ -33,7 +33,7 @@ import { Wrapper } from '../Pool/styleds'
 import { AddLiqudityInputs } from './AddLiqudityInputs'
 import { AddLiqudityModalContent } from './AddLiqudityModalContent'
 import { AddLiquditySupply } from './AddLiquditySupply'
-import { InvalidPair } from './InvalidPair'
+import { InvalidPair, InvalidPairCurrencies } from './InvalidPair'
 import { NoLiquidity } from './NoLiquidity'
 
 const CardWrapper = styled.div`
@@ -355,7 +355,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
                 onFieldBInput={onFieldBInput}
                 handleCurrencyBSelect={handleCurrencyBSelect}
               />
-              <InvalidPair.Currencies
+              <InvalidPairCurrencies
                 currencies={currencies}
                 pairState={pairState}
                 noLiquidity={noLiquidity}

@@ -4,8 +4,8 @@ import { AutoColumn } from 'components/Column'
 import Pane from 'components/Pane'
 import { MinimalPositionCard } from 'components/PositionCard'
 import { PairState } from 'data/Reserves'
-import { FC } from 'react';
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
+import { FC } from 'react'
 import { Field } from 'state/mint/actions'
 import styled from 'styled-components'
 import { PoolPriceBar } from './PoolPriceBar'
@@ -15,10 +15,6 @@ interface Props {
   noLiquidity: boolean
   pairState: PairState
   oneCurrencyIsWETH: boolean
-}
-
-interface Components {
-  Currencies: FC<CurrenciesProps>
 }
 
 interface CurrenciesProps {
@@ -32,7 +28,7 @@ interface CurrenciesProps {
   price: Price
 }
 
-export const InvalidPair: FC<Props> & Components = ({ pair, noLiquidity, pairState, oneCurrencyIsWETH }) => {
+export const InvalidPair: FC<Props> = ({ pair, noLiquidity, pairState, oneCurrencyIsWETH }) => {
   if (pair && !noLiquidity && pairState !== PairState.INVALID) {
     return (
       <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
@@ -43,11 +39,14 @@ export const InvalidPair: FC<Props> & Components = ({ pair, noLiquidity, pairSta
   return null
 }
 
-InvalidPair.Currencies = ({ currencies, pairState, noLiquidity, poolTokenPercentage, price }) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export const InvalidPairCurrencies: FC<CurrenciesProps> = ({
+  currencies,
+  pairState,
+  noLiquidity,
+  poolTokenPercentage,
+  price,
+}) => {
   const { t } = useTranslation()
-
-  /* TODO: ducker / из-за странного создания компонента не работает перевод (disable до добра не доведет :)) */
 
   if (currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID) {
     return (

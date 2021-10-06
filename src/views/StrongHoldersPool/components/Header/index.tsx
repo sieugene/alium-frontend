@@ -59,7 +59,6 @@ Header.ImageContainer = styled.div`
 `
 
 Header.Title = styled.h2`
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 48px;
@@ -92,7 +91,6 @@ Header.Root = styled.div`
 
   @media ${down(breakpoints.lg)} {
     ${Header.Title} {
-      font-family: Roboto;
       font-style: normal;
       font-weight: bold;
       font-size: 40px;
@@ -111,7 +109,6 @@ Header.Root = styled.div`
 
   @media ${down(breakpoints.md)} {
     ${Header.Title} {
-      font-family: Roboto;
       font-style: normal;
       font-weight: bold;
       font-size: 28px;

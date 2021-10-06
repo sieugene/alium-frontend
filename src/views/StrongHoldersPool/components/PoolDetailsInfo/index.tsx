@@ -54,7 +54,6 @@ PoolDetailsInfo.Field = styled.div`
 
   & > span {
     &:nth-child(1) {
-      font-family: Roboto;
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
@@ -64,7 +63,6 @@ PoolDetailsInfo.Field = styled.div`
     }
 
     &:nth-child(2) {
-      font-family: Roboto;
       font-style: normal;
       font-weight: 500;
       font-size: 14px;

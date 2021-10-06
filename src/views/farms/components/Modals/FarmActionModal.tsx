@@ -171,7 +171,6 @@ FarmActionModal.ModalWrapper = styled(ModalFarmBaseWrap)`
   padding: 24px;
 
   .symbol-title {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -187,7 +186,6 @@ FarmActionModal.Roi = styled.div`
   align-items: center;
   margin-top: 16px;
   h3 {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 11px;
@@ -204,7 +202,6 @@ FarmActionModal.Roi = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
-      font-family: Roboto;
       font-style: normal;
       font-weight: 500;
       font-size: 11px;
@@ -242,7 +239,6 @@ FarmActionModal.ModalFooter = styled.div`
     display: flex;
     cursor: pointer;
     h3 {
-      font-family: Roboto;
       font-style: normal;
       font-weight: 500;
       font-size: 14px;

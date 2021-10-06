@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 const Title = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 12px;

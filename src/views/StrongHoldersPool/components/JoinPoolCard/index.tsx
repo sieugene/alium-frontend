@@ -96,7 +96,6 @@ JoinPoolCard.Join = styled(Button)`
 `
 
 JoinPoolCard.Footer = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

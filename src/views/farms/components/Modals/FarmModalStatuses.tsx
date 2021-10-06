@@ -80,7 +80,6 @@ FarmModalStatuses.Wrapper = styled(ModalFarmBaseWrap)`
   flex-direction: column;
   .wait {
     margin-top: 34px;
-    font-family: Roboto;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -90,7 +89,6 @@ FarmModalStatuses.Wrapper = styled(ModalFarmBaseWrap)`
     color: #0b1359;
   }
   h2 {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
@@ -102,7 +100,6 @@ FarmModalStatuses.Wrapper = styled(ModalFarmBaseWrap)`
   }
   p {
     margin-top: 8px;
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;

@@ -44,7 +44,6 @@ export const InfoRow = styled.div<{ withBg?: boolean }>`
 `
 
 export const InfoTitle = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -53,7 +52,6 @@ export const InfoTitle = styled.div`
   color: #8990a5;
 
   & > a {
-    font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 14px;
@@ -71,7 +69,6 @@ export const EarnsFarm = styled.div`
   align-items: center;
   word-break: break-all;
   .balance {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 10px;
@@ -83,7 +80,6 @@ export const EarnsFarm = styled.div`
 `
 
 export const InfoValue = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -94,7 +90,6 @@ export const InfoValue = styled.div`
 
 const ColoredPrice = styled.div<{ color: 'textDisabled' | 'text' }>`
   color: ${({ color }) => (color === 'textDisabled' ? '#8990a5' : '#6c5dd3')};
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;

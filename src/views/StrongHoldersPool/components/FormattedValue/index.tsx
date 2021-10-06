@@ -19,7 +19,6 @@ export default function FormattedValue({ value, suffix, className }: FormattedVa
 }
 
 FormattedValue.Root = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 32px;
@@ -28,7 +27,6 @@ FormattedValue.Root = styled.div`
   color: #0b1359;
 `
 FormattedValue.Suffix = styled.span`
-  font-family: Roboto;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
