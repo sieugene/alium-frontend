@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { NftReward } from 'views/StrongHoldersPool/hooks'
+import { NftReward } from 'views/StrongHoldersPool/types'
 
 export interface NftItemProps {
   tokenId: NftReward['tokenId']

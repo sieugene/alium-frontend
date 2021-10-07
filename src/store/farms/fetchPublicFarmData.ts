@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js'
+import { BIG_TEN, BIG_ZERO } from 'config'
 import erc20 from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
 import { Farm, SerializedBigNumber } from 'state/types'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
-import { BIG_TEN, BIG_ZERO } from 'utils/bigNumber'
 import { multicallWithDecoder } from 'utils/multicall'
 import { fetchApy } from './fetchApy'
 

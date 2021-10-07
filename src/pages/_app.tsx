@@ -1,7 +1,7 @@
 import { GTMProvider } from '@elgorditosalsero/react-gtm-hook'
-import BigNumber from 'bignumber.js'
 import Loaders from 'components/Loaders'
 import MetaHeader from 'components/MetaHeader'
+import 'config'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
@@ -17,12 +17,6 @@ const GlobalStyle = dynamic(() => import('style/Global'), { ssr: false })
 const ResetCSS = dynamic(() => import('alium-uikit/src').then((module) => module.ResetCSS), { ssr: false })
 const MenuWrappedRoute = dynamic(() => import('../components/Menu'), { ssr: false })
 const EagerConnectContainer = dynamic(() => import('connectors/EagerConnectContainer'), { ssr: false })
-
-// This config is required for number formatting
-BigNumber.config({
-  EXPONENTIAL_AT: 1000,
-  DECIMAL_PLACES: 80,
-})
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (

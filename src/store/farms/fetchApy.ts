@@ -1,6 +1,6 @@
 import { ChainId, Fetcher, Route, Token } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
-import { BIG_ZERO } from 'utils/bigNumber'
+import { BIG_ZERO } from 'config'
 import { getEthersProvider } from 'utils/bridge/providers'
 import { BSC_ALM, DAI, TESTDAI } from '../../constants'
 import { fetchTokenPriceFromCoingecko } from './../../services/coingecko'
