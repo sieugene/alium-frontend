@@ -98,15 +98,18 @@ const ColoredPrice = styled.div<{ color: 'textDisabled' | 'text' }>`
 `
 
 const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
+  background: #6c5dd3;
+
+  &:hover {
+    opacity: 0.75;
+  }
+
   svg {
     path {
-      fill: #8990a5;
+      stroke: #fff;
     }
   }
-  background: transparent;
-  border: 1px solid #d2d6e5;
-  height: 40px;
-  width: 40px;
+
   @media ${down(breakpoints.sm)} {
     ${({ viewMode }) =>
       viewMode === ViewMode.TABLE &&
@@ -114,12 +117,6 @@ const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
       height: 28px;
       width: 28px;
     `}
-  }
-
-  &:hover {
-    opacity: 0.75;
-    border: 1px solid #d2d6e5 !important;
-    background-color: transparent !important;
   }
 `
 
@@ -474,16 +471,17 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
     stakingButtonsNode:
       account && stakedBalanceNotZero ? (
         <IconButtonWrapper>
-          <StakeCounter variant='tertiary' onClick={onPresentWithdraw} mr='6px' viewMode={viewMode}>
-            <MinusIcon color='primary' />
+          <StakeCounter size='sm' variant='tertiary' onClick={onPresentWithdraw} mr='6px' viewMode={viewMode}>
+            <MinusIcon />
           </StakeCounter>
           <StakeCounter
+            size='sm'
             viewMode={viewMode}
             variant='tertiary'
             onClick={onPresentDeposit}
             disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
           >
-            <AddIcon.Small color='primary' />
+            <AddIcon.Small />
           </StakeCounter>
         </IconButtonWrapper>
       ) : (
