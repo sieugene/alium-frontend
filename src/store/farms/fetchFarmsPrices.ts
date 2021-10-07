@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
+import { BIG_ONE, BIG_ZERO } from 'config'
 import { Farm } from 'state/types'
-import { BIG_ONE, BIG_ZERO } from 'utils/bigNumber'
 import filterFarmsByQuoteToken from 'utils/farm/farmsPriceHelpers'
 import { fetchBnbDaiPrice } from './fetchApy'
 

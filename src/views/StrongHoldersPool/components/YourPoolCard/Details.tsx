@@ -3,18 +3,17 @@ import { Skeleton } from 'alium-uikit/src'
 import { ethers } from 'ethers'
 import { useMemo } from 'react'
 import styled from 'styled-components'
-import { ethersToBigNumber } from 'utils/bigNumber'
-import { getBalanceAmount } from 'utils/formatBalance'
+import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
+  usePool,
   usePoolAccountUser,
-  usePoolById,
   usePoolLocked,
   usePoolUsers,
   usePoolWithdrawals,
-  useRewardTokenInfo,
-  Withdrawn,
+  useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
-import { formatBigNumber } from 'views/StrongHoldersPool/utils'
+import { Withdrawn } from 'views/StrongHoldersPool/types'
+import { formatAddress, formatBigNumber, isUserPaid } from 'views/StrongHoldersPool/utils'
 import PoolDetailsInfo from '../PoolDetailsInfo'
 
 export interface DetailsProps {
@@ -22,11 +21,12 @@ export interface DetailsProps {
 }
 
 export default function Details({ poolId }: DetailsProps) {
-  const { data: pool } = usePoolById(poolId)
+  const { data: pool } = usePool(poolId)
   const { data: poolLocked } = usePoolLocked(poolId)
   const { data: withdrawals } = usePoolWithdrawals(poolId)
   const { data: poolUsers } = usePoolUsers(poolId)
-  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const rewardTokenSymbol = useRewardTokenSymbol()
+
   const accountUser = usePoolAccountUser(poolId)
   const poolShare = useMemo(
     () => accountUser && poolLocked && new Percent(accountUser.balance.toString(), poolLocked.toString()),
@@ -42,9 +42,9 @@ export default function Details({ poolId }: DetailsProps) {
   return (
     <Details.Root>
       <PoolDetailsInfo
-        leftId={accountUser?.leftId && ethersToBigNumber(accountUser.leftId)}
+        leftId={accountUser?.leftId && ethersToBN(accountUser.leftId)}
         poolShare={poolShare}
-        createdAt={pool?.createdAt && ethersToBigNumber(pool.createdAt)}
+        createdAt={pool?.createdAt && ethersToBN(pool.createdAt)}
       />
       <Details.HistoryTitle>History</Details.HistoryTitle>
       <Details.HistoryTable>
@@ -57,16 +57,15 @@ export default function Details({ poolId }: DetailsProps) {
         </thead>
         <tbody>
           {poolUsers?.map((user) => {
-            const wallet = `${user.account.substring(0, 9)}...${user.account.substring(user.account.length - 5)}`
             const withdrawal = withdrawalByAccount?.[user.account]
             return (
               <tr key={user.account}>
-                <td>{wallet}</td>
-                <td>{`${formatBigNumber(getBalanceAmount(ethersToBigNumber(user.balance)))} ${rewardTokenSymbol}`}</td>
-                {user.paid ? (
+                <td>{formatAddress(user.account)}</td>
+                <td>{formatBigNumber(toEther(ethersToBN(user.balance))) + ' ' + rewardTokenSymbol}</td>
+                {isUserPaid(user) ? (
                   <td>
                     {withdrawal ? (
-                      `${formatBigNumber(getBalanceAmount(ethersToBigNumber(withdrawal.amount)))} ${rewardTokenSymbol}`
+                      formatBigNumber(toEther(ethersToBN(withdrawal.amount))) + ' ' + rewardTokenSymbol
                     ) : (
                       <Skeleton animation='waves' />
                     )}

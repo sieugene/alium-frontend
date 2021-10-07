@@ -1,128 +1,90 @@
 import { Percent } from '@alium-official/sdk'
 import { AddressZero } from '@ethersproject/constants'
-import { parseUnits } from '@ethersproject/units'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
-import { SHP_ABI, SHP_NFT_ABI } from 'config/constants/shp'
 import { ethers } from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useShpContract, useShpNftContract, useTokenContract } from 'hooks/useContract'
-import times from 'lodash/times'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import useSWR, { SWRConfiguration } from 'swr'
 import { getShpAddress } from 'utils/addressHelpers'
-import { multicallWithDecoder } from 'utils/multicall'
-import { useCallWithGasPrice } from 'utils/useCallWithGasPrice'
 import { getWeb3NoAccount } from 'utils/web3'
+import * as api from './api'
+import { NftReward, Pool, User, Withdrawn } from './types'
+import { findUserByAccount, getAllPoolsIds, getPoolAmount, isFullPool, isUserPaid } from './utils'
 
-const SHP_NAMESPACE = 'shp'
-const SHP_NFT_NAMESPACE = 'shp_nft'
+// SHP
 
-export interface Pool {
-  withheldFunds: ethers.BigNumber
-  leftTracker: ethers.BigNumber
-  createdAt: ethers.BigNumber
-  withdrawn: ethers.BigNumber
-}
-
-export interface User {
-  account: string
-  balance: ethers.BigNumber
-  paid: boolean
-  leftId: ethers.BigNumber
-}
-
-export interface Withdrawn {
-  poolId: ethers.BigNumber
-  account: string
-  amount: ethers.BigNumber
-}
-
-export interface NftReward {
-  tokenId: ethers.BigNumber
-  amount: ethers.BigNumber
-}
-
-export function getAllPoolsIds(currentPoolId: ethers.BigNumber): ethers.BigNumber[] {
-  const ids: ethers.BigNumber[] = []
-  let iterator = currentPoolId
-  while (iterator.gte(0)) {
-    ids.push(iterator)
-    iterator = iterator.sub(1)
-  }
-  return ids
-}
-
-const defaultSWROptions: SWRConfiguration = {
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
-  shouldRetryOnError: false,
-}
-
-type ContractFetcherArgs = [string, string, ...any]
-
-const createContractFetcher =
-  (contract: ethers.Contract) =>
-  <T>(...[_swrNamespace, method, ...args]: ContractFetcherArgs): T =>
-    contract[method](...args)
-
-export function useSWRContract<T>(args: ContractFetcherArgs, contract?: ethers.Contract, options?: SWRConfiguration) {
-  return useSWR<T>(contract && args ? args : null, createContractFetcher(contract), {
-    ...defaultSWROptions,
-    ...options,
-  })
-}
-
-export function useCurrentPoolId() {
-  return useSWRContract<ethers.BigNumber>([SHP_NAMESPACE, 'getCurrentPoolId'], useShpContract())
-}
-
-export function useMaxPoolLength() {
-  return useSWRContract<ethers.BigNumber>([SHP_NAMESPACE, 'MAX_POOL_LENGTH'], useShpContract(), {
+export function useMaxPoolLength(swrConfig?: SWRConfiguration) {
+  const shpContract = useShpContract()
+  return useSWR<ethers.BigNumber>('shp/useMaxPoolLength', () => api.getMaxPoolLength(shpContract), {
     revalidateIfStale: false,
+    ...swrConfig,
   })
 }
 
-export function useRewardToken() {
-  return useSWRContract<string>([SHP_NAMESPACE, 'rewardToken'], useShpContract(), {
-    revalidateIfStale: false,
-  })
+export function useCurrentPoolId(swrConfig?: SWRConfiguration) {
+  const shpContract = useShpContract()
+  return useSWR<ethers.BigNumber>('shp/useCurrentPoolId', () => api.getCurrentPoolId(shpContract), swrConfig)
 }
 
-export function usePoolLocked(poolId?: ethers.BigNumber) {
-  const { data: pool } = usePoolById(poolId)
+export function usePoolLocked(poolId?: ethers.BigNumber, swrConfig?: SWRConfiguration) {
   const shpContract = useShpContract()
   return useSWR<ethers.BigNumber>(
-    shpContract && pool && poolId ? [SHP_NAMESPACE, 'usePoolLocked', poolId, pool.withdrawn] : null,
-    async () => {
-      const locked: ethers.BigNumber = await shpContract.totalLockedPoolTokens(poolId)
-      return locked.sub(pool.withdrawn)
-    },
-    defaultSWROptions,
+    poolId ? ['shp/usePoolLocked', poolId] : null,
+    () => api.getPoolLocked(shpContract, poolId),
+    swrConfig,
   )
 }
 
-export function usePoolUsers(poolId?: ethers.BigNumber) {
-  return useSWRContract<User[]>(poolId ? [SHP_NAMESPACE, 'users', poolId] : null, useShpContract())
+export function usePoolUsers(poolId?: ethers.BigNumber, swrConfig?: SWRConfiguration) {
+  const shpContract = useShpContract()
+  return useSWR<User[]>(
+    poolId ? ['shp/usePoolUsers', poolId] : null,
+    () => api.getPoolUsers(shpContract, poolId),
+    swrConfig,
+  )
 }
 
-export function usePoolById(poolId?: ethers.BigNumber) {
-  return useSWRContract<Pool>(poolId ? [SHP_NAMESPACE, 'pools', poolId] : null, useShpContract())
+export function usePool(poolId?: ethers.BigNumber, swrConfig?: SWRConfiguration) {
+  const shpContract = useShpContract()
+  return useSWR<Pool>(poolId ? ['shp/usePool', poolId] : null, () => api.getPool(shpContract, poolId), swrConfig)
 }
 
-export function usePoolAccountUser(poolId?: ethers.BigNumber) {
-  const { data: poolUsers } = usePoolUsers(poolId)
-  const { account } = useWeb3React()
-  return useMemo(() => poolUsers?.find((user) => user.account === account), [account, poolUsers])
+export function useTotalLocked(swrConfig?: SWRConfiguration) {
+  const { data: currentPoolId } = useCurrentPoolId()
+  const ids = useMemo(() => currentPoolId && getAllPoolsIds(currentPoolId), [currentPoolId])
+  return useSWR<ethers.BigNumber>(
+    ids ? ['shp/useTotalLocked', ids.length] : null,
+    async () => {
+      let ret = ethers.BigNumber.from(0)
+      const shpAddress = getShpAddress()
+      const [pools, locked] = await Promise.all([api.getPools(shpAddress, ids), api.getTotalLocked(shpAddress, ids)])
+      ids.forEach((_, i) => {
+        ret = ret.add(getPoolAmount(pools[i].withdrawn, locked[i][0]))
+      })
+      return ret
+    },
+    swrConfig,
+  )
+}
+
+export function useRewardToken(swrConfig?: SWRConfiguration) {
+  const shpContract = useShpContract()
+  return useSWR<string>('shp/useRewardToken', () => api.getRewardToken(shpContract), {
+    revalidateIfStale: false,
+    ...swrConfig,
+  })
 }
 
 export function useRewardTokenInfo() {
-  const { data } = useRewardToken()
-  const rewardTokenInfo = useToken(data)
-  return {
-    rewardTokenInfo,
-    rewardTokenSymbol: rewardTokenInfo?.symbol || '',
-  }
+  const { data: rewardToken } = useRewardToken()
+  return useToken(rewardToken)
+}
+
+export function useRewardTokenSymbol() {
+  const rewardTokenInfo = useRewardTokenInfo()
+  return rewardTokenInfo ? rewardTokenInfo.symbol : ''
 }
 
 export function useRewardTokenContract() {
@@ -130,247 +92,214 @@ export function useRewardTokenContract() {
   return useTokenContract(data)
 }
 
-export function useRewardTokenBalance() {
+export function useRewardTokenBalance(swrConfig?: SWRConfiguration) {
   const rewardTokenContract = useRewardTokenContract()
   const { account } = useWeb3React()
-  return useSWRContract<ethers.BigNumber>([SHP_NAMESPACE, 'balanceOf', account], rewardTokenContract)
-}
-
-export function useRewardTokenAllowance() {
-  const rewardTokenContract = useRewardTokenContract()
-  const shpContract = useShpContract()
-  const { account } = useWeb3React()
-  return useSWRContract<ethers.BigNumber>(
-    account && shpContract ? [SHP_NAMESPACE, 'allowance', account, shpContract.address] : null,
-    rewardTokenContract,
-  )
-}
-
-export function useTotalLocked() {
-  const { data: currentPoolId } = useCurrentPoolId()
   return useSWR<ethers.BigNumber>(
-    currentPoolId ? [SHP_NAMESPACE, 'useTotalLocked', currentPoolId] : null,
-    async () => {
-      let ret: ethers.BigNumber = ethers.BigNumber.from(0)
-      const shpAddress = getShpAddress()
-      const poolIds = getAllPoolsIds(currentPoolId)
-      const pools: Array<Pool> = await multicallWithDecoder(
-        SHP_ABI,
-        poolIds.map((poolId) => ({
-          address: shpAddress,
-          name: 'pools',
-          params: [poolId],
-        })),
-      )
-      const results: Array<[ethers.BigNumber]> = await multicallWithDecoder(
-        SHP_ABI,
-        poolIds.map((poolId) => ({
-          address: shpAddress,
-          name: 'totalLockedPoolTokens',
-          params: [poolId],
-        })),
-      )
-      results.forEach(([value], i) => {
-        ret = ret.add(value).sub(pools[i].withdrawn)
-      })
-      return ret
-    },
-    defaultSWROptions,
+    rewardTokenContract && account ? ['shp/useRewardTokenBalance', account] : null,
+    () => rewardTokenContract.balanceOf(account),
+    swrConfig,
   )
 }
 
-export function useJoinPool() {
-  const contract = useShpContract()
-  const { account } = useWeb3React()
+export function useRewardTokenAllowance(swrConfig?: SWRConfiguration) {
   const rewardTokenContract = useRewardTokenContract()
-  const { callWithGasPrice } = useCallWithGasPrice()
-  const approve = useMemo(() => {
-    if (!rewardTokenContract || !contract) return
-    return async (amount: BigNumber) => {
-      const tx = await callWithGasPrice(rewardTokenContract, 'approve', [
-        contract.address,
-        parseUnits(amount.toString()),
-      ])
-      return tx.wait()
-    }
-  }, [callWithGasPrice, contract, rewardTokenContract])
-  const join = useMemo(() => {
-    if (!contract) return
-    return async (amount: BigNumber) => {
-      const tx = await contract.lock(account, parseUnits(amount.toString()))
-      return tx.wait()
-    }
-  }, [account, contract])
-  return {
-    approve,
-    join,
-  }
-}
-
-export function useYourPools() {
-  const { data: currentPoolId } = useCurrentPoolId()
   const { account } = useWeb3React()
-  const allPoolsIds = useMemo(() => currentPoolId && getAllPoolsIds(currentPoolId), [currentPoolId])
-  return useSWR<ethers.BigNumber[]>(
-    allPoolsIds && account ? [SHP_NAMESPACE, 'useYourPools', account, allPoolsIds.length] : null,
-    async () => {
-      const ids: ethers.BigNumber[] = []
-      const shpAddress = getShpAddress()
-      const results: Array<[User[]]> = await multicallWithDecoder(
-        SHP_ABI,
-        allPoolsIds.map((poolId) => ({
-          address: shpAddress,
-          name: 'users',
-          params: [poolId],
-        })),
-      )
-      results.forEach(([users], i) => {
-        if (users.find((user) => user.account === account)) {
-          ids.push(allPoolsIds[i])
-        }
-      })
-      return ids
-    },
-    defaultSWROptions,
+  return useSWR<ethers.BigNumber>(
+    rewardTokenContract && account ? ['shp/useRewardTokenAllowance', account] : null,
+    () => rewardTokenContract.allowance(account, getShpAddress()),
+    swrConfig,
   )
 }
 
-export function useLeavePool(poolId?: ethers.BigNumber) {
-  const shpContract = useShpContract()
-  const nftContract = useNftContract()
+export function useApprove() {
+  const rewardTokenContract = useRewardTokenContract()
   const [loading, setLoading] = useState(false)
-  const leavePool = useMemo(
+  const approve = useMemo(
     () =>
-      poolId &&
-      shpContract &&
-      nftContract &&
-      (async () => {
+      rewardTokenContract &&
+      (async (wei: BigNumber) => {
         try {
           setLoading(true)
-          // ALM
-          const shpTx: ethers.ContractTransaction = await shpContract.withdraw(poolId)
-          await shpTx.wait()
-          // NFT
-          const nftTx: ethers.ContractTransaction = await nftContract.claim()
-          await nftTx.wait()
+          const tx = await rewardTokenContract.approve(getShpAddress(), wei.toString())
+          await tx.wait()
         } finally {
           setLoading(false)
         }
       }),
-    [nftContract, poolId, shpContract],
+    [rewardTokenContract],
   )
   return {
-    leavePool,
     loading,
+    approve,
   }
+}
+
+export function useLock() {
+  const shpContract = useShpContract()
+  const [loading, setLoading] = useState(false)
+  const { account } = useWeb3React()
+  const lock = useCallback(
+    async (wei: BigNumber) => {
+      try {
+        setLoading(true)
+        const tx = await shpContract.lock(account, wei.toString())
+        await tx.wait()
+      } finally {
+        setLoading(false)
+      }
+    },
+    [account, shpContract],
+  )
+  return {
+    loading,
+    lock,
+  }
+}
+
+export function usePoolWithdrawals(poolId?: ethers.BigNumber, swrConfig?: SWRConfiguration) {
+  const shpContract = useShpContract()
+  const web3 = getWeb3NoAccount()
+  const { data: poolUsers } = usePoolUsers(poolId)
+  const paidUsers = useMemo(() => poolUsers?.filter(isUserPaid), [poolUsers])
+  return useSWR<Withdrawn[]>(
+    poolId && paidUsers ? ['shp/usePoolWithdrawals', poolId, paidUsers.length] : null,
+    async () => {
+      const blockNumber = await web3.eth.getBlockNumber()
+      return api.getPoolWithdrawals(shpContract, poolId, paidUsers.length, blockNumber)
+    },
+    swrConfig,
+  )
+}
+
+export function useCountReward(poolId?: ethers.BigNumber, swrConfig?: SWRConfiguration) {
+  const shpContract = useShpContract()
+  const { account } = useWeb3React()
+  return useSWR<ethers.BigNumber>(
+    poolId && account ? ['shp/useCountReward', poolId, account] : null,
+    () => api.countReward(shpContract, poolId, account),
+    swrConfig,
+  )
 }
 
 export function useIsFullPool(poolId?: ethers.BigNumber) {
   const { data: poolUsers } = usePoolUsers(poolId)
   const { data: maxPoolLength } = useMaxPoolLength()
-  return maxPoolLength?.eq(poolUsers?.length || 0)
-}
-
-export function usePoolWithdrawals(poolId?: ethers.BigNumber) {
-  const contract = useShpContract()
-  const web3 = getWeb3NoAccount()
-  const { data: poolUsers } = usePoolUsers(poolId)
-  const paidUsers = useMemo(() => poolUsers?.filter((user) => user.paid), [poolUsers])
-  return useSWR<Withdrawn[]>(
-    contract && poolId && paidUsers ? [SHP_NAMESPACE, 'usePoolWithdrawals', poolId, paidUsers.length] : null,
-    async () => {
-      const blockNumber = await web3.eth.getBlockNumber()
-      const filter = contract.filters.Withdrawn(poolId)
-      const withdrawals: Withdrawn[] = []
-      let iterator = blockNumber
-      while (withdrawals.length < paidUsers.length) {
-        // TODO: probably it's very slow!
-        // https://github.com/binance-chain/bsc/issues/113
-        const fromBlock = iterator - 5000
-        const res = await contract.queryFilter(filter, fromBlock, iterator)
-        if (res.length > 0) {
-          withdrawals.push(...res.map((e) => e.args as any as Withdrawn))
-        }
-        iterator = fromBlock
-      }
-      return withdrawals
-    },
-    defaultSWROptions,
-  )
+  return useMemo(() => poolUsers && maxPoolLength && isFullPool(poolUsers, maxPoolLength), [maxPoolLength, poolUsers])
 }
 
 export function usePoolWithdrawPosition(poolId?: ethers.BigNumber) {
   const { data: poolUsers } = usePoolUsers(poolId)
-  const { data: pool } = usePoolById(poolId)
+  const { data: pool } = usePool(poolId)
   return useMemo(
     () => poolUsers && pool && ethers.BigNumber.from(poolUsers.length).sub(pool.leftTracker),
     [pool, poolUsers],
   )
 }
 
-export function useCountReward(poolId?: ethers.BigNumber) {
+export function usePoolAmount(poolId?: ethers.BigNumber) {
+  const { data: pool } = usePool(poolId)
+  const { data: poolLocked } = usePoolLocked(poolId)
+  return useMemo(() => pool && poolLocked && getPoolAmount(pool.withdrawn, poolLocked), [pool, poolLocked])
+}
+
+export function usePoolAccountUser(poolId?: ethers.BigNumber) {
+  const { data: poolUsers } = usePoolUsers(poolId)
   const { account } = useWeb3React()
-  return useSWRContract<ethers.BigNumber>(
-    poolId && account ? [SHP_NAMESPACE, 'countReward', poolId, account] : null,
-    useShpContract(),
+  return useMemo(() => poolUsers && findUserByAccount(poolUsers, account), [account, poolUsers])
+}
+
+export function useYourPools(swrConfig?: SWRConfiguration) {
+  const { data: currentPoolId } = useCurrentPoolId()
+  const { account } = useWeb3React()
+  const ids = useMemo(() => currentPoolId && getAllPoolsIds(currentPoolId), [currentPoolId])
+  return useSWR<ethers.BigNumber[]>(
+    ids && account ? ['shp/useYourPools', account, ids.length] : null,
+    () => api.getYourPools(getShpAddress(), ids, account),
+    swrConfig,
   )
 }
 
-export function useCountRewardPercent(poolId?: ethers.BigNumber) {
+export function useWithdraw() {
+  const [loading, setLoading] = useState(false)
+  const shpContract = useShpContract()
+  const withdraw = useCallback(
+    async (poolId: ethers.BigNumber) => {
+      try {
+        setLoading(true)
+        const tx = await api.withdraw(shpContract, poolId)
+        await tx.wait()
+      } finally {
+        setLoading(false)
+      }
+    },
+    [shpContract],
+  )
+  return {
+    loading,
+    withdraw,
+  }
+}
+
+export function useCountRewardProfit(poolId?: ethers.BigNumber) {
   const { data: countReward } = useCountReward(poolId)
   const accountUser = usePoolAccountUser(poolId)
-  const countRewardPercent = useMemo(
+  const countRewardProfit = useMemo(
     () =>
       accountUser &&
       countReward &&
       new Percent(countReward.sub(accountUser.balance).toString(), accountUser.balance.toString()),
     [accountUser, countReward],
   )
-  const isLoss = useMemo(() => countRewardPercent?.lessThan('0'), [countRewardPercent])
+  const isLoss = useMemo(() => countRewardProfit?.lessThan('0'), [countRewardProfit])
   return {
-    countRewardPercent,
+    countRewardProfit,
     isLoss,
   }
 }
 
-export function useNftRewardPoolAddress() {
-  return useSWRContract<string>([SHP_NAMESPACE, 'nftRewardPool'], useShpContract(), {
+export function useOpenedPools(swrConfig?: SWRConfiguration) {
+  const { data: currentPoolId } = useCurrentPoolId()
+  const { data: maxPoolLength } = useMaxPoolLength()
+  const ids = useMemo(() => currentPoolId && getAllPoolsIds(currentPoolId), [currentPoolId])
+  return useSWR<ethers.BigNumber>(
+    ids && maxPoolLength && ['shp/useOpenedPools', ids.length],
+    async () => {
+      let ret = ethers.BigNumber.from(0)
+      const pools = await api.getPools(getShpAddress(), ids)
+      pools.forEach((pool) => {
+        if (pool.leftTracker.lt(maxPoolLength)) {
+          ret = ret.add(1)
+        }
+      })
+      return ret
+    },
+    swrConfig,
+  )
+}
+
+// NFT
+
+export function useNftRewardPool(swrConfig?: SWRConfiguration) {
+  const shpContract = useShpContract()
+  return useSWR<string>('shp/useNftRewardPool', () => api.getNftRewardPool(shpContract), {
     revalidateIfStale: false,
+    ...swrConfig,
   })
 }
 
 export function useNftContract() {
-  const { data: address } = useNftRewardPoolAddress()
-  return useShpNftContract(address === AddressZero ? null : address)
+  const { data: nftRewardPool } = useNftRewardPool()
+  return useShpNftContract(nftRewardPool === AddressZero ? null : nftRewardPool)
 }
 
-export function useNftRewardToken() {
-  const nftContract = useNftContract()
-  return useSWRContract<string>([SHP_NFT_NAMESPACE, 'rewardToken'], nftContract)
-}
-
-export function useNftAllRewards() {
+export function useNftAllRewards(swrConfig?: SWRConfiguration) {
   const nftContract = useNftContract()
   const { data: maxPoolLength } = useMaxPoolLength()
   return useSWR<Record<string, NftReward[]>>(
-    nftContract && maxPoolLength ? [SHP_NFT_NAMESPACE, 'useNftAllRewards', maxPoolLength] : null,
-    async () => {
-      const ret: Record<string, NftReward[]> = {}
-      const positions = times(maxPoolLength.toNumber(), (i) => i + 1)
-      const results: Array<[NftReward[]]> = await multicallWithDecoder(
-        SHP_NFT_ABI,
-        positions.map((position) => ({
-          address: nftContract.address,
-          name: 'getReward',
-          params: [position],
-        })),
-      )
-      results.forEach(([rewards], i) => {
-        ret[positions[i]] = rewards
-      })
-      return ret
-    },
-    defaultSWROptions,
+    nftContract && maxPoolLength ? ['shp/useNftAllRewards'] : null,
+    () => api.getAllNftRewards(nftContract, maxPoolLength),
+    swrConfig,
   )
 }
 
@@ -378,4 +307,27 @@ export function usePoolNftWithdrawRewards(poolId?: ethers.BigNumber) {
   const withdrawPosition = usePoolWithdrawPosition(poolId)
   const { data } = useNftAllRewards()
   return data?.[withdrawPosition?.toString()]
+}
+
+export function useNftClaim() {
+  const [loading, setLoading] = useState(false)
+  const nftContract = useNftContract()
+  const claim = useMemo(
+    () =>
+      nftContract &&
+      (async () => {
+        try {
+          setLoading(true)
+          const tx = await api.nftClaim(nftContract)
+          await tx.wait()
+        } finally {
+          setLoading(false)
+        }
+      }),
+    [nftContract],
+  )
+  return {
+    loading,
+    claim,
+  }
 }
