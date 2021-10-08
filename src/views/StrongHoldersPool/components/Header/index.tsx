@@ -82,6 +82,7 @@ Header.Tabs = styled.div`
 
 Header.Tab = styled(Button)`
   min-width: 164px;
+  width: auto;
   height: 40px;
 `
 
