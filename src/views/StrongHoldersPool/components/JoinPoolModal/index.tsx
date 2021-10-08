@@ -67,21 +67,18 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   )
   const onApprove = useMemo(
     () =>
-      approve &&
-      !approveLoading &&
-      hasAmount &&
-      !isInsufficientFunds &&
-      needApprove &&
-      (async () => {
-        try {
-          await approve(amountWei)
-          await mutateRewardTokenAllowance()
-          toastSuccess(`${formatBigNumber(amountEther)} ${rewardTokenSymbol} approved`)
-        } catch (error) {
-          console.error(error)
-          toastError(error.data?.message || error.message)
-        }
-      }),
+      approve && !approveLoading && hasAmount && !isInsufficientFunds && needApprove
+        ? async () => {
+            try {
+              await approve(amountWei)
+              await mutateRewardTokenAllowance()
+              toastSuccess(`${formatBigNumber(amountEther)} ${rewardTokenSymbol} approved`)
+            } catch (error) {
+              console.error(error)
+              toastError(error.data?.message || error.message)
+            }
+          }
+        : undefined,
     [
       amountEther,
       amountWei,
@@ -99,29 +96,27 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
 
   const onJoin = useMemo(
     () =>
-      !lockLoading &&
-      hasAmount &&
-      !isInsufficientFunds &&
-      !needApprove &&
-      (async () => {
-        try {
-          await lock(amountWei)
-          toastSuccess(`${formatBigNumber(amountEther)} ${rewardTokenSymbol} added to the pool`)
+      !lockLoading && hasAmount && !isInsufficientFunds && !needApprove
+        ? async () => {
+            try {
+              await lock(amountWei)
+              toastSuccess(`${formatBigNumber(amountEther)} ${rewardTokenSymbol} added to the pool`)
 
-          // refetch data
-          mutateBalance()
-          mutateRewardTokenAllowance()
-          mutateCurrentPoolId()
-          mutatePoolUsers()
-          mutatePoolLocked()
-          mutateTotalLocked()
+              // refetch data
+              mutateBalance()
+              mutateRewardTokenAllowance()
+              mutateCurrentPoolId()
+              mutatePoolUsers()
+              mutatePoolLocked()
+              mutateTotalLocked()
 
-          onDismiss()
-        } catch (error) {
-          console.error(error)
-          toastError(error.data?.message || error.message)
-        }
-      }),
+              onDismiss()
+            } catch (error) {
+              console.error(error)
+              toastError(error.data?.message || error.message)
+            }
+          }
+        : undefined,
     [
       amountEther,
       amountWei,
