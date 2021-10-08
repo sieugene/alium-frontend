@@ -119,10 +119,6 @@ export function nftClaim(nftContract: ethers.Contract): Promise<ethers.ContractT
   return nftContract.claim()
 }
 
-export function getNftLogs(nftContract: ethers.Contract, account: string): Promise<ethers.BigNumber[]> {
-  return nftContract.getLogs(account)
-}
-
 export async function getAllNftRewards(nftContract: ethers.Contract, maxPoolLength: ethers.BigNumber) {
   const ret: Record<string, NftReward[]> = {}
   const positions = times(maxPoolLength.toNumber(), (i) => i + 1)
