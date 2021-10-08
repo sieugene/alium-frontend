@@ -12,7 +12,7 @@ export default {
     56: '0x58b9668105C452DCf646cc88f56256882CF6f97D',
   },
   shp: {
-    97: '0x8fd2b414e79C1492cB13E329556BD4aD87647de8',
+    97: '0xCFb05Ec4d07Ca682C6462266aA6c8159c4435921',
     56: '0x03e1867C16b971961913A65B0ca563ede2e966cD',
   },
   farmingTicketWindow: {
