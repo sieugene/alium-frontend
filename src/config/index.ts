@@ -23,3 +23,6 @@ export const BIG_NINE = new BigNumber(9)
 export const BIG_TEN = new BigNumber(10)
 
 export const DEFAULT_TOKEN_DECIMAL = BIG_TEN.pow(18)
+
+export const isProduction = process.env.APP_ENV === 'production'
+export const isDev = !isProduction
