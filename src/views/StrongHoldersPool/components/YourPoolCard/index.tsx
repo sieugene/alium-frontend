@@ -76,8 +76,9 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
           mutateCountReward()
 
           // Claim NFT
-          await claim()
-          toastSuccess('NFT claimed!')
+          if (await claim()) {
+            toastSuccess('NFT claimed!')
+          }
         } catch (error) {
           console.error(error)
           toastError(error.data?.message || error.message)
