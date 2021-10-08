@@ -274,7 +274,7 @@ const LpLink = styled(InfoValue)`
 
 export function InfoDeposit({ farm }: InfoDepositProps) {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
-  const address = getExplorerLink(97, farm.lpAddresses[currentChainId], 'address')
+  const address = getExplorerLink(currentChainId, farm.lpAddresses[currentChainId], 'address')
   return (
     <>
       <InfoTitle>Deposit:</InfoTitle>
@@ -315,6 +315,7 @@ export interface InfoViewBscScanProps {
 }
 
 export function InfoViewBscScan({ farm }: InfoViewBscScanProps) {
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const address = useFarmLpAddress(farm)
   const loading = useFarmsLoading()
   if (loading) {
@@ -322,7 +323,7 @@ export function InfoViewBscScan({ farm }: InfoViewBscScanProps) {
   }
   return (
     <InfoTitle>
-      <a href={getExplorerLink(97, address, 'address')} target='_blank' style={{ whiteSpace: 'nowrap' }}>
+      <a href={getExplorerLink(currentChainId, address, 'address')} target='_blank' style={{ whiteSpace: 'nowrap' }}>
         View on BscScan
       </a>
     </InfoTitle>

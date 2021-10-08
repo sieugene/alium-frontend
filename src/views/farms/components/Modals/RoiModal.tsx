@@ -1,5 +1,6 @@
 import { Button, LinkIcon, Modal } from 'alium-uikit/src'
 import React, { FC } from 'react'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
 import {
@@ -92,8 +93,9 @@ const RoiModal: FC<InfoAPRProps & { onDismiss?: any }> = ({ farm, onDismiss, alm
   }
 
   const roiTables: RoiTable = roiTableData()
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
 
-  const link = getExplorerLink(97, useFarmLpAddress(farm), 'address')
+  const link = getExplorerLink(currentChainId, useFarmLpAddress(farm), 'address')
   const tokenName = farm.lpSymbol
 
   return (
