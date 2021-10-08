@@ -1,16 +1,14 @@
 import styled from 'styled-components'
-import NftItem, { NftItemProps } from '../NftItem'
+import NftItem from '../NftItem'
 import { ReactComponent as GiftIcon } from './gift.svg'
 import { ReactComponent as PlusIcon } from './plus.svg'
 
-export type NftItemRewardProps = NftItemProps
-
-export default function NftItemReward(props: NftItemRewardProps) {
+export default function NftItemReward() {
   return (
     <NftItemReward.Root>
       <PlusIcon />
       <NftItemReward.Wrapper>
-        <NftItem {...props} />
+        <NftItem />
         <NftItemReward.Icon>
           <GiftIcon />
         </NftItemReward.Icon>
