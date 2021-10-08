@@ -17,7 +17,6 @@ const Tab = styled.div<{ active: boolean }>`
   border-radius: 6px;
   padding: 14px 24px 14px 24px;
   width: fit-content;
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;

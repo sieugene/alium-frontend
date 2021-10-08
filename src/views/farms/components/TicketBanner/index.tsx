@@ -85,7 +85,6 @@ const Warning = styled(FlexCenter)`
 `
 
 const Info = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
@@ -130,7 +129,6 @@ const TicketInfo = styled.div`
   display: flex;
   align-items: center;
   p {
-    font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -144,7 +142,6 @@ const TicketInfo = styled.div`
     }
   }
   h2 {
-    font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 40px;

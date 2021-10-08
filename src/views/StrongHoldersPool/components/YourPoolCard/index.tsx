@@ -2,22 +2,25 @@ import { Button, Skeleton } from 'alium-uikit/src'
 import ConnectionLoad from 'alium-uikit/src/components/ConnectionLoad'
 import { ethers } from 'ethers'
 import useToast from 'hooks/useToast'
+import { useMemo } from 'react'
 import { useToggle } from 'react-use'
 import styled, { css } from 'styled-components'
-import { ethersToBigNumber } from 'utils/bigNumber'
-import { getBalanceAmount } from 'utils/formatBalance'
+import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
-  useCountRewardPercent,
+  useCountReward,
+  useCountRewardProfit,
   useIsFullPool,
-  useLeavePool,
+  useNftClaim,
+  usePool,
   usePoolAccountUser,
-  usePoolById,
-  usePoolLocked,
+  usePoolAmount,
   usePoolUsers,
   usePoolWithdrawPosition,
-  useRewardTokenInfo,
+  useRewardTokenSymbol,
+  useWithdraw,
 } from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { isUserPaid } from 'views/StrongHoldersPool/utils'
 import BonusNft from '../BonusNft'
 import Card from '../Card'
 import DetailsButton from '../DetailsButton'
@@ -31,18 +34,67 @@ export interface YourPoolCardProps {
 }
 
 export default function YourPoolCard({ poolId }: YourPoolCardProps) {
-  const { toastError } = useToast()
+  const { toastError, toastSuccess } = useToast()
   const [isDetails, toggleDetails] = useToggle(false)
-  const { mutate: mutatePool } = usePoolById(poolId)
-  const { rewardTokenSymbol } = useRewardTokenInfo()
-  const { mutate: mutatePoolUsers } = usePoolUsers(poolId)
-  const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(poolId)
-
-  const { leavePool, loading: leavePoolLoading } = useLeavePool(poolId)
-  const { isLoss } = useCountRewardPercent(poolId)
+  const { mutate: mutatePool } = usePool(poolId, {
+    revalidateOnMount: false,
+  })
+  const rewardTokenSymbol = useRewardTokenSymbol()
+  const { mutate: mutatePoolUsers } = usePoolUsers(poolId, {
+    revalidateOnMount: false,
+  })
+  const poolAmount = usePoolAmount(poolId)
+  const { withdraw, loading: withdrawLoading } = useWithdraw()
+  const { claim, loading: claimLoading } = useNftClaim()
+  const { mutate: mutateCountReward } = useCountReward(poolId, {
+    revalidateOnMount: false,
+  })
+  const { isLoss } = useCountRewardProfit(poolId)
   const accountUser = usePoolAccountUser(poolId)
+  const isPaid = accountUser && isUserPaid(accountUser)
   const withdrawPosition = usePoolWithdrawPosition(poolId)
   const isFullPool = useIsFullPool(poolId)
+  const onLeavePool = useMemo(
+    () =>
+      isFullPool && !isPaid && !withdrawLoading && !claimLoading && claim
+        ? async () => {
+            if (!window.confirm('Are you sure you want to leave the pool?')) {
+              return
+            }
+            try {
+              // Withdraw ALM
+              await withdraw(poolId)
+              toastSuccess('Funds withdrawn!')
+
+              // Refetch pool data
+              mutatePool()
+              mutatePoolUsers()
+              mutateCountReward()
+
+              // Claim NFT
+              await claim()
+              toastSuccess('NFT claimed!')
+            } catch (error) {
+              console.error(error)
+              toastError(error.data?.message || error.message)
+            }
+          }
+        : undefined,
+    [
+      claim,
+      claimLoading,
+      isFullPool,
+      isPaid,
+      mutateCountReward,
+      mutatePool,
+      mutatePoolUsers,
+      poolId,
+      toastError,
+      toastSuccess,
+      withdraw,
+      withdrawLoading,
+    ],
+  )
   return (
     <>
       <YourPoolCard.Root>
@@ -53,8 +105,8 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
                 <Title>Your contribution</Title>
                 {accountUser ? (
                   <YourPoolCard.Value
-                    value={getBalanceAmount(ethersToBigNumber(accountUser.balance))}
-                    suffix={' ' + rewardTokenSymbol}
+                    value={toEther(ethersToBN(accountUser.balance))}
+                    tokenSymbol={rewardTokenSymbol}
                   />
                 ) : (
                   <Skeleton />
@@ -64,26 +116,11 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
                 <PickUpFunds poolId={poolId} />
               </YourPoolCard.Field>
               <YourPoolCard.Field>
-                <BonusNft />
+                <BonusNft poolId={poolId} />
               </YourPoolCard.Field>
             </YourPoolCard.InfoFields>
             <YourPoolCard.InfoActions>
-              <Button
-                disabled={!isFullPool || !leavePool || accountUser?.paid || leavePoolLoading}
-                onClick={async () => {
-                  if (!window.confirm('Are you sure you want to leave the pool?')) return
-                  try {
-                    await leavePool()
-                  } catch (error) {
-                    console.error(error)
-                    toastError(error.data?.message || error.message)
-                  } finally {
-                    mutatePool()
-                    mutatePoolUsers()
-                    mutatePoolLocked()
-                  }
-                }}
-              >
+              <Button disabled={!onLeavePool} onClick={onLeavePool}>
                 Leave the pool
               </Button>
               <DetailsButton isOpen={isDetails} onClick={toggleDetails} />
@@ -93,18 +130,15 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
             <YourPoolCard.Field>
               <Title>Users In the pool</Title>
               {withdrawPosition ? (
-                <YourPoolCard.UsersCounter isLoss={isLoss} value={ethersToBigNumber(withdrawPosition)} />
+                <YourPoolCard.UsersCounter isLoss={isLoss} value={ethersToBN(withdrawPosition)} />
               ) : (
                 <Skeleton />
               )}
             </YourPoolCard.Field>
             <YourPoolCard.Field>
               <Title>Pool Amount</Title>
-              {poolLocked ? (
-                <YourPoolCard.Value
-                  value={getBalanceAmount(ethersToBigNumber(poolLocked))}
-                  suffix={' ' + rewardTokenSymbol}
-                />
+              {poolAmount ? (
+                <YourPoolCard.Value value={toEther(ethersToBN(poolAmount))} tokenSymbol={rewardTokenSymbol} />
               ) : (
                 <Skeleton />
               )}
@@ -117,7 +151,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
           </YourPoolCard.Details>
         )}
       </YourPoolCard.Root>
-      <ConnectionLoad load={leavePoolLoading} />
+      <ConnectionLoad load={withdrawLoading || claimLoading} />
     </>
   )
 }
@@ -173,7 +207,6 @@ YourPoolCard.PoolCounters = styled.div`
 `
 
 YourPoolCard.UsersCounter = styled(YourPoolCard.Value)<{ isLoss?: boolean }>`
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 64px;
@@ -223,7 +256,6 @@ YourPoolCard.Root = styled(Card)`
     }
 
     ${YourPoolCard.UsersCounter} {
-      font-family: Roboto;
       font-style: normal;
       font-weight: bold;
       font-size: 32px;

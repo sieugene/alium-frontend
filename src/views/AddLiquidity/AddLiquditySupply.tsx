@@ -109,7 +109,7 @@ export const AddLiquditySupply: FC<Props> = memo(
             !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B] ? 'danger' : 'primary'
           }
         >
-          {t('common.button.enterAnAmount')}
+          {t('common.button.supply')}
         </StyledButton>
       </AutoColumn>
     )

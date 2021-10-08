@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { useSingleContractMultipleData } from 'state/multicall/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { getContract } from 'utils'
@@ -108,7 +108,7 @@ export default function useNftPool() {
         .claim(pid, { from: account })
         .then((response: any) => {
           addTransaction(response, {
-            summary: t('others.boughtCards', { count: '1' }),
+            summary: t('others.boughtCards', { count: 1 }),
             additionalData: {
               count: '1',
               card: cards.filter((card) => card.id === pid)?.[0],

@@ -1,14 +1,13 @@
 import { useWeb3React } from '@web3-react/core'
 import { Button, Skeleton, useModal } from 'alium-uikit/src'
 import styled from 'styled-components'
-import { ethersToBigNumber } from 'utils/bigNumber'
-import { getBalanceAmount } from 'utils/formatBalance'
+import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
   useCurrentPoolId,
   useMaxPoolLength,
-  usePoolLocked,
+  usePoolAmount,
   usePoolUsers,
-  useRewardTokenInfo,
+  useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
 import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
 import BonusNft from '../BonusNft'
@@ -22,9 +21,9 @@ export default function JoinPoolCard() {
   const { account } = useWeb3React()
   const { data: currentPoolId } = useCurrentPoolId()
   const { data: poolUsers } = usePoolUsers(currentPoolId)
-  const { data: poolLocked } = usePoolLocked(currentPoolId)
+  const poolAmount = usePoolAmount(currentPoolId)
   const { data: maxPoolLength } = useMaxPoolLength()
-  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const rewardTokenSymbol = useRewardTokenSymbol()
   const [openModal] = useModal(<JoinPoolModal />, false)
   return (
     <JoinPoolCard.Root>
@@ -32,11 +31,8 @@ export default function JoinPoolCard() {
         <JoinPoolCard.Info>
           <JoinPoolCard.Field>
             <Title>Pool Amount</Title>
-            {poolLocked ? (
-              <JoinPoolCard.Amount
-                value={getBalanceAmount(ethersToBigNumber(poolLocked))}
-                suffix={' ' + rewardTokenSymbol}
-              />
+            {poolAmount ? (
+              <JoinPoolCard.Amount value={toEther(ethersToBN(poolAmount))} tokenSymbol={rewardTokenSymbol} />
             ) : (
               <Skeleton />
             )}
@@ -45,7 +41,7 @@ export default function JoinPoolCard() {
             Join the pool
           </JoinPoolCard.Join>
           <JoinPoolCard.Field>
-            <BonusNft />
+            <BonusNft poolId={currentPoolId} />
           </JoinPoolCard.Field>
         </JoinPoolCard.Info>
         {poolUsers && maxPoolLength && <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />}
@@ -96,7 +92,6 @@ JoinPoolCard.Join = styled(Button)`
 `
 
 JoinPoolCard.Footer = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

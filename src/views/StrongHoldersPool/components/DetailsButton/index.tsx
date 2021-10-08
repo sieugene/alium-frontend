@@ -20,7 +20,6 @@ DetailsButton.Root = styled.button`
   border: none;
   display: inline-flex;
   align-items: center;
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;

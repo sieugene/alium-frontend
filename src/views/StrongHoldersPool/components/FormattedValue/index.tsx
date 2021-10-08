@@ -5,21 +5,20 @@ import { formatBigNumber } from 'views/StrongHoldersPool/utils'
 
 export interface FormattedValueProps {
   value: BigNumber
-  suffix?: ReactNode
+  tokenSymbol?: ReactNode
   className?: string
 }
 
-export default function FormattedValue({ value, suffix, className }: FormattedValueProps) {
+export default function FormattedValue({ value, tokenSymbol, className }: FormattedValueProps) {
   return (
     <FormattedValue.Root className={className}>
       {formatBigNumber(value)}
-      {suffix && <FormattedValue.Suffix>{suffix}</FormattedValue.Suffix>}
+      {tokenSymbol && <FormattedValue.TokenSymbol> {tokenSymbol}</FormattedValue.TokenSymbol>}
     </FormattedValue.Root>
   )
 }
 
 FormattedValue.Root = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 32px;
@@ -27,8 +26,7 @@ FormattedValue.Root = styled.div`
   letter-spacing: 0.3px;
   color: #0b1359;
 `
-FormattedValue.Suffix = styled.span`
-  font-family: Roboto;
+FormattedValue.TokenSymbol = styled.span`
   font-size: 14px;
   font-style: normal;
   font-weight: 500;

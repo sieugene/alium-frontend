@@ -1,7 +1,6 @@
-import BigNumber from 'bignumber.js/bignumber'
-import { BIG_TEN } from 'utils/bigNumber'
+import BigNumber from 'bignumber.js'
 
-BigNumber.config({
+export const BNConfig = BigNumber.config({
   EXPONENTIAL_AT: 1000,
   DECIMAL_PLACES: 80,
 })
@@ -17,4 +16,13 @@ export const BASE_LIQUIDITY_POOL_URL = `${BASE_EXCHANGE_URL}/#/pool`
 export const LOTTERY_MAX_NUMBER_OF_TICKETS = 50
 export const LOTTERY_TICKET_PRICE = 1
 export const DEFAULT_GAS_LIMIT = 200000
+
+export const BIG_ZERO = new BigNumber(0)
+export const BIG_ONE = new BigNumber(1)
+export const BIG_NINE = new BigNumber(9)
+export const BIG_TEN = new BigNumber(10)
+
 export const DEFAULT_TOKEN_DECIMAL = BIG_TEN.pow(18)
+
+export const isProduction = process.env.APP_ENV === 'production'
+export const isDev = !isProduction

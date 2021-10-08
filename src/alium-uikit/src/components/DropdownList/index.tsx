@@ -14,7 +14,6 @@ const DefaultDropdown = styled.div<{ disabled: boolean; toggled: boolean }>`
   border: 1px solid #d2d6e5;
   box-sizing: border-box;
   border-radius: 6px;
-  font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

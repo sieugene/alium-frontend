@@ -1,13 +1,17 @@
 import BigNumber from 'bignumber.js'
+import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import { ethers } from 'ethers'
 import { SerializedBigNumber } from 'state/types'
 
-export const BIG_ZERO = new BigNumber(0)
-export const BIG_ONE = new BigNumber(1)
-export const BIG_NINE = new BigNumber(9)
-export const BIG_TEN = new BigNumber(10)
-
 export const ethersToSerializedBigNumber = (ethersBn: ethers.BigNumber): SerializedBigNumber =>
-  ethersToBigNumber(ethersBn).toJSON()
+  ethersToBN(ethersBn).toJSON()
 
-export const ethersToBigNumber = (ethersBn: ethers.BigNumber): BigNumber => new BigNumber(ethersBn.toString())
+export const ethersToBN = (ethersBn: ethers.BigNumber): BigNumber => new BigNumber(ethersBn.toString())
+
+export function toWei(ether: BigNumber) {
+  return ether.times(DEFAULT_TOKEN_DECIMAL)
+}
+
+export function toEther(wei: BigNumber) {
+  return wei.dividedBy(DEFAULT_TOKEN_DECIMAL)
+}

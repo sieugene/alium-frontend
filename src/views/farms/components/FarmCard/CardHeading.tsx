@@ -26,7 +26,6 @@ const Wrapper = styled.div`
 const Info = styled.div<{ type: ViewMode }>`
   .label {
     text-align: right;
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
@@ -61,7 +60,6 @@ const Core = styled.div<{ type: ViewMode }>`
   border: 1px solid #29d98f;
   box-sizing: border-box;
   border-radius: 16px;
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 11px;
@@ -102,7 +100,6 @@ const Multiplier = styled.div<{ type: ViewMode }>`
   border: 1px solid #ffa100;
   box-sizing: border-box;
   border-radius: 16px;
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 11px;

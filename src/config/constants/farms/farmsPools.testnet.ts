@@ -5,7 +5,7 @@ import { TEST_BSC_WBNB } from './../../../constants/index'
 
 export const farmsPoolsTestnet: FarmConfig[] = [
   {
-    pid: 1,
+    pid: 0,
     lpSymbol: 'ALM-BNB LP',
     lpAddresses: {
       [ChainId.BSCTESTNET]: '0xdcf05c93b4940192cc244c92330566b1211a028d',
@@ -15,7 +15,7 @@ export const farmsPoolsTestnet: FarmConfig[] = [
     quoteToken: TEST_BSC_WBNB,
   },
   {
-    pid: 2,
+    pid: 1,
     lpSymbol: 'USDT-ETH LP',
     lpAddresses: {
       [ChainId.BSCTESTNET]: '0xdC9747Fda30F57E6665345358342bB12316F0F27',

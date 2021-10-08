@@ -14,7 +14,6 @@ const WrapperApprove = styled.div`
   flex-direction: column;
   padding: 24px;
   p {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -25,7 +24,6 @@ const WrapperApprove = styled.div`
     margin-bottom: 16px;
   }
   h3 {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;

@@ -17,7 +17,6 @@ const Header = styled.div`
 `
 
 export const TicketLoadingText = styled.p`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;

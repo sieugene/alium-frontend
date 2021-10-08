@@ -1,16 +1,16 @@
 import { Skeleton } from 'alium-uikit/src'
 import { ethers } from 'ethers'
 import styled, { css } from 'styled-components'
-import { ethersToBigNumber } from 'utils/bigNumber'
-import { getBalanceAmount } from 'utils/formatBalance'
+import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
   useCountReward,
-  useCountRewardPercent,
+  useCountRewardProfit,
   useIsFullPool,
   usePoolAccountUser,
   usePoolNftWithdrawRewards,
-  useRewardTokenInfo,
+  useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
+import { isUserPaid } from 'views/StrongHoldersPool/utils'
 import YourPoolCard from '.'
 import NftItemReward from '../NftItemReward'
 import Title from '../Title'
@@ -20,36 +20,32 @@ export interface PickUpFundsProps {
 }
 
 export default function PickUpFunds({ poolId }: PickUpFundsProps) {
+  const rewardTokenSymbol = useRewardTokenSymbol()
   const { data: countReward } = useCountReward(poolId)
-  const { countRewardPercent, isLoss } = useCountRewardPercent(poolId)
-  const { rewardTokenSymbol } = useRewardTokenInfo()
+  const { countRewardProfit, isLoss } = useCountRewardProfit(poolId)
   const accountUser = usePoolAccountUser(poolId)
   const nftRewards = usePoolNftWithdrawRewards(poolId)
   const isFullPool = useIsFullPool(poolId)
+  const isPaid = accountUser && isUserPaid(accountUser)
   return (
     <>
       <Title>Pick up funds</Title>
       <PickUpFunds.Value>
         <PickUpFunds.Counters>
           {countReward ? (
-            <YourPoolCard.Value
-              value={getBalanceAmount(ethersToBigNumber(countReward))}
-              suffix={' ' + rewardTokenSymbol}
-            />
+            <YourPoolCard.Value value={toEther(ethersToBN(countReward))} tokenSymbol={rewardTokenSymbol} />
           ) : (
             <Skeleton />
           )}
-          {countRewardPercent ? (
-            <PickUpFunds.Profit style={{ visibility: accountUser?.paid ? 'hidden' : undefined }} isLoss={isLoss}>{`${
-              isLoss ? '' : '+'
-            } ${countRewardPercent.toFixed()}%`}</PickUpFunds.Profit>
+          {countRewardProfit ? (
+            <PickUpFunds.Profit style={{ visibility: isPaid ? 'hidden' : undefined }} isLoss={isLoss}>
+              {`${isLoss ? '' : '+'}${countRewardProfit.toFixed()}%`}
+            </PickUpFunds.Profit>
           ) : (
             <Skeleton />
           )}
         </PickUpFunds.Counters>
-        {!accountUser?.paid &&
-          isFullPool &&
-          nftRewards?.map((reward, key) => <NftItemReward tokenId={reward.tokenId} key={key} />)}
+        {!isPaid && isFullPool && nftRewards?.map((_, key) => <NftItemReward key={key} />)}
       </PickUpFunds.Value>
     </>
   )
@@ -70,7 +66,6 @@ PickUpFunds.Value = styled.div`
 `
 
 PickUpFunds.Profit = styled.div<{ isLoss?: boolean }>`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 11px;
