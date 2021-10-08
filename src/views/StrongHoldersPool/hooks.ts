@@ -278,6 +278,23 @@ export function useOpenedPools(swrConfig?: SWRConfiguration) {
   )
 }
 
+export function useParticipantNumber(poolId?: ethers.BigNumber) {
+  const { data: poolUsers } = usePoolUsers(poolId)
+  const { account } = useWeb3React()
+  return useMemo(() => {
+    if (!account || !poolUsers) return undefined
+
+    const accountIndex = poolUsers.findIndex((user) => user.account === account)
+
+    if (accountIndex === -1) {
+      // Account is not in the pool. Return next position.
+      return new BigNumber(poolUsers.length + 1)
+    }
+
+    return new BigNumber(accountIndex + 1)
+  }, [account, poolUsers])
+}
+
 // NFT
 
 export function useNftRewardPool(swrConfig?: SWRConfiguration) {

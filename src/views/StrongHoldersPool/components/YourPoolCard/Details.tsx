@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import styled from 'styled-components'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
+  useParticipantNumber,
   usePool,
   usePoolAccountUser,
   usePoolLocked,
@@ -25,8 +26,8 @@ export default function Details({ poolId }: DetailsProps) {
   const { data: poolLocked } = usePoolLocked(poolId)
   const { data: withdrawals } = usePoolWithdrawals(poolId)
   const { data: poolUsers } = usePoolUsers(poolId)
+  const participantNumber = useParticipantNumber(poolId)
   const rewardTokenSymbol = useRewardTokenSymbol()
-
   const accountUser = usePoolAccountUser(poolId)
   const poolShare = useMemo(
     () => accountUser && poolLocked && new Percent(accountUser.balance.toString(), poolLocked.toString()),
@@ -42,7 +43,7 @@ export default function Details({ poolId }: DetailsProps) {
   return (
     <Details.Root>
       <PoolDetailsInfo
-        leftId={accountUser?.leftId && ethersToBN(accountUser.leftId)}
+        participantNumber={participantNumber}
         poolShare={poolShare}
         createdAt={pool?.createdAt && ethersToBN(pool.createdAt)}
       />
