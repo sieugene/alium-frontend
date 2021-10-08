@@ -7,12 +7,12 @@ ETHEREUM: https://docs.linkpool.io/docs/public_rpc
 */
 module.exports = {
   APP_NODES_BSC: [
+    'https://data-seed-prebsc-2-s3.binance.org:8545',
     'https://data-seed-prebsc-1-s1.binance.org:8545',
     'https://data-seed-prebsc-2-s1.binance.org:8545',
     'https://data-seed-prebsc-1-s2.binance.org:8545',
     'https://data-seed-prebsc-2-s2.binance.org:8545',
     'https://data-seed-prebsc-1-s3.binance.org:8545',
-    'https://data-seed-prebsc-2-s3.binance.org:8545',
   ],
   APP_NODES_HECO: ['https://http-testnet.hecochain.com'],
   APP_NODES_ETHEREUM: ['https://rinkeby.infura.io/v3/d32640fa3a7f4a149068228024a399e4'],

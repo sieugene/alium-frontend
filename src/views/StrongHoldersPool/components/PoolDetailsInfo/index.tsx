@@ -5,12 +5,12 @@ import { useMemo } from 'react'
 import styled from 'styled-components'
 
 export interface PoolDetailsInfoProps {
-  leftId?: BigNumber
+  participantNumber?: BigNumber
   createdAt?: BigNumber
   poolShare?: Percent
 }
 
-export default function PoolDetailsInfo({ leftId, createdAt, poolShare }: PoolDetailsInfoProps) {
+export default function PoolDetailsInfo({ participantNumber, createdAt, poolShare }: PoolDetailsInfoProps) {
   const formattedCreatedAt = useMemo(
     () => createdAt && format(fromUnixTime(createdAt.toNumber()), 'dd/MM/yyyy, HH:mm:ss'),
     [createdAt],
@@ -23,10 +23,10 @@ export default function PoolDetailsInfo({ leftId, createdAt, poolShare }: PoolDe
           <span>{poolShare.toFixed(2)}%</span>
         </PoolDetailsInfo.Field>
       )}
-      {leftId && (
+      {participantNumber && (
         <PoolDetailsInfo.Field>
           <span>Participant number</span>
-          <span>{leftId.toString()}</span>
+          <span>{participantNumber.toString()}</span>
         </PoolDetailsInfo.Field>
       )}
       {formattedCreatedAt && (
@@ -54,7 +54,6 @@ PoolDetailsInfo.Field = styled.div`
 
   & > span {
     &:nth-child(1) {
-      font-family: Roboto;
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
@@ -64,7 +63,6 @@ PoolDetailsInfo.Field = styled.div`
     }
 
     &:nth-child(2) {
-      font-family: Roboto;
       font-style: normal;
       font-weight: 500;
       font-size: 14px;

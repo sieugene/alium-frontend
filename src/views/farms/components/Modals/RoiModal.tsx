@@ -35,7 +35,6 @@ const StyleRoiTable = styled.div`
 const Footer = styled.div`
   padding: 16px 22px 24px 22px;
   p {
-    font-family: Roboto;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -126,7 +125,6 @@ const RoiModal: FC<InfoAPRProps & { onDismiss?: any }> = ({ farm, onDismiss, alm
 
 const Row = styled.div`
   h2 {
-    font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -137,7 +135,6 @@ const Row = styled.div`
     margin-bottom: 16px;
   }
   .item-roi {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;

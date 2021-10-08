@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import QuestionHelper from 'components/QuestionHelper'
+import { BIG_ZERO } from 'config'
 import { useTokenContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
 import { useTranslation } from 'next-i18next'
@@ -14,7 +15,6 @@ import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
 import { getAddress } from 'utils/addressHelpers'
-import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount, getBalanceNumber } from 'utils/formatBalance'
 import DepositModal from 'views/farms/components/Modals/DepositModal'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
@@ -44,7 +44,6 @@ export const InfoRow = styled.div<{ withBg?: boolean }>`
 `
 
 export const InfoTitle = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -53,7 +52,6 @@ export const InfoTitle = styled.div`
   color: #8990a5;
 
   & > a {
-    font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 14px;
@@ -71,7 +69,6 @@ export const EarnsFarm = styled.div`
   align-items: center;
   word-break: break-all;
   .balance {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 10px;
@@ -83,7 +80,6 @@ export const EarnsFarm = styled.div`
 `
 
 export const InfoValue = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -94,7 +90,6 @@ export const InfoValue = styled.div`
 
 const ColoredPrice = styled.div<{ color: 'textDisabled' | 'text' }>`
   color: ${({ color }) => (color === 'textDisabled' ? '#8990a5' : '#6c5dd3')};
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -103,15 +98,18 @@ const ColoredPrice = styled.div<{ color: 'textDisabled' | 'text' }>`
 `
 
 const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
+  background: #6c5dd3;
+
+  &:hover {
+    opacity: 0.75;
+  }
+
   svg {
     path {
-      fill: #8990a5;
+      stroke: #fff;
     }
   }
-  background: transparent;
-  border: 1px solid #d2d6e5;
-  height: 40px;
-  width: 40px;
+
   @media ${down(breakpoints.sm)} {
     ${({ viewMode }) =>
       viewMode === ViewMode.TABLE &&
@@ -119,12 +117,6 @@ const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
       height: 28px;
       width: 28px;
     `}
-  }
-
-  &:hover {
-    opacity: 0.75;
-    border: 1px solid #d2d6e5 !important;
-    background-color: transparent !important;
   }
 `
 
@@ -479,16 +471,17 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
     stakingButtonsNode:
       account && stakedBalanceNotZero ? (
         <IconButtonWrapper>
-          <StakeCounter variant='tertiary' onClick={onPresentWithdraw} mr='6px' viewMode={viewMode}>
-            <MinusIcon color='primary' />
+          <StakeCounter size='sm' variant='tertiary' onClick={onPresentWithdraw} mr='6px' viewMode={viewMode}>
+            <MinusIcon />
           </StakeCounter>
           <StakeCounter
+            size='sm'
             viewMode={viewMode}
             variant='tertiary'
             onClick={onPresentDeposit}
             disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
           >
-            <AddIcon.Small color='primary' />
+            <AddIcon.Small />
           </StakeCounter>
         </IconButtonWrapper>
       ) : (

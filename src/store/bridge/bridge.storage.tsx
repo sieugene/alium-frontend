@@ -14,7 +14,7 @@ export const bridgeStorage = () => ({
 
       localStorage.setItem(BRIDGE_STORAGE, state)
     } catch (error) {
-      console.error('cannot be save in bridge storage')
+      // console.error('cannot be save in bridge storage')
     }
   },
   set: (key: BridgeNetworks, value: number) => {

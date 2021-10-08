@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
+import { BIG_ONE, BIG_ZERO } from 'config'
+import { getFarmsConfig } from 'config/constants/farms/farms'
 import { Farm } from 'state/types'
-import { BIG_ONE, BIG_ZERO } from 'utils/bigNumber'
 import filterFarmsByQuoteToken from 'utils/farm/farmsPriceHelpers'
 import { fetchBnbDaiPrice } from './fetchApy'
 
@@ -10,10 +11,16 @@ const getFarmFromTokenSymbol = (farms: Farm[], tokenSymbol: string, preferredQuo
   return filteredFarm
 }
 
-const ProfitsSymbols = ['USDT', 'WBNB']
+// Todo refactor this
+const ProfitsSymbols = getFarmsConfig().reduce((symbols, farm) => {
+  const firstToken = farm.token?.symbol as string
+  const secondToken = farm.quoteToken?.symbol as string
+  symbols.push(firstToken, secondToken)
+  return symbols
+}, [])
 
 const getFarmBaseTokenPrice = (farm: Farm, quoteTokenFarm: Farm, bnbPriceBusd: BigNumber): BigNumber => {
-  const hasTokenPriceVsQuote = Boolean(farm.tokenPriceVsQuote)
+  const hasTokenPriceVsQuote = Boolean(farm.tokenPriceVsQuote) && Number(farm.tokenPriceVsQuote) !== Infinity
 
   if (ProfitsSymbols.includes(farm.quoteToken.symbol)) {
     return hasTokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : BIG_ZERO

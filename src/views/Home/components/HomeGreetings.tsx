@@ -1,7 +1,7 @@
 import { Button, Heading, Text } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
+import { useTranslation } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import Lottie from 'react-lottie-player'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'

@@ -102,6 +102,7 @@ export const useExchangeRedirect = () => {
     }
   }, [inputs])
 }
+
 // Combined
 export const useExchangeInputsRedirect = () => {
   const loadedUrlParams = useDefaultsFromURLSearch()

@@ -1,35 +1,35 @@
+import { ethers } from 'ethers'
 import { useMemo } from 'react'
 import styled from 'styled-components'
-import { NftReward, useNftAllRewards } from 'views/StrongHoldersPool/hooks'
+import { useIsFullPool, useNftAllRewards, usePoolWithdrawPosition } from 'views/StrongHoldersPool/hooks'
 import NftItemCounter from '../NftItemCounter'
 import Title from '../Title'
 
-export default function BonusNft() {
+export interface BonusNftProps {
+  poolId?: ethers.BigNumber
+}
+
+export default function BonusNft({ poolId }: BonusNftProps) {
+  const isFullPool = useIsFullPool(poolId)
+  const withdrawPosition = usePoolWithdrawPosition(poolId)
   const { data: nftAllRewards } = useNftAllRewards()
-  const bonusNft = useMemo<NftReward[]>(() => {
-    const rewardsByTokenId: Record<string, NftReward> = {}
-    if (nftAllRewards) {
-      Object.values(nftAllRewards).forEach((rewards) => {
-        rewards.forEach((reward) => {
-          const tokenId = reward.tokenId.toString()
-          rewardsByTokenId[tokenId] = {
-            tokenId: reward.tokenId,
-            amount: rewardsByTokenId[tokenId] ? rewardsByTokenId[tokenId].amount.add(reward.amount) : reward.amount,
-          }
+  const nftCounter = useMemo<ethers.BigNumber | undefined>(() => {
+    if (nftAllRewards && withdrawPosition) {
+      let ret = ethers.BigNumber.from(0)
+      Object.keys(nftAllRewards).forEach((position) => {
+        const isAlreadyClaimed = isFullPool && withdrawPosition.toNumber() < Number(position)
+        nftAllRewards[position].forEach((reward) => {
+          ret = ret.add(isAlreadyClaimed ? ethers.BigNumber.from(0) : reward.amount)
         })
       })
+      return ret
     }
-    return Object.values(rewardsByTokenId)
-  }, [nftAllRewards])
+  }, [isFullPool, nftAllRewards, withdrawPosition])
 
-  return bonusNft.length > 0 ? (
+  return nftCounter ? (
     <>
       <Title>Bonus NFT</Title>
-      <BonusNft.Items>
-        {bonusNft.map((reward) => (
-          <NftItemCounter key={reward.tokenId.toString()} tokenId={reward.tokenId} counter={reward.amount.toNumber()} />
-        ))}
-      </BonusNft.Items>
+      <NftItemCounter counter={nftCounter.toNumber()} />
     </>
   ) : null
 }

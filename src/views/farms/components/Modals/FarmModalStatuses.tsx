@@ -14,6 +14,7 @@ interface ActionFarmProps {
   children: React.ReactNode
   type: FarmActionModalProps['type']
 }
+
 export const FarmModalStatuses = ({ loading, success, error, children, type }: ActionFarmProps) => {
   const hideOn = loading || success || error
 
@@ -57,7 +58,8 @@ FarmModalStatuses.ActionFarmError = () => {
       <FarmModalStatuses.IconWrap>
         <BridgeTransferErrorIcon />
       </FarmModalStatuses.IconWrap>
-      <h2 className='error'>Transaction failed</h2>
+      <h2 className='error-text'>Transaction failed</h2>
+      <h2 className='error-text'>Your wallet doesn&apos;t have enough ALM to buy a ticket</h2>
     </FarmModalStatuses.Wrapper>
   )
 }
@@ -78,9 +80,9 @@ FarmModalStatuses.Wrapper = styled(ModalFarmBaseWrap)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
   .wait {
     margin-top: 34px;
-    font-family: Roboto;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -89,8 +91,8 @@ FarmModalStatuses.Wrapper = styled(ModalFarmBaseWrap)`
     letter-spacing: 0.3px;
     color: #0b1359;
   }
+
   h2 {
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
@@ -100,9 +102,9 @@ FarmModalStatuses.Wrapper = styled(ModalFarmBaseWrap)`
     color: #0b1359;
     margin-top: 24px;
   }
+
   p {
     margin-top: 8px;
-    font-family: Roboto;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -110,6 +112,11 @@ FarmModalStatuses.Wrapper = styled(ModalFarmBaseWrap)`
     text-align: center;
     letter-spacing: 0.3px;
     color: #8990a5;
+  }
+
+  .error-text {
+    width: 70%;
+    text-align: center;
   }
 `
 

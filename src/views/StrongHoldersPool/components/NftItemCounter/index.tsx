@@ -1,14 +1,14 @@
 import styled from 'styled-components'
-import NftItem, { NftItemProps } from '../NftItem'
+import NftItem from '../NftItem'
 
-export interface NftItemCounterProps extends NftItemProps {
+export interface NftItemCounterProps {
   counter: number
 }
 
-export default function NftItemCounter({ counter, tokenId }: NftItemCounterProps) {
+export default function NftItemCounter({ counter }: NftItemCounterProps) {
   return (
     <NftItemCounter.Root>
-      <NftItem tokenId={tokenId} />
+      <NftItem />
       <NftItemCounter.Counter>X{counter}</NftItemCounter.Counter>
     </NftItemCounter.Root>
   )
@@ -19,7 +19,6 @@ NftItemCounter.Root = styled.div`
   align-items: flex-start;
 `
 NftItemCounter.Counter = styled.div`
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
