@@ -131,7 +131,10 @@ export async function getAllNftRewards(nftContract: ethers.Contract, maxPoolLeng
     })),
   )
   results.forEach(([rewards], i) => {
-    ret[positions[i]] = rewards
+    const nonZeroRewards = rewards.filter((reward) => reward.amount.gt(0))
+    if (nonZeroRewards.length > 0) {
+      ret[positions[i]] = nonZeroRewards
+    }
   })
   return ret
 }
