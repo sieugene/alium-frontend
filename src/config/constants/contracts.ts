@@ -9,7 +9,7 @@ export default {
   },
   masterChef: {
     97: '0x13400440c93e31FBaD38daAA9638Af82df5A7e86',
-    56: '0x58b9668105C452DCf646cc88f56256882CF6f97D',
+    56: '0x2ff14D02002C1eD2b1fBf8987D1f7B1d9904a922',
   },
   shp: {
     97: '0xCFb05Ec4d07Ca682C6462266aA6c8159c4435921',
@@ -17,7 +17,7 @@ export default {
   },
   farmingTicketWindow: {
     97: '0x3Ac855483A34C5B563625DA65D9bae3DE72EcaC7',
-    56: '0x9F55e6Aa18647DC6a35b295A236439a7E9933650',
+    56: '0x2B563A32F11365902CceacE27F4fe6253B09fb3a',
   },
   sousChef: {
     97: '0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a',
