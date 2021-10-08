@@ -2,6 +2,7 @@ import { Button, CalculateIcon, LinkIcon, Modal, useModal } from 'alium-uikit/sr
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import React, { useCallback, useMemo, useState } from 'react'
+import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
 import { getFullDisplayBalance } from 'utils/formatBalance'
@@ -39,7 +40,7 @@ const FarmActionModal = ({
   almPrice,
   title,
   withoutRoi,
-  type
+  type,
 }: FarmActionModalProps) => {
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
@@ -80,8 +81,9 @@ const FarmActionModal = ({
     token1: farm.quoteToken,
     pairName: tokenName,
   }
+  const currentChainId = useStoreNetwork((state) => state.currentChainId)
 
-  const link = getExplorerLink(97, useFarmLpAddress(farm), 'address')
+  const link = getExplorerLink(currentChainId, useFarmLpAddress(farm), 'address')
 
   const handleChange = useCallback(
     (value: string) => {
