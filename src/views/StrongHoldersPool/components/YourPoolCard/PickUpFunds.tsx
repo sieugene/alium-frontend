@@ -38,16 +38,14 @@ export default function PickUpFunds({ poolId }: PickUpFundsProps) {
             <Skeleton />
           )}
           {countRewardProfit ? (
-            <PickUpFunds.Profit style={{ visibility: isPaid ? 'hidden' : undefined }} isLoss={isLoss}>{`${
-              isLoss ? '' : '+'
-            } ${countRewardProfit.toFixed()}%`}</PickUpFunds.Profit>
+            <PickUpFunds.Profit style={{ visibility: isPaid ? 'hidden' : undefined }} isLoss={isLoss}>
+              {`${isLoss ? '' : '+'}${countRewardProfit.toFixed()}%`}
+            </PickUpFunds.Profit>
           ) : (
             <Skeleton />
           )}
         </PickUpFunds.Counters>
-        {!isPaid &&
-          isFullPool &&
-          nftRewards?.map((reward, key) => <NftItemReward tokenId={reward.tokenId} key={key} />)}
+        {!isPaid && isFullPool && nftRewards?.map((_, key) => <NftItemReward key={key} />)}
       </PickUpFunds.Value>
     </>
   )

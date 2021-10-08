@@ -1,11 +1,6 @@
 import styled from 'styled-components'
-import { NftReward } from 'views/StrongHoldersPool/types'
 
-export interface NftItemProps {
-  tokenId: NftReward['tokenId']
-}
-
-export default function NftItem(_: NftItemProps) {
+export default function NftItem() {
   return <NftItem.Root src='/images/shp/nft.png' />
 }
 

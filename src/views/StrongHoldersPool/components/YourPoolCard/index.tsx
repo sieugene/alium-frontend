@@ -56,33 +56,30 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
   const isFullPool = useIsFullPool(poolId)
   const onLeavePool = useMemo(
     () =>
-      isFullPool &&
-      !isPaid &&
-      !withdrawLoading &&
-      !claimLoading &&
-      claim &&
-      (async () => {
-        if (!window.confirm('Are you sure you want to leave the pool?')) {
-          return
-        }
-        try {
-          // Withdraw ALM
-          await withdraw(poolId)
-          toastSuccess('Funds withdrawn!')
+      isFullPool && !isPaid && !withdrawLoading && !claimLoading && claim
+        ? async () => {
+            if (!window.confirm('Are you sure you want to leave the pool?')) {
+              return
+            }
+            try {
+              // Withdraw ALM
+              await withdraw(poolId)
+              toastSuccess('Funds withdrawn!')
 
-          // Refetch pool data
-          mutatePool()
-          mutatePoolUsers()
-          mutateCountReward()
+              // Refetch pool data
+              mutatePool()
+              mutatePoolUsers()
+              mutateCountReward()
 
-          // Claim NFT
-          await claim()
-          toastSuccess('NFT claimed!')
-        } catch (error) {
-          console.error(error)
-          toastError(error.data?.message || error.message)
-        }
-      }),
+              // Claim NFT
+              await claim()
+              toastSuccess('NFT claimed!')
+            } catch (error) {
+              console.error(error)
+              toastError(error.data?.message || error.message)
+            }
+          }
+        : undefined,
     [
       claim,
       claimLoading,
