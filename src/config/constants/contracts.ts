@@ -8,7 +8,7 @@ export default {
     56: '0x009cF7bC57584b7998236eff51b98A168DceA9B0',
   },
   masterChef: {
-    97: '0x8Dcc5cDD9a263a17Ec0F58eb6FAA5c99F92C60e9',
+    97: '0x13400440c93e31FBaD38daAA9638Af82df5A7e86',
     56: '0x58b9668105C452DCf646cc88f56256882CF6f97D',
   },
   shp: {
