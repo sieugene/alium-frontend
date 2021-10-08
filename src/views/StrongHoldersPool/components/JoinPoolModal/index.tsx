@@ -10,7 +10,7 @@ import {
   useApprove,
   useCurrentPoolId,
   useLock,
-  usePoolAccountUser,
+  useParticipantNumber,
   usePoolLocked,
   usePoolUsers,
   useRewardTokenAllowance,
@@ -26,8 +26,11 @@ export type JoinPoolModalProps = InjectedModalProps
 
 export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const { data: currentPoolId, mutate: mutateCurrentPoolId } = useCurrentPoolId()
-  const { data: poolUsers, mutate: mutatePoolUsers } = usePoolUsers(currentPoolId)
   const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(currentPoolId)
+  const participantNumber = useParticipantNumber(currentPoolId)
+  const { mutate: mutatePoolUsers } = usePoolUsers(currentPoolId, {
+    revalidateOnMount: false,
+  })
   const { mutate: mutateTotalLocked } = useTotalLocked({
     revalidateOnMount: false,
   })
@@ -54,10 +57,6 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
     }
     return new Percent('0')
   }, [amountWei, poolLocked])
-  const accountUser = usePoolAccountUser(currentPoolId)
-  const leftId = useMemo(() => {
-    return accountUser?.leftId ? ethersToBN(accountUser.leftId) : new BigNumber(poolUsers?.length || 0).plus(1)
-  }, [accountUser?.leftId, poolUsers?.length])
   const { toastError, toastSuccess } = useToast()
   const protectedSetAmount = useCallback(
     (value: string) => {
@@ -169,7 +168,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
             </JoinPoolModal.Actions>
           </JoinPoolModal.Data>
           <JoinPoolModal.Details>
-            <PoolDetailsInfo poolShare={poolShare} leftId={leftId} />
+            <PoolDetailsInfo poolShare={poolShare} participantNumber={participantNumber} />
           </JoinPoolModal.Details>
         </JoinPoolModal.Content>
       </Modal>
