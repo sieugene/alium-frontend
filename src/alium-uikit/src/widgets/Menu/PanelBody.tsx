@@ -25,6 +25,10 @@ const Container = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+
+  ::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.nav.background};
+  }
 `
 
 interface StyledIconProps {

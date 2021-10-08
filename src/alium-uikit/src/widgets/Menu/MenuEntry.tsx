@@ -1,4 +1,4 @@
-import styled, { DefaultTheme, keyframes } from 'styled-components'
+import styled, { css, DefaultTheme, keyframes } from 'styled-components'
 
 export interface Props {
   secondary?: boolean
@@ -40,16 +40,10 @@ const MenuEntry = styled.div<Props>`
   letter-spacing: 0.1px;
 
   color: ${({ theme, isActive }) => (isActive ? '#24BA7B' : theme.colors.textSubtle)};
-  ${({ isActive }) =>
-    isActive &&
-    `
-    // box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
-    // border-radius: 6px;
-    `}
   transition: color 200ms ease-in-out;
 
   a {
-    color: ${({ theme, isActive }) => (isActive ? '#24BA7B' : '#8990a5')} !important;
+    color: ${({ isActive }) => (isActive ? '#24BA7B' : '#8990a5')} !important;
     display: flex;
     align-items: center;
     width: 100%;
@@ -64,12 +58,16 @@ const MenuEntry = styled.div<Props>`
     margin-left: 8px;
   }
 
-  svg {
-    color: inherit;
-  }
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      svg {
+        color: inherit;
+      }
+    `}
 
   svg * {
-    transition: stroke 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
   }
 
   &:hover div {
