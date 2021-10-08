@@ -4,7 +4,7 @@ import { FarmConfig } from '../types'
 
 export const farmsPoolsMainnet: FarmConfig[] = [
   {
-    pid: 1,
+    pid: 0,
     lpSymbol: 'ALM-BNB LP',
     lpAddresses: {
       [ChainId.BSCTESTNET]: '',
@@ -14,7 +14,7 @@ export const farmsPoolsMainnet: FarmConfig[] = [
     quoteToken: WBNB,
   },
   {
-    pid: 2,
+    pid: 1,
     lpSymbol: 'ALM-USDT LP',
     lpAddresses: {
       [ChainId.BSCTESTNET]: '',
@@ -24,7 +24,7 @@ export const farmsPoolsMainnet: FarmConfig[] = [
     quoteToken: USDT,
   },
   {
-    pid: 3,
+    pid: 2,
     lpSymbol: 'ALM-CAKE LP',
     lpAddresses: {
       [ChainId.BSCTESTNET]: '',
@@ -34,7 +34,7 @@ export const farmsPoolsMainnet: FarmConfig[] = [
     quoteToken: BSC_CAKE,
   },
   {
-    pid: 4,
+    pid: 3,
     lpSymbol: 'CAKE-BNB LP',
     lpAddresses: {
       [ChainId.BSCTESTNET]: '',
@@ -44,7 +44,7 @@ export const farmsPoolsMainnet: FarmConfig[] = [
     quoteToken: WBNB,
   },
   {
-    pid: 5,
+    pid: 4,
     lpSymbol: 'BNB-USDT LP',
     lpAddresses: {
       [ChainId.BSCTESTNET]: '',
