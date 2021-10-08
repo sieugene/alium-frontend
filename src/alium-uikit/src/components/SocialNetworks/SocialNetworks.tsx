@@ -18,6 +18,7 @@ const StyledWrapper = styled.div<SocialNetworksProps>`
   margin-left: ${({ inPanel }) => (inPanel ? 'auto' : '0')};
   margin-right: ${({ inPanel }) => (inPanel ? 'auto' : '0')};
   margin-bottom: ${({ inPanel }) => (inPanel ? '24px' : '0')};
+  padding-top: 8px;
 
   @media screen and (max-width: 1024px) {
     justify-content: ${({ inPanel }) => (inPanel ? 'space-between' : 'center')};
