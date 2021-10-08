@@ -2,8 +2,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 import { ROUTES } from 'routes'
 
-const MenuWrappedRoute = dynamic(() => import('../../components/Menu'), { ssr: false })
-
 const NotFound = dynamic(() => import('alium-uikit/src').then((module) => module.NotFound), { ssr: false })
 
 const ErrorPage = () => {
