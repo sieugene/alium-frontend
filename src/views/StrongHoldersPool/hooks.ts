@@ -329,19 +329,29 @@ export function usePoolNftWithdrawRewards(poolId?: ethers.BigNumber) {
 export function useNftClaim() {
   const [loading, setLoading] = useState(false)
   const nftContract = useNftContract()
+  const { account } = useWeb3React()
+  const { data: nftAllRewards } = useNftAllRewards()
   const claim = useMemo(
     () =>
       nftContract &&
+      account &&
+      nftAllRewards &&
       (async () => {
         try {
           setLoading(true)
-          const tx = await api.nftClaim(nftContract)
-          await tx.wait()
+          // Check nft logs before claiming
+          const logs = await api.getNftLogs(nftContract, account)
+          const hasReward = logs.some((log, position) => log.gt(0) && nftAllRewards[position])
+          if (hasReward) {
+            const tx = await api.nftClaim(nftContract)
+            await tx.wait()
+          }
+          return hasReward
         } finally {
           setLoading(false)
         }
       }),
-    [nftContract],
+    [account, nftAllRewards, nftContract],
   )
   return {
     loading,
