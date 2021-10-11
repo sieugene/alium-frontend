@@ -64,7 +64,6 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
             try {
               // Withdraw ALM
               await withdraw(poolId)
-              toastSuccess('Funds withdrawn!')
 
               // Refetch pool data
               mutatePool()
@@ -73,7 +72,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
 
               // Claim NFT
               await claim()
-              toastSuccess('NFT claimed!')
+              toastSuccess('Operation completed!')
             } catch (error) {
               console.error(error)
               toastError(error.data?.message || error.message)
