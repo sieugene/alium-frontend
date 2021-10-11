@@ -187,7 +187,7 @@ const TicketBanner = () => {
       <Warning>
         <WarningIcon />
       </Warning>
-      <Info>Only users who have bought a ticket can take part in the pharming program.</Info>
+      <Info>Only users who have bought a ticket can take part in the farming program.</Info>
       {!removeBanner && (
         <FlexCenter>
           <Illustration src={`/images/farms/banners/${imgSrc}`} />

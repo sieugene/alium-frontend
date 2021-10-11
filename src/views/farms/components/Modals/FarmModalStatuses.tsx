@@ -34,7 +34,7 @@ FarmModalStatuses.ActionFarmLoader = () => {
   return (
     <FarmModalStatuses.Wrapper>
       <FarmModalStatuses.Loading type='TailSpin' color='#6C5DD3' />
-      <h3 className='wait'>Wait a bit...</h3>
+      <h3 className='wait'>Wait a moment please</h3>
     </FarmModalStatuses.Wrapper>
   )
 }
