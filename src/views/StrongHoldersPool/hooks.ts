@@ -330,26 +330,28 @@ export function useNftClaim() {
   const [loading, setLoading] = useState(false)
   const nftContract = useNftContract()
   const { account } = useWeb3React()
+  const { data: nftAllRewards } = useNftAllRewards()
   const claim = useMemo(
     () =>
       nftContract &&
       account &&
+      nftAllRewards &&
       (async () => {
         try {
           setLoading(true)
           // Check nft logs before claiming
           const logs = await api.getNftLogs(nftContract, account)
-          const hasLogs = logs.some((log) => log.gt(0))
-          if (hasLogs) {
+          const hasReward = logs.some((log, position) => log.gt(0) && nftAllRewards[position])
+          if (hasReward) {
             const tx = await api.nftClaim(nftContract)
             await tx.wait()
           }
-          return hasLogs
+          return hasReward
         } finally {
           setLoading(false)
         }
       }),
-    [account, nftContract],
+    [account, nftAllRewards, nftContract],
   )
   return {
     loading,

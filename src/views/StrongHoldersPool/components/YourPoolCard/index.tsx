@@ -64,6 +64,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
             try {
               // Withdraw ALM
               await withdraw(poolId)
+              toastSuccess('Funds withdrawn!')
 
               // Refetch pool data
               mutatePool()
