@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
 import { Contract } from 'ethers'
 import { calculateGasPrice } from 'utils'
-import { toWei } from 'utils/bigNumber'
 
 const options = {
   gasLimit: DEFAULT_GAS_LIMIT,
@@ -31,10 +30,16 @@ export const stakeFarm = async (masterChefContract: Contract, pid: number, amoun
 }
 
 export const unstakeFarm = async (masterChefContract: Contract, pid, amount) => {
-  await harvestFarm(masterChefContract, pid)
-  const tx = await masterChefContract.withdraw(pid, toWei(new BigNumber(amount)).toString(), {
-    gasPrice: calculateGasPrice(masterChefContract.provider),
-  })
+  const value = new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString()
+  const gasPrice = calculateGasPrice(masterChefContract.provider)
+
+  // if (pid === 0) {
+  //   const tx = await masterChefContract.unstake(value, { gasPrice })
+  //   const receipt = await tx.wait()
+  //   return receipt.status
+  // }
+
+  const tx: TransactionResponse = await masterChefContract.withdraw(pid, value, { gasPrice })
   const receipt = await tx.wait()
 
   if (!receipt.status) {
