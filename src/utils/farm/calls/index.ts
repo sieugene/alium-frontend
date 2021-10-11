@@ -32,7 +32,7 @@ export const stakeFarm = async (masterChefContract: Contract, pid: number, amoun
 
 export const unstakeFarm = async (masterChefContract: Contract, pid, amount) => {
   await harvestFarm(masterChefContract, pid)
-  const tx = await masterChefContract.withdraw(pid, toWei(amount).toString(), {
+  const tx = await masterChefContract.withdraw(pid, toWei(new BigNumber(amount)).toString(), {
     gasPrice: calculateGasPrice(masterChefContract.provider),
   })
   const receipt = await tx.wait()
