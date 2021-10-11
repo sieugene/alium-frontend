@@ -199,6 +199,7 @@
     "pleaseSwitchNetwork": "Please switch the network in your wallet to <b>{{networkToLabel}}</b>",
     "afterYouSwitchNetworks": "After you switch networks, you will complete a second transaction on {{shortedNetworkLabel}} to claim your {{tokenSymbol}} tokens.",
     "transactionFailed": "Transaction failed",
+    "yourWalletDoesntHave": "Your wallet doesn't have enough ALM to buy a ticket",
     "transferPending": "Transfer {{amount}} {{tokenSymbol}} pending...",
     "transactionIsPending": "Transaction is pending...",
     "confirmTheTransaction": "Confirm the transaction in your wallet",

@@ -16,7 +16,7 @@ interface Props {
   onClose?: () => void
 }
 
-const TransferError: FC<Props> = ({ children, onRepeat, className, style, withoutWrapper, withoutHeader, onClose }) => {
+const TransferError: FC<Props> = ({ onRepeat, className, style, withoutWrapper, withoutHeader, onClose }) => {
   const Wrapper = withoutWrapper ? Div : TransactionIndicateWrapper
   const { t } = useTranslation()
 
@@ -31,7 +31,8 @@ const TransferError: FC<Props> = ({ children, onRepeat, className, style, withou
         <Icon>
           <BridgeTransferErrorIcon />
         </Icon>
-        <h2 className='error'>{t('bridge.transactionFailed')}</h2>
+        <h2>{t('bridge.transactionFailed')}</h2>
+        <h3>{t('bridge.yourWalletDoesntHave')}</h3>
         <Button onClick={onRepeat}>{t('common.button.repeat')}</Button>
       </Error>
     </Wrapper>
@@ -43,6 +44,8 @@ export default TransferError
 // styles
 
 const Error = styled.div`
+  width: 80%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,7 +53,6 @@ const Error = styled.div`
 
   h2 {
     margin-top: 24px;
-    margin-bottom: 24px;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
@@ -58,6 +60,21 @@ const Error = styled.div`
     text-align: center;
     letter-spacing: 0.3px;
     color: #0b1359;
+  }
+
+  h3 {
+    margin-top: 16px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.3px;
+    color: #0b1359;
+  }
+
+  button {
+    margin-top: 24px;
   }
 `
 

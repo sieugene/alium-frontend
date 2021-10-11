@@ -59,7 +59,6 @@ FarmModalStatuses.ActionFarmError = () => {
         <BridgeTransferErrorIcon />
       </FarmModalStatuses.IconWrap>
       <h2 className='error-text'>Transaction failed</h2>
-      <h2 className='error-text'>Your wallet doesn&apos;t have enough ALM to buy a ticket</h2>
     </FarmModalStatuses.Wrapper>
   )
 }
