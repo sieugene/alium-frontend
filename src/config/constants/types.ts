@@ -1,5 +1,4 @@
 import { ChainId } from '@alium-official/sdk'
-import BigNumber from 'bignumber.js'
 import { TranslatableText } from 'state/types'
 
 export type IfoStatus = 'coming_soon' | 'live' | 'finished'
@@ -47,7 +46,6 @@ export interface Address {
 
 export type FarmPricedToken =
   | {
-      busdPrice: BigNumber
       chainId: ChainId
       address: string
       decimals: number
