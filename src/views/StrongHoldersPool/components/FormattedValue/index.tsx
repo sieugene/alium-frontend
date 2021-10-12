@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { formatBigNumber } from 'views/StrongHoldersPool/utils'
 
 export interface FormattedValueProps {
@@ -18,18 +19,7 @@ export default function FormattedValue({ value, tokenSymbol, className }: Format
   )
 }
 
-FormattedValue.Root = styled.div`
-  font-style: normal;
-  font-weight: bold;
-  font-size: 32px;
-  line-height: 40px;
-  letter-spacing: 0.3px;
-  color: #0b1359;
-`
+FormattedValue.Root = styled.div``
 FormattedValue.TokenSymbol = styled.span`
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.3px;
+  ${typography.ultrasmall.medium}
 `

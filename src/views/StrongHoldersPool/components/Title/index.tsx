@@ -1,14 +1,8 @@
 import styled from 'styled-components'
+import { typography } from 'views/StrongHoldersPool/mixins'
 
 const Title = styled.div`
-  font-style: normal;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 16px;
-
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-
+  ${typography.miniheader}
   color: #8990a5;
 `
 

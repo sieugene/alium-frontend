@@ -21,11 +21,19 @@ export default function NestedYour() {
   })
 
   if (!account) {
-    return <ConnectWallet />
+    return (
+      <NestedYour.Root>
+        <ConnectWallet />
+      </NestedYour.Root>
+    )
   }
 
   if (data?.length === 0) {
-    return <EmptyYourPools />
+    return (
+      <NestedYour.Root>
+        <EmptyYourPools />
+      </NestedYour.Root>
+    )
   }
 
   return (
@@ -55,6 +63,8 @@ NestedYour.Root = styled.div`
   }
 
   @media ${down(breakpoints.sm)} {
+    padding-top: 24px;
+
     ${NestedYour.Pools} {
       grid-template-columns: 1fr;
     }

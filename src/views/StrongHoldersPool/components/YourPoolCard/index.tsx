@@ -19,6 +19,7 @@ import {
   useRewardTokenSymbol,
   useWithdraw,
 } from 'views/StrongHoldersPool/hooks'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { isUserPaid } from 'views/StrongHoldersPool/utils'
 import BonusNft from '../BonusNft'
@@ -170,10 +171,7 @@ YourPoolCard.LeftOverlay = styled.div`
 `
 
 YourPoolCard.LeftOverlayCard = styled(Card)`
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-  letter-spacing: 0.3px;
+  ${typography.small.medium}
   color: #0b1359;
   padding: 13px;
   position: absolute;
@@ -217,13 +215,10 @@ YourPoolCard.Summary = styled.div`
 `
 
 YourPoolCard.Value = styled(FormattedValue)`
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 30px;
+  ${typography.big.medium}
 
   @media ${down(breakpoints.lg)} {
-    font-size: 18px;
-    line-height: 24px;
+    ${typography.regular.medium}
   }
 `
 
@@ -236,7 +231,6 @@ YourPoolCard.PoolCounters = styled.div`
 `
 
 YourPoolCard.UsersCounter = styled(YourPoolCard.Value)<{ isLoss?: boolean }>`
-  font-style: normal;
   font-weight: bold;
   font-size: 64px;
   line-height: 72px;
@@ -286,11 +280,7 @@ YourPoolCard.Root = styled(Card)`
     }
 
     ${YourPoolCard.UsersCounter} {
-      font-style: normal;
-      font-weight: bold;
-      font-size: 32px;
-      line-height: 24px;
-      letter-spacing: 0.3px;
+      ${typography.h4}
     }
 
     ${YourPoolCard.InfoActions} {

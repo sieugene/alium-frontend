@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import Card from '../Card'
 import FormattedValue from '../FormattedValue'
@@ -8,13 +9,14 @@ export interface StatsCardProps {
   title?: ReactNode
   icon?: ReactNode
   content?: ReactNode
+  className?: string
 }
 
-export default function StatsCard({ title, icon, content }: StatsCardProps) {
+export default function StatsCard({ title, icon, content, className }: StatsCardProps) {
   return (
-    <StatsCard.Root>
+    <StatsCard.Root className={className}>
       <StatsCard.Header>
-        {icon && <StatsCard.Icon>{icon}</StatsCard.Icon>}
+        {icon}
         {title}
       </StatsCard.Header>
       <StatsCard.Content>{content}</StatsCard.Content>
@@ -25,44 +27,55 @@ export default function StatsCard({ title, icon, content }: StatsCardProps) {
 StatsCard.Header = styled.div`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #f4f5fa;
-  padding: 16px 24px;
+
+  & > svg {
+    margin-right: 8px;
+  }
 `
 
 StatsCard.Content = styled.div`
-  padding: 41px 24px;
   flex: 1;
 `
 
-StatsCard.Icon = styled.div`
-  margin-right: 16px;
-`
-
 StatsCard.Value = styled(FormattedValue)`
+  ${typography.big.medium}
   color: #6c5dd3;
 `
 
 StatsCard.Root = styled(Card)`
   display: flex;
   flex-direction: column;
+  padding: 24px 16px;
+
+  & > * + * {
+    margin-top: 16px;
+  }
 
   @media ${down(breakpoints.lg)} {
-    ${StatsCard.Content} {
-      padding: 24px;
+    ${StatsCard.Value} {
+      ${typography.large.medium}
+    }
+
+    & > * + * {
+      margin-top: 8px;
     }
   }
 
   @media ${down(breakpoints.sm)} {
-    ${StatsCard.Value} {
-      font-style: normal;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 22px;
-      letter-spacing: 0.3px;
+    flex-direction: row;
+    padding: 16px;
+    justify-content: space-between;
+
+    ${StatsCard.Content} {
+      flex: initial;
     }
 
-    ${StatsCard.Icon} {
-      margin-right: 10px;
+    ${StatsCard.Value} {
+      ${typography.ultrasmall.medium}
+    }
+
+    & > * + * {
+      margin-top: 0;
     }
   }
 `
