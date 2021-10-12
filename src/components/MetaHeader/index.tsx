@@ -51,7 +51,6 @@ const defaultMeta = {
 // TODO when ssr work, refactor this
 const MetaHeader = () => {
   const router = useRouter()
-  console.log(router.pathname, '!!!!!!!!')
 
   const homeMeta = router.pathname === '/' && metaTags[0]
 

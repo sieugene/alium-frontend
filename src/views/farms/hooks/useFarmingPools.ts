@@ -5,9 +5,9 @@ import { BIG_ZERO } from 'config'
 import { getFarmsConfig } from 'config/constants/farms/farms'
 import useRefresh from 'hooks/useRefresh'
 import { useEffect, useMemo } from 'react'
-import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from 'store/farms'
+import { fetchFarmUserDataAsync } from 'store/farms'
+import fetchFarms from 'store/farms/fetchFarms'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
-import { getBalanceAmount } from 'utils/formatBalance'
 import { getAlmPrice } from 'utils/prices/getAlmPrice'
 import { storeFarms, useStoreFarms } from './../../../store/farms/useStoreFarms'
 
@@ -24,7 +24,7 @@ export const usePollFarmsPublicData = () => {
       setLoading(true)
       const farms = getFarmsConfig()
       try {
-        const farmsFetched = await fetchFarmsPublicDataAsync(farms)
+        const farmsFetched = await fetchFarms(farms)
         setFarms(farmsFetched)
       } catch (error) {
         console.error(error)
@@ -132,47 +132,7 @@ export const usePriceAlmBusd = (): BigNumber => {
   return almPriceBusd
 }
 
-// Return the base token price for a farm, from a given pid
-export const useBusdPriceFromPid = (pid: number): BigNumber => {
-  const farm = useFarmFromPid(pid)
-  return farm && new BigNumber(farm.tokenPriceBusd)
-}
-
 export const useLpTokenPrice = (symbol: string) => {
   const farm = useFarmFromLpSymbol(symbol)
-  const farmTokenPriceInUsd = usePriceAlmBusd()
-  let lpTokenPrice = BIG_ZERO
-
-  if (farm?.lpTotalSupply && farm?.lpTotalInQuoteToken) {
-    // Total value of base token in LP
-    const valueOfBaseTokenInFarm = farmTokenPriceInUsd.times(farm.tokenAmountTotal)
-    // Double it to get overall value in LP
-    const overallValueOfAllTokensInFarm = valueOfBaseTokenInFarm.times(2)
-    // Divide total value of all tokens, by the number of LP tokens
-    const totalLpTokens = getBalanceAmount(new BigNumber(farm.lpTotalSupply))
-    lpTokenPrice = overallValueOfAllTokensInFarm.div(totalLpTokens)
-  }
-
-  return lpTokenPrice
-}
-
-export function useUserFarmStakedOnly(isActive: boolean): [boolean, (stakedOnly: boolean) => void] {
-  // const dispatch = useDispatch<AppDispatch>()
-  // const userFarmStakedOnly = useSelector<AppState, AppState['user']['userFarmStakedOnly']>((state) => {
-  //   return state.user.userFarmStakedOnly
-  // })
-
-  // const setUserFarmStakedOnly = useCallback(
-  //   (stakedOnly: boolean) => {
-  //     const farmStakedOnly = stakedOnly ? FarmStakedOnly.TRUE : FarmStakedOnly.FALSE
-  //     dispatch(updateUserFarmStakedOnly({ userFarmStakedOnly: farmStakedOnly }))
-  //   },
-  //   [dispatch],
-  // )
-
-  // return [
-  //   userFarmStakedOnly === FarmStakedOnly.ON_FINISHED ? !isActive : userFarmStakedOnly === FarmStakedOnly.TRUE,
-  //   setUserFarmStakedOnly,
-  // ]
-  return [false, null]
+  return farm?.lpPrice || BIG_ZERO
 }
