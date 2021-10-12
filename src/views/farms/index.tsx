@@ -8,7 +8,6 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Farm } from 'state/types'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
-import { getFarmApr } from 'utils/farm/apr'
 import { latinise } from 'utils/farm/latinise'
 import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount'
 import FarmBanner from './components/FarmBanner'
@@ -22,16 +21,6 @@ import { useFarms, usePollFarmsWithUserData, usePriceAlmBusd } from './hooks/use
 import { useFarmsPooling } from './hooks/useFarmsPooling'
 
 const NUMBER_OF_FARMS_VISIBLE = 12
-
-const getDisplayApr = (cakeRewardsApr?: number, lpRewardsApr?: number) => {
-  if (cakeRewardsApr && lpRewardsApr) {
-    return (cakeRewardsApr + lpRewardsApr).toLocaleString('en-US', { maximumFractionDigits: 2 })
-  }
-  if (cakeRewardsApr) {
-    return cakeRewardsApr.toLocaleString('en-US', { maximumFractionDigits: 2 })
-  }
-  return null
-}
 
 const Farms = () => {
   const { pathname } = useRouter()
@@ -59,12 +48,6 @@ const Farms = () => {
   const { farmsUserDataLoading: userDataLoaded } = usePollFarmsWithUserData(isArchived)
   const ticketLoader = useStoreFarms((state) => state.ticketLoader)
 
-  // Users with no wallet connected should see 0 as Earned amount
-  // Connected users should see loading indicator until first userData has loaded
-  const userDataReady = !account || (!!account && userDataLoaded)
-
-  // const [stakedOnly] = useUserFarmStakedOnly(isActive)
-
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== '0X')
   const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === '0X')
 
@@ -79,17 +62,11 @@ const Farms = () => {
   const farmsList = useCallback(
     (farmsToDisplay: Farm[]): FarmWithStakedValue[] => {
       let farmsToDisplayWithAPR = farmsToDisplay.map((farm) => {
-        if (!farm.lpTotalInQuoteToken || !farm.quoteTokenPriceBusd) {
+        if (!farm.lpTotalInQuoteToken) {
           return farm
         }
-        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteTokenPriceBusd)
 
-        const { cakeRewardsApr, lpRewardsApr } = isActive
-          ? getFarmApr(new BigNumber(farm.poolWeight), almPrice, totalLiquidity, farm.lpAddresses[chainId])
-          : { cakeRewardsApr: 0, lpRewardsApr: 0 }
-
-        // return { ...farm, apr: cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
-        return { ...farm, apr: farm?.apy || cakeRewardsApr, lpRewardsApr, liquidity: totalLiquidity }
+        return { ...farm, apr: farm?.apy }
       })
 
       if (query) {
@@ -111,13 +88,13 @@ const Farms = () => {
     const sortFarms = (farms: FarmWithStakedValue[]) => {
       switch (sortOption) {
         case 'Hot':
-          return orderBy(farms, (farm) => farm.apr + farm.lpRewardsApr, 'desc')
+          return orderBy(farms, (farm) => farm.apr, 'desc')
         case 'Multiplier':
           return orderBy(farms, (farm) => (farm.multiplier ? Number(farm.multiplier.slice(0, -1)) : 0), 'desc')
         case 'Earned':
           return orderBy(farms, (farm) => (farm.userData ? Number(farm.userData.earnings) : 0), 'desc')
         case 'Liquidity':
-          return orderBy(farms, (farm) => Number(farm.liquidity), 'desc')
+          return orderBy(farms, (farm) => Number(farm.liqudity), 'desc')
         default:
           return farms
       }

@@ -80,7 +80,8 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLa
   const toggle = () => {
     setOpen(!open)
   }
-  const totalLiqudidty = farm.liquidity?.gt(0) ? `$${farm.liquidity.precision(6)}` : '0$'
+
+  const totalLiqudidty = farm.liqudity + '$'
 
   return (
     <>

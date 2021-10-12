@@ -337,7 +337,7 @@ export interface InfoTotalLiquidityProps {
 export function InfoTotalLiquidity({ farm }: InfoTotalLiquidityProps) {
   const loading = useFarmsLoading()
 
-  const totalLiqudidty = farm.liquidity?.gt(0) ? `$${farm.liquidity.precision(6)}` : '0$'
+  const totalLiqudidty = farm.liqudity + '$'
   return (
     <>
       <InfoTitle>Total Liquidity</InfoTitle>
