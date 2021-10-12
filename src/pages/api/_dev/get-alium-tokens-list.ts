@@ -1,3 +1,4 @@
+import { isProduction } from 'config'
 import fs from 'fs'
 import request from 'request'
 import { networkTokensLPMigrationVampiring } from 'store/network/data/networkTokensLPMigrationVampiring'
@@ -15,7 +16,7 @@ const download = function (uri, filename, callback) {
 }
 
 const handler = async (req, res) => {
-  if (process.env.APP_ENV !== 'development') {
+  if (isProduction) {
     res.end()
     return
   }

@@ -1,6 +1,6 @@
 import { JSBI, TokenAmount } from '@alium-official/sdk'
 import { parseUnits } from '@ethersproject/units'
-import { Button, Flex, Heading, Text } from 'alium-uikit/src'
+import { Button, Flex, Text } from 'alium-uikit/src'
 import axios from 'axios'
 import { GreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
@@ -8,6 +8,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import Modal from 'components/Modal'
 import { RowBetween } from 'components/Row'
 import { TransactionSubmittedContent, TransactionSucceedContent } from 'components/TransactionConfirmationModal'
+import { isProduction } from 'config'
 import { NFT_PRIVATE_ADDRESS } from 'constants/abis/nftPrivate'
 import { useActiveWeb3React } from 'hooks'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
@@ -58,7 +59,6 @@ const CardWrapper = styled.div`
   width: 100%;
   font-family: Roboto, sans-serif;
   max-width: 906px;
-  width: 100%;
   margin: 0 auto;
   position: relative;
 
@@ -71,68 +71,6 @@ const CardWrapper = styled.div`
   }
   @media screen and (max-width: 790px) {
     padding: 0;
-  }
-`
-
-const StyledHeading = styled(Heading)`
-  &.heading--desktop {
-    display: none;
-  }
-  &.heading--mobile {
-    display: none;
-  }
-  @media screen and (max-width: 1170px) {
-    &.heading--desktop {
-      display: block;
-      font-size: 32px;
-      text-align: center;
-    }
-  }
-  @media screen and (max-width: 850px) {
-    &.heading--desktop {
-      display: block;
-      font-size: 32px;
-      text-align: left;
-      margin: 36px 0 24px 0;
-    }
-  }
-  @media screen and (max-width: 850px) {
-    &.heading--desktop {
-      display: none;
-    }
-    &.heading--mobile {
-      display: block;
-      text-align: left;
-      letter-spacing: 0.3px;
-      margin-bottom: 24px;
-    }
-  }
-  @media screen and (max-width: 790px) {
-    &.heading--mobile {
-      font-size: 28px;
-      text-align: center;
-      line-height: 34.1px;
-    }
-  }
-  @media screen and (max-width: 544px) {
-    padding: 0 78px;
-  }
-  @media screen and (max-width: 482px) {
-    padding: 0 60px;
-  }
-  @media screen and (max-width: 446px) {
-    padding: 0 60px;
-  }
-  @media screen and (max-width: 446px) {
-    padding: 0 30px;
-  }
-  @media screen and (max-width: 386px) {
-    padding: 0;
-  }
-  @media screen and (max-width: 480px) {
-    &.heading--mobile {
-      // margin-bottom: 70px
-    }
   }
 `
 
@@ -180,7 +118,7 @@ const StyledTextWrapper = styled.div`
 
 const NotifyMembers = (hash, currency) => {
   const explorer = 'https://bscscan.com/tx'
-  if (process.env.APP_ENV !== 'development') {
+  if (isProduction) {
     emails.forEach((email) => {
       const obj = {
         to: email,
@@ -246,11 +184,10 @@ const StrategicalPartnershipHome = () => {
   const cardPrice = '100000'
 
   const handleBuy = () => {
-    const totalAmount = cardPrice
     const args = [
       currencies.match[values.currency]?.address,
       '5',
-      parseUnits(totalAmount, currencies.match[values.currency]?.decimals),
+      parseUnits(cardPrice, currencies.match[values.currency]?.decimals),
     ]
     nftContract?.estimateGas
       .buy(...args, { from: account })
