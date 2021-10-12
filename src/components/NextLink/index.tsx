@@ -4,7 +4,7 @@ import { AnchorHTMLAttributes, CSSProperties, FC } from 'react'
 
 type Props = LinkProps & {
   className?: string
-  target: string
+  target?: string
   style?: CSSProperties
   id?: string
 }
