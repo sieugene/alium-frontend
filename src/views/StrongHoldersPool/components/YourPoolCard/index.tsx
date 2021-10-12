@@ -145,17 +145,44 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
               )}
             </YourPoolCard.Field>
           </YourPoolCard.PoolCounters>
+          {isPaid && <YourPoolCard.LeftOverlayCard>You left the pool</YourPoolCard.LeftOverlayCard>}
         </YourPoolCard.Summary>
         {isDetails && (
           <YourPoolCard.Details>
             <Details poolId={poolId} />
           </YourPoolCard.Details>
         )}
+        {isPaid && <YourPoolCard.LeftOverlay />}
       </YourPoolCard.Root>
       <ConnectionLoad load={withdrawLoading || claimLoading} />
     </>
   )
 }
+
+YourPoolCard.LeftOverlay = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(210, 214, 229, 0.7);
+  pointer-events: none;
+`
+
+YourPoolCard.LeftOverlayCard = styled(Card)`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.3px;
+  color: #0b1359;
+  padding: 13px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+`
 
 YourPoolCard.Info = styled.div`
   padding-top: 16px;
@@ -186,6 +213,7 @@ YourPoolCard.Summary = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  position: relative;
 `
 
 YourPoolCard.Value = styled(FormattedValue)`
@@ -229,6 +257,7 @@ YourPoolCard.Details = styled.div`
 YourPoolCard.Root = styled(Card)`
   padding: 24px 24px 32px;
   position: relative;
+  overflow: hidden;
 
   @media ${down(breakpoints.lg)} {
     padding: 12px 8px 24px;
