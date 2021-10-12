@@ -1,6 +1,8 @@
+import { Button } from 'alium-uikit/src'
 import { ShadowComponent } from 'components/Main/ShadowComponent'
 import { BridgeSuccessIcon } from 'images/bridge/BridgeSuccessIcon'
 import { BridgeTransferErrorIcon } from 'images/bridge/BridgeTransferErrorIcon'
+import { TFunction, useTranslation } from 'next-i18next'
 import React from 'react'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
@@ -13,16 +15,18 @@ interface ActionFarmProps {
   error: boolean
   children: React.ReactNode
   type: FarmActionModalProps['type']
+  onRepeat: () => void
 }
 
-export const FarmModalStatuses = ({ loading, success, error, children, type }: ActionFarmProps) => {
+export const FarmModalStatuses = ({ loading, success, error, children, type, onRepeat }: ActionFarmProps) => {
+  const { t } = useTranslation()
   const hideOn = loading || success || error
 
   return (
     <FarmModalStatuses.Wrapper>
       {loading && <FarmModalStatuses.ActionFarmLoader />}
       {success && <FarmModalStatuses.ActionFarmSuccess type={type} />}
-      {error && <FarmModalStatuses.ActionFarmError />}
+      {error && <FarmModalStatuses.ActionFarmError t={t} onRepeat={onRepeat} />}
       <ShadowComponent hide={hideOn} style={{ width: '100%' }}>
         {children}
       </ShadowComponent>
@@ -52,13 +56,16 @@ FarmModalStatuses.ActionFarmSuccess = ({ type }: { type: FarmActionModalProps['t
   )
 }
 
-FarmModalStatuses.ActionFarmError = () => {
+FarmModalStatuses.ActionFarmError = ({ t, onRepeat }: { t: TFunction; onRepeat: () => void }) => {
   return (
     <FarmModalStatuses.Wrapper>
       <FarmModalStatuses.IconWrap>
         <BridgeTransferErrorIcon />
       </FarmModalStatuses.IconWrap>
       <h2 className='error-text'>Transaction failed</h2>
+      <Button onClick={onRepeat} className='repeat'>
+        {t('common.button.repeat')}
+      </Button>
     </FarmModalStatuses.Wrapper>
   )
 }
@@ -116,6 +123,9 @@ FarmModalStatuses.Wrapper = styled(ModalFarmBaseWrap)`
   .error-text {
     width: 70%;
     text-align: center;
+  }
+  .repeat {
+    margin-top: 24px;
   }
 `
 
