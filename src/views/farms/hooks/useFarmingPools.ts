@@ -123,15 +123,11 @@ export const useFarmUser = (pid: number) => {
 }
 
 export const usePriceAlmBusd = (): BigNumber => {
-  const almBnbFarm = useFarmFromPid(1)
-
-  const almPriceBusdAsString = almBnbFarm.token.busdPrice
+  const almCookiePrice = getAlmPrice()
 
   const almPriceBusd = useMemo(() => {
-    const almCookiePrice = getAlmPrice()
-    const price = almPriceBusdAsString && !!Number(almPriceBusdAsString) ? almPriceBusdAsString : almCookiePrice
-    return new BigNumber(price)
-  }, [almPriceBusdAsString])
+    return new BigNumber(almCookiePrice)
+  }, [almCookiePrice])
 
   return almPriceBusd
 }
