@@ -20,8 +20,6 @@ const BuyTicketModal: FC<Props> = ({ modalOpen, onDismiss }) => {
     setBuyStep(false)
   }
 
-  console.log('buyStep:', buyStep)
-
   useEffect(() => {
     window.ethereum.on('accountsChanged', () => {
       onDismiss()
