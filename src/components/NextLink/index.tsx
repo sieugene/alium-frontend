@@ -4,16 +4,23 @@ import { AnchorHTMLAttributes, CSSProperties, FC } from 'react'
 
 type Props = LinkProps & {
   className?: string
+  target: string
   style?: CSSProperties
   id?: string
 }
 
 type DuplicatedProps = Props & { handleClick?: () => void } & AnchorHTMLAttributes<HTMLAnchorElement>
 
-export const NextLink: FC<Props> & { Multiple: FC<DuplicatedProps> } = ({ href, children, className, ...other }) => {
+export const NextLink: FC<Props> & { Multiple: FC<DuplicatedProps> } = ({
+  href,
+  children,
+  className,
+  target,
+  ...other
+}) => {
   return (
     <Link href={href || '/'} {...other}>
-      <a href={(href as string) || '/'} className={className || ''}>
+      <a href={(href as string) || '/'} target={target} className={className || ''}>
         {children}
       </a>
     </Link>
