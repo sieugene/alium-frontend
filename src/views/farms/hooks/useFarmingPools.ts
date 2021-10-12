@@ -135,7 +135,7 @@ export const usePriceAlmBusd = (): BigNumber => {
 // Return the base token price for a farm, from a given pid
 export const useBusdPriceFromPid = (pid: number): BigNumber => {
   const farm = useFarmFromPid(pid)
-  return farm && new BigNumber(farm.token.busdPrice)
+  return farm && new BigNumber(farm.tokenPriceBusd)
 }
 
 export const useLpTokenPrice = (symbol: string) => {

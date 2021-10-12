@@ -8,7 +8,6 @@ import { multicallWithDecoder } from 'utils/multicall'
 import { fetchApy } from './fetchApy'
 
 interface PublicFarmData {
-  tokenAmountMc: SerializedBigNumber
   quoteTokenAmountMc: SerializedBigNumber
   tokenAmountTotal: SerializedBigNumber
   quoteTokenAmountTotal: SerializedBigNumber
@@ -72,8 +71,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     const tokenAmountTotal = new BigNumber(tokenBalanceLP).div(BIG_TEN.pow(tokenDecimals))
     const quoteTokenAmountTotal = new BigNumber(quoteTokenBalanceLP).div(BIG_TEN.pow(quoteTokenDecimals))
 
-    // Amount of token in the LP that are staked in the MC (i.e amount of token * lp ratio)
-    const tokenAmountMc = tokenAmountTotal.times(lpTokenRatio)
+    // Amount of quoteToken in the LP that are staked in the MC
     const quoteTokenAmountMc = quoteTokenAmountTotal.times(lpTokenRatio)
 
     // Total staked in LP, in quote token value
@@ -114,7 +112,6 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     )
 
     return {
-      tokenAmountMc: tokenAmountMc.toJSON(),
       quoteTokenAmountMc: quoteTokenAmountMc.toJSON(),
       tokenAmountTotal: tokenAmountTotal.toJSON(),
       quoteTokenAmountTotal: quoteTokenAmountTotal.toJSON(),
@@ -128,7 +125,6 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     }
   } catch (error) {
     return {
-      tokenAmountMc: '0',
       quoteTokenAmountMc: '0',
       tokenAmountTotal: '0',
       quoteTokenAmountTotal: '0',
