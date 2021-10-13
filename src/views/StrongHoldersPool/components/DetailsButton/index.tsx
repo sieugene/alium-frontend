@@ -1,6 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from 'alium-uikit/src'
 import { ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
+import { typography } from 'views/StrongHoldersPool/mixins'
 
 export interface DetailsButtonProps extends ComponentPropsWithoutRef<'button'> {
   isOpen?: boolean
@@ -16,15 +17,11 @@ export default function DetailsButton({ isOpen, ...restProps }: DetailsButtonPro
 }
 
 DetailsButton.Root = styled.button`
+  ${typography.button.main}
   background: none;
   border: none;
   display: inline-flex;
   align-items: center;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 1px;
   color: #8990a5;
   cursor: pointer;
   padding: 0;

@@ -10,6 +10,7 @@ import {
   usePoolNftWithdrawRewards,
   useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { isUserPaid } from 'views/StrongHoldersPool/utils'
 import YourPoolCard from '.'
 import NftItemReward from '../NftItemReward'
@@ -66,11 +67,7 @@ PickUpFunds.Value = styled.div`
 `
 
 PickUpFunds.Profit = styled.div<{ isLoss?: boolean }>`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
-  line-height: 14px;
-  letter-spacing: 0.3px;
+  ${typography.tiny.medium}
   color: #1ea76d;
   margin-top: 4px;
 

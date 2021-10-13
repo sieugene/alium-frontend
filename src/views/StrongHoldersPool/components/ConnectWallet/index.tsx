@@ -1,6 +1,7 @@
 import { Button, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import styled from 'styled-components'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import Card from '../Card'
 import { ReactComponent as PlusIcon } from './plus.svg'
@@ -29,11 +30,8 @@ ConnectWallet.Button = styled(Button)`
 `
 
 ConnectWallet.Text = styled.div`
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 30px;
+  ${typography.h6}
   text-align: center;
-  letter-spacing: 0.3px;
   color: #0b1359;
   margin: 16px 0 24px;
 `
@@ -50,8 +48,7 @@ ConnectWallet.Root = styled(Card)`
     min-height: 320px;
 
     ${ConnectWallet.Text} {
-      font-size: 18px;
-      line-height: 24px;
+      ${typography.regular.medium}
     }
   }
 `

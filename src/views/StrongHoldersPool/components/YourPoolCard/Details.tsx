@@ -13,6 +13,7 @@ import {
   usePoolWithdrawals,
   useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { Withdrawn } from 'views/StrongHoldersPool/types'
 import { formatAddress, formatBigNumber, isUserPaid } from 'views/StrongHoldersPool/utils'
 import PoolDetailsInfo from '../PoolDetailsInfo'
@@ -86,11 +87,7 @@ export default function Details({ poolId }: DetailsProps) {
 Details.Root = styled.div``
 
 Details.HistoryTitle = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-  letter-spacing: 0.3px;
+  ${typography.small.medium};
   color: #6c5dd3;
   margin: 24px 0 16px;
 `
@@ -104,7 +101,6 @@ Details.HistoryTable = styled.table`
 
   th {
     padding: 8px;
-    font-style: normal;
     font-weight: bold;
     font-size: 12px;
     line-height: 14px;
@@ -123,11 +119,7 @@ Details.HistoryTable = styled.table`
 
   td {
     padding: 6px 8px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
+    ${typography.ultrasmall.medium}
     color: #8990a5;
     vertical-align: middle;
 

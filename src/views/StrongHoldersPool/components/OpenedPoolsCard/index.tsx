@@ -1,9 +1,9 @@
 import { Skeleton } from 'alium-uikit/src'
 import { ethersToBN } from 'utils/bigNumber'
 import { useOpenedPools } from 'views/StrongHoldersPool/hooks'
+import { PoolIcon } from 'views/StrongHoldersPool/icons'
 import StatsCard from '../StatsCard'
 import Title from '../Title'
-import { ReactComponent as PoolIcon } from './pool.svg'
 
 export default function OpenedPoolsCard() {
   const { data: openedPools } = useOpenedPools()

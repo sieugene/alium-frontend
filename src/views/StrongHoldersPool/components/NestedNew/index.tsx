@@ -2,14 +2,15 @@ import styled from 'styled-components'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import JoinPoolCard from '../JoinPoolCard'
 import LockedInPoolsCard from '../LockedInPoolsCard'
+import MyPoolAmountCard from '../MyPoolAmountCard'
 import OpenedPoolsCard from '../OpenedPoolsCard'
-import StatsCard from '../StatsCard'
 
 export default function NestedNew() {
   return (
     <NestedNew.Root>
       <JoinPoolCard />
       <NestedNew.Stats>
+        <MyPoolAmountCard />
         <OpenedPoolsCard />
         <LockedInPoolsCard />
       </NestedNew.Stats>
@@ -18,68 +19,53 @@ export default function NestedNew() {
 }
 
 NestedNew.Stats = styled.div`
-  display: grid;
-  gap: 30px;
+  display: flex;
+  flex-direction: column;
   flex-basis: 354px;
   margin-left: 30px;
+
+  & > * {
+    flex: 1;
+  }
+
+  & > * + * {
+    margin-top: 30px;
+  }
 `
 
 NestedNew.Root = styled.div`
   display: flex;
-  align-items: flex-start;
 
   & > ${JoinPoolCard.Root} {
     flex: 1;
   }
 
   @media ${down(breakpoints.lg)} {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: stretch;
 
     ${NestedNew.Stats} {
       flex-basis: auto;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      flex-direction: row;
       margin-left: 0;
-      margin-top: 16px;
+      margin-bottom: 16px;
+
+      & > * + * {
+        margin-top: 0;
+        margin-left: 16px;
+      }
     }
   }
 
   @media ${down(breakpoints.sm)} {
-    flex-direction: column-reverse;
+    padding-top: 16px;
 
     ${NestedNew.Stats} {
-      gap: 0;
-      background: #fff;
-      border-radius: 6px;
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
+      margin-top: 16px;
+      flex-direction: column;
 
-    && ${StatsCard.Header} {
-      padding: 12px 16px;
-    }
-
-    && ${StatsCard.Content} {
-      padding: 16px;
-    }
-
-    ${StatsCard.Root} {
-      background: none;
-      border-radius: 0;
-
-      :first-child {
-        ${StatsCard.Header},
-        ${StatsCard.Content} {
-          padding-right: 2px;
-        }
-      }
-
-      :last-child {
-        ${StatsCard.Header},
-        ${StatsCard.Content} {
-          padding-left: 2px;
-        }
+      & > * + * {
+        margin-left: 0;
       }
     }
   }

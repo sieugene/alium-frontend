@@ -1,5 +1,6 @@
 import { Card } from 'alium-uikit/src'
 import styled from 'styled-components'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { ReactComponent as Icon } from './icon.svg'
 
@@ -13,11 +14,8 @@ export default function EmptyYourPools() {
 }
 
 EmptyYourPools.Text = styled.div`
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 30px;
+  ${typography.h6}
   text-align: center;
-  letter-spacing: 0.3px;
   color: #0b1359;
   margin-top: 16px;
 `
@@ -34,8 +32,7 @@ EmptyYourPools.Root = styled(Card)`
     min-height: 248px;
 
     ${EmptyYourPools.Text} {
-      font-size: 18px;
-      line-height: 24px;
+      ${typography.regular.medium}
     }
   }
 `

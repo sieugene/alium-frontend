@@ -2,6 +2,7 @@ import { ChevronRightIcon } from 'alium-uikit/src/components/Svg'
 import { StyledInternalLink } from 'components/Shared'
 import styled from 'styled-components'
 import Title from 'views/StrongHoldersPool/components/Title'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import NftItem from '../NftItem'
 
 export interface NftItemCounterProps {
@@ -30,13 +31,8 @@ NftItemCounter.Root = styled.div`
 `
 
 NftItemCounter.Counter = styled.div`
-  margin-top: 4px;
-  margin-bottom: 4px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 30px;
-  letter-spacing: 0.3px;
+  ${typography.h6}
+  margin: 4px 0;
   color: #0b1359;
 `
 
