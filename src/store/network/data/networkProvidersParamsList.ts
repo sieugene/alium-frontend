@@ -70,11 +70,4 @@ export const networkProvidersParamsList: { [key: number]: AddEthereumChainParame
     rpcUrls: networkRpcUrlsList[ChainId.ETHER_TESTNET],
     blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
   },
-  [ChainId.ETHER_TESTNET]: {
-    chainId: `0x${ChainId.ETHER_TESTNET.toString(16)}`,
-    chainName: 'Ethereum Chain',
-    nativeCurrency: nativeCurrencies[ChainId.ETHER_TESTNET],
-    rpcUrls: networkRpcUrlsList[ChainId.ETHER_TESTNET],
-    blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
-  },
 }

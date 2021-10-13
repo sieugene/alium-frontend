@@ -3,6 +3,8 @@ import { ChainId } from '@alium-official/sdk'
 /* eslint-disable @typescript-eslint/member-ordering */
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { AbstractConnectorArguments, ConnectorUpdate } from '@web3-react/types'
+import { getNetworkProviderParams } from 'store/network/lib/getNetworkProviderParams'
+import { WindowChain } from 'types'
 
 export class Web3InjectedConnector extends InjectedConnector {
   private chainId: number
@@ -20,25 +22,34 @@ export class Web3InjectedConnector extends InjectedConnector {
     const ethereum = window.ethereum
     try {
       if (this.inForced) {
-      // https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
-       await ethereum.request({
+        // https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
+        await ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: `0x${this.chainId.toString(16)}` }],
         })
       }
-    } catch(switchError) {
+    } catch (switchError) {
       if (switchError.code === 32002) {
-          // await ethereum.request({
-          //   method: 'wallet_addEthereumChain',
-          //   params: [{ chainId: '0xf00', rpcUrl: 'https://...' /* ... */ }],
-          return console.log(switchError)
-          };
+        // await ethereum.request({
+        //   method: 'wallet_addEthereumChain',
+        //   params: [{ chainId: '0xf00', rpcUrl: 'https://...' /* ... */ }],
+        return console.log(switchError)
+      }
     }
+  }
+
+  public async addNetworkInWallet() {
+    const newNetworkProviderParams = getNetworkProviderParams(this.chainId)
+    await (window as WindowChain).ethereum.request({
+      method: 'wallet_addEthereumChain',
+      params: [newNetworkProviderParams],
+    })
   }
 
   public async activate(): Promise<ConnectorUpdate> {
     try {
       await this.notifyMetamask()
+      await this.addNetworkInWallet()
       return super.activate()
     } catch (error) {
       return error

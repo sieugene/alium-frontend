@@ -74,19 +74,24 @@ const useAuth = () => {
 
   const logout = useCallback(async () => {
     toggleLoadConnection(true)
-    deactivate()
-
-    if (connector instanceof WalletConnectConnector) {
-      connector.close()
-      connector.walletConnectProvider = null
+    try {
+      clearWalletConnect()
+      await deactivate()
+      if (connector instanceof WalletConnectConnector) {
+        connector.close()
+        connector.walletConnectProvider = null
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      toggleLoadConnection(false)
     }
-
-    toggleLoadConnection(false)
   }, [connector, deactivate, toggleLoadConnection])
 
   const retryConnect = useCallback(
     async (chainId: ChainId, connector) => {
       const hasSetup = await storeNetwork.getState().setupNetwork(chainId)
+
       const isWalletConnect = connector instanceof WalletConnectConnector
       if (hasSetup || isWalletConnect) {
         try {
@@ -151,10 +156,16 @@ const useAuth = () => {
         toggleLoadConnection(false)
       }
     },
-    [toggleLoadConnection, activate, endConnection, errorHandlerWithRetry, retryConnect, web3, toastError],
+    // Infinite loop! (don't add new depend)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [activate, sendDataToGTM, setConnectionError, toastError, deactivate],
   )
 
   return { login, logout }
+}
+
+const clearWalletConnect = () => {
+  localStorage.removeItem('walletconnect')
 }
 
 export default useAuth

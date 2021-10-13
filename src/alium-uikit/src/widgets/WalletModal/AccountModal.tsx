@@ -49,7 +49,7 @@ const AccountModal: FC<Props> = ({
 
   React.useEffect(() => {
     ;(async () => {
-      await etherBalance()
+      await etherBalance(account)
     })()
   }, [])
 

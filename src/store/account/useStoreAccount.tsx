@@ -15,7 +15,7 @@ export interface StoreAccountState {
     onChain: number
   } | null
   [key: string]: any
-  etherBalance: () => Promise<StoreAccountState['balance']>
+  etherBalance: (_account?: string) => Promise<StoreAccountState['balance']>
 }
 
 const accountInWeb3 = () => process.browser && window?.ethereum?.selectedAddress
@@ -40,13 +40,14 @@ export const storeAccount = createVanilla<StoreAccountState>((set, get) => ({
       })
     }
   },
-  async etherBalance() {
-    const account = get().currentAccountAddress || accountInWeb3()
+  async etherBalance(_account: string) {
+    const account = get().currentAccountAddress || accountInWeb3() || _account
     const chainId = storeNetwork.getState().currentChainId
     const currentBalance = get().balance
 
     if (account && chainId && (!currentBalance || currentBalance?.onChain !== chainId)) {
       const resBalance = await getWeb3NoAccount()?.eth?.getBalance(account)
+
       const currencyBalance = CurrencyAmount?.ether(JSBI.BigInt(resBalance?.toString() || '0'), chainId)
       const balance = {
         currencyBalance,
