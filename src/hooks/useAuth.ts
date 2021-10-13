@@ -16,13 +16,12 @@ import { useActiveWeb3React } from 'hooks'
 import React, { useCallback } from 'react'
 import { useToast } from 'state/hooks'
 import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
-import { clearWalletConnect } from 'utils/connection/walletConnect'
 import GTM from 'utils/gtm'
 import { getConnectorsByName } from 'utils/web3React'
 import { WEB3NetworkErrors } from './../constants/network/NetworkErrors.contanst'
 
 const useAuth = () => {
-  const { activate, deactivate } = useWeb3React()
+  const { activate, deactivate, connector } = useWeb3React()
   const web3 = process.browser && window.web3
   const { toastError } = useToast()
   const sendDataToGTM = useGTMDispatch()
@@ -75,15 +74,15 @@ const useAuth = () => {
 
   const logout = useCallback(async () => {
     toggleLoadConnection(true)
-    try {
-      clearWalletConnect()
-      await deactivate()
-    } catch (error) {
-      console.error(error)
-    } finally {
-      toggleLoadConnection(false)
+    deactivate()
+
+    if (connector instanceof WalletConnectConnector) {
+      connector.close()
+      connector.walletConnectProvider = null
     }
-  }, [deactivate, toggleLoadConnection])
+
+    toggleLoadConnection(false)
+  }, [connector, deactivate, toggleLoadConnection])
 
   const retryConnect = useCallback(
     async (chainId: ChainId, connector) => {
@@ -116,11 +115,14 @@ const useAuth = () => {
     [activate, logout, setConnectionError, toastError],
   )
 
-  const endConnection = (chainId: any) => {
-    GTM.connectWallet(sendDataToGTM, chainId)
-    setConnectionError(null)
-    toggleLoadConnection(false)
-  }
+  const endConnection = useCallback(
+    (chainId: any) => {
+      GTM.connectWallet(sendDataToGTM, chainId)
+      setConnectionError(null)
+      toggleLoadConnection(false)
+    },
+    [sendDataToGTM, setConnectionError, toggleLoadConnection],
+  )
 
   const login = useCallback(
     // offIndicate for eager connect
@@ -149,7 +151,7 @@ const useAuth = () => {
         toggleLoadConnection(false)
       }
     },
-    [activate, sendDataToGTM, setConnectionError, toastError, deactivate],
+    [toggleLoadConnection, activate, endConnection, errorHandlerWithRetry, retryConnect, web3, toastError],
   )
 
   return { login, logout }

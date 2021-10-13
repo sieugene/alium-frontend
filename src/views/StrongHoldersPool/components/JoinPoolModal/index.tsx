@@ -172,7 +172,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
 }
 
 JoinPoolModal.Content = styled.div`
-  min-width: 450px;
+  width: 450px;
   max-width: 100%;
 `
 

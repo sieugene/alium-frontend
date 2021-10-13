@@ -1,7 +1,9 @@
+// organize-imports-ignore
+import 'config/bignumber'
+
 import { GTMProvider } from '@elgorditosalsero/react-gtm-hook'
 import Loaders from 'components/Loaders'
 import MetaHeader from 'components/MetaHeader'
-import 'config'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'

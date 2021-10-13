@@ -82,9 +82,9 @@ const FarmActionModal = ({
     pairName: tokenName,
   }
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
-
   const link = getExplorerLink(currentChainId, useFarmLpAddress(farm), 'address')
 
+  // inputs
   const handleChange = useCallback(
     (value: string) => {
       setVal(value)
@@ -98,15 +98,31 @@ const FarmActionModal = ({
     setPrincipalFromTokenValue(fullBalance)
   }, [fullBalance, setPrincipalFromTokenValue])
 
+  // transaction actions
+  const confirm = async () => {
+    try {
+      setPendingTx(true)
+      await onConfirm(val)
+      setSuccess(true)
+    } catch (error) {
+      seterror(true)
+    } finally {
+      setPendingTx(false)
+    }
+  }
+  const onRepeat = async () => {
+    seterror(false)
+    await confirm()
+  }
+
   const [onShowRoi] = useModal(<RoiModal almPrice={almPrice} farm={farm} />)
 
   const wrongAmount = !val || Number(val) <= 0 || Number(val) > Number(fullBalance)
-
   const lockBtn = pendingTx || wrongAmount
 
   return (
     <Modal title={title} onDismiss={onDismiss} withoutContentWrapper>
-      <FarmModalStatuses loading={pendingTx} success={success} error={error} type={type}>
+      <FarmModalStatuses loading={pendingTx} success={success} error={error} type={type} onRepeat={onRepeat}>
         <FarmActionModal.ModalWrapper>
           <CurrencyInputPanel
             label='Stake'
@@ -137,22 +153,7 @@ const FarmActionModal = ({
             <Button fullwidth variant='secondary' onClick={onDismiss}>
               {TranslateString(462, 'Cancel')}
             </Button>
-            <Button
-              fullwidth
-              disabled={lockBtn}
-              onClick={async () => {
-                try {
-                  setPendingTx(true)
-                  await onConfirm(val)
-                  setSuccess(true)
-                } catch (error) {
-                  seterror(true)
-                } finally {
-                  setPendingTx(false)
-                }
-                // onDismiss()
-              }}
-            >
+            <Button fullwidth disabled={lockBtn} onClick={confirm}>
               {pendingTx ? TranslateString(488, 'Pending Confirmation') : TranslateString(464, 'Confirm')}
             </Button>
           </FarmActionModal.ModalActions>

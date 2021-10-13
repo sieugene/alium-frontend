@@ -12,24 +12,31 @@ export type TranslatableText =
       }
     }
 export type SerializedBigNumber = string
-export interface Farm extends FarmConfig {
-  tokenAmountMc?: SerializedBigNumber
-  quoteTokenAmountMc?: SerializedBigNumber
-  tokenAmountTotal?: SerializedBigNumber
-  quoteTokenAmountTotal?: SerializedBigNumber
-  lpTotalInQuoteToken?: SerializedBigNumber
-  lpTotalSupply?: SerializedBigNumber
-  tokenPriceVsQuote?: SerializedBigNumber
-  poolWeight?: SerializedBigNumber
-  depositFee?: number
-  apy?: number
-  userData?: {
-    allowance: string
-    tokenBalance: string
-    stakedBalance: string
-    earnings: string
-  }
+
+export interface PublicFarmData {
+  quoteTokenAmountMc: SerializedBigNumber
+  tokenAmountTotal: SerializedBigNumber
+  quoteTokenAmountTotal: SerializedBigNumber
+  lpTotalInQuoteToken: SerializedBigNumber
+  lpTotalSupply: SerializedBigNumber
+  tokenPriceVsQuote: SerializedBigNumber
+  poolWeight: SerializedBigNumber
+  multiplier: string
+  depositFee: number
+  apy: number
+  liqudity: number
+  lpPrice: BigNumber
 }
+
+export type Farm = Partial<PublicFarmData> &
+  FarmConfig & {
+    userData?: {
+      allowance: string
+      tokenBalance: string
+      stakedBalance: string
+      earnings: string
+    }
+  }
 export type FarmWithUserData = { pid: Farm['pid'] } & Farm['userData']
 export interface Pool extends PoolConfig {
   totalStaked?: BigNumber
