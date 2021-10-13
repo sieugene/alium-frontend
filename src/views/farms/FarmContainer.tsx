@@ -13,8 +13,7 @@ const AppWrapper = styled.div`
 
 const BodyWrapper = styled.div`
   width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   z-index: 1;
   min-height: 100vh;
   padding: 32px 33px 32px 29px;
