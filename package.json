@@ -144,6 +144,7 @@
     "@web3-react/types": "^6.0.7",
     "babel-loader": "^8.2.2",
     "babel-plugin-styled-components": "^1.13.2",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "cypress": "^4.12.1",
     "eslint": "^7.32.0",
     "eslint-config-alloy": "^4.2.0",
