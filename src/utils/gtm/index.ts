@@ -39,13 +39,7 @@ const GTM = {
 }
 
 const gtmLogger = (log: string, param?: {}) => {
-  if (process.env.APP_ENV === 'development') {
-    console.info(
-      '%c GTM ',
-      'background: #222; color: #bada55',
-      `EVENT - ${log} - PARAM / ${JSON.stringify(param) || ''}`,
-    )
-  }
+  console.info('%c GTM ', 'background: #222; color: #bada55', `EVENT - ${log} - PARAM / ${JSON.stringify(param) || ''}`)
 }
 
 export const gtmValueToUnitsOfThousands = (value: string) => {

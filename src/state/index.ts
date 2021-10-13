@@ -1,4 +1,5 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+import { isDev } from 'config'
 import { load, save } from 'redux-localstorage-simple'
 import { getThemeCache } from 'utils/theme'
 import achievements from './achievements'
@@ -29,7 +30,7 @@ if (loadedState.user) {
 }
 
 const store = configureStore({
-  devTools: process.env.APP_ENV === 'development',
+  devTools: isDev,
   reducer: {
     toasts,
     pools,

@@ -3,6 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from 'alium-uikit/src'
 // import { getMainDomain } from 'alium-uikit/src/util/getMainDomain'
 import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
+// import { isProduction } from 'config'
 import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'
 import useTheme from 'hooks/useTheme'
@@ -74,7 +75,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
     <>
       <ConnectionPending />
       <UikitMenu
-        // isProduction={process.env.APP_ENV !== 'development'}
+        // isProduction={isProduction}
         links={links}
         account={account as string}
         login={login}

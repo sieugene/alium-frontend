@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
-import { BNConfig } from 'config'
+import bigNumberConfig from 'config/bignumber'
 import { ethers } from 'ethers'
 import { User } from './types'
 
 export function formatBigNumber(value: BigNumber) {
   return value.decimalPlaces(4, BigNumber.ROUND_FLOOR).toFormat({
-    ...BNConfig.FORMAT,
+    ...bigNumberConfig.FORMAT,
     groupSeparator: ' ',
   })
 }

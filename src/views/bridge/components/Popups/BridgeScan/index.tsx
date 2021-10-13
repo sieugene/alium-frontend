@@ -1,5 +1,6 @@
 import { Skeleton } from 'alium-uikit/src'
 import TransactionModal, { CloseItem } from 'components/Modal/transaction/TransactionModal'
+import { isDev } from 'config'
 import { MAINNET_BDRIGE_OWNER, TESTNET_BDRIGE_OWNER } from 'constants/bridge/bridge.constants'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { useTranslation } from 'next-i18next'
@@ -30,7 +31,7 @@ const TextLink: FC<{ link: string; text?: string }> = ({ link, text }) => {
 
 const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
   const { t } = useTranslation()
-  const ownerForeignAddress = process.env.APP_ENV === 'development' ? TESTNET_BDRIGE_OWNER : MAINNET_BDRIGE_OWNER
+  const ownerForeignAddress = isDev ? TESTNET_BDRIGE_OWNER : MAINNET_BDRIGE_OWNER
   const isFrom = type === 'fromNetwork'
   const chainId = useStoreBridge((state) => state[type])
   const token = useStoreBridge((state) => (isFrom ? state.tokens.fromToken : state.tokens.toToken))

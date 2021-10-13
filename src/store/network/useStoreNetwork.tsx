@@ -1,4 +1,5 @@
 import { getCookieOptions } from 'alium-uikit/src/config/getCookieOptions'
+import { isProduction } from 'config'
 import { WEB3NetworkErrors } from 'constants/network/NetworkErrors.contanst'
 import { getActualChainId } from 'store/network/lib/getActualChainId'
 import { getCurrentNetwork, ICurrentNetwork } from 'store/network/lib/getCurrentNetwork'
@@ -13,7 +14,7 @@ const chainIdCookieKey = 'chainId'
 
 const getInitialChainId = (): number => {
   const cookieChainId = cookies.get(chainIdCookieKey)
-  return getActualChainId(cookieChainId ? Number(cookieChainId) : process.env.APP_ENV === 'production' ? 56 : 97)
+  return getActualChainId(cookieChainId ? Number(cookieChainId) : isProduction ? 56 : 97)
 }
 const currentChainId = getInitialChainId()
 const currentNetwork = getCurrentNetwork(currentChainId)

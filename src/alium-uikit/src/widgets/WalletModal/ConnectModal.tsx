@@ -1,3 +1,4 @@
+import { isDev } from 'config'
 import { useTranslation } from 'next-i18next'
 import React, { FC, useState } from 'react'
 import { isMobile } from 'react-device-detect'
@@ -40,7 +41,6 @@ const ConnectModal: FC<Props> = ({ login, onDismiss }) => {
   const { t } = useTranslation()
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
-  const isDev = process.env.APP_ENV === 'development'
   const networks = isDev ? networksDev : networksProd
 
   const networkConfig = networks.find((x) => x.chainId === currentChainId) ?? { type: '???' }

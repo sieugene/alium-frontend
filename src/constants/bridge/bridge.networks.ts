@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { isDev } from 'config'
 import { GetArrayElementType } from 'types/GetArrayElementType'
 
 export const ETH_XDAI_BRIDGE = 'eth-xdai'
@@ -12,7 +13,7 @@ export const BSC_ROPSTEN_BRIDGE = 'bsc-ropsten'
 export const BSC_RINKEBY_BRIDGE = 'bsc-rinkeby'
 
 export const getEnabledBridgeDirections = () => {
-  if (process.env.APP_ENV === 'development') {
+  if (isDev) {
     // testnet
     return [BSC_HECO_BRIDGE, BSC_POLYGON_TEST_BRIDGE, BSC_RINKEBY_BRIDGE] as const
   } else {

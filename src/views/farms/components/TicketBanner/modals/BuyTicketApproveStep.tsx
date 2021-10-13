@@ -72,7 +72,7 @@ export const BuyTicketApproveStep: FC<Props> = ({ nextStep }) => {
   }
   return (
     <WrapperApprove>
-      <p>Only users who have bought a ticket can take part in the pharming program</p>
+      <p>Only users who have bought a ticket can take part in the farming program</p>
       <h3>Buy ticket for 1500 ALM</h3>
       <Button onClick={onApprove} disabled={loading}>
         Approve

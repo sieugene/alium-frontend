@@ -109,7 +109,6 @@ export const DesktopColumnSchema: ColumnsDefTypes[] = [
 export interface FarmWithStakedValue extends Farm {
   apr?: number
   lpRewardsApr?: number
-  liquidity?: BigNumber
 }
 
 export interface FarmPair {

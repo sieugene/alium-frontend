@@ -1,5 +1,6 @@
 import { networksDev, networksProd } from 'alium-uikit/src/widgets/WalletModal/config'
 import Binance from 'alium-uikit/src/widgets/WalletModal/icons/Binance'
+import { isDev } from 'config'
 import React, { FC } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
@@ -70,7 +71,7 @@ const Button = styled.button`
   align-items: center;
   max-width: 303px;
   max-height: 48px;
-  box-sizing: border-box;
+
   p {
     margin: 0;
     padding-left: 16px;
@@ -91,7 +92,9 @@ const Button = styled.button`
   }
 
   > svg {
-    fill: #6c5dd3 path {
+    fill: #6c5dd3;
+
+    path {
       stroke: #6c5dd3;
     }
   }
@@ -106,7 +109,6 @@ const Button = styled.button`
 
 const AvailableAccount: FC<Props> = ({ children, title = 'Your NFT deck' }) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
-  const isDev = process.env.APP_ENV === 'development'
   const networks = isDev ? networksDev : networksProd
   const setChainId = useStoreNetwork((state) => state.setChainId)
   const setBinanceChain = () => {

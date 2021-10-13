@@ -1,3 +1,4 @@
+import { isProduction } from 'config'
 import fs from 'fs'
 import path from 'path'
 import { fetchCoinListCoingecko } from 'services/coingecko'
@@ -11,7 +12,7 @@ const storeData = (data, _path) => {
 }
 
 const handler = async (req, res) => {
-  if (process.env.APP_ENV !== 'development') {
+  if (isProduction) {
     res.end()
     return
   }

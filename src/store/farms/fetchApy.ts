@@ -1,4 +1,5 @@
 import { ChainId, Fetcher, Route, Token } from '@alium-official/sdk'
+import { formatEther } from '@ethersproject/units'
 import BigNumber from 'bignumber.js'
 import { BIG_ZERO } from 'config'
 import { getEthersProvider } from 'utils/bridge/providers'
@@ -46,12 +47,20 @@ export const fetchApy = async (
     lpBalanceTokenB,
     lpTotalSupply,
   )
+  const liqudity = new BigNumber(liqudityLpCalc(farmLpBalanceToStable, farmLpBalance))
+
   const apy = calcApy(Number(tokenPrice), POOLshare, farmLpBalance, farmLpBalanceToStable)
 
-  return apy
+  return { apy, liqudity, lpPrice: new BigNumber(farmLpBalanceToStable) }
 }
 
 // Helpers *
+
+const liqudityLpCalc = (farmLpBalanceToStable: number, farmLpBalance: BigNumber) => {
+  const farmLpBalanceTotal = Number(formatEther(String(farmLpBalance)))
+  const liqudity = farmLpBalanceTotal * farmLpBalanceToStable
+  return liqudity
+}
 
 export const almToStablePrice = async () => {
   const chainId = ChainId.MAINNET
