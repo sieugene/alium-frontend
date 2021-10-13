@@ -1,13 +1,58 @@
 import TransactionModal, { CloseItem } from 'components/Modal/transaction/TransactionModal'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import BuyTicketApproveStep from './BuyTicketApproveStep'
 import BuyTicketBuyStep from './BuyTicketBuyStep'
+
+interface Props {
+  modalOpen: boolean
+  onDismiss: () => void
+}
+
+const BuyTicketModal: FC<Props> = ({ modalOpen, onDismiss }) => {
+  const [buyStep, setBuyStep] = useState(false)
+
+  const nextStep = () => {
+    setBuyStep(true)
+  }
+
+  const backStep = () => {
+    setBuyStep(false)
+  }
+
+  useEffect(() => {
+    window.ethereum.on('accountsChanged', () => {
+      onDismiss()
+      backStep()
+    })
+    return () => {
+      window.ethereum.on('accountsChanged', () => {})
+    }
+  }, [])
+
+  return (
+    <TransactionModal isOpen={modalOpen} onDismiss={onDismiss}>
+      <Wrapper>
+        <Header>
+          <div onClick={onDismiss}>
+            <CloseItem />
+          </div>
+        </Header>
+        <div>{buyStep ? <BuyTicketBuyStep /> : <BuyTicketApproveStep nextStep={nextStep} />}</div>
+      </Wrapper>
+    </TransactionModal>
+  )
+}
+
+export default BuyTicketModal
+
+// styles
 
 const Wrapper = styled.div`
   width: 354px;
   height: 363px;
 `
+
 const Header = styled.div`
   padding: 16px;
   display: flex;
@@ -26,29 +71,3 @@ export const TicketLoadingText = styled.p`
   color: #0b1359;
   margin-top: 24px;
 `
-interface Props {
-  modalOpen: boolean
-  onDismiss: () => void
-}
-const BuyTicketModal: FC<Props> = ({ modalOpen, onDismiss }) => {
-  const [buyStep, setBuyStep] = useState(false)
-
-  const nextStep = () => {
-    setBuyStep(true)
-  }
-
-  return (
-    <TransactionModal isOpen={modalOpen} onDismiss={onDismiss}>
-      <Wrapper>
-        <Header>
-          <div onClick={onDismiss}>
-            <CloseItem />
-          </div>
-        </Header>
-        <div>{buyStep ? <BuyTicketBuyStep /> : <BuyTicketApproveStep nextStep={nextStep} />}</div>
-      </Wrapper>
-    </TransactionModal>
-  )
-}
-
-export default BuyTicketModal

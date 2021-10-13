@@ -3,7 +3,6 @@ import { useMemo } from 'react'
 import styled from 'styled-components'
 import { useIsFullPool, useNftAllRewards, usePoolWithdrawPosition } from 'views/StrongHoldersPool/hooks'
 import NftItemCounter from '../NftItemCounter'
-import Title from '../Title'
 
 export interface BonusNftProps {
   poolId?: ethers.BigNumber
@@ -26,12 +25,7 @@ export default function BonusNft({ poolId }: BonusNftProps) {
     }
   }, [isFullPool, nftAllRewards, withdrawPosition])
 
-  return nftCounter ? (
-    <>
-      <Title>Bonus NFT</Title>
-      <NftItemCounter counter={nftCounter.toNumber()} />
-    </>
-  ) : null
+  return nftCounter ? <NftItemCounter counter={nftCounter.toNumber()} /> : <></>
 }
 
 BonusNft.Items = styled.div`

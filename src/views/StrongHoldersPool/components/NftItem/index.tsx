@@ -5,6 +5,6 @@ export default function NftItem() {
 }
 
 NftItem.Root = styled.img`
-  max-height: 100%;
-  max-width: 100%;
+  width: 62px;
+  height: 75px;
 `

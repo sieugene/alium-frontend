@@ -189,7 +189,7 @@ YourPoolCard.Info = styled.div`
 `
 
 YourPoolCard.Field = styled.div`
-  ${Title} {
+  & > ${Title} {
     margin-bottom: 8px;
   }
 `
