@@ -19,7 +19,7 @@
     "up-alium": "npx npm-check-updates @alium-official/* --target greatest -u && yarn"
   },
   "dependencies": {
-    "@alium-official/sdk": "^1.1.28",
+    "@alium-official/sdk": "^1.1.29",
     "@binance-chain/bsc-connector": "^1.0.3",
     "@crowdin/crowdin-api-client": "^1.11.3",
     "@elgorditosalsero/react-gtm-hook": "^2.0.8",
