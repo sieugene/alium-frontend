@@ -6,6 +6,7 @@ import { darken } from 'polished'
 import React, { useCallback, useState } from 'react'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import styled, { keyframes, useTheme } from 'styled-components'
+import { getCurrencyBalance } from 'utils/currency/getCurrencyBalance'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { TranslateString } from 'utils/translateTextHelpers'
 import { FarmPair } from 'views/farms/farms.types'
@@ -14,12 +15,14 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { Input as NumericalInput } from '../NumericalInput'
 import { RowBetween } from '../Row'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
+import { ReactComponent as WarningIcon } from './assets/Warning.svg'
 
 interface CurrencyInputPanelProps {
   value: string
   onUserInput: (value: string) => void
   onMax?: () => void
   showMaxButton: boolean
+  checkMax?: boolean
   label?: string
   onCurrencySelect?: (currency: Currency) => void
   currency?: Currency | null
@@ -40,6 +43,7 @@ export default function CurrencyInputPanel({
   onUserInput,
   onMax,
   showMaxButton,
+  checkMax,
   label = TranslateString(132, 'Input'),
   onCurrencySelect,
   currency,
@@ -64,114 +68,123 @@ export default function CurrencyInputPanel({
   }, [setModalOpen])
 
   const showMax = (account && currency && label !== 'To') || showMaxButton
+  const currencyBalance = getCurrencyBalance(selectedCurrencyBalance)
+  const checkOnMax = checkMax && value > currencyBalance
 
   return (
-    <InputPanel id={id}>
-      <Container hideInput={hideInput}>
-        {!hideInput && (
-          <LabelRow>
-            <RowBetween>
-              <Text fontSize='14px' style={{ color: '#6C5DD3' }}>
-                {label}
-              </Text>
-              {account && (
-                <Text
-                  onClick={onMax}
-                  fontSize='14px'
-                  style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
-                >
-                  {(!!currency && selectedCurrencyBalance) || balance ? (
-                    t('exchange.balance', { balance: balance || toSignificantCurrency(selectedCurrencyBalance) })
-                  ) : (
-                    <Dots>{t('exchange.balanceLoading')}</Dots>
-                  )}
-                </Text>
-              )}
-            </RowBetween>
-          </LabelRow>
-        )}
-        <InputRow
-          style={hideInput ? { padding: '0', borderRadius: '8px' } : {}}
-          selected={disableCurrencySelect}
-          customHeight={customHeight}
-        >
+    <>
+      <InputPanel id={id} checkOnMax={checkOnMax}>
+        <Container hideInput={hideInput}>
           {!hideInput && (
-            <>
-              <NumericalInput
-                className='token-amount-input'
-                value={value}
-                onUserInput={(val) => {
-                  onUserInput(val)
-                }}
-                style={{ fontSize: '14px' }}
-              />
-              {showMax && (
-                <Button onClick={onMax} size='sm' variant='text' buttonType='max'>
-                  {t('common.button.maxCaps')}
-                </Button>
-              )}
-            </>
+            <LabelRow>
+              <RowBetween>
+                <Text fontSize='14px' style={{ color: '#6C5DD3' }}>
+                  {label}
+                </Text>
+                {account && (
+                  <Text
+                    onClick={onMax}
+                    fontSize='14px'
+                    style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
+                  >
+                    {(!!currency && selectedCurrencyBalance) || balance ? (
+                      t('exchange.balance', { balance: balance || toSignificantCurrency(selectedCurrencyBalance) })
+                    ) : (
+                      <Dots>{t('exchange.balanceLoading')}</Dots>
+                    )}
+                  </Text>
+                )}
+              </RowBetween>
+            </LabelRow>
           )}
-          <CurrencySelect
-            selected={!!currency}
-            className='open-currency-select-button'
-            onClick={() => {
-              if (!disableCurrencySelect) {
-                setModalOpen(true)
-              }
-            }}
+          <InputRow
+            style={hideInput ? { padding: '0', borderRadius: '8px' } : {}}
+            selected={disableCurrencySelect}
+            customHeight={customHeight}
           >
-            <Aligner>
-              {pair ? (
-                <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin />
-              ) : currency ? (
-                <CurrencyLogo currency={currency} size='24px' style={{ marginRight: '8px' }} />
-              ) : null}
-              {pair ? (
-                <Text
-                  color={theme.colors.textSubtle}
-                  style={{ marginLeft: '8px', fontSize: '14px' }}
-                  className='symbol-title'
-                >
-                  {(pair as FarmPair)?.pairName
-                    ? (pair as FarmPair)?.pairName
-                    : `${pair?.token0.symbol}:${pair?.token1.symbol}`}
-                </Text>
-              ) : (
-                <Text color={theme.colors.textSubtle} style={{ paddingRight: '12px', fontSize: '14px' }}>
-                  {(currency?.symbol && currency.symbol.length > 20
-                    ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
-                        currency.symbol.length - 5,
-                        currency.symbol.length,
-                      )}`
-                    : currency?.symbol) || (
-                    <Text color={theme.colors.textSubtle} style={{ fontSize: '14px' }}>
-                      {t('exchange.selectToken')}
-                    </Text>
-                  )}
-                </Text>
-              )}
-              {!disableCurrencySelect && <ArrowDropDownIcon />}
-            </Aligner>
-          </CurrencySelect>
-        </InputRow>
-      </Container>
-      {!disableCurrencySelect && onCurrencySelect && (
-        <CurrencySearchModal
-          isOpen={modalOpen}
-          onDismiss={handleDismissSearch}
-          onCurrencySelect={onCurrencySelect}
-          selectedCurrency={currency}
-          otherSelectedCurrency={otherCurrency}
-          showCommonBases={showCommonBases}
-          currencyList={currencyList}
-        />
-      )}
-    </InputPanel>
+            {!hideInput && (
+              <>
+                <NumericalInput
+                  className='token-amount-input'
+                  value={value}
+                  onUserInput={(val) => {
+                    onUserInput(val)
+                  }}
+                  style={{ fontSize: '14px' }}
+                />
+                {showMax && (
+                  <Button onClick={onMax} size='sm' variant='text' buttonType='max'>
+                    {t('common.button.maxCaps')}
+                  </Button>
+                )}
+              </>
+            )}
+            <CurrencySelect
+              selected={!!currency}
+              className='open-currency-select-button'
+              onClick={() => {
+                if (!disableCurrencySelect) {
+                  setModalOpen(true)
+                }
+              }}
+            >
+              <Aligner>
+                {pair ? (
+                  <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin />
+                ) : currency ? (
+                  <CurrencyLogo currency={currency} size='24px' style={{ marginRight: '8px' }} />
+                ) : null}
+                {pair ? (
+                  <Text
+                    color={theme.colors.textSubtle}
+                    style={{ marginLeft: '8px', fontSize: '14px' }}
+                    className='symbol-title'
+                  >
+                    {(pair as FarmPair)?.pairName
+                      ? (pair as FarmPair)?.pairName
+                      : `${pair?.token0.symbol}:${pair?.token1.symbol}`}
+                  </Text>
+                ) : (
+                  <Text color={theme.colors.textSubtle} style={{ paddingRight: '12px', fontSize: '14px' }}>
+                    {(currency?.symbol && currency.symbol.length > 20
+                      ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
+                          currency.symbol.length - 5,
+                          currency.symbol.length,
+                        )}`
+                      : currency?.symbol) || (
+                      <Text color={theme.colors.textSubtle} style={{ fontSize: '14px' }}>
+                        {t('exchange.selectToken')}
+                      </Text>
+                    )}
+                  </Text>
+                )}
+                {!disableCurrencySelect && <ArrowDropDownIcon />}
+              </Aligner>
+            </CurrencySelect>
+          </InputRow>
+        </Container>
+        {!disableCurrencySelect && onCurrencySelect && (
+          <CurrencySearchModal
+            isOpen={modalOpen}
+            onDismiss={handleDismissSearch}
+            onCurrencySelect={onCurrencySelect}
+            selectedCurrency={currency}
+            otherSelectedCurrency={otherCurrency}
+            showCommonBases={showCommonBases}
+            currencyList={currencyList}
+          />
+        )}
+      </InputPanel>
+      <MaxWarningBlock checkOnMax={checkOnMax}>
+        <WarningIcon />
+        <MaxWarningBlockText>Insufficient funds</MaxWarningBlockText>
+      </MaxWarningBlock>
+    </>
   )
 }
 
 // styles
+
 const InputRow = styled.div<{ selected: boolean; customHeight?: number }>`
   display: flex;
   flex-flow: row nowrap;
@@ -224,15 +237,30 @@ const Aligner = styled.span`
   justify-content: space-between;
 `
 
-const InputPanel = styled.div<{ hideInput?: boolean }>`
+const InputPanel = styled.div<{ checkOnMax: boolean }>`
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
-  border: 1px solid #d2d6e5;
+  border: ${({ checkOnMax }) => (checkOnMax ? '1px solid #FFA100' : '1px solid #d2d6e5')};
   position: relative;
   border-radius: 6px;
   background-color: transparent;
   z-index: 1;
+`
+
+const MaxWarningBlock = styled.div<{ checkOnMax: boolean }>`
+  margin-top: 3px;
+  display: ${({ checkOnMax }) => (checkOnMax ? 'flex' : 'none')};
+  align-items: center;
+`
+
+const MaxWarningBlockText = styled.div`
+  margin-left: 4px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: #ffa100;
 `
 
 const Container = styled.div<{ hideInput: boolean }>`
