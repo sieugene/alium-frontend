@@ -56,7 +56,5 @@ export interface NavProps extends PanelProps {
   explorerName?: string
   explorerLink?: string
   onTransactionHistoryHandler?: any
-  betaText?: string
-  betaLink?: string
   balanceHook?: any
 }

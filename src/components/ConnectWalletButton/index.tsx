@@ -1,8 +1,8 @@
 import { Button, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'next-i18next'
+import { ReactComponent as AddIcon } from 'public/icons/ConnectAdd.svg'
 import styled from 'styled-components'
-import { ReactComponent as AddIcon } from './assets/Plus.svg'
 
 interface IUnlockButtonProps {
   alt?: boolean
@@ -21,7 +21,7 @@ const UnlockButton = ({ title, ...props }: IUnlockButtonProps) => {
         {props.alt ? (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div className='icon'>
-              <AddIcon color='#fff' />
+              <AddIcon />
             </div>
             {t('common.button.connect')}
           </div>

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { breakpoints, up } from 'views/StrongHoldersPool/mq'
 import Button from '../../components/Button/Button'
 
 interface MenuButtonProps {
@@ -12,7 +13,7 @@ const MenuButton = styled(Button)`
   -webkit-tap-highlight-color: transparent;
   display: ${(props: MenuButtonProps) => (props.mobile ? '' : 'none')};
 
-  ${({ theme }) => theme.mediaQueries.nav} {
+  @media ${up(breakpoints.md)} {
     display: ${(props: MenuButtonProps) => (props.mobile ? 'none' : 'block')};
   }
 
