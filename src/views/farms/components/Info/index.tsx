@@ -450,6 +450,8 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
     return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
   }, [FARM_NOT_ENABLED, TICKET_NOT_BUYED, account, stakedBalance])
 
+  const stakedInBusd = getBalanceNumber(lpPrice.times(stakedBalance))
+
   return {
     titleNode: `${tokenName} Staked`,
     displayBalanceNode:
@@ -459,14 +461,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
         <ColoredPrice color='text'>{displayBalance()}</ColoredPrice>
       ),
     balanceNode: account && stakedBalance.gt(0) && lpPrice.gt(0) && (
-      <Balance
-        before='~'
-        fontSize='12px'
-        color='textSubtle'
-        decimals={2}
-        value={getBalanceNumber(lpPrice.times(stakedBalance))}
-        unit=' USD'
-      />
+      <Balance before='~' fontSize='12px' color='textSubtle' decimals={2} value={stakedInBusd} unit=' USD' />
     ),
     stakedBalanceNotZero,
     stakingButtonsNode:

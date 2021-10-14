@@ -13,8 +13,10 @@ export interface StoreFarmsState {
   setFarmsUserData: (farms: FarmWithUserData[]) => void
   farmsLoading: boolean
   farmsUserDataLoading: boolean
+  slowUpdate: boolean
   toggleFarmsFetched: (loading: boolean) => void
   toggleUserDataFarmsFetched: (loading: boolean) => void
+  toggleSlowUpdate: (loading: boolean) => void
   viewMode: ViewMode
   setViewMode: (view: ViewMode) => void
   query: string
@@ -47,6 +49,7 @@ const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>): 
   farmsLoading: false,
   viewMode: ViewMode.CARD,
   farmsUserDataLoading: false,
+  slowUpdate: false,
   farms: noAccountFarmConfig,
   query: '',
   sortOption: FarmSortOption.Hot,
@@ -94,6 +97,9 @@ const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>): 
   toggleUserDataFarmsFetched: (loading) => {
     set({ farmsUserDataLoading: loading })
   },
+  toggleSlowUpdate: (loading) => {
+    set({ slowUpdate: loading })
+  },
   setFarms: (farms) => {
     const data = get().farms
     const changedFarm = data.map((farm) => {
@@ -117,7 +123,7 @@ const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>): 
 export const storeFarms = createVanilla<StoreFarmsState>(
   persist(devtools(store, 'farm-store'), {
     name: 'farms-storage', // unique name
-    blacklist: ['farmsLoading', 'farmsUserDataLoading', 'farms', 'hasTicket', 'ticketLoader', 'query'],
+    blacklist: ['farmsLoading', 'farmsUserDataLoading', 'slowUpdate', 'farms', 'hasTicket', 'ticketLoader', 'query'],
   }),
 )
 

@@ -2,7 +2,8 @@ import { useWeb3React } from '@web3-react/core'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateUserBalance, updateUserPendingReward, updateUserStakedBalance } from 'state/actions'
-import { sousEmegencyUnstake, sousUnstake, unstake } from 'utils/callHelpers'
+import { sousEmegencyUnstake, sousUnstake } from 'utils/callHelpers'
+import { unstakeFarm } from 'utils/farm/calls'
 import { useMasterchef, useSousChef } from './useContract'
 
 const useUnstake = (pid: number) => {
@@ -12,7 +13,7 @@ const useUnstake = (pid: number) => {
 
   const handleUnstake = useCallback(
     async (amount: string) => {
-      const txHash = await unstake(masterChefContract, pid, amount, account)
+      const txHash = await unstakeFarm(masterChefContract, pid, amount)
 
       console.info(txHash)
     },
@@ -34,7 +35,7 @@ export const useSousUnstake = (sousId) => {
   const handleUnstake = useCallback(
     async (amount: string) => {
       if (sousId === 0) {
-        const txHash = await unstake(masterChefContract, 0, amount, account)
+        const txHash = await unstakeFarm(masterChefContract, 0, amount)
         console.info(txHash)
       } else if (isOldSyrup) {
         const txHash = await sousEmegencyUnstake(sousChefContract, amount, account)

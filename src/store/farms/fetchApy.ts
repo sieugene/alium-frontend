@@ -1,12 +1,8 @@
-import { ChainId, Fetcher, Route, Token } from '@alium-official/sdk'
-import { formatEther } from '@ethersproject/units'
+import { Token } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
-import { BIG_ZERO } from 'config'
-import { getEthersProvider } from 'utils/bridge/providers'
-import { BSC_ALM, DAI, TESTDAI } from '../../constants'
 import { fetchTokenPriceFromCoingecko } from './../../services/coingecko'
 import { getAlmPrice } from './../../utils/prices/getAlmPrice'
-import { calcApy, calcFarmLpPrice } from './farms.functions'
+import { calcFarmLpPrice } from './farms.functions'
 
 export const lpTokenPriceToStable = async (
   tokenA: Token,
@@ -16,8 +12,8 @@ export const lpTokenPriceToStable = async (
   lpTotalSupply: BigNumber,
 ) => {
   try {
-    const PTokenA = await tokenToStablePrice(tokenA)
-    const PTokenB = await tokenToStablePrice(tokenB)
+    const PTokenA = await tokenToStablePrice(tokenA?.symbol)
+    const PTokenB = await tokenToStablePrice(tokenB?.symbol)
 
     const PLP = calcFarmLpPrice(Number(PTokenA), lpBalanceTokenA, Number(PTokenB), lpBalanceTokenB, lpTotalSupply)
     return PLP
@@ -27,116 +23,34 @@ export const lpTokenPriceToStable = async (
   }
 }
 
-// like container fetcher with pure calc
-export const fetchApy = async (
-  tokenA: Token,
-  tokenB: Token,
-  lpBalanceTokenA: BigNumber,
-  lpBalanceTokenB: BigNumber,
-  lpTotalSupply: BigNumber,
-  poolWeight: BigNumber,
-  farmLpBalance: BigNumber,
-) => {
-  const POOLshare = Number(poolWeight)
-  const tokenPrice = await almToStablePrice()
-
-  const farmLpBalanceToStable = await lpTokenPriceToStable(
-    tokenA,
-    tokenB,
-    lpBalanceTokenA,
-    lpBalanceTokenB,
-    lpTotalSupply,
-  )
-  const liqudity = new BigNumber(liqudityLpCalc(farmLpBalanceToStable, farmLpBalance))
-
-  const apy = calcApy(Number(tokenPrice), POOLshare, farmLpBalance, farmLpBalanceToStable)
-
-  return { apy, liqudity, lpPrice: new BigNumber(farmLpBalanceToStable) }
-}
-
 // Helpers *
 
-const liqudityLpCalc = (farmLpBalanceToStable: number, farmLpBalance: BigNumber) => {
-  const farmLpBalanceTotal = Number(formatEther(String(farmLpBalance)))
-  const liqudity = farmLpBalanceTotal * farmLpBalanceToStable
-  return liqudity
-}
-
-export const almToStablePrice = async () => {
-  const chainId = ChainId.MAINNET
-  const ALM = BSC_ALM
-  const price = await tokenToStablePrice(ALM, chainId)
+const tokenToStablePrice = async (symbol: string): Promise<string> => {
   const cookieAlmPrice = getAlmPrice()
-
-  return cookieAlmPrice || price
-}
-
-export const fetchBnbDaiPrice = async () => {
-  // const chainId = ChainId.MAINNET
-  // const ethersProvider = await getEthersProvider(chainId)
-
-  // const pair = await Fetcher.fetchPairData(DAI, WETH[DAI.chainId], ethersProvider)
-  // const route = new Route(chainId, [pair], WETH[DAI.chainId])
-  // const price = new BigNumber(route.midPrice.toSignificant(6))
-
-  // Fetch gecko
-  const geckoResponse = await fetchTokenPriceFromCoingecko('wbnb')
-  const priceGecko = geckoResponse?.data?.market_data?.current_price?.usd
-  if (priceGecko) {
-    const fixedPrice = Number(priceGecko).toFixed(3)
-    return new BigNumber(fixedPrice)
+  // defaults tokens list for fetch from coingecko
+  const defaultsTokens = {
+    ALM: 'alium-swap',
+    ETH: 'ethereum',
+    WBNB: 'wbnb',
+    CAKE: 'pancakeswap-token',
   }
-
-  return BIG_ZERO
-}
-
-// reference calc price
-// https://docs.uniswap.org/sdk/2.0.0/guides/pricing
-export const tokenToStablePrice = async (token: Token, network: ChainId = ChainId.BSCTESTNET) => {
-  const chainId = network
-  const ethersProvider = await getEthersProvider(chainId)
-  const _DAI = network === ChainId.BSCTESTNET ? TESTDAI : DAI
-
-  try {
-    const tokenWithStablePair = await Fetcher.fetchPairData(token, _DAI, ethersProvider)
-    const route = new Route(network, [tokenWithStablePair], _DAI)
-    const price = await stablePriceValidator(token.symbol, route.midPrice.toSignificant(6))
-    return price
-  } catch (error) {
-    const price = await stablePriceValidator(token.symbol, '0')
-    return price
+  // default prices
+  const defaultsStables = {
+    USDT: '1',
+    ALM: cookieAlmPrice || 0,
   }
-}
-// Todo make save in session / localstorage (after refresh clear)
-// alternative fetcher if sdk result = 0
-const stablePriceValidator = async (symbol: string, firstResult: string): Promise<string> => {
-  if (!firstResult || firstResult === '0') {
-    const cookieAlmPrice = getAlmPrice()
-    // defaults tokens list for fetch from coingecko
-    const defaultsTokens = {
-      ALM: 'alium-swap',
-      ETH: 'ethereum',
-      WBNB: 'wbnb',
-    }
-    // default prices
-    const defaultsStables = {
-      USDT: '1',
-      ALM: cookieAlmPrice || 0,
-    }
-    if (defaultsStables[symbol]) {
-      return defaultsStables[symbol]
-    }
-    if (defaultsTokens[symbol]) {
-      const response = await fetchTokenPriceFromCoingecko(defaultsTokens[symbol])
-      const price = response?.data?.market_data?.current_price?.usd
-
-      if (price) {
-        const fixedPrice = Number(price).toFixed(3)
-        return fixedPrice
-      }
-      return firstResult
-    }
-    return firstResult
+  if (defaultsStables[symbol]) {
+    return defaultsStables[symbol]
   }
-  return firstResult
+  if (defaultsTokens[symbol]) {
+    const response = await fetchTokenPriceFromCoingecko(defaultsTokens[symbol])
+    const price = response?.data?.market_data?.current_price?.usd
+
+    if (price) {
+      const fixedPrice = Number(price).toFixed(3)
+      return fixedPrice
+    }
+    return '0'
+  }
+  return '0'
 }

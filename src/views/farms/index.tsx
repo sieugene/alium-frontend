@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Farm } from 'state/types'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
-import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import { latinise } from 'utils/farm/latinise'
 import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount'
 import FarmBanner from './components/FarmBanner'
@@ -28,13 +27,13 @@ const Farms = () => {
   const farmsLP = useFarms()
 
   const almPrice = usePriceAlmBusd()
-  const chainId = useStoreNetwork((state) => state.currentChainId)
   // Farm Filters
   const query = useStoreFarms((state) => state.query)
   const viewMode = useStoreFarms((state) => state.viewMode)
   const sortOption = useStoreFarms((state) => state.sortOption)
   const stakedOnly = useStoreFarms((state) => state.stakedOnly)
   const activeTab = useStoreFarms((state) => state.activeTab)
+  const slowUpdate = useStoreFarms((state) => state.slowUpdate)
 
   const { account } = useWeb3React()
   useFarmsPooling(account)
@@ -47,6 +46,8 @@ const Farms = () => {
   // Loaders
   const { farmsUserDataLoading: userDataLoaded } = usePollFarmsWithUserData(isArchived)
   const ticketLoader = useStoreFarms((state) => state.ticketLoader)
+
+  // filters
 
   const activeFarms = farmsLP.filter((farm) => farm.multiplier !== '0X')
   const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === '0X')
@@ -108,6 +109,7 @@ const Farms = () => {
     }
 
     return sortFarms(chosenFarms).slice(0, numberOfFarmsVisible)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     sortOption,
     activeFarms,
@@ -119,6 +121,8 @@ const Farms = () => {
     stakedOnly,
     stakedOnlyFarms,
     numberOfFarmsVisible,
+    userDataLoaded,
+    slowUpdate,
   ])
 
   chosenFarmsLength.current = chosenFarmsMemoized.length

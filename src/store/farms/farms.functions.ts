@@ -68,3 +68,9 @@ export const calcApy = (tokenPrice: number, POOLshare: number, farmLpBalanceBn: 
 
   return apyFixed
 }
+
+export const calcLiqudityLpFarm = (farmLpBalanceToStable: number, farmLpBalance: BigNumber) => {
+  const farmLpBalanceTotal = Number(formatEther(String(farmLpBalance)))
+  const liqudity = farmLpBalanceTotal * farmLpBalanceToStable
+  return new BigNumber(liqudity)
+}
