@@ -14,8 +14,7 @@ export interface User {
   leftId: ethers.BigNumber
 }
 
-export interface Withdrawn {
-  poolId: ethers.BigNumber
+export interface Withdrawal {
   account: string
   amount: ethers.BigNumber
 }
