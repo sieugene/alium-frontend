@@ -31,7 +31,8 @@ interface StoreAccountState {
   setChainId: (id: number) => void
   setupNetwork: (id: number) => Promise<boolean>
   setConnectionError: (error: WEB3NetworkErrors | null) => void
-  toggleLoadConnection: (load: boolean, account?: string) => void
+  toggleLoadConnection: (load: boolean) => void
+  toggleConnected: (account: string) => void
 }
 
 // store for usage outside of react
@@ -43,21 +44,12 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   loadConnection: false,
   connected: false,
   // actions
-  toggleLoadConnection: (load: boolean, account?: string) => {
-    // TODO : Need refactor this
-
-    if (load && !account) {
-      set({ connected: false, loadConnection: load })
-      return
-    }
-    if (!load && account) {
-      set({ connected: true, loadConnection: load })
-      return
-    }
-    // end
-    set({
-      loadConnection: load,
-    })
+  toggleLoadConnection: (load: boolean) => {
+    set({ loadConnection: load })
+  },
+  toggleConnected: (account: string) => {
+    const isLoading = get().loadConnection
+    set({ connected: !isLoading && Boolean(account) })
   },
   killStoreNetwork: () => {
     storeNetwork.destroy() // destroy all store subscribes

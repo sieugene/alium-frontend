@@ -16,6 +16,7 @@ export interface StoreAccountState {
   } | null
   [key: string]: any
   etherBalance: (_account?: string) => Promise<StoreAccountState['balance']>
+  clearBalance: () => void
 }
 
 const accountInWeb3 = () => process.browser && window?.ethereum?.selectedAddress

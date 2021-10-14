@@ -174,14 +174,6 @@ const NetworkSwitch: FC<Props> = () => {
     return Boolean(network.supportConnectors.includes(currentConnectorId))
   }
 
-  useEffect(() => {
-    if ((currentChainId && !networkExist) || (networkExist && !validSupportConnector(networkExist))) {
-      // toastError("Can't find network", 'Please choice network')
-      // If network not found, set default
-      handleClick(networks[0])
-    }
-  }, [currentChainId, handleClick, networkExist, networks])
-
   // Update label when chainId change in modal
   useEffect(() => {
     if (networkExist?.type && selectedOption !== networkExist.type) {
