@@ -1,5 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
-import { Button, Skeleton, useModal } from 'alium-uikit/src'
+import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
+import { StyledInternalLink } from 'components/Shared'
 import styled from 'styled-components'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
@@ -49,10 +50,10 @@ export default function JoinPoolCard() {
       </JoinPoolCard.Content>
       <JoinPoolCard.Footer>
         <span>Increase your ALM Tokens by joining the Strong Holders Pool. </span>
-        {/* <StyledInternalLink href='#more'>
+        <StyledInternalLink href='https://docs.alium.finance/products/strong-holders-pool' target='_blank'>
           More details
           <ChevronRightIcon color='currentColor' />
-        </StyledInternalLink> */}
+        </StyledInternalLink>
       </JoinPoolCard.Footer>
     </JoinPoolCard.Root>
   )
