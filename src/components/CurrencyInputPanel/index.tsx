@@ -68,8 +68,9 @@ export default function CurrencyInputPanel({
   }, [setModalOpen])
 
   const showMax = (account && currency && label !== 'To') || showMaxButton
-  const currencyBalance = getCurrencyBalance(selectedCurrencyBalance)
-  const checkOnMax = checkMax && value > currencyBalance
+  const currencyBalance = Number(getCurrencyBalance(selectedCurrencyBalance))
+  const curInputValue = Number(value)
+  const checkOnMax = checkMax && curInputValue > currencyBalance
 
   return (
     <>
