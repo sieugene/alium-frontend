@@ -2,6 +2,7 @@ import { Button, CalculateIcon, LinkIcon, Modal, useModal } from 'alium-uikit/sr
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import React, { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
@@ -42,6 +43,8 @@ const FarmActionModal = ({
   withoutRoi,
   type,
 }: FarmActionModalProps) => {
+  const { t } = useTranslation()
+
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -125,7 +128,7 @@ const FarmActionModal = ({
       <FarmModalStatuses loading={pendingTx} success={success} error={error} type={type} onRepeat={onRepeat}>
         <FarmActionModal.ModalWrapper>
           <CurrencyInputPanel
-            label='Stake'
+            label={t('farm.actions.stake')}
             value={val}
             onUserInput={handleChange}
             onMax={handleSelectMax}
@@ -140,7 +143,7 @@ const FarmActionModal = ({
           />
           {!withoutRoi && (
             <FarmActionModal.Roi>
-              <h3>Annual ROI at current rates:</h3>
+              <h3> {t('farm.roiAtRates')}:</h3>
               <div className='price'>
                 <p title={roiUsdFormatted}>${roiUsdFormatted}</p>
                 <FarmActionModal.IconCalculateWrap onClick={onShowRoi}>
@@ -151,15 +154,15 @@ const FarmActionModal = ({
           )}
           <FarmActionModal.ModalActions>
             <Button fullwidth variant='secondary' onClick={onDismiss}>
-              {TranslateString(462, 'Cancel')}
+              {t('common.button.cancel')}
             </Button>
             <Button fullwidth disabled={lockBtn} onClick={confirm}>
-              {pendingTx ? TranslateString(488, 'Pending Confirmation') : TranslateString(464, 'Confirm')}
+              {pendingTx ? t('common.messages.pendingConfirmation') : t('common.button.confirm')}
             </Button>
           </FarmActionModal.ModalActions>
           <FarmActionModal.ModalFooter>
             <a className='link' href={link} target='_blank'>
-              <h3>Get {tokenName}</h3>
+              <h3>{t('farm.getToken', { tokenName })}</h3>
               <LinkIcon />
             </a>
           </FarmActionModal.ModalFooter>

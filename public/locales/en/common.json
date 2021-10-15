@@ -3,6 +3,7 @@
     "button": {
       "cancel": "Cancel",
       "continue": "Continue",
+      "confirm": "Confirm",
       "connect": "Connect",
       "disconnect": "Disconnect",
       "tryAgain": "Try again",
@@ -55,7 +56,10 @@
       "validDeadline": "Enter a valid deadline",
       "yourTransactionMayFail": "Your transaction may fail",
       "yourTransactionMayBeFrontrun": "Your transaction may be frontrun",
-      "unknownError": "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device."
+      "unknownError": "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device.",
+      "enoughGas": "Please try again. Confirm the transaction and make sure you are paying enough gas!",
+      "error": "Error",
+      "pendingConfirmation": "Pending Confirmation"
     }
   },
 
@@ -109,22 +113,22 @@
       "title": "Metamask"
     },
     "trustWallet": {
-      "title":  "Trust Wallet"
+      "title": "Trust Wallet"
     },
     "mathWallet": {
-      "title":  "Math Wallet"
+      "title": "Math Wallet"
     },
     "tokenPocket": {
-      "title":  "Token Pocket"
+      "title": "Token Pocket"
     },
     "walletConnect": {
-      "title":  "Wallet Connect"
+      "title": "Wallet Connect"
     },
     "binanceChain": {
-      "title":  "Binance Chain Wallet"
+      "title": "Binance Chain Wallet"
     },
     "ontoWallet": {
-      "title":  "ONTO Wallet"
+      "title": "ONTO Wallet"
     }
   },
 
@@ -184,7 +188,67 @@
     "pleaseConnectWallet": "Please connect your wallet to view your recent transactions",
     "noRecentTransactions": "No recent transactions"
   },
-  "settingsModal" : {
+  "farm": {
+    "title": "Farms",
+    "buy": "Buy",
+    "almEarned": "ALM earned",
+    "harvested": "Harvested",
+    "stakeLpTokensToEarn": "Stake LP tokens to earn",
+    "getToken": "Get {{tokenName}}",
+    "roiAtRates": "Annual ROI at current rates",
+    "waitAmomentPlease": "Wait a moment please",
+    "filters": {
+      "stakedOnly": "Staked only",
+      "tabs": {
+        "live": "Live",
+        "finished": "Finished"
+      },
+      "sortBy": "Sort by",
+      "sortOption": {
+        "APR": "APR",
+        "Multiplier": "Multiplier",
+        "Earned": "Earned",
+        "Liquidity": "Liquidity",
+        "Hot": "Hot"
+      },
+      "searchFarms": "Search Farms"
+    },
+    "bannerTicket": {
+      "warningDesck": "Only users who have bought a ticket can take part in the farming program.",
+      "titlePrice": "The ticket price is:",
+      "toBuyATicket": "To buy a ticket"
+    },
+    "buyTicketModal": {
+      "success": {
+        "title": "Successful purchase",
+        "amount": "Amount"
+      }
+    },
+    "actions": {
+      "harvest": "harvest",
+      "deposit": "Deposit",
+      "enableFarm": "Enable Farm",
+      "stakeLp": "Stake LP",
+      "stake": "Stake",
+      "staked": "Staked",
+      "unstake": "Unstake",
+      "unstaked": "Unstaked"
+    },
+    "cardInfo": {
+      "APR": "APR",
+      "earn": "earn",
+      "almFees": "ALM + Fees",
+      "depositFee": "Deposit fee",
+      "lpType": "LP Type",
+      "totalLiquidity": "Total Liquidity",
+      "stakedToken": "{{tokenName}} Staked"
+    },
+    "messages": {
+      "earningSented": "Your ALM earnings have been sent to your wallet!",
+      "fundsResult": "Your funds have been {{text}} in the farm"
+    }
+  },
+  "settingsModal": {
     "exchangeTitle": "New - Settings",
     "liquidityTitle": "Liquidity Creation Settings",
     "slippedTolerance": "Slippage tolerance",
@@ -285,7 +349,15 @@
     "liquidityProvider": "Liquidity Provider Fee",
     "forEachTradeAFeeIsPaid": "For each trade a 0.25% fee is paid. 0.20% goes to liquidity providers and 0.05% goes to the AliumSwap treasury.",
     "route": "Route",
-    "routingThroughThese": "Routing through these tokens resulted in the best price for your trade."
+    "routingThroughThese": "Routing through these tokens resulted in the best price for your trade.",
+    "settingsModal": {
+      "modalTitle": "Liquidity Creation Settings",
+      "slippedTolerance": "Slippage tolerance",
+      "transactionRevert": "Your transaction will revert if the price changes unfavorably by more than this percentage.",
+      "transactionDeadline": "Transaction deadline",
+      "transactionRevertPending": "Your transaction will revert if it is pending for more than this long.",
+      "minutes": "Minutes"
+    }
   },
   "liquidity": {
     "header": "Liquidity",
@@ -367,7 +439,7 @@
     "nextUnlockedDate": "Next unlocked date"
   },
   "home": {
-    "mainSlider" : {
+    "mainSlider": {
       "labelComingSoon": "Coming soon",
       "labelSeptember9th": "September 9th",
       "labelSeptember13th": "September 13th",

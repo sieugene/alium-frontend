@@ -5,6 +5,7 @@ import { usePaginate } from 'components/Pagination/hooks/usePaginate'
 import { orderBy } from 'lodash'
 import { useRouter } from 'next/router'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Farm } from 'state/types'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { latinise } from 'utils/farm/latinise'
@@ -22,6 +23,7 @@ import { useFarmsPooling } from './hooks/useFarmsPooling'
 const NUMBER_OF_FARMS_VISIBLE = 12
 
 const Farms = () => {
+  const { t } = useTranslation()
   const { pathname } = useRouter()
   // Farm hooks
   const farmsLP = useFarms()
@@ -131,7 +133,7 @@ const Farms = () => {
 
   return (
     <FarmContainer>
-      <AvailableAccount title='Farms'>
+      <AvailableAccount title={t('farm.title')}>
         <div>
           <FarmBanner />
           <FarmFilters />

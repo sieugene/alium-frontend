@@ -3,6 +3,7 @@ import TransactionCompleted from 'components/Modal/transaction/TransactionComple
 import TransferError from 'components/Modal/transaction/TransferError'
 import TransferLoader from 'components/Modal/transaction/TransferLoader'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink, useExplorerName } from 'utils'
@@ -47,6 +48,7 @@ const Amount = styled.p`
 const ViewOn = styled(Button)``
 
 const BuyTicketBuyStep = () => {
+  const { t } = useTranslation()
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const { explorerName } = useExplorerName(currentChainId)
   const [loading, setLoading] = useState(false)
@@ -88,12 +90,12 @@ const BuyTicketBuyStep = () => {
     return (
       <TransactionCompleted withoutHeader withoutWrapper>
         <CompletedWrapper>
-          <h2>Successful purchase</h2>
+          <h2>{t('farm.buyTicketModal.success.title')}</h2>
           <Amount>
-            Amount: <b>1500 ALM</b>
+            {t('farm.buyTicketModal.success.amount')}: <b>1500 ALM</b>
           </Amount>
           <a href={link} target='_blank'>
-            <ViewOn variant='secondary'>View on {explorerName}</ViewOn>
+            <ViewOn variant='secondary'>{t('common.button.viewOnExplorerName', { explorerName })}</ViewOn>
           </a>
         </CompletedWrapper>
       </TransactionCompleted>
@@ -102,8 +104,8 @@ const BuyTicketBuyStep = () => {
   return (
     <TransactionCompleted withoutHeader withoutWrapper>
       <CompletedWrapper>
-        <TicketLoadingText>Approved</TicketLoadingText>
-        <BuyButton onClick={onBuyTicket}>Buy</BuyButton>
+        <TicketLoadingText>{t('common.button.approved')}</TicketLoadingText>
+        <BuyButton onClick={onBuyTicket}>{t('farm.buy')}</BuyButton>
       </CompletedWrapper>
     </TransactionCompleted>
   )

@@ -1,10 +1,12 @@
 import { Button } from 'alium-uikit/src'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useHasTicket } from 'views/farms/hooks/useFarmTicket'
 import BuyTicketModal from './modals/BuyTicketModal'
 
 export const BuyTicketBtn = () => {
+  const { t } = useTranslation()
   const [modalOpen, setmodalOpen] = useState(false)
   const { onCheckHasTicket } = useHasTicket()
 
@@ -20,7 +22,7 @@ export const BuyTicketBtn = () => {
   return (
     <>
       <BuyTicketModal modalOpen={modalOpen} onDismiss={onDismiss} />
-      <BuyButton onClick={show}>To buy a ticket</BuyButton>
+      <BuyButton onClick={show}>{t('farm.bannerTicket.toBuyATicket')}</BuyButton>
     </>
   )
 }

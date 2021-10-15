@@ -1,4 +1,5 @@
 import { FARM_DESKTOP_MEDIA, FARM_LAPTOP_MEDIA, FARM_MOBILE_MEDIA } from 'constants/layout/farm.layout'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -81,11 +82,12 @@ const Backgrounds = styled.div`
 `
 
 const FarmBanner = () => {
+  const { t } = useTranslation()
   return (
     <Wrapper>
       <Labels>
-        <h1>Farms</h1>
-        <h3>Stake LP tokens to earn</h3>
+        <h1>{t('farm.title')}</h1>
+        <h3>{t('farm.stakeLpTokensToEarn')}</h3>
       </Labels>
       <Backgrounds />
     </Wrapper>
