@@ -290,7 +290,11 @@ const Swap = () => {
             onDismiss={handleConfirmDismiss}
             onRepeat={handleOnRepeat}
           />
-          <PageHeader title={t('exchange.header')} description={t('exchange.headerDescription')} />
+          <PageHeader
+            title={t('exchange.header')}
+            description={t('exchange.headerDescription')}
+            settingsModalTitle={t('settingsModal.exchangeTitle')}
+          />
           <StyledCardBody>
             <CardBody>
               <AutoColumn>

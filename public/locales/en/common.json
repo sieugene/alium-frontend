@@ -184,6 +184,15 @@
     "pleaseConnectWallet": "Please connect your wallet to view your recent transactions",
     "noRecentTransactions": "No recent transactions"
   },
+  "settingsModal" : {
+    "exchangeTitle": "New - Settings",
+    "liquidityTitle": "Liquidity Creation Settings",
+    "slippedTolerance": "Slippage tolerance",
+    "transactionRevert": "Your transaction will revert if the price changes unfavorably by more than this percentage.",
+    "transactionDeadline": "Transaction deadline",
+    "transactionRevertPending": "Your transaction will revert if it is pending for more than this long.",
+    "minutes": "Minutes"
+  },
 
   "bridge": {
     "pageTitle": "Bridge",
@@ -276,15 +285,7 @@
     "liquidityProvider": "Liquidity Provider Fee",
     "forEachTradeAFeeIsPaid": "For each trade a 0.25% fee is paid. 0.20% goes to liquidity providers and 0.05% goes to the AliumSwap treasury.",
     "route": "Route",
-    "routingThroughThese": "Routing through these tokens resulted in the best price for your trade.",
-    "settingsModal" : {
-      "modalTitle": "Liquidity Creation Settings",
-      "slippedTolerance": "Slippage tolerance",
-      "transactionRevert": "Your transaction will revert if the price changes unfavorably by more than this percentage.",
-      "transactionDeadline": "Transaction deadline",
-      "transactionRevertPending": "Your transaction will revert if it is pending for more than this long.",
-      "minutes": "Minutes"
-    }
+    "routingThroughThese": "Routing through these tokens resulted in the best price for your trade."
   },
   "liquidity": {
     "header": "Liquidity",
