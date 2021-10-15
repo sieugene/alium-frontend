@@ -1,4 +1,7 @@
-import { useTranslation, Trans } from 'next-i18next'
+import { Trans, useTranslation } from 'next-i18next'
+import { ReactComponent as AppStoreIcon } from 'public/icons/AppStore.svg'
+import { ReactComponent as GooglePlayIcon } from 'public/icons/GooglePlay.svg'
+import { ReactComponent as PlayButtonIcon } from 'public/icons/PlayButton.svg'
 import React from 'react'
 import styled from 'styled-components'
 import MainSlider from './MainSlider'
@@ -11,32 +14,6 @@ const Arrow = () => {
   return (
     <svg width='16' height='40' viewBox='0 0 18 42' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path d='M1 1L17 21L1 41' stroke='#D2D6E5' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
-    </svg>
-  )
-}
-
-const PlayMarket = () => {
-  return (
-    <svg width='26' height='29' viewBox='0 0 26 29' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M20.1959 18.4796L16.8523 15.1919L4.57776 27.2961L20.1959 18.4796Z' fill='white' />
-      <path d='M20.1959 9.53037L4.57776 0.713867L16.8523 12.818L20.1959 9.53037Z' fill='white' />
-      <path
-        d='M25.0904 15.6669C26.0914 14.8852 26.0914 13.1235 25.0239 12.3419L21.7479 10.4775L18.0928 14.0055L21.7479 17.5335L25.0904 15.6669Z'
-        fill='white'
-      />
-      <path
-        d='M1.3732 28.002L15.6462 13.9996L1.3732 0.00311979V0.00195312C0.651037 0.37412 0.16687 1.05195 0.16687 1.93279V26.0711C0.16687 26.952 0.651037 27.6298 1.3732 28.002Z'
-        fill='white'
-      />
-    </svg>
-  )
-}
-
-const PlayButton = () => {
-  return (
-    <svg width='64' height='64' viewBox='0 0 65 64' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <rect x='0.5' width='64' height='64' rx='32' fill='white' />
-      <path d='M27.25 25.25L37.75 32L27.25 38.75V25.25Z' fill='#6C5DD3' />
     </svg>
   )
 }
@@ -102,22 +79,33 @@ const HomeNew = () => {
 
       <FooterContainer>
         <a className='overlay' href='https://www.youtube.com/watch?v=9j3M7qz2Z04' target='_blank'>
-          <PlayButton />
+          <PlayButtonIcon />
           <p>{t('home.howItWorks')}</p>
         </a>
         <div className='left'>
           <h1>
             <div className='title'>{t('home.aliumSwapIsAlways')}</div>
           </h1>
-          <SocialItem href='https://play.google.com/store/apps/details?id=com.alium.finance' target='_blank'>
-            <div className='icon'>
-              <PlayMarket />
-            </div>
-            <div className='info'>
-              <p className='title'>{t('home.getItOn')}</p>
-              <p className='social'>{t('home.googlePlay')}</p>
-            </div>
-          </SocialItem>
+          <div className='social-items'>
+            <SocialItem href='https://play.google.com/store/apps/details?id=com.alium.finance' target='_blank'>
+              <div className='icon'>
+                <GooglePlayIcon />
+              </div>
+              <div className='info'>
+                <p className='title'>{t('home.getItOn')}</p>
+                <p className='social'>{t('home.googlePlay')}</p>
+              </div>
+            </SocialItem>
+            <SocialItem href='https://apps.apple.com/ru/app/aliumswap-dex/id1585963586' target='_blank'>
+              <div className='icon'>
+                <AppStoreIcon />
+              </div>
+              <div className='info'>
+                <p className='title'>{t('home.getItOn')}</p>
+                <p className='social'>{t('home.googlePlay')}</p>
+              </div>
+            </SocialItem>
+          </div>
         </div>
       </FooterContainer>
     </>
@@ -220,7 +208,7 @@ const CardContainer = styled.div`
     }
   }
 
-  @media screen and (min-width: 1440px) {
+  @media screen and (min-width: ${xl}) {
     .card-content {
       .title {
         width: 354px;
@@ -381,11 +369,21 @@ const FooterContainer = styled.div`
   flex-direction: row;
   padding: 24px 16px;
 
+  .social-items {
+    display: flex;
+    gap: 8px;
+  }
+
   .overlay {
+    width: fit-content;
     position: absolute;
     height: 64px;
     right: 16px;
     bottom: 98px;
+
+    svg {
+      transition: filter 200ms;
+    }
 
     p {
       display: none;
@@ -414,6 +412,10 @@ const FooterContainer = styled.div`
     height: 350px;
     background: url('/images/home-new/app-image.png') no-repeat center/cover, #6c5dd3;
 
+    .social-items {
+      flex-direction: column;
+    }
+
     .overlay {
       display: flex;
       flex-direction: column;
@@ -423,7 +425,7 @@ const FooterContainer = styled.div`
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      
+
       svg {
         min-height: 64px;
       }
@@ -437,26 +439,59 @@ const FooterContainer = styled.div`
         letter-spacing: 1px;
         color: #fff;
       }
-    
+    }
+
     .left {
       h1 {
         max-width: 277px;
-        font-size: 32px;
-        line-height: 40px;
+        font-weight: bold;
+        font-size: 40px;
+        line-height: 48px;
       }
+    }
+  }
+
+  @media screen and (min-width: ${lg}) {
+    .overlay {
+      &:hover {
+        svg {
+          filter: drop-shadow(0px 6px 8px rgba(220, 224, 244, 0.56));
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: ${xl}) {
+    padding: 40px;
+
+    .social-items {
+      flex-direction: row;
     }
   }
 `
 
 const SocialItem = styled.a`
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(11, 19, 89, 0.3);
   border-radius: 6px;
-  width: fit-content;
-  padding: 8px 16px 8px 16px;
+  width: 154px;
+  height: 50px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 200ms;
+
+  &:hover,
+  &:focus {
+    background: rgba(11, 19, 89, 0.5);
+  }
+
+  &:active {
+    background: rgba(11, 19, 89, 0.5);
+    box-shadow: inset 0 3px 0 rgba(11, 19, 89, 0.5);
+  }
 
   .icon {
-    margin-right: 16px;
+    margin-right: 12px;
   }
 
   .title {
