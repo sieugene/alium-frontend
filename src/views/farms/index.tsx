@@ -65,7 +65,7 @@ const Farms = () => {
   const farmsList = useCallback(
     (farmsToDisplay: Farm[]): FarmWithStakedValue[] => {
       let farmsToDisplayWithAPR = farmsToDisplay.map((farm) => {
-        if (!farm.lpTotalInQuoteToken) {
+        if (!farm.farmLpBalance) {
           return farm
         }
 

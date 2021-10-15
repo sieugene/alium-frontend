@@ -1,6 +1,6 @@
 import { formatEther } from '@ethersproject/units'
 import BigNumber from 'bignumber.js'
-import { BIG_TEN, BIG_ZERO } from 'config'
+import { BIG_ZERO } from 'config'
 import erc20 from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
 import { Farm, PublicFarmData } from 'state/types'
@@ -51,18 +51,6 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
 
     const farmLpBalanceBn = new BigNumber(farmLpBalance)
 
-    // Ratio in % of LP tokens that are staked in the MC, vs the total number in circulation
-    const lpTokenRatio = farmLpBalanceBn.div(new BigNumber(lpTotalSupply))
-
-    // Raw amount of token in the LP, including those not staked
-    const quoteTokenAmountTotal = new BigNumber(quoteTokenBalanceLP).div(BIG_TEN.pow(quoteTokenDecimals))
-
-    // Amount of quoteToken in the LP that are staked in the MC
-    const quoteTokenAmountMc = quoteTokenAmountTotal.times(lpTokenRatio)
-
-    // Total staked in LP, in quote token value
-    const lpTotalInQuoteToken = quoteTokenAmountMc.times(new BigNumber(2))
-
     // Only make masterchef calls if farm has pid
 
     const [info, totalAllocPoint] =
@@ -103,7 +91,6 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     const formattedLiqudity = liqudity?.gt(0) ? liqudity.precision(6).toNumber() : 0
 
     return {
-      lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
       multiplier: `${allocPoint.div(100).toString()}X`,
       depositFee,
       apy,
@@ -113,7 +100,6 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     }
   } catch (error) {
     return {
-      lpTotalInQuoteToken: '0',
       multiplier: `${0}X`,
       depositFee: 0,
       apy: 0,
