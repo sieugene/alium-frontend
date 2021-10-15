@@ -1,3 +1,4 @@
+import { formatEther } from '@ethersproject/units'
 import BigNumber from 'bignumber.js'
 import { BIG_TEN, BIG_ZERO } from 'config'
 import erc20 from 'config/abi/erc20.json'
@@ -45,11 +46,13 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       },
     ]
 
-    const [tokenBalanceLP, quoteTokenBalanceLP, farmLpBalanceBn, lpTotalSupply, quoteTokenDecimals] =
+    const [tokenBalanceLP, quoteTokenBalanceLP, farmLpBalance, lpTotalSupply, quoteTokenDecimals] =
       await multicallWithDecoder(erc20, calls)
 
+    const farmLpBalanceBn = new BigNumber(farmLpBalance)
+
     // Ratio in % of LP tokens that are staked in the MC, vs the total number in circulation
-    const lpTokenRatio = new BigNumber(farmLpBalanceBn).div(new BigNumber(lpTotalSupply))
+    const lpTokenRatio = farmLpBalanceBn.div(new BigNumber(lpTotalSupply))
 
     // Raw amount of token in the LP, including those not staked
     const quoteTokenAmountTotal = new BigNumber(quoteTokenBalanceLP).div(BIG_TEN.pow(quoteTokenDecimals))
@@ -106,6 +109,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       apy,
       liqudity: formattedLiqudity,
       lpPrice,
+      farmLpBalance: Number(formatEther(String(farmLpBalanceBn))),
     }
   } catch (error) {
     return {
@@ -115,6 +119,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       apy: 0,
       liqudity: 0,
       lpPrice: BIG_ZERO,
+      farmLpBalance: 0,
     }
   }
 }

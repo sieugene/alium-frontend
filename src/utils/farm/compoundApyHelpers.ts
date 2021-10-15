@@ -165,3 +165,12 @@ export const formatRoiValuesView = (value: string | number) => {
 
   return formatted
 }
+
+export const roiCalculator = (apy: number, poolBalance: number, userBalance: number, lpPriceBusd: number) => {
+  const userShares = (100 * userBalance) / poolBalance
+  // calc one day
+  // const roiDayPercentage = apy / 365
+  const roiDayPercentage = apy
+  const roiDayBusd = (roiDayPercentage * ((lpPriceBusd * poolBalance * userShares) / 100)) / 100
+  return { roiDayPercentage, roiDayBusd }
+}
