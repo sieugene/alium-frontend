@@ -395,7 +395,9 @@
     "howItWorks": "How it works?",
     "aliumSwapIsAlways": "Alium Swap is always at hand",
     "getItOn": "Get it on",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "downloadOn": "Download on",
+    "appStore": "App Store"
   },
   "404": {
     "oopsYourForce": "Oops, your force is not strong enough",

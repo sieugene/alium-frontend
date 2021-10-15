@@ -101,8 +101,8 @@ const HomeNew = () => {
                 <AppStoreIcon />
               </div>
               <div className='info'>
-                <p className='title'>{t('home.getItOn')}</p>
-                <p className='social'>{t('home.googlePlay')}</p>
+                <p className='title'>{t('home.downloadOn')}</p>
+                <p className='social'>{t('home.appStore')}</p>
               </div>
             </SocialItem>
           </div>
@@ -480,8 +480,7 @@ const SocialItem = styled.a`
   justify-content: center;
   transition: background-color 200ms;
 
-  &:hover,
-  &:focus {
+  &:hover {
     background: rgba(11, 19, 89, 0.5);
   }
 
