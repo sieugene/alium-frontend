@@ -5,7 +5,7 @@ import erc20 from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
 import { Farm, PublicFarmData } from 'state/types'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
-import { multicallWithDecoder } from 'utils/multicall'
+import { Call, multicallWithDecoder } from 'utils/multicall'
 import { getAlmPrice } from 'utils/prices/getAlmPrice'
 import { calcApy, calcLiqudityLpFarm } from './farms.functions'
 import { lpTokenPriceToStable } from './fetchApy'
@@ -15,7 +15,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     const { pid, lpAddresses, token, quoteToken } = farm
     const lpAddress = getAddress(lpAddresses)
 
-    const calls = [
+    const calls: Call[] = [
       // Balance of token in the LP contract
       {
         address: token.address,

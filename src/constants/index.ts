@@ -81,13 +81,7 @@ export const BSC_CAKE = newTokenChecksummed(
   'CAKE',
   'PancakeSwap Token',
 )
-export const TESTALM = newTokenChecksummed(
-  ChainId.BSCTESTNET,
-  '0xf671C33452adfB8e0f645d95d8E3C6Df0d78fED2',
-  18,
-  'ALM',
-  'Alium Token',
-)
+
 
 export const TESTBUSD = newTokenChecksummed(
   ChainId.BSCTESTNET,
@@ -379,7 +373,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]: { [tokenAddress: string]: Tok
   [ChainId.HECOMAINNET]: {},
   [ChainId.HECOTESTNET]: {},
   [ChainId.MAINNET]: { [ETH.address]: [DAI, WETH[ChainId.MAINNET], BETH] },
-  [ChainId.BSCTESTNET]: { [ETH.address]: [TESTDAI, TESTALM, TESTXXX1] },
+  [ChainId.BSCTESTNET]: { [ETH.address]: [TESTDAI, TEST_BSC_ALM, TESTXXX1] },
   [ChainId.MATIC_MAINNET]: {},
   [ChainId.MATIC_TESTNET]: {},
   [ChainId.ETHER_MAINNET]: {},
