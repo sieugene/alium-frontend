@@ -2,6 +2,7 @@ import { rgba } from 'polished'
 import { Fragment, useMemo } from 'react'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 
 function toRadians(degrees: number) {
@@ -132,20 +133,12 @@ UsersProgressBar.Counters = styled.div`
 `
 
 UsersProgressBar.Text = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
+  ${typography.ultrasmall.medium}
   color: #ffffff;
 `
 
 UsersProgressBar.Value = styled.div`
-  font-style: normal;
-  font-weight: bold;
-  font-size: 48px;
-  line-height: 56px;
-  letter-spacing: 0.3px;
+  ${typography.h2}
   color: #ffffff;
   position: relative;
   margin-bottom: 8px;

@@ -1,18 +1,21 @@
+import { formatEther } from '@ethersproject/units'
 import BigNumber from 'bignumber.js'
-import { BIG_TEN, BIG_ZERO } from 'config'
+import { BIG_ZERO } from 'config'
 import erc20 from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
 import { Farm, PublicFarmData } from 'state/types'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
-import { multicallWithDecoder } from 'utils/multicall'
-import { fetchApy } from './fetchApy'
+import { Call, multicallWithDecoder } from 'utils/multicall'
+import { getAlmPrice } from 'utils/prices/getAlmPrice'
+import { calcApy, calcLiqudityLpFarm } from './farms.functions'
+import { lpTokenPriceToStable } from './fetchApy'
 
 const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
   try {
     const { pid, lpAddresses, token, quoteToken } = farm
     const lpAddress = getAddress(lpAddresses)
 
-    const calls = [
+    const calls: Call[] = [
       // Balance of token in the LP contract
       {
         address: token.address,
@@ -36,11 +39,6 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
         address: lpAddress,
         name: 'totalSupply',
       },
-      // Token decimals
-      {
-        address: token.address,
-        name: 'decimals',
-      },
       // Quote token decimals
       {
         address: quoteToken.address,
@@ -48,21 +46,10 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       },
     ]
 
-    const [tokenBalanceLP, quoteTokenBalanceLP, lpTokenBalanceMC, lpTotalSupply, tokenDecimals, quoteTokenDecimals] =
+    const [tokenBalanceLP, quoteTokenBalanceLP, farmLpBalance, lpTotalSupply, quoteTokenDecimals] =
       await multicallWithDecoder(erc20, calls)
 
-    // Ratio in % of LP tokens that are staked in the MC, vs the total number in circulation
-    const lpTokenRatio = new BigNumber(lpTokenBalanceMC).div(new BigNumber(lpTotalSupply))
-
-    // Raw amount of token in the LP, including those not staked
-    const tokenAmountTotal = new BigNumber(tokenBalanceLP).div(BIG_TEN.pow(tokenDecimals))
-    const quoteTokenAmountTotal = new BigNumber(quoteTokenBalanceLP).div(BIG_TEN.pow(quoteTokenDecimals))
-
-    // Amount of quoteToken in the LP that are staked in the MC
-    const quoteTokenAmountMc = quoteTokenAmountTotal.times(lpTokenRatio)
-
-    // Total staked in LP, in quote token value
-    const lpTotalInQuoteToken = quoteTokenAmountMc.times(new BigNumber(2))
+    const farmLpBalanceBn = new BigNumber(farmLpBalance)
 
     // Only make masterchef calls if farm has pid
 
@@ -85,49 +72,40 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
     const poolWeight = totalAllocPoint ? allocPoint.div(new BigNumber(totalAllocPoint)).times(100) : BIG_ZERO
 
     const depositFee = Number(info?.depositFee) === 0 ? 0 : 100000 / (info?.depositFee * 100) / 100
-    console.log(Number(info?.depositFee), 'depositFee')
 
     // apy fetch and calc
-    const { apy, liqudity, lpPrice } = await fetchApy(
+    const farmLpBalanceToStable = await lpTokenPriceToStable(
       token,
       quoteToken,
       tokenBalanceLP,
       quoteTokenBalanceLP,
       lpTotalSupply,
-      poolWeight,
-      lpTokenBalanceMC,
     )
+
+    const apy = calcApy(Number(getAlmPrice()), Number(poolWeight), farmLpBalanceBn, farmLpBalanceToStable)
+
+    const liqudity = calcLiqudityLpFarm(farmLpBalanceToStable, farmLpBalanceBn)
+
+    const lpPrice = new BigNumber(farmLpBalanceToStable)
 
     const formattedLiqudity = liqudity?.gt(0) ? liqudity.precision(6).toNumber() : 0
 
     return {
-      quoteTokenAmountMc: quoteTokenAmountMc.toJSON(),
-      tokenAmountTotal: tokenAmountTotal.toJSON(),
-      quoteTokenAmountTotal: quoteTokenAmountTotal.toJSON(),
-      lpTotalSupply: new BigNumber(lpTotalSupply).toJSON(),
-      lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
-      tokenPriceVsQuote: quoteTokenAmountTotal.div(tokenAmountTotal).toJSON(),
-      poolWeight: poolWeight.toJSON(),
       multiplier: `${allocPoint.div(100).toString()}X`,
       depositFee,
       apy,
       liqudity: formattedLiqudity,
       lpPrice,
+      farmLpBalance: Number(formatEther(String(farmLpBalanceBn))),
     }
   } catch (error) {
     return {
-      quoteTokenAmountMc: '0',
-      tokenAmountTotal: '0',
-      quoteTokenAmountTotal: '0',
-      lpTotalSupply: '0',
-      lpTotalInQuoteToken: '0',
-      tokenPriceVsQuote: '0',
-      poolWeight: '0',
       multiplier: `${0}X`,
       depositFee: 0,
       apy: 0,
       liqudity: 0,
       lpPrice: BIG_ZERO,
+      farmLpBalance: 0,
     }
   }
 }

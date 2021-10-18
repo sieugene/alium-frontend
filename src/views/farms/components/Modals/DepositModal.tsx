@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import FarmActionModal, { FarmActionModalProps } from './FarmActionModal'
 
 const DepositModal: FC<Omit<FarmActionModalProps, 'title' | 'type'>> = ({
@@ -9,7 +10,8 @@ const DepositModal: FC<Omit<FarmActionModalProps, 'title' | 'type'>> = ({
   farm,
   almPrice,
 }) => {
-  const title = `Stake LP tokens`
+  const { t } = useTranslation()
+  const title = t('farm.actions.stake') + ` LP tokens`
 
   return (
     <FarmActionModal

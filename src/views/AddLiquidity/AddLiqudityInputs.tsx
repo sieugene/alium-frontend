@@ -85,6 +85,7 @@ export const AddLiqudityInputs: FC<Props> = memo(
     return (
       <>
         <CurrencyInputPanel
+          checkMax
           label={t('liquidity.labelFrom')}
           value={inputs.a || formattedAmounts[Field.CURRENCY_A]}
           onUserInput={onInputA}
@@ -107,6 +108,7 @@ export const AddLiqudityInputs: FC<Props> = memo(
           </StyledAddIcon>
         </ColumnCenter>
         <CurrencyInputPanel
+          checkMax
           label={t('liquidity.labelToEstimated')}
           value={inputs.b || formattedAmounts[Field.CURRENCY_B]}
           onUserInput={onInputB}

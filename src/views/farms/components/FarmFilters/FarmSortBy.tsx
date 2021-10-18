@@ -6,6 +6,7 @@ import {
   FARM_MOBILE_MEDIA,
   FARM_TABLET_MEDIA,
 } from 'constants/layout/farm.layout'
+import { useTranslation } from 'react-i18next'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
 import { FarmSortOption } from 'views/farms/farms.types'
@@ -51,13 +52,14 @@ const StyledDropdown = styled(DropdownList)`
 `
 
 export const FarmSortBy = () => {
-  const sortOption = useStoreFarms((state) => state.sortOption)
+  const { t } = useTranslation()
+  const sortOption = useStoreFarms((state) => t(`farm.filters.sortOption.${state.sortOption}`))
   const setSortOption = useStoreFarms((state) => state.setSortOption)
-  const list = Object.values(FarmSortOption)
+  const list = Object.values(FarmSortOption).map((opt) => t(`farm.filters.sortOption.${opt}`))
 
   return (
     <Wrapper>
-      <h2>Sort by</h2>
+      <h2>{t('farm.filters.sortBy')}</h2>
       <StyledDropdown list={list} active={sortOption} select={(item: FarmSortOption) => setSortOption(item)} />
     </Wrapper>
   )

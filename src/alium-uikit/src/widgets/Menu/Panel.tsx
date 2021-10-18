@@ -1,17 +1,17 @@
 import { FC } from 'react'
 import styled from 'styled-components'
+import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
 import { MENU_HEIGHT, SIDEBAR_WIDTH_FULL, SIDEBAR_WIDTH_REDUCED } from './config'
 import PanelBody from './PanelBody'
 import PanelFooter from './PanelFooter'
 import { PanelProps, PushedProps } from './types'
 
 interface Props extends PanelProps, PushedProps {
-  showMenu: boolean
-  isMobile: boolean
+  showNav: boolean
   togglePush?: () => void
 }
 
-const StyledPanel = styled.div<{ ispushed: boolean; showMenu: boolean }>`
+const StyledPanel = styled.div<{ ispushed: boolean }>`
   position: fixed;
   padding-top: 0;
   display: flex;
@@ -29,7 +29,7 @@ const StyledPanel = styled.div<{ ispushed: boolean; showMenu: boolean }>`
   right: 0;
   width: ${({ ispushed }) => (ispushed ? `315px` : 0)};
 
-  ${({ theme }) => theme.mediaQueries.nav} {
+  @media ${up(breakpoints.md)} {
     border-right: 2px solid rgba(133, 133, 133, 0.1);
     width: ${({ ispushed }) => `${ispushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px`};
     top: 0;
@@ -37,15 +37,16 @@ const StyledPanel = styled.div<{ ispushed: boolean; showMenu: boolean }>`
     padding-top: 28px;
     height: 100vh;
   }
-  @media screen and (max-width: 480px) {
+
+  @media ${down(breakpoints.xs)} {
     width: ${({ ispushed }) => `${ispushed ? '100vw' : '0px'}`};
   }
 `
 
 const Panel: FC<Props> = (props) => {
-  const { ispushed, showMenu } = props
+  const { ispushed } = props
   return (
-    <StyledPanel ispushed={ispushed} showMenu={showMenu}>
+    <StyledPanel ispushed={ispushed}>
       <PanelBody {...props} />
       <PanelFooter {...props} />
     </StyledPanel>

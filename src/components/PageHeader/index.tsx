@@ -1,13 +1,14 @@
 import { Flex, Heading, IconButton, Text, useModal } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 import styled, { useTheme } from 'styled-components'
 import RecentTransactionsModal from './RecentTransactionsModal'
 import SettingsModal from './SettingsModal'
 
 interface PageHeaderProps {
-  title: ReactNode
-  description?: ReactNode
+  title: string
+  description?: string
+  settingsModalTitle: string
   children?: ReactNode
 }
 
@@ -66,11 +67,11 @@ const Details = styled.div`
   flex: 1;
 `
 
-const PageHeader = ({ title, description, children }: PageHeaderProps) => {
+const PageHeader = ({ title, description, settingsModalTitle, children }: PageHeaderProps) => {
   const theme = useTheme() as any
   const { t } = useTranslation()
 
-  const [onPresentSettings] = useModal(<SettingsModal />)
+  const [onPresentSettings] = useModal(<SettingsModal title={settingsModalTitle} />)
   const [onPresentRecentTransactions] = useModal(<RecentTransactionsModal />)
 
   return (

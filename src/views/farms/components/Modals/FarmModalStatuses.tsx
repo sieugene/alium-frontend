@@ -24,8 +24,8 @@ export const FarmModalStatuses = ({ loading, success, error, children, type, onR
 
   return (
     <FarmModalStatuses.Wrapper>
-      {loading && <FarmModalStatuses.ActionFarmLoader />}
-      {success && <FarmModalStatuses.ActionFarmSuccess type={type} />}
+      {loading && <FarmModalStatuses.ActionFarmLoader t={t} />}
+      {success && <FarmModalStatuses.ActionFarmSuccess t={t} type={type} />}
       {error && <FarmModalStatuses.ActionFarmError t={t} onRepeat={onRepeat} />}
       <ShadowComponent hide={hideOn} style={{ width: '100%' }}>
         {children}
@@ -34,19 +34,19 @@ export const FarmModalStatuses = ({ loading, success, error, children, type, onR
   )
 }
 
-FarmModalStatuses.ActionFarmLoader = () => {
+FarmModalStatuses.ActionFarmLoader = ({ t }: { t: TFunction }) => {
   return (
     <FarmModalStatuses.Wrapper>
       <FarmModalStatuses.Loading type='TailSpin' color='#6C5DD3' />
-      <h3 className='wait'>Wait a moment please</h3>
+      <h3 className='wait'>{t('farm.waitAmomentPlease')}</h3>
     </FarmModalStatuses.Wrapper>
   )
 }
 
-FarmModalStatuses.ActionFarmSuccess = ({ type }: { type: FarmActionModalProps['type'] }) => {
+FarmModalStatuses.ActionFarmSuccess = ({ type, t }: { type: FarmActionModalProps['type']; t: TFunction }) => {
   const isStake = type === 'stake'
-  const title = isStake ? 'Staked' : 'Unstaked'
-  const text = `Your funds have been ${isStake ? 'staked' : 'unstaked'} in the farm`
+  const title = isStake ? t('farm.actions.staked') : t('farm.actions.unstaked')
+  const text = t('farm.messages.fundsResult', { text: title?.toLowerCase() })
   return (
     <FarmModalStatuses.Wrapper>
       <BridgeSuccessIcon />

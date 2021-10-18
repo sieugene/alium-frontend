@@ -87,8 +87,6 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
         explorerName={explorerName}
         explorerLink={explorerLink}
         onTransactionHistoryHandler={transactionsHistoryModal}
-        betaText='This is the main version. Press here to switch to Beta.'
-        betaLink='https://beta.exchange.alium.finance'
         {...props}
       />
     </>

@@ -1,5 +1,4 @@
 import { Modal } from 'alium-uikit/src'
-import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import SlippageToleranceSetting from './SlippageToleranceSetting'
 import TransactionDeadlineSetting from './TransactionDeadlineSetting'
@@ -12,16 +11,16 @@ const StyledModal = styled.div`
 
 interface SettingsModalProps {
   onDismiss?: () => void
+  title: string
 }
 
 // TODO: Fix UI Kit typings
 const defaultOnDismiss = () => null
 
-const SettingsModal = ({ onDismiss = defaultOnDismiss }: SettingsModalProps) => {
-  const { t } = useTranslation()
+const SettingsModal = ({ onDismiss = defaultOnDismiss, title }: SettingsModalProps) => {
   return (
     <StyledModal>
-      <Modal title={t('exchange.settingsModal.modalTitle')} onDismiss={onDismiss}>
+      <Modal title={title} onDismiss={onDismiss}>
         <SlippageToleranceSetting />
         <TransactionDeadlineSetting />
       </Modal>

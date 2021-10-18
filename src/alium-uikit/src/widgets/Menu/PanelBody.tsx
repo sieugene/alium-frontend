@@ -1,7 +1,9 @@
+import ViewAlmPrice from 'alium-uikit/src/widgets/Menu/ViewAlmPrice'
 import { NextLink } from 'components/NextLink'
 import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
 import styled from 'styled-components'
+import { breakpoints, up } from 'views/StrongHoldersPool/mq'
 import { SvgProps } from '../../components/Svg'
 import Accordion from './Accordion'
 import * as IconModule from './icons'
@@ -47,9 +49,11 @@ const StyledIcon = styled.div`
   top: 36px;
   transition: background-color 200ms ease-in-out;
   border-right: 2px solid rgba(133, 133, 133, 0.1);
+
   &:hover {
     background: linear-gradient(0deg, #f0f0f0, #f0f0f0);
   }
+
   & > * {
     margin: auto;
     transition: transform 200ms ease-in-out;
@@ -59,21 +63,26 @@ const StyledIcon = styled.div`
 
 const StyledLinksPanel = styled.div`
   padding: 18px;
-  ${({ theme }) => theme.mediaQueries.nav} {
+
+  @media ${up(breakpoints.md)} {
     padding-top: 33px;
     padding-left: 17px;
     padding-right: 17px;
   }
+
   @media screen and (max-width: 967px) {
     & > div:not(:last-child) {
       border-bottom: 1px solid #f4f5fa;
     }
+
     & > div > a {
       font-weight: 500;
     }
+
     & > div > div:first-child {
       font-weight: 500;
     }
+
     & > div > div:not(:first-child) > div > a {
       /* color: #8990a5 !important; */
       font-weight: 500;
@@ -83,13 +92,15 @@ const StyledLinksPanel = styled.div`
 
 const StyledLogoIcon = styled.div`
   display: none;
-  ${({ theme }) => theme.mediaQueries.nav} {
+
+  @media ${up(breakpoints.md)} {
     display: block;
   }
 `
 
 const StyledLink = styled(NextLink.Multiple)<{ ispushed: boolean; isnew: boolean }>`
   flex-direction: ${(props) => (props.ispushed || !props.isnew ? 'inherit' : 'column')};
+
   div,
   span {
     margin-left: ${(props) => (props.ispushed || !props.isnew ? '8px' : '0px')} !important;
@@ -100,6 +111,7 @@ const StyledLink = styled(NextLink.Multiple)<{ ispushed: boolean; isnew: boolean
   svg {
     margin-right: ${(props) => (props.ispushed || !props.isnew ? '8px' : '0px')} !important;
   }
+
   &:hover {
     div {
       &:last-child {
@@ -115,11 +127,9 @@ const LinkLabelStyled = styled(LinkLabel)<{ ispushed: boolean }>`
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  display: flex;
   align-items: center;
   letter-spacing: 0.1px;
   display: ${(props) => (props.ispushed ? 'flex' : 'none')};
-
   color: #0b1359;
 `
 
@@ -147,6 +157,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, 
 
   return (
     <Container>
+      <ViewAlmPrice inPanel />
       <StyledLogoIcon>
         <Logo isDark={isDark} href={homeLink?.href ?? '/'} ispushed={ispushed} />
       </StyledLogoIcon>

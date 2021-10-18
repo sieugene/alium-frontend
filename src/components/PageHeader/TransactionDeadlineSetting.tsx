@@ -37,8 +37,8 @@ const TransactionDeadlineSetting = () => {
   return (
     <StyledTransactionDeadlineSetting>
       <Label>
-        <Text style={{ fontWeight: 600 }}>{t('exchange.settingsModal.transactionDeadline')}</Text>
-        <QuestionHelper text={t('exchange.settingsModal.transactionRevertPending')} />
+        <Text style={{ fontWeight: 600 }}>{t('settingsModal.transactionDeadline')}</Text>
+        <QuestionHelper text={t('settingsModal.transactionRevertPending')} />
       </Label>
       <Field>
         <Numeric
@@ -54,7 +54,7 @@ const TransactionDeadlineSetting = () => {
             height: '48px',
           }}
         />
-        <Text color={theme.colors.textSubtle}>{t('exchange.settingsModal.minutes')}</Text>
+        <Text color={theme.colors.textSubtle}>{t('settingsModal.minutes')}</Text>
       </Field>
       {error && (
         <Text mt='8px' color='failure'>

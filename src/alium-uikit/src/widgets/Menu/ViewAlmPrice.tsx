@@ -1,82 +1,24 @@
+import { ChevronRightIcon } from 'alium-uikit/src/components/Svg'
 import { externalLinks } from 'alium-uikit/src/config'
+import { StyledInternalLink } from 'components/Shared'
 import { useTranslation } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
 import { fetchTokenPriceFromCoingecko } from 'services/coingecko'
 import styled from 'styled-components'
 import Cookies from 'universal-cookie'
 import { getAlmPrice } from 'utils/prices/getAlmPrice'
+import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
 import { getCookieOptions } from '../../config/getCookieOptions'
 import { IconTokenAlm } from './icons/IconTokenAlm'
 
 const cookies = new Cookies()
 
-const Styled = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto 0 12px;
-  transition: all 200ms ease-out;
-  opacity: 0;
-
-  &.visible {
-    opacity: 1;
-  }
-
-  @media screen and (min-width: 968px) {
-    &.with-indent {
-      margin-left: 180px;
-    }
-  }
-`
-
-const IconWrapper = styled.div`
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: #dfefed;
-  border-radius: 6px;
-  width: 32px;
-  height: 32px;
-  margin: 0 5px 0 0;
-
-  @media screen and (min-width: 375px) {
-    display: flex;
-  }
-
-  @media screen and (min-width: 768px) {
-    width: 40px;
-    height: 40px;
-  }
-`
-
-const TextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 11px;
-  line-height: 14px;
-
-  font-family: Roboto, sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  color: #0b1359;
-  width: 62px;
-
-  @media screen and (min-width: 768px) {
-    font-size: 14px;
-    line-height: 20px;
-    width: auto;
-  }
-
-  @media screen and (min-width: 900px) {
-    flex-direction: row;
-  }
-`
-
 interface props {
-  ispushed: boolean
+  ispushed?: boolean
+  inPanel?: boolean
 }
 
-const ViewAlmPrice: FC<props> = ({ ispushed }) => {
+const ViewAlmPrice: FC<props> = ({ ispushed, inPanel }) => {
   const { t } = useTranslation()
   const [price, setPrice] = useState<null | string>(null)
 
@@ -94,19 +36,111 @@ const ViewAlmPrice: FC<props> = ({ ispushed }) => {
     })
   }, [])
 
+  if (!price) {
+    return null
+  }
+
   return (
-    <Styled className={`${price ? 'visible' : ''} ${ispushed ? 'with-indent' : ''}`}>
-      <IconWrapper>
+    <Styled ispushed={ispushed} inPanel={inPanel}>
+      <IconWrapper inPanel={inPanel}>
         <IconTokenAlm />
       </IconWrapper>
-      <TextWrapper>
-        <span>{t('header.almPrice')}&nbsp;</span>
-        <span style={{ color: '#6C5DD3' }}>
-          <a href={externalLinks.bscscan}>${price}</a>
-        </span>
+      <TextWrapper inPanel={inPanel}>
+        <Text>
+          {t('header.almPrice')}&nbsp;
+          <a style={{ color: '#6C5DD3' }} href={externalLinks.bscscan}>
+            ${price}
+          </a>
+        </Text>
+        <BuyALM
+          inPanel={inPanel}
+          href='https://alium.finance/swap/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11/ETH'
+          target='_blank'
+        >
+          {t('common.button.buyALM')}
+          <ChevronRightIcon color='currentColor' />
+        </BuyALM>
       </TextWrapper>
     </Styled>
   )
 }
 
 export default ViewAlmPrice
+
+// styles
+
+const Styled = styled.div<{ ispushed: boolean; inPanel: boolean }>`
+  margin-top: ${({ inPanel }) => inPanel && '24px'};
+  display: ${({ inPanel }) => (inPanel ? 'flex' : 'none')};
+  justify-content: ${({ inPanel }) => !inPanel && 'center'};
+  align-items: center;
+  transition: all 200ms ease-out;
+
+  @media ${up(breakpoints.sm)} {
+    display: ${({ inPanel }) => (inPanel ? 'none' : 'flex')};
+  }
+
+  @media ${down(breakpoints.md)} {
+    margin-left: ${({ inPanel }) => (inPanel ? '22px' : '24px')};
+  }
+`
+
+const IconWrapper = styled.div<{ inPanel: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #dfefed;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+
+  @media ${up(breakpoints.sm)} {
+    width: 40px;
+    height: 40px;
+  }
+
+  @media ${down(breakpoints.md)} {
+    display: ${({ inPanel }) => !inPanel && 'none'};
+  }
+`
+
+const TextWrapper = styled.div<{ inPanel: boolean }>`
+  display: flex;
+  align-items: ${({ inPanel }) => inPanel && 'center'};
+  flex-direction: ${({ inPanel }) => !inPanel && 'column'};
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #0b1359;
+
+  @media ${up(breakpoints.sm)} {
+    font-size: 14px;
+    line-height: 20px;
+    width: auto;
+  }
+`
+
+const Text = styled.div`
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #0b1359;
+
+  @media ${up(breakpoints.md)} {
+    font-size: 14px;
+    line-height: 20px;
+    width: auto;
+  }
+`
+
+const BuyALM = styled(StyledInternalLink)<{ inPanel: boolean }>`
+  display: flex;
+  align-items: center;
+  margin-left: ${({ inPanel }) => inPanel && '8px'};
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 20px;
+`

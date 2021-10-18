@@ -2,7 +2,6 @@ import { Currency, Token } from '@alium-official/sdk'
 import { useActiveWeb3React } from 'hooks'
 import { CSSProperties, useMemo } from 'react'
 import { WrappedTokenInfo } from 'state/lists/hooks'
-import { Farm } from 'state/types'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getTokenLogoURL } from 'utils/common/getTokenLogoURL'
@@ -27,7 +26,7 @@ export default function CurrencyLogo({
   size = '24px',
   style,
 }: {
-  currency?: Currency | Farm['token'] | Farm['quoteToken']
+  currency?: Currency | Token
   size?: string
   style?: CSSProperties
 }) {
@@ -44,17 +43,17 @@ export default function CurrencyLogo({
   const srcs: string[] = useMemo(() => {
     if (currency === nativeCurrency) return []
 
-    if (currency instanceof Token || currency?.address) {
-      if (currency instanceof WrappedTokenInfo || (currency?.address && currency?.symbol)) {
+    if (currency instanceof Token || (currency as Token)?.address) {
+      if (currency instanceof WrappedTokenInfo || ((currency as Token)?.address && currency?.symbol)) {
         const sources = [
           ...uriLocations,
           `/images/coins/${currency?.symbol ?? 'token'}.png`,
-          getTokenLogoURL(currency.address, currency.symbol),
+          getTokenLogoURL((currency as Token)?.address, currency.symbol),
         ]
         return sources
       }
 
-      return [`/images/coins/${currency?.symbol ?? 'token'}.png`, getTokenLogoURL(currency.address)]
+      return [`/images/coins/${currency?.symbol ?? 'token'}.png`, getTokenLogoURL((currency as Token)?.address)]
     }
     return []
   }, [currency, uriLocations])

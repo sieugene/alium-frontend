@@ -1,4 +1,4 @@
-import { ChainId } from '@alium-official/sdk'
+import { Token } from '@alium-official/sdk'
 import { TranslatableText } from 'state/types'
 
 export type IfoStatus = 'coming_soon' | 'live' | 'finished'
@@ -44,23 +44,12 @@ export interface Address {
   [key: number]: string
 }
 
-export type FarmPricedToken =
-  | {
-      chainId: ChainId
-      address: string
-      decimals: number
-      symbol?: string
-      name?: string
-    }
-  | any
-// | Token
-
 export interface FarmConfig {
   pid: number
   lpSymbol: string
   lpAddresses: Address
-  token: FarmPricedToken
-  quoteToken: FarmPricedToken
+  token: Token
+  quoteToken: Token
   multiplier?: string
   isCommunity?: boolean
   dual?: {

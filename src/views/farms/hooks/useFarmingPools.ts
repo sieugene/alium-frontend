@@ -3,7 +3,6 @@ import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import { BIG_ZERO } from 'config'
 import { getFarmsConfig } from 'config/constants/farms/farms'
-import useRefresh from 'hooks/useRefresh'
 import { useEffect, useMemo } from 'react'
 import { fetchFarmUserDataAsync } from 'store/farms'
 import fetchFarms from 'store/farms/fetchFarms'
@@ -38,7 +37,6 @@ export const usePollFarmsPublicData = () => {
 }
 
 export const usePollFarmsWithUserData = (includeArchive = false) => {
-  const { slowRefresh } = useRefresh()
   const { account } = useWeb3React()
   // hooks
   const setFarmsUserData = useStoreFarms((state) => state.setFarmsUserData)
@@ -65,7 +63,7 @@ export const usePollFarmsWithUserData = (includeArchive = false) => {
         setLoading(false)
       }
     })()
-  }, [loading, slowRefresh, account])
+  }, [loading, account])
   return { farmsList, farmsUserDataLoading }
 }
 

@@ -3,7 +3,6 @@ import { isProduction } from 'config'
 import { WEB3NetworkErrors } from 'constants/network/NetworkErrors.contanst'
 import { getActualChainId } from 'store/network/lib/getActualChainId'
 import { getCurrentNetwork, ICurrentNetwork } from 'store/network/lib/getCurrentNetwork'
-import { getNetworkProviderParams } from 'store/network/lib/getNetworkProviderParams'
 import { WindowChain } from 'types'
 import Cookies from 'universal-cookie'
 import create from 'zustand'
@@ -32,7 +31,8 @@ interface StoreAccountState {
   setChainId: (id: number) => void
   setupNetwork: (id: number) => Promise<boolean>
   setConnectionError: (error: WEB3NetworkErrors | null) => void
-  toggleLoadConnection: (load: boolean, account?: string) => void
+  toggleLoadConnection: (load: boolean) => void
+  toggleConnected: (account: string) => void
 }
 
 // store for usage outside of react
@@ -44,21 +44,12 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   loadConnection: false,
   connected: false,
   // actions
-  toggleLoadConnection: (load: boolean, account?: string) => {
-    // TODO : Need refactor this
-
-    if (load && !account) {
-      set({ connected: false, loadConnection: load })
-      return
-    }
-    if (!load && account) {
-      set({ connected: true, loadConnection: load })
-      return
-    }
-    // end
-    set({
-      loadConnection: load,
-    })
+  toggleLoadConnection: (load: boolean) => {
+    set({ loadConnection: load })
+  },
+  toggleConnected: (account: string) => {
+    const isLoading = get().loadConnection
+    set({ connected: !isLoading && Boolean(account) })
   },
   killStoreNetwork: () => {
     storeNetwork.destroy() // destroy all store subscribes
@@ -72,6 +63,10 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
     }
   },
   setChainId: (id) => {
+    const currentChainId = get().currentChainId
+    if (currentChainId === id) {
+      return
+    }
     // clear connection
     set({ connected: false })
     const newChainId = getActualChainId(Number(id))
@@ -87,26 +82,9 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
      * @returns {boolean} true if the setup succeeded, false otherwise
      */
     const newChainId = getActualChainId(Number(id))
-    const newNetworkProviderParams = getNetworkProviderParams(newChainId)
     if (typeof window !== 'undefined' && window.ethereum) {
-      try {
-        await (window as WindowChain).ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [newNetworkProviderParams],
-        })
-        get().setChainId(newChainId)
-        return true
-      } catch (error) {
-        set({
-          loadConnection: false,
-        })
-        console.error(error)
-      }
-    } else {
-      set({
-        loadConnection: false,
-      })
-      console.error("Can't setup the network on metamask because window.ethereum is undefined")
+      get().setChainId(newChainId)
+      return true
     }
     return false
   },

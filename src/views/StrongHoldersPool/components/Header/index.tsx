@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
+import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 
 export default function Header() {
@@ -59,11 +60,7 @@ Header.ImageContainer = styled.div`
 `
 
 Header.Title = styled.h2`
-  font-style: normal;
-  font-weight: bold;
-  font-size: 48px;
-  line-height: 56px;
-  letter-spacing: 0.3px;
+  ${typography.h2}
   color: #0b1359;
   margin-bottom: 32px;
 `
@@ -92,11 +89,7 @@ Header.Root = styled.div`
 
   @media ${down(breakpoints.lg)} {
     ${Header.Title} {
-      font-style: normal;
-      font-weight: bold;
-      font-size: 40px;
-      line-height: 48px;
-      letter-spacing: 0.3px;
+      ${typography.h3}
     }
 
     ${Header.ImageContainer} {
@@ -110,11 +103,7 @@ Header.Root = styled.div`
 
   @media ${down(breakpoints.md)} {
     ${Header.Title} {
-      font-style: normal;
-      font-weight: bold;
-      font-size: 28px;
-      line-height: 36px;
-      letter-spacing: 0.3px;
+      ${typography.h5}
       margin-bottom: 24px;
     }
 
@@ -124,8 +113,6 @@ Header.Root = styled.div`
   }
 
   @media ${down(breakpoints.sm)} {
-    margin-bottom: 24px;
-
     ${Header.Tab} {
       min-width: auto;
       flex: 1;

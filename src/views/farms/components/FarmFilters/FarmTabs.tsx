@@ -1,4 +1,5 @@
 import { FARM_MOBILE_MEDIA } from 'constants/layout/farm.layout'
+import { useTranslation } from 'react-i18next'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
 import { FarmTab } from 'views/farms/farms.types'
@@ -32,6 +33,7 @@ const Tab = styled.div<{ active: boolean }>`
 `
 
 export const FarmTabs = () => {
+  const { t } = useTranslation()
   const setActiveTab = useStoreFarms((state) => state.setActiveTab)
   const activeTab = useStoreFarms((state) => state.activeTab)
 
@@ -46,7 +48,7 @@ export const FarmTabs = () => {
         }}
         active={FarmTab.live === activeTab}
       >
-        Live
+        {t('farm.filters.tabs.live')}
       </Tab>
       <Tab
         onClick={() => {
@@ -54,7 +56,7 @@ export const FarmTabs = () => {
         }}
         active={FarmTab.finished === activeTab}
       >
-        Finished
+        {t('farm.filters.tabs.finished')}
       </Tab>
     </Tabs>
   )

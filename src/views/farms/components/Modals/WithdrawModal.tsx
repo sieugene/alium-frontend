@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import FarmActionModal, { FarmActionModalProps } from './FarmActionModal'
 
 const WithdrawModal: FC<Omit<FarmActionModalProps, 'title' | 'type'>> = ({
@@ -9,7 +10,8 @@ const WithdrawModal: FC<Omit<FarmActionModalProps, 'title' | 'type'>> = ({
   farm,
   almPrice,
 }) => {
-  const title = `Unstake LP tokens`
+  const { t } = useTranslation()
+  const title = t('farm.actions.unstake') + ` LP tokens`
   return (
     <FarmActionModal
       max={max}

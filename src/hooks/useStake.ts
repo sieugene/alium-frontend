@@ -2,7 +2,8 @@ import { useWeb3React } from '@web3-react/core'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateUserBalance, updateUserStakedBalance } from 'state/actions'
-import { sousStake, sousStakeBnb, stake } from 'utils/callHelpers'
+import { sousStake, sousStakeBnb } from 'utils/callHelpers'
+import { stakeFarm } from 'utils/farm/calls'
 import { useMasterchef, useSousChef } from './useContract'
 
 const useStake = (pid: number) => {
@@ -12,7 +13,7 @@ const useStake = (pid: number) => {
 
   const handleStake = useCallback(
     async (amount: string) => {
-      const txHash = await stake(masterChefContract, pid, amount, account)
+      const txHash = await stakeFarm(masterChefContract, pid, amount)
 
       console.info(txHash)
     },
@@ -31,7 +32,7 @@ export const useSousStake = (sousId, isUsingBnb = false) => {
   const handleStake = useCallback(
     async (amount: string) => {
       if (sousId === 0) {
-        await stake(masterChefContract, 0, amount, account)
+        await stakeFarm(masterChefContract, 0, amount)
       } else if (isUsingBnb) {
         await sousStakeBnb(sousChefContract, amount, account)
       } else {

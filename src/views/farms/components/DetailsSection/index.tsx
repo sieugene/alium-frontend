@@ -1,5 +1,6 @@
 import { Skeleton } from 'alium-uikit/src'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/farms/farms.types'
 import { useFarmsLoading } from 'views/farms/hooks/useFarmingPools'
@@ -74,6 +75,7 @@ export interface ExpandableSectionProps {
 }
 
 const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLabel, farm }) => {
+  const { t } = useTranslation()
   const loading = useFarmsLoading()
 
   const [open, setOpen] = useState(false)
@@ -97,11 +99,11 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLa
               <InfoDeposit farm={farm} />
             </Info>
             <Info>
-              <div className='title'>Total Liquidity</div>
+              <div className='title'>{t('farm.cardInfo.totalLiquidity')}</div>
               <div className='field'>{!loading ? <p>{totalLiqudidty}</p> : <Skeleton width={75} height={25} />}</div>
             </Info>
             <Info>
-              <div className='title'>Deposit fee</div>
+              <div className='title'>{t('farm.cardInfo.depositFee')}</div>
               <div className='field'>
                 {!loading ? `${farm?.depositFee || 0}%` : <Skeleton width={75} height={25} />}
               </div>

@@ -1,9 +1,9 @@
 import { Skeleton } from 'alium-uikit/src'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import { useRewardTokenSymbol, useTotalLocked } from 'views/StrongHoldersPool/hooks'
+import { LockedIcon } from 'views/StrongHoldersPool/icons'
 import StatsCard from '../StatsCard'
 import Title from '../Title'
-import { ReactComponent as LockedIcon } from './locked.svg'
 
 export default function LockedInPoolsCard() {
   const { data: totalLocked } = useTotalLocked()

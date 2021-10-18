@@ -1,5 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
-import { Button, Skeleton, useModal } from 'alium-uikit/src'
+import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
+import { StyledInternalLink } from 'components/Shared'
 import styled from 'styled-components'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
@@ -9,7 +10,8 @@ import {
   usePoolUsers,
   useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
-import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
+import { typography } from 'views/StrongHoldersPool/mixins'
+import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import BonusNft from '../BonusNft'
 import Card from '../Card'
 import FormattedValue from '../FormattedValue'
@@ -48,10 +50,10 @@ export default function JoinPoolCard() {
       </JoinPoolCard.Content>
       <JoinPoolCard.Footer>
         <span>Increase your ALM Tokens by joining the Strong Holders Pool. </span>
-        {/* <StyledInternalLink href='#more'>
+        <StyledInternalLink href='https://docs.alium.finance/products/strong-holders-pool' target='_blank'>
           More details
           <ChevronRightIcon color='currentColor' />
-        </StyledInternalLink> */}
+        </StyledInternalLink>
       </JoinPoolCard.Footer>
     </JoinPoolCard.Root>
   )
@@ -61,6 +63,8 @@ JoinPoolCard.Content = styled.div`
   padding: 32px 32px 24px 24px;
   display: flex;
   justify-content: space-between;
+  flex: 1;
+
   & > * {
     flex-shrink: 0;
   }
@@ -81,9 +85,10 @@ JoinPoolCard.Field = styled.div`
 `
 
 JoinPoolCard.Amount = styled(FormattedValue)`
-  @media ${up(breakpoints.sm)} {
-    font-size: 40px;
-    line-height: 48px;
+  ${typography.h3}
+
+  @media ${down(breakpoints.sm)} {
+    ${typography.h4}
   }
 `
 
@@ -92,11 +97,7 @@ JoinPoolCard.Join = styled(Button)`
 `
 
 JoinPoolCard.Footer = styled.div`
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
+  ${typography.ultrasmall.regular}
   color: #8990a5;
   padding: 15px 24px;
   border-top: 1px solid #f4f5fa;
@@ -107,6 +108,9 @@ JoinPoolCard.Footer = styled.div`
 `
 
 JoinPoolCard.Root = styled(Card)`
+  display: flex;
+  flex-direction: column;
+
   @media ${down(breakpoints.sm)} {
     ${JoinPoolCard.Content} {
       flex-direction: column-reverse;

@@ -28,20 +28,19 @@ const useEagerConnect = () => {
   useEffect(() => {
     const connectorId = getConnectorId()
     const { currentChainId } = storeNetwork.getState()
-
     if (connectorId) {
       if (connectorId === ConnectorNames.BSC && (currentChainId === 56 || currentChainId === 97)) {
         // Currently BSC extension doesn't always inject in time.
         // We must check to see if it exists, and if not, wait for it before proceeding.
         const isBinanceChainDefined = Reflect.has(window, 'BinanceChain')
         if (!isBinanceChainDefined) {
-          _binanceChainListener().then(() => login(connectorId, true))
+          _binanceChainListener().then(() => login(connectorId))
 
           return
         }
       }
 
-      login(connectorId, true)
+      login(connectorId)
     }
   }, [login])
 }

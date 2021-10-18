@@ -3,6 +3,7 @@ import { FARM_DESKTOP_MEDIA, FARM_TABLET_MEDIA } from 'constants/layout/farm.lay
 import useOnClickOutside from 'hooks/useOnClickOutside'
 import React, { useRef, useState } from 'react'
 import { Search } from 'react-feather'
+import { useTranslation } from 'react-i18next'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
 
@@ -119,6 +120,7 @@ const IconClose = styled.div<{ activeFullWidth: boolean }>`
 `
 
 const FarmSearch = () => {
+  const { t } = useTranslation()
   const input = useRef(null)
   const [active, setActive] = useState(false)
   const value = useStoreFarms((state) => state.query)
@@ -141,7 +143,7 @@ const FarmSearch = () => {
         ref={input}
         isFilled={isFilled}
         activeFullWidth={active}
-        placeholder='Search Farms'
+        placeholder={t('farm.filters.searchFarms')}
         value={value}
         onChange={handleChangeQuery}
       />

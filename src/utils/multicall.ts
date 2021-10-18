@@ -7,7 +7,7 @@ import { getEthersProvider } from 'utils/bridge/providers'
 import { getWeb3NoAccount } from 'utils/web3'
 import { AbiItem } from 'web3-utils'
 
-interface Call {
+export interface Call {
   address: string // Address of the contract
   name: string // Function name on the contract (example: balanceOf)
   params?: any[] // Function params

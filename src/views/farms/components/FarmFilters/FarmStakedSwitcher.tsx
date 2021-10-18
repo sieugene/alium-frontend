@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
 
@@ -40,6 +41,7 @@ const Switch = styled.div<{ align: 'start' | 'end'; active: boolean }>`
   }
 `
 export const FarmStakedSwitcher = () => {
+  const { t } = useTranslation()
   const stakedOnly = useStoreFarms((state) => state.stakedOnly)
   const setStakedOnly = useStoreFarms((state) => state.setStakedOnly)
   return (
@@ -47,7 +49,7 @@ export const FarmStakedSwitcher = () => {
       <Switch align={stakedOnly ? 'end' : 'start'} active={stakedOnly} onClick={() => setStakedOnly(!stakedOnly)}>
         <span />
       </Switch>
-      <h3>Staked only</h3>
+      <h3>{t('farm.filters.stakedOnly')}</h3>
     </SwitchWrap>
   )
 }

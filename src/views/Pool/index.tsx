@@ -48,7 +48,11 @@ const Pool = React.memo(() => {
     <CardWrapper>
       <CardNav activeIndex={1} />
       <SwapAppBody>
-        <PageHeader title={t('liquidity.header')} description={t('liquidity.headerDescription')} />
+        <PageHeader
+          title={t('liquidity.header')}
+          description={t('liquidity.headerDescription')}
+          settingsModalTitle={t('settingsModal.liquidityTitle')}
+        />
         <StyledCardBody singleBlock={data?.length > 0}>
           {!account ? <UnlockButton /> : getButton()}
           <div>

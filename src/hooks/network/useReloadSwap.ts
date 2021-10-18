@@ -4,7 +4,7 @@ import { ROUTES } from 'routes'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 
 // For update multicall when chainid changed on swap routes
-export const useReloadSwap = (logout: () => Promise<void>) => {
+export const useReloadSwap = (logout: () => void) => {
   useEffect(() => {
     useStoreNetwork.subscribe(
       (currentChainId, prevChainId) => {

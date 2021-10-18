@@ -2,21 +2,20 @@ import { Button, CalculateIcon, LinkIcon, Modal, useModal } from 'alium-uikit/sr
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import React, { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
+import { roiCalculator } from 'utils/farm/compoundApyHelpers'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 import { useFarmLpAddress } from 'views/farms/components/Info'
 import { FarmPair, FarmWithStakedValue } from 'views/farms/farms.types'
 import { useLpTokenPrice } from 'views/farms/hooks/useFarmingPools'
-import useRoiCalculatorReducer from 'views/farms/hooks/useRoiCalculator'
-import useI18n from '../../../../hooks/useI18n'
 import { FarmModalStatuses } from './FarmModalStatuses'
 import { ModalFarmBaseWrap } from './modals.styled'
 import RoiModal from './RoiModal'
 
 const MILLION = 1000000
-const TRILLION = 1000000000000
 
 export interface FarmActionModalProps {
   max: BigNumber
@@ -42,39 +41,24 @@ const FarmActionModal = ({
   withoutRoi,
   type,
 }: FarmActionModalProps) => {
+  const { t } = useTranslation()
+  const [state, setState] = useState({
+    roiDayPercentage: 0,
+    roiDayBusd: 0,
+  })
+
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, seterror] = useState(false)
-  const TranslateString = useI18n()
+
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max)
   }, [max])
 
   // roi
   const lpPrice = useLpTokenPrice(farm?.lpSymbol)
-  const { apr } = farm
-  const stakingTokenPrice = lpPrice?.toNumber()
-  const earningTokenPrice = almPrice?.toNumber()
-  const autoCompoundFrequency = 0
-  const performanceFee = 0
-
-  const { state: calculatorState, setPrincipalFromTokenValue } = useRoiCalculatorReducer(
-    stakingTokenPrice,
-    earningTokenPrice,
-    apr,
-    autoCompoundFrequency,
-    performanceFee,
-  )
-
-  const { roiUSD } = calculatorState.data
-
-  // display roi
-  const roiUsdFormatted = roiUSD.toLocaleString('en', {
-    minimumFractionDigits: roiUSD > MILLION ? 0 : 2,
-    maximumFractionDigits: roiUSD > MILLION ? 0 : 2,
-  })
-  // roi end
+  const { apr, farmLpBalance } = farm
 
   const pair: FarmPair = {
     token0: farm.token,
@@ -84,19 +68,35 @@ const FarmActionModal = ({
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const link = getExplorerLink(currentChainId, useFarmLpAddress(farm), 'address')
 
+  // display roi
+  const roiUsdFormatted = state.roiDayBusd.toLocaleString('en', {
+    minimumFractionDigits: state.roiDayBusd > MILLION ? 0 : 2,
+    maximumFractionDigits: state.roiDayBusd > MILLION ? 0 : 2,
+  })
+  // roi end
+
   // inputs
+
+  const roiCalc = useCallback(
+    (userShareCount: number) => {
+      const res = roiCalculator(apr, farmLpBalance, userShareCount, Number(lpPrice))
+      setState(res)
+    },
+    [apr, farmLpBalance, lpPrice],
+  )
+
   const handleChange = useCallback(
     (value: string) => {
       setVal(value)
-      setPrincipalFromTokenValue(value)
+      roiCalc(Number(value))
     },
-    [setPrincipalFromTokenValue],
+    [roiCalc],
   )
 
   const handleSelectMax = useCallback(() => {
     setVal(fullBalance)
-    setPrincipalFromTokenValue(fullBalance)
-  }, [fullBalance, setPrincipalFromTokenValue])
+    roiCalc(Number(fullBalance))
+  }, [fullBalance, roiCalc])
 
   // transaction actions
   const confirm = async () => {
@@ -125,7 +125,7 @@ const FarmActionModal = ({
       <FarmModalStatuses loading={pendingTx} success={success} error={error} type={type} onRepeat={onRepeat}>
         <FarmActionModal.ModalWrapper>
           <CurrencyInputPanel
-            label='Stake'
+            label={t('farm.actions.stake')}
             value={val}
             onUserInput={handleChange}
             onMax={handleSelectMax}
@@ -140,7 +140,7 @@ const FarmActionModal = ({
           />
           {!withoutRoi && (
             <FarmActionModal.Roi>
-              <h3>Annual ROI at current rates:</h3>
+              <h3> {t('farm.roiAtRates')}:</h3>
               <div className='price'>
                 <p title={roiUsdFormatted}>${roiUsdFormatted}</p>
                 <FarmActionModal.IconCalculateWrap onClick={onShowRoi}>
@@ -151,15 +151,15 @@ const FarmActionModal = ({
           )}
           <FarmActionModal.ModalActions>
             <Button fullwidth variant='secondary' onClick={onDismiss}>
-              {TranslateString(462, 'Cancel')}
+              {t('common.button.cancel')}
             </Button>
             <Button fullwidth disabled={lockBtn} onClick={confirm}>
-              {pendingTx ? TranslateString(488, 'Pending Confirmation') : TranslateString(464, 'Confirm')}
+              {pendingTx ? t('common.messages.pendingConfirmation') : t('common.button.confirm')}
             </Button>
           </FarmActionModal.ModalActions>
           <FarmActionModal.ModalFooter>
             <a className='link' href={link} target='_blank'>
-              <h3>Get {tokenName}</h3>
+              <h3>{t('farm.getToken', { tokenName })}</h3>
               <LinkIcon />
             </a>
           </FarmActionModal.ModalFooter>

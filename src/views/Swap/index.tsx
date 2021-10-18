@@ -290,13 +290,20 @@ const Swap = () => {
             onDismiss={handleConfirmDismiss}
             onRepeat={handleOnRepeat}
           />
-          <PageHeader title={t('exchange.header')} description={t('exchange.headerDescription')} />
+          <PageHeader
+            title={t('exchange.header')}
+            description={t('exchange.headerDescription')}
+            settingsModalTitle={t('settingsModal.exchangeTitle')}
+          />
           <StyledCardBody>
             <CardBody>
-              <AutoColumn gap='md'>
+              <AutoColumn>
                 <CurrencyInputPanel
+                  checkMax
                   label={
-                    independentField === Field.OUTPUT && !showWrap && trade ? t('exchange.fromEstimated') : t('exchange.from')
+                    independentField === Field.OUTPUT && !showWrap && trade
+                      ? t('exchange.fromEstimated')
+                      : t('exchange.from')
                   }
                   value={formattedAmounts[Field.INPUT]}
                   showMaxButton={!atMaxAmountInput}
@@ -309,7 +316,7 @@ const Swap = () => {
                 />
                 <AutoColumn justify='space-between'>
                   <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
-                    <ArrowWrapper clickable>
+                    <ArrowWrapper clickable style={{ padding: '0' }}>
                       <StyledIconButton
                         onClick={() => {
                           setApprovalSubmitted(false) // reset 2 step UI for approvals
@@ -327,9 +334,14 @@ const Swap = () => {
                   </AutoRow>
                 </AutoColumn>
                 <CurrencyInputPanel
+                  checkMax
                   value={formattedAmounts[Field.OUTPUT]}
                   onUserInput={handleTypeOutput}
-                  label={independentField === Field.INPUT && !showWrap && trade ? t('exchange.toEstimated') : t('exchange.to')}
+                  label={
+                    independentField === Field.INPUT && !showWrap && trade
+                      ? t('exchange.toEstimated')
+                      : t('exchange.to')
+                  }
                   showMaxButton={false}
                   currency={currencies[Field.OUTPUT]}
                   onCurrencySelect={handleOutputSelect}
@@ -351,10 +363,10 @@ const Swap = () => {
                   </>
                 ) : null}
 
-                {showWrap ? null : (
-                  <Card padding='8px 0 8px 0' borderRadius='20px'>
+                {!showWrap && (!!trade || allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE) ? (
+                  <Card padding='16px 0 8px 0' borderRadius='20px'>
                     <AutoColumn gap='8px'>
-                      {Boolean(trade) && (
+                      {!!trade && (
                         <AutoRow align='center'>
                           <Text fontSize='14px' paddingRight='8px' color='#8990A5'>
                             {t('exchange.price')}
@@ -378,7 +390,7 @@ const Swap = () => {
                       )}
                     </AutoColumn>
                   </Card>
-                )}
+                ) : null}
               </AutoColumn>
 
               <BottomGrouping>
@@ -484,11 +496,13 @@ const StyledIconButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  margin: 18px 0;
+  padding: 6px;
   border-radius: 12px;
   background: #fff;
   transition: 0.4s;
-  :hover {
+
+  &:hover {
     background: ${({ theme }) => theme.colors.primary};
 
     & svg path {

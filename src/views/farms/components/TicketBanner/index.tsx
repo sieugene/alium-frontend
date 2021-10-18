@@ -2,6 +2,7 @@ import { WarningIcon } from 'alium-uikit/src'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useActiveWeb3React } from 'hooks'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
 import { useFarmTicket } from 'views/farms/hooks/useFarmTicket'
@@ -173,9 +174,9 @@ const StyledConnectWallet = styled(ConnectWalletButton)`
 `
 
 const TicketBanner = () => {
+  const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   const isXl = useMedia(External_breakpoints.XL)
-  // remove banner from DOM for grid layout
   const removeBanner = useMedia(External_breakpoints.SM)
   const imgSrc = isXl ? 'farm-ticket-banner-lg.png' : 'farm-ticket-banner.png'
   const { hasTicket } = useFarmTicket()
@@ -187,7 +188,7 @@ const TicketBanner = () => {
       <Warning>
         <WarningIcon />
       </Warning>
-      <Info>Only users who have bought a ticket can take part in the farming program.</Info>
+      <Info>{t('farm.bannerTicket.warningDesck')}</Info>
       {!removeBanner && (
         <FlexCenter>
           <Illustration src={`/images/farms/banners/${imgSrc}`} />
@@ -195,10 +196,10 @@ const TicketBanner = () => {
       )}
       <FlexEnd>
         <TicketInfo>
-          <p>The ticket price is:</p>
+          <p>{t('farm.bannerTicket.titlePrice')}</p>
           <h2>1500 ALM</h2>
         </TicketInfo>
-        {!account ? <StyledConnectWallet title='Connect Wallet' /> : <BuyTicketBtn />}
+        {!account ? <StyledConnectWallet title={t('connectModal.title')} /> : <BuyTicketBtn />}
       </FlexEnd>
     </Wrapper>
   )

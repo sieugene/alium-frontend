@@ -14,13 +14,7 @@ export type TranslatableText =
 export type SerializedBigNumber = string
 
 export interface PublicFarmData {
-  quoteTokenAmountMc: SerializedBigNumber
-  tokenAmountTotal: SerializedBigNumber
-  quoteTokenAmountTotal: SerializedBigNumber
-  lpTotalInQuoteToken: SerializedBigNumber
-  lpTotalSupply: SerializedBigNumber
-  tokenPriceVsQuote: SerializedBigNumber
-  poolWeight: SerializedBigNumber
+  farmLpBalance: number
   multiplier: string
   depositFee: number
   apy: number
