@@ -153,7 +153,7 @@ export function InfoApr({ farm, almPrice }: InfoAPRProps) {
     <>
       <InfoTitle>
         {t('farm.cardInfo.APR')}
-        <InfoApr.Question />
+        <InfoApr.Question text={t('farm.cardInfo.aprQuestion')} />
       </InfoTitle>
       <InfoValue>
         <AprItem>
@@ -173,9 +173,7 @@ export function InfoApr({ farm, almPrice }: InfoAPRProps) {
   )
 }
 
-InfoApr.Question = styled(QuestionHelper).attrs({
-  text: 'Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
-})`
+InfoApr.Question = styled(QuestionHelper)`
   vertical-align: middle;
 `
 

@@ -1,5 +1,6 @@
 import { Button, LinkIcon, Modal } from 'alium-uikit/src'
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink } from 'utils'
@@ -70,6 +71,7 @@ type RoiTable = {
 }[]
 
 const RoiModal: FC<InfoAPRProps & { onDismiss?: any }> = ({ farm, onDismiss, almPrice }) => {
+  const { t } = useTranslation()
   const { apr } = farm
 
   const roiTableData = () => {
@@ -99,24 +101,21 @@ const RoiModal: FC<InfoAPRProps & { onDismiss?: any }> = ({ farm, onDismiss, alm
   const tokenName = farm.lpSymbol
 
   return (
-    <Modal title='ROI' withoutContentWrapper onDismiss={onDismiss}>
+    <Modal title={t('farm.roi.ROI')} withoutContentWrapper onDismiss={onDismiss}>
       <Wrapper>
         <Main>
           <StyleRoiTable>
-            <RoiRow table={roiTables} type='day' title='Timeframe' />
-            <RoiRow table={roiTables} type='roi' title='ROI' />
-            <RoiRow table={roiTables} type='per' title='Alium per $1000' />
+            <RoiRow table={roiTables} type='day' title={t('farm.roi.timeframe')} />
+            <RoiRow table={roiTables} type='roi' title={t('farm.roi.ROI')} />
+            <RoiRow table={roiTables} type='per' title={t('farm.roi.aliumPer$1000')} />
           </StyleRoiTable>
         </Main>
         <Footer>
-          <p>
-            Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience
-            only, and by no means represent guaranteed returns.
-          </p>
+          <p>{t('farm.cardInfo.aprQuestion')}</p>
           <a href={link} target='_blank'>
             <StyledButton variant='secondary'>
               <LinkIcon />
-              <h3>Get {tokenName}</h3>
+              <h3>{t('farm.getToken', { tokenName })}</h3>
             </StyledButton>
           </a>
         </Footer>

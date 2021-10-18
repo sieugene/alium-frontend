@@ -236,12 +236,20 @@
     },
     "cardInfo": {
       "APR": "APR",
+      "Details": "Details",
+      "Hide": "Hide",
       "earn": "earn",
       "almFees": "ALM + Fees",
       "depositFee": "Deposit fee",
       "lpType": "LP Type",
       "totalLiquidity": "Total Liquidity",
-      "stakedToken": "{{tokenName}} Staked"
+      "stakedToken": "{{tokenName}} Staked",
+      "aprQuestion": "Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns."
+    },
+    "roi": {
+      "timeframe": "Timeframe",
+      "ROI": "ROI",
+      "aliumPer$1000": "Alium per $1000"
     },
     "messages": {
       "earningSented": "Your ALM earnings have been sent to your wallet!",
