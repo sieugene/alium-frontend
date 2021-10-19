@@ -160,7 +160,9 @@ const Swap = () => {
   }, [approval, approvalSubmitted])
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountOutput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.OUTPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
+  const atMaxAmountOutput = Boolean(maxAmountOutput && parsedAmounts[Field.OUTPUT]?.equalTo(maxAmountOutput))
 
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(
@@ -259,6 +261,12 @@ const Swap = () => {
     }
   }, [maxAmountInput, onUserInput])
 
+  const handleMaxOutput = useCallback(() => {
+    if (maxAmountOutput) {
+      onUserInput(Field.OUTPUT, maxAmountOutput.toExact())
+    }
+  }, [maxAmountOutput, onUserInput])
+
   const handleOutputSelect = useCallback(
     (outputCurrency) => {
       onCurrencySelection(Field.OUTPUT, outputCurrency)
@@ -302,10 +310,10 @@ const Swap = () => {
                   checkMax
                   label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
                   value={formattedAmounts[Field.INPUT]}
+                  onMax={handleMaxInput}
                   showMaxButton={!atMaxAmountInput}
                   currency={currencies[Field.INPUT]}
                   onUserInput={handleTypeInput}
-                  onMax={handleMaxInput}
                   onCurrencySelect={handleInputSelect}
                   otherCurrency={currencies[Field.OUTPUT]}
                   id='swap-currency-output'
@@ -332,9 +340,10 @@ const Swap = () => {
                 <CurrencyInputPanel
                   checkMax
                   value={formattedAmounts[Field.OUTPUT]}
+                  onMax={handleMaxOutput}
                   onUserInput={handleTypeOutput}
                   label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
-                  showMaxButton={false}
+                  showMaxButton={!atMaxAmountOutput}
                   currency={currencies[Field.OUTPUT]}
                   onCurrencySelect={handleOutputSelect}
                   otherCurrency={currencies[Field.INPUT]}
