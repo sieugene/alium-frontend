@@ -3,8 +3,7 @@
 const gap = 1
 
 export const breakpoints = {
-  xxs: 0,
-  xs: 480,
+  xs: 0,
   sm: 768,
   md: 1024,
   lg: 1440,

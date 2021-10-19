@@ -38,7 +38,7 @@ const StyledPanel = styled.div<{ ispushed: boolean }>`
     height: 100vh;
   }
 
-  @media ${down(breakpoints.xs)} {
+  @media ${down(breakpoints.sm)} {
     width: ${({ ispushed }) => `${ispushed ? '100vw' : '0px'}`};
   }
 `
