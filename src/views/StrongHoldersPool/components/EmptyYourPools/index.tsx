@@ -1,14 +1,16 @@
 import { Card } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { ReactComponent as Icon } from './icon.svg'
 
 export default function EmptyYourPools() {
+  const { t } = useTranslation()
   return (
     <EmptyYourPools.Root>
       <Icon />
-      <EmptyYourPools.Text>You don&apos;t have active pools yet</EmptyYourPools.Text>
+      <EmptyYourPools.Text>{t("You don't have active pools yet")}</EmptyYourPools.Text>
     </EmptyYourPools.Root>
   )
 }

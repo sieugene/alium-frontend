@@ -49,19 +49,19 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
         </FieldPoolDescription>
       </FieldPool>
       <Field maxWidth='96px'>
-        <FieldName>{t('tokenHolderArea.totalALM')}</FieldName>
+        <FieldName>{t('Total ALMs')}</FieldName>
         {total}
       </Field>
       <Field maxWidth='96px'>
-        <FieldName>{t('tokenHolderArea.locked')}</FieldName>
+        <FieldName>{t('Locked')}</FieldName>
         {locked}
       </Field>
       <Field maxWidth='80px'>
-        <FieldName>{t('tokenHolderArea.unlocked')}</FieldName>
+        <FieldName>{t('Unlocked')}</FieldName>
         {unlocked}
       </Field>
       <FieldClaim maxWidth='172px'>
-        <FieldName>{t('tokenHolderArea.claimed')}</FieldName>
+        <FieldName>{t('Claimed')}</FieldName>
         <FieldValue>
           {claimed}
           {isUnlocked && (
@@ -73,13 +73,13 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
                 onClaim(pool.id)
               }}
             >
-              {pending ? t('common.button.wait') : t('common.button.claim')}
+              {pending ? t('Wait') : t('Claim')}
             </Button>
           )}
         </FieldValue>
       </FieldClaim>
       <Field maxWidth='140px'>
-        <FieldName>{t('tokenHolderArea.nextUnlockedDate')}</FieldName>
+        <FieldName>{t('Next unlocked date')}</FieldName>
         {getTimeFormatNft(original_timestamp)}
       </Field>
     </NftPoolCardWrap>

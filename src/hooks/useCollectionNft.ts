@@ -2,9 +2,9 @@ import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo, useState } from 'react'
 import { useSingleCallResult, useSingleContractMultipleData } from 'state/multicall/hooks'
 import { getContract } from 'utils'
+import { AliumCollectibleAbi, NFT_ALIUM_COLLECTIBLE_NFT } from 'views/InvestorsAccount/constants'
 import { cardListPrivate, cardListPublic, cardListStrategical, CardType } from 'views/InvestorsAccount/constants/cards'
-import { AliumCollectibleAbi, NFT_ALIUM_COLLECTIBLE_NFT } from '../views/InvestorsAccount/constants'
-import pools from '../views/InvestorsAccount/constants/pools'
+import pools from 'views/InvestorsAccount/constants/pools'
 import { useActiveWeb3React } from './index'
 
 export default function useCollectionNft() {

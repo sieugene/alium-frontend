@@ -1,5 +1,5 @@
 import { CloseIcon, Heading, IconButton } from 'alium-uikit/src'
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { AutoColumn, ColumnCenter } from '../Column'
 

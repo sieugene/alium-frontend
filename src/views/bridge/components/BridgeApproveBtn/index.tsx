@@ -28,11 +28,11 @@ const BridgeApproveBtn: FC<ApproveProps> = ({ amount, balance, unlockLoading, bu
 
   const valid = useCallback(() => {
     if (amount.lte(0)) {
-      showError(t('common.messages.pleaseSpecify'))
+      showError(t('Please specify amount'))
       return false
     }
     if (balance.lt(amount)) {
-      showError(t('common.messages.notEnough'))
+      showError(t('Not enough balance'))
       return false
     }
     return true
@@ -46,12 +46,12 @@ const BridgeApproveBtn: FC<ApproveProps> = ({ amount, balance, unlockLoading, bu
             isRevertedError(error) ||
             (error.data && (error.data.includes('Bad instruction fe') || error.data.includes('Reverted')))
           ) {
-            toastError(t('common.messages.thereIsProblemToken'))
+            toastError(t('There is problem with the token unlock. Try to revoke previous approval if any on https://revoke.cash/'))
           } else {
             logError(error)
           }
         } else {
-          showError(t('common.messages.impossibleToPerform'))
+          showError(t('Impossible to perform the operation. Reload the application and try again.'))
         }
       })
     }
@@ -59,7 +59,7 @@ const BridgeApproveBtn: FC<ApproveProps> = ({ amount, balance, unlockLoading, bu
 
   return (
     <BridgeTransferButton onClick={onClick} {...props} disabled={unlockLoading}>
-      {buttonDisabled ? t('common.button.unlocked') : t('common.button.unlock')}
+      {buttonDisabled ? t('Unlocked') : t('Unlock')}
     </BridgeTransferButton>
   )
 }

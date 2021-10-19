@@ -71,10 +71,10 @@ export const AddLiquditySupply: FC<Props> = memo(
                 >
                   {approvalA === ApprovalState.PENDING || approvalSubmittedA ? (
                     <AutoRow gap='6px' justify='center'>
-                      {t('common.button.approving')} {currencies[Field.CURRENCY_A]?.symbol} <Loader stroke='white' />
+                      {t('Approving')} {currencies[Field.CURRENCY_A]?.symbol} <Loader stroke='white' />
                     </AutoRow>
                   ) : (
-                    t('common.button.approveCurrencySymbol', { currencySymbol: currencies[Field.CURRENCY_A]?.symbol })
+                    t('Approve {{currencySymbol}}', { currencySymbol: currencies[Field.CURRENCY_A]?.symbol })
                   )}
                 </Button>
               )}
@@ -86,10 +86,10 @@ export const AddLiquditySupply: FC<Props> = memo(
                 >
                   {approvalB === ApprovalState.PENDING || approvalSubmittedB ? (
                     <AutoRow gap='6px' justify='center'>
-                      {t('common.button.approving')} {currencies[Field.CURRENCY_B]?.symbol} <Loader stroke='white' />
+                      {t('Approving')} {currencies[Field.CURRENCY_B]?.symbol} <Loader stroke='white' />
                     </AutoRow>
                   ) : (
-                    t('common.button.approveCurrencySymbol', { currencySymbol: currencies[Field.CURRENCY_B]?.symbol })
+                    t('Approve {{currencySymbol}}', { currencySymbol: currencies[Field.CURRENCY_B]?.symbol })
                   )}
                 </Button>
               )}
@@ -109,7 +109,7 @@ export const AddLiquditySupply: FC<Props> = memo(
             !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B] ? 'danger' : 'primary'
           }
         >
-          {t('common.button.supply')}
+          {t('Supply')}
         </StyledButton>
       </AutoColumn>
     )

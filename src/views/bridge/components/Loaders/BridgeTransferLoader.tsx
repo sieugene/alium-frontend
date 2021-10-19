@@ -23,12 +23,12 @@ const BridgeTransferLoader: FC<Props> = ({ token, amount }) => {
 
   return (
     <TransferLoader>
-      <h2>{t('bridge.transferPending', { amount, tokenSymbol: token?.symbol })}</h2>
-      <p>{loadingText || t('bridge.transactionIsPending')}</p>
+      <h2>{t('Transfer {{amount}} {{tokenSymbol}} pending...', { amount, tokenSymbol: token?.symbol })}</h2>
+      <p>{loadingText || t('Transaction is pending...')}</p>
       {txHash && (
         <View>
           <a href={link} target='_blank'>
-            {t('common.button.viewOnExplorerName', { explorerName })} <ChevronRight />
+            {t('View on {{explorerName}}', { explorerName })} <ChevronRight />
           </a>
         </View>
       )}

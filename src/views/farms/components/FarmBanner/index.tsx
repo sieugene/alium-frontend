@@ -86,8 +86,8 @@ const FarmBanner = () => {
   return (
     <Wrapper>
       <Labels>
-        <h1>{t('farm.title')}</h1>
-        <h3>{t('farm.stakeLpTokensToEarn')}</h3>
+        <h1>{t('Farms')}</h1>
+        <h3>{t('Stake LP tokens to earn')}</h3>
       </Labels>
       <Backgrounds />
     </Wrapper>

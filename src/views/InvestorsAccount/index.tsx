@@ -118,7 +118,7 @@ const InvestorsAccount = () => {
       <AvailableAccount>
         <CardWrapper>
           <Text fontSize='48px' style={{ fontWeight: 700, marginBottom: '32px' }}>
-            {t('tokenHolderArea.yourNFTDeck')}
+            {t('Your NFT deck')}
           </Text>
           <Modal
             isOpen={isHideModalOpen}
@@ -153,21 +153,21 @@ const InvestorsAccount = () => {
 
           <AppInvestorsAccountBody>
             {!account ? (
-              t('tokenHolderArea.pleaseConnectTo')
+              t('Please connect to your wallet first.')
             ) : balanceAccount === undefined || accountTotalBalance === -1 ? (
               <Dots>
-                <span style={{ fontSize: '20px' }}>{t('tokenHolderArea.loadingPleaseWait')}</span>
+                <span style={{ fontSize: '20px' }}>{t('Loading please wait')}</span>
               </Dots>
             ) : accountTotalBalance === 0 && balanceAccount?.toString() === '0' ? (
               <NoNFT>
-                <NoNFTText>{t('tokenHolderArea.youDontHaveNFT')}</NoNFTText>
+                <NoNFTText>{t("You don't have NFT tokens.")}</NoNFTText>
               </NoNFT>
             ) : (
               <>
                 {privateCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                   <>
                     <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                      {t('tokenHolderArea.privatePoolCards')}
+                      {t('Private Pool Cards')}
                     </StyledHeading>
                     <NftCardsContainer>
                       {privateCardsWithCount
@@ -181,7 +181,7 @@ const InvestorsAccount = () => {
                 {strategicalCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                   <>
                     <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                      {t('tokenHolderArea.strategicalPoolCards')}
+                      {t('Strategical Pool Cards')}
                     </StyledHeading>
                     <NftCardsContainer>
                       {strategicalCardsWithCount
@@ -197,7 +197,7 @@ const InvestorsAccount = () => {
                 {publicCardsWithCount.filter((pool) => pool.cardsCount > 0).length > 0 && (
                   <>
                     <StyledHeading as='h2' size='lg' color='heading' mb='16px' mt='16px'>
-                      {t('tokenHolderArea.publicPoolCards')}
+                      {t('Public Pool Cards')}
                     </StyledHeading>
                     <NftCardsContainer>
                       {publicCardsWithCount
@@ -210,7 +210,7 @@ const InvestorsAccount = () => {
                 )}
                 <HelperDiv>
                   <span>*</span>
-                  {t('tokenHolderArea.pleaseNoteThat')}
+                  {t('Please note that converting Private NFTs to ALMs is an irreversible action.')}
                 </HelperDiv>
                 <NftNavTabs />
                 <NftTable>

@@ -60,7 +60,7 @@ export default function ListUpdatePopup({
           <>
             <div>
               <Text fontSize='14px'>
-                {t('popups.updateAvailable', { label: oldList.name })}({listVersionLabel(oldList.version)} to{' '}
+                {t('updateAvailable', { label: oldList.name })}({listVersionLabel(oldList.version)} to{' '}
                 {listVersionLabel(newList.version)}).
               </Text>
               <ul>
@@ -72,7 +72,7 @@ export default function ListUpdatePopup({
                         {i === tokensAdded.length - 1 ? null : ', '}
                       </Fragment>
                     ))}{' '}
-                    {t('popups.added')}
+                    {t('added')}
                   </li>
                 ) : null}
                 {tokensRemoved.length > 0 ? (
@@ -83,22 +83,22 @@ export default function ListUpdatePopup({
                         {i === tokensRemoved.length - 1 ? null : ', '}
                       </Fragment>
                     ))}{' '}
-                    {t('popups.removed')}
+                    {t('removed')}
                   </li>
                 ) : null}
                 {numTokensChanged > 0 ? (
                   <li>
-                    {numTokensChanged} {t('popups.tokensUpdated')}
+                    {numTokensChanged} {t('tokensUpdated')}
                   </li>
                 ) : null}
               </ul>
             </div>
             <AutoRow>
               <div style={{ flexGrow: 1, marginRight: 12 }}>
-                <Button onClick={handleAcceptUpdate}>{t('popups.acceptUpdate')}</Button>
+                <Button onClick={handleAcceptUpdate}>{t('acceptUpdate')}</Button>
               </div>
               <div style={{ flexGrow: 1 }}>
-                <Button onClick={removeThisPopup}>{t('popups.dismiss')}</Button>
+                <Button onClick={removeThisPopup}>{t('dismiss')}</Button>
               </div>
             </AutoRow>
           </>

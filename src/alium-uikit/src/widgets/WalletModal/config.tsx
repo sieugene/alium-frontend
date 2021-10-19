@@ -54,14 +54,16 @@ const connector = (args: ConnectorArgs = {}) => {
 // When load isMobile not working, bad init, fix wallets as function
 export const wallets = (): WalletsConfig[] => [
   {
-    type: 'metamask',
+    // i18n.t('Metamask')
+    title: 'Metamask',
     icon: Metamask,
     connectorId: connector({
       mobileConnector: ConnectorNames.Injected,
     }),
   },
   {
-    type: 'trustWallet',
+    // i18n.t('Trust Wallet')
+    title: 'Trust Wallet',
     icon: TrustWallet,
     connectorId: connector({
       mobileConnector: ConnectorNames.Injected,
@@ -69,13 +71,9 @@ export const wallets = (): WalletsConfig[] => [
     }),
     showOn: WalletShowOn.mobile,
   },
-  // {
-  //   type: 'mathWallet',
-  //   icon: MathWallet,
-  //   connectorId: ConnectorNames.Injected,
-  // },
   {
-    type: 'tokenPocket',
+    // i18n.t('Token Pocket')
+    title: 'Token Pocket',
     icon: TokenPocket,
     connectorId: connector({
       mobileConnector: ConnectorNames.Injected,
@@ -83,12 +81,14 @@ export const wallets = (): WalletsConfig[] => [
     }),
   },
   {
-    type: 'walletConnect',
+    // i18n.t('Wallet Connect')
+    title: 'Wallet Connect',
     icon: WalletConnect,
     connectorId: ConnectorNames.WalletConnect,
   },
   {
-    type: 'binanceChain',
+    // i18n.t('Binance Chain Wallet')
+    title: 'Binance Chain Wallet',
     icon: BinanceChain,
     connectorId: connector({
       mobileConnector: ConnectorNames.WalletConnect,
@@ -98,7 +98,8 @@ export const wallets = (): WalletsConfig[] => [
     showOn: WalletShowOn.desktop,
   },
   {
-    type: 'ontoWallet',
+    // i18n.t('ONTO Wallet')
+    title: 'ONTO Wallet',
     icon: OntoWallet,
     connectorId: ConnectorNames.WalletConnect,
   },
@@ -106,28 +107,40 @@ export const wallets = (): WalletsConfig[] => [
 
 export const networksProd: NetworksConfig[] = [
   {
-    type: 'binance',
+    // i18n.t('Binance Smart Chain')
+    label: 'Binance Smart Chain',
+    // i18n.t('Binance')
+    title: 'Binance',
     icon: Binance,
     chainId: 56,
     supportConnectors: [ConnectorNames.BSC, ConnectorNames.WalletConnect, ConnectorNames.Injected],
     direction: 'bsc',
   },
   {
-    type: 'huobi',
+    // i18n.t('Huobi ECO Chain')
+    label: 'Huobi ECO Chain',
+    // i18n.t('Huobi')
+    title: 'Huobi',
     icon: Huobi,
     chainId: 128,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'heco',
   },
   {
-    type: 'polygon',
+    // i18n.t('Polygon Matic Chain')
+    label: 'Polygon Matic Chain',
+    // i18n.t('Polygon')
+    title: 'Polygon',
     icon: PolygonMatic,
     chainId: 137,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'polygon',
   },
   {
-    type: 'ethereum',
+    // i18n.t('Ethereum Chain')
+    label: 'Ethereum Chain',
+    // i18n.t('Ethereum')
+    title: 'Ethereum',
     icon: EtherIcon,
     chainId: 1,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
@@ -136,28 +149,40 @@ export const networksProd: NetworksConfig[] = [
 ]
 export const networksDev: NetworksConfig[] = [
   {
-    type: 'binance',
+    // i18n.t('Binance Smart Chain')
+    label: 'Binance Smart Chain',
+    // i18n.t('Binance')
+    title: 'Binance',
     icon: Binance,
     chainId: 97,
     supportConnectors: [ConnectorNames.BSC, ConnectorNames.WalletConnect, ConnectorNames.Injected],
     direction: 'bsc',
   },
   {
-    type: 'huobi',
+    // i18n.t('Huobi ECO Chain')
+    label: 'Huobi ECO Chain',
+    // i18n.t('Huobi')
+    title: 'Huobi',
     icon: Huobi,
     chainId: 256,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'heco',
   },
   {
-    type: 'polygon',
+    // i18n.t('Polygon Matic Chain')
+    label: 'Polygon Matic Chain',
+    // i18n.t('Polygon')
+    title: 'Polygon',
     icon: PolygonMatic,
     chainId: 80001,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],
     direction: 'polygon_test',
   },
   {
-    type: 'ethereum',
+    // i18n.t('Ethereum Chain')
+    label: 'Ethereum Chain',
+    // i18n.t('Ethereum')
+    title: 'Ethereum',
     icon: EtherIcon,
     chainId: 4,
     supportConnectors: [ConnectorNames.Injected, ConnectorNames.WalletConnect],

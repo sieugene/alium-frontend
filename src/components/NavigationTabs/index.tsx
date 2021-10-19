@@ -15,8 +15,8 @@ export function FindPoolTabs() {
           <NextLink href={ROUTES.pool}>
             <ArrowBackIcon width='24px' height='24px' />
           </NextLink>
-          <ActiveText>{t('liquidity.importPool')}</ActiveText>
-          <QuestionHelper text={t('liquidity.useThisTool')} />
+          <ActiveText>{t('Import Pool')}</ActiveText>
+          <QuestionHelper text={t("Use this tool to find pairs that don't automatically appear in the interface")} />
         </Flex>
       </StyledRowBetween>
     </Tabs>
@@ -33,10 +33,21 @@ export function AddRemoveTabs({ adding }: { adding: boolean }) {
             <ArrowBackIcon width='24px' height='24px' />
           </NextLink>
           <ActiveText>
-            {adding ? t('common.button.add') : t('common.button.remove')} {t('liquidity.header')}
+            {adding ? t('Add') : t('Remove')} {t('Liquidity')}
           </ActiveText>
         </Flex>
-        <QuestionHelper text={adding ? t('liquidity.whenYouAddLiquidity') : t('liquidity.removeTokens')} bordered />
+        <QuestionHelper
+          text={
+            adding
+              ? t(
+                  'When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.',
+                )
+              : t(
+                  'Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive.',
+                )
+          }
+          bordered
+        />
       </StyledRowBetween>
     </Tabs>
   )

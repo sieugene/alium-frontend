@@ -1,18 +1,9 @@
 import { isProduction } from 'config'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import dynamic from 'next/dynamic'
+import { getStaticProps as getI18nProps } from 'utils/i18n'
 
-const Bridge = dynamic(() => import('../../views/bridge'))
+export { default } from 'views/bridge'
 
-function BridgePage() {
-  return <Bridge />
-}
-
-export default BridgePage
-
-export const getServerSideProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
+export const getStaticProps = async (ctx) => ({
+  ...(await getI18nProps(ctx)),
   notFound: isProduction,
 })

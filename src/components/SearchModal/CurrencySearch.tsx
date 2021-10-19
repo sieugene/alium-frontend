@@ -151,8 +151,10 @@ export function CurrencySearch({
       <PaddedColumn gap='14px'>
         <RowBetween>
           <Text style={{ display: 'flex', alignItems: 'center', fontSize: '18px' }} bold>
-            {t('exchange.selectToken')}
-            <QuestionHelper text={t('exchange.findTokenBySearching')} />
+            {t('Select a token')}
+            <QuestionHelper
+              text={t('Find a token by searching for its name or symbol or by pasting its address below.')}
+            />
           </Text>
           <IconButton buttonType='close' buttonSize='40px' onClick={onDismiss}>
             <CloseIcon />
@@ -163,7 +165,7 @@ export function CurrencySearch({
           <SearchInput
             type='text'
             id='token-search-input'
-            placeholder={t('exchange.tokenSearchPlaceholder')}
+            placeholder={t('Search name or paste address')}
             value={searchQuery}
             ref={inputRef as RefObject<HTMLInputElement>}
             onChange={handleInput}
@@ -179,7 +181,7 @@ export function CurrencySearch({
         <StyledRowBetween>
           <RowBetween>
             <Text fontSize='16px' bold>
-              <TranslatedText translationId={126}>{t('exchange.tokenName')}</TranslatedText>
+              <TranslatedText translationId={126}>{t('Token name')}</TranslatedText>
             </Text>
             <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder((iso) => !iso)} />
           </RowBetween>

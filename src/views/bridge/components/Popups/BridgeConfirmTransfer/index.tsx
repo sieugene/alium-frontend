@@ -32,15 +32,15 @@ const BridgeConfirmTransfer = () => {
     install({ step: BRIDGE_STEPS.TRANSFER })
   }
 
-  const networkToLabel = networkTo?.type && t(`networks.${networkTo?.type}.label`)
-  const networkFromLabel = networkFrom?.type && t(`networks.${networkFrom?.type}.label`)
+  const networkToLabel = networkTo?.label && t(networkTo.label)
+  const networkFromLabel = networkFrom?.label && t(networkFrom.label)
 
   return (
     <TransactionModal isOpen={modalOpen} onDismiss={onDismiss}>
       <BadNetworkWrapper>
         <Wrapper>
           <Header>
-            <h2 className='title'>{t('bridge.confirmTransfer')}</h2>
+            <h2 className='title'>{t('Confirm Transfer')}</h2>
             <div onClick={onDismiss}>
               <CloseItem />
             </div>
@@ -57,7 +57,7 @@ const BridgeConfirmTransfer = () => {
                 <div className='chevron'>
                   <ChevronRight />
                 </div>
-                <p>{t('bridge.bridgeFees')}</p>
+                <p>{t('Bridge Fees 0.5%')}</p>
               </Fees>
               <Token align='right' justify='end'>
                 <div className='text'>
@@ -68,7 +68,7 @@ const BridgeConfirmTransfer = () => {
             </TokensBridge>
             <Detail>
               <Trans
-                i18nKey='bridge.pleaseConfirmThat'
+                i18nKey='Please confirm that you would like to send <b>{{amountsFrom}} {{tokenSymbol}}</b> from {{networkFromLabel}} and receive <b>{{amountsTo}} {{tokenSymbol}}</b> on {{networkToLabel}}'
                 values={{
                   amountsFrom: amounts?.from,
                   amountsTo: amounts?.to,
@@ -81,15 +81,20 @@ const BridgeConfirmTransfer = () => {
             </Detail>
             <Info>
               <BridgeWarningInDetail />
-              <p>{t(`bridge.theClaimProcess`, { networkFromLabel, networkToLabel })}</p>
+              <p>
+                {t(
+                  `The claim process requires 2 transactions, one on {{networkFromLabel}} and one on {{networkToLabel}}`,
+                  { networkFromLabel, networkToLabel },
+                )}
+              </p>
             </Info>
           </Content>
           <Footer>
             <Button variant='secondary' onClick={onDismiss} className='dismiss'>
-              {t(`common.button.cancel`)}
+              {t(`Cancel`)}
             </Button>
             <Button onClick={confirm} className='continue'>
-              {t(`common.button.continue`)}
+              {t(`Continue`)}
             </Button>
           </Footer>
         </Wrapper>

@@ -31,10 +31,15 @@ export enum FarmTab {
 }
 
 export enum FarmSortOption {
+  // i18n.t('APR')
   'APR' = 'APR',
+  // i18n.t('Multiplier')
   'Multiplier' = 'Multiplier',
+  // i18n.t('Earned')
   'Earned' = 'Earned',
+  // i18n.t('Liquidity')
   'Liquidity' = 'Liquidity',
+  // i18n.t('Hot')
   'Hot' = 'Hot',
 }
 

@@ -22,7 +22,7 @@ export const BuyTicketBtn = () => {
   return (
     <>
       <BuyTicketModal modalOpen={modalOpen} onDismiss={onDismiss} />
-      <BuyButton onClick={show}>{t('farm.bannerTicket.toBuyATicket')}</BuyButton>
+      <BuyButton onClick={show}>{t('To buy a ticket')}</BuyButton>
     </>
   )
 }

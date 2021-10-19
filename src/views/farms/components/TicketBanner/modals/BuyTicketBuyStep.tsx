@@ -90,12 +90,12 @@ const BuyTicketBuyStep = () => {
     return (
       <TransactionCompleted withoutHeader withoutWrapper>
         <CompletedWrapper>
-          <h2>{t('farm.buyTicketModal.success.title')}</h2>
+          <h2>{t('Successful purchase')}</h2>
           <Amount>
-            {t('farm.buyTicketModal.success.amount')}: <b>1500 ALM</b>
+            {t('Amount')}: <b>1500 ALM</b>
           </Amount>
           <a href={link} target='_blank'>
-            <ViewOn variant='secondary'>{t('common.button.viewOnExplorerName', { explorerName })}</ViewOn>
+            <ViewOn variant='secondary'>{t('View on {{explorerName}}', { explorerName })}</ViewOn>
           </a>
         </CompletedWrapper>
       </TransactionCompleted>
@@ -104,8 +104,8 @@ const BuyTicketBuyStep = () => {
   return (
     <TransactionCompleted withoutHeader withoutWrapper>
       <CompletedWrapper>
-        <TicketLoadingText>{t('common.button.approved')}</TicketLoadingText>
-        <BuyButton onClick={onBuyTicket}>{t('farm.buy')}</BuyButton>
+        <TicketLoadingText>{t('Approved')}</TicketLoadingText>
+        <BuyButton onClick={onBuyTicket}>{t('Buy')}</BuyButton>
       </CompletedWrapper>
     </TransactionCompleted>
   )

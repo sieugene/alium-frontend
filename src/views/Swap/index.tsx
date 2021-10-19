@@ -65,7 +65,7 @@ const Swap = () => {
 
   const { t } = useTranslation()
 
-  // get custom setting values for user
+  // get custom settings values for user
   const [deadline] = useUserDeadline()
   const [allowedSlippage] = useUserSlippageTolerance()
 
@@ -291,20 +291,16 @@ const Swap = () => {
             onRepeat={handleOnRepeat}
           />
           <PageHeader
-            title={t('exchange.header')}
-            description={t('exchange.headerDescription')}
-            settingsModalTitle={t('settingsModal.exchangeTitle')}
+            title={t('Exchange')}
+            description={t('Trade tokens in an instant')}
+            settingsModalTitle={t('New - Settings')}
           />
           <StyledCardBody>
             <CardBody>
               <AutoColumn>
                 <CurrencyInputPanel
                   checkMax
-                  label={
-                    independentField === Field.OUTPUT && !showWrap && trade
-                      ? t('exchange.fromEstimated')
-                      : t('exchange.from')
-                  }
+                  label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
                   value={formattedAmounts[Field.INPUT]}
                   showMaxButton={!atMaxAmountInput}
                   currency={currencies[Field.INPUT]}
@@ -328,7 +324,7 @@ const Swap = () => {
                     </ArrowWrapper>
                     {recipient === null && !showWrap && isExpertMode ? (
                       <LinkStyledButton id='add-recipient-button' onClick={() => onChangeRecipient('')}>
-                        {t('exchange.addASend')}
+                        {t('+ Add a send (optional)')}
                       </LinkStyledButton>
                     ) : null}
                   </AutoRow>
@@ -337,11 +333,7 @@ const Swap = () => {
                   checkMax
                   value={formattedAmounts[Field.OUTPUT]}
                   onUserInput={handleTypeOutput}
-                  label={
-                    independentField === Field.INPUT && !showWrap && trade
-                      ? t('exchange.toEstimated')
-                      : t('exchange.to')
-                  }
+                  label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
                   showMaxButton={false}
                   currency={currencies[Field.OUTPUT]}
                   onCurrencySelect={handleOutputSelect}
@@ -356,7 +348,7 @@ const Swap = () => {
                         <ArrowDown size='16' color={theme.colors.textSubtle} />
                       </ArrowWrapper>
                       <LinkStyledButton id='remove-recipient-button' onClick={() => onChangeRecipient(null)}>
-                        {t('exchange.removeSend')}
+                        {t('- Remove send')}
                       </LinkStyledButton>
                     </AutoRow>
                     <AddressInputPanel id='recipient' value={recipient} onChange={onChangeRecipient} />
@@ -369,7 +361,7 @@ const Swap = () => {
                       {!!trade && (
                         <AutoRow align='center'>
                           <Text fontSize='14px' paddingRight='8px' color='#8990A5'>
-                            {t('exchange.price')}
+                            {t('Price')}
                           </Text>
                           <TradePrice
                             price={trade?.executionPrice}
@@ -381,7 +373,7 @@ const Swap = () => {
                       {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
                         <Flex alignItems='center' justifyContent='flex-start'>
                           <Text fontSize='14px' color={theme.colors.basic}>
-                            {t('exchange.slippageTolerance')}
+                            {t('Slippage Tolerance')}
                           </Text>
                           <Text fontSize='14px' style={{ marginLeft: 10, color: '#6C5DD3' }}>
                             {allowedSlippage / 100}%
@@ -399,15 +391,11 @@ const Swap = () => {
                 ) : showWrap ? (
                   <Button disabled={Boolean(wrapInputError)} onClick={onWrap}>
                     {wrapInputError ??
-                      (wrapType === WrapType.WRAP
-                        ? t('common.button.wrap')
-                        : wrapType === WrapType.UNWRAP
-                        ? t('common.button.unwrap')
-                        : null)}
+                      (wrapType === WrapType.WRAP ? t('Wrap') : wrapType === WrapType.UNWRAP ? t('Unwrap') : null)}
                   </Button>
                 ) : noRoute && userHasSpecifiedInputOutput ? (
                   <GreyCard style={{ textAlign: 'center' }}>
-                    <Main>{t('exchange.insufficientLiquidityForThisTrade')}</Main>
+                    <Main>{t('Insufficient liquidity for this trade.')}</Main>
                   </GreyCard>
                 ) : showApproveFlow ? (
                   <StyledRowBetween>
@@ -419,12 +407,12 @@ const Swap = () => {
                     >
                       {approval === ApprovalState.PENDING ? (
                         <AutoRow gap='6px' justify='center'>
-                          {t('common.button.approving')} <Loader stroke='white' />
+                          {t('Approving')} <Loader stroke='white' />
                         </AutoRow>
                       ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
-                        t('common.button.approved')
+                        t('Approved')
                       ) : (
-                        t('common.button.approveCurrencySymbol', { currencySymbol: currencies[Field.INPUT]?.symbol })
+                        t('Approve {{currencySymbol}}', { currencySymbol: currencies[Field.INPUT]?.symbol })
                       )}
                     </Button>
                     <Button
@@ -443,8 +431,8 @@ const Swap = () => {
                       variant={isValid && priceImpactSeverity > 2 ? 'danger' : 'primary'}
                     >
                       {priceImpactSeverity > 3 && !isExpertMode
-                        ? t('common.button.priceImpactHigh')
-                        : t('common.button.swap', { stringValue: priceImpactSeverity > 2 ? ' Anyway' : '' })}
+                        ? t('Price Impact High')
+                        : t('Swap {{stringValue}}', { stringValue: priceImpactSeverity > 2 ? ' Anyway' : '' })}
                     </Button>
                   </StyledRowBetween>
                 ) : (
@@ -466,7 +454,7 @@ const Swap = () => {
                     disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
                     variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
                   >
-                    {t('common.button.swap', { stringValue: 'Anyway' })}
+                    {t('Swap {{stringValue}}', { stringValue: 'Anyway' })}
                   </Button>
                 )}
                 {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}

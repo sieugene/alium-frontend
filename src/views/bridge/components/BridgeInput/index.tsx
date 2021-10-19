@@ -103,7 +103,7 @@ const BridgeInput = () => {
             />
             {disabledApprove ? (
               <BridgeTransferButton onClick={transfer} desktop disabled={disableBtn}>
-                {t('common.button.transfer')}
+                {t('Transfer')}
               </BridgeTransferButton>
             ) : (
               <BridgeApproveBtn
@@ -120,7 +120,7 @@ const BridgeInput = () => {
           <AdvancedInput>
             {disabledApprove ? (
               <BridgeTransferButton onClick={transfer} mobile disabled={disableBtn}>
-                {t('common.button.transfer')}
+                {t('Transfer')}
               </BridgeTransferButton>
             ) : (
               <BridgeApproveBtn

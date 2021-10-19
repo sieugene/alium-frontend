@@ -44,7 +44,7 @@ export const Step4MigrationResult: FC<props> = ({
     }
   }, [isCopied])
 
-  const inputValue = isCopied ? t('migrate.copied') : aliumLPTokenForPair
+  const inputValue = isCopied ? t('Copied') : aliumLPTokenForPair
 
   return (
     <Root>
@@ -55,7 +55,7 @@ export const Step4MigrationResult: FC<props> = ({
         <>
           <IconSuccessful />
           <div className='title'>
-            {t('migrate.migratePairExchangePairTitle', { pairExchange: pair.exchange, pairTitle: pair.title })}
+            {t('Migrate {{pairExchange}} {{pairTitle}} liquidity to AliumSwap', { pairExchange: pair.exchange, pairTitle: pair.title })}
           </div>
           <div
             style={{
@@ -67,7 +67,7 @@ export const Step4MigrationResult: FC<props> = ({
               padding: '0 16px',
             }}
           >
-            <div style={{ marginRight: '12px' }}>{t('migrate.aliumLPToken')}</div>
+            <div style={{ marginRight: '12px' }}>{t('Alium-LP Token:')}</div>
             <div className='copy'>
               <input type='text' value={inputValue} />
               <div onClick={() => handleCopy(aliumLPTokenForPair)}>
@@ -77,17 +77,17 @@ export const Step4MigrationResult: FC<props> = ({
           </div>
           <Link href={`${explorer}tx/${contract}`}>
             <a className='view-on-explorer' target='_blank'>
-              {t('migrate.viewOnExplorer')}
+              {t('View on explorer >')}
             </a>
           </Link>
         </>
       ) : (
         <>
           <IconNotSuccessful />
-          <div className='title error'>{t('migrate.migrationFailed')}</div>
+          <div className='title error'>{t('Migration failed')}</div>
 
           <button className='button' onClick={handleTryAgain}>
-            {t('common.button.tryAgain')}
+            {t('Try again')}
           </button>
         </>
       )}

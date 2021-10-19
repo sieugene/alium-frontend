@@ -107,7 +107,7 @@ function CurrencyRow({
                   if (chainId && currency instanceof Token) removeToken(chainId, currency.address)
                 }}
               >
-                ({t('common.button.remove')})
+                ({t('Remove')})
               </LinkStyledButton>
             </Main>
           ) : null}
@@ -120,7 +120,7 @@ function CurrencyRow({
                   if (currency instanceof Token) addToken(currency)
                 }}
               >
-                ({t('common.button.add')})
+                ({t('Add')})
               </LinkStyledButton>
             </Main>
           ) : null}

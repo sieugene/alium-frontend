@@ -66,7 +66,7 @@ export default function CurrencySearchModal({
           showCommonBases={false}
           currencyList={currencyList}
         />
-      ) }
+      )}
     </SwapModal>
   )
 }

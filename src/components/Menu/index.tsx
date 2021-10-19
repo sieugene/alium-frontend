@@ -18,45 +18,45 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
 
   const links: MenuEntry[] = [
     {
-      label: t('menu.home'),
+      label: t('Home'),
       icon: 'HomeIcon',
       href: ROUTES.home,
     },
     {
-      label: t('menu.trade'),
+      label: t('Trade'),
       icon: 'TradeIcon',
       triggers: [ROUTES.pool, ROUTES.exchange],
       items: [
-        { label: t('menu.exchange'), href: ROUTES.exchange },
-        { label: t('menu.liquidity'), href: ROUTES.pool },
-        { label: t('menu.migrate'), href: ROUTES.migrate },
+        { label: t('Exchange'), href: ROUTES.exchange },
+        { label: t('Liquidity'), href: ROUTES.pool },
+        { label: t('Migrate'), href: ROUTES.migrate },
       ],
     },
-    { label: 'Farms', icon: 'FarmIcon', href: ROUTES.farms },
-    { label: 'Strong Holders Pool', icon: 'ShpIcon', href: ROUTES.shp },
-    { label: t('menu.tokenHolderArea'), icon: 'PrivateRoundIcon', href: ROUTES.tokenHolderArea },
+    { label: t('Farms'), icon: 'FarmIcon', href: ROUTES.farms },
+    { label: t('Strong Holders Pool'), icon: 'ShpIcon', href: ROUTES.shp },
+    { label: t('Token holder area'), icon: 'PrivateRoundIcon', href: ROUTES.tokenHolderArea },
     /* {
       label: 'Analytics',
       icon: 'InfoIcon',
       items: [
-        { label: t('menu.overview'), href: `https://info.${getMainDomain()}` },
-        { label: t('menu.tokens'), href: `https://info.${getMainDomain()}/tokens` },
-        { label: t('menu.pairs'), href: `https://info.${getMainDomain()}/pairs` },
+        { label: t('Overview'), href: `https://info.${getMainDomain()}` },
+        { label: t('Tokens'), href: `https://info.${getMainDomain()}/tokens` },
+        { label: t('Pairs'), href: `https://info.${getMainDomain()}/pairs` },
       ],
     }, */
     {
-      label: t('menu.more'),
+      label: t('More'),
       icon: 'MoreIcon',
       triggers: [ROUTES.audits],
       items: [
-        { label: t('menu.audits'), href: ROUTES.audits },
-        // { label: t('menu.voting'), href: 'https://voting.dev.alium.finance' },
-        { label: t('menu.github'), href: externalLinks.github },
-        { label: t('menu.docs'), href: 'https://aliumswap.gitbook.io/alium-finance/' },
-        { label: t('menu.blog'), href: externalLinks.medium },
+        { label: t('Audits'), href: ROUTES.audits },
+        // { label: t('Voting'), href: 'https://voting.dev.alium.finance' },
+        { label: t('GitHub'), href: externalLinks.github },
+        { label: t('Docs'), href: 'https://aliumswap.gitbook.io/alium-finance/' },
+        { label: t('Blog'), href: externalLinks.medium },
       ],
     },
-    { label: t('menu.aliumArt'), icon: 'IconArt', href: `https://alium.art`, new: true },
+    { label: t('Alium.art'), icon: 'IconArt', href: `https://alium.art`, new: true },
   ]
 
   const { account } = useWeb3React()
@@ -83,7 +83,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
         isDark={isDark}
         toggleTheme={toggleTheme}
         loginBlockVisible={loginBlockVisible}
-        buttonTitle={t('others.connect')}
+        buttonTitle={t('Connect')}
         explorerName={explorerName}
         explorerLink={explorerLink}
         onTransactionHistoryHandler={transactionsHistoryModal}

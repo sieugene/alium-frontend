@@ -19,7 +19,7 @@ const BridgeBackItem = () => {
       <Link href='/bridge'>
         <a href='/bridge'>
           <ArrowLeft />
-          <p>{t('common.button.back')}</p>
+          <p>{t('Back')}</p>
         </a>
       </Link>
     </Arrow>

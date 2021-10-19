@@ -21,15 +21,15 @@ const BridgeStepsHeader = () => {
   const steps = [
     {
       step: BRIDGE_STEPS.TRANSFER,
-      title: t('bridge.bridgeSteps.oneStep'),
+      title: t('Transfer'),
     },
     {
       step: BRIDGE_STEPS.SWITCH_NETWORK,
-      title: t('bridge.bridgeSteps.twoStep'),
+      title: t('Switch network'),
     },
     {
       step: BRIDGE_STEPS.CLAIM_TOKEN,
-      title: t('bridge.bridgeSteps.threeStep'),
+      title: t('Claim token'),
     },
   ]
 
@@ -38,7 +38,7 @@ const BridgeStepsHeader = () => {
       {steps.map(({ step, title }) => (
         <Step key={step} active={step === currentStep} success={stepStatuses[step]}>
           <p>
-            {step} {t('bridge.bridgeSteps.stepMeasuredIn')}
+            {step} {t('STEP')}
           </p>
           <div className='title'>
             <h2>{title}</h2>

@@ -50,7 +50,7 @@ const BridgeNetwork: FC<Props> = ({ type, value, token, balanceLoading }) => {
         <div className='left-column'>
           <div className='network'>
             {Icon && <Icon />}
-            <p className='title'>{t(`networks.${network?.type}.label`)}</p>
+            <p className='title'>{t(network?.label)}</p>
             <DropdownBridgeNetworks type={type} />
           </div>
           <div className='token'>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { ethersToBN, toEther } from 'utils/bigNumber'
@@ -9,6 +10,7 @@ import Title from '../Title'
 import { ReactComponent as CheckIcon } from './check.svg'
 
 export default function MyPoolAmountCard() {
+  const { t } = useTranslation()
   const rewardTokenSymbol = useRewardTokenSymbol()
   const { data: currentPoolId } = useCurrentPoolId()
   const accountUser = usePoolAccountUser(currentPoolId)
@@ -23,10 +25,10 @@ export default function MyPoolAmountCard() {
       icon={<PoolIcon />}
       title={
         <MyPoolAmountCard.Title>
-          <Title>My pool amount</Title>
+          <Title>{t('My pool amount')}</Title>
           <MyPoolAmountCard.Check>
             <CheckIcon />
-            <Title>You in the pool</Title>
+            <Title>{t('You in the pool')}</Title>
           </MyPoolAmountCard.Check>
         </MyPoolAmountCard.Title>
       }

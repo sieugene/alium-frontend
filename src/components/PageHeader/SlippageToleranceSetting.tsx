@@ -37,19 +37,19 @@ const SlippageToleranceSettings = () => {
         setUserslippageTolerance(rawValue)
         setError(null)
       } else {
-        setError(t('common.messages.validDeadline'))
+        setError(t('Enter a valid deadline'))
       }
     } catch {
-      setError(t('common.messages.validDeadline'))
+      setError(t('Enter a valid deadline'))
     }
   }, [t, value, setError, setUserslippageTolerance])
 
   // Notify user if slippage is risky
   useEffect(() => {
     if (userSlippageTolerance < RISKY_SLIPPAGE_LOW) {
-      setError(t('common.messages.yourTransactionMayFail'))
+      setError(t('Your transaction may fail'))
     } else if (userSlippageTolerance > RISKY_SLIPPAGE_HIGH) {
-      setError(t('common.messages.yourTransactionMayBeFrontrun'))
+      setError(t('Your transaction may be frontrun'))
     }
   }, [userSlippageTolerance, setError])
 
@@ -63,8 +63,10 @@ const SlippageToleranceSettings = () => {
   return (
     <StyledSlippageToleranceSettings>
       <Label>
-        <Text style={{ fontWeight: 600 }}>{t('settingsModal.slippedTolerance')}</Text>
-        <QuestionHelper text={t('settingsModal.transactionRevert')} />
+        <Text style={{ fontWeight: 600 }}>{t('Slippage tolerance')}</Text>
+        <QuestionHelper
+          text={t('Your transaction will revert if the price changes unfavorably by more than this percentage.')}
+        />
       </Label>
 
       <Options>

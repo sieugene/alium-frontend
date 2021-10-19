@@ -26,8 +26,12 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
       <CardBody>
         <RowBetween>
           <RowFixed>
-            <Text fontSize='14px'>{isExactIn ? t('exchange.minimumReceived') : t('exchange.maximumSold')}</Text>
-            <QuestionHelper text={t('exchange.yourTransactionWillRevert')} />
+            <Text fontSize='14px'>{isExactIn ? t('Minimum received') : t('Maximum sold')}</Text>
+            <QuestionHelper
+              text={t(
+                'Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.',
+              )}
+            />
           </RowFixed>
           <RowFixed>
             <Text fontSize='14px'>
@@ -41,16 +45,22 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
         </RowBetween>
         <RowBetween>
           <RowFixed>
-            <Text fontSize='14px'>{t('exchange.priceImpact')}</Text>
-            <QuestionHelper text={t('exchange.theDifferenceBetween')} />
+            <Text fontSize='14px'>{t('Price Impact')}</Text>
+            <QuestionHelper
+              text={t('The difference between the market price and estimated price due to trade size.')}
+            />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
         </RowBetween>
 
         <RowBetween>
           <RowFixed>
-            <Text fontSize='14px'>{t('exchange.liquidityProvider')}</Text>
-            <QuestionHelper text={t('exchange.forEachTradeAFeeIsPaid')} />
+            <Text fontSize='14px'>{t('Liquidity Provider Fee')}</Text>
+            <QuestionHelper
+              text={t(
+                'For each trade a 0.25% fee is paid. 0.20% goes to liquidity providers and 0.05% goes to the AliumSwap treasury.',
+              )}
+            />
           </RowFixed>
           <StyledText fontSize='16px'>
             {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
@@ -79,9 +89,9 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
               <AutoColumn style={{ padding: '0 24px' }}>
                 <RowFixed>
                   <Text fontSize='14px' bold>
-                    {t('exchange.route')}
+                    {t('Route')}
                   </Text>
-                  <QuestionHelper text={t('exchange.routingThroughThese')} />
+                  <QuestionHelper text={t('Routing through these tokens resulted in the best price for your trade.')} />
                 </RowFixed>
                 <SwapRoute trade={trade} />
               </AutoColumn>

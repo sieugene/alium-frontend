@@ -8,8 +8,8 @@ export const Step1Connect: FC = () => {
 
   return (
     <StepOne>
-      <div className='title'>{t('migrate.migrateAliumLiquidity')}</div>
-      <div className='sub-title'>{t('migrate.connectToAWalletToView')}</div>
+      <div className='title'>{t('Migrate Alium Liquidity')}</div>
+      <div className='sub-title'>{t('Connect to a wallet to view your liquidity')}</div>
       <div className='button-wrap'>
         <UnlockButton alt />
       </div>

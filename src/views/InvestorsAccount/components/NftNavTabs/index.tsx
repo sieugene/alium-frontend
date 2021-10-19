@@ -18,7 +18,7 @@ function NftNavTabs() {
           <IconWrapper active={location.pathname === ROUTES.tokenHolderArea} size={16}>
             <AlmTokenStatsIcon />
           </IconWrapper>
-          {t('tokenHolderArea.almTokenStats')}
+          {t('ALM token stats')}
         </NftButton>
       </NextLink>
       <NextLink href={ROUTES.collection}>
@@ -26,7 +26,7 @@ function NftNavTabs() {
           <IconWrapper active={location.pathname === ROUTES.collection} size={16}>
             <MyCollectionIcon />
           </IconWrapper>
-          {t('tokenHolderArea.myCollection')}
+          {t('My collection')}
         </NftButton>
       </NextLink>
     </NavWrap>

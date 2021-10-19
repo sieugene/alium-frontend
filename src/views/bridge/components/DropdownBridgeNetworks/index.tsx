@@ -68,7 +68,7 @@ const DropdownBridgeNetworks: FC<Props> = ({ type }) => {
 
       {show && (
         <Dropdown ref={dropdown}>
-          {networks.map(({ icon: NetworkIcon, type, chainId }, index) => (
+          {networks.map(({ icon: NetworkIcon, title, chainId }, index) => (
             <DropdownItem
               key={chainId}
               active={isActiveNetwork(chainId)}
@@ -77,7 +77,7 @@ const DropdownBridgeNetworks: FC<Props> = ({ type }) => {
               }}
             >
               {NetworkIcon && <NetworkIcon />}
-              <p className='network__title'>{t(`networks.${type}.title`)}</p>
+              <p className='network__title'>{t(title)}</p>
               {index === 0 && (
                 <DropdownChevron onClick={toggle}>
                   <Chevron />

@@ -45,14 +45,14 @@ export const useExplorerName = (chainId: ChainId) => {
   const { t } = useTranslation()
 
   const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
-    [ChainId.MAINNET]: t('networks.binance.label'),
-    [ChainId.BSCTESTNET]: t('networks.binance.label'),
-    [ChainId.HECOMAINNET]: t('networks.huobi.label'),
-    [ChainId.HECOTESTNET]: t('networks.huobi.label'),
-    [ChainId.ETHER_MAINNET]: t('networks.ethereum.label'),
-    [ChainId.ETHER_TESTNET]: t('networks.ethereum.label'),
-    [ChainId.MATIC_MAINNET]: t('networks.polygon.label'),
-    [ChainId.MATIC_TESTNET]: t('networks.polygon.label'),
+    [ChainId.MAINNET]: t('Binance Smart Chain'),
+    [ChainId.BSCTESTNET]: t('Binance Smart Chain'),
+    [ChainId.HECOMAINNET]: t('Huobi ECO Chain'),
+    [ChainId.HECOTESTNET]: t('Huobi ECO Chain'),
+    [ChainId.ETHER_MAINNET]: t('Ethereum Chain'),
+    [ChainId.ETHER_TESTNET]: t('Ethereum Chain'),
+    [ChainId.MATIC_MAINNET]: t('Polygon Matic Chain'),
+    [ChainId.MATIC_TESTNET]: t('Polygon Matic Chain'),
   }
   const explorerName = EXPLORER_NAMES[chainId]
 

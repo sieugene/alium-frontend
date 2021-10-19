@@ -18,7 +18,7 @@ export const ConnectButton: FC<props> = ({ isAccount, accountEllipsis, onClick }
       <SIcon isAccount={isAccount}>
         <AddIcon />
       </SIcon>
-      {isAccount ? accountEllipsis : t('common.button.connect')}
+      {isAccount ? accountEllipsis : t('Connect')}
     </SConnectButton>
   )
 }

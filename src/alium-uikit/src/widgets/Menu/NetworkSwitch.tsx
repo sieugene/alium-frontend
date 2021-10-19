@@ -24,13 +24,13 @@ const NetworkSwitch: FC<Props> = () => {
 
   const networks = getNetworks()
   const networkExist = networks.find((x) => x.chainId === currentChainId)
-  const { icon: Icon, type } = networkExist ?? networks[0]
+  const { icon: Icon, label } = networkExist ?? networks[0]
 
-  const [selectedOption, setSelectedOption] = useState(type)
+  const [selectedOption, setSelectedOption] = useState(label)
 
   const handleClick = useCallback(
     (item: NetworksConfig) => {
-      setSelectedOption(item.type)
+      setSelectedOption(item.label)
       setChainId(item.chainId)
     },
     [setChainId],
@@ -46,8 +46,8 @@ const NetworkSwitch: FC<Props> = () => {
 
   // Update label when chainId change in modal
   useEffect(() => {
-    if (networkExist?.type && selectedOption !== networkExist.type) {
-      setSelectedOption(networkExist.type)
+    if (networkExist?.label && selectedOption !== networkExist.label) {
+      setSelectedOption(networkExist.label)
     }
   }, [selectedOption, networkExist])
 
@@ -56,11 +56,11 @@ const NetworkSwitch: FC<Props> = () => {
       <StyledIconContainer>{hasError ? <FailureNetwork /> : Icon && <Icon />}</StyledIconContainer>
       {hasError ? (
         <>
-          <StyledSelectedOptionError>{t(`networks.${selectedOption}.label`)}</StyledSelectedOptionError>
-          <StyledDropDownMessage>{t('networks.invalidNetwork')}</StyledDropDownMessage>
+          <StyledSelectedOptionError>{t(selectedOption)}</StyledSelectedOptionError>
+          <StyledDropDownMessage>{t('Invalid network')}</StyledDropDownMessage>
         </>
       ) : (
-        <StyledSelectedOption>{t(`networks.${selectedOption}.label`)}</StyledSelectedOption>
+        <StyledSelectedOption>{t(selectedOption)}</StyledSelectedOption>
       )}
       {!showOptions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
       {showOptions && (
@@ -69,7 +69,7 @@ const NetworkSwitch: FC<Props> = () => {
             const support = validSupportConnector(item)
             return (
               <StyledOption disabled={!support} key={item.chainId} onClick={() => support && handleClick(item)}>
-                {t(`networks.${item.type}.label`)}
+                {t(item.label)}
               </StyledOption>
             )
           })}

@@ -133,7 +133,7 @@ const ConfirmMessage = () => {
     <TransactionIndicateWrapper>
       <StyledConfirm>
         <BridgeConfirmIcon />
-        <p>{t('bridge.confirmTheTransaction')}</p>
+        <p>{t('Confirm the transaction in your wallet')}</p>
       </StyledConfirm>
     </TransactionIndicateWrapper>
   )

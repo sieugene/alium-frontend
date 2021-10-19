@@ -1,4 +1,3 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 import { ROUTES } from 'routes'
 
@@ -9,9 +8,4 @@ const ErrorPage = () => {
 }
 
 export default ErrorPage
-
-export const getStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-})
+export { getStaticProps } from 'utils/i18n'

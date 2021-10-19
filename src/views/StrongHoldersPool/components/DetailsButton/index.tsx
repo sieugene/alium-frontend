@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
 import { ComponentPropsWithoutRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { typography } from 'views/StrongHoldersPool/mixins'
 
@@ -12,7 +12,7 @@ export default function DetailsButton({ isOpen, ...restProps }: DetailsButtonPro
   const { t } = useTranslation()
   return (
     <DetailsButton.Root type='button' {...restProps}>
-      {isOpen ? t('farm.cardInfo.Hide') : t('farm.cardInfo.Details')}
+      {isOpen ? t('Hide') : t('Details')}
       {isOpen ? <ChevronUpIcon color='currentColor' /> : <ChevronDownIcon color='currentColor' />}
     </DetailsButton.Root>
   )

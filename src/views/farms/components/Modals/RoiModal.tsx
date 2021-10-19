@@ -101,21 +101,25 @@ const RoiModal: FC<InfoAPRProps & { onDismiss?: any }> = ({ farm, onDismiss, alm
   const tokenName = farm.lpSymbol
 
   return (
-    <Modal title={t('farm.roi.ROI')} withoutContentWrapper onDismiss={onDismiss}>
+    <Modal title={t('ROI')} withoutContentWrapper onDismiss={onDismiss}>
       <Wrapper>
         <Main>
           <StyleRoiTable>
-            <RoiRow table={roiTables} type='day' title={t('farm.roi.timeframe')} />
-            <RoiRow table={roiTables} type='roi' title={t('farm.roi.ROI')} />
-            <RoiRow table={roiTables} type='per' title={t('farm.roi.aliumPer$1000')} />
+            <RoiRow table={roiTables} type='day' title={t('Timeframe')} />
+            <RoiRow table={roiTables} type='roi' title={t('ROI')} />
+            <RoiRow table={roiTables} type='per' title={t('Alium per $1000')} />
           </StyleRoiTable>
         </Main>
         <Footer>
-          <p>{t('farm.cardInfo.aprQuestion')}</p>
+          <p>
+            {t(
+              'Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
+            )}
+          </p>
           <a href={link} target='_blank'>
             <StyledButton variant='secondary'>
               <LinkIcon />
-              <h3>{t('farm.getToken', { tokenName })}</h3>
+              <h3>{t('Get {{tokenName}}', { tokenName })}</h3>
             </StyledButton>
           </a>
         </Footer>

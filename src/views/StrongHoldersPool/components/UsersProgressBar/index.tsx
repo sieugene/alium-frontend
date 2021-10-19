@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { rgba } from 'polished'
 import { Fragment, useMemo } from 'react'
 import { useMedia } from 'react-use'
@@ -23,6 +24,7 @@ export interface UsersProgressBarProps {
 }
 
 export default function UsersProgressBar({ current, all }: UsersProgressBarProps) {
+  const { t } = useTranslation()
   const isNotLg = useMedia(down(breakpoints.lg))
   const isNotSm = useMedia(down(breakpoints.sm))
   const outerPadding = isNotSm ? 0 : 15
@@ -96,10 +98,7 @@ export default function UsersProgressBar({ current, all }: UsersProgressBarProps
             {current}
             <UsersProgressBar.Text as='span'>/ {all}</UsersProgressBar.Text>
           </UsersProgressBar.Value>
-          <UsersProgressBar.Text>
-            Users In the pool
-            <br />/ All
-          </UsersProgressBar.Text>
+          <UsersProgressBar.Text>{t('Users In the pool\n/ All')}</UsersProgressBar.Text>
         </UsersProgressBar.Counters>
       </UsersProgressBar.Inner>
     </UsersProgressBar.Root>
@@ -135,6 +134,7 @@ UsersProgressBar.Counters = styled.div`
 UsersProgressBar.Text = styled.div`
   ${typography.ultrasmall.medium}
   color: #ffffff;
+  white-space: pre-line;
 `
 
 UsersProgressBar.Value = styled.div`

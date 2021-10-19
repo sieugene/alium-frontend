@@ -51,14 +51,18 @@ export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, toke
   return (
     <TransactionCompleted cancel={cancel}>
       <Content>
-        <h2 className='title'>{t('bridge.transactionCompleted')}</h2>
+        <h2 className='title'>{t('Transaction completed')}</h2>
         <p>
-          <Trans i18nKey='bridge.amount' values={{ amount, tokenSymbol: token?.symbol }} components={{ b: <b /> }} />
+          <Trans
+            i18nKey='Amount: <b>{{amount}} {{tokenSymbol}}</b>'
+            values={{ amount, tokenSymbol: token?.symbol }}
+            components={{ b: <b /> }}
+          />
         </p>
         {txHash && (
           <ViewOnWrapper>
             <a href={link} target='_blank'>
-              {t('bridge.transactionCompleted', { explorerName })}
+              {t('Transaction completed', { explorerName })}
               <ChevronRight />
             </a>
           </ViewOnWrapper>

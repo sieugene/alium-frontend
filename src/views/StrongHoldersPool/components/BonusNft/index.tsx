@@ -1,14 +1,20 @@
+import { ChevronRightIcon } from 'alium-uikit/src/components/Svg'
+import { StyledInternalLink } from 'components/Shared'
 import { ethers } from 'ethers'
+import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { useIsFullPool, useNftAllRewards, usePoolWithdrawPosition } from 'views/StrongHoldersPool/hooks'
-import NftItemCounter from '../NftItemCounter'
+import { typography } from 'views/StrongHoldersPool/mixins'
+import NftItem from '../NftItem'
+import Title from '../Title'
 
 export interface BonusNftProps {
   poolId?: ethers.BigNumber
 }
 
 export default function BonusNft({ poolId }: BonusNftProps) {
+  const { t } = useTranslation()
   const isFullPool = useIsFullPool(poolId)
   const withdrawPosition = usePoolWithdrawPosition(poolId)
   const { data: nftAllRewards } = useNftAllRewards()
@@ -25,14 +31,46 @@ export default function BonusNft({ poolId }: BonusNftProps) {
     }
   }, [isFullPool, nftAllRewards, withdrawPosition])
 
-  return nftCounter ? <NftItemCounter counter={nftCounter.toNumber()} /> : <></>
+  if (!nftCounter) {
+    return null
+  }
+
+  return (
+    <BonusNft.Root>
+      <NftItem />
+      <BonusNft.Info>
+        <Title>{t('Bonus NFT')}</Title>
+        <BonusNft.Counter>X{nftCounter.toString()}</BonusNft.Counter>
+        <BonusNft.MoreDetails href='https://cybercity.game/' target='_blank'>
+          {t('More details')}
+          <ChevronRightIcon color='currentColor' />
+        </BonusNft.MoreDetails>
+      </BonusNft.Info>
+    </BonusNft.Root>
+  )
 }
 
-BonusNft.Items = styled.div`
+BonusNft.Root = styled.div`
+  display: flex;
+  align-items: flex-start;
+`
+
+BonusNft.Counter = styled.div`
+  ${typography.h6}
+  margin: 4px 0;
+  color: #0b1359;
+`
+
+BonusNft.MoreDetails = styled(StyledInternalLink)`
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+`
+
+BonusNft.Info = styled.div`
   display: flex;
   flex-direction: column;
-
-  & > * + * {
-    margin-top: 8px;
-  }
+  margin-left: 12px;
 `

@@ -27,18 +27,18 @@ const TransactionDeadlineSetting = () => {
         setDeadline(rawValue)
         setError(null)
       } else {
-        setError(t('common.messages.validDeadline'))
+        setError(t('Enter a valid deadline'))
       }
     } catch {
-      setError(t('common.messages.validDeadline'))
+      setError(t('Enter a valid deadline'))
     }
   }, [t, value, setError, setDeadline])
 
   return (
     <StyledTransactionDeadlineSetting>
       <Label>
-        <Text style={{ fontWeight: 600 }}>{t('settingsModal.transactionDeadline')}</Text>
-        <QuestionHelper text={t('settingsModal.transactionRevertPending')} />
+        <Text style={{ fontWeight: 600 }}>{t('Transaction deadline')}</Text>
+        <QuestionHelper text={t('Your transaction will revert if it is pending for more than this long.')} />
       </Label>
       <Field>
         <Numeric
@@ -54,7 +54,7 @@ const TransactionDeadlineSetting = () => {
             height: '48px',
           }}
         />
-        <Text color={theme.colors.textSubtle}>{t('settingsModal.minutes')}</Text>
+        <Text color={theme.colors.textSubtle}>{t('Minutes')}</Text>
       </Field>
       {error && (
         <Text mt='8px' color='failure'>

@@ -11,8 +11,8 @@ const BridgeEmptyTable = () => {
         <BridgeClockIcon />
       </Clock>
 
-      <h2>{t('bridge.history.noHistory')}</h2>
-      <p>{t('bridge.history.makeFirstExchange')}</p>
+      <h2>{t('No History')}</h2>
+      <p>{t('Make the first exchange')}</p>
     </Wrapped>
   )
 }

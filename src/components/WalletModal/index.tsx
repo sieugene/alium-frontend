@@ -245,7 +245,7 @@ export default function WalletModal({
                 id={`connect-${key}`}
                 key={key}
                 color='#E8831D'
-                header={t('walletModal.installMetaMask')}
+                header={t('Please visit us after installing Metamask on Chrome or Brave.')}
                 subheader={null}
                 link='https://metamask.io/'
                 icon={MetamaskIcon}

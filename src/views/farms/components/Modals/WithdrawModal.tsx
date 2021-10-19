@@ -11,7 +11,7 @@ const WithdrawModal: FC<Omit<FarmActionModalProps, 'title' | 'type'>> = ({
   almPrice,
 }) => {
   const { t } = useTranslation()
-  const title = t('farm.actions.unstake') + ` LP tokens`
+  const title = t('Unstake') + ` LP tokens`
   return (
     <FarmActionModal
       max={max}

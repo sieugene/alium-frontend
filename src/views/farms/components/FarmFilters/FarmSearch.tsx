@@ -143,7 +143,7 @@ const FarmSearch = () => {
         ref={input}
         isFilled={isFilled}
         activeFullWidth={active}
-        placeholder={t('farm.filters.searchFarms')}
+        placeholder={t('Search Farms')}
         value={value}
         onChange={handleChangeQuery}
       />

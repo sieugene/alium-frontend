@@ -1,6 +1,7 @@
 import { Percent } from '@alium-official/sdk'
 import { Skeleton } from 'alium-uikit/src'
 import { ethers } from 'ethers'
+import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { ethersToBN, toEther } from 'utils/bigNumber'
@@ -23,6 +24,7 @@ export interface DetailsProps {
 }
 
 export default function Details({ poolId }: DetailsProps) {
+  const { t } = useTranslation()
   const { data: pool } = usePool(poolId)
   const { data: poolLocked } = usePoolLocked(poolId)
   const { data: withdrawals } = usePoolWithdrawals(poolId)
@@ -48,13 +50,13 @@ export default function Details({ poolId }: DetailsProps) {
         poolShare={poolShare}
         createdAt={pool?.createdAt && ethersToBN(pool.createdAt)}
       />
-      <Details.HistoryTitle>History</Details.HistoryTitle>
+      <Details.HistoryTitle>{t('History')}</Details.HistoryTitle>
       <Details.HistoryTable>
         <thead>
           <tr>
-            <th>Wallet</th>
-            <th>Added</th>
-            <th>Withdraw</th>
+            <th>{t('Wallet')}</th>
+            <th>{t('Added')}</th>
+            <th>{t('Withdraw')}</th>
           </tr>
         </thead>
         <tbody>

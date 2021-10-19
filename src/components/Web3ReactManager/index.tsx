@@ -58,7 +58,9 @@ export default function Web3ReactManager({ children }: { children: ReactChildren
   if (!active && networkError) {
     return (
       <MessageWrapper>
-        <Message>{t('common.messages.unknownError')}</Message>
+        <Message>
+          {t('Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device.')}
+        </Message>
       </MessageWrapper>
     )
   }

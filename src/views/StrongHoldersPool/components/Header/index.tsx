@@ -1,4 +1,5 @@
 import { Button } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
@@ -8,24 +9,25 @@ import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 
 export default function Header() {
+  const { t } = useTranslation()
   const router = useRouter()
   const tabs = useMemo(
     () => [
       {
-        title: 'New Pool',
+        title: t('New Pool'),
         href: ROUTES.shp,
       },
       {
-        title: 'Your Pools',
+        title: t('Your Pools'),
         href: ROUTES.shpYour,
       },
     ],
-    [],
+    [t],
   )
   return (
     <Header.Root>
       <Header.Main>
-        <Header.Title>Strong Holders Pool</Header.Title>
+        <Header.Title>{t('Strong Holders Pool')}</Header.Title>
         <Header.Tabs>
           {tabs.map((t) => (
             <Link href={t.href} key={t.href} passHref>

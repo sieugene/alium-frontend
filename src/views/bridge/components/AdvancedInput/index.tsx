@@ -37,7 +37,7 @@ const AdvancedInput: FC<{ children: React.ReactNode }> = ({ children }) => {
       {showInput && (
         <>
           <StyledInput
-            placeholder={t('bridge.recipientAddress')}
+            placeholder={t('Recipient Address')}
             value={receiver}
             onChange={({ target }) => {
               updateInput(target?.value)
@@ -47,13 +47,13 @@ const AdvancedInput: FC<{ children: React.ReactNode }> = ({ children }) => {
             }}
             notValid={showError}
           />
-          {showError && <ErrorText>{t('bridge.wrongAddress')}</ErrorText>}
+          {showError && <ErrorText>{t('Wrong address')}</ErrorText>}
         </>
       )}
       <AdvanceWrapper>
         {children && children}
         <Advanced onClick={() => setShowInput(!showInput)}>
-          {t('bridge.advanced')}
+          {t('Advanced')}
           {showInput ? <BridgeAdvancedMinus /> : <BridgeAdvancedPlus />}
         </Advanced>
       </AdvanceWrapper>

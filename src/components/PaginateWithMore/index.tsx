@@ -1,11 +1,13 @@
 import { Button, RotateIcon } from 'alium-uikit/src'
 import Paginate, { PaginateProps } from 'components/Pagination'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 
 export type PaginateWithMoreProps = PaginateProps
 
 export default function PaginateWithMore(props: PaginateWithMoreProps) {
+  const { t } = useTranslation()
   if (props.totalPages <= 1) {
     return null
   }
@@ -18,7 +20,7 @@ export default function PaginateWithMore(props: PaginateWithMoreProps) {
         variant='secondary'
       >
         <RotateIcon color='inherit' />
-        Show more
+        {t('Show more')}
       </PaginateWithMore.More>
       <Paginate {...props} />
     </PaginateWithMore.Root>

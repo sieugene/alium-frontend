@@ -34,7 +34,7 @@ const Paginate: FC<PaginateProps> = ({ currentPage, totalPages, onPageChanged })
         <ChevronLeft />
       </Control>
       <li>
-        <Content>{t('bridge.history.paginationText', { currentPage, totalPages })}</Content>
+        <Content>{t('Page {{currentPage}} of {{totalPages}}', { currentPage, totalPages })}</Content>
       </li>
       <Control onClick={() => allowNext && onPageChanged(nextPage)}>
         <ChevronRight />

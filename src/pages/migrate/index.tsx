@@ -1,4 +1,3 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 import ViewMigrate from 'views/Migrate/Migrate'
 
@@ -12,8 +11,5 @@ const MigratePage = () => {
   )
 }
 
-export const getServerSideProps = async ({ locale }) => ({
-  props: { ...(await serverSideTranslations(locale, ['common'])) },
-})
-
 export default MigratePage
+export { getStaticProps } from 'utils/i18n'

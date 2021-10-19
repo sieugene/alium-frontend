@@ -1,5 +1,6 @@
 import { Button, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import { typography } from 'views/StrongHoldersPool/mixins'
 import { breakpoints, down } from 'views/StrongHoldersPool/mq'
@@ -8,15 +9,16 @@ import { ReactComponent as PlusIcon } from './plus.svg'
 import { ReactComponent as WalletIcon } from './wallet.svg'
 
 export default function ConnectWallet() {
+  const { t } = useTranslation()
   const { login, logout } = useAuth()
   const { onPresentConnectModal } = useWalletModal(login, logout)
   return (
     <ConnectWallet.Root>
       <WalletIcon />
-      <ConnectWallet.Text>Please connect to your wallet first</ConnectWallet.Text>
+      <ConnectWallet.Text>{t('Please connect to your wallet first')}</ConnectWallet.Text>
       <ConnectWallet.Button onClick={onPresentConnectModal}>
         <PlusIcon />
-        Connect Wallet
+        {t('Connect Wallet')}
       </ConnectWallet.Button>
     </ConnectWallet.Root>
   )

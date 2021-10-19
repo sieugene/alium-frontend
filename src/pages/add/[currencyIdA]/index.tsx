@@ -1,4 +1,3 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 import { RedirectOldAddLiquidityPathStructure } from 'utils/redirects/swap/SwapRedirects'
 
@@ -15,9 +14,4 @@ const SwapAddCurrencyIdA = () => {
 }
 
 export default SwapAddCurrencyIdA
-
-export const getServerSideProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-})
+export { getStaticProps as getServerSideProps } from 'utils/i18n'

@@ -54,23 +54,23 @@ const AccountModal: FC<Props> = ({
   }, [])
 
   return (
-    <Modal title={t('accountModal.title')} onDismiss={onDismiss} styledModalContent={{ padding: '0 24px 32px 24px' }}>
+    <Modal title={t('Account')} onDismiss={onDismiss} styledModalContent={{ padding: '0 24px 32px 24px' }}>
       <StyledBackGround style={{ backgroundImage: `url("data:image/svg+xml,${svgString}")` }}>
         <StyledInfo>
           <DefaultAvatar width='80px' height='80px' />
           <StyledFlex>
             <Flex flexDirection='column' marginLeft={40}>
-              <Text color='#CBC8EE'>{t('accountModal.balance')}</Text>
+              <Text color='#CBC8EE'>{t('Balance')}</Text>
               <Text color='white'>
                 {!currentBalance || currentBalance === '-' ? (
-                  <p>{t('accountModal.loadingBalance')}</p>
+                  <p>{t('Loading balance...')}</p>
                 ) : (
                   `${currentBalance} ${tokenSymbol}`
                 )}
               </Text>
             </Flex>
             <Flex flexDirection='column' marginLeft={40}>
-              <Text color='#CBC8EE'>{t('accountModal.network')}</Text>
+              <Text color='#CBC8EE'>{t('Network')}</Text>
               <Text color='white'>{networkName}</Text>
             </Flex>
           </StyledFlex>
@@ -92,11 +92,11 @@ const AccountModal: FC<Props> = ({
       <StyledFlex mt='16px' justifyContent='space-between'>
         <StyledButton size='md' variant='secondary' onClick={() => window.open(explorerLink)}>
           <BSCScanIcon mr={16} />
-          {t('common.button.viewOnExplorerName', { explorerName })}
+          {t('View on {{explorerName}}', { explorerName })}
         </StyledButton>
         <StyledButton size='md' variant='secondary' onClick={onTransactionHistoryHandler}>
           <TransactionHistoryIcon mr={16} />
-          {t('common.button.transactionHistory')}
+          {t('Transaction History')}
         </StyledButton>
         <StyledButton
           size='md'
@@ -108,7 +108,7 @@ const AccountModal: FC<Props> = ({
           }}
         >
           <ExitIcon mr={16} />
-          {t('accountModal.logoutTitle')}
+          {t('Logout')}
         </StyledButton>
       </StyledFlex>
     </Modal>

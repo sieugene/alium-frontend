@@ -1,6 +1,6 @@
 import { Trade } from '@alium-official/sdk'
 import { Flex } from 'alium-uikit/src'
-import { Fragment, memo } from 'react';
+import { Fragment, memo } from 'react'
 import { ChevronRight } from 'react-feather'
 import styled from 'styled-components'
 import CurrencyLogo from '../CurrencyLogo'

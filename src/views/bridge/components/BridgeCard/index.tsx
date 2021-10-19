@@ -15,7 +15,7 @@ const HistoryText = () => {
     <Link href='/bridge/history'>
       <History href='/bridge/history'>
         <BridgeHistoryIcon />
-        <p>{t('bridge.history.linkTitle')}</p>
+        <p>{t('History')}</p>
       </History>
     </Link>
   )

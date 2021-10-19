@@ -49,7 +49,7 @@ export const FarmStakedSwitcher = () => {
       <Switch align={stakedOnly ? 'end' : 'start'} active={stakedOnly} onClick={() => setStakedOnly(!stakedOnly)}>
         <span />
       </Switch>
-      <h3>{t('farm.filters.stakedOnly')}</h3>
+      <h3>{t('Staked only')}</h3>
     </SwitchWrap>
   )
 }

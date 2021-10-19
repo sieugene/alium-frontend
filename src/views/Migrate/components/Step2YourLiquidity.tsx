@@ -27,7 +27,7 @@ export const Step2YourLiquidity: FC<props> = ({
   const { t } = useTranslation()
   const [viewTokens, setViewTokens] = useState(false)
   const { title, symbolA, symbolB, exchange, balance } = pairs[selectedPairKey] ?? {
-    title: t('migrate.tokenNotSelected'),
+    title: t('Token not selected'),
     exchange: '',
     balance: 0,
   }
@@ -55,8 +55,8 @@ export const Step2YourLiquidity: FC<props> = ({
   return (
     <Root>
       <header>
-        <div className='title'>{t('migrate.yourLiquidity')}</div>
-        <div className='title2'>{t('migrate.clickOnAPoolBelow')}</div>
+        <div className='title'>{t('Your Liquidity')}</div>
+        <div className='title2'>{t('Click on a pool below, input the amount you wish to migrate or select max, and click migrate')}</div>
       </header>
       <main>
         <div
@@ -66,7 +66,7 @@ export const Step2YourLiquidity: FC<props> = ({
             minHeight: '54px',
           }}
         >
-          <div className='label'>{t('migrate.tokens')}</div>
+          <div className='label'>{t('Tokens')}</div>
           <div
             style={{
               display: 'flex',
@@ -113,7 +113,7 @@ export const Step2YourLiquidity: FC<props> = ({
           <div className='tokens-list'>
             {!pairs.length && (
               <div className='title2' style={{ padding: '12px 16px' }}>
-                {t('migrate.youDoNotHaveLiquidity')}
+                {t('You do not have liquidity available for migration')}
               </div>
             )}
             {pairs.map((pair, key) => (
@@ -153,29 +153,29 @@ export const Step2YourLiquidity: FC<props> = ({
           </div>
         )}
         <div className={`tokens-amount ${selectedPairKey !== -1}`}>
-          <div className='label'>{t('migrate.amountOfTokens')}</div>
+          <div className='label'>{t('Amount of Tokens')}</div>
           <input type='text' value={tokensAmount} onChange={handleTokensAmount} disabled={selectedPairKey === -1} />
           {tokensAmount !== balance && (
             <div className='max' onClick={handleMax}>
-              {t('common.button.maxCaps')}
+              {t('MAX')}
             </div>
           )}
         </div>
         <div className='balance'>
           <div>
-            {t('migrate.labelBalance')} <span>{balance}</span>
+            {t('Balance:')} <span>{balance}</span>
           </div>
         </div>
         <div className='action'>
           {balancedMigrate ? (
             <div className={`button ${balancedMigrate}`} onClick={handleMigrate}>
-              {t('migrate.labelMigrate')}
+              {t('Migrate')}
             </div>
           ) : (
-            <div className={`button false  `}>{t('migrate.labelMigrate')}</div>
+            <div className={`button false  `}>{t('Migrate')}</div>
           )}
           {selectedPairKey !== -1 && (
-            <div className='title2'>{t('migrate.youExchangeTitleLiquidity', { exchange, title })}</div>
+            <div className='title2'>{t('You {{exchange}} {{title}} liquidity will become AliumSwap {{title}} liquidity', { exchange, title })}</div>
           )}
         </div>
       </main>

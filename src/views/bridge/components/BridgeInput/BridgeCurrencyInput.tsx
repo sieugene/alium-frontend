@@ -115,7 +115,7 @@ export default function BridgeCurrencyInput(props: CurrencyInputPanelProps) {
           </CurrencySelect>
           {account && currency && showMaxButton && label !== 'To' && (
             <Button onClick={onMax} size='sm' variant='text' buttonType='max'>
-              {t('common.button.maxCaps')}
+              {t('MAX')}
             </Button>
           )}
         </InputRow>

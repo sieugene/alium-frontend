@@ -89,9 +89,9 @@ export default function CurrencyInputPanel({
                     style={{ display: 'inline', cursor: 'pointer', color: '#6C5DD3' }}
                   >
                     {(!!currency && selectedCurrencyBalance) || balance ? (
-                      t('exchange.balance', { balance: balance || toSignificantCurrency(selectedCurrencyBalance) })
+                      t('Balance {{balance}}', { balance: balance || toSignificantCurrency(selectedCurrencyBalance) })
                     ) : (
-                      <Dots>{t('exchange.balanceLoading')}</Dots>
+                      <Dots>{t('Balance loading')}</Dots>
                     )}
                   </Text>
                 )}
@@ -115,7 +115,7 @@ export default function CurrencyInputPanel({
                 />
                 {showMax && (
                   <Button onClick={onMax} size='sm' variant='text' buttonType='max'>
-                    {t('common.button.maxCaps')}
+                    {t('MAX')}
                   </Button>
                 )}
               </>
@@ -154,7 +154,7 @@ export default function CurrencyInputPanel({
                         )}`
                       : currency?.symbol) || (
                       <Text color={theme.colors.textSubtle} style={{ fontSize: '14px' }}>
-                        {t('exchange.selectToken')}
+                        {t('Select a token')}
                       </Text>
                     )}
                   </Text>

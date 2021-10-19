@@ -1,4 +1,5 @@
 import { MENU_HEIGHT } from 'alium-uikit/src/widgets/Menu/config'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
@@ -9,9 +10,10 @@ import NestedYour from './components/NestedYour'
 import { breakpoints, down } from './mq'
 
 export default function StrongHoldersPool() {
+  const { t } = useTranslation()
   const router = useRouter()
   return (
-    <AvailableAccount title='Strong Holders Pool'>
+    <AvailableAccount title={t('Strong Holders Pool')}>
       <StrongHoldersPool.Root>
         <Header />
         {router.pathname === ROUTES.shp && <NestedNew />}

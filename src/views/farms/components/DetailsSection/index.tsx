@@ -99,11 +99,11 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({ bscScanAddress, lpLa
               <InfoDeposit farm={farm} />
             </Info>
             <Info>
-              <div className='title'>{t('farm.cardInfo.totalLiquidity')}</div>
+              <div className='title'>{t('Total Liquidity')}</div>
               <div className='field'>{!loading ? <p>{totalLiqudidty}</p> : <Skeleton width={75} height={25} />}</div>
             </Info>
             <Info>
-              <div className='title'>{t('farm.cardInfo.depositFee')}</div>
+              <div className='title'>{t('Deposit fee')}</div>
               <div className='field'>
                 {!loading ? `${farm?.depositFee || 0}%` : <Skeleton width={75} height={25} />}
               </div>

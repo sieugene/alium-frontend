@@ -43,8 +43,8 @@ const ConnectModal: FC<Props> = ({ login, onDismiss }) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const networks = isDev ? networksDev : networksProd
 
-  const networkConfig = networks.find((x) => x.chainId === currentChainId) ?? { type: '???' }
-  const [selectedNetwork, setSelectedNetwork] = useState(networkConfig.type)
+  const networkConfig = networks.find((x) => x.chainId === currentChainId) ?? { label: '???' }
+  const [selectedNetwork, setSelectedNetwork] = useState(networkConfig.label)
   const [selectedWallet, setSelectedWallet] = useState('')
 
   const handleClose = () => {
@@ -58,21 +58,19 @@ const ConnectModal: FC<Props> = ({ login, onDismiss }) => {
   }, [])
 
   return (
-    <Modal title={t('connectModal.title')} onDismiss={handleClose}>
+    <Modal title={t('Connect Wallet')} onDismiss={handleClose}>
       <StyledFlexPoint alignItems='center' marginBottom='5px'>
         <StyledPoint>
           <p>1</p>
         </StyledPoint>
-        <Text style={{ fontSize: '14px', color: '#0B1359', marginLeft: '16px' }}>
-          {t('connectModal.chooseNetwork')}
-        </Text>
+        <Text style={{ fontSize: '14px', color: '#0B1359', marginLeft: '16px' }}>{t('Choose Network')}</Text>
       </StyledFlexPoint>
       <StyledFlex>
         {networks.map((entry) => (
           <NetworkSelector
-            key={entry.type}
+            key={entry.label}
             chainId={entry.chainId}
-            selected={entry.type === selectedNetwork}
+            selected={entry.label === selectedNetwork}
             networkConfig={entry}
             setSelectedNetwork={(wallet) => {
               setChainId(entry.chainId)
@@ -85,7 +83,7 @@ const ConnectModal: FC<Props> = ({ login, onDismiss }) => {
         <StyledPoint>
           <p>2</p>
         </StyledPoint>
-        <Text style={{ fontSize: '14px', color: '#0B1359', marginLeft: '16px' }}>{t('connectModal.chooseWallet')}</Text>
+        <Text style={{ fontSize: '14px', color: '#0B1359', marginLeft: '16px' }}>{t('Choose Wallet')}</Text>
       </StyledFlexPoint>
       <StyledWalletFlex>
         {walletsList.map((entry) => {
@@ -109,7 +107,7 @@ const ConnectModal: FC<Props> = ({ login, onDismiss }) => {
       <HelpLink href='https://aliumswap.medium.com/how-to-set-up-a-wallet-to-use-alium-finance-cca9fa7cb8b0' external>
         <HelpIcon color='primary' mr='6px' height='18px' width='18px' />
         <Text fontSize='10px' color='#6C5DD3' style={{ fontWeight: 500 }}>
-          {t('connectModal.learnHowTtoConnect')}
+          {t('Learn how to connect')}
         </Text>
       </HelpLink>
     </Modal>

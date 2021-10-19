@@ -395,16 +395,16 @@ const StrategicalPartnershipHome = () => {
                               style={{ width: '100%' }}
                             >
                               {approval === ApprovalState.PENDING || approvalSubmitted ? (
-                                <Dots>{t('common.button.approving', { count: values.currency })}</Dots>
+                                <Dots>{t('Approving', { count: values.currency })}</Dots>
                               ) : (
-                                t('common.button.approve', { count: values.currency })
+                                t('Approve', { count: values.currency })
                               )}
                             </Button>
                           </RowBetween>
                         )
                       ) : (
                         <GreyCard style={{ textAlign: 'center', width: '100%' }}>
-                          {balance && !sufficientBalance ? t('others.insufficientBalance') : 'Please, wait...'}
+                          {balance && !sufficientBalance ? t('Insufficient Balance') : 'Please, wait...'}
                         </GreyCard>
                       )}
                     </AutoColumn>

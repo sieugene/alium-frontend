@@ -1,6 +1,6 @@
 import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
-import { Trans, useTranslation} from 'next-i18next'
+import { Trans, useTranslation } from 'next-i18next'
 import React from 'react'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { storeNetwork, useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -107,7 +107,7 @@ const SwitchNetworkStep = () => {
     setChainId(networkTo?.chainId)
   }
 
-  const networkToLabel = networkTo?.type && t(`networks.${networkTo?.type}.label`)
+  const networkToLabel = networkTo?.label && t(networkTo.label)
   const shortedNetworkLabel = networkToLabel.split(' ')[0]
 
   return (
@@ -118,7 +118,7 @@ const SwitchNetworkStep = () => {
 
       <p className='message'>
         <Trans
-          i18nKey='bridge.pleaseSwitchNetwork'
+          i18nKey='Please switch the network in your wallet to <b>{{networkToLabel}}</b>'
           values={{ networkToLabel: networkToLabel }}
           components={{ b: <b /> }}
         />
@@ -130,7 +130,10 @@ const SwitchNetworkStep = () => {
       <Info>
         <BridgeInfoIcon />
         <div className='message__text'>
-          {t('bridge.afterYouSwitchNetworks', { shortedNetworkLabel, tokenSymbol: token?.symbol })}
+          {t(
+            'After you switch networks, you will complete a second transaction on {{shortedNetworkLabel}} to claim your {{tokenSymbol}} tokens.',
+            { shortedNetworkLabel, tokenSymbol: token?.symbol },
+          )}
         </div>
       </Info>
     </Wrapper>

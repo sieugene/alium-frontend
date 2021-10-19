@@ -24,8 +24,8 @@ const BridgeConnectWallet: FC<{ children: React.ReactNode }> = ({ children }) =>
           <IconWrap>
             <BridgeConnectWalletIcon />
           </IconWrap>
-          <h2>{t('bridge.connectWallet')}</h2>
-          <p>{t('bridge.toGetStarted')}</p>
+          <h2>{t('Connect Wallet')}</h2>
+          <p>{t('To get started, connect your wallet.')}</p>
           <ConnectButton isAccount={!!account} accountEllipsis='' onClick={showModalConnect} />
         </CardContent>
       )}

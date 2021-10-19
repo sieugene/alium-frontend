@@ -23,10 +23,10 @@ const UnlockButton = ({ title, ...props }: IUnlockButtonProps) => {
             <div className='icon'>
               <AddIcon />
             </div>
-            {t('common.button.connect')}
+            {t('Connect')}
           </div>
         ) : (
-          <div>{title ? title : t('common.button.unlockWallet')}</div>
+          <div>{title ? title : t('Unlock Wallet')}</div>
         )}
       </Button>
     </StyledButtonUnlockWallet>

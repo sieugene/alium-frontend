@@ -125,7 +125,7 @@ const FarmActionModal = ({
       <FarmModalStatuses loading={pendingTx} success={success} error={error} type={type} onRepeat={onRepeat}>
         <FarmActionModal.ModalWrapper>
           <CurrencyInputPanel
-            label={t('farm.actions.stake')}
+            label={t('Stake')}
             value={val}
             onUserInput={handleChange}
             onMax={handleSelectMax}
@@ -140,7 +140,7 @@ const FarmActionModal = ({
           />
           {!withoutRoi && (
             <FarmActionModal.Roi>
-              <h3> {t('farm.roiAtRates')}:</h3>
+              <h3> {t('Annual ROI at current rates')}:</h3>
               <div className='price'>
                 <p title={roiUsdFormatted}>${roiUsdFormatted}</p>
                 <FarmActionModal.IconCalculateWrap onClick={onShowRoi}>
@@ -151,15 +151,15 @@ const FarmActionModal = ({
           )}
           <FarmActionModal.ModalActions>
             <Button fullwidth variant='secondary' onClick={onDismiss}>
-              {t('common.button.cancel')}
+              {t('Cancel')}
             </Button>
             <Button fullwidth disabled={lockBtn} onClick={confirm}>
-              {pendingTx ? t('common.messages.pendingConfirmation') : t('common.button.confirm')}
+              {pendingTx ? t('Pending Confirmation') : t('Confirm')}
             </Button>
           </FarmActionModal.ModalActions>
           <FarmActionModal.ModalFooter>
             <a className='link' href={link} target='_blank'>
-              <h3>{t('farm.getToken', { tokenName })}</h3>
+              <h3>{t('Get {{tokenName}}', { tokenName })}</h3>
               <LinkIcon />
             </a>
           </FarmActionModal.ModalFooter>

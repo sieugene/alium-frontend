@@ -188,7 +188,7 @@ const TicketBanner = () => {
       <Warning>
         <WarningIcon />
       </Warning>
-      <Info>{t('farm.bannerTicket.warningDesck')}</Info>
+      <Info>{t('Only users who have bought a ticket can take part in the farming program.')}</Info>
       {!removeBanner && (
         <FlexCenter>
           <Illustration src={`/images/farms/banners/${imgSrc}`} />
@@ -196,10 +196,10 @@ const TicketBanner = () => {
       )}
       <FlexEnd>
         <TicketInfo>
-          <p>{t('farm.bannerTicket.titlePrice')}</p>
+          <p>{t('The ticket price is:')}</p>
           <h2>1500 ALM</h2>
         </TicketInfo>
-        {!account ? <StyledConnectWallet title={t('connectModal.title')} /> : <BuyTicketBtn />}
+        {!account ? <StyledConnectWallet title={t('Connect Wallet')} /> : <BuyTicketBtn />}
       </FlexEnd>
     </Wrapper>
   )

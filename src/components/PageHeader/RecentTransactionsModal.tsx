@@ -2,7 +2,7 @@ import { Button, CheckmarkCircleIcon, ErrorIcon, Flex, LinkExternal, Modal, Text
 import Loader from 'components/Loaders/Loader'
 import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
-import { useMemo } from 'react';
+import { useMemo } from 'react'
 import { isTransactionRecent, useAllTransactions } from 'state/transactions/hooks'
 import { TransactionDetails } from 'state/transactions/reducer'
 import styled from 'styled-components'
@@ -57,22 +57,22 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
 
   return (
     <StyledWrapper>
-      <Modal title={t('recentTransactionsModal.title')} onDismiss={onDismiss}>
+      <Modal title={t('Recent Transactions')} onDismiss={onDismiss}>
         {!account && (
           <Flex justifyContent='center' flexDirection='column' alignItems='center'>
             <Text mb='20px' bold mt='12px' style={{ textAlign: 'center' }}>
-              {t('recentTransactionsModal.pleaseConnectWallet')}
+              {t('Please connect your wallet to view your recent transactions')}
             </Text>
             <Button variant='secondary' size='md' onClick={onDismiss}>
-              {t('common.button.close')}
+              {t('Close')}
             </Button>
           </Flex>
         )}
         {account && chainId && sortedRecentTransactions.length === 0 && (
           <Flex justifyContent='center' flexDirection='column' alignItems='center'>
-            <Text mb='8px'>{t('recentTransactionsModal.noRecentTransactions')}</Text>
+            <Text mb='8px'>{t('No recent transactions')}</Text>
             <Button variant='secondary' size='md' onClick={onDismiss} mt='10px'>
-              {t('common.button.close')}
+              {t('Close')}
             </Button>
           </Flex>
         )}

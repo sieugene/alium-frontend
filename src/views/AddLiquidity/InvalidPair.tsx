@@ -57,7 +57,7 @@ export const InvalidPairCurrencies: FC<CurrenciesProps> = ({
           fontSize='12px'
           mb='2px'
         >
-          {noLiquidity ? t('liquidity.initialPricesAndPoolShare') : t('liquidity.pricesAndPoolShare')}
+          {noLiquidity ? t('Initial prices and pool share') : t('Prices and pool share')}
         </StyledUIKitText>
         <Pane>
           <PoolPriceBar

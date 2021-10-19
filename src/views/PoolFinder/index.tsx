@@ -76,7 +76,7 @@ export default function PoolFinder() {
   const prerequisiteMessage = (
     <LightCard padding='30px 10px'>
       <Text style={{ textAlign: 'center' }}>
-        {!account ? t('liquidity.connectToFindPools') : t('liquidity.selectToFindLiquidity')}
+        {!account ? t('Connect to a wallet to find pools') : t('Select a token to find your liquidity.')}
       </Text>
     </LightCard>
   )
@@ -97,7 +97,7 @@ export default function PoolFinder() {
               endIcon={<ChevronDownIcon width='24px' color='white' />}
               fullwidth
             >
-              {currency0 ? currency0.symbol : t('liquidity.selectToken')}
+              {currency0 ? currency0.symbol : t('Select a token')}
             </Button>
 
             <ColumnCenter>
@@ -115,14 +115,14 @@ export default function PoolFinder() {
               endIcon={<ChevronDownIcon width='24px' color='white' />}
               fullwidth
             >
-              {currency1 ? currency1.symbol : t('liquidity.selectToken')}
+              {currency1 ? currency1.symbol : t('Select a token')}
             </Button>
 
             {hasPosition && (
               <ColumnCenter
                 style={{ justifyItems: 'center', backgroundColor: '', padding: '12px 0px', borderRadius: '12px' }}
               >
-                <Text style={{ textAlign: 'center' }}>{t('liquidity.poolFound')}</Text>
+                <Text style={{ textAlign: 'center' }}>{t('Pool Found!')}</Text>
               </ColumnCenter>
             )}
 
@@ -133,9 +133,9 @@ export default function PoolFinder() {
                 ) : (
                   <LightCard padding='30px 10px'>
                     <AutoColumn gap='sm' justify='center'>
-                      <Text style={{ textAlign: 'center' }}>{t('liquidity.noLiquidityInPool')}</Text>
+                      <Text style={{ textAlign: 'center' }}>{t('You don’t have liquidity in this pool yet.')}</Text>
                       <StyledInternalLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
-                        <Text style={{ textAlign: 'center' }}>{t('liquidity.addLiquidity')}</Text>
+                        <Text style={{ textAlign: 'center' }}>{t('Add Liquidity')}</Text>
                       </StyledInternalLink>
                     </AutoColumn>
                   </LightCard>
@@ -143,23 +143,23 @@ export default function PoolFinder() {
               ) : validPairNoLiquidity ? (
                 <LightCard padding='30px 10px'>
                   <AutoColumn gap='sm' justify='center'>
-                    <Text style={{ textAlign: 'center' }}>{t('liquidity.noPool')}</Text>
+                    <Text style={{ textAlign: 'center' }}>{t('No pool found.')}</Text>
                     <StyledInternalLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
-                      {t('liquidity.createPool')}
+                      {t('Create pool.')}
                     </StyledInternalLink>
                   </AutoColumn>
                 </LightCard>
               ) : pairState === PairState.INVALID ? (
                 <LightCard padding='30px 10px'>
                   <AutoColumn gap='sm' justify='center'>
-                    <Text style={{ textAlign: 'center' }}>{t('liquidity.invalidPair')}</Text>
+                    <Text style={{ textAlign: 'center' }}>{t('Invalid pair.')}</Text>
                   </AutoColumn>
                 </LightCard>
               ) : pairState === PairState.LOADING ? (
                 <LightCard padding='30px 10px'>
                   <AutoColumn gap='sm' justify='center'>
                     <Text style={{ textAlign: 'center' }}>
-                      {t('common.text.loading')}
+                      {t('Loading')}
                       <Dots />
                     </Text>
                   </AutoColumn>

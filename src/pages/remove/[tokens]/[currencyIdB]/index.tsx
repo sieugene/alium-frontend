@@ -1,4 +1,3 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 
 const WrapSwapComponent = dynamic(() => import('views/Swap/SwapContainter'), {
@@ -18,9 +17,4 @@ const RemoveMultiple = () => {
 }
 
 export default RemoveMultiple
-
-export const getServerSideProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-})
+export { getStaticProps as getServerSideProps } from 'utils/i18n'

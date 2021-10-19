@@ -23,8 +23,8 @@ const ClaimLoadWrap: FC<ClaimLoadProps> = ({ loading, children }) => {
       {loading && (
         <ClaimWrap>
           <StyledLoader type='TailSpin' color='#6C5DD3' />
-          <h2>{t('bridge.claimPending')}</h2>
-          <p>{loadingText || t('bridge.minutesLeft')}</p>
+          <h2>{t('Claim pending...')}</h2>
+          <p>{loadingText || t('2 minutes left')}</p>
         </ClaimWrap>
       )}
       <Shadow loading={loading}>{children}</Shadow>
@@ -79,9 +79,9 @@ const ClaimTokenStep = () => {
   return (
     <ClaimLoadWrap loading={loading || loadingTransaction}>
       <Wrapper>
-        <p className='title'>{t('bridge.veryLittleLeft')}</p>
+        <p className='title'>{t('Very little left')}</p>
         <Button onClick={claimTokens} disabled={loading}>
-          {t('common.button.claim')}
+          {t('Claim')}
         </Button>
       </Wrapper>
     </ClaimLoadWrap>

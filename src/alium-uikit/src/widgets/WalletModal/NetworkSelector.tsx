@@ -19,10 +19,10 @@ interface Props {
 const NetworkSelector: FC<Props> = ({ chainId, selected, networkConfig, setSelectedNetwork }) => {
   const { t } = useTranslation()
   const setChainId = useStoreNetwork((state) => state.setChainId)
-  const { type, icon: Icon } = networkConfig
+  const { label, title, icon: Icon } = networkConfig
 
   const handleClick = () => {
-    setSelectedNetwork(type)
+    setSelectedNetwork(label)
     setChainId(Number(chainId))
   }
 
@@ -33,7 +33,7 @@ const NetworkSelector: FC<Props> = ({ chainId, selected, networkConfig, setSelec
         <Icon />
       </StyledNetworkSelector>
       <Text color='#8990A5' fontSize='11px' mb='10px' style={{ userSelect: 'none' }}>
-        {t(`networks.${type}.title`)}
+        {t(title)}
       </Text>
     </StyledFlex>
   )

@@ -40,9 +40,7 @@ export default function TransactionPopup({
           {summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}
         </Body>
         {chainId && (
-          <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
-            View on {explorerName}
-          </ExternalLink>
+          <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>View on {explorerName}</ExternalLink>
         )}
       </AutoColumn>
     </RowNoFlex>

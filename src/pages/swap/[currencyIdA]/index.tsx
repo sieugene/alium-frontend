@@ -15,5 +15,4 @@ const SwapExchangeCurrencyIdA = () => {
 }
 
 export default SwapExchangeCurrencyIdA
-
-export { getServerSideProps } from '../../index'
+export { getStaticProps as getServerSideProps } from 'utils/i18n'

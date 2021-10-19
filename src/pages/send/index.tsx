@@ -1,4 +1,3 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 import { RedirectPathToSwapOnly } from 'utils/redirects/swap/SwapRedirects'
 
@@ -15,9 +14,4 @@ const Send = () => {
 }
 
 export default Send
-
-export const getServerSideProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-})
+export { getStaticProps } from 'utils/i18n'

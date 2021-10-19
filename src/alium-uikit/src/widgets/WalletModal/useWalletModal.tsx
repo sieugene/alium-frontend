@@ -33,36 +33,36 @@ const useWalletModal = (
 
   const chainIdData: { [i: number]: { tokenSymbol: string; networkName: string } } = {
     1: {
-      tokenSymbol: t('walletModal.1.tokenSymbol'),
-      networkName: t('walletModal.1.networkName'),
+      tokenSymbol: t('ETH'),
+      networkName: t('Ethereum Chain'),
     },
     4: {
-      tokenSymbol: t('walletModal.4.tokenSymbol'),
-      networkName: t('walletModal.4.networkName'),
+      tokenSymbol: t('ETH'),
+      networkName: t('Ethereum Chain Testnet Ropsten'),
     },
     56: {
-      tokenSymbol: t('walletModal.56.tokenSymbol'),
-      networkName: t('walletModal.56.networkName'),
+      tokenSymbol: t('BNB'),
+      networkName: t('Binance Smart Chain'),
     },
     97: {
-      tokenSymbol: t('walletModal.97.tokenSymbol'),
-      networkName: t('walletModal.97.networkName'),
+      tokenSymbol: t('BNB'),
+      networkName: t('Binance Smart Chain Testnet'),
     },
     128: {
-      tokenSymbol: t('walletModal.128.tokenSymbol'),
-      networkName: t('walletModal.128.networkName'),
+      tokenSymbol: t('HT'),
+      networkName: t('Huobi ECO Chain'),
     },
     137: {
-      tokenSymbol: t('walletModal.137.tokenSymbol'),
-      networkName: t('walletModal.137.networkName'),
+      tokenSymbol: t('MATIC'),
+      networkName: t('Polygon Matic Chain'),
     },
     256: {
-      tokenSymbol: t('walletModal.256.tokenSymbol'),
-      networkName: t('walletModal.256.networkName'),
+      tokenSymbol: t('HT'),
+      networkName: t('Huobi ECO Chain Testnet'),
     },
     80001: {
-      tokenSymbol: t('walletModal.80001.tokenSymbol'),
-      networkName: t('walletModal.80001.networkName'),
+      tokenSymbol: t('MATIC'),
+      networkName: t('Polygon Matic Chain Testnet'),
     },
   }
 
@@ -73,8 +73,8 @@ const useWalletModal = (
       logout={logout}
       explorerName={explorerName}
       explorerLink={explorerLink}
-      tokenSymbol={chainIdData[currentChainId]?.tokenSymbol ?? t('walletModal.undefinedToken')}
-      networkName={chainIdData[currentChainId]?.networkName ?? t('walletModal.undefinedChain', { currentChainId })}
+      tokenSymbol={chainIdData[currentChainId]?.tokenSymbol ?? t('Undefined Token')}
+      networkName={chainIdData[currentChainId]?.networkName ?? t('Undefined Chain (ID: {{currentChainId}})', { currentChainId })}
       onTransactionHistoryHandler={onTransactionHistoryHandler}
     />,
   )

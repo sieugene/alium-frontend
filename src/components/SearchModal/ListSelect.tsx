@@ -82,7 +82,7 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
   }, [dispatch, listUrl, pending])
 
   const handleRemoveList = useCallback(() => {
-    if (window.prompt(t('common.messages.pleaseConfirmYouWouldLike')) === `REMOVE`) {
+    if (window.prompt(t('Please confirm you would like to remove this list by typing REMOVE')) === `REMOVE`) {
       dispatch(removeList(listUrl))
     }
   }, [dispatch, listUrl])
@@ -130,23 +130,19 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
           <PopoverContainer show ref={setPopperElement as any} style={styles.popper} {...attributes.popper}>
             <div>{list && listVersionLabel(list.version)}</div>
             <SeparatorDark />
-            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>
-              {t('common.button.viewList')}
-            </ExternalLink>
+            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>{t('View list')}</ExternalLink>
             <UnpaddedLinkStyledButton onClick={handleRemoveList} disabled={Object.keys(listsByUrl).length === 1}>
-              {t('common.button.removeList')}
+              {t('Remove list')}
             </UnpaddedLinkStyledButton>
             {pending && (
-              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>
-                {t('common.button.updateList')}
-              </UnpaddedLinkStyledButton>
+              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>{t('Update list')}</UnpaddedLinkStyledButton>
             )}
           </PopoverContainer>
         )}
       </StyledMenu>
       {isSelected ? (
         <Button disabled style={{ width: '5rem', minWidth: '5rem' }}>
-          {t('common.button.selected')}
+          {t('Selected')}
         </Button>
       ) : (
         <Button
@@ -157,7 +153,7 @@ const ListRow = memo(({ listUrl, onBack }: { listUrl: string; onBack: () => void
           }}
           onClick={selectThisList}
         >
-          {t('common.button.select')}
+          {t('Select')}
         </Button>
       )}
     </Row>
@@ -234,7 +230,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
           <div>
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} />
           </div>
-          <Text fontSize='20px'>{t('exchange.manageLists')}</Text>
+          <Text fontSize='20px'>{t('Manage Lists')}</Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
       </PaddedColumn>
@@ -243,21 +239,25 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
 
       <PaddedColumn gap='14px'>
         <Text bold>
-          {t('exchange.addAList')}
-          <QuestionHelper text={t('exchange.addAListQuestionHelper')} />
+          {t('Add a list')}
+          <QuestionHelper
+            text={t(
+              'Token lists are an open specification for lists of BEP20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious BEP20 tokens.',
+            )}
+          />
         </Text>
         <Row>
           <SearchInput
             type='text'
             id='list-add-input'
-            placeholder={t('exchange.listSelectInputPlaceholder')}
+            placeholder={t('https:// or ipfs:// or ENS name')}
             value={listUrlInput}
             onChange={handleInput}
             onKeyDown={handleEnterKey}
             style={{ height: '2.75rem', borderRadius: 12, padding: '12px' }}
           />
           <Button onClick={handleAddList} style={{ maxWidth: '4em', marginLeft: '1em' }} disabled={!validUrl}>
-            {t('common.button.add')}
+            {t('Add')}
           </Button>
         </Row>
         {addError ? (
@@ -277,7 +277,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       <Separator />
 
       <div style={{ padding: '16px', textAlign: 'center' }}>
-        <ExternalLink href='https://tokenlists.org'>{t('exchange.browseLists')}</ExternalLink>
+        <ExternalLink href='https://tokenlists.org'>{t('Browse lists')}</ExternalLink>
       </div>
     </Column>
   )

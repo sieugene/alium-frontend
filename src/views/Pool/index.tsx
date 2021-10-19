@@ -39,7 +39,7 @@ const Pool = React.memo(() => {
           router.push(ROUTES.addByOne('ETH'))
         }}
       >
-        {t('liquidity.addLiquidity')}
+        {t('Add Liquidity')}
       </AddLiquidityBtn>
     )
   }
@@ -49,9 +49,9 @@ const Pool = React.memo(() => {
       <CardNav activeIndex={1} />
       <SwapAppBody>
         <PageHeader
-          title={t('liquidity.header')}
-          description={t('liquidity.headerDescription')}
-          settingsModalTitle={t('settingsModal.liquidityTitle')}
+          title={t('Liquidity')}
+          description={t('Add liquidity to receive LP tokens')}
+          settingsModalTitle={t('Liquidity Creation Settings')}
         />
         <StyledCardBody singleBlock={data?.length > 0}>
           {!account ? <UnlockButton /> : getButton()}
@@ -59,19 +59,23 @@ const Pool = React.memo(() => {
             {data?.length === 0 && (
               <>
                 <StyledLiquidity>
-                  <Text color={theme.colors.text}>{t('liquidity.yourLiquidity')}</Text>
-                  <Question text={t('liquidity.whenYouAddLiquidity')} />
+                  <Text color={theme.colors.text}>{t('Your Liquidity')}</Text>
+                  <Question
+                    text={t(
+                      'When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.',
+                    )}
+                  />
                 </StyledLiquidity>
                 {!account ? (
                   <LightCard>
                     <Body color={theme.colors.textDisabled} textAlign='center' style={{ fontSize: '14px' }}>
-                      {t('liquidity.liquidityConnectToWallet')}
+                      {t('Connect to a wallet to view your liquidity.')}
                     </Body>
                   </LightCard>
                 ) : loading ? (
                   <LightCard>
                     <Body color={theme.colors.textDisabled} textAlign='center'>
-                      <Dots>{t('common.text.loading')}</Dots>
+                      <Dots>{t('Loading')}</Dots>
                     </Body>
                   </LightCard>
                 ) : data?.length > 0 ? (
@@ -83,7 +87,7 @@ const Pool = React.memo(() => {
                 ) : (
                   <LightCard>
                     <Body color={theme.colors.textDisabled} textAlign='center'>
-                      {t('liquidity.liquidityNotFound')}
+                      {t('No liquidity found.')}
                     </Body>
                   </LightCard>
                 )}
@@ -94,8 +98,12 @@ const Pool = React.memo(() => {
         {data?.length > 0 && (
           <StyledYourLiquidity>
             <StyledLiquidity found>
-              <Text color={theme.colors.text}>{t('liquidity.yourLiquidity')}</Text>
-              <Question text={t('liquidity.whenYouAddLiquidity')} />
+              <Text color={theme.colors.text}>{t('Your Liquidity')}</Text>
+              <Question
+                text={t(
+                  'When you add liquidity, you are given pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.',
+                )}
+              />
             </StyledLiquidity>
             <StyledFoundLiquidity>
               {data.map((v2Pair) => (
@@ -107,10 +115,10 @@ const Pool = React.memo(() => {
           </StyledYourLiquidity>
         )}
         <NoJoinedPoolText small>
-          {t('liquidity.noJoinedPool')}
+          {t("Don't see a pool you joined?")}
           &nbsp;
           <StyledInternalLink id='import-pool-link' href='/find'>
-            {t('liquidity.importPoolMessage')}
+            {t('Import it.')}
           </StyledInternalLink>
         </NoJoinedPoolText>
       </SwapAppBody>

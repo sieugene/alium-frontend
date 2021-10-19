@@ -133,7 +133,7 @@ const Farms = () => {
 
   return (
     <FarmContainer>
-      <AvailableAccount title={t('farm.title')}>
+      <AvailableAccount title={t('Farms')}>
         <div>
           <FarmBanner />
           <FarmFilters />

@@ -38,15 +38,15 @@ FarmModalStatuses.ActionFarmLoader = ({ t }: { t: TFunction }) => {
   return (
     <FarmModalStatuses.Wrapper>
       <FarmModalStatuses.Loading type='TailSpin' color='#6C5DD3' />
-      <h3 className='wait'>{t('farm.waitAmomentPlease')}</h3>
+      <h3 className='wait'>{t('Wait a moment please')}</h3>
     </FarmModalStatuses.Wrapper>
   )
 }
 
 FarmModalStatuses.ActionFarmSuccess = ({ type, t }: { type: FarmActionModalProps['type']; t: TFunction }) => {
   const isStake = type === 'stake'
-  const title = isStake ? t('farm.actions.staked') : t('farm.actions.unstaked')
-  const text = t('farm.messages.fundsResult', { text: title?.toLowerCase() })
+  const title = isStake ? t('Staked') : t('Unstaked')
+  const text = t('Your funds have been {{text}} in the farm', { text: title?.toLowerCase() })
   return (
     <FarmModalStatuses.Wrapper>
       <BridgeSuccessIcon />
@@ -64,7 +64,7 @@ FarmModalStatuses.ActionFarmError = ({ t, onRepeat }: { t: TFunction; onRepeat: 
       </FarmModalStatuses.IconWrap>
       <h2 className='error-text'>Transaction failed</h2>
       <Button onClick={onRepeat} className='repeat'>
-        {t('common.button.repeat')}
+        {t('Repeat')}
       </Button>
     </FarmModalStatuses.Wrapper>
   )

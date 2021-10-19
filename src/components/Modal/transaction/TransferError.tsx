@@ -31,9 +31,9 @@ const TransferError: FC<Props> = ({ onRepeat, className, style, withoutWrapper, 
         <Icon>
           <BridgeTransferErrorIcon />
         </Icon>
-        <h2>{t('bridge.transactionFailed')}</h2>
-        <h3>{t('bridge.yourWalletDoesntHave')}</h3>
-        <Button onClick={onRepeat}>{t('common.button.repeat')}</Button>
+        <h2>{t('Transaction failed')}</h2>
+        <h3>{t("Your wallet doesn't have enough ALM to buy a ticket")}</h3>
+        <Button onClick={onRepeat}>{t('Repeat')}</Button>
       </Error>
     </Wrapper>
   )

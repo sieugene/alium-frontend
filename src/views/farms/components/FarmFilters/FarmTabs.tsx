@@ -48,7 +48,7 @@ export const FarmTabs = () => {
         }}
         active={FarmTab.live === activeTab}
       >
-        {t('farm.filters.tabs.live')}
+        {t('Live')}
       </Tab>
       <Tab
         onClick={() => {
@@ -56,7 +56,7 @@ export const FarmTabs = () => {
         }}
         active={FarmTab.finished === activeTab}
       >
-        {t('farm.filters.tabs.finished')}
+        {t('Finished')}
       </Tab>
     </Tabs>
   )

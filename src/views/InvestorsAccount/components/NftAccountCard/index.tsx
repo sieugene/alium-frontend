@@ -93,7 +93,7 @@ const NftAccountCard = ({ card }: PropsType) => {
           <Image src={card.img} alt='nft-preview' className='nft-preview' />
         )}
         <InputWrapper>
-          <Label>{t('tokenHolderArea.selectYouNFTId')}</Label>
+          <Label>{t('Select you NFT id')}</Label>
           <Select value={value} onChange={handleInput}>
             <Option value='-'>-</Option>
             {cardIds.map((cardId, key) => {
@@ -108,11 +108,11 @@ const NftAccountCard = ({ card }: PropsType) => {
         <ButtonFlex>
           {(card.privateCall && isApprovedPrivate) || (!card.privateCall && isApprovedPublic) ? (
             <Button onClick={onConvertHandler} disabled={Boolean(error || pending)}>
-              {pending ? <Dots>{t('common.button.converting')}</Dots> : error || t('common.button.convertToALMs')}
+              {pending ? <Dots>{t('Converting')}</Dots> : error || t('Convert to ALMs')}
             </Button>
           ) : (
             <Button onClick={onApproveHandler} disabled={pending}>
-              {pending ? <Dots>{t('common.button.approving')}</Dots> : t('common.button.approve')}
+              {pending ? <Dots>{t('Approving')}</Dots> : t('Approve')}
             </Button>
           )}
         </ButtonFlex>

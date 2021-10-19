@@ -281,11 +281,11 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
           <ContentHolder>
             <CustomStyledHeading className='desktop'>{card.headline}</CustomStyledHeading>
             <StyledCardInfo justifyContent='space-between' mt='10px'>
-              <StyledListLabel>{t('cards.cardsPrice')}</StyledListLabel>
+              <StyledListLabel>{t('cardsPrice')}</StyledListLabel>
               <StyledListValue>{card.cost}</StyledListValue>
             </StyledCardInfo>
             <StyledCardInfo justifyContent='space-between' mt='15px'>
-              <StyledListLabel>{t('cards.tokensAmount')}</StyledListLabel>
+              <StyledListLabel>{t('tokensAmount')}</StyledListLabel>
               <StyledListValue>{card.tokens}</StyledListValue>
             </StyledCardInfo>
             <StyledDropDown onClick={() => setShowOptions(!showOptions)}>
@@ -331,11 +331,11 @@ const NftPartnershipCard = ({ card, handleChange, buttonWrap }: PropsType) => {
           <ContentHolder>
             <StyledHeading className="mobile">{card.headline}</StyledHeading>
             <Flex justifyContent="space-between" mt="10px" pr="34px">
-              <StyledListLabel>{t('cards.cardsPrice')}</StyledListLabel>
+              <StyledListLabel>{t('cardsPrice')}</StyledListLabel>
               <StyledListValue>{card.cost}</StyledListValue>
             </Flex>
             <Flex justifyContent="space-between" mt="10px" pr="34px">
-              <StyledListLabel>{t('cards.tokensAmount')}</StyledListLabel>
+              <StyledListLabel>{t('tokensAmount')}</StyledListLabel>
               <StyledListValue>{card.tokens}</StyledListValue>
             </Flex>
           </ContentHolder>

@@ -14,7 +14,7 @@ export const BridgeWrapper: FC<{ children: React.ReactNode; className?: string }
     <BridgeProvider>
       <PopupsBridge />
       <BridgeContainer className={className || ''}>
-        <H2>{t('bridge.pageTitle')}</H2>
+        <H2>{t('Bridge')}</H2>
         <Card>
           <BridgeConnectWallet>{children}</BridgeConnectWallet>
         </Card>

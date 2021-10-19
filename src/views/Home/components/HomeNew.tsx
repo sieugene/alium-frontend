@@ -25,14 +25,14 @@ const HomeNew = () => {
     <>
       <MainSlider />
 
-      <H1>{t('home.roadMap.title')}</H1>
+      <H1>{t('Road Map')}</H1>
 
       <RoadMapContainer>
         <CardContainer>
           <CardLogoFarming />
           <div className='card-content'>
-            <div className='title'>{t('home.roadMap.oneTitle')}</div>
-            <ExtraButton>{t('home.roadMap.oneButtonText')}</ExtraButton>
+            <div className='title'>{t('Farming Launch')}</div>
+            <ExtraButton>{t('September, 2021')}</ExtraButton>
           </div>
         </CardContainer>
 
@@ -43,8 +43,8 @@ const HomeNew = () => {
         <CardContainer>
           <CardLogoCross />
           <div className='card-content'>
-            <div className='title'>{t('home.roadMap.twoTitle')}</div>
-            <ExtraButton>{t('home.roadMap.twoButtonText')}</ExtraButton>
+            <div className='title'>{t('Cross-blockhain Swaps')}</div>
+            <ExtraButton>{t('October, 2021')}</ExtraButton>
           </div>
         </CardContainer>
 
@@ -55,8 +55,8 @@ const HomeNew = () => {
         <CardContainer>
           <CardLogoAvalanche />
           <div className='card-content'>
-            <div className='title'>{t('home.roadMap.threeTitle')}</div>
-            <ExtraButton>{t('home.roadMap.threeButtonText')}</ExtraButton>
+            <div className='title'>{t('Avalanche & Solana Integration')}</div>
+            <ExtraButton>{t('December, 2021')}</ExtraButton>
           </div>
         </CardContainer>
       </RoadMapContainer>
@@ -65,13 +65,13 @@ const HomeNew = () => {
         <img src='/images/home-new/alm-left.png' alt='Buy alm img' />
         <div>
           <H1>
-            <Trans i18nKey='home.buyAliumFinance' components={{ br: <br /> }} />
+            <Trans i18nKey='Buy Alium Finance <br /> (ALM) token' components={{ br: <br /> }} />
           </H1>
-          <h2>{t('home.aliumFinanceTeamIs')}</h2>
+          <h2>{t('Alium Finance team is on the way to reach several milestones aimed on increasing of ALM token value. Be ahead of the market and join the ALM holders community!')}</h2>
 
           <ActionButton>
             <a href='https://alium.finance/swap/ETH/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11' target='_blank'>
-              {t('home.buyALM')}
+              {t('Buy ALM')}
             </a>
           </ActionButton>
         </div>
@@ -80,11 +80,11 @@ const HomeNew = () => {
       <FooterContainer>
         <a className='overlay' href='https://www.youtube.com/watch?v=9j3M7qz2Z04' target='_blank'>
           <PlayButtonIcon />
-          <p>{t('home.howItWorks')}</p>
+          <p>{t('How it works?')}</p>
         </a>
         <div className='left'>
           <h1>
-            <div className='title'>{t('home.aliumSwapIsAlways')}</div>
+            <div className='title'>{t('Alium Swap is always at hand')}</div>
           </h1>
           <div className='social-items'>
             <SocialItem href='https://play.google.com/store/apps/details?id=com.alium.finance' target='_blank'>
@@ -92,8 +92,8 @@ const HomeNew = () => {
                 <GooglePlayIcon />
               </div>
               <div className='info'>
-                <p className='title'>{t('home.getItOn')}</p>
-                <p className='social'>{t('home.googlePlay')}</p>
+                <p className='title'>{t('Get it on')}</p>
+                <p className='social'>{t('Google Play')}</p>
               </div>
             </SocialItem>
             <SocialItem href='https://apps.apple.com/ru/app/aliumswap-dex/id1585963586' target='_blank'>
@@ -101,8 +101,8 @@ const HomeNew = () => {
                 <AppStoreIcon />
               </div>
               <div className='info'>
-                <p className='title'>{t('home.downloadOn')}</p>
-                <p className='social'>{t('home.appStore')}</p>
+                <p className='title'>{t('Download on')}</p>
+                <p className='social'>{t('App Store')}</p>
               </div>
             </SocialItem>
           </div>

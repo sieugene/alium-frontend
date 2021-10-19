@@ -23,14 +23,14 @@ const NotFound: FC<PropsType> = ({ redirectURL = `https://${getMainDomain()}` })
         <NotfoundPreview />
       </ImageWrapper>
       <InfoWrapper>
-        <StyledHeading>{t('404.oopsYourForce')}</StyledHeading>
-        <StyledText>{t('404.thisPageYouRequested')}</StyledText>
+        <StyledHeading>{t('Oops, your force is not strong enough')}</StyledHeading>
+        <StyledText>{t('This page you requested could not be found. May the force be with you!')}</StyledText>
 
         <a href={redirectURL} rel='noreferrer noopener'>
-          <StyledButton>{t('404.backToMainSite')}</StyledButton>
+          <StyledButton>{t('Back to main site')}</StyledButton>
         </a>
 
-        <StyledText className='small'>{t('404.orSubscribeTo')}</StyledText>
+        <StyledText className='small'>{t('Or subscribe to our social networks')}</StyledText>
 
         <SocialNetworks />
       </InfoWrapper>

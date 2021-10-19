@@ -152,8 +152,8 @@ export function InfoApr({ farm, almPrice }: InfoAPRProps) {
   return (
     <>
       <InfoTitle>
-        {t('farm.cardInfo.APR')}
-        <InfoApr.Question text={t('farm.cardInfo.aprQuestion')} />
+        {t('APR')}
+        <InfoApr.Question text={t('Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.')} />
       </InfoTitle>
       <InfoValue>
         <AprItem>
@@ -185,8 +185,8 @@ export function InfoEarn({ farm }: InfoEarnProps) {
   const { t } = useTranslation()
   return (
     <>
-      <InfoTitle> {t('farm.cardInfo.earn')}</InfoTitle>
-      <InfoValue>{farm.dual ? farm.dual.earnLabel : t('farm.cardInfo.almFees')}</InfoValue>
+      <InfoTitle> {t('earn')}</InfoTitle>
+      <InfoValue>{farm.dual ? farm.dual.earnLabel : t('ALM + Fees')}</InfoValue>
     </>
   )
 }
@@ -221,7 +221,7 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
     rawEarningsBalance,
     displayBalance,
     earningsBusd,
-    titleNode: t('farm.almEarned'),
+    titleNode: t('ALM earned'),
     displayBalanceNode: loading ? (
       <Skeleton width='50px' />
     ) : (
@@ -239,16 +239,16 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
           setPendingTx(true)
           try {
             await onReward()
-            toastSuccess(`${t('farm.harvested')}!`, t('farm.messages.earningSented'))
+            toastSuccess(`${t('Harvested')}!`, t('Your ALM earnings have been sent to your wallet!'))
           } catch (e) {
-            toastError(t('common.messages.error'), t('common.messages.enoughGas'))
+            toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
             console.error(e)
           } finally {
             setPendingTx(false)
           }
         }}
       >
-        {t('farm.actions.harvest')}
+        {t('harvest')}
       </HarvestButton>
     ),
   }
@@ -274,7 +274,7 @@ export function InfoDeposit({ farm }: InfoDepositProps) {
   const address = getExplorerLink(currentChainId, farm.lpAddresses[currentChainId], 'address')
   return (
     <>
-      <InfoTitle>{t('farm.actions.deposit')}:</InfoTitle>
+      <InfoTitle>{t('Deposit')}:</InfoTitle>
       <LpLink>
         <a href={address} target='_blank'>
           {useFarmLpLabel(farm)} <LinkIcon />
@@ -289,7 +289,7 @@ export function InfoDepositFee({ depositFee }: { depositFee: number }) {
   const loading = useFarmsLoading()
   return (
     <>
-      <InfoTitle>{t('farm.cardInfo.depositFee')}</InfoTitle>
+      <InfoTitle>{t('Deposit fee')}</InfoTitle>
       <InfoValue>{!loading ? `${depositFee || 0}%` : <Skeleton width={75} height={25} />}</InfoValue>
     </>
   )
@@ -299,7 +299,7 @@ export function InfoLpType() {
   const { t } = useTranslation()
   return (
     <>
-      <InfoTitle>{t('farm.cardInfo.lpType')}</InfoTitle>
+      <InfoTitle>{t('LP Type')}</InfoTitle>
       <InfoValue>Alium LP</InfoValue>
     </>
   )
@@ -324,7 +324,7 @@ export function InfoViewBscScan({ farm }: InfoViewBscScanProps) {
   return (
     <InfoTitle>
       <a href={getExplorerLink(currentChainId, address, 'address')} target='_blank' style={{ whiteSpace: 'nowrap' }}>
-        {t('common.button.viewOnExplorerName', { explorerName: 'BscScan' })}
+        {t('View on {{explorerName}}', { explorerName: 'BscScan' })}
       </a>
     </InfoTitle>
   )
@@ -341,7 +341,7 @@ export function InfoTotalLiquidity({ farm }: InfoTotalLiquidityProps) {
   const totalLiqudidty = farm.liqudity + '$'
   return (
     <>
-      <InfoTitle>{t('farm.cardInfo.totalLiquidity')}</InfoTitle>
+      <InfoTitle>{t('Total Liquidity')}</InfoTitle>
       <InfoValue>{!loading ? <p>{totalLiqudidty}</p> : <Skeleton width={75} height={25} />}</InfoValue>
     </>
   )
@@ -454,7 +454,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
   const stakedInBusd = getBalanceNumber(lpPrice.times(stakedBalance))
 
   return {
-    titleNode: t('farm.cardInfo.stakedToken', { tokenName }),
+    titleNode: t('{{tokenName}} Staked', { tokenName }),
     displayBalanceNode:
       FARM_NOT_ENABLED || TICKET_NOT_BUYED ? null : loading ? (
         <Skeleton width='50px' />
@@ -485,7 +485,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
         <div>-</div>
       ),
     actionsNode: !account ? (
-      <StyledConnectBtn title={t('connectModal.title')} />
+      <StyledConnectBtn title={t('Connect Wallet')} />
     ) : EMPTY_STAKE_ACTION ? null : (
       <>
         {TICKET_NOT_BUYED ? (
@@ -493,7 +493,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
         ) : (
           FARM_NOT_ENABLED && (
             <Button mt='8px' disabled={requestedApproval || loading} onClick={handleApprove}>
-              {t('farm.actions.enableFarm')}
+              {t('Enable Farm')}
             </Button>
           )
         )}
@@ -502,7 +502,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
             onClick={onPresentDeposit}
             disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
           >
-            {t('farm.actions.stakeLp')}
+            {t('Stake LP')}
           </Button>
         )}
       </>

@@ -6,7 +6,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { getTokenLogoURL } from 'utils/common/getTokenLogoURL'
 import { registerToken } from 'utils/wallet'
-import BridgeBtnWithIcon from '../../views/bridge/components/BridgeBtnWithIcon'
+import BridgeBtnWithIcon from 'views/bridge/components/BridgeBtnWithIcon'
 
 interface Props {
   token: Token
@@ -34,7 +34,7 @@ const AddTokenBtn: FC<Props> = ({ token }) => {
   return (
     <StyledBtn onClick={onAdd} variant='secondary' active={added}>
       {added ? <CheckMarkDoneIcon /> : <CoinLogoIcon />}
-      <p className='text'>{added ? t('common.button.added') : t('common.button.addTokenToWallet')}</p>
+      <p className='text'>{added ? t('Added') : t('Add token to wallet')}</p>
     </StyledBtn>
   )
 }

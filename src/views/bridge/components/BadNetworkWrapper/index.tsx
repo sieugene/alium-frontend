@@ -47,8 +47,8 @@ const BadNetworkWrapper: FC<Props> = ({ children, isConnectGuard, show = true })
   const showMessage = !availableNetworksBridge.includes(currentChainId) || !account
   const tokensExist = fromToken && toToken
 
-  const networkFromLabel = networkFrom?.type && t(`networks.${networkFrom?.type}.label`)
-  const networkToLabel = networkTo?.type && t(`networks.${networkTo?.type}.label`)
+  const networkFromLabel = networkFrom?.label && t(networkFrom.label)
+  const networkToLabel = networkTo?.label && t(networkTo.label)
 
   return (
     <>
@@ -57,11 +57,11 @@ const BadNetworkWrapper: FC<Props> = ({ children, isConnectGuard, show = true })
           <Header>{!isConnectGuard && <CloseItem onClick={cancel} />}</Header>
           <Content>
             <BridgeBadNetworkIcon />
-            <h2 className='title'>{t('bridge.switchYourNetwork')}</h2>
+            <h2 className='title'>{t('Switch your network')}</h2>
             {tokensExist && (
               <p className='access'>
                 <Trans
-                  i18nKey='bridge.toAccessTheBridge'
+                  i18nKey='To access the <b>{{fromTokenSymbol}} > {{toTokenSymbol}}</b> bridge, please switch to'
                   values={{ fromTokenSymbol: fromToken.symbol, toTokenSymbol: toToken.symbol }}
                   components={{ b: <b /> }}
                 />
@@ -71,14 +71,12 @@ const BadNetworkWrapper: FC<Props> = ({ children, isConnectGuard, show = true })
               <Variant>
                 {IconFrom && <IconFrom />} <p>{networkFromLabel}</p>
               </Variant>
-              {t('common.text.or')}
+              {t('or')}
               <Variant>
                 {IconTo && <IconTo />} <p>{networkToLabel}</p>
               </Variant>
             </StyledVariants>
-            <Button onClick={resolveConnection}>
-              {!connected ? t('common.button.connect') : t('common.button.disconnect')}
-            </Button>
+            <Button onClick={resolveConnection}>{!connected ? t('Connect') : t('Disconnect')}</Button>
           </Content>
         </Wrapper>
       )}

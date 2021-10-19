@@ -11,16 +11,16 @@ interface props {
 export const CardNav: FC<props> = ({ activeIndex = 0 }) => {
   const { t } = useTranslation()
   const routes = [
-    { href: ROUTES.exchange, title: t('menu.exchange') },
-    { href: ROUTES.pool, title: t('menu.liquidity') },
-    { href: ROUTES.migrate, title: t('menu.migrate') },
+    { href: ROUTES.exchange, title: t('Exchange') },
+    { href: ROUTES.pool, title: t('Liquidity') },
+    { href: ROUTES.migrate, title: t('Migrate') },
   ]
 
   return (
     <Flex alignItems='center' p='12px'>
       <StyledNav>
         <Heading as='h1' size='xl' color='heading' mb='40px' mt='20px'>
-          {t('menu.trade')}
+          {t('Trade')}
         </Heading>
         <ButtonMenuStyled size='md' variant='primary' activeIndex={activeIndex}>
           {routes.map(({ href, title }) => (

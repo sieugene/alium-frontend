@@ -11,7 +11,7 @@ import {
   NFT_ALIUM_COLLECTIBLE_NFT,
   NFT_EXCHANGER_PRIVATE,
   NFT_EXCHANGER_PUBLIC,
-} from '../views/InvestorsAccount/constants'
+} from 'views/InvestorsAccount/constants'
 import { useActiveWeb3React } from './index'
 import useCollectionNft from './useCollectionNft'
 
@@ -71,7 +71,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
           .setApprovalForAll(privateCall ? NFT_EXCHANGER_PRIVATE : NFT_EXCHANGER_PUBLIC, true, { from: account })
           .then((response) => {
             addTransaction(response, {
-              summary: t('tokenHolderArea.approveForAllNftTokens'),
+              summary: t('Approve for all nft tokens'),
             })
             return response.hash
           })
@@ -87,7 +87,7 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
   )
 
   if (account && ownerOfToken?.[0] !== account) {
-    error = t('tokenHolderArea.youDontHaveThisToken')
+    error = t('You don`t have this token!')
   }
 
   const onConvert = useCallback(
@@ -99,7 +99,8 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
           .charge(token, { from: account })
           .then((response) => {
             addTransaction(response, {
-              summary: t('tokenHolderArea.convertTokenWith', { token }),
+              // eslint-disable-next-line no-template-curly-in-string
+              summary: t('Convert token with id - ${{token}}', { token }),
             })
             return response.hash
           })
@@ -116,11 +117,11 @@ export default function useNftAccountCard(tokenId: number | string, cardId: numb
   )
 
   if (tokenType && parseInt(tokenType, 10) !== cardId) {
-    error = t('tokenHolderArea.invalidPoolID')
+    error = t('Invalid Pool ID')
   }
 
   if (tokenId === '' || tokenId === '-') {
-    error = t('tokenHolderArea.enterNFTID')
+    error = t('Enter NFT ID')
   }
 
   return {

@@ -1,6 +1,7 @@
 import { Percent } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
 import { format, fromUnixTime } from 'date-fns'
+import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { typography } from 'views/StrongHoldersPool/mixins'
@@ -12,6 +13,7 @@ export interface PoolDetailsInfoProps {
 }
 
 export default function PoolDetailsInfo({ participantNumber, createdAt, poolShare }: PoolDetailsInfoProps) {
+  const { t } = useTranslation()
   const formattedCreatedAt = useMemo(
     () => createdAt && format(fromUnixTime(createdAt.toNumber()), 'dd/MM/yyyy, HH:mm:ss'),
     [createdAt],
@@ -20,19 +22,19 @@ export default function PoolDetailsInfo({ participantNumber, createdAt, poolShar
     <PoolDetailsInfo.Root>
       {poolShare && (
         <PoolDetailsInfo.Field>
-          <span>Pool share</span>
+          <span>{t('Pool share')}</span>
           <span>{poolShare.toFixed(2)}%</span>
         </PoolDetailsInfo.Field>
       )}
       {participantNumber && (
         <PoolDetailsInfo.Field>
-          <span>Participant number</span>
+          <span>{t('Participant number')}</span>
           <span>{participantNumber.toString()}</span>
         </PoolDetailsInfo.Field>
       )}
       {formattedCreatedAt && (
         <PoolDetailsInfo.Field>
-          <span>Pool creation date</span>
+          <span>{t('Pool creation date')}</span>
           <span>{formattedCreatedAt}</span>
         </PoolDetailsInfo.Field>
       )}

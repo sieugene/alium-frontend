@@ -57,12 +57,12 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
   const tokenLimitLoading = !formattedTokenLimits
   const data = [
     {
-      title: t('bridge.bridgeScan.defaultRPCURL'),
+      title: t('Default RPC URL'),
       content: <TextLink link={getExplorerLink(chainId, '', 'default')} />,
       loading: false,
     },
     {
-      title: t('bridge.bridgeScan.bridgeForeignAddress'),
+      title: t('Bridge Foreign Address'),
       content: (
         <TextLink
           link={getExplorerLink(chainId, ownerForeignAddress, 'address')}
@@ -72,24 +72,24 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       loading: false,
     },
     {
-      title: t('bridge.bridgeScan.tokenAddress'),
+      title: t('Token Address'),
       content: (
         <TextLink link={getExplorerLink(chainId, token?.address, 'token')} text={textEllipsis(token?.address)} />
       ),
       loading: tokenLoading,
     },
     {
-      title: t('bridge.bridgeScan.tokenName'),
+      title: t('Token Name'),
       content: <Text>{token?.name}</Text>,
       loading: tokenLoading,
     },
     {
-      title: t('bridge.bridgeScan.remainingDaily', { tokenSymbol: token?.symbol }),
+      title: t('Remaining Daily {{tokenSymbol}} Quota', { tokenSymbol: token?.symbol }),
       content: <Text>{formattedTokenLimits?.dailyLimit}</Text>,
       loading: tokenLimitLoading,
     },
     {
-      title: t('bridge.bridgeScan.maximumAmount'),
+      title: t('Maximum Amount Per Transaction'),
       content: (
         <Text>
           {formattedTokenLimits?.maxPerTx} {token?.symbol}
@@ -98,7 +98,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       loading: tokenLimitLoading,
     },
     {
-      title: t('bridge.bridgeScan.minimumAmount'),
+      title: t('Minimum Amount Per Transaction'),
       content: (
         <Text>
           {formattedTokenLimits?.minPerTx} {token?.symbol}
@@ -107,7 +107,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       loading: tokenLimitLoading,
     },
     {
-      title: t('bridge.bridgeScan.tokensAmount', { tokenSymbol: token?.symbol }),
+      title: t('{{tokenSymbol}} Tokens Amount', { tokenSymbol: token?.symbol }),
       content: (
         <Text>
           {formatBridgeTokenAmount(token, token?.totalSupply)} {token?.symbol}
@@ -116,7 +116,7 @@ const BridgeScan: FC<Props> = ({ modalOpen, setModalOpen, type }) => {
       loading: tokenLoading,
     },
     {
-      title: t('bridge.bridgeScan.yourBalance', { tokenSymbol: token?.symbol }),
+      title: t('Your {{tokenSymbol}} Balance', { tokenSymbol: token?.symbol }),
       content: (
         <Text>
           {formatBridgeTokenAmount(token, balance)} {token?.symbol}

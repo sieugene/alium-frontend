@@ -2,6 +2,7 @@ import { Percent } from '@alium-official/sdk'
 import { Button, InjectedModalProps, Modal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
+import { useTranslation } from 'next-i18next'
 import { useCallback, useMemo, useState } from 'react'
 import { useToast } from 'state/hooks'
 import styled from 'styled-components'
@@ -25,6 +26,7 @@ import PoolDetailsInfo from '../PoolDetailsInfo'
 export type JoinPoolModalProps = InjectedModalProps
 
 export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
+  const { t } = useTranslation()
   const { data: currentPoolId, mutate: mutateCurrentPoolId } = useCurrentPoolId()
   const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(currentPoolId)
   const participantNumber = useParticipantNumber(currentPoolId)
@@ -51,20 +53,15 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
     [amountWei, rewardTokenAllowance],
   )
   const isInsufficientFunds = balanceEther?.lt(amountEther)
-  const poolShare = useMemo(() => {
-    if (poolLocked && amountWei) {
-      return new Percent(amountWei.toFixed(0), ethersToBN(poolLocked).plus(amountWei).toFixed(0))
-    }
-    return new Percent('0')
-  }, [amountWei, poolLocked])
-  const { toastError, toastSuccess } = useToast()
-  const protectedSetAmount = useCallback(
-    (value: string) => {
-      if (loading) return
-      setAmount(value)
-    },
-    [loading],
+  const poolShare = useMemo(
+    () =>
+      poolLocked && amountWei
+        ? new Percent(amountWei.toFixed(0), ethersToBN(poolLocked).plus(amountWei).toFixed(0))
+        : new Percent('0'),
+    [amountWei, poolLocked],
   )
+  const { toastError, toastSuccess } = useToast()
+  const protectedSetAmount = useCallback((value: string) => !loading && setAmount(value), [loading])
   const onApprove = useMemo(
     () =>
       approve && !approveLoading && hasAmount && !isInsufficientFunds && needApprove
@@ -72,7 +69,12 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
             try {
               await approve(amountWei)
               await mutateRewardTokenAllowance()
-              toastSuccess(`${formatBigNumber(amountEther)} ${rewardTokenSymbol} approved`)
+              toastSuccess(
+                t('{{amount}} {{rewardTokenSymbol}} approved', {
+                  amount: formatBigNumber(amountEther),
+                  rewardTokenSymbol,
+                }),
+              )
             } catch (error) {
               console.error(error)
               toastError(error.data?.message || error.message)
@@ -89,6 +91,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
       mutateRewardTokenAllowance,
       needApprove,
       rewardTokenSymbol,
+      t,
       toastError,
       toastSuccess,
     ],
@@ -100,7 +103,12 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
         ? async () => {
             try {
               await lock(amountWei)
-              toastSuccess(`${formatBigNumber(amountEther)} ${rewardTokenSymbol} added to the pool`)
+              toastSuccess(
+                t('{{amount}} {{rewardTokenSymbol}} added to the pool', {
+                  amount: formatBigNumber(amountEther),
+                  rewardTokenSymbol,
+                }),
+              )
 
               // refetch data
               mutateBalance()
@@ -133,13 +141,14 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
       needApprove,
       onDismiss,
       rewardTokenSymbol,
+      t,
       toastError,
       toastSuccess,
     ],
   )
   return (
     <>
-      <Modal withoutContentWrapper hideCloseButton={loading} title='Add ALM’s to the pool' onDismiss={onDismiss}>
+      <Modal withoutContentWrapper hideCloseButton={loading} title={t('Add ALM’s to the pool')} onDismiss={onDismiss}>
         <JoinPoolModal.Content>
           <JoinPoolModal.Data>
             <CurrencyInputPanel
@@ -151,14 +160,14 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
               balance={balanceEther && formatBigNumber(balanceEther)}
               onMax={() => protectedSetAmount(String(balanceEther || 0))}
               currency={rewardTokenInfo}
-              label='Amount'
+              label={t('Amount')}
             />
             <JoinPoolModal.Actions>
               <Button isloading={approveLoading} onClick={onApprove} disabled={!onApprove}>
-                Approve
+                {t('Approve')}
               </Button>
               <Button isloading={lockLoading} onClick={onJoin} disabled={!onJoin}>
-                Join
+                {t('Join')}
               </Button>
             </JoinPoolModal.Actions>
           </JoinPoolModal.Data>

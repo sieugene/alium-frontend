@@ -19,7 +19,7 @@ const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPend
             <strong>{pendingText}</strong>
           </Text>
         </AutoColumn>
-        <Text fontSize='14px'>{t('liquidity.confirmThisTransaction')}</Text>
+        <Text fontSize='14px'>{t('Confirm this transaction in your wallet')}</Text>
       </AutoColumn>
     </TransferLoader>
   )

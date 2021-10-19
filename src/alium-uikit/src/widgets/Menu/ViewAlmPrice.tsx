@@ -47,7 +47,7 @@ const ViewAlmPrice: FC<props> = ({ ispushed, inPanel }) => {
       </IconWrapper>
       <TextWrapper inPanel={inPanel}>
         <Text>
-          {t('header.almPrice')}&nbsp;
+          {t('ALM Price:')}&nbsp;
           <a style={{ color: '#6C5DD3' }} href={externalLinks.bscscan}>
             ${price}
           </a>
@@ -57,7 +57,7 @@ const ViewAlmPrice: FC<props> = ({ ispushed, inPanel }) => {
           href='https://alium.finance/swap/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11/ETH'
           target='_blank'
         >
-          {t('common.button.buyALM')}
+          {t('Buy ALM')}
           <ChevronRightIcon color='currentColor' />
         </BuyALM>
       </TextWrapper>

@@ -7,12 +7,12 @@ function NftPoolsHeader() {
 
   return (
     <NftPoolsHeaderWrap>
-      <Field maxWidth='310px'>{t('tokenHolderArea.pool')}</Field>
-      <Field maxWidth='96px'>{t('tokenHolderArea.totalALM')}</Field>
-      <Field maxWidth='96px'>{t('tokenHolderArea.locked')}</Field>
-      <Field maxWidth='172px'>{t('tokenHolderArea.unlocked')}</Field>
-      <FieldEnd maxWidth='80px'>{t('tokenHolderArea.claimed')}</FieldEnd>
-      <FieldEnd maxWidth='140px'>{t('tokenHolderArea.nextUnlockedDate')}</FieldEnd>
+      <Field maxWidth='310px'>{t('pool')}</Field>
+      <Field maxWidth='96px'>{t('Total ALMs')}</Field>
+      <Field maxWidth='96px'>{t('Locked')}</Field>
+      <Field maxWidth='172px'>{t('Unlocked')}</Field>
+      <FieldEnd maxWidth='80px'>{t('Claimed')}</FieldEnd>
+      <FieldEnd maxWidth='140px'>{t('Next unlocked date')}</FieldEnd>
     </NftPoolsHeaderWrap>
   )
 }

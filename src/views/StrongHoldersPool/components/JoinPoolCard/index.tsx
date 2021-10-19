@@ -1,6 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
 import { StyledInternalLink } from 'components/Shared'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
@@ -20,6 +21,7 @@ import Title from '../Title'
 import UsersProgressBar from '../UsersProgressBar'
 
 export default function JoinPoolCard() {
+  const { t } = useTranslation()
   const { account } = useWeb3React()
   const { data: currentPoolId } = useCurrentPoolId()
   const { data: poolUsers } = usePoolUsers(currentPoolId)
@@ -32,7 +34,7 @@ export default function JoinPoolCard() {
       <JoinPoolCard.Content>
         <JoinPoolCard.Info>
           <JoinPoolCard.Field>
-            <Title>Pool Amount</Title>
+            <Title>{t('Pool Amount')}</Title>
             {poolAmount ? (
               <JoinPoolCard.Amount value={toEther(ethersToBN(poolAmount))} tokenSymbol={rewardTokenSymbol} />
             ) : (
@@ -40,7 +42,7 @@ export default function JoinPoolCard() {
             )}
           </JoinPoolCard.Field>
           <JoinPoolCard.Join disabled={!account} onClick={openModal}>
-            Join the pool
+            {t('Join the pool')}
           </JoinPoolCard.Join>
           <JoinPoolCard.Field>
             <BonusNft poolId={currentPoolId} />
@@ -49,9 +51,9 @@ export default function JoinPoolCard() {
         {poolUsers && maxPoolLength && <UsersProgressBar current={poolUsers.length} all={maxPoolLength.toNumber()} />}
       </JoinPoolCard.Content>
       <JoinPoolCard.Footer>
-        <span>Increase your ALM Tokens by joining the Strong Holders Pool. </span>
+        <span>{t('Increase your ALM Tokens by joining the Strong Holders Pool.')} </span>
         <StyledInternalLink href='https://docs.alium.finance/products/strong-holders-pool' target='_blank'>
-          More details
+          {t('More details')}
           <ChevronRightIcon color='currentColor' />
         </StyledInternalLink>
       </JoinPoolCard.Footer>

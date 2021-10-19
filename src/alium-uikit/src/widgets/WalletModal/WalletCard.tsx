@@ -26,12 +26,12 @@ const WalletCard: FC<Props> = ({
   availableConnectors,
 }) => {
   const { t } = useTranslation()
-  const { type, icon: Icon } = walletConfig
+  const { title, icon: Icon } = walletConfig
   const onClickHandler = async () => {
     try {
       setConnectorId(walletConfig.connectorId)
       await login(walletConfig.connectorId)
-      setSelectedWallet(type)
+      setSelectedWallet(title)
       onDismiss()
     } catch (error) {
       console.error(error)
@@ -51,13 +51,13 @@ const WalletCard: FC<Props> = ({
         fullwidth
         variant='tertiary'
         style={{ justifyContent: 'space-between' }}
-        id={`wallet-connect-${type.toLocaleLowerCase()}`}
+        id={`wallet-connect-${title.toLocaleLowerCase()}`}
       >
         <Icon width='32px' />
         {selected && <StyledCheckMarkInCircle />}
       </StyledButton>
       <Text color='#8990A5' fontSize='11px' mb='8px' style={{ textAlign: 'center' }}>
-        {t(`wallets.${type}.title`)}
+        {t(title)}
       </Text>
     </StyledFlex>
   )

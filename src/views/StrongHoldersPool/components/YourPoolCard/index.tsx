@@ -2,6 +2,7 @@ import { Button, Skeleton } from 'alium-uikit/src'
 import ConnectionLoad from 'alium-uikit/src/components/ConnectionLoad'
 import { ethers } from 'ethers'
 import useToast from 'hooks/useToast'
+import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import { useToggle } from 'react-use'
 import styled, { css } from 'styled-components'
@@ -35,6 +36,7 @@ export interface YourPoolCardProps {
 }
 
 export default function YourPoolCard({ poolId }: YourPoolCardProps) {
+  const { t } = useTranslation()
   const { toastError, toastSuccess } = useToast()
   const [isDetails, toggleDetails] = useToggle(false)
   const { mutate: mutatePool } = usePool(poolId, {
@@ -59,13 +61,13 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
     () =>
       isFullPool && !isPaid && !withdrawLoading && !claimLoading && claim
         ? async () => {
-            if (!window.confirm('Are you sure you want to leave the pool?')) {
+            if (!window.confirm(t('Are you sure you want to leave the pool?'))) {
               return
             }
             try {
               // Withdraw ALM
               await withdraw(poolId)
-              toastSuccess('Funds withdrawn!')
+              toastSuccess(t('Funds withdrawn!'))
 
               // Refetch pool data
               mutatePool()
@@ -74,7 +76,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
 
               // Claim NFT
               if (await claim()) {
-                toastSuccess('NFT claimed!')
+                toastSuccess(t('NFT claimed!'))
               }
             } catch (error) {
               console.error(error)
@@ -91,6 +93,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
       mutatePool,
       mutatePoolUsers,
       poolId,
+      t,
       toastError,
       toastSuccess,
       withdraw,
@@ -104,7 +107,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
           <YourPoolCard.Info>
             <YourPoolCard.InfoFields>
               <YourPoolCard.Field>
-                <Title>Your contribution</Title>
+                <Title>{t('Your contribution')}</Title>
                 {accountUser ? (
                   <YourPoolCard.Value
                     value={toEther(ethersToBN(accountUser.balance))}
@@ -123,14 +126,14 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
             </YourPoolCard.InfoFields>
             <YourPoolCard.InfoActions>
               <Button disabled={!onLeavePool} onClick={onLeavePool}>
-                Leave the pool
+                {t('Leave the pool')}
               </Button>
               <DetailsButton isOpen={isDetails} onClick={toggleDetails} />
             </YourPoolCard.InfoActions>
           </YourPoolCard.Info>
           <YourPoolCard.PoolCounters>
             <YourPoolCard.Field>
-              <Title>Users In the pool</Title>
+              <Title>{t('Users In the pool')}</Title>
               {withdrawPosition ? (
                 <YourPoolCard.UsersCounter isLoss={isLoss} value={ethersToBN(withdrawPosition)} />
               ) : (
@@ -138,7 +141,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
               )}
             </YourPoolCard.Field>
             <YourPoolCard.Field>
-              <Title>Pool Amount</Title>
+              <Title>{t('Pool Amount')}</Title>
               {poolAmount ? (
                 <YourPoolCard.Value value={toEther(ethersToBN(poolAmount))} tokenSymbol={rewardTokenSymbol} />
               ) : (
@@ -146,7 +149,7 @@ export default function YourPoolCard({ poolId }: YourPoolCardProps) {
               )}
             </YourPoolCard.Field>
           </YourPoolCard.PoolCounters>
-          {isPaid && <YourPoolCard.LeftOverlayCard>You left the pool</YourPoolCard.LeftOverlayCard>}
+          {isPaid && <YourPoolCard.LeftOverlayCard>{t('You left the pool')}</YourPoolCard.LeftOverlayCard>}
         </YourPoolCard.Summary>
         {isDetails && (
           <YourPoolCard.Details>

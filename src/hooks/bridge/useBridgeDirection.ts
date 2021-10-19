@@ -1,6 +1,6 @@
 import { BridgeInfoItemType, ENABLED_BRIDGES_ENUMS_TYPE, networks } from 'constants/bridge/bridge.networks'
 import { useCallback, useMemo } from 'react'
-import { useBridgeNetworks } from './../../views/bridge/hooks/useBridgeNetworks'
+import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import { useAmbVersion } from './useAmbVersion'
 import { useRequiredSignatures } from './useRequiredSignatures'
 

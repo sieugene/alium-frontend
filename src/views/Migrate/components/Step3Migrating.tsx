@@ -8,7 +8,7 @@ export const Step3Migrating: FC = () => {
   return (
     <Root>
       <div className='loading' />
-      <div className='title'>{t('migrate.migrating')}</div>
+      <div className='title'>{t('Migrating')}</div>
     </Root>
   )
 }

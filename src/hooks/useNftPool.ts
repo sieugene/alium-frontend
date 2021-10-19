@@ -1,11 +1,10 @@
 import { Contract } from '@ethersproject/contracts'
 import { BigNumber, ethers } from 'ethers'
-import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'next-i18next'
+import { useEffect, useMemo, useState } from 'react'
 import { useSingleContractMultipleData } from 'state/multicall/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { getContract } from 'utils'
-import { cardListPrivate, cardListPublic, cardListStrategical } from 'views/InvestorsAccount/constants/cards'
 import {
   AliumVestingAbi,
   NFTPrivateExchangerAbi,
@@ -13,8 +12,9 @@ import {
   NFT_EXCHANGER_PRIVATE,
   NFT_EXCHANGER_PUBLIC,
   NFT_VESTING,
-} from '../views/InvestorsAccount/constants'
-import pools, { PoolsTypes } from '../views/InvestorsAccount/constants/pools'
+} from 'views/InvestorsAccount/constants'
+import { cardListPrivate, cardListPublic, cardListStrategical } from 'views/InvestorsAccount/constants/cards'
+import pools, { PoolsTypes } from 'views/InvestorsAccount/constants/pools'
 import { useActiveWeb3React } from './index'
 
 export default function useNftPool() {
@@ -108,7 +108,7 @@ export default function useNftPool() {
         .claim(pid, { from: account })
         .then((response: any) => {
           addTransaction(response, {
-            summary: t('others.boughtCards', { count: 1 }),
+            summary: t('Claim ALM tokens {{count}}', { count: 1 }),
             additionalData: {
               count: '1',
               card: cards.filter((card) => card.id === pid)?.[0],

@@ -70,7 +70,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
               <FixedHeightRow>
                 <RowFixed>
                   <Text style={{ textTransform: 'uppercase', fontWeight: 600 }} fontSize='14px' color='textSubtle'>
-                    {t('liquidity.lpTokensInYourWallet')}
+                    {t('LP Tokens in your Wallet')}
                   </Text>
                 </RowFixed>
               </FixedHeightRow>
@@ -176,7 +176,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
               {!currency0 || !currency1 ? <Dots>Loading</Dots> : `${currency0.symbol}/${currency1.symbol}`}
             </Text>
 
-            <CopyButtonWrapper variant='text' onClick={handleAddressCopy} title={t('liquidity.copyLPToken')}>
+            <CopyButtonWrapper variant='text' onClick={handleAddressCopy} title={t('Copy LP Token address')}>
               <ColoredCopyIcon width='24px' height='24px' />
             </CopyButtonWrapper>
           </RowFixed>
@@ -192,7 +192,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
           <AutoColumn gap='8px' triggerMobile>
             <FixedHeightRow background>
               <RowFixed>
-                <Text color='#8990a5'>{t('liquidity.pooled', { currencySymbol: currency0.symbol })}</Text>
+                <Text color='#8990a5'>{t('Pooled {{currencySymbol}}:', { currencySymbol: currency0.symbol })}</Text>
               </RowFixed>
               {token0Deposited ? (
                 <RowFixed>
@@ -208,7 +208,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
 
             <FixedHeightRow>
               <RowFixed>
-                <Text color='#8990a5'>{t('liquidity.pooled', { currencySymbol: currency1.symbol })}</Text>
+                <Text color='#8990a5'>{t('Pooled {{currencySymbol}}:', { currencySymbol: currency1.symbol })}</Text>
               </RowFixed>
               {token1Deposited ? (
                 <RowFixed>
@@ -222,20 +222,20 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
               )}
             </FixedHeightRow>
             <FixedHeightRow background>
-              <Text color='#8990a5'>{t('liquidity.yourPoolTokens')}</Text>
+              <Text color='#8990a5'>{t('Your pool tokens:')}</Text>
               <Text color='#6c5dd3'>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}</Text>
             </FixedHeightRow>
             <FixedHeightRow>
-              <Text color='#8990a5'>{t('liquidity.yourPoolShare')}</Text>
+              <Text color='#8990a5'>{t('Your pool share:')}</Text>
               <Text color='#6c5dd3'>{poolTokenPercentage ? `${poolTokenPercentage.toFixed(2)}%` : '-'}</Text>
             </FixedHeightRow>
 
             <RowBetween marginTop='10px'>
               <NextLink href={ROUTES.addByMultiple(currencyId(currency0), currencyId(currency1))}>
-                <Button>{t('common.button.add')}</Button>
+                <Button>{t('Add')}</Button>
               </NextLink>
               <NextLink href={ROUTES.removeByMultiple(currencyId(currency0), currencyId(currency1))}>
-                <Button variant='secondary'>{t('common.button.remove')}</Button>
+                <Button variant='secondary'>{t('Remove')}</Button>
               </NextLink>
             </RowBetween>
           </AutoColumn>

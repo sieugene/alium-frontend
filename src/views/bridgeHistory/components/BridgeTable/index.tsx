@@ -11,12 +11,12 @@ import BridgeEmptyTable from './BridgeEmptyTable'
 const BridgeTable = () => {
   const { t } = useTranslation()
   const headers = [
-    t('bridge.history.tableHeader.date'),
-    t('bridge.history.tableHeader.direction'),
-    t('bridge.history.tableHeader.sending'),
-    t('bridge.history.tableHeader.receiving'),
-    t('bridge.history.tableHeader.amount'),
-    t('bridge.history.tableHeader.status'),
+    t('Date'),
+    t('Direction'),
+    t('Sending tx'),
+    t('Receiving tx'),
+    t('Amount'),
+    t('Status'),
   ]
   let historyItems: RowItem[] = [
     {

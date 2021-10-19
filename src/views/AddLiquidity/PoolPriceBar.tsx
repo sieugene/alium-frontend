@@ -48,7 +48,7 @@ export function PoolPriceBar({
               %
             </Text>
             <Text fontSize='14px' color='#8990a5' pt={1}>
-              {t('liquidity.shareOfPool')}
+              {t('Share of Pool')}
             </Text>
           </AutoColumn>
         </AutoRow>

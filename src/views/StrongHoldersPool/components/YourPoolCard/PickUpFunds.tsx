@@ -1,5 +1,6 @@
 import { Skeleton } from 'alium-uikit/src'
 import { ethers } from 'ethers'
+import { useTranslation } from 'next-i18next'
 import styled, { css } from 'styled-components'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
@@ -21,6 +22,7 @@ export interface PickUpFundsProps {
 }
 
 export default function PickUpFunds({ poolId }: PickUpFundsProps) {
+  const { t } = useTranslation()
   const rewardTokenSymbol = useRewardTokenSymbol()
   const { data: countReward } = useCountReward(poolId)
   const { countRewardProfit, isLoss } = useCountRewardProfit(poolId)
@@ -30,7 +32,7 @@ export default function PickUpFunds({ poolId }: PickUpFundsProps) {
   const isPaid = accountUser && isUserPaid(accountUser)
   return (
     <>
-      <Title>Pick up funds</Title>
+      <Title>{t('Pick up funds')}</Title>
       <PickUpFunds.Value>
         <PickUpFunds.Counters>
           {countReward ? (
