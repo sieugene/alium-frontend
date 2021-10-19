@@ -2,8 +2,9 @@ import ViewAlmPrice from 'alium-uikit/src/widgets/Menu/ViewAlmPrice'
 import { NextLink } from 'components/NextLink'
 import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
+import { useMedia } from 'react-use'
 import styled from 'styled-components'
-import { breakpoints, up } from 'views/StrongHoldersPool/mq'
+import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
 import { SvgProps } from '../../components/Svg'
 import Accordion from './Accordion'
 import * as IconModule from './icons'
@@ -133,8 +134,9 @@ const LinkLabelStyled = styled(LinkLabel)<{ ispushed: boolean }>`
   color: #0b1359;
 `
 
-const PanelBody: FC<Props> = ({ ispushed, pushNav, isMobile, links, togglePush, isDark }) => {
+const PanelBody: FC<Props> = ({ ispushed, pushNav, links, togglePush, isDark }) => {
   const location = useRouter()
+  const isMobile = useMedia(down(breakpoints.sm))
 
   // Close the menu when a user clicks a link on mobile
   const handleClick = isMobile ? () => pushNav(false) : undefined
