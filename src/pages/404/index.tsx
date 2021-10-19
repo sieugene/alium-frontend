@@ -1,7 +1,5 @@
-import dynamic from 'next/dynamic'
+import { NotFound } from 'alium-uikit/src'
 import { ROUTES } from 'routes'
-
-const NotFound = dynamic(() => import('alium-uikit/src').then((module) => module.NotFound), { ssr: false })
 
 const ErrorPage = () => {
   return <NotFound redirectURL={ROUTES.home} />

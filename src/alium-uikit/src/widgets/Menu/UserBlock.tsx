@@ -1,11 +1,9 @@
-import dynamic from 'next/dynamic'
 import React, { FC } from 'react'
 import { useStoreAccount } from 'store/account/useStoreAccount'
 import { useWalletModal } from '../WalletModal'
 import { Login } from '../WalletModal/types'
 import { ConnectButton } from './ConnectButton'
-
-const NetworkSwitch = dynamic(() => import('./NetworkSwitch'), { ssr: false })
+import NetworkSwitch from './NetworkSwitch'
 
 interface Props {
   loginBlockVisible?: boolean

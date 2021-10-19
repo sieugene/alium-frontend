@@ -1,24 +1,21 @@
-// organize-imports-ignore
-import 'config/bignumber'
-
 import { GTMProvider } from '@elgorditosalsero/react-gtm-hook'
+import { ResetCSS } from 'alium-uikit/src'
 import Loaders from 'components/Loaders'
 import MetaHeader from 'components/MetaHeader'
+import ToastListener from 'components/ToastListener'
+import 'config/bignumber'
+import EagerConnectContainer from 'connectors/EagerConnectContainer'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import { InitStores } from 'store/InitStores'
-import 'typeface-roboto'
+import GlobalStyle from 'style/Global'
 import GTM from 'utils/gtm'
 import nextI18NextConfig from '../../next-i18next.config.js'
-
+import MenuWrappedRoute from '../components/Menu'
 const Providers = dynamic(() => import('Providers'), { ssr: false })
+
 const Popups = dynamic(() => import('components/Popups'), { ssr: false })
-const ToastListener = dynamic(() => import('components/ToastListener'), { ssr: false })
-const GlobalStyle = dynamic(() => import('style/Global'), { ssr: false })
-const ResetCSS = dynamic(() => import('alium-uikit/src').then((module) => module.ResetCSS), { ssr: false })
-const MenuWrappedRoute = dynamic(() => import('../components/Menu'), { ssr: false })
-const EagerConnectContainer = dynamic(() => import('connectors/EagerConnectContainer'), { ssr: false })
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
