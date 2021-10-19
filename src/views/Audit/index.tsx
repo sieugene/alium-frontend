@@ -1,7 +1,7 @@
 import { Text } from 'alium-uikit/src'
 import styled from 'styled-components'
 import AuditItem from './components/AuditItem'
-import audits from './constants/audits'
+import audits, { AuditType } from './constants/audits'
 
 const ContentHolder = styled.div`
   position: relative;
@@ -55,19 +55,8 @@ const AuditPage = () => {
           </StyledText>
 
           <AuditListContainer>
-            {audits.map((audit, key) => (
-              <AuditItem
-                key={key}
-                headline={audit.headline}
-                date={audit.date}
-                gitHubCertificate={audit.gitHubCertificate}
-                detailedReport={audit.detailedReport}
-                gitHubCerificatePDF={audit.gitHubCerificatePDF}
-                bscScan={audit.bscScan}
-                distribution={audit.distribution}
-                image={audit.image}
-                headImg={audit.headImg}
-              />
+            {audits.map((audit: AuditType, key) => (
+              <AuditItem key={key} {...audit} />
             ))}
           </AuditListContainer>
         </CardWrapper>

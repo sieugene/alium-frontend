@@ -10,6 +10,7 @@ import { getCurrencyEther } from './common/getCurrencyEther'
 export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount | undefined {
   const { nativeCurrency } = storeNetwork.getState().currentNetwork.providerParams
   const chainId = storeNetwork.getState().currentChainId
+
   if (!currencyAmount) return undefined
   if (currencyAmount.currency === nativeCurrency) {
     const { calcAmount } = getCurrencyEther(chainId)

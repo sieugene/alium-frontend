@@ -1,12 +1,13 @@
 import { ArrowDropDownIcon, Flex, LinkExternal, Text } from 'alium-uikit/src'
-import { useState } from 'react';
+import { useState } from 'react'
 import styled from 'styled-components'
+import { AuditType } from 'views/Audit/constants/audits'
 // import { BSCScanIcon, GitHubIcon } from '../../../../assets/Icons'
 import { BSCScanIcon, GitHubIcon } from '../../svg'
 
 const StyledContainer = styled.div`
   max-width: 738px;
-  height: 275px;
+  height: auto;
 
   background: #ffffff;
   padding: 24px;
@@ -93,7 +94,12 @@ const StyledBorderedFlex = styled(Flex)`
   }
 `
 
+const Links = styled.div`
+  margin-top: 18px;
+`
+
 const FooterFlex = styled(Flex)`
+  margin-top: 28px;
   @media screen and (max-width: 740px) {
     flex-direction: column;
     > a:first-child {
@@ -127,7 +133,7 @@ const AuditItem = ({
   distribution,
   image,
   headImg,
-}) => {
+}: AuditType) => {
   const [isOpened, setIsOpened] = useState(true)
 
   return (
@@ -157,7 +163,7 @@ const AuditItem = ({
             </Text>
           </StyledBorderedFlex>
           {isOpened && (
-            <>
+            <Links>
               <StyledDestribution alignItems='center'>
                 <StyledImageContainer>
                   <img src={headImg} alt='' />
@@ -168,17 +174,18 @@ const AuditItem = ({
               </StyledDestribution>
               <StyledImage src={image} alt='' type='center' />
               <StyledFlex flexDirection='column'>
-                {gitHubCertificate && (
-                  <Flex alignItems='center'>
-                    <GitHubIcon style={{ marginRight: '4px' }} />
-                    <StyledText fontSize='14px'>
-                      On Github:{' '}
-                      <StyledLinkExternal paddingRight='16px' href={gitHubCertificate}>
-                        {gitHubCertificate ? `${gitHubCertificate.slice(0, 30)}...` : ''}
-                      </StyledLinkExternal>
-                    </StyledText>
-                  </Flex>
-                )}
+                {gitHubCertificate?.length &&
+                  gitHubCertificate.map((cert, index) => (
+                    <Flex alignItems='center' key={index}>
+                      <GitHubIcon style={{ marginRight: '4px' }} />
+                      <StyledText fontSize='14px'>
+                        On Github:{' '}
+                        <StyledLinkExternal paddingRight='16px' href={cert}>
+                          {cert ? `${cert.slice(0, 30)}...` : ''}
+                        </StyledLinkExternal>
+                      </StyledText>
+                    </Flex>
+                  ))}
                 {bscScan && (
                   <Flex alignItems='center'>
                     <BSCScanIcon style={{ marginRight: '4px' }} />
@@ -199,7 +206,7 @@ const AuditItem = ({
                 )}
                 <StyledLinkExternal href={detailedReport}>Detailed report</StyledLinkExternal>
               </FooterFlex>
-            </>
+            </Links>
           )}
         </Flex>
         {/* <h1>Avatar</h1> */}
