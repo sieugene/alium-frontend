@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const typescriptTransform = require('i18next-scanner-typescript')
-const { i18n, defaultNS, ns } = require('./next-i18next.config')
+const { i18n, defaultNS, ns, keySeparator, nsSeparator } = require('./next-i18next.config')
 
 module.exports = {
   options: {
@@ -22,8 +22,8 @@ module.exports = {
     defaultValue(lng, ns, key) {
       return lng === i18n.defaultLocale ? key : '__NOT_TRANSLATED__'
     },
-    nsSeparator: false,
-    keySeparator: false,
+    nsSeparator,
+    keySeparator,
   },
   transform: typescriptTransform(),
 }

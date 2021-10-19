@@ -11,4 +11,6 @@ module.exports = {
   ns: ['common'],
   defaultNS: 'common',
   debug: isDev,
+  keySeparator: false,
+  nsSeparator: false,
 }
