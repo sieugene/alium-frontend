@@ -54,7 +54,7 @@ const ViewAlmPrice: FC<props> = ({ ispushed, inPanel }) => {
         </Text>
         <BuyALM
           inPanel={inPanel}
-          href='https://alium.finance/swap/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11/ETH'
+          href='https://alium.finance/swap/ETH/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11'
           target='_blank'
         >
           {t('Buy ALM')}
