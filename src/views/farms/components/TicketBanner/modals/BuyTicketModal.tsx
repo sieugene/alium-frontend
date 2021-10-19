@@ -21,12 +21,16 @@ const BuyTicketModal: FC<Props> = ({ modalOpen, onDismiss }) => {
   }
 
   useEffect(() => {
-    window.ethereum.on('accountsChanged', () => {
-      onDismiss()
-      backStep()
-    })
-    return () => {
-      window.ethereum.on('accountsChanged', () => {})
+    if (window.ethereum) {
+      const handleAccountsChanged = () => {
+        onDismiss()
+        backStep()
+      }
+
+      window.ethereum.on('accountsChanged', handleAccountsChanged)
+      return () => {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged)
+      }
     }
   }, [])
 
