@@ -8,14 +8,12 @@ export const InitStores = () => {
 
   const initStoreAccount = useStoreAccount((state) => state.initStoreAccount)
   const killStoreAccount = useStoreAccount((state) => state.killStoreAccount)
-  const initStoreNetwork = useStoreNetwork((state) => state.initStoreNetwork)
   const killStoreNetwork = useStoreNetwork((state) => state.killStoreNetwork)
   const initStoreBridge = useStoreBridge((state) => state.initStoreBridge)
   const killStoreBridge = useStoreBridge((state) => state.killStoreBridge)
 
   if (!isInitialized) {
     initStoreAccount()
-    initStoreNetwork()
     initStoreBridge()
     setIsInitialized(true)
   }

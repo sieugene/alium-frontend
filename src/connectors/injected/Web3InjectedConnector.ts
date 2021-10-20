@@ -11,9 +11,9 @@ export class Web3InjectedConnector extends InjectedConnector {
   // list for force notify like Ethereum
   private listForcedNotifyConnect: AbstractConnectorArguments['supportedChainIds']
 
-  constructor({ supportedChainIds }: AbstractConnectorArguments) {
+  constructor({ supportedChainIds }: AbstractConnectorArguments, chainId: number) {
     super({ supportedChainIds: supportedChainIds })
-    this.chainId = supportedChainIds[0]
+    this.chainId = chainId || supportedChainIds[0]
     this.listForcedNotifyConnect = [ChainId.ETHER_MAINNET, ChainId.ETHER_TESTNET]
   }
 

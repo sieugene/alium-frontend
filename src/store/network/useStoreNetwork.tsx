@@ -3,7 +3,6 @@ import { isProduction } from 'config'
 import { WEB3NetworkErrors } from 'constants/network/NetworkErrors.contanst'
 import { getActualChainId } from 'store/network/lib/getActualChainId'
 import { getCurrentNetwork, ICurrentNetwork } from 'store/network/lib/getCurrentNetwork'
-import { WindowChain } from 'types'
 import Cookies from 'universal-cookie'
 import create from 'zustand'
 import createVanilla from 'zustand/vanilla'
@@ -27,7 +26,6 @@ interface StoreAccountState {
   connected: boolean
   // actions
   killStoreNetwork: () => void
-  initStoreNetwork: () => void
   setChainId: (id: number) => void
   setupNetwork: (id: number) => Promise<boolean>
   setConnectionError: (error: WEB3NetworkErrors | null) => void
@@ -53,14 +51,6 @@ export const storeNetwork = createVanilla<StoreAccountState>((set, get) => ({
   },
   killStoreNetwork: () => {
     storeNetwork.destroy() // destroy all store subscribes
-  },
-  initStoreNetwork: () => {
-    if (typeof window !== 'undefined' && window.ethereum) {
-      // switch network from wallet
-      ;(window as WindowChain).ethereum.on('chainChanged', (chainId) => {
-        get().setChainId(parseInt(chainId, 16))
-      })
-    }
   },
   setChainId: (id) => {
     const currentChainId = get().currentChainId

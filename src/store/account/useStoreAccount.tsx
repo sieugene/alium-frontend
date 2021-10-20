@@ -19,12 +19,10 @@ export interface StoreAccountState {
   clearBalance: () => void
 }
 
-const accountInWeb3 = () => process.browser && window?.ethereum?.selectedAddress
-
 // store for usage outside of react
 export const storeAccount = createVanilla<StoreAccountState>((set, get) => ({
   balance: null,
-  currentAccountAddress: accountInWeb3(),
+  currentAccountAddress: '',
   modalConnect: false,
   // callback for fn in userBlock
   showModalConnect: () => {
@@ -42,7 +40,7 @@ export const storeAccount = createVanilla<StoreAccountState>((set, get) => ({
     }
   },
   async etherBalance(_account: string) {
-    const account = get().currentAccountAddress || accountInWeb3() || _account
+    const account = _account
     const chainId = storeNetwork.getState().currentChainId
     const currentBalance = get().balance
 
