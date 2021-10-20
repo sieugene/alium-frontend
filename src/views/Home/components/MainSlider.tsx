@@ -1,3 +1,4 @@
+import { Button } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
@@ -18,6 +19,7 @@ interface ISlide {
   title: React.ReactNode
   image: string
   subTitle?: React.ReactNode
+  active?: boolean
 }
 
 // MainSlider
@@ -27,7 +29,8 @@ const MainSlider: React.FC<IMainSliderProps> = ({ className }) => {
   const isNotMobile = useMedia(`screen and (min-width: ${md})`)
   const slides: ISlide[] = [
     {
-      label: t('Coming soon'),
+      label: t('Live'),
+      active: true,
       title: t('Earn ALM Farming and Strong Holders Pools. Up to 3000% APY'),
       image: isNotMobile ? '/images/home-new/slider/farming-bg.svg' : '/images/home-new/slider/farming-bg-small.svg',
     },
@@ -182,15 +185,18 @@ export default MainSlider
 
 // Slide
 
-const Slide = (props: ISlide) => (
-  <SlideW bgImage={props.image}>
-    <SlideInfoW>
-      {props.label && <Label>{props.label}</Label>}
-      <SliderTitle>{props.title}</SliderTitle>
-      <SliderSubtitle>{props.subTitle}</SliderSubtitle>
-    </SlideInfoW>
-  </SlideW>
-)
+const Slide = (props: ISlide) => {
+  const LabelType = props.active ? LabelGreen : Label
+  return (
+    <SlideW bgImage={props.image}>
+      <SlideInfoW>
+        {props.label && <LabelType>{props.label}</LabelType>}
+        <SliderTitle>{props.title}</SliderTitle>
+        <SliderSubtitle>{props.subTitle}</SliderSubtitle>
+      </SlideInfoW>
+    </SlideW>
+  )
+}
 
 const SlideW = styled.div<{ bgImage: string }>`
   position: relative;
@@ -259,20 +265,22 @@ const SlideInfoW = styled.div`
   }
 `
 
-const Label = styled.span`
+const Label = styled(Button).attrs({ variant: 'extraRed' })`
   display: inline-block;
   padding: 6px 12px;
-  background: rgba(255, 114, 172, 0.1);
-  border: 1px solid #ff72ac;
-  border-radius: 6px;
   font-style: normal;
   font-weight: bold;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
-  color: #ff72ac;
   margin-bottom: 16px;
+  height: auto;
+  width: fit-content;
+`
+
+const LabelGreen: any = styled(Label).attrs({ variant: 'extraGreen' })`
+  background: #e5f8f00d;
 `
 
 const SliderTitle = styled.h2`

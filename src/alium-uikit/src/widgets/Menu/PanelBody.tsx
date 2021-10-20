@@ -211,7 +211,11 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, links, togglePush, isDark }) 
                 <StyledLink href={entry.href} handleClick={handleClick} ispushed={ispushed} isnew={entry?.new}>
                   {iconElement}
                   <LinkLabelStyled ispushed={ispushed}>{entry.label}</LinkLabelStyled>
-                  <MenuNewItem isnew={entry?.new} />
+                  {entry?.new && (
+                    <span>
+                      <MenuNewItem />
+                    </span>
+                  )}
                 </StyledLink>
               </MenuEntry>
             </Fragment>

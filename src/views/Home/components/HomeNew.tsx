@@ -1,3 +1,4 @@
+import { Button } from 'alium-uikit/src'
 import { Trans, useTranslation } from 'next-i18next'
 import { ReactComponent as AppStoreIcon } from 'public/icons/AppStore.svg'
 import { ReactComponent as GooglePlayIcon } from 'public/icons/GooglePlay.svg'
@@ -67,7 +68,11 @@ const HomeNew = () => {
           <H1>
             <Trans i18nKey='Buy Alium Finance <br /> (ALM) token' components={{ br: <br /> }} />
           </H1>
-          <h2>{t('Alium Finance team is on the way to reach several milestones aimed on increasing of ALM token value. Be ahead of the market and join the ALM holders community!')}</h2>
+          <h2>
+            {t(
+              'Alium Finance team is on the way to reach several milestones aimed on increasing of ALM token value. Be ahead of the market and join the ALM holders community!',
+            )}
+          </h2>
 
           <ActionButton>
             <a href='https://alium.finance/swap/ETH/0x7C38870e93A1f959cB6c533eB10bBc3e438AaC11' target='_blank'>
@@ -240,25 +245,16 @@ const CardLogoAvalanche = styled(CardLogo)`
   background: url('/images/home-new/avalanche.svg') no-repeat center/contain;
 `
 
-const ExtraButton = styled.div`
+const ExtraButton = styled(Button).attrs({ variant: 'extraRed' })`
   white-space: pre;
-  background: rgba(255, 114, 172, 0.1);
-  border: 1px solid #ff72ac;
-  box-sizing: border-box;
-  border-radius: 6px;
-  height: 28px;
-  padding: 8px 12px 8px 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: fit-content;
   font-style: normal;
   font-weight: bold;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
-  color: #ff72ac;
-  width: fit-content;
+  height: 28px;
 `
 
 // BuyAlmContainer

@@ -1,5 +1,5 @@
 import Link, { LinkProps } from 'next/link'
-import { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react'
+import React, { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react'
 import { SpaceProps } from 'styled-system'
 
 export const sizes = {
@@ -21,6 +21,8 @@ export const variants = {
   SUBTLE: 'subtle',
   SUCCESS: 'success',
   DEFAULT: 'default',
+  EXTRA_RED: 'extraRed',
+  EXTRA_GREEN: 'extraGreen',
 } as const
 
 export type Sizes = typeof sizes[keyof typeof sizes]
@@ -49,7 +51,7 @@ export type ButtonProps = {
 } & ButtonTypes &
   SpaceProps
 
-export interface ButtonThemeVariant {
+export type ButtonThemeVariant = {
   background: string
   backgroundActive: string
   backgroundHover: string
@@ -60,7 +62,7 @@ export interface ButtonThemeVariant {
   color: string
   colorHover?: string
   colorPressed?: string
-}
+} & React.CSSProperties
 
 export type ButtonTheme = {
   [key in Variants]: ButtonThemeVariant

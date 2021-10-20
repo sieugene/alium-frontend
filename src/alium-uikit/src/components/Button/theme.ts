@@ -1,7 +1,7 @@
 import { darkColors, lightColors } from '../../theme/colors'
 import { ButtonTheme, variants } from './types'
 
-const { PRIMARY, SECONDARY, TERTIARY, TEXT, DANGER, SUBTLE, SUCCESS, DEFAULT } = variants
+const { PRIMARY, SECONDARY, TERTIARY, TEXT, DANGER, SUBTLE, SUCCESS, DEFAULT, EXTRA_GREEN, EXTRA_RED } = variants
 
 export const light: ButtonTheme = {
   [PRIMARY]: {
@@ -24,6 +24,30 @@ export const light: ButtonTheme = {
     boxShadowActive: 'none',
     color: lightColors.primary,
     colorHover: '#fff',
+  },
+  [EXTRA_GREEN]: {
+    background: '#e5f8f0',
+    border: '1px solid #24ba7b',
+    borderRadius: '4px',
+    color: '#1ea76d',
+    backgroundActive: 'none',
+    backgroundHover: 'none',
+    borderColorHover: 'none',
+    boxShadow: 'none',
+    boxShadowActive: 'none',
+    colorHover: '#1ea76d',
+  },
+  [EXTRA_RED]: {
+    background: 'rgba(255, 114, 172, 0.1)',
+    border: '1px solid #ff72ac',
+    borderRadius: '6px',
+    color: '#ff72ac',
+    backgroundActive: 'none',
+    backgroundHover: 'none',
+    borderColorHover: 'none',
+    boxShadow: 'none',
+    boxShadowActive: 'none',
+    colorHover: '#ff72ac',
   },
   [TERTIARY]: {
     background: lightColors.tertiary,
@@ -93,6 +117,12 @@ export const dark: ButtonTheme = {
     ...light.primary,
   },
   [SECONDARY]: {
+    ...light.secondary,
+  },
+  [EXTRA_GREEN]: {
+    ...light.secondary,
+  },
+  [EXTRA_RED]: {
     ...light.secondary,
   },
   [TERTIARY]: {
