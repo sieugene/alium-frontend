@@ -60,12 +60,10 @@ const useAuth = () => {
               const hasSetup = await storeNetwork.getState().setupNetwork(chainId)
               if (hasSetup) {
                 activate(connector, async (retryError: Error) => {
-                  const messageErr = WEB3NetworkErrors.UNSUPPORTED_CHAIN
-                  await logout()
-
-                  toastError(messageErr, retryError.message)
-                  setConnectionError(messageErr)
+                  await unsupportedError(retryError)
                 })
+              } else {
+                await unsupportedError(error)
               }
             } else {
               clearConnector()
@@ -95,6 +93,14 @@ const useAuth = () => {
     },
     [chainId],
   )
+
+  const unsupportedError = async (error: Error) => {
+    const messageErr = WEB3NetworkErrors.UNSUPPORTED_CHAIN
+    await logout()
+
+    toastError(messageErr, error.message)
+    setConnectionError(messageErr)
+  }
 
   const logout = useCallback(() => {
     deactivate()
