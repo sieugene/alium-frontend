@@ -2,7 +2,6 @@ import { Token } from '@alium-official/sdk'
 import TransferLoader from 'components/Modal/transaction/TransferLoader'
 import { useWeb3Context } from 'hooks/bridge/useWeb3Context'
 import { useTranslation } from 'next-i18next'
-import { FC } from 'react'
 import { ChevronRight } from 'react-feather'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
@@ -13,7 +12,7 @@ interface Props {
   amount: string
 }
 
-const BridgeTransferLoader: FC<Props> = ({ token, amount }) => {
+const BridgeTransferLoader = ({ token, amount }: Props) => {
   const loadingText = useStoreBridge((state) => state.transactionText)
   const txHash = useStoreBridge((state) => state.txHash)
   const { t } = useTranslation()
@@ -22,16 +21,18 @@ const BridgeTransferLoader: FC<Props> = ({ token, amount }) => {
   const link = getExplorerLink(providerChainId, txHash, 'transaction')
 
   return (
-    <TransferLoader>
-      <h2>{t('Transfer {{amount}} {{tokenSymbol}} pending...', { amount, tokenSymbol: token?.symbol })}</h2>
-      <p>{loadingText || t('Transaction is pending...')}</p>
-      {txHash && (
-        <View>
-          <a href={link} target='_blank'>
-            {t('View on {{explorerName}}', { explorerName })} <ChevronRight />
-          </a>
-        </View>
-      )}
+    <TransferLoader withoutHeader withoutWrapper>
+      <BridgeTransferLoader.Wrapper>
+        <h2>{t('Transfer {{amount}} {{tokenSymbol}} pending...', { amount, tokenSymbol: token?.symbol })}</h2>
+        <p>{loadingText || t('Transaction is pending...')}</p>
+        {txHash && (
+          <BridgeTransferLoader.View>
+            <a href={link} target='_blank'>
+              {t('View on {{explorerName}}', { explorerName })} <ChevronRight />
+            </a>
+          </BridgeTransferLoader.View>
+        )}
+      </BridgeTransferLoader.Wrapper>
     </TransferLoader>
   )
 }
@@ -40,7 +41,12 @@ export default BridgeTransferLoader
 
 // styles
 
-const View = styled.div`
+BridgeTransferLoader.Wrapper = styled.div`
+  margin-top: 24px;
+  text-align: center;
+`
+
+BridgeTransferLoader.View = styled.div`
   cursor: pointer;
   margin-top: 8px;
   font-style: normal;

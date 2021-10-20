@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
 import { useBridgeTransfer } from 'views/bridge/hooks/useBridgeTransfer'
-import TransferLoader from '../Loaders/BridgeTransferLoader'
+import BridgeTransferLoader from '../Loaders/BridgeTransferLoader'
 
 const TransferStep = () => {
   const [approved, setApproved] = useState(false)
@@ -110,19 +110,20 @@ const TransferStep = () => {
   }, [wrongCurrentNetwork])
 
   return (
-    <Wrapper>
+    <TransferStep.Wrapper>
       {transactionFailed ? (
         <TransferError
+          withoutHeader
           onRepeat={() => {
             setTransactionFailed(false)
           }}
         />
       ) : showLoading ? (
-        <TransferLoader token={token} amount={token ? formatBridgeTokenAmount(token, amount) : '0'} />
+        <BridgeTransferLoader token={token} amount={token ? formatBridgeTokenAmount(token, amount) : '0'} />
       ) : (
         <ConfirmMessage />
       )}
-    </Wrapper>
+    </TransferStep.Wrapper>
   )
 }
 
@@ -131,10 +132,10 @@ const ConfirmMessage = () => {
 
   return (
     <TransactionIndicateWrapper>
-      <StyledConfirm>
+      <TransferStep.StyledConfirm>
         <BridgeConfirmIcon />
         <p>{t('Confirm the transaction in your wallet')}</p>
-      </StyledConfirm>
+      </TransferStep.StyledConfirm>
     </TransactionIndicateWrapper>
   )
 }
@@ -143,18 +144,7 @@ export default TransferStep
 
 // styles
 
-const Wrapper = styled.div`
-  h2 {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 22px;
-    text-align: center;
-    letter-spacing: 0.3px;
-    color: #0b1359;
-    margin-top: 24px;
-  }
-
+TransferStep.Wrapper = styled.div`
   p {
     margin-top: 8px;
     font-style: normal;
@@ -167,7 +157,7 @@ const Wrapper = styled.div`
   }
 `
 
-const StyledConfirm = styled.div`
+TransferStep.StyledConfirm = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

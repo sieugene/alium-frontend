@@ -83,7 +83,12 @@ const BuyTicketBuyStep = () => {
     )
   }
   if (error) {
-    return <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} withoutWrapper withoutHeader />
+    return (
+      <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} withoutWrapper withoutHeader>
+        <h2>{t('Transaction failed')}</h2>
+        <h3>{t("Your wallet doesn't have enough ALM to buy a ticket")}</h3>
+      </TransferError>
+    )
   }
   if (success) {
     const link = getExplorerLink(currentChainId, txHash, 'transaction')

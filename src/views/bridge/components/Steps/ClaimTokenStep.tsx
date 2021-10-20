@@ -1,9 +1,11 @@
 import { Button } from 'alium-uikit/src'
+import { ShadowComponent } from 'components/Main/ShadowComponent'
+import TransferError from 'components/Modal/transaction/TransferError'
+import TransferLoader from 'components/Modal/transaction/TransferLoader'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { useClaim } from 'hooks/bridge/useClaim'
 import { useTranslation } from 'next-i18next'
 import React, { FC, useCallback, useState } from 'react'
-import Loader from 'react-loader-spinner'
 import { useToast } from 'state/hooks'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -14,27 +16,10 @@ interface ClaimLoadProps {
   children: React.ReactNode
 }
 
-const ClaimLoadWrap: FC<ClaimLoadProps> = ({ loading, children }) => {
-  const loadingText = useStoreBridge((state) => state.transactionText)
-  const { t } = useTranslation()
-
-  return (
-    <>
-      {loading && (
-        <ClaimWrap>
-          <StyledLoader type='TailSpin' color='#6C5DD3' />
-          <h2>{t('Claim pending...')}</h2>
-          <p>{loadingText || t('2 minutes left')}</p>
-        </ClaimWrap>
-      )}
-      <Shadow loading={loading}>{children}</Shadow>
-    </>
-  )
-}
-
 const ClaimTokenStep = () => {
   const txHash = useStoreBridge((state) => state.txHash)
-  const [loading, setloading] = useState(false)
+  const [loading, setloading] = useState(true)
+  const [error, setError] = useState(false)
   const updateStepStatus = storeBridge.getState().updateStepStatus
   const changeStep = storeBridge.getState().changeStep
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
@@ -49,7 +34,6 @@ const ClaimTokenStep = () => {
   const { toastError } = useToast()
 
   const claimTokens = useCallback(async () => {
-    if (!txHash || loading) return
     setloading(true)
     try {
       const tx = await claim(txHash, transactionMessage)
@@ -63,6 +47,7 @@ const ClaimTokenStep = () => {
       } else {
         manualClaimError?.message && toastError(manualClaimError?.message)
       }
+      setError(true)
     } finally {
       setloading(false)
     }
@@ -76,15 +61,45 @@ const ClaimTokenStep = () => {
     }
   }, [currentChainId, toNetwork])
 
+  if (error) {
+    return (
+      <TransferError
+        withoutHeader
+        onRepeat={() => {
+          setError(false)
+        }}
+      />
+    )
+  }
+
   return (
     <ClaimLoadWrap loading={loading || loadingTransaction}>
-      <Wrapper>
+      <ClaimTokenStep.Wrapper>
         <p className='title'>{t('Very little left')}</p>
-        <Button onClick={claimTokens} disabled={loading}>
+        <Button onClick={claimTokens} disabled={!txHash || loading}>
           {t('Claim')}
         </Button>
-      </Wrapper>
+      </ClaimTokenStep.Wrapper>
     </ClaimLoadWrap>
+  )
+}
+
+const ClaimLoadWrap: FC<ClaimLoadProps> = ({ loading, children }) => {
+  const loadingText = useStoreBridge((state) => state.transactionText)
+  const { t } = useTranslation()
+
+  return (
+    <>
+      {loading && (
+        <TransferLoader withoutHeader withoutWrapper>
+          <ClaimTokenStep.ClaimWrap>
+            <h2>{t('Claim pending...')}</h2>
+            <p>{loadingText || t('2 minutes left')}</p>
+          </ClaimTokenStep.ClaimWrap>
+        </TransferLoader>
+      )}
+      <ShadowComponent hide={loading}>{children}</ShadowComponent>
+    </>
   )
 }
 
@@ -92,7 +107,7 @@ export default ClaimTokenStep
 
 // styles
 
-const Wrapper = styled.div`
+ClaimTokenStep.Wrapper = styled.div`
   margin-top: 40px;
   display: flex;
   flex-direction: column;
@@ -122,12 +137,7 @@ const Wrapper = styled.div`
   }
 `
 
-const StyledLoader = styled(Loader)`
-  width: 80px;
-  height: 80px;
-`
-
-const ClaimWrap = styled.div`
+ClaimTokenStep.ClaimWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -155,8 +165,4 @@ const ClaimWrap = styled.div`
     letter-spacing: 0.3px;
     color: #0b1359;
   }
-`
-
-const Shadow = styled.div<{ loading: boolean }>`
-  ${(props) => props.loading && 'display: none;'}
 `

@@ -3,6 +3,7 @@ import TransferError from 'components/Modal/transaction/TransferError'
 import TransferLoader from 'components/Modal/transaction/TransferLoader'
 import { FC } from 'hoist-non-react-statics/node_modules/@types/react'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useFarmTicket } from 'views/farms/hooks/useFarmTicket'
 import { TicketLoadingText } from './BuyTicketModal'
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export const BuyTicketApproveStep: FC<Props> = ({ nextStep }) => {
+  const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const [error, seterror] = useState(false)
   const { approve } = useFarmTicket()
@@ -42,7 +44,12 @@ export const BuyTicketApproveStep: FC<Props> = ({ nextStep }) => {
   }
 
   if (error) {
-    return <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} withoutHeader withoutWrapper />
+    return (
+      <TransferError onRepeat={onRepeat} style={{ marginTop: 0 }} withoutHeader withoutWrapper>
+        <h2>{t('Transaction failed')}</h2>
+        <h3>{t("Your wallet doesn't have enough ALM to buy a ticket")}</h3>
+      </TransferError>
+    )
   }
 
   return (
