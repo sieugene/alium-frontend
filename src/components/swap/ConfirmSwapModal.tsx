@@ -84,6 +84,11 @@ export default function ConfirmSwapModal({
     trade?.inputAmount?.currency?.symbol
   } for ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
 
+  // for transaction modal success
+  const amount = `${toSignificantCurrency(trade?.inputAmount)} ${
+    trade?.inputAmount?.currency?.symbol
+  } for ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
+
   // swap to token
   const token = trade?.route.pairs[0]?.token1
 
@@ -104,6 +109,7 @@ export default function ConfirmSwapModal({
 
   return (
     <TransactionConfirmationModal
+      amount={amount}
       isOpen={isOpen}
       onDismiss={onDismiss}
       attemptingTxn={attemptingTxn}

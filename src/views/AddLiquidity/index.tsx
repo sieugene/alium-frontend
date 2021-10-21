@@ -254,6 +254,10 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
     currencies[Field.CURRENCY_A]?.symbol
   } and ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])} ${currencies[Field.CURRENCY_B]?.symbol}`
 
+  const amount = `${toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])} ${
+    currencies[Field.CURRENCY_A]?.symbol
+  } - ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])} ${currencies[Field.CURRENCY_B]?.symbol}`
+
   const handleCurrencyASelect = useCallback(
     (currA: Currency) => {
       setApprovalSubmittedA(false)
@@ -331,7 +335,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
         <AddRemoveTabs adding />
         <Wrapper>
           <TransactionConfirmationModal
-            token={pair?.liquidityToken}
+            amount={amount}
             isOpen={showConfirm}
             onDismiss={() => {
               handleDismissConfirmation()

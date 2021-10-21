@@ -477,6 +477,11 @@ export const RemoveLiquidity: FC = () => {
     currencyA?.symbol
   } and ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])} ${currencyB?.symbol}`
 
+  // for transaction modal success
+  const amount = `${toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])} ${
+    currencyA?.symbol
+  } - ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])} ${currencyB?.symbol}`
+
   const liquidityPercentChangeCallback = useCallback(
     (value: number) => {
       onUserInput(Field.LIQUIDITY_PERCENT, value.toString())
@@ -530,6 +535,7 @@ export const RemoveLiquidity: FC = () => {
   return (
     <>
       <TransactionConfirmationModal
+        amount={amount}
         isOpen={showConfirm}
         onDismiss={handleDismissConfirmation}
         attemptingTxn={attemptingTxn}

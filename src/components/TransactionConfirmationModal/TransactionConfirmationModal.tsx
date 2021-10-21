@@ -13,6 +13,7 @@ interface ConfirmationModalProps {
   attemptingTxn: boolean
   pendingText: string
   token?: Token
+  amount?: string
 }
 
 const TransactionConfirmationModal = ({
@@ -23,6 +24,7 @@ const TransactionConfirmationModal = ({
   pendingText,
   content,
   token,
+  amount,
 }: ConfirmationModalProps) => {
   const { chainId } = useActiveWeb3React()
 
@@ -34,7 +36,7 @@ const TransactionConfirmationModal = ({
       {attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (
-        <TransactionSubmittedContent token={token} hash={hash} onDismiss={onDismiss} />
+        <TransactionSubmittedContent amount={amount} token={token} hash={hash} onDismiss={onDismiss} />
       ) : (
         content
       )}
