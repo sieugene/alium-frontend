@@ -2,8 +2,6 @@ import { Currency, CurrencyAmount, Fraction, Percent } from '@alium-official/sdk
 import { Button } from 'alium-uikit/src'
 import { RowBetween, RowFixed } from 'components/Row'
 import { TYPE } from 'components/Shared'
-import { useEffect, useMemo } from 'react'
-import { useToast } from 'state/hooks'
 import { Field } from 'state/mint/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import CurrencyLogo from '../../components/CurrencyLogo'
@@ -17,7 +15,6 @@ export function ConfirmAddModalBottom({
   parsedAmounts,
   poolTokenPercentage,
   onAdd,
-  hasError = null,
 }: {
   noLiquidity?: boolean
   price?: Fraction
@@ -25,16 +22,7 @@ export function ConfirmAddModalBottom({
   parsedAmounts: { [field in Field]?: CurrencyAmount }
   poolTokenPercentage?: Percent
   onAdd: () => void
-  hasError?: Error | null
 }) {
-  const { toastError } = useToast()
-  const error = useMemo(() => hasError, [hasError])
-  useEffect(() => {
-    if (error) {
-      toastError('Low price')
-    }
-  }, [error, toastError])
-
   return (
     <>
       <RowBetween>
@@ -78,7 +66,7 @@ export function ConfirmAddModalBottom({
           {noLiquidity ? '100' : poolTokenPercentage?.toSignificant(4)}%
         </Body>
       </RowBetween>
-      <Button mt='10px' mb='20px' onClick={onAdd} fullwidth disabled={Boolean(hasError)}>
+      <Button mt='10px' mb='20px' onClick={onAdd} fullwidth>
         {noLiquidity ? 'Create Pool & Supply' : 'Confirm Supply'}
       </Button>
     </>

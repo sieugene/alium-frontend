@@ -3,6 +3,7 @@ import { SwapModal } from 'components/Modal/SwapModal'
 import { useActiveWeb3React } from 'hooks'
 import { ReactNode } from 'react'
 import ConfirmationPendingContent from './ConfirmationPendingContent'
+import TransactionErrorContent from './TransactionErrorContent'
 import TransactionSubmittedContent from './TransactionSubmittedContent'
 
 interface ConfirmationModalProps {
@@ -14,6 +15,8 @@ interface ConfirmationModalProps {
   pendingText: string
   token?: Token
   amount?: string
+  hasError: boolean
+  onRepeat: () => void
 }
 
 const TransactionConfirmationModal = ({
@@ -25,6 +28,8 @@ const TransactionConfirmationModal = ({
   content,
   token,
   amount,
+  hasError,
+  onRepeat,
 }: ConfirmationModalProps) => {
   const { chainId } = useActiveWeb3React()
 
@@ -33,7 +38,9 @@ const TransactionConfirmationModal = ({
   // confirmation screen
   return (
     <SwapModal isOpen={isOpen} onDismiss={onDismiss}>
-      {attemptingTxn ? (
+      {hasError ? (
+        <TransactionErrorContent onRepeat={onRepeat} message='' onDismiss={onDismiss} />
+      ) : attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (
         <TransactionSubmittedContent amount={amount} token={token} hash={hash} onDismiss={onDismiss} />

@@ -5,7 +5,7 @@ import { AutoColumn } from 'components/Column'
 import DoubleCurrencyLogo from 'components/DoubleLogo'
 import Row, { RowFlat } from 'components/Row'
 import { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
-import { memo, FC } from 'react';
+import { FC, memo } from 'react'
 import { Field } from 'state/mint/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
@@ -25,7 +25,6 @@ export const AddLiqudityModalContent: FC<Props> = memo(
     price,
     parsedAmounts,
     onAdd,
-    hasError,
     poolTokenPercentage,
   }) => {
     const modalHeader = () => {
@@ -47,7 +46,6 @@ export const AddLiqudityModalContent: FC<Props> = memo(
           parsedAmounts={parsedAmounts}
           noLiquidity={noLiquidity}
           onAdd={onAdd}
-          hasError={hasError}
           poolTokenPercentage={poolTokenPercentage}
         />
       )
@@ -126,11 +124,10 @@ interface BottomProps {
   }
   noLiquidity: boolean
   onAdd: () => Promise<void>
-  hasError: any
   poolTokenPercentage: Percent
 }
 const ModalBottom: FC<BottomProps> = memo(
-  ({ price, currencies, parsedAmounts, noLiquidity, onAdd, hasError, poolTokenPercentage }) => {
+  ({ price, currencies, parsedAmounts, noLiquidity, onAdd, poolTokenPercentage }) => {
     return (
       <ConfirmAddModalBottom
         price={price}
@@ -138,7 +135,6 @@ const ModalBottom: FC<BottomProps> = memo(
         parsedAmounts={parsedAmounts}
         noLiquidity={noLiquidity}
         onAdd={onAdd}
-        hasError={hasError}
         poolTokenPercentage={poolTokenPercentage}
       />
     )

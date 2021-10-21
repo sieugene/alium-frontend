@@ -134,6 +134,9 @@ export const RemoveLiquidity: FC = () => {
   const [deadline] = useUserDeadline()
   const [allowedSlippage] = useUserSlippageTolerance()
 
+  // error
+  const [hasError, setError] = useState(false)
+
   const formattedAmounts = {
     [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo('0')
       ? '0'
@@ -357,31 +360,30 @@ export const RemoveLiquidity: FC = () => {
 
       const gasPrice = await calculateGasPrice(router.provider)
 
-      setAttemptingTxn(true)
-      await router[methodName](...args, {
-        gasLimit: safeGasEstimate,
-        gasPrice,
-      })
-        .then(async (response: TransactionResponse) => {
-          if (innerLiquidityPercentage === 100) {
-            onClear()
-          }
-          addTransaction(response, {
-            summary: `Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
-              currencyA?.symbol
-            } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
-          })
-
-          setTxHash(response.hash)
-
-          await response.wait()
-          setAttemptingTxn(false)
+      try {
+        setAttemptingTxn(true)
+        const response: TransactionResponse = await router[methodName](...args, {
+          gasLimit: safeGasEstimate,
+          gasPrice,
         })
-        .catch((e: Error) => {
-          setAttemptingTxn(false)
-          // we only care if the error is something _other_ than the user rejected the tx
-          console.error(e)
+        if (innerLiquidityPercentage === 100) {
+          onClear()
+        }
+        addTransaction(response, {
+          summary: `Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+            currencyA?.symbol
+          } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
         })
+
+        setTxHash(response.hash)
+        await response.wait()
+      } catch (e) {
+        // we only care if the error is something _other_ than the user rejected the tx
+        setError(true)
+        console.error(e)
+      } finally {
+        setAttemptingTxn(false)
+      }
     }
   }
 
@@ -519,6 +521,7 @@ export const RemoveLiquidity: FC = () => {
 
   const handleDismissConfirmation = useCallback(() => {
     setShowConfirm(false)
+    setError(false)
     setSignatureData(null) // important that we clear signature data to avoid bad sigs
     // if there was a tx hash, we want to clear the input
     if (txHash) {
@@ -526,6 +529,11 @@ export const RemoveLiquidity: FC = () => {
     }
     setTxHash('')
   }, [onUserInput, txHash])
+
+  const onRepeat = () => {
+    handleDismissConfirmation()
+    setShowConfirm(true)
+  }
 
   const [innerLiquidityPercentage, setInnerLiquidityPercentage] = useDebouncedChangeHandler(
     Number.parseInt(parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0), 10),
@@ -535,8 +543,10 @@ export const RemoveLiquidity: FC = () => {
   return (
     <>
       <TransactionConfirmationModal
+        hasError={hasError}
         amount={amount}
         isOpen={showConfirm}
+        onRepeat={onRepeat}
         onDismiss={handleDismissConfirmation}
         attemptingTxn={attemptingTxn}
         hash={txHash || ''}

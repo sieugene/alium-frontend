@@ -1,10 +1,7 @@
 import { currencyEquals, Trade } from '@alium-official/sdk'
 import { useCallback, useMemo } from 'react'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
-import TransactionConfirmationModal, {
-  ConfirmationModalContent,
-  TransactionErrorContent,
-} from '../TransactionConfirmationModal'
+import TransactionConfirmationModal, { ConfirmationModalContent } from '../TransactionConfirmationModal'
 import SwapModalFooter from './SwapModalFooter'
 import SwapModalHeader from './SwapModalHeader'
 
@@ -93,25 +90,24 @@ export default function ConfirmSwapModal({
   const token = trade?.route.pairs[0]?.token1
 
   const confirmationContent = useMemo(
-    () =>
-      swapErrorMessage ? (
-        <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} onRepeat={onRepeat} />
-      ) : (
-        <ConfirmationModalContent
-          title='Confirm Swap'
-          onDismiss={onDismiss}
-          topContent={modalHeader}
-          bottomContent={modalBottom}
-        />
-      ),
-    [onDismiss, modalBottom, modalHeader, swapErrorMessage, onRepeat],
+    () => (
+      <ConfirmationModalContent
+        title='Confirm Swap'
+        onDismiss={onDismiss}
+        topContent={modalHeader}
+        bottomContent={modalBottom}
+      />
+    ),
+    [onDismiss, modalBottom, modalHeader],
   )
 
   return (
     <TransactionConfirmationModal
+      onDismiss={onDismiss}
+      hasError={Boolean(swapErrorMessage)}
+      onRepeat={onRepeat}
       amount={amount}
       isOpen={isOpen}
-      onDismiss={onDismiss}
       attemptingTxn={attemptingTxn}
       hash={txHash}
       content={confirmationContent}

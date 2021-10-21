@@ -90,7 +90,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
   const [deadline] = useUserDeadline() // custom from users settings
   const [allowedSlippage] = useUserSlippageTolerance() // custom from users
   const [txHash, setTxHash] = useState<string>('')
-  const [hasError, setError] = useState(null)
+  const [hasError, setError] = useState(false)
   // const { t } = useTranslation()
 
   // get formatted amounts
@@ -208,46 +208,37 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
       ]
       value = null
     }
-
     const gasPrice = await calculateGasPrice(router.provider)
-    // args[1] = '98756854102'
-    // args[2] = '0'
-    // args[3] = '0'
-
-    setAttemptingTxn(true)
-    await estimate(...args, value ? { value } : {})
-      .then((estimatedGasLimit) => {
-        method(...args, {
-          ...(value ? { value } : {}),
-          gasLimit: calculateGasMargin(estimatedGasLimit),
-          gasPrice,
-        }).then(async (response) => {
-          GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
-          addTransaction(response, {
-            summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
-              currencies[Field.CURRENCY_A]?.symbol
-            } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
-          })
-
-          setTxHash(response.hash)
-
-          await response.wait()
-          setAttemptingTxn(false)
-        })
+    try {
+      setAttemptingTxn(true)
+      const estimatedGasLimit = await estimate(...args, value ? { value } : {})
+      const response = await method(...args, {
+        ...(value ? { value } : {}),
+        gasLimit: calculateGasMargin(estimatedGasLimit),
+        gasPrice,
       })
-      .catch((e) => {
-        const isLowPrice = e?.data?.message === 'execution reverted: ds-math-sub-underflow'
-        if (isLowPrice) {
-          setError(e)
-        }
-        setAttemptingTxn(false)
-        console.error('-----Error when adding liqudity-----', e)
-
-        // we only care if the error is something _other_ than the user rejected the tx
-        if (e?.code !== 4001) {
-          console.error(e)
-        }
+      GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
+      addTransaction(response, {
+        summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+          currencies[Field.CURRENCY_A]?.symbol
+        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
       })
+      setTxHash(response.hash)
+      await response.wait()
+    } catch (e) {
+      const isLowPrice = e?.data?.message === 'execution reverted: ds-math-sub-underflow'
+      if (isLowPrice) {
+        setError(true)
+      }
+      console.error('-----Error when adding liqudity-----', e)
+      // we only care if the error is something _other_ than the user rejected the tx
+      if (e?.code !== 4001) {
+        console.error(e)
+      }
+      setError(true)
+    } finally {
+      setAttemptingTxn(false)
+    }
   }
 
   const pendingText = `Supplying ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])} ${
@@ -290,6 +281,7 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
 
   const handleDismissConfirmation = useCallback(() => {
     setShowConfirm(false)
+    setError(false)
     // if there was a tx hash, we want to clear the input
     if (txHash) {
       onFieldAInput('')
@@ -297,13 +289,17 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
     setTxHash('')
   }, [onFieldAInput, txHash])
 
+  const onRepeat = () => {
+    handleDismissConfirmation()
+    setShowConfirm(true)
+  }
+
   const modalContent = useMemo(() => {
     return (
       <AddLiqudityModalContent
         noLiquidity={noLiquidity}
         handleDismissConfirmation={() => {
           handleDismissConfirmation()
-          setError(null)
         }}
         currencies={currencies}
         liquidityMinted={liquidityMinted}
@@ -311,7 +307,6 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
         price={price}
         parsedAmounts={parsedAmounts}
         onAdd={onAdd}
-        hasError={hasError}
         poolTokenPercentage={poolTokenPercentage}
       />
     )
@@ -335,12 +330,11 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
         <AddRemoveTabs adding />
         <Wrapper>
           <TransactionConfirmationModal
+            hasError={hasError}
+            onRepeat={onRepeat}
             amount={amount}
             isOpen={showConfirm}
-            onDismiss={() => {
-              handleDismissConfirmation()
-              setError(null)
-            }}
+            onDismiss={handleDismissConfirmation}
             attemptingTxn={attemptingTxn}
             hash={txHash}
             content={modalContent}
