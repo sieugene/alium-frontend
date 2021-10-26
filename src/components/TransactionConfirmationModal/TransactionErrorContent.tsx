@@ -1,9 +1,8 @@
 import TransferError from 'components/Modal/transaction/TransferError'
-import { useContext } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import styled from 'styled-components'
 
 interface TransactionErrorContentProps {
-  message: string
+  isExchange?: boolean
   onDismiss: () => void
   onRepeat: () => void
 }
@@ -13,9 +12,8 @@ const StyledTransferError = styled(TransferError)`
   min-height: 363px;
 `
 
-const TransactionErrorContent = ({ message, onDismiss, onRepeat }: TransactionErrorContentProps) => {
-  const theme = useContext(ThemeContext)
-  return <StyledTransferError onRepeat={onRepeat} onClose={onDismiss} withoutWrapper />
+const TransactionErrorContent = ({ isExchange, onDismiss, onRepeat }: TransactionErrorContentProps) => {
+  return <StyledTransferError onRepeat={onRepeat} onClose={onDismiss} withoutWrapper isExchange={isExchange} />
 }
 
 export default TransactionErrorContent

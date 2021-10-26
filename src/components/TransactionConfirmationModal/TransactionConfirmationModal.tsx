@@ -39,7 +39,7 @@ const TransactionConfirmationModal = ({
   return (
     <SwapModal isOpen={isOpen} onDismiss={onDismiss}>
       {hasError ? (
-        <TransactionErrorContent onRepeat={onRepeat} message='' onDismiss={onDismiss} />
+        <TransactionErrorContent onRepeat={onRepeat} onDismiss={onDismiss} isExchange />
       ) : attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (

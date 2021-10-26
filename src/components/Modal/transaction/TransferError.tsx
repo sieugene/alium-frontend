@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { CloseItem, TransactionIndicateWrapper } from './TransactionModal'
 
 interface Props {
+  isExchange?: boolean
   children?: React.ReactNode
   onRepeat: () => void
   className?: string
@@ -16,7 +17,16 @@ interface Props {
   onClose?: () => void
 }
 
-const TransferError: FC<Props> = ({ onRepeat, className, style, withoutWrapper, withoutHeader, onClose, children }) => {
+const TransferError: FC<Props> = ({
+  isExchange,
+  onRepeat,
+  className,
+  style,
+  withoutWrapper,
+  withoutHeader,
+  onClose,
+  children,
+}) => {
   const Wrapper = withoutWrapper ? Div : TransactionIndicateWrapper
   const { t } = useTranslation()
 
@@ -37,6 +47,7 @@ const TransferError: FC<Props> = ({ onRepeat, className, style, withoutWrapper, 
         ) : (
           <>
             <h2>{t('Transaction failed')}</h2>
+            {!isExchange && <h3>{t("Your wallet doesn't have enough ALM to buy a ticket")}</h3>}
           </>
         )}
         <Button onClick={onRepeat}>{t('Repeat')}</Button>
