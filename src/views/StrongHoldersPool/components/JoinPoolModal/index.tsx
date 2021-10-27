@@ -67,14 +67,9 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
       approve && !approveLoading && hasAmount && !isInsufficientFunds && needApprove
         ? async () => {
             try {
-              await approve(amountWei)
+              await approve()
               await mutateRewardTokenAllowance()
-              toastSuccess(
-                t('{{amount}} {{rewardTokenSymbol}} approved', {
-                  amount: formatBigNumber(amountEther),
-                  rewardTokenSymbol,
-                }),
-              )
+              toastSuccess(t('Approved'))
             } catch (error) {
               console.error(error)
               toastError(error.data?.message || error.message)
@@ -82,15 +77,12 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
           }
         : undefined,
     [
-      amountEther,
-      amountWei,
       approve,
       approveLoading,
       hasAmount,
       isInsufficientFunds,
       mutateRewardTokenAllowance,
       needApprove,
-      rewardTokenSymbol,
       t,
       toastError,
       toastSuccess,

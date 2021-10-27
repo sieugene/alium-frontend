@@ -118,10 +118,10 @@ export function useApprove() {
   const approve = useMemo(
     () =>
       rewardTokenContract &&
-      (async (wei: BigNumber) => {
+      (async () => {
         try {
           setLoading(true)
-          const tx = await rewardTokenContract.approve(getShpAddress(), wei.toString())
+          const tx = await rewardTokenContract.approve(getShpAddress(), ethers.constants.MaxUint256)
           await tx.wait()
         } finally {
           setLoading(false)
