@@ -25,7 +25,11 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
   const [initClaimed, setInitClaimed] = useState<string>('')
 
   useEffect(() => {
-    if (isLoading === true) setIsLoadingLocal(true)
+    if (isLoading === true) {
+      setIsLoadingLocal(true)
+    } else {
+      setIsLoadingLocal(false)
+    }
   }, [isLoading])
 
   useEffect(() => {

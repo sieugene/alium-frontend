@@ -105,9 +105,11 @@ const InvestorsAccount = () => {
             setTxHash(tx)
             setTxOpen(true)
           }
+          setIsTransactionLoading(false)
         })
         .catch((e) => {
           console.error(e.message || e)
+          setIsTransactionLoading(false)
         })
     },
     [onClaim],
