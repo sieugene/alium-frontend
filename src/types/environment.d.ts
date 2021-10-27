@@ -18,6 +18,7 @@ declare global {
       APP_NFT_VESTING: string
       APP_NFT_VESTING_TOTAL_VIA_TRANSIVER: string
       APP_INTERCOM_APP_ID: string | null
+      APP_BSCSCAN_API_KEY: string
     }
   }
 }
