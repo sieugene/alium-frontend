@@ -8,8 +8,6 @@ import { storeNetwork } from 'store/network/useStoreNetwork'
 import Web3 from 'web3'
 
 export const getConnectorsByName = (connectorID: ConnectorNames) => {
-  const POLLING_INTERVAL = 12000
-
   const chainId = storeNetwork.getState().currentChainId
   const networks = getNetworks()
   const supportedChainIds = [networks.find((network) => network.chainId === chainId)]?.map(
@@ -23,8 +21,8 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
     rpc: supportedRpcs,
     bridge: 'https://bridge.walletconnect.org',
     qrcode: true,
-    pollingInterval: POLLING_INTERVAL,
     supportedChainIds,
+    chainId,
   })
 
   const bscConnector = new BscConnector({ supportedChainIds })

@@ -1,6 +1,5 @@
 import { JSBI, Percent } from '@alium-official/sdk'
 
-export const NetworkContextName = 'NETWORK'
 
 // default allowed slippage, in bips
 export const INITIAL_ALLOWED_SLIPPAGE = 80
