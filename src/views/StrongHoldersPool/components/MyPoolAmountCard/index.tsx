@@ -28,7 +28,7 @@ export default function MyPoolAmountCard() {
           <Title>{t('My pool amount')}</Title>
           <MyPoolAmountCard.Check>
             <CheckIcon />
-            <Title>{t('You in the pool')}</Title>
+            <Title>{t('You are in the Pool')}</Title>
           </MyPoolAmountCard.Check>
         </MyPoolAmountCard.Title>
       }
