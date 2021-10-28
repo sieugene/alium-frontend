@@ -16,9 +16,28 @@ interface ClaimLoadProps {
   children: React.ReactNode
 }
 
+const ClaimLoadWrap: FC<ClaimLoadProps> = ({ loading, children }) => {
+  const loadingText = useStoreBridge((state) => state.transactionText)
+  const { t } = useTranslation()
+
+  return (
+    <>
+      {loading && (
+        <TransferLoader withoutHeader withoutWrapper>
+          <ClaimTokenStep.ClaimWrap>
+            <h2>{t('Claim pending...')}</h2>
+            <p>{loadingText || t('2 minutes left')}</p>
+          </ClaimTokenStep.ClaimWrap>
+        </TransferLoader>
+      )}
+      <ShadowComponent hide={loading}>{children}</ShadowComponent>
+    </>
+  )
+}
+
 const ClaimTokenStep = () => {
   const txHash = useStoreBridge((state) => state.txHash)
-  const [loading, setloading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const updateStepStatus = storeBridge.getState().updateStepStatus
   const changeStep = storeBridge.getState().changeStep
@@ -34,7 +53,7 @@ const ClaimTokenStep = () => {
   const { toastError } = useToast()
 
   const claimTokens = useCallback(async () => {
-    setloading(true)
+    setLoading(true)
     try {
       const tx = await claim(txHash, transactionMessage)
       await tx.wait()
@@ -49,7 +68,7 @@ const ClaimTokenStep = () => {
       }
       setError(true)
     } finally {
-      setloading(false)
+      setLoading(false)
     }
   }, [txHash, loading, claim, toggleNetworks, transactionMessage])
 
@@ -81,25 +100,6 @@ const ClaimTokenStep = () => {
         </Button>
       </ClaimTokenStep.Wrapper>
     </ClaimLoadWrap>
-  )
-}
-
-const ClaimLoadWrap: FC<ClaimLoadProps> = ({ loading, children }) => {
-  const loadingText = useStoreBridge((state) => state.transactionText)
-  const { t } = useTranslation()
-
-  return (
-    <>
-      {loading && (
-        <TransferLoader withoutHeader withoutWrapper>
-          <ClaimTokenStep.ClaimWrap>
-            <h2>{t('Claim pending...')}</h2>
-            <p>{loadingText || t('2 minutes left')}</p>
-          </ClaimTokenStep.ClaimWrap>
-        </TransferLoader>
-      )}
-      <ShadowComponent hide={loading}>{children}</ShadowComponent>
-    </>
   )
 }
 
