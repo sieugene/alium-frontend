@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
+import { typography } from 'ui'
 import { formatBigNumber } from 'views/StrongHoldersPool/utils'
 
 export interface FormattedValueProps {

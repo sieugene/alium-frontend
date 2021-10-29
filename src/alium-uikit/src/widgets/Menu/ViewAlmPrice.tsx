@@ -5,9 +5,9 @@ import { useTranslation } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
 import { fetchTokenPriceFromCoingecko } from 'services/coingecko'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import Cookies from 'universal-cookie'
 import { getAlmPrice } from 'utils/prices/getAlmPrice'
-import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
 import { getCookieOptions } from '../../config/getCookieOptions'
 import { IconTokenAlm } from './icons/IconTokenAlm'
 
@@ -76,11 +76,11 @@ const Styled = styled.div<{ ispushed: boolean; inPanel: boolean }>`
   align-items: center;
   transition: all 200ms ease-out;
 
-  @media ${up(breakpoints.sm)} {
+  @media ${mq.up(breakpoints.sm)} {
     display: ${({ inPanel }) => (inPanel ? 'none' : 'flex')};
   }
 
-  @media ${down(breakpoints.md)} {
+  @media ${mq.down(breakpoints.md)} {
     margin-left: ${({ inPanel }) => (inPanel ? '22px' : '24px')};
   }
 `
@@ -95,12 +95,12 @@ const IconWrapper = styled.div<{ inPanel: boolean }>`
   height: 32px;
   margin-right: 8px;
 
-  @media ${up(breakpoints.sm)} {
+  @media ${mq.up(breakpoints.sm)} {
     width: 40px;
     height: 40px;
   }
 
-  @media ${down(breakpoints.md)} {
+  @media ${mq.down(breakpoints.md)} {
     display: ${({ inPanel }) => !inPanel && 'none'};
   }
 `
@@ -115,7 +115,7 @@ const TextWrapper = styled.div<{ inPanel: boolean }>`
   letter-spacing: 0.3px;
   color: #0b1359;
 
-  @media ${up(breakpoints.sm)} {
+  @media ${mq.up(breakpoints.sm)} {
     font-size: 14px;
     line-height: 20px;
     width: auto;
@@ -129,7 +129,7 @@ const Text = styled.div`
   letter-spacing: 0.3px;
   color: #0b1359;
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     font-size: 14px;
     line-height: 20px;
     width: auto;

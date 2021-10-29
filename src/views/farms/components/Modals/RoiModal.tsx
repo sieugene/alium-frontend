@@ -3,19 +3,19 @@ import React, { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { getExplorerLink } from 'utils'
 import {
   calculateAlmEarnedPerDollars,
   calculateApyModalRoiByEarnedDates,
   formatRoiValuesView,
 } from 'utils/farm/compoundApyHelpers'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { InfoAPRProps, useFarmLpAddress } from '../Info'
 
 const Wrapper = styled.div`
   width: 486px;
   height: auto;
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     width: auto;
     max-width: 360px;
   }

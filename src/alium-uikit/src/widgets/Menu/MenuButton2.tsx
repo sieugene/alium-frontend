@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { breakpoints, up } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 
 export const MenuButton2 = styled.div`
   cursor: pointer;
@@ -13,13 +13,13 @@ export const MenuButton2 = styled.div`
   width: 40px;
   height: 40px;
 
-  @media ${up(breakpoints.sm)} {
+  @media ${mq.up(breakpoints.sm)} {
     padding: 0 8px;
     width: 48px;
     height: 48px;
   }
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     display: none;
   }
 `

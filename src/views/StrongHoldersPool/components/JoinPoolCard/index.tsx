@@ -3,6 +3,7 @@ import { Button, ChevronRightIcon, Skeleton, useModal } from 'alium-uikit/src'
 import { StyledInternalLink } from 'components/Shared'
 import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
+import { breakpoints, Card, mq, typography } from 'ui'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
   useCurrentPoolId,
@@ -11,10 +12,7 @@ import {
   usePoolUsers,
   useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
-import { typography } from 'views/StrongHoldersPool/mixins'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import BonusNft from '../BonusNft'
-import Card from '../Card'
 import FormattedValue from '../FormattedValue'
 import JoinPoolModal from '../JoinPoolModal'
 import Title from '../Title'
@@ -89,7 +87,7 @@ JoinPoolCard.Field = styled.div`
 JoinPoolCard.Amount = styled(FormattedValue)`
   ${typography.h3}
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${typography.h4}
   }
 `
@@ -113,7 +111,7 @@ JoinPoolCard.Root = styled(Card)`
   display: flex;
   flex-direction: column;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${JoinPoolCard.Content} {
       flex-direction: column-reverse;
       align-items: center;

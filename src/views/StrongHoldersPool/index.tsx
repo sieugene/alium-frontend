@@ -3,11 +3,11 @@ import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import AvailableAccount from 'views/InvestorsAccount/components/AvailableAccount'
 import Header from './components/Header'
 import NestedNew from './components/NestedNew'
 import NestedYour from './components/NestedYour'
-import { breakpoints, down } from './mq'
 
 export default function StrongHoldersPool() {
   const { t } = useTranslation()
@@ -30,11 +30,11 @@ StrongHoldersPool.Root = styled.div`
   min-height: calc(100vh - ${MENU_HEIGHT}px);
   position: relative;
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     padding: 16px 24px;
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     padding: 32px 10px;
   }
 `

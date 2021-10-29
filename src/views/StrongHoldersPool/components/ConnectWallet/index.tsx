@@ -2,9 +2,7 @@ import { Button, useWalletModal } from 'alium-uikit/src'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
-import Card from '../Card'
+import { breakpoints, Card, mq, typography } from 'ui'
 import { ReactComponent as PlusIcon } from './plus.svg'
 import { ReactComponent as WalletIcon } from './wallet.svg'
 
@@ -46,7 +44,7 @@ ConnectWallet.Root = styled(Card)`
   justify-content: center;
   min-height: 438px;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     min-height: 320px;
 
     ${ConnectWallet.Text} {

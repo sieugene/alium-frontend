@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import DetailsSection from '../DetailsSection'
 import { EarnsFarm, InfoApr, InfoEarn, InfoRow, InfoTitle, InfoValue, useInfoEarned, useInfoStaked } from '../Info'
 import CardHeading from './CardHeading'
@@ -13,7 +13,7 @@ const StyledCard = styled.div`
   border-radius: 6px;
   padding: 4px 4px 24px 4px;
   position: relative;
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     width: 100%;
   }
 `

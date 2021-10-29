@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 import { MENU_HEIGHT, SIDEBAR_WIDTH_FULL, SIDEBAR_WIDTH_REDUCED } from './config'
 import PanelBody from './PanelBody'
 import PanelFooter from './PanelFooter'
@@ -29,7 +29,7 @@ const StyledPanel = styled.div<{ ispushed: boolean }>`
   right: 0;
   width: ${({ ispushed }) => (ispushed ? `315px` : 0)};
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     border-right: 2px solid rgba(133, 133, 133, 0.1);
     width: ${({ ispushed }) => `${ispushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px`};
     top: 0;
@@ -38,7 +38,7 @@ const StyledPanel = styled.div<{ ispushed: boolean }>`
     height: 100vh;
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     width: ${({ ispushed }) => `${ispushed ? '100vw' : '0px'}`};
   }
 `

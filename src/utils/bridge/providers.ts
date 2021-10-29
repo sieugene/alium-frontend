@@ -76,5 +76,3 @@ export const getEthersProvider = async (chainId: number): Promise<StaticJsonRpcP
 
 export const isEIP1193 = (ethersProvider: StaticJsonRpcProvider) =>
   ethersProvider?.connection?.url?.includes('eip-1193')
-
-  

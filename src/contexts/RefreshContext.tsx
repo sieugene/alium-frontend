@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react'
 
 const FAST_INTERVAL = 10000
 const SLOW_INTERVAL = 60000

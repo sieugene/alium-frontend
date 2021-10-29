@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import styled from 'styled-components'
+import { typography } from 'ui'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
   useParticipantNumber,
@@ -14,7 +15,6 @@ import {
   usePoolWithdrawals,
   useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
-import { typography } from 'views/StrongHoldersPool/mixins'
 import { Withdrawn } from 'views/StrongHoldersPool/types'
 import { formatAddress, formatBigNumber, isUserPaid } from 'views/StrongHoldersPool/utils'
 import PoolDetailsInfo from '../PoolDetailsInfo'

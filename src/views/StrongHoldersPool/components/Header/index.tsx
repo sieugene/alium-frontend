@@ -5,8 +5,7 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq, typography } from 'ui'
 
 export default function Header() {
   const { t } = useTranslation()
@@ -89,7 +88,7 @@ Header.Root = styled.div`
   display: flex;
   align-items: center;
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     ${Header.Title} {
       ${typography.h3}
     }
@@ -103,7 +102,7 @@ Header.Root = styled.div`
     }
   }
 
-  @media ${down(breakpoints.md)} {
+  @media ${mq.down(breakpoints.md)} {
     ${Header.Title} {
       ${typography.h5}
       margin-bottom: 24px;
@@ -114,7 +113,7 @@ Header.Root = styled.div`
     }
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${Header.Tab} {
       min-width: auto;
       flex: 1;

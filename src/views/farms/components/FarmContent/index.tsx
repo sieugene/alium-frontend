@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import { farmBgForNthChild, farmCardsBg } from 'views/farms/helpers/farms.styles'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import FarmCard from '../FarmCard'
 import FarmRow from '../FarmRow'
 
@@ -76,16 +76,16 @@ FarmContent.Grid = styled.div`
   grid-template-columns: repeat(4, 378px);
   justify-content: center;
 
-  @media ${down(breakpoints.xl)} {
+  @media ${mq.down(breakpoints.xl)} {
     grid-template-columns: repeat(3, 354px);
   }
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     gap: 24px 16px;
     grid-template-columns: repeat(2, 354px);
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     gap: 16px;
     grid-template-columns: repeat(1, 354px);
   }

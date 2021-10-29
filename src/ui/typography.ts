@@ -4,8 +4,8 @@ import { css } from 'styled-components'
 
 export const h1 = css`
   font-weight: bold;
-  font-size: 32px;
-  line-height: 40px;
+  font-size: 64px;
+  line-height: 72px;
   letter-spacing: 0.3px;
 `
 
@@ -59,6 +59,12 @@ export const big = {
     line-height: 30px;
     letter-spacing: 0.3px;
   `,
+  regular: css`
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 0.3px;
+  `,
 }
 
 export const large = {
@@ -77,11 +83,23 @@ export const regular = {
     line-height: 24px;
     letter-spacing: 0.3px;
   `,
+  regular: css`
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0.3px;
+  `,
 }
 
 export const small = {
   medium: css`
     font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.3px;
+  `,
+  regular: css`
+    font-weight: normal;
     font-size: 16px;
     line-height: 22px;
     letter-spacing: 0.3px;
@@ -106,6 +124,12 @@ export const ultrasmall = {
 export const tiny = {
   medium: css`
     font-weight: 500;
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.3px;
+  `,
+  regular: css`
+    font-weight: normal;
     font-size: 11px;
     line-height: 14px;
     letter-spacing: 0.3px;

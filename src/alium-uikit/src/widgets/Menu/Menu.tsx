@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 import Overlay from '../../components/Overlay/Overlay'
 import { BurgerIcon, CloseIcon } from '../../components/Svg'
 import LogoD from './assets/LogoD.svg'
@@ -121,17 +121,17 @@ const SNav = styled.nav<{ showNav: boolean; ispushed: boolean }>`
   transform: translate3d(0, 0, 0);
   background-color: #f4f5fa;
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     left: ${({ ispushed }) => `${ispushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px`};
     max-width: ${({ ispushed }) => `calc(100% - ${ispushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px)`};
   }
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     padding-right: 24px;
     padding-left: 24px;
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     padding-right: 10px;
     padding-left: 11px;
   }
@@ -146,11 +146,11 @@ const SLeftPartNav = styled.div`
 const SLogoD = styled.div`
   display: none;
 
-  @media ${down(breakpoints.md)} {
+  @media ${mq.down(breakpoints.md)} {
     display: initial;
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     display: none;
   }
 `
@@ -158,7 +158,7 @@ const SLogoD = styled.div`
 const SLogoM = styled.div`
   display: none;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     display: initial;
   }
 `
@@ -177,7 +177,7 @@ const SInner = styled.div<{ ispushed: boolean }>`
   transform: translate3d(0, 0, 0);
   max-width: 100%;
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     margin-left: ${({ ispushed }) => `${ispushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px`};
     max-width: ${({ ispushed }) => `calc(100% - ${ispushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px)`};
   }
@@ -190,7 +190,7 @@ const SMobileOnlyOverlay = styled(Overlay)`
   height: 100%;
   display: none;
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     display: none;
   }
 `

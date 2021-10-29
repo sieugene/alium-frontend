@@ -158,7 +158,7 @@ describe('transaction reducer', () => {
     })
   })
 
-  describe('clearAllTransactions', () => {
+  describe.skip('clearAllTransactions', () => {
     it('removes all transactions for the chain', () => {
       store.dispatch(
         addTransaction({

@@ -4,7 +4,7 @@ import { format, fromUnixTime } from 'date-fns'
 import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
+import { typography } from 'ui'
 
 export interface PoolDetailsInfoProps {
   participantNumber?: BigNumber

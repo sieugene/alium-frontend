@@ -24,6 +24,6 @@
       "node_modules/@types"
     ]
   },
-  "include": ["custom-next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "next-env.d.ts", "src/**/*.stories.tsx", "src/__tests__/**/*"]
+  "include": ["custom-next-env.d.ts", "src"],
+  "exclude": ["node_modules", "next-env.d.ts", "src/**/*.stories.tsx"]
 }

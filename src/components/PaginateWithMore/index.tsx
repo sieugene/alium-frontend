@@ -2,7 +2,7 @@ import { Button, RotateIcon } from 'alium-uikit/src'
 import Paginate, { PaginateProps } from 'components/Pagination'
 import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 
 export type PaginateWithMoreProps = PaginateProps
 
@@ -44,11 +44,11 @@ PaginateWithMore.Root = styled.div`
     width: auto;
   }
 
-  @media ${down(breakpoints.md)} {
+  @media ${mq.down(breakpoints.md)} {
     margin-top: 24px;
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     flex-direction: column;
     align-items: stretch;
     margin-top: 16px;

@@ -74,7 +74,9 @@ const useWalletModal = (
       explorerName={explorerName}
       explorerLink={explorerLink}
       tokenSymbol={chainIdData[currentChainId]?.tokenSymbol ?? t('Undefined Token')}
-      networkName={chainIdData[currentChainId]?.networkName ?? t('Undefined Chain (ID: {{currentChainId}})', { currentChainId })}
+      networkName={
+        chainIdData[currentChainId]?.networkName ?? t('Undefined Chain (ID: {{currentChainId}})', { currentChainId })
+      }
       onTransactionHistoryHandler={onTransactionHistoryHandler}
     />,
   )

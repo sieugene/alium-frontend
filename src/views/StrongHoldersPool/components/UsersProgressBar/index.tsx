@@ -3,8 +3,7 @@ import { rgba } from 'polished'
 import { Fragment, useMemo } from 'react'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq, typography } from 'ui'
 
 function toRadians(degrees: number) {
   return degrees * (Math.PI / 180)
@@ -25,8 +24,8 @@ export interface UsersProgressBarProps {
 
 export default function UsersProgressBar({ current, all }: UsersProgressBarProps) {
   const { t } = useTranslation()
-  const isNotLg = useMedia(down(breakpoints.lg))
-  const isNotSm = useMedia(down(breakpoints.sm))
+  const isNotLg = useMedia(mq.down(breakpoints.lg))
+  const isNotSm = useMedia(mq.down(breakpoints.sm))
   const outerPadding = isNotSm ? 0 : 15
   const innerRadius = useMemo(() => {
     switch (true) {

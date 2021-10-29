@@ -1,5 +1,5 @@
 import { dark, light } from 'alium-uikit/src'
-import { createContext, useState } from 'react';
+import { createContext, useState } from 'react'
 import { ThemeProvider as SCThemeProvider } from 'styled-components'
 
 const CACHE_KEY = 'IS_DARK'

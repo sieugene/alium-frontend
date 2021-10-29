@@ -56,7 +56,9 @@ export const Step2YourLiquidity: FC<props> = ({
     <Root>
       <header>
         <div className='title'>{t('Your Liquidity')}</div>
-        <div className='title2'>{t('Click on a pool below, input the amount you wish to migrate or select max, and click migrate')}</div>
+        <div className='title2'>
+          {t('Click on a pool below, input the amount you wish to migrate or select max, and click migrate')}
+        </div>
       </header>
       <main>
         <div
@@ -175,7 +177,9 @@ export const Step2YourLiquidity: FC<props> = ({
             <div className={`button false  `}>{t('Migrate')}</div>
           )}
           {selectedPairKey !== -1 && (
-            <div className='title2'>{t('You {{exchange}} {{title}} liquidity will become AliumSwap {{title}} liquidity', { exchange, title })}</div>
+            <div className='title2'>
+              {t('You {{exchange}} {{title}} liquidity will become AliumSwap {{title}} liquidity', { exchange, title })}
+            </div>
           )}
         </div>
       </main>

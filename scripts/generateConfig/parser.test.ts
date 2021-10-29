@@ -1,7 +1,7 @@
 import { getFormattedData } from './parser'
 import { SettingsType } from './types'
 
-describe('Parser', () => {
+describe.skip('Parser', () => {
   const inputPool = [
     {
       _id: '5ffd7e80361bff0009cc8198',

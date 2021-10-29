@@ -46,7 +46,11 @@ const BridgeApproveBtn: FC<ApproveProps> = ({ amount, balance, unlockLoading, bu
             isRevertedError(error) ||
             (error.data && (error.data.includes('Bad instruction fe') || error.data.includes('Reverted')))
           ) {
-            toastError(t('There is problem with the token unlock. Try to revoke previous approval if any on https://revoke.cash/'))
+            toastError(
+              t(
+                'There is problem with the token unlock. Try to revoke previous approval if any on https://revoke.cash/',
+              ),
+            )
           } else {
             logError(error)
           }

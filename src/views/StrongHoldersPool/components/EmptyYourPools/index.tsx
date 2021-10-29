@@ -1,8 +1,7 @@
 import { Card } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq, typography } from 'ui'
 import { ReactComponent as Icon } from './icon.svg'
 
 export default function EmptyYourPools() {
@@ -30,7 +29,7 @@ EmptyYourPools.Root = styled(Card)`
   justify-content: center;
   min-height: 366px;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     min-height: 248px;
 
     ${EmptyYourPools.Text} {

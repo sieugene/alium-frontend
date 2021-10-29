@@ -5,18 +5,18 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { useFarmTicket } from 'views/farms/hooks/useFarmTicket'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { FarmContentXLGap } from '../FarmContent'
 import { BuyTicketBtn } from './BuyTicketBtn'
 
 // TODO: use mq.breakpoints???
 const External_breakpoints = {
-  XL: down(breakpoints.xl - FarmContentXLGap),
-  MID_LG: down(breakpoints.lg - 20),
-  PRE_LG: down(breakpoints.lg - 100),
-  MD: down(breakpoints.md),
-  SM: down(breakpoints.sm - 80),
+  XL: mq.down(breakpoints.xl - FarmContentXLGap),
+  MID_LG: mq.down(breakpoints.lg - 20),
+  PRE_LG: mq.down(breakpoints.lg - 100),
+  MD: mq.down(breakpoints.md),
+  SM: mq.down(breakpoints.sm - 80),
 }
 
 const FlexCenter = styled.div`

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react'
 import { ErrorConnect } from '../../widgets/Toast'
 import Toast from '../../widgets/Toast/Toast'
 import { ErrorNetworkConnection, ToastProps } from '../../widgets/Toast/types'

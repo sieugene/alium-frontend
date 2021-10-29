@@ -13,6 +13,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { getExplorerLink } from 'utils'
 import { getAddress } from 'utils/addressHelpers'
 import { getBalanceAmount, getBalanceNumber } from 'utils/formatBalance'
@@ -23,7 +24,6 @@ import { useFarmsLoading, useLpTokenPrice, usePriceAlmBusd } from 'views/farms/h
 import useHarvestFarm from 'views/farms/hooks/useHarvestFarm'
 import useStakeFarms from 'views/farms/hooks/useStakeFarms'
 import useUnstakeFarms from 'views/farms/hooks/useUnstakeFarms'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import RoiModal from '../Modals/RoiModal'
 import WithdrawModal from '../Modals/WithdrawModal'
 import { BuyTicketBtn } from '../TicketBanner/BuyTicketBtn'
@@ -110,7 +110,7 @@ const StakeCounter = styled(IconButton)<{ viewMode: ViewMode }>`
     }
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${({ viewMode }) =>
       viewMode === ViewMode.TABLE &&
       `
@@ -153,7 +153,11 @@ export function InfoApr({ farm, almPrice }: InfoAPRProps) {
     <>
       <InfoTitle>
         {t('APR')}
-        <InfoApr.Question text={t('Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.')} />
+        <InfoApr.Question
+          text={t(
+            'Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
+          )}
+        />
       </InfoTitle>
       <InfoValue>
         <AprItem>
@@ -241,7 +245,10 @@ export function useInfoEarned(farm: FarmWithStakedValue) {
             await onReward()
             toastSuccess(`${t('Harvested')}!`, t('Your ALM earnings have been sent to your wallet!'))
           } catch (e) {
-            toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+            toastError(
+              t('Error'),
+              t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
+            )
             console.error(e)
           } finally {
             setPendingTx(false)

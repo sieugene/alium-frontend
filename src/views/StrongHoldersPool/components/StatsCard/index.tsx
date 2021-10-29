@@ -1,8 +1,6 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
-import Card from '../Card'
+import { breakpoints, Card, mq, typography } from 'ui'
 import FormattedValue from '../FormattedValue'
 
 export interface StatsCardProps {
@@ -51,7 +49,7 @@ StatsCard.Root = styled(Card)`
     margin-top: 16px;
   }
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     ${StatsCard.Value} {
       ${typography.large.medium}
     }
@@ -61,7 +59,7 @@ StatsCard.Root = styled(Card)`
     }
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     flex-direction: row;
     padding: 16px;
     justify-content: space-between;

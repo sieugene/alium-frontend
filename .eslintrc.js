@@ -13,13 +13,14 @@ module.exports = {
     node: true,
     commonjs: true,
     es6: true,
+    'jest/globals': true,
   },
   settings: {
     react: {
       version: '17.0.2',
     },
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jest'],
   rules: {
     'max-params': 0, // temp
     'max-nested-callbacks': 0, // temp

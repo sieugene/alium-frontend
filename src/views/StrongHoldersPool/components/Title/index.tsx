@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
+import { typography } from 'ui'
 
 const Title = styled.div`
   ${typography.miniheader}

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -18,11 +18,11 @@ const BodyWrapper = styled.div`
   min-height: 100vh;
   padding: 32px 33px 210px 29px;
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     padding: 24px 24px 210px 24px;
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     padding: 16px ​10px 210px 10px;
   }
 `

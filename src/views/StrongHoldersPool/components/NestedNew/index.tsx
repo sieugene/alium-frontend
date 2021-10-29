@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 import JoinPoolCard from '../JoinPoolCard'
 import LockedInPoolsCard from '../LockedInPoolsCard'
 import MyPoolAmountCard from '../MyPoolAmountCard'
@@ -40,7 +40,7 @@ NestedNew.Root = styled.div`
     flex: 1;
   }
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     flex-direction: column-reverse;
     align-items: stretch;
 
@@ -57,7 +57,7 @@ NestedNew.Root = styled.div`
     }
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     padding-top: 16px;
 
     ${NestedNew.Stats} {

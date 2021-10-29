@@ -1,6 +1,6 @@
 import { useBridgeContext } from 'contexts/BridgeContext'
-import { combineRequestsWithExecutions, getExecutions, getRequests } from 'utils/bridge/history'
 import { useEffect, useState } from 'react'
+import { combineRequestsWithExecutions, getExecutions, getRequests } from 'utils/bridge/history'
 import { useBridgeDirection } from './useBridgeDirection'
 import { useWeb3Context } from './useWeb3Context'
 

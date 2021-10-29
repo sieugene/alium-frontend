@@ -1,9 +1,5 @@
 const backgroundImage = '/images/trade-background.svg'
 import styled from 'styled-components'
-import ApplicationUpdater from '../../state/application/updater'
-import ListsUpdater from '../../state/lists/updater'
-import MulticallUpdater from '../../state/multicall/updater'
-import TransactionUpdater from '../../state/transactions/updater'
 
 const AppWrapper = styled.div`
   display: flex;

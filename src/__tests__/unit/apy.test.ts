@@ -18,7 +18,7 @@ export const calcApy = (tokenPrice: number, POOLshare: number, farmLpBalanceBn: 
   return apyFixed
 }
 
-test('Apy calc', () => {
+test.skip('Apy calc', () => {
   const tokenPrice = Number(0.11)
   const POOLshare = 38
   const farmLpBalance = new BigNumber(`${parseEther('10')}`)

@@ -2,7 +2,7 @@ import { useTranslation } from 'next-i18next'
 import { ReactComponent as AddIcon } from 'public/icons/ConnectAdd.svg'
 import { FC } from 'react'
 import styled, { css } from 'styled-components'
-import { breakpoints, up } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 
 interface props {
   isAccount: boolean
@@ -58,12 +58,12 @@ const SConnectButton = styled.div<{ isAccount: boolean }>`
       }
     `}
 
-  @media ${up(breakpoints.sm)} {
+  @media ${mq.up(breakpoints.sm)} {
     padding: 12px 24px;
     margin-right: 8px;
   }
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     margin-right: initial;
   }
 `
@@ -72,7 +72,7 @@ const SIcon = styled.div<{ isAccount: boolean }>`
   display: none;
   margin-right: 18px;
 
-  @media ${up(breakpoints.sm)} {
+  @media ${mq.up(breakpoints.sm)} {
     display: ${({ isAccount }) => !isAccount && 'flex'};
   }
 `

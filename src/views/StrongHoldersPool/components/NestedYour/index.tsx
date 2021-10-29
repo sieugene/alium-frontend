@@ -4,8 +4,8 @@ import PaginateWithMore from 'components/PaginateWithMore'
 import { usePaginate } from 'components/Pagination/hooks/usePaginate'
 import times from 'lodash/times'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { useYourPools } from 'views/StrongHoldersPool/hooks'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import ConnectWallet from '../ConnectWallet'
 import EmptyYourPools from '../EmptyYourPools'
 import YourPoolCard from '../YourPoolCard'
@@ -56,13 +56,13 @@ NestedYour.Pools = styled.div`
 `
 
 NestedYour.Root = styled.div`
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     ${NestedYour.Pools} {
       gap: 16px;
     }
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     padding-top: 24px;
 
     ${NestedYour.Pools} {

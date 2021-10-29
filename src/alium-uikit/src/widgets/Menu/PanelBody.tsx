@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { FC, Fragment } from 'react'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
-import { breakpoints, down, up } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 import { SvgProps } from '../../components/Svg'
 import Accordion from './Accordion'
 import * as IconModule from './icons'
@@ -65,7 +65,7 @@ const StyledIcon = styled.div`
 const StyledLinksPanel = styled.div`
   padding: 18px;
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     padding-top: 33px;
     padding-left: 17px;
     padding-right: 17px;
@@ -94,7 +94,7 @@ const StyledLinksPanel = styled.div`
 const StyledLogoIcon = styled.div`
   display: none;
 
-  @media ${up(breakpoints.md)} {
+  @media ${mq.up(breakpoints.md)} {
     display: block;
   }
 `
@@ -136,7 +136,7 @@ const LinkLabelStyled = styled(LinkLabel)<{ ispushed: boolean }>`
 
 const PanelBody: FC<Props> = ({ ispushed, pushNav, links, togglePush, isDark }) => {
   const location = useRouter()
-  const isMobile = useMedia(down(breakpoints.sm))
+  const isMobile = useMedia(mq.down(breakpoints.sm))
 
   // Close the menu when a user clicks a link on mobile
   const handleClick = isMobile ? () => pushNav(false) : undefined

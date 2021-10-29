@@ -1,5 +1,5 @@
 import { Flex } from 'alium-uikit/src'
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { PoolsTypes } from '../../constants/pools'
 const card1One = '/images/collection/Card-01.png'

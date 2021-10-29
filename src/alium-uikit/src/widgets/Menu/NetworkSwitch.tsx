@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
 import { getNetworks } from '../WalletModal/config'
 import { FailureNetwork } from '../WalletModal/icons/FailureNetwork'
@@ -121,11 +121,11 @@ const StyledDropDown = styled.div<{ hasError: boolean }>`
     }
   }
 
-  @media ${down(breakpoints.md)} {
+  @media ${mq.down(breakpoints.md)} {
     margin-right: 8px;
   }
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     margin-right: 6px;
     width: 40px;
     height: 40px;
@@ -147,7 +147,7 @@ const StyledDropDownMessage = styled.p`
   letter-spacing: 0.3px;
   color: #ffffff;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     display: none;
   }
 `
@@ -160,7 +160,7 @@ const StyledSelectedOption = styled.p`
   color: #6c5dd3;
   font-size: 14px;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     display: none;
   }
 `
@@ -176,7 +176,7 @@ const StyledSelectedOptionError = styled.p`
   font-weight: 500;
   line-height: 20px;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     display: none;
   }
 `
@@ -190,7 +190,7 @@ const StyledOptionsContainer = styled.div`
   padding: 2px;
   box-shadow: 0 6px 12px rgba(185, 189, 208, 0.4);
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     position: absolute;
     left: 0;
     width: 180px;
@@ -216,7 +216,7 @@ const StyledIconContainer = styled.div`
   top: 12px;
   left: 14px;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     margin: auto;
     position: initial;
     width: 24px;

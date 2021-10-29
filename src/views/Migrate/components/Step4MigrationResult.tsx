@@ -55,7 +55,10 @@ export const Step4MigrationResult: FC<props> = ({
         <>
           <IconSuccessful />
           <div className='title'>
-            {t('Migrate {{pairExchange}} {{pairTitle}} liquidity to AliumSwap', { pairExchange: pair.exchange, pairTitle: pair.title })}
+            {t('Migrate {{pairExchange}} {{pairTitle}} liquidity to AliumSwap', {
+              pairExchange: pair.exchange,
+              pairTitle: pair.title,
+            })}
           </div>
           <div
             style={{

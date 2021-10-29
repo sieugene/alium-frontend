@@ -1,7 +1,7 @@
 import { NextLink } from 'components/NextLink'
 import { FC } from 'react'
 import styled from 'styled-components'
-import { breakpoints, up } from 'views/StrongHoldersPool/mq'
+import { breakpoints, mq } from 'ui'
 import Flex from '../../components/Flex/Flex'
 import { LogoIcon } from '../../components/Svg'
 import { LogoIcon as LogoWithText } from './icons'
@@ -18,7 +18,7 @@ const StyledLink = styled(NextLink)`
   .mobile-icon {
     width: 32px;
 
-    @media ${up(breakpoints.md)} {
+    @media ${mq.up(breakpoints.md)} {
       display: none;
     }
   }
@@ -27,7 +27,7 @@ const StyledLink = styled(NextLink)`
     height: auto;
     display: none;
 
-    @media ${up(breakpoints.md)} {
+    @media ${mq.up(breakpoints.md)} {
       display: block;
     }
   }

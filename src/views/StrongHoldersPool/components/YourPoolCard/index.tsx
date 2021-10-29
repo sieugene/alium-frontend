@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import { useToggle } from 'react-use'
 import styled, { css } from 'styled-components'
+import { breakpoints, Card, mq, typography } from 'ui'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
   useCountReward,
@@ -20,11 +21,8 @@ import {
   useRewardTokenSymbol,
   useWithdraw,
 } from 'views/StrongHoldersPool/hooks'
-import { typography } from 'views/StrongHoldersPool/mixins'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { isUserPaid } from 'views/StrongHoldersPool/utils'
 import BonusNft from '../BonusNft'
-import Card from '../Card'
 import DetailsButton from '../DetailsButton'
 import FormattedValue from '../FormattedValue'
 import Title from '../Title'
@@ -220,7 +218,7 @@ YourPoolCard.Summary = styled.div`
 YourPoolCard.Value = styled(FormattedValue)`
   ${typography.big.medium}
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     ${typography.regular.medium}
   }
 `
@@ -256,7 +254,7 @@ YourPoolCard.Root = styled(Card)`
   position: relative;
   overflow: hidden;
 
-  @media ${down(breakpoints.lg)} {
+  @media ${mq.down(breakpoints.lg)} {
     padding: 12px 8px 24px;
 
     ${YourPoolCard.Summary} {

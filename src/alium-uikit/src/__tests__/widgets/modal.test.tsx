@@ -10,17 +10,148 @@ it('renders correctly', () => {
   )
   expect(asFragment()).toMatchInlineSnapshot(`
     <DocumentFragment>
-      <div
-        class="sc-gKsewC kzlzNR"
+      .c2 {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+    }
+
+    .c9 {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      padding: 24px;
+    }
+
+    .c4 {
+      color: #0B1359;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+      -webkit-letter-spacing: 0.3px;
+      -moz-letter-spacing: 0.3px;
+      -ms-letter-spacing: 0.3px;
+      letter-spacing: 0.3px;
+    }
+
+    .c5 {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.1;
+    }
+
+    .c8 {
+      fill: #6C5DD3;
+      -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+      flex-shrink: 0;
+    }
+
+    .c0 {
+      background: #FFFFFF;
+      box-shadow: 0 20px 36px -8px rgba(14,14,44,0.1),0px 1px 1px rgba(0,0,0,0.05);
+      border-radius: 6px;
+      width: 100%;
+      z-index: 100;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .c1 {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      border-bottom: 1px solid #e9eaeb;
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      padding: 16px 24px;
+    }
+
+    .c3 {
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+    }
+
+    .c10 {
+      padding: 30px 24px;
+      box-sizing: border-box;
+    }
+
+    .c6 {
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .c7 {
+      cursor: pointer;
+      outline: none;
+      padding: 8px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      border: 1px solid #d2d6e5;
+      border-radius: 4px;
+      background: #fff;
+      -webkit-transition: background-color 200ms ease-in-out;
+      transition: background-color 200ms ease-in-out;
+    }
+
+    .c7:hover {
+      background-color: #d2d6e5;
+    }
+
+    @media screen and (min-width:968px) {
+      .c5 {
+        font-size: 20px;
+      }
+    }
+
+    @media screen and (min-width:370px) {
+      .c0 {
+        width: auto;
+        min-width: 360px;
+        max-width: 100%;
+        margin: 0 10px;
+      }
+    }
+
+    <div
+        class="c0"
       >
         <div
-          class="sc-iBPRYJ ieMkRo"
+          class="c1"
         >
           <div
-            class="sc-dlfnbm sc-fubCfw fcyuqz kApDsK"
+            class="c2 c3"
           >
             <h2
-              class="sc-bdfBwQ sc-gsTCUz iEFWFe euWWbB"
+              class="c4 c5 c6"
               color="text"
             >
               Title
@@ -28,24 +159,26 @@ it('renders correctly', () => {
           </div>
           <button
             aria-label="Close the dialog"
-            class="sc-eCssSg dHcAeg sc-jSgupP gPZlLR"
-            type="button"
+            class="c7"
           >
             <svg
-              class="sc-hKgILt SJlke"
+              class="c8"
               color="primary"
               viewBox="0 0 24 24"
               width="20px"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M18.3 5.70997C17.91 5.31997 17.28 5.31997 16.89 5.70997L12 10.59L7.10997 5.69997C6.71997 5.30997 6.08997 5.30997 5.69997 5.69997C5.30997 6.08997 5.30997 6.71997 5.69997 7.10997L10.59 12L5.69997 16.89C5.30997 17.28 5.30997 17.91 5.69997 18.3C6.08997 18.69 6.71997 18.69 7.10997 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.10997C18.68 6.72997 18.68 6.08997 18.3 5.70997Z"
+                d="M7.75781 16.4623L16.2431 7.97705M7.75781 7.97705L16.2431 16.4623"
+                stroke="#8990A5"
+                stroke-linecap="round"
+                stroke-width="1.5"
               />
             </svg>
           </button>
         </div>
         <div
-          class="sc-dlfnbm ggIFKV"
+          class="c9 c10"
         >
           body
         </div>

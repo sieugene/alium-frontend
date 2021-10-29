@@ -2,9 +2,9 @@ import { Skeleton } from 'alium-uikit/src'
 import CurrencyLogo from 'components/CurrencyLogo'
 import React from 'react'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import { useFarmsLoading } from 'views/farms/hooks/useFarmingPools'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import { useFarmLpLabel } from '../Info'
 
 export interface CardHeadingProps {
@@ -34,7 +34,7 @@ const Info = styled.div<{ type: ViewMode }>`
     margin-bottom: 8px;
     color: #ffffff;
   }
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${({ type }) =>
       type === ViewMode.TABLE &&
       `
@@ -80,7 +80,7 @@ const Core = styled.div<{ type: ViewMode }>`
     border-radius: 14px;
     display: block;
   }
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${({ type }) =>
       type === ViewMode.TABLE &&
       `
@@ -112,7 +112,7 @@ const Multiplier = styled.div<{ type: ViewMode }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${({ type }) =>
       type === ViewMode.TABLE &&
       `
@@ -127,7 +127,7 @@ const Multiplier = styled.div<{ type: ViewMode }>`
 const DoubleLogo = styled.div<{ type: ViewMode }>`
   display: flex;
 
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${({ type }) =>
       type === ViewMode.TABLE &&
       `
@@ -147,7 +147,7 @@ const WrapSecondLogo = styled.div<{ type: ViewMode }>`
   position: relative;
   z-index: 0;
   right: 20px;
-  @media ${down(breakpoints.sm)} {
+  @media ${mq.down(breakpoints.sm)} {
     ${({ type }) =>
       type === ViewMode.TABLE &&
       `

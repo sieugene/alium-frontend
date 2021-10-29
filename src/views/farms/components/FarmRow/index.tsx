@@ -3,8 +3,8 @@ import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { useMedia, useToggle } from 'react-use'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
-import { breakpoints, down } from 'views/StrongHoldersPool/mq'
 import type { FarmCardProps } from '../FarmCard'
 import CardHeading from '../FarmCard/CardHeading'
 import {
@@ -67,8 +67,8 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
   const [isOpen, toggleOpen] = useToggle(false)
   // medias
   const isMobile = useMedia(`screen and (max-width: 678px)`)
-  const isLGMedia = useMedia(`screen and ${down(breakpoints.lg)}`)
-  const isXlMedia = useMedia(`screen and ${down(breakpoints.xl)}`)
+  const isLGMedia = useMedia(`screen and ${mq.down(breakpoints.lg)}`)
+  const isXlMedia = useMedia(`screen and ${mq.down(breakpoints.xl)}`)
   const media = { isMobile, isLGMedia, isXlMedia }
   // classes for bg
   const farmClassname = farmNum < 3 ? `farm__row${farmNum}` : 'farm__row'
@@ -227,7 +227,7 @@ FarmRow.HeadingCell = styled(FarmRow.Cell)`
   max-width: 292px;
   width: 292px;
   padding: 4px;
-  @media ${down(breakpoints.md)} {
+  @media ${mq.down(breakpoints.md)} {
     width: 268px;
     max-width: none;
   }
@@ -235,7 +235,7 @@ FarmRow.HeadingCell = styled(FarmRow.Cell)`
   & > * {
     height: 90px;
   }
-  @media ${down(375)} {
+  @media ${mq.down(375)} {
     & > * {
       height: 64px;
     }
@@ -267,7 +267,7 @@ FarmRow.MobileView = styled(FarmRow.Summary)`
     display: flex;
     align-items: center;
     &:first-child {
-      @media ${down(375)} {
+      @media ${mq.down(375)} {
         padding: 0;
       }
     }

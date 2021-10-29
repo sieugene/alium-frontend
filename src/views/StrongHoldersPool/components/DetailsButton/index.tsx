@@ -2,7 +2,7 @@ import { ChevronDownIcon, ChevronUpIcon } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
 import { ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
-import { typography } from 'views/StrongHoldersPool/mixins'
+import { typography } from 'ui'
 
 export interface DetailsButtonProps extends ComponentPropsWithoutRef<'button'> {
   isOpen?: boolean

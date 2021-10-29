@@ -2,6 +2,7 @@ import { Skeleton } from 'alium-uikit/src'
 import { ethers } from 'ethers'
 import { useTranslation } from 'next-i18next'
 import styled, { css } from 'styled-components'
+import { typography } from 'ui'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
   useCountReward,
@@ -11,7 +12,6 @@ import {
   usePoolNftWithdrawRewards,
   useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
-import { typography } from 'views/StrongHoldersPool/mixins'
 import { isUserPaid } from 'views/StrongHoldersPool/utils'
 import YourPoolCard from '.'
 import NftItemReward from '../NftItemReward'

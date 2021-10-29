@@ -38,7 +38,7 @@ const WalletCard: FC<Props> = ({
     }
   }
 
-  const isBlurred = availableConnectors.includes(walletConfig.connectorId)
+  const isBlurred = availableConnectors?.includes(walletConfig.connectorId)
 
   return (
     <StyledFlex
