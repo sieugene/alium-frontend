@@ -4,6 +4,9 @@ WORKDIR /app
 
 RUN apk add libc6-compat git
 
+ARG APP_BSCSCAN_API_KEY
+ENV APP_BSCSCAN_API_KEY ${APP_BSCSCAN_API_KEY}
+
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
