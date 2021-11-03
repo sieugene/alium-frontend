@@ -1,3 +1,4 @@
+import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { MaxUint256 } from '@ethersproject/constants'
 import { parseEther } from '@ethersproject/units'
 import { CardNav } from 'components/CardNav'
@@ -10,6 +11,7 @@ import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice } from 'utils'
+import GTM from 'utils/gtm'
 import multicall from 'utils/multicall'
 import { Step1Connect } from 'views/Migrate/components/Step1Connect'
 import { Step2YourLiquidity } from 'views/Migrate/components/Step2YourLiquidity'
@@ -40,6 +42,7 @@ const ViewMigrate: FC = () => {
   const currentPair = pairs[selectedPairKey]
 
   // --- HOOKS ---
+  const gtmDispatch = useGTMDispatch()
   const { account } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
   const lpTokenContract = useLPTokenContract(currentPair?.addressLP)
@@ -155,6 +158,7 @@ const ViewMigrate: FC = () => {
         `${currentNetwork.providerParams.blockExplorerUrls[0]}tx/${responseDeposit.hash}`,
       )
       const resultDeposit = await responseDeposit.wait()
+      GTM.migrate(gtmDispatch, currentPair.title, String(tokensAmount))
       console.info('DEPOSIT: RESULT:', resultDeposit)
     } catch (e) {
       setIsSuccessful(false)

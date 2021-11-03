@@ -1,4 +1,5 @@
 import { Percent } from '@alium-official/sdk'
+import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { Button, InjectedModalProps, Modal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
@@ -7,6 +8,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { useToast } from 'state/hooks'
 import styled from 'styled-components'
 import { ethersToBN, toEther, toWei } from 'utils/bigNumber'
+import GTM from 'utils/gtm'
 import {
   useApprove,
   useCurrentPoolId,
@@ -27,6 +29,7 @@ export type JoinPoolModalProps = InjectedModalProps
 
 export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
   const { t } = useTranslation()
+  const gtmDispatch = useGTMDispatch()
   const { data: currentPoolId, mutate: mutateCurrentPoolId } = useCurrentPoolId()
   const { data: poolLocked, mutate: mutatePoolLocked } = usePoolLocked(currentPoolId)
   const participantNumber = useParticipantNumber(currentPoolId)
@@ -95,6 +98,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
         ? async () => {
             try {
               await lock(amountWei)
+              GTM.joinShp(gtmDispatch, amountEther.toString())
               toastSuccess(
                 t('{{amount}} {{rewardTokenSymbol}} added to the pool', {
                   amount: formatBigNumber(amountEther),
@@ -120,6 +124,7 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
     [
       amountEther,
       amountWei,
+      gtmDispatch,
       hasAmount,
       isInsufficientFunds,
       lock,

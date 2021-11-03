@@ -1,6 +1,7 @@
 import { Trade } from '@alium-official/sdk'
 import BigNumber from 'bignumber.js'
 import { addLiquidityCurrencyFormat, addLiquidityCurrencyFormatPayload } from 'utils/swap/addLiquidityCurrencyFormat'
+import { FarmWithStakedValue } from 'views/farms/farms.types'
 import { swapTradeFormatGtm } from '../swap/swapTradeFormat'
 
 type GtmDispatchType = (...params: any) => void
@@ -35,6 +36,35 @@ const GTM = {
     const value = formattedAddLiquidity
     gtmLogger(event, value)
     return GTMDispatch({ event, value })
+  },
+  joinShp: (GTMDispatch: GtmDispatchType, shpAmount: string) => {
+    const event = 'join_shp'
+    const value = { shpAmount }
+    gtmLogger(event, value)
+    return GTMDispatch({ event, ...value })
+  },
+  buyTicket: (GTMDispatch: GtmDispatchType) => {
+    const event = 'buy_ticket'
+    gtmLogger(event)
+    return GTMDispatch({ event })
+  },
+  stakeFarms: (GTMDispatch: GtmDispatchType, farm: FarmWithStakedValue, amount: string) => {
+    const event = 'stake_farm'
+    const value = {
+      farmPair: (farm.lpSymbol || '').split(' ')[0],
+      amount,
+    }
+    gtmLogger(event, value)
+    return GTMDispatch({ event, ...value })
+  },
+  migrate: (GTMDispatch: GtmDispatchType, tokensPair: string, tokensAmount: string) => {
+    const event = 'migrate'
+    const value = {
+      tokensPair,
+      tokensAmount,
+    }
+    gtmLogger(event, value)
+    return GTMDispatch({ event, ...value })
   },
 }
 

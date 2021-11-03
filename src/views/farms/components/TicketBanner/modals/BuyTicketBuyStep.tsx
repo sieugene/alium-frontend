@@ -1,3 +1,4 @@
+import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { Button } from 'alium-uikit/src'
 import TransactionCompleted from 'components/Modal/transaction/TransactionCompleted'
 import TransferError from 'components/Modal/transaction/TransferError'
@@ -7,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 import { getExplorerLink, useExplorerName } from 'utils'
+import GTM from 'utils/gtm'
 import { useFarmTicket } from 'views/farms/hooks/useFarmTicket'
 import { BuyButton } from '../BuyTicketBtn'
 import { TicketLoadingText } from './BuyTicketModal'
@@ -48,6 +50,7 @@ const Amount = styled.p`
 const ViewOn = styled(Button)``
 
 const BuyTicketBuyStep = () => {
+  const gtmDispatch = useGTMDispatch()
   const { t } = useTranslation()
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const { explorerName } = useExplorerName(currentChainId)
@@ -69,6 +72,7 @@ const BuyTicketBuyStep = () => {
       const buyResult = await transaction?.wait()
       setTxHash(buyResult?.transactionHash)
       setsuccess(true)
+      GTM.buyTicket(gtmDispatch)
     } catch (error) {
       seterror(true)
     } finally {

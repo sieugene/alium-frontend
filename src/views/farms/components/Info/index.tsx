@@ -1,3 +1,4 @@
+import { useGTMDispatch } from '@elgorditosalsero/react-gtm-hook'
 import { useWeb3React } from '@web3-react/core'
 import { AddIcon, Button, CalculateIcon, IconButton, LinkIcon, MinusIcon, Skeleton, useModal } from 'alium-uikit/src'
 import BigNumber from 'bignumber.js'
@@ -17,6 +18,7 @@ import { breakpoints, mq } from 'ui'
 import { getExplorerLink } from 'utils'
 import { getAddress } from 'utils/addressHelpers'
 import { getBalanceAmount, getBalanceNumber } from 'utils/formatBalance'
+import GTM from 'utils/gtm'
 import DepositModal from 'views/farms/components/Modals/DepositModal'
 import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import useApproveFarm from 'views/farms/hooks/useApproveFarm'
@@ -368,6 +370,7 @@ export interface UseInfoStakedParams {
 export function useInfoStaked({ farm }: UseInfoStakedParams) {
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { t } = useTranslation()
+  const gtmDispatch = useGTMDispatch()
   const { account } = useWeb3React()
   const loading = useFarmsLoading()
   const viewMode = useStoreFarms((state) => state.viewMode)
@@ -410,6 +413,7 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
   // handlers
   const handleStake = async (amount: string) => {
     await onStake(amount)
+    GTM.stakeFarms(gtmDispatch, farm, amount)
   }
 
   const handleUnstake = async (amount: string) => {
