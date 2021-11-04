@@ -7,8 +7,6 @@ networks:
 
 services:
   frontend:
-    build:
-      dockerfile: Dockerfile.master
     image: ghcr.io/alium-finance/alium-frontend:master
     deploy:
       replicas: 4
