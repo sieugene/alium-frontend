@@ -31,6 +31,8 @@ export interface StoreFarmsState {
   checkHasTicket: (contract: ethers.Contract, account: string | undefined) => Promise<boolean>
   ticketLoader: boolean
   toggleTicketLoader: (toggle: boolean) => void
+  blockReward?: ethers.BigNumber
+  fetchBlockReward: (contract: ethers.Contract) => Promise<ethers.BigNumber>
 }
 
 const noAccountFarmConfig: Farm[] = getFarmsConfig().map((farm) => ({
@@ -116,6 +118,13 @@ const store = (set: SetState<StoreFarmsState>, get: GetState<StoreFarmsState>): 
       data[index] = { ...data[index], userData: userDataEl }
     })
     set({ farms: data })
+  },
+  async fetchBlockReward(contract) {
+    const blockReward: ethers.BigNumber = await contract.blockReward()
+    set({
+      blockReward,
+    })
+    return blockReward
   },
 })
 

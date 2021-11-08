@@ -20,6 +20,7 @@ export interface PublicFarmData {
   apy: number
   liqudity: number
   lpPrice: BigNumber
+  allocPoint: BigNumber
 }
 
 export type Farm = Partial<PublicFarmData> &

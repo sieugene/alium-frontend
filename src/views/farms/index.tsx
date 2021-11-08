@@ -17,6 +17,7 @@ import FarmLoader from './components/Loaders/FarmLoader'
 import TicketBanner from './components/TicketBanner'
 import FarmContainer from './FarmContainer'
 import { FarmTab, FarmWithStakedValue } from './farms.types'
+import useBlockReward from './hooks/useBlockReward'
 import { useFarms, usePollFarmsWithUserData, usePriceAlmBusd } from './hooks/useFarmingPools'
 import { useFarmsPooling } from './hooks/useFarmsPooling'
 
@@ -36,7 +37,7 @@ const Farms = () => {
   const stakedOnly = useStoreFarms((state) => state.stakedOnly)
   const activeTab = useStoreFarms((state) => state.activeTab)
   const slowUpdate = useStoreFarms((state) => state.slowUpdate)
-
+  const blockReward = useBlockReward()
   const { account } = useWeb3React()
   useFarmsPooling(account)
 
@@ -51,8 +52,23 @@ const Farms = () => {
 
   // filters
 
-  const activeFarms = farmsLP.filter((farm) => farm.multiplier !== '0X')
-  const inactiveFarms = farmsLP.filter((farm) => farm.multiplier === '0X')
+  const { activeFarms, inactiveFarms } = useMemo(() => {
+    const activeFarms: Farm[] = []
+    const inactiveFarms: Farm[] = []
+    farmsLP.forEach((farm) => {
+      if (farm.multiplier && farm.allocPoint && blockReward) {
+        if (farm.multiplier !== '0X' && !farm.allocPoint.eq(0) && !blockReward.eq(0)) {
+          activeFarms.push(farm)
+        } else {
+          inactiveFarms.push(farm)
+        }
+      }
+    })
+    return {
+      activeFarms,
+      inactiveFarms,
+    }
+  }, [blockReward, farmsLP])
 
   const stakedOnlyFarms = activeFarms.filter(
     (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),

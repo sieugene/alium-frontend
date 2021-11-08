@@ -97,6 +97,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       liqudity: formattedLiqudity,
       lpPrice,
       farmLpBalance: Number(formatEther(String(farmLpBalanceBn))),
+      allocPoint,
     }
   } catch (error) {
     return {
@@ -106,6 +107,7 @@ const fetchPublicFarmData = async (farm: Farm): Promise<PublicFarmData> => {
       liqudity: 0,
       lpPrice: BIG_ZERO,
       farmLpBalance: 0,
+      allocPoint: BIG_ZERO,
     }
   }
 }
