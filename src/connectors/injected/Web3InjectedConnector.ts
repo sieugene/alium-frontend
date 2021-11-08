@@ -48,8 +48,11 @@ export class Web3InjectedConnector extends InjectedConnector {
 
   public async activate(): Promise<ConnectorUpdate> {
     try {
-      await this.notifyMetamask()
-      await this.addNetworkInWallet()
+      if (window.ethereum?.isMetaMask) {
+        await this.notifyMetamask()
+        await this.addNetworkInWallet()
+      }
+
       return super.activate()
     } catch (error) {
       return error
