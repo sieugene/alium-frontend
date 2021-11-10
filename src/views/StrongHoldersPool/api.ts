@@ -124,7 +124,7 @@ export async function getAllNftRewards(nftContract: ethers.Contract, maxPoolLeng
 }
 
 // TODO: add testnet subgraph??
-const subgraphUrl = isDev ? null : 'http://65.21.154.6:8000/subgraphs/name/shp'
+const subgraphUrl = isDev ? null : '/api/subgraphs/shp'
 
 const getPoolCreatedAtGql = gql`
   query getPoolCreatedAt($id: ID!) {
