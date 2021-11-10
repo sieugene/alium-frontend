@@ -8,9 +8,8 @@ import { useShpContract, useShpNftContract, useTokenContract } from 'hooks/useCo
 import { useCallback, useMemo, useState } from 'react'
 import useSWR, { SWRConfiguration } from 'swr'
 import { getShpAddress } from 'utils/addressHelpers'
-import { getWeb3NoAccount } from 'utils/web3'
 import * as api from './api'
-import { NftReward, Pool, User, Withdrawn } from './types'
+import { NftReward, Pool, User, Withdrawal } from './types'
 import { findUserByAccount, getAllPoolsIds, getPoolAmount, isFullPool, isUserPaid } from './utils'
 
 // SHP
@@ -158,16 +157,11 @@ export function useLock() {
 }
 
 export function usePoolWithdrawals(poolId?: ethers.BigNumber, swrConfig?: SWRConfiguration) {
-  const shpContract = useShpContract()
-  const web3 = getWeb3NoAccount()
   const { data: poolUsers } = usePoolUsers(poolId)
   const paidUsers = useMemo(() => poolUsers?.filter(isUserPaid), [poolUsers])
-  return useSWR<Withdrawn[]>(
+  return useSWR<Withdrawal[]>(
     poolId && paidUsers ? ['shp/usePoolWithdrawals', poolId, paidUsers.length] : null,
-    async () => {
-      const blockNumber = await web3.eth.getBlockNumber()
-      return api.getPoolWithdrawals(shpContract, poolId, paidUsers.length, blockNumber)
-    },
+    () => api.getPoolWithdrawals(poolId),
     swrConfig,
   )
 }
@@ -293,6 +287,17 @@ export function useParticipantNumber(poolId?: ethers.BigNumber) {
 
     return new BigNumber(accountIndex + 1)
   }, [account, poolUsers])
+}
+
+export function usePoolCreatedAt(poolId?: ethers.BigNumber, swrConfig?: SWRConfiguration) {
+  return useSWR<ethers.BigNumber>(
+    poolId ? ['shp/usePoolCreatedAt', poolId] : null,
+    () => api.getPoolCreatedAt(poolId),
+    {
+      revalidateIfStale: false,
+      ...swrConfig,
+    },
+  )
 }
 
 // NFT

@@ -1,8 +1,10 @@
+import { isDev } from 'config'
 import { SHP_ABI, SHP_NFT_ABI } from 'config/constants/shp'
 import { ethers } from 'ethers'
+import { gql, request } from 'graphql-request'
 import { times } from 'lodash'
 import { multicallWithDecoder } from 'utils/multicall'
-import { NftReward, Pool, User, Withdrawn } from './types'
+import { NftReward, Pool, User, Withdrawal } from './types'
 import { findUserByAccount } from './utils'
 
 export function getMaxPoolLength(shpContract: ethers.Contract): Promise<ethers.BigNumber> {
@@ -89,28 +91,6 @@ export async function getYourPools(shpAddress: string, ids: ethers.BigNumber[], 
   return ret
 }
 
-export async function getPoolWithdrawals(
-  shpContract: ethers.Contract,
-  poolId: ethers.BigNumber,
-  paidCount: number,
-  currentBlockNumber: number,
-) {
-  const filter = shpContract.filters.Withdrawn(poolId)
-  const withdrawals: Withdrawn[] = []
-  let iterator = currentBlockNumber
-  while (withdrawals.length < paidCount) {
-    // TODO: probably it's very slow!
-    // https://github.com/binance-chain/bsc/issues/113
-    const fromBlock = iterator - 5000
-    const res = await shpContract.queryFilter(filter, fromBlock, iterator)
-    if (res.length > 0) {
-      withdrawals.push(...res.map((e) => e.args as any as Withdrawn))
-    }
-    iterator = fromBlock
-  }
-  return withdrawals
-}
-
 export function withdraw(shpContract: ethers.Contract, poolId: ethers.BigNumber): Promise<ethers.ContractTransaction> {
   return shpContract.withdraw(poolId)
 }
@@ -141,4 +121,64 @@ export async function getAllNftRewards(nftContract: ethers.Contract, maxPoolLeng
     }
   })
   return ret
+}
+
+// TODO: add testnet subgraph??
+const subgraphUrl = isDev ? null : 'http://65.21.154.6:8000/subgraphs/name/shp'
+
+const getPoolCreatedAtGql = gql`
+  query getPoolCreatedAt($id: ID!) {
+    pool(id: $id) {
+      createdAt
+    }
+  }
+`
+
+interface GetPoolCreatedAtGql {
+  pool?: {
+    createdAt: string
+  }
+}
+
+export async function getPoolCreatedAt(poolId: ethers.BigNumber): Promise<ethers.BigNumber | undefined> {
+  if (!subgraphUrl) return undefined
+  const res = await request<GetPoolCreatedAtGql>(subgraphUrl, getPoolCreatedAtGql, {
+    id: poolId.toString(),
+  })
+  return res.pool ? ethers.BigNumber.from(res.pool.createdAt) : undefined
+}
+
+const getPoolWithdrawalsGql = gql`
+  query getPoolWithdrawals($id: ID!) {
+    pool(id: $id) {
+      withdrawals {
+        account
+        amount
+      }
+    }
+  }
+`
+
+interface GetPoolWithdrawalsGql {
+  pool?: {
+    withdrawals: Array<{
+      account: string
+      amount: string
+    }>
+  }
+}
+
+export async function getPoolWithdrawals(poolId: ethers.BigNumber): Promise<Withdrawal[]> {
+  if (!subgraphUrl) return []
+
+  const res = await request<GetPoolWithdrawalsGql>(subgraphUrl, getPoolWithdrawalsGql, {
+    id: poolId.toString(),
+  })
+
+  return res.pool
+    ? res.pool.withdrawals.map<Withdrawal>((item) => ({
+        account: item.account,
+        amount: ethers.BigNumber.from(item.amount),
+      }))
+    : []
 }

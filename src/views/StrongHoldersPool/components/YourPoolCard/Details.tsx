@@ -8,14 +8,14 @@ import { typography } from 'ui'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
   useParticipantNumber,
-  usePool,
   usePoolAccountUser,
+  usePoolCreatedAt,
   usePoolLocked,
   usePoolUsers,
   usePoolWithdrawals,
   useRewardTokenSymbol,
 } from 'views/StrongHoldersPool/hooks'
-import { Withdrawn } from 'views/StrongHoldersPool/types'
+import { Withdrawal } from 'views/StrongHoldersPool/types'
 import { formatAddress, formatBigNumber, isUserPaid } from 'views/StrongHoldersPool/utils'
 import PoolDetailsInfo from '../PoolDetailsInfo'
 
@@ -25,10 +25,10 @@ export interface DetailsProps {
 
 export default function Details({ poolId }: DetailsProps) {
   const { t } = useTranslation()
-  const { data: pool } = usePool(poolId)
   const { data: poolLocked } = usePoolLocked(poolId)
   const { data: withdrawals } = usePoolWithdrawals(poolId)
   const { data: poolUsers } = usePoolUsers(poolId)
+  const { data: poolCreatedAt } = usePoolCreatedAt(poolId)
   const participantNumber = useParticipantNumber(poolId)
   const rewardTokenSymbol = useRewardTokenSymbol()
   const accountUser = usePoolAccountUser(poolId)
@@ -37,9 +37,9 @@ export default function Details({ poolId }: DetailsProps) {
     [accountUser, poolLocked],
   )
   const withdrawalByAccount = useMemo(() => {
-    const ret: Record<Withdrawn['account'], Withdrawn> = {}
+    const ret: Record<Withdrawal['account'], Withdrawal> = {}
     withdrawals?.forEach((withdrawal) => {
-      ret[withdrawal.account] = withdrawal
+      ret[withdrawal.account.toLowerCase()] = withdrawal
     })
     return ret
   }, [withdrawals])
@@ -48,7 +48,7 @@ export default function Details({ poolId }: DetailsProps) {
       <PoolDetailsInfo
         participantNumber={participantNumber}
         poolShare={poolShare}
-        createdAt={pool?.createdAt && ethersToBN(pool.createdAt)}
+        createdAt={poolCreatedAt && ethersToBN(poolCreatedAt)}
       />
       <Details.HistoryTitle>{t('History')}</Details.HistoryTitle>
       <Details.HistoryTable>
@@ -61,7 +61,7 @@ export default function Details({ poolId }: DetailsProps) {
         </thead>
         <tbody>
           {poolUsers?.map((user) => {
-            const withdrawal = withdrawalByAccount?.[user.account]
+            const withdrawal = withdrawalByAccount?.[user.account.toLowerCase()]
             return (
               <tr key={user.account}>
                 <td>{formatAddress(user.account)}</td>
