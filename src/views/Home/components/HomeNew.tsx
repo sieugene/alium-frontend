@@ -45,7 +45,7 @@ const HomeNew = () => {
           <CardLogoCross />
           <div className='card-content'>
             <div className='title'>{t('Cross-blockhain Swaps')}</div>
-            <ExtraButton>{t('October, 2021')}</ExtraButton>
+            <ExtraButton>{t('December, 2021')}</ExtraButton>
           </div>
         </CardContainer>
 
