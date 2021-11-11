@@ -1,5 +1,6 @@
 import { Currency, Pair } from '@alium-official/sdk'
 import { ArrowDropDownIcon, Button, Text } from 'alium-uikit/src'
+import BigNumber from 'bignumber.js'
 import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'next-i18next'
 import { darken } from 'polished'
@@ -68,9 +69,9 @@ export default function CurrencyInputPanel({
   }, [setModalOpen])
 
   const showMax = (account && currency) || showMaxButton
-  const currencyBalance = Number(getCurrencyBalance(selectedCurrencyBalance))
-  const curInputValue = Number(value)
-  const checkOnMax = checkMax && curInputValue > currencyBalance
+  const currencyBalance = new BigNumber(getCurrencyBalance(selectedCurrencyBalance))
+  const curInputValue = new BigNumber(value)
+  const checkOnMax = checkMax && curInputValue.gt(currencyBalance)
 
   return (
     <>

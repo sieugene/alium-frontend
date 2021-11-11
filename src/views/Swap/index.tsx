@@ -338,7 +338,6 @@ const Swap = () => {
                   </AutoRow>
                 </AutoColumn>
                 <CurrencyInputPanel
-                  checkMax
                   value={formattedAmounts[Field.OUTPUT]}
                   onMax={handleMaxOutput}
                   onUserInput={handleTypeOutput}
