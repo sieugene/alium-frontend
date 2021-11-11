@@ -1,17 +1,12 @@
 import { ChevronRightIcon } from 'alium-uikit/src/components/Svg'
 import { externalLinks } from 'alium-uikit/src/config'
 import { StyledInternalLink } from 'components/Shared'
+import useAlmPrice from 'hooks/useAlmPrice'
 import { useTranslation } from 'next-i18next'
-import { FC, useEffect, useState } from 'react'
-import { fetchTokenPriceFromCoingecko } from 'services/coingecko'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { breakpoints, mq } from 'ui'
-import Cookies from 'universal-cookie'
-import { getAlmPrice } from 'utils/prices/getAlmPrice'
-import { getCookieOptions } from '../../config/getCookieOptions'
 import { IconTokenAlm } from './icons/IconTokenAlm'
-
-const cookies = new Cookies()
 
 interface props {
   ispushed?: boolean
@@ -20,21 +15,7 @@ interface props {
 
 const ViewAlmPrice: FC<props> = ({ ispushed, inPanel }) => {
   const { t } = useTranslation()
-  const [price, setPrice] = useState<null | string>(null)
-
-  useEffect(() => {
-    const cookieAlmPrice = getAlmPrice()
-    setPrice(cookieAlmPrice ? String(cookieAlmPrice) : null)
-
-    fetchTokenPriceFromCoingecko('alium-swap').then((response) => {
-      const price = response?.data?.market_data?.current_price?.usd
-      if (price) {
-        const fixedPrice = Number(price).toFixed(3)
-        setPrice(fixedPrice)
-        cookies.set('alm-price', fixedPrice, getCookieOptions())
-      }
-    })
-  }, [])
+  const price = useAlmPrice()
 
   if (!price) {
     return null
