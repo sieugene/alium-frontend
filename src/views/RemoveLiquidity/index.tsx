@@ -131,6 +131,7 @@ export const RemoveLiquidity: FC = () => {
 
   // txn values
   const [txHash, setTxHash] = useState<string>('')
+  const [txAmount, setTxAmount] = useState<string>()
   const [deadline] = useUserDeadline()
   const [allowedSlippage] = useUserSlippageTolerance()
 
@@ -375,6 +376,7 @@ export const RemoveLiquidity: FC = () => {
           } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
         })
 
+        setTxAmount(amount)
         setTxHash(response.hash)
         await response.wait()
       } catch (e) {
@@ -528,6 +530,7 @@ export const RemoveLiquidity: FC = () => {
       onUserInput(Field.LIQUIDITY_PERCENT, '0')
     }
     setTxHash('')
+    setTxAmount(undefined)
   }, [onUserInput, txHash])
 
   const onRepeat = () => {
@@ -544,7 +547,7 @@ export const RemoveLiquidity: FC = () => {
     <>
       <TransactionConfirmationModal
         hasError={hasError}
-        amount={amount}
+        amount={txAmount}
         isOpen={showConfirm}
         onRepeat={onRepeat}
         onDismiss={handleDismissConfirmation}
