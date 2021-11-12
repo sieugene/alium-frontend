@@ -7,7 +7,6 @@ ETHEREUM: https://docs.linkpool.io/docs/public_rpc
 */
 module.exports = {
   APP_NODES_BSC: [
-    'https://data-seed-prebsc-2-s3.binance.org:8545',
     'https://data-seed-prebsc-1-s1.binance.org:8545',
     'https://data-seed-prebsc-2-s1.binance.org:8545',
     'https://data-seed-prebsc-1-s2.binance.org:8545',
