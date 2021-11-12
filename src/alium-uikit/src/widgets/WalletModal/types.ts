@@ -19,6 +19,7 @@ export interface WalletsConfig {
   icon: FC<SvgProps>
   connectorId: ConnectorNames
   showOn?: WalletShowOn
+  networkBlacklist?: number[]
 }
 
 export interface NetworksConfig {

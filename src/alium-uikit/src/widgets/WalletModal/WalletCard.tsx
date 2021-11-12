@@ -15,6 +15,7 @@ interface Props {
   selected?: boolean
   setSelectedWallet: (arg0: string) => void
   availableConnectors: ConnectorNames[]
+  chainId: number
 }
 
 const WalletCard: FC<Props> = ({
@@ -24,6 +25,7 @@ const WalletCard: FC<Props> = ({
   selected,
   setSelectedWallet,
   availableConnectors,
+  chainId,
 }) => {
   const { t } = useTranslation()
   const { title, icon: Icon } = walletConfig
@@ -38,7 +40,8 @@ const WalletCard: FC<Props> = ({
     }
   }
 
-  const isBlurred = availableConnectors?.includes(walletConfig.connectorId)
+  const isBlurred =
+    availableConnectors?.includes(walletConfig.connectorId) && !walletConfig.networkBlacklist?.includes(chainId)
 
   return (
     <StyledFlex

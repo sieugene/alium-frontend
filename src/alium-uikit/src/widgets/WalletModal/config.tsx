@@ -79,6 +79,7 @@ export const wallets = (): WalletsConfig[] => [
       mobileConnector: ConnectorNames.Injected,
       browserConnector: ConnectorNames.WalletConnect,
     }),
+    networkBlacklist: [137, 80001],
   },
   {
     // i18n.t('Wallet Connect')

@@ -89,10 +89,10 @@ const ConnectModal: FC<Props> = ({ login, onDismiss }) => {
         {walletsList.map((entry) => {
           const config = networkConfig as NetworksConfig
           const availableConnectors = config?.supportConnectors
-
           return (
             <WalletDisplay key={entry.title} showOn={entry.showOn}>
               <WalletCard
+                chainId={config.chainId}
                 login={login}
                 selected={entry.title === selectedWallet}
                 walletConfig={entry}
