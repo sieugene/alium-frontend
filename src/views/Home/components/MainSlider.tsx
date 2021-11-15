@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { useMedia } from 'react-use'
 import styled from 'styled-components'
 
 const md = '768px'
@@ -26,54 +25,40 @@ interface ISlide {
 
 const MainSlider: React.FC<IMainSliderProps> = ({ className }) => {
   const { t } = useTranslation()
-  const isNotMobile = useMedia(`screen and (min-width: ${md})`)
   const slides: ISlide[] = [
-    {
-      label: t('Live'),
-      active: true,
-      title: t('Earn ALM Farming and Strong Holders Pools. Up to 3000% APY'),
-      image: isNotMobile ? '/images/home-new/slider/farming-bg.svg' : '/images/home-new/slider/farming-bg-small.svg',
-    },
     {
       label: t('Coming soon'),
       title: t('"Cyber City Inc" Character Boxes Drop'),
       subTitle: t('NFT Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters'),
       image: '/images/home-new/slider/cyper-city-bg.svg',
     },
-    {
-      label: t('September 9th'),
-      title: t('Alpaca Grazing Range'),
-      subTitle: t('Earn ALM in an exciting Alium partnership with Alpaca Finance'),
-      image: '/images/home-new/slider/alpaca-grazing-bg.svg',
-    },
-    {
-      label: t('September 13th'),
-      title: t('ALM x Krystal Trading Competition'),
-      subTitle: t('Participate in Krystal.app Alium Trading competition and win one of 20 000$ worth of Prizes!'),
-      image: '/images/home-new/slider/krystal-trading.svg',
-    },
   ]
-
+  const isMoreThanOne = slides.length > 1
   return (
     <CarouselStyled
       className={className}
       dynamicHeight
       showStatus={false}
       showThumbs={false}
-      swipeable
-      autoPlay
+      showIndicators={isMoreThanOne}
+      swipeable={isMoreThanOne}
+      autoPlay={isMoreThanOne}
       infiniteLoop
       interval={10000}
-      renderArrowPrev={(onClickHandler) => (
-        <ArrowItem onClick={onClickHandler} type='prev'>
-          <Arrow />
-        </ArrowItem>
-      )}
-      renderArrowNext={(onClickHandler) => (
-        <ArrowItem onClick={onClickHandler} type='next'>
-          <Arrow />
-        </ArrowItem>
-      )}
+      renderArrowPrev={(onClickHandler) =>
+        isMoreThanOne && (
+          <ArrowItem onClick={onClickHandler} type='prev'>
+            <Arrow />
+          </ArrowItem>
+        )
+      }
+      renderArrowNext={(onClickHandler) =>
+        isMoreThanOne && (
+          <ArrowItem onClick={onClickHandler} type='next'>
+            <Arrow />
+          </ArrowItem>
+        )
+      }
       renderIndicator={(onClickHandler, isSelected, index, label) => {
         return (
           <Indicator
