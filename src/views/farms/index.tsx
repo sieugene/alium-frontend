@@ -36,7 +36,6 @@ const Farms = () => {
   const sortOption = useStoreFarms((state) => state.sortOption)
   const stakedOnly = useStoreFarms((state) => state.stakedOnly)
   const activeTab = useStoreFarms((state) => state.activeTab)
-  const slowUpdate = useStoreFarms((state) => state.slowUpdate)
   const blockReward = useBlockReward()
   const { account } = useWeb3React()
   useFarmsPooling(account)
@@ -49,6 +48,7 @@ const Farms = () => {
   // Loaders
   const { farmsUserDataLoading: userDataLoaded } = usePollFarmsWithUserData(isArchived)
   const ticketLoader = useStoreFarms((state) => state.ticketLoader)
+  const slowUpdate = useStoreFarms((state) => state.slowUpdate)
 
   // filters
 
@@ -68,7 +68,7 @@ const Farms = () => {
       activeFarms,
       inactiveFarms,
     }
-  }, [blockReward, farmsLP])
+  }, [blockReward, farmsLP, slowUpdate, userDataLoaded])
 
   const stakedOnlyFarms = activeFarms.filter(
     (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),

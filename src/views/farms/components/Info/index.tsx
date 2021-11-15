@@ -472,12 +472,12 @@ export function useInfoStaked({ farm }: UseInfoStakedParams) {
       ) : (
         <ColoredPrice color='text'>{displayBalance()}</ColoredPrice>
       ),
-    balanceNode: account && stakedBalance.gt(0) && lpPrice.gt(0) && (
+    balanceNode: !loading && account && stakedBalance.gt(0) && lpPrice.gt(0) && (
       <Balance before='~' fontSize='12px' color='textSubtle' decimals={2} value={stakedInBusd} unit=' USD' />
     ),
     stakedBalanceNotZero,
     stakingButtonsNode:
-      account && stakedBalanceNotZero ? (
+      !loading && account && stakedBalanceNotZero ? (
         <IconButtonWrapper>
           <StakeCounter size='sm' variant='tertiary' onClick={onPresentWithdraw} mr='6px' viewMode={viewMode}>
             <MinusIcon />
