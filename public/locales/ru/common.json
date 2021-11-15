@@ -93,7 +93,6 @@
   "Docs": "__NOT_TRANSLATED__",
   "Blog": "__NOT_TRANSLATED__",
   "Alium.art": "__NOT_TRANSLATED__",
-  "Amount: <b>{{amount}} {{tokenSymbol}}</b>": "__NOT_TRANSLATED__",
   "Transaction completed": "__NOT_TRANSLATED__",
   "Transaction failed": "__NOT_TRANSLATED__",
   "Your wallet doesn't have enough ALM to buy a ticket": "__NOT_TRANSLATED__",
@@ -400,5 +399,6 @@
   "Price Impact High": "__NOT_TRANSLATED__",
   "Swap {{stringValue}}": "__NOT_TRANSLATED__",
   "Alium per $1000": "__NOT_TRANSLATED__",
-  "You are in the Pool": "__NOT_TRANSLATED__"
+  "You are in the Pool": "__NOT_TRANSLATED__",
+  "Amount:": "__NOT_TRANSLATED__"
 }

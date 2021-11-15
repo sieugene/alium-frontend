@@ -1,6 +1,6 @@
 import { Token } from '@alium-official/sdk'
 import { BridgeSuccessIcon } from 'images/bridge/BridgeSuccessIcon'
-import { Trans, useTranslation } from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 import React, { FC } from 'react'
 import { ChevronRight } from 'react-feather'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -53,11 +53,10 @@ export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, toke
       <Content>
         <h2 className='title'>{t('Transaction completed')}</h2>
         <p>
-          <Trans
-            i18nKey='Amount: <b>{{amount}} {{tokenSymbol}}</b>'
-            values={{ amount, tokenSymbol: token?.symbol }}
-            components={{ b: <b /> }}
-          />
+          {t('Amount:')}{' '}
+          <strong>
+            {amount} {token?.symbol}
+          </strong>
         </p>
         {txHash && (
           <ViewOnWrapper>
