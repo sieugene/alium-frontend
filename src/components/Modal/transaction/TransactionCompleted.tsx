@@ -20,6 +20,7 @@ interface Props {
   cancel: () => void
   amount?: string | number
   token?: Token
+  hiddenTokenSymbol?: boolean
   txHash: string
 }
 
@@ -42,7 +43,7 @@ const TransactionCompleted: FC<MainProps> = ({ cancel, children, withoutHeader, 
   )
 }
 
-export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, token, txHash }) => {
+export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, hiddenTokenSymbol, amount, token, txHash }) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const link = getExplorerLink(currentChainId, txHash, 'transaction')
   const { explorerName } = useExplorerName(currentChainId)
@@ -55,7 +56,7 @@ export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, toke
         <p>
           {t('Amount:')}{' '}
           <b>
-            {amount} {token?.symbol}
+            {amount} {!hiddenTokenSymbol && token?.symbol}
           </b>
         </p>
         {txHash && (

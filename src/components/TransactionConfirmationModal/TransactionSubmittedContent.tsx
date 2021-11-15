@@ -6,10 +6,25 @@ interface TransactionSubmittedContentProps {
   hash: string | undefined
   token?: Token
   amount?: string
+  hiddenTokenSymbol?: boolean
 }
 
-const TransactionSubmittedContent = ({ onDismiss, hash, token, amount }: TransactionSubmittedContentProps) => {
-  return <TransactionAddTokenWithSuccess amount={amount || ''} txHash={hash} cancel={onDismiss} token={token} />
+const TransactionSubmittedContent = ({
+  onDismiss,
+  hash,
+  token,
+  amount,
+  hiddenTokenSymbol,
+}: TransactionSubmittedContentProps) => {
+  return (
+    <TransactionAddTokenWithSuccess
+      hiddenTokenSymbol={hiddenTokenSymbol}
+      amount={amount || ''}
+      txHash={hash}
+      cancel={onDismiss}
+      token={token}
+    />
+  )
 }
 
 export default TransactionSubmittedContent

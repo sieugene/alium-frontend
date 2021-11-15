@@ -16,6 +16,7 @@ interface ConfirmationModalProps {
   token?: Token
   amount?: string
   hasError: boolean
+  hiddenTokenSymbol?: boolean
   onRepeat: () => void
 }
 
@@ -30,6 +31,7 @@ const TransactionConfirmationModal = ({
   amount,
   hasError,
   onRepeat,
+  hiddenTokenSymbol,
 }: ConfirmationModalProps) => {
   const { chainId } = useActiveWeb3React()
 
@@ -43,7 +45,13 @@ const TransactionConfirmationModal = ({
       ) : attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (
-        <TransactionSubmittedContent amount={amount} token={token} hash={hash} onDismiss={onDismiss} />
+        <TransactionSubmittedContent
+          hiddenTokenSymbol={hiddenTokenSymbol}
+          amount={amount}
+          token={token}
+          hash={hash}
+          onDismiss={onDismiss}
+        />
       ) : (
         content
       )}

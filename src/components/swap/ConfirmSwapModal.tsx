@@ -112,6 +112,7 @@ export default function ConfirmSwapModal({
       hash={txHash}
       content={confirmationContent}
       pendingText={pendingText}
+      hiddenTokenSymbol
       token={token}
     />
   )
