@@ -54,9 +54,9 @@ export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, amount, toke
         <h2 className='title'>{t('Transaction completed')}</h2>
         <p>
           {t('Amount:')}{' '}
-          <strong>
+          <b>
             {amount} {token?.symbol}
-          </strong>
+          </b>
         </p>
         {txHash && (
           <ViewOnWrapper>
