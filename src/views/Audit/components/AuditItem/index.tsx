@@ -146,7 +146,7 @@ const AuditItem = ({
                 <img src={headImg} alt='' />
               </StyledImageContainer>
               <Text color='#8990A5' fontSize='14px'>
-                {distribution === 'Chainsulting' ? 'Chainsulting' : 'CertiK Security Leaderboard'}
+                {distribution ?? 'CertiK Security Leaderboard'}
               </Text>
             </StyledDestribution>
             <Flex justifyContent='space-between' alignItems='center'>
@@ -169,7 +169,7 @@ const AuditItem = ({
                   <img src={headImg} alt='' />
                 </StyledImageContainer>
                 <Text color='#8990A5' fontSize='14px'>
-                  {distribution === 'Chainsulting' ? 'Chainsulting' : 'CertiK Security Leaderboard'}
+                  {distribution ?? 'CertiK Security Leaderboard'}
                 </Text>
               </StyledDestribution>
               <StyledImage src={image} alt='' type='center' />

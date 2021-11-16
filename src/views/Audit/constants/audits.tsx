@@ -25,7 +25,6 @@ export interface AuditType {
 
 const cardList = [
   {
-    // certic
     headline: 'Alium Finance Smart Contracts Audit',
     date: 'October 7st, 2021',
     gitHubCertificate: [
@@ -34,9 +33,11 @@ const cardList = [
       'https://github.com/Alium-Finance/strong-holders-pool-contract/blob/main/contracts/StrongHolderPool.sol',
       'https://github.com/Alium-Finance/strong-holders-pool-contract/blob/main/contracts/NFTRewardPool.sol',
     ],
-    detailedReport: 'https://github.com/Quillhash/Audit_Reports/blob/master/Alium',
+    detailedReport:
+      'https://github.com/Quillhash/Audit_Reports/blob/master/Alium Finance Smart Contract Audit Report - QuillAudits.pdf',
     image: quilAuditsCert,
     headImg: quillhashImage,
+    distribution: 'Quillhash',
   },
   {
     // certic
