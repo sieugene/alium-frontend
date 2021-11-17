@@ -1,3 +1,4 @@
+import { Button } from 'alium-uikit/src'
 import copy from 'copy-to-clipboard'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
@@ -88,10 +89,7 @@ export const Step4MigrationResult: FC<props> = ({
         <>
           <IconNotSuccessful />
           <div className='title error'>{t('Migration failed')}</div>
-
-          <button className='button' onClick={handleTryAgain}>
-            {t('Try again')}
-          </button>
+          <Button onClick={handleTryAgain}>{t('Try again')}</Button>
         </>
       )}
     </Root>
@@ -132,25 +130,6 @@ const Root = styled.div`
     &.error {
       margin: 24px 0 36px 0;
       color: #ff4d00;
-    }
-  }
-
-  .button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 14px 24px;
-    border-radius: 6px;
-    background: #6c5dd3;
-    color: #ffffff;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 1px;
-
-    &:hover {
-      background: #8677f0;
     }
   }
 
