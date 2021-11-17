@@ -1,15 +1,26 @@
-import { FARM_DESKTOP_MEDIA, FARM_LAPTOP_MEDIA, FARM_MOBILE_MEDIA } from 'constants/layout/farm.layout'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 
 const Wrapper = styled.div`
-  background: #dfe4ff;
+  background-color: #dfe4ff;
+  background-image: url(/images/farms/banners/farm-banner.png);
+  background-position: right;
+  background-size: cover;
+  background-repeat: no-repeat;
   border-radius: 6px;
   height: 360px;
   position: relative;
   overflow: hidden;
-  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
+
+  @media ${mq.down(breakpoints.lg)} {
+    height: 250px;
+  }
+
+  @media ${mq.down(breakpoints.sm)} {
     height: 320px;
+    background-position: top;
+    background-image: url(/images/farms/banners/farm-banner-small.png);
   }
 `
 
@@ -37,7 +48,7 @@ const Labels = styled.div`
     letter-spacing: 0.3px;
     color: #8990a5;
   }
-  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
+  @media ${mq.down(breakpoints.sm)} {
     width: 100%;
     padding: 0;
     justify-content: center;
@@ -55,32 +66,6 @@ const Labels = styled.div`
   }
 `
 
-const Backgrounds = styled.div`
-  background-size: contain;
-  background-image: url(/images/farms/banners/farm-banner.png);
-  height: 360px;
-  width: 100%;
-  max-width: 830px;
-  background-repeat: no-repeat;
-  background-position: bottom right;
-  position: absolute;
-  right: 0;
-  top: 0;
-
-  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
-    background-position: 159px;
-  }
-  @media screen and (max-width: ${FARM_LAPTOP_MEDIA}) {
-    background-size: cover;
-  }
-
-  @media screen and (max-width: 375px) {
-    background-image: url(/images/farms/banners/farm-banner-small.png);
-    background-size: 100% auto;
-    background-position: center 55px;
-  }
-`
-
 const FarmBanner = () => {
   const { t } = useTranslation()
   return (
@@ -89,7 +74,6 @@ const FarmBanner = () => {
         <h1>{t('Farms')}</h1>
         <h3>{t('Stake LP tokens to earn')}</h3>
       </Labels>
-      <Backgrounds />
     </Wrapper>
   )
 }

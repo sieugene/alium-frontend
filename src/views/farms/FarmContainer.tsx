@@ -23,7 +23,7 @@ const BodyWrapper = styled.div`
   }
 
   @media ${mq.down(breakpoints.sm)} {
-    padding: 16px ​10px 210px 10px;
+    padding: 16px 10px 210px 10px;
   }
 `
 
