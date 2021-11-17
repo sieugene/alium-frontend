@@ -1,3 +1,4 @@
+import { useWeb3React } from '@web3-react/core'
 import { BridgeInfoIcon } from 'images/bridge/BridgeInfoIcon'
 import { BridgeSwitchNetworkIcon } from 'images/bridge/BridgeSwitchNetworkIcon'
 import { Trans, useTranslation } from 'next-i18next'
@@ -89,10 +90,10 @@ const SwitchNetworkStep = () => {
   const Icon = networkTo?.icon
   const changeStep = storeBridge.getState().changeStep
   const updateStepStatus = storeBridge.getState().updateStepStatus
-  const currentChainId = useStoreNetwork((state) => state.currentChainId)
+  const { chainId } = useWeb3React()
   const connected = useStoreNetwork((state) => state.connected)
 
-  const networksEqual = React.useMemo(() => networkTo?.chainId === currentChainId, [currentChainId, networkTo])
+  const networksEqual = React.useMemo(() => chainId && networkTo?.chainId === chainId, [chainId, networkTo?.chainId])
   const equalAndConnected = React.useMemo(() => networksEqual && connected, [connected, networksEqual])
 
   React.useEffect(() => {
