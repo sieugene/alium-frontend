@@ -21,6 +21,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
       label: t('Home'),
       icon: 'HomeIcon',
       href: ROUTES.home,
+      exact: true,
     },
     {
       label: t('Trade'),
@@ -28,7 +29,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
       triggers: [ROUTES.pool, ROUTES.exchange],
       items: [
         { label: t('Exchange'), href: ROUTES.exchange },
-        { label: t('Liquidity'), href: ROUTES.pool },
+        { label: t('Liquidity'), href: ROUTES.pool, exact: true },
         { label: t('Migrate'), href: ROUTES.migrate },
       ],
     },

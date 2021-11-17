@@ -27,6 +27,7 @@ export interface MenuSubEntry {
   label: string
   href?: string
   calloutClass?: string
+  exact?: boolean
 }
 
 export interface MenuEntry {
@@ -38,6 +39,7 @@ export interface MenuEntry {
   initialOpenState?: boolean
   new?: boolean
   triggers?: string[]
+  exact?: boolean
 }
 
 export interface PanelProps {

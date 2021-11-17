@@ -143,17 +143,12 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, links, togglePush, isDark }) 
   const homeLink = links.find((link) => link.label === 'Home')
 
   const isActive = (item: MenuSubEntry) => {
-    return item.href === location.pathname || location.pathname.includes(`${item.href}/`)
+    return item.exact ? item.href === location.pathname : location.pathname.startsWith(item.href)
   }
 
   const isAssociated = (entry: MenuEntryType) => {
-    const isHome = location.pathname === '/'
     return (
-      !isHome &&
-      entry?.triggers?.length &&
-      Boolean(
-        entry?.triggers.find((trigger) => location.pathname.includes(trigger) || trigger.includes(location.pathname)),
-      )
+      !entry.exact && entry.triggers?.some((trigger) => isActive(entry.items.find((item) => item.href === trigger)))
     )
   }
 

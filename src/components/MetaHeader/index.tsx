@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { useMemo } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
@@ -10,6 +11,7 @@ const metaTags = [
     description:
       'Alium Swap - DeFi aggregator on Ethereum, Polygon, Huobi and Binance Smart Chain. Buy ALM token on Alium DEX.',
     seo: '',
+    exact: true,
   },
   {
     title: 'Exchange | Alium Swap',
@@ -22,6 +24,7 @@ const metaTags = [
     link: ROUTES.pool,
     description: '',
     seo: 'Trade',
+    exact: true,
   },
   {
     title: 'Migrate | Alium Swap',
@@ -41,6 +44,12 @@ const metaTags = [
     description: '',
     seo: 'Our completed audits',
   },
+  {
+    title: 'Farms | Alium Finance',
+    link: ROUTES.farms,
+    description: '',
+    seo: '',
+  },
 ]
 const defaultMeta = {
   title: 'Alium Swap',
@@ -51,11 +60,13 @@ const defaultMeta = {
 // TODO when ssr work, refactor this
 const MetaHeader = () => {
   const router = useRouter()
-
-  const homeMeta = router.pathname === '/' && metaTags[0]
-
-  const { title, description, seo } =
-    homeMeta || metaTags.find((meta) => meta.link !== '/' && router.pathname.includes(meta.link)) || defaultMeta
+  const { title, description, seo } = useMemo(() => {
+    return (
+      metaTags.find((meta) => {
+        return meta.exact ? router.pathname === meta.link : router.pathname.startsWith(meta.link)
+      }) || defaultMeta
+    )
+  }, [router.pathname])
 
   return (
     <>
