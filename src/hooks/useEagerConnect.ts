@@ -1,4 +1,5 @@
 import { getConnectorId } from 'alium-uikit/src/util/connectorId/getConnectorId'
+import { WEB3NetworkErrors } from 'constants/network/NetworkErrors.contanst'
 import useAuth from 'hooks/useAuth'
 import { useCallback, useEffect } from 'react'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -20,6 +21,7 @@ const _binanceChainListener = async () =>
   })
 
 const useEagerConnect = () => {
+  const { connectIsFailed } = useStoreNetwork()
   const { login, logout } = useAuth()
   useReloadSwap(logout)
 
@@ -39,13 +41,22 @@ const useEagerConnect = () => {
       }
       await login(connectorId)
     }
-  }, [login])
+  }, [currentChainId, login])
 
   useEffect(() => {
     if (currentChainId) {
       connect()
     }
   }, [connect, currentChainId])
+
+  useEffect(() => {
+    if (connectIsFailed === WEB3NetworkErrors.UNSUPPORTED_CHAIN && window.ethereum?.on) {
+      window.ethereum.on('chainChanged', connect)
+      return () => {
+        window.ethereum.removeListener('chainChanged', connect)
+      }
+    }
+  }, [connect, connectIsFailed])
 }
 
 export default useEagerConnect
