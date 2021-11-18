@@ -95,7 +95,7 @@ const BridgeInput = () => {
     tokensDetailLoader ||
     toAmountLoading ||
     !valid ||
-    warning
+    !!warning
 
   const isRebaseToken = isRebasingToken(token)
   const disabledApprove = allowed || isRebaseToken || toAmountLoading
