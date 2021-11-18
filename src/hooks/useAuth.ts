@@ -27,7 +27,7 @@ const useAuth = () => {
   const { account: web3Account } = useActiveWeb3React()
   const { toastError } = useToast()
   const sendDataToGTM = useGTMDispatch()
-  const { setConnectionError, toggleLoadConnection, toggleConnected, loadConnection } = useStoreNetwork()
+  const { setConnectionError, toggleLoadConnection, toggleConnected, loadConnection, setChainId } = useStoreNetwork()
   const account = useRef(web3Account || '')
   const clearBalance = useStoreAccount((state) => state.clearBalance)
   const networks = getNetworks()
@@ -99,6 +99,10 @@ const useAuth = () => {
       toastError(WEB3NetworkErrors.UNSUPPORTED_CHAIN, error.message)
     }
     setConnectionError(WEB3NetworkErrors.UNSUPPORTED_CHAIN)
+    if (chainId) {
+      // Set previous chainId
+      setChainId(chainId)
+    }
   }
 
   const logout = useCallback(
