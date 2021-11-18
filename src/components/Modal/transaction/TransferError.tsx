@@ -47,7 +47,6 @@ const TransferError: FC<Props> = ({
         ) : (
           <>
             <h2>{t('Transaction failed')}</h2>
-            {!isExchange && <h3>{t("Your wallet doesn't have enough ALM to buy a ticket")}</h3>}
           </>
         )}
         <Button onClick={onRepeat}>{t('Repeat')}</Button>
