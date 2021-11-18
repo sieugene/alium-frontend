@@ -1,9 +1,10 @@
+import { parseUnits } from '@ethersproject/units'
 import { Skeleton } from 'alium-uikit/src'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { BigNumber, utils } from 'ethers'
 import { ExchangeIcon } from 'images/Exchange-icon'
 import { useTranslation } from 'next-i18next'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { storeBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
@@ -29,6 +30,11 @@ const Skeletons = () => {
     </div>
   )
 }
+
+// 0.05 ALM
+const minAmountEther = '0.05'
+// 1500000 ALM
+const maxAmountEther = '1500000'
 
 const BridgeInput = () => {
   const { t } = useTranslation()
@@ -72,13 +78,24 @@ const BridgeInput = () => {
   const { receiver } = useBridgeContext()
   const valid = React.useMemo(() => (receiver?.length ? utils.isAddress(receiver) : true), [receiver])
 
+  const warning = useMemo(() => {
+    if (fromAmount.gt(parseUnits(maxAmountEther))) {
+      return `Maximum Amount Per Transaction - ${maxAmountEther} ALM`
+    }
+
+    if (fromAmount.gt(0) && fromAmount.lt(parseUnits(minAmountEther))) {
+      return `Minimum Amount Per Transaction - ${minAmountEther} ALM`
+    }
+  }, [fromAmount])
+
   const disableBtn =
     toAmount <= BigNumber.from(0) ||
     fromAmount <= BigNumber.from(0) ||
     Boolean(Number(input) <= 0) ||
     tokensDetailLoader ||
     toAmountLoading ||
-    !valid
+    !valid ||
+    warning
 
   const isRebaseToken = isRebasingToken(token)
   const disabledApprove = allowed || isRebaseToken || toAmountLoading
@@ -100,6 +117,7 @@ const BridgeInput = () => {
               disableCurrencySelect
               onKeyUp={delayedSetAmount}
               loading={tokensDetailLoader}
+              warning={warning}
             />
             {disabledApprove ? (
               <BridgeTransferButton onClick={transfer} desktop disabled={disableBtn}>
