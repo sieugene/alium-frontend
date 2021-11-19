@@ -14,7 +14,7 @@ interface IMainSliderProps {
 }
 
 interface ISlide {
-  label: string
+  label?: string
   title: React.ReactNode
   image: string
   subTitle?: React.ReactNode
@@ -27,10 +27,9 @@ const MainSlider: React.FC<IMainSliderProps> = ({ className }) => {
   const { t } = useTranslation()
   const slides: ISlide[] = [
     {
-      label: t('Coming soon'),
-      title: t('"Cyber City Inc" Character Boxes Drop'),
-      subTitle: t('NFT Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters'),
-      image: '/images/home-new/slider/cyper-city-bg.svg',
+      title: t('Genesis NFT Drop is Live!'),
+      subTitle: t('Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters'),
+      image: '/images/home-new/slider/cyber-city-bg.png',
     },
   ]
   const isMoreThanOne = slides.length > 1
