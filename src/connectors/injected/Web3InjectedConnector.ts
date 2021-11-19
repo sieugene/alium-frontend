@@ -50,7 +50,7 @@ export class Web3InjectedConnector extends InjectedConnector {
     try {
       if (window.ethereum?.isMetaMask) {
         await this.notifyMetamask()
-        await this.addNetworkInWallet()
+        await this.addNetworkInWallet().catch(console.error)
       }
 
       return super.activate()
