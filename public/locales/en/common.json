@@ -386,5 +386,8 @@
   "Swap {{stringValue}}": "Swap {{stringValue}}",
   "Alium per $1000": "Alium per $1000",
   "You are in the Pool": "You are in the Pool",
-  "Amount:": "Amount:"
+  "Amount:": "Amount:",
+  "Maximum Amount Per Transaction - {{value}} {{symbol}}": "Maximum Amount Per Transaction - {{value}} {{symbol}}",
+  "Minimum Amount Per Transaction - {{value}} {{symbol}}": "Minimum Amount Per Transaction - {{value}} {{symbol}}",
+  "Insufficient funds": "Insufficient funds"
 }

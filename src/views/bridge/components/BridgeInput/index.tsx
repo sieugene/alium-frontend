@@ -78,15 +78,21 @@ const BridgeInput = () => {
   const { receiver } = useBridgeContext()
   const valid = React.useMemo(() => (receiver?.length ? utils.isAddress(receiver) : true), [receiver])
 
+  const isInsufficientFunds = fromAmount.gt(tokenBalance)
+
   const warning = useMemo(() => {
     if (fromAmount.gt(parseUnits(maxAmountEther))) {
-      return `Maximum Amount Per Transaction - ${maxAmountEther} ALM`
+      return t('Maximum Amount Per Transaction - {{value}} {{symbol}}', { value: maxAmountEther, symbol: 'ALM' })
     }
 
     if (fromAmount.gt(0) && fromAmount.lt(parseUnits(minAmountEther))) {
-      return `Minimum Amount Per Transaction - ${minAmountEther} ALM`
+      return t('Minimum Amount Per Transaction - {{value}} {{symbol}}', { value: minAmountEther, symbol: 'ALM' })
     }
-  }, [fromAmount])
+
+    if (isInsufficientFunds) {
+      return t('Insufficient funds')
+    }
+  }, [fromAmount, isInsufficientFunds, t])
 
   const disableBtn =
     toAmount <= BigNumber.from(0) ||
@@ -98,7 +104,7 @@ const BridgeInput = () => {
     !!warning
 
   const isRebaseToken = isRebasingToken(token)
-  const disabledApprove = allowed || isRebaseToken || toAmountLoading
+  const disabledApprove = allowed || isRebaseToken || toAmountLoading || isInsufficientFunds
 
   return (
     <InputWrapper>

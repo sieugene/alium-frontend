@@ -393,5 +393,8 @@
   "Swap {{stringValue}}": "__NOT_TRANSLATED__",
   "Alium per $1000": "__NOT_TRANSLATED__",
   "You are in the Pool": "__NOT_TRANSLATED__",
-  "Amount:": "__NOT_TRANSLATED__"
+  "Amount:": "__NOT_TRANSLATED__",
+  "Maximum Amount Per Transaction - {{value}} {{symbol}}": "__NOT_TRANSLATED__",
+  "Minimum Amount Per Transaction - {{value}} {{symbol}}": "__NOT_TRANSLATED__",
+  "Insufficient funds": "__NOT_TRANSLATED__"
 }
