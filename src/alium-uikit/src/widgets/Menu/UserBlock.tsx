@@ -1,5 +1,8 @@
 import React, { FC } from 'react'
 import { useStoreAccount } from 'store/account/useStoreAccount'
+import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
+import LanguageSwitch from '../LanguageSwitch'
 import { useWalletModal } from '../WalletModal'
 import { Login } from '../WalletModal/types'
 import { ConnectButton } from './ConnectButton'
@@ -44,6 +47,7 @@ const UserBlock: FC<Props> = (props) => {
 
   return (
     <>
+      <StyledLanguageSwitch />
       <NetworkSwitch />
       <ConnectButton
         isAccount={!!account}
@@ -53,5 +57,13 @@ const UserBlock: FC<Props> = (props) => {
     </>
   )
 }
+
+const StyledLanguageSwitch = styled(LanguageSwitch)`
+  margin-right: 16px;
+
+  @media ${mq.down(breakpoints.md)} {
+    display: none;
+  }
+`
 
 export default UserBlock

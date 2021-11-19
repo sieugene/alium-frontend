@@ -1,6 +1,8 @@
 import { ButtonMenu, ButtonMenuItem, Flex, Heading } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
-import { FC } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { FC, useMemo } from 'react'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
 
@@ -10,11 +12,15 @@ interface props {
 
 export const CardNav: FC<props> = ({ activeIndex = 0 }) => {
   const { t } = useTranslation()
-  const routes = [
-    { href: ROUTES.exchange, title: t('Exchange') },
-    { href: ROUTES.pool, title: t('Liquidity') },
-    { href: ROUTES.migrate, title: t('Migrate') },
-  ]
+  const router = useRouter()
+  const routes = useMemo(
+    () => [
+      { href: ROUTES.exchange, title: t('Exchange') },
+      { href: ROUTES.pool, title: t('Liquidity') },
+      { href: ROUTES.migrate, title: t('Migrate') },
+    ],
+    [t],
+  )
 
   return (
     <Flex alignItems='center' p='12px'>
@@ -24,9 +30,9 @@ export const CardNav: FC<props> = ({ activeIndex = 0 }) => {
         </Heading>
         <ButtonMenuStyled size='md' variant='primary' activeIndex={activeIndex}>
           {routes.map(({ href, title }) => (
-            <ButtonMenuItem href={href} key={href} as='a'>
-              {title}
-            </ButtonMenuItem>
+            <Link key={href} href={href} passHref>
+              <ButtonMenuItem isActive={router.pathname.startsWith(href)}>{title}</ButtonMenuItem>
+            </Link>
           ))}
         </ButtonMenuStyled>
       </StyledNav>
