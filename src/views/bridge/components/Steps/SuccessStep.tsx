@@ -15,7 +15,7 @@ const SuccessStep = () => {
   const fromToken = useStoreBridge((state) => state.tokens.fromToken)
   const toToken = useStoreBridge((state) => state.tokens.toToken)
   const token = fromToken?.chainId === currentChainId ? fromToken : toToken
-  const amount = useStoreBridge((state) => state.amounts.fromAmount)
+  const amount = useStoreBridge((state) => state.amounts.toAmount)
   const formattedAmount = token ? formatBridgeTokenAmount(token, amount) : '0'
 
   const txHash = useStoreBridge((state) => state.txHash)
