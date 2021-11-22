@@ -4,6 +4,7 @@ import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 
 const md = '768px'
 const lg = '1024px'
@@ -19,6 +20,7 @@ interface ISlide {
   image: string
   subTitle?: React.ReactNode
   active?: boolean
+  action?: React.ReactNode
 }
 
 // MainSlider
@@ -30,6 +32,11 @@ const MainSlider: React.FC<IMainSliderProps> = ({ className }) => {
       title: t('Genesis NFT Drop is Live!'),
       subTitle: t('Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters'),
       image: '/images/home-new/slider/cyber-city-bg.png',
+      action: (
+        <LearnMoreLink href='https://cybercity.game/' target='_blank' rel='noreferrer noopener'>
+          Learn More
+        </LearnMoreLink>
+      ),
     },
   ]
   const isMoreThanOne = slides.length > 1
@@ -177,6 +184,7 @@ const Slide = (props: ISlide) => {
         {props.label && <LabelType>{props.label}</LabelType>}
         <SliderTitle>{props.title}</SliderTitle>
         <SliderSubtitle>{props.subTitle}</SliderSubtitle>
+        {props.action && <SliderAction>{props.action}</SliderAction>}
       </SlideInfoW>
     </SlideW>
   )
@@ -308,3 +316,23 @@ const Arrow = () => {
     </svg>
   )
 }
+
+const SliderAction = styled.div`
+  margin-top: 24px;
+
+  @media ${mq.down(breakpoints.lg)} {
+    margin-top: 16px;
+  }
+`
+
+const LearnMoreLink = styled.a`
+  background: #24ba7b;
+  padding: 14px 24px;
+  display: inline-flex;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  color: #ffffff;
+`
