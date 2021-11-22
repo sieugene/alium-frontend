@@ -186,7 +186,7 @@ const InputPanel = styled.div<{ $warning?: boolean; hideInput?: boolean }>`
   background-color: transparent;
   z-index: 1;
   margin-right: 16px;
-  width: 340px;
+  min-width: 340px;
 
   @media screen and (max-width: 480px) {
     width: 100%;
