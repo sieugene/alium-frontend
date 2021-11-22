@@ -281,9 +281,6 @@
   "Google Play": "Google Play",
   "Download on": "Download on",
   "App Store": "App Store",
-  "Coming soon": "Coming soon",
-  "\"Cyber City Inc\" Character Boxes Drop": "\"Cyber City Inc\" Character Boxes Drop",
-  "NFT Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters": "NFT Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters",
   "Select you NFT id": "Select you NFT id",
   "Converting": "Converting",
   "Convert to ALMs": "Convert to ALMs",
@@ -389,5 +386,9 @@
   "Amount:": "Amount:",
   "Maximum Amount Per Transaction - {{value}} {{symbol}}": "Maximum Amount Per Transaction - {{value}} {{symbol}}",
   "Minimum Amount Per Transaction - {{value}} {{symbol}}": "Minimum Amount Per Transaction - {{value}} {{symbol}}",
-  "Insufficient funds": "Insufficient funds"
+  "Insufficient funds": "Insufficient funds",
+  "We are hiring": "We are hiring",
+  "Genesis NFT Drop is Live!": "Genesis NFT Drop is Live!",
+  "Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters": "Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters",
+  "Learn more": "Learn more"
 }
