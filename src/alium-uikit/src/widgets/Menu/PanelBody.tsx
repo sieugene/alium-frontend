@@ -170,7 +170,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, links, togglePush, isDark }) 
         )}
       </MenuButton>
       <StyledLinksPanel>
-        {links.map((entry) => {
+        {links.map((entry, key) => {
           const Icon = Icons[entry.icon]
           const iconElement = <Icon width='24px' mr='8px' />
           const calloutClass = entry.calloutClass ? entry.calloutClass : undefined
@@ -182,7 +182,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, links, togglePush, isDark }) 
 
             return (
               <Accordion
-                key={entry.label}
+                key={key}
                 ispushed={ispushed}
                 pushNav={pushNav}
                 icon={iconElement}
@@ -201,7 +201,7 @@ const PanelBody: FC<Props> = ({ ispushed, pushNav, links, togglePush, isDark }) 
             )
           }
           return (
-            <Fragment key={entry.label}>
+            <Fragment key={key}>
               <MenuEntry isActive={isActive(entry)} className={calloutClass}>
                 <StyledLink href={entry.href} handleClick={handleClick} ispushed={ispushed} isnew={entry?.new}>
                   {iconElement}

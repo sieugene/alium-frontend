@@ -1,5 +1,5 @@
 import useOnClickOutside from 'hooks/useOnClickOutside'
-import { FC, ReactElement, useRef, useState } from 'react'
+import { FC, ReactElement, ReactNode, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../components/Svg'
 // import { MENU_ENTRY_HEIGHT } from './config'
@@ -7,7 +7,7 @@ import { LinkLabel, MenuEntry } from './MenuEntry'
 import { PushedProps } from './types'
 
 interface Props extends PushedProps {
-  label: string
+  label: ReactNode
   icon: ReactElement
   initialOpenState?: boolean
   className?: string

@@ -10,6 +10,7 @@ import useTheme from 'hooks/useTheme'
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 import { ROUTES } from 'routes'
+import styled, { keyframes } from 'styled-components'
 import { getExplorerLink, useExplorerName } from 'utils'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
@@ -58,6 +59,16 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
       ],
     },
     { label: t('Alium.art'), icon: 'IconArt', href: `https://alium.art`, new: true },
+    {
+      label: (
+        <>
+          {t('We are hiring')}
+          <Dot />
+        </>
+      ),
+      icon: 'VacanciesIcon',
+      href: `https://docs.alium.finance/vacancies`,
+    },
   ]
 
   const { account } = useWeb3React()
@@ -95,3 +106,30 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
 }
 
 export default Menu
+
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+`
+
+const Dot = styled.span`
+  width: 6px;
+  height: 6px;
+  background: #1ea76d;
+  border-radius: 50%;
+  align-self: flex-start;
+  animation: ${pulse} infinite 1s ease-in-out;
+
+  && {
+    margin-left: 0 !important;
+  }
+`

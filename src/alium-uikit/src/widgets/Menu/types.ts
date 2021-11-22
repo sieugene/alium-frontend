@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { Login } from '../WalletModal/types'
 
 export interface LangType {
@@ -24,14 +25,14 @@ export interface NavTheme {
 }
 
 export interface MenuSubEntry {
-  label: string
+  label: ReactNode
   href?: string
   calloutClass?: string
   exact?: boolean
 }
 
 export interface MenuEntry {
-  label: string
+  label: ReactNode
   icon: string
   items?: MenuSubEntry[]
   href?: string
