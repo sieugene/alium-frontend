@@ -6,7 +6,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 module.exports = {
   i18n: {
     defaultLocale: 'en',
-    locales: isDev ? ['en', 'de', 'fr', 'fil', 'ru'] : ['en', 'ru'],
+    locales: isDev ? ['en', 'de', 'fr', 'fil', 'ru'] : ['en'],
   },
   ns: ['common'],
   defaultNS: 'common',

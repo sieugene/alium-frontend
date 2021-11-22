@@ -1,4 +1,4 @@
-import { EN, RU } from 'config/localisation/languageCodes'
+import { EN } from 'config/localisation/languageCodes'
 import useOnClickOutside from 'hooks/useOnClickOutside'
 import Cookies from 'js-cookie'
 import { useTranslation } from 'next-i18next'
@@ -13,7 +13,7 @@ export interface LanguageSwitchProps {
   inPanel?: boolean
 }
 
-const languages = [RU, EN]
+const languages = [EN]
 
 export default function LanguageSwitch({ className, inPanel }: LanguageSwitchProps) {
   const rootRef = useRef()
@@ -30,6 +30,9 @@ export default function LanguageSwitch({ className, inPanel }: LanguageSwitchPro
     [router],
   )
   useOnClickOutside(rootRef, () => setOpen(false))
+  if (languages.length < 2) {
+    return null
+  }
   return (
     <LanguageSwitch.Root
       ref={rootRef}
