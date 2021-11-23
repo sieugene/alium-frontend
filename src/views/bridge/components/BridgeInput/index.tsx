@@ -187,6 +187,10 @@ const InputWrapper = styled.div`
 
   .input {
     display: flex;
+
+    @media screen and (max-width: 480px) {
+      flex-direction: column;
+    }
   }
 
   .right-column {
