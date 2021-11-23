@@ -156,7 +156,13 @@ export const Step2YourLiquidity: FC<props> = ({
         )}
         <div className={`tokens-amount ${selectedPairKey !== -1}`}>
           <div className='label'>{t('Amount of Tokens')}</div>
-          <input type='text' value={tokensAmount} onChange={handleTokensAmount} disabled={selectedPairKey === -1} />
+          <input
+            type='text'
+            placeholder='0.0'
+            value={tokensAmount}
+            onChange={handleTokensAmount}
+            disabled={selectedPairKey === -1}
+          />
           {tokensAmount !== balance && (
             <div className='max' onClick={handleMax}>
               {t('MAX')}
@@ -174,7 +180,7 @@ export const Step2YourLiquidity: FC<props> = ({
               {t('Migrate')}
             </div>
           ) : (
-            <div className={`button false  `}>{t('Migrate')}</div>
+            <div className='button false'>{t('Migrate')}</div>
           )}
           {selectedPairKey !== -1 && (
             <div className='title2'>
@@ -275,6 +281,18 @@ export const Root = styled.div`
 
     border: 1px solid #d2d6e5;
     border-radius: 6px;
+
+    &:hover {
+      border-color: #8990a5;
+
+      input::placeholder {
+        color: #0b1359;
+      }
+    }
+
+    &:focus-within {
+      border-color: #6c5dd3;
+    }
   }
 
   .tokens-amount input {

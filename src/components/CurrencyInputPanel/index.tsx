@@ -248,6 +248,10 @@ const InputPanel = styled.div<{ checkOnMax: boolean }>`
   border-radius: 6px;
   background-color: transparent;
   z-index: 1;
+
+  &:focus-within {
+    border-color: #6c5dd3;
+  }
 `
 
 const MaxWarningBlock = styled.div<{ checkOnMax: boolean }>`
