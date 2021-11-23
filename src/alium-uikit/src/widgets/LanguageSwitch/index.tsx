@@ -1,7 +1,8 @@
-import { EN } from 'config/localisation/languageCodes'
+import languageCodes from 'config/localisation/languageCodes'
 import useOnClickOutside from 'hooks/useOnClickOutside'
 import Cookies from 'js-cookie'
 import { useTranslation } from 'next-i18next'
+import nextI18nextConfig from 'next-i18next.config'
 import { useRouter } from 'next/router'
 import { useCallback, useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -13,7 +14,7 @@ export interface LanguageSwitchProps {
   inPanel?: boolean
 }
 
-const languages = [EN]
+const locales = nextI18nextConfig.i18n.locales
 
 export default function LanguageSwitch({ className, inPanel }: LanguageSwitchProps) {
   const rootRef = useRef()
@@ -30,7 +31,7 @@ export default function LanguageSwitch({ className, inPanel }: LanguageSwitchPro
     [router],
   )
   useOnClickOutside(rootRef, () => setOpen(false))
-  if (languages.length < 2) {
+  if (locales.length < 2) {
     return null
   }
   return (
@@ -42,13 +43,13 @@ export default function LanguageSwitch({ className, inPanel }: LanguageSwitchPro
     >
       <LanguageSwitch.Button onClick={() => setOpen(true)} type='button'>
         <GlobeIcon />
-        {inPanel ? languages.find((l) => l.code === i18n.language).language : i18n.language.toUpperCase()}
+        {inPanel ? languageCodes[i18n.language] : i18n.language.toUpperCase()}
       </LanguageSwitch.Button>
       {isOpen && (
         <LanguageSwitch.Menu>
-          {languages.map((lang) => (
-            <LanguageSwitch.MenuItem onClick={() => changeLanguage(lang.code)} key={lang.code}>
-              {lang.language}
+          {locales.map((locale) => (
+            <LanguageSwitch.MenuItem onClick={() => changeLanguage(locale)} key={locale}>
+              {languageCodes[locale]}
             </LanguageSwitch.MenuItem>
           ))}
         </LanguageSwitch.Menu>
