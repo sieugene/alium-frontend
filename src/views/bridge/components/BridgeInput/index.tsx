@@ -1,6 +1,5 @@
 import { parseUnits } from '@ethersproject/units'
 import { Skeleton } from 'alium-uikit/src'
-import BigNumber from 'bignumber.js'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { BigNumber as EthersBigNumber, utils } from 'ethers'
 import useAlmPrice from 'hooks/useAlmPrice'
@@ -85,8 +84,9 @@ const BridgeInput = () => {
 
   const minAmountEther = useMemo<string>(() => {
     // TODO: crutch for the validator fee: 1$ / ALM Price * 100%
-    return almPrice ? new BigNumber(validatorFeeUsd).div(almPrice).times(100).toFixed(0) : ''
-  }, [almPrice])
+    // return almPrice ? new BigNumber(validatorFeeUsd).div(almPrice).times(100).toFixed(0) : ''
+    return '0'
+  }, [])
 
   const warning = useMemo(() => {
     if (fromAmount.gt(parseUnits(maxAmountEther))) {
