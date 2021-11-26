@@ -5,10 +5,12 @@ import MetaHeader from 'components/MetaHeader'
 import ToastListener from 'components/ToastListener'
 import 'config/bignumber'
 import EagerConnectContainer from 'connectors/EagerConnectContainer'
+import { NextPage } from 'next'
 import { appWithTranslation } from 'next-i18next'
 import nextI18NextConfig from 'next-i18next.config'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
+import type { ReactElement, ReactNode } from 'react'
 import { InitStores } from 'store/InitStores'
 import GlobalStyle from 'style/Global'
 import 'typeface-roboto'
@@ -18,7 +20,16 @@ const Providers = dynamic(() => import('Providers'), { ssr: false })
 
 const Popups = dynamic(() => import('components/Popups'), { ssr: false })
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type MyAppProps = AppProps & {
+  Component: NextPageWithLayout
+}
+
+const MyApp = ({ Component, pageProps }: MyAppProps) => {
+  const getLayout = Component.getLayout ?? ((page) => page)
   return (
     <>
       <MetaHeader />
@@ -32,7 +43,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <GlobalStyle />
           <MenuWrappedRoute loginBlockVisible>
             <Loaders />
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </MenuWrappedRoute>
           <ToastListener />
         </Providers>

@@ -3,7 +3,7 @@ import { ShadowComponent } from 'components/Main/ShadowComponent'
 import TransferError from 'components/Modal/transaction/TransferError'
 import TransferLoader from 'components/Modal/transaction/TransferLoader'
 import { useBridgeContext } from 'contexts/BridgeContext'
-import { useClaim } from 'hooks/bridge/useClaim'
+import { useClaim, WrongNetworkError } from 'hooks/bridge/useClaim'
 import { useTranslation } from 'next-i18next'
 import React, { FC, useCallback, useState } from 'react'
 import { useToast } from 'state/hooks'
@@ -61,7 +61,7 @@ const ClaimTokenStep = () => {
       changeStep(BRIDGE_STEPS.SUCCESS)
     } catch (manualClaimError) {
       console.log(manualClaimError)
-      if (manualClaimError?.message === 'Wrong network.') {
+      if (manualClaimError instanceof WrongNetworkError) {
         toggleNetworks()
       } else {
         manualClaimError?.message && toastError(manualClaimError?.message)

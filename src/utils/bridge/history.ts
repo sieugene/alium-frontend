@@ -125,7 +125,32 @@ export const getRequestsWithQuery = async (user, graphEndpoint, query) => {
   return { requests }
 }
 
-export const combineRequestsWithExecutions = (requests, executions, chainId, bridgeChainId) =>
+export interface TransferToken {
+  address: string
+  decimals: number
+  symbol: string
+  chainId: number
+}
+
+export interface TransferItem {
+  user: string
+  chainId: number
+  timestamp: string
+  sendingTx: string
+  receivingTx?: string
+  status?: boolean
+  amount: string
+  fromToken: TransferToken
+  toToken: TransferToken
+  message: {
+    txHash: string
+    messageId?: string
+    messageData?: string
+    signatures?: string[]
+  }
+}
+
+export const combineRequestsWithExecutions = (requests, executions, chainId, bridgeChainId): TransferItem[] =>
   requests.map((req) => {
     const execution = executions.find((exec) => exec.messageId === req.messageId)
     return {

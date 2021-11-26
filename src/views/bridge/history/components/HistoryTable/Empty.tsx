@@ -2,26 +2,20 @@ import { BridgeClockIcon } from 'images/bridge/BridgeClockIcon'
 import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 
-const BridgeEmptyTable = () => {
+export default function Empty() {
   const { t } = useTranslation()
-
   return (
-    <Wrapped>
-      <Clock>
+    <Empty.Root>
+      <Empty.Clock>
         <BridgeClockIcon />
-      </Clock>
-
+      </Empty.Clock>
       <h2>{t('No History')}</h2>
       <p>{t('Make the first exchange')}</p>
-    </Wrapped>
+    </Empty.Root>
   )
 }
 
-export default BridgeEmptyTable
-
-// styles
-
-const Wrapped = styled.div`
+Empty.Root = styled.div`
   height: 400px;
   display: flex;
   flex-direction: column;
@@ -52,7 +46,7 @@ const Wrapped = styled.div`
   }
 `
 
-const Clock = styled.div`
+Empty.Clock = styled.div`
   height: 80px;
   width: 80px;
   background: rgba(108, 93, 211, 0.1);

@@ -1,2 +1,2 @@
-export { default } from 'views/bridgeHistory'
+export { default } from 'views/bridge/history'
 export { getStaticProps } from '../index'

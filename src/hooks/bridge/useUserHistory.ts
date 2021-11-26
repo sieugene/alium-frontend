@@ -1,16 +1,16 @@
 import { useActiveWeb3React } from 'hooks'
 import { useEffect, useState } from 'react'
-import { combineRequestsWithExecutions, getExecutions, getRequests } from 'utils/bridge/history'
+import { combineRequestsWithExecutions, getExecutions, getRequests, TransferItem } from 'utils/bridge/history'
 import { useBridgeDirection } from './useBridgeDirection'
 
 export const useUserHistory = () => {
   const { homeChainId, foreignChainId, getGraphEndpoint } = useBridgeDirection()
   const { account } = useActiveWeb3React()
-  const [transfers, setTransfers] = useState([])
+  const [transfers, setTransfers] = useState<TransferItem[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!account) return () => undefined
+    if (!account) return
     let isSubscribed = true
     async function update() {
       setTransfers([])
@@ -30,7 +30,9 @@ export const useUserHistory = () => {
         foreignChainId,
         homeChainId,
       )
-      const allTransfers = [...homeTransfers, ...foreignTransfers].sort((a, b) => b.timestamp - a.timestamp)
+      const allTransfers = [...homeTransfers, ...foreignTransfers].sort(
+        (a, b) => Number(b.timestamp) - Number(a.timestamp),
+      )
       if (isSubscribed) {
         setTransfers(allTransfers)
         setLoading(false)
@@ -42,7 +44,7 @@ export const useUserHistory = () => {
     return () => {
       isSubscribed = false
     }
-  }, [])
+  }, [account, foreignChainId, getGraphEndpoint, homeChainId])
 
   return { transfers, loading }
 }

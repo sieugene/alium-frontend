@@ -18,7 +18,7 @@ export const getEnabledBridgeDirections = () => {
     return [BSC_HECO_BRIDGE, BSC_POLYGON_TEST_BRIDGE, BSC_RINKEBY_BRIDGE] as const
   } else {
     // mainnnet
-    return [BSC_POLYGON_BRIDGE, ETH_BSC_BRIDGE] as const
+    return [BSC_POLYGON_BRIDGE] as const
   }
 }
 export const ENABLED_BRIDGES = getEnabledBridgeDirections()
@@ -126,8 +126,8 @@ const BSC_POLYGON_BRIDGE_CONFIG = {
   homeMediatorAddress: '0x2ae54585430e3036F6eAf67eA85D33fC0bA195f8'.toLowerCase(),
   foreignAmbAddress: '0x7298519c55FD414E0B5364aa01946d954247057A'.toLowerCase(),
   homeAmbAddress: '0x7298519c55FD414E0B5364aa01946d954247057A'.toLowerCase(),
-  foreignGraphName: 'maxaleks/mainnet-to-bsc-omnibridge',
-  homeGraphName: 'maxaleks/bsc-to-mainnet-omnibridge',
+  foreignGraphName: 'alium-finance/bridge-polygon-bsc',
+  homeGraphName: 'alium-finance/bridge-bsc-polygon',
   ambLiveMonitorPrefix: 'http://alm-bsc.herokuapp.com',
 }
 

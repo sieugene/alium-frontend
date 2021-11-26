@@ -20,25 +20,6 @@ export const useBridgeDirection = () => {
 
   const { bridgeDirection, reverted } = findNetworkBridge()
 
-  // const bridgeConfig: BridgeInfoItemType = useMemo(() => {
-  //   const config = networks[bridgeDirection] || Object.values(networks)[0]
-  //   if (reverted) {
-  //     return {
-  //       ...config,
-  //       homeChainId: config.foreignChainId,
-  //       foreignChainId: config.homeChainId,
-  //       homeMediatorAddress: config.foreignMediatorAddress,
-  //       foreignMediatorAddress: config.homeMediatorAddress,
-  //       homeAmbAddress: config.foreignAmbAddress,
-  //       foreignAmbAddress: config.homeAmbAddress,
-  //       homeGraphName: config.foreignGraphName,
-  //       foreignGraphName: config.homeGraphName,
-  //     }
-  //   }
-
-  //   return config
-  // }, [bridgeDirection, reverted])
-
   const bridgeConfig: BridgeInfoItemType = useMemo(
     () => networks[bridgeDirection] || Object.values(networks)[0],
     [bridgeDirection],

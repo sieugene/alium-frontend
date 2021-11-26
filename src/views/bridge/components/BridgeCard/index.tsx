@@ -12,8 +12,8 @@ const HistoryText = () => {
   const { t } = useTranslation()
 
   return (
-    <Link href='/bridge/history'>
-      <History href='/bridge/history'>
+    <Link href='/bridge/history' passHref>
+      <History>
         <BridgeHistoryIcon />
         <p>{t('History')}</p>
       </History>

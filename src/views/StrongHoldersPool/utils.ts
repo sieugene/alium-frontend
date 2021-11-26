@@ -36,6 +36,6 @@ export function getPoolAmount(withdrawn: ethers.BigNumber, poolLocked: ethers.Bi
   return poolLocked.sub(withdrawn)
 }
 
-export function formatAddress(address: string) {
-  return `${address.substring(0, 9)}...${address.substring(address.length - 5)}`
+export function formatAddress(address: string, start = 9, end = 5) {
+  return `${address.substring(0, start)}...${address.substring(address.length - end)}`
 }
