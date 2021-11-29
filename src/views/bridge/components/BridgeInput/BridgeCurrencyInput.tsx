@@ -188,6 +188,10 @@ const InputPanel = styled.div<{ $warning?: boolean; hideInput?: boolean }>`
   margin-right: 16px;
   width: 340px;
 
+  &:focus-within {
+    border: 1px solid #6c5dd3;
+  }
+
   @media screen and (max-width: 480px) {
     width: 100%;
     max-width: initial;
