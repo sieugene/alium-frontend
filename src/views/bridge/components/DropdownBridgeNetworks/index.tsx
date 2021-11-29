@@ -1,7 +1,7 @@
 import { getBridgeNetworks } from 'alium-uikit/src/widgets/WalletModal/config'
 import useOnClickOutside from 'hooks/useOnClickOutside'
 import { useTranslation } from 'next-i18next'
-import React, { FC, useRef } from 'react'
+import React, { FC, Ref, useCallback, useImperativeHandle, useRef } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
 import { useStoreBridge } from 'store/bridge/useStoreBridge'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -23,9 +23,10 @@ const Chevron = () => {
 
 interface Props {
   type: BridgeNetworks
+  dropdownRef: Ref<{ toggle: () => any }>
 }
 
-const DropdownBridgeNetworks: FC<Props> = ({ type }) => {
+const DropdownBridgeNetworks: FC<Props> = ({ type, dropdownRef }) => {
   const { t } = useTranslation()
   const [show, setShow] = React.useState(false)
   const networks = getBridgeNetworks()
@@ -41,9 +42,18 @@ const DropdownBridgeNetworks: FC<Props> = ({ type }) => {
 
   const activeNetworks = [from, to]
 
-  const toggle = () => {
-    setShow(!show)
-  }
+  const toggle = useCallback(() => {
+    setShow((prev) => !prev)
+  }, [])
+
+  useImperativeHandle(
+    dropdownRef,
+    () => ({
+      toggle,
+    }),
+    [toggle],
+  )
+
   const isActiveNetwork = (chainId: number) => {
     return activeNetworks.includes(chainId)
   }

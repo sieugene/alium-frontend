@@ -1,13 +1,13 @@
 import { Skeleton } from 'alium-uikit/src'
-import { BridgeMoreIcon } from 'images/bridge/BridgeMoreIcon'
 import { useTranslation } from 'next-i18next'
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { BridgeNetworks } from 'store/bridge/types'
 import { networkFinder, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import DropdownBridgeNetworks from '../DropdownBridgeNetworks'
 import BridgeScan from '../Popups/BridgeScan'
+import { ReactComponent as MoreIcon } from './more.svg'
 
 interface Props {
   type: BridgeNetworks
@@ -31,6 +31,7 @@ const SkeletonNetwork = () => {
 
 const BridgeNetwork: FC<Props> = ({ type, value, token, balanceLoading }) => {
   const { t } = useTranslation()
+  const dropdownRef = useRef<{ toggle: () => any }>()
   const [modalOpen, setModalOpen] = useState(false)
   const chainId = useStoreBridge((state) => state[type])
   const network = networkFinder(chainId)
@@ -50,8 +51,10 @@ const BridgeNetwork: FC<Props> = ({ type, value, token, balanceLoading }) => {
         <div className='left-column'>
           <div className='network'>
             {Icon && <Icon />}
-            <p className='title'>{t(network?.label)}</p>
-            <DropdownBridgeNetworks type={type} />
+            <p onClick={() => dropdownRef.current?.toggle()} className='title'>
+              {t(network?.label)}
+            </p>
+            <DropdownBridgeNetworks dropdownRef={dropdownRef} type={type} />
           </div>
           <div className='token'>
             {value || 0} {token?.symbol}
@@ -60,7 +63,7 @@ const BridgeNetwork: FC<Props> = ({ type, value, token, balanceLoading }) => {
       )}
       <div className='right-column'>
         <div onClick={onShow}>
-          <BridgeMoreIcon />
+          <MoreIcon />
         </div>
       </div>
     </Network>
@@ -97,10 +100,11 @@ const Network = styled.div`
       line-height: 16px;
       letter-spacing: 0.1px;
       color: #0b1359;
-      margin-right: 27px;
+      padding-right: 27px;
+      cursor: pointer;
 
       @media screen and (max-width: 768px) {
-        margin-right: 9px;
+        padding-right: 9px;
       }
     }
 
@@ -118,6 +122,12 @@ const Network = styled.div`
   .right-column {
     display: flex;
     align-items: center;
+
+    & > div {
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
 
     svg {
       cursor: pointer;
