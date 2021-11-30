@@ -39,6 +39,7 @@ export interface MenuEntry {
   calloutClass?: string
   initialOpenState?: boolean
   new?: boolean
+  isPulsing?: boolean
   triggers?: string[]
   exact?: boolean
 }
