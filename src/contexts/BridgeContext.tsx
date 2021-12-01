@@ -16,7 +16,6 @@ import {
   getHelperContract,
   getMediatorAddress,
   getNativeCurrency,
-  getNetworkLabel,
   logError,
   parseValue,
 } from 'utils/bridge/helpers'
@@ -168,9 +167,6 @@ export const BridgeProvider = ({ children }) => {
         ])
 
         setTokens({ fromToken: token, toToken: new BridgeToken({ ...token?.raw, ...gotToToken?.raw }) })
-        const label = getNetworkLabel(token.chainId).toUpperCase()
-        const storageKey = `${bridgeDirection.toUpperCase()}-${label}-FROM-TOKEN`
-        localStorage.setItem(storageKey, JSON.stringify(token))
         return true
       } catch (tokenDetailsError) {
         setTokensDetailLoader(false)

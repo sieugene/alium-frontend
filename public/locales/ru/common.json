@@ -184,7 +184,6 @@
   "Transaction is pending...": "Транзакция в процессе...",
   "Please confirm that you would like to send <b>{{amountsFrom}} {{tokenSymbol}}</b> from {{networkFromLabel}} and receive <b>{{amountsTo}} {{tokenSymbol}}</b> on {{networkToLabel}}": "Пожалуйста, подтвердите, что вы хотите отправить <b>{{amountsFrom}} {{tokenSymbol}}</b> из {{networkFromLabel}} и получить <b>{{amountsTo}} {{tokenSymbol}}</b> на {{networkToLabel}}",
   "Confirm Transfer": "Подтвердить передачу",
-  "Bridge Fees 0.5%": "Комиссия мостов 0.5%",
   "The claim process requires 2 transactions, one on {{networkFromLabel}} and one on {{networkToLabel}}": "Процесс получения требует 2 транзакции, одна на {{networkFromLabel}} и одна на {{networkToLabel}}",
   "Cancel": "Отмена",
   "Continue": "Продолжить",
@@ -398,5 +397,6 @@
   "Genesis NFT Drop is Live!": "Genesis NFT Drop уже доступен",
   "Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters": "Играйте, чтобы заработать в игре с открытой экономикой и 10 000 крутыми и захватывающими персонажами Cyberpunk NFT",
   "Learn more": "Узнать больше",
-  "Failed": "__NOT_TRANSLATED__"
+  "Failed": "__NOT_TRANSLATED__",
+  "Bridge Fees {{fee}}%": "__NOT_TRANSLATED__"
 }

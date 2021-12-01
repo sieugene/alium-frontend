@@ -238,12 +238,6 @@ export const truncateText = (text: string, maxLength: number) => {
 }
 
 export const getDefaultToken = (bridgeDirection: ENABLED_BRIDGES_ENUMS_TYPE, chainId: number): BridgeToken => {
-  const label = getNetworkLabel(chainId).toUpperCase()
-  const storageKey = `${bridgeDirection.toUpperCase()}-${label}-FROM-TOKEN`
-  const tokenString = localStorage.getItem(storageKey)
-  const token: BridgeTokenObject = JSON.parse(tokenString)
-
-  if (token && token.chainId === chainId) return new BridgeToken(token)
   const defaultToken = defaultTokens?.[bridgeDirection]?.[chainId] || null
   const tokenRaw =
     defaultToken &&

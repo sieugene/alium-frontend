@@ -2,10 +2,11 @@ import { Button } from 'alium-uikit/src'
 import TransactionModal, { CloseItem } from 'components/Modal/transaction/TransactionModal'
 import { BridgeWarningInDetail } from 'images/bridge/BridgeWarningInDetail'
 import { Trans, useTranslation } from 'next-i18next'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ChevronRight } from 'react-feather'
 import { BRIDGE_STEPS, storeBridge, useStoreBridge } from 'store/bridge/useStoreBridge'
 import styled from 'styled-components'
+import { ethersToBN } from 'utils/bigNumber'
 import { formatBridgeTokenAmount } from 'utils/bridge/helpers'
 import { useBridge } from 'views/bridge/hooks/useBridge'
 import { useBridgeNetworks } from 'views/bridge/hooks/useBridgeNetworks'
@@ -19,6 +20,15 @@ const BridgeConfirmTransfer = () => {
   const modalOpen = useStoreBridge((state) => state.modalOpen)
   const from = useStoreBridge((state) => state.amounts.fromAmount)
   const to = useStoreBridge((state) => state.amounts.toAmount)
+  const fee = useMemo(() => {
+    if (from.gt(0)) {
+      const fromBn = ethersToBN(from)
+      const toBn = ethersToBN(to)
+      return fromBn.minus(toBn).div(fromBn).multipliedBy(100).toString()
+    }
+
+    return 0
+  }, [from, to])
   const amounts = {
     from: formatBridgeTokenAmount(token, from),
     to: formatBridgeTokenAmount(token, to),
@@ -57,7 +67,7 @@ const BridgeConfirmTransfer = () => {
                 <div className='chevron'>
                   <ChevronRight />
                 </div>
-                <p>{t('Bridge Fees 0.5%')}</p>
+                <p>{t('Bridge Fees {{fee}}%', { fee: fee.toString() })}</p>
               </Fees>
               <Token align='right' justify='end'>
                 <div className='text'>

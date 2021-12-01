@@ -190,7 +190,6 @@
   "Transaction is pending...": "__NOT_TRANSLATED__",
   "Please confirm that you would like to send <b>{{amountsFrom}} {{tokenSymbol}}</b> from {{networkFromLabel}} and receive <b>{{amountsTo}} {{tokenSymbol}}</b> on {{networkToLabel}}": "__NOT_TRANSLATED__",
   "Confirm Transfer": "__NOT_TRANSLATED__",
-  "Bridge Fees 0.5%": "__NOT_TRANSLATED__",
   "The claim process requires 2 transactions, one on {{networkFromLabel}} and one on {{networkToLabel}}": "__NOT_TRANSLATED__",
   "Cancel": "__NOT_TRANSLATED__",
   "Continue": "__NOT_TRANSLATED__",
@@ -391,5 +390,6 @@
   "Genesis NFT Drop is Live!": "__NOT_TRANSLATED__",
   "Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters": "__NOT_TRANSLATED__",
   "Learn more": "__NOT_TRANSLATED__",
-  "Failed": "__NOT_TRANSLATED__"
+  "Failed": "__NOT_TRANSLATED__",
+  "Bridge Fees {{fee}}%": "__NOT_TRANSLATED__"
 }

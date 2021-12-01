@@ -2,7 +2,6 @@ import { parseUnits } from '@ethersproject/units'
 import { Skeleton } from 'alium-uikit/src'
 import { useBridgeContext } from 'contexts/BridgeContext'
 import { BigNumber as EthersBigNumber, utils } from 'ethers'
-import useAlmPrice from 'hooks/useAlmPrice'
 import { ExchangeIcon } from 'images/Exchange-icon'
 import { useTranslation } from 'next-i18next'
 import React, { useCallback, useMemo } from 'react'
@@ -35,14 +34,14 @@ const Skeletons = () => {
 // 1500000 ALM
 const maxAmountEther = '1500000'
 // 1 USD
-const validatorFeeUsd = '1'
+// const validatorFeeUsd = '1'
 
 const BridgeInput = () => {
   const { t } = useTranslation()
   const toggleModal = storeBridge.getState().toggleModal
   const toggleNetworks = storeBridge.getState().toggleNetworks
   const { tokensDetailLoader } = useBridgeContext()
-  const almPrice = useAlmPrice()
+  // const almPrice = useAlmPrice()
 
   const {
     fromToken: token,
