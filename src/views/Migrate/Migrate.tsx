@@ -6,6 +6,7 @@ import { VAMPIRE_ABI } from 'config/vampiring/VAMPIRE_ABI'
 import { BigNumber } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
 import { useFactoryContract, useLPTokenContract, useVampireContract } from 'hooks/useContract'
+import { i18n } from 'next-i18next'
 import { FC, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
@@ -225,7 +226,10 @@ const ViewMigrate: FC = () => {
 
     try {
       await addTransaction(responseApprove, {
-        summary: `Approve ${currentPair.title} from ${currentPair.exchange}`,
+        summary: i18n.t('Approve {{title}} from {{exchange}}', {
+          title: currentPair.title,
+          exchange: currentPair.exchange,
+        }),
         approval: { tokenAddress: currentPair.addressLP, spender: account },
       })
     } catch (err) {

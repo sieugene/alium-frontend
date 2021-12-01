@@ -71,7 +71,6 @@
   "Blog": "__NOT_TRANSLATED__",
   "Alium.art": "__NOT_TRANSLATED__",
   "Transaction completed": "__NOT_TRANSLATED__",
-  "Amount:": "__NOT_TRANSLATED__",
   "Transaction failed": "__NOT_TRANSLATED__",
   "Repeat": "__NOT_TRANSLATED__",
   "Import Pool": "__NOT_TRANSLATED__",
@@ -391,5 +390,9 @@
   "Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters": "__NOT_TRANSLATED__",
   "Learn more": "__NOT_TRANSLATED__",
   "Failed": "__NOT_TRANSLATED__",
+  "for": "__NOT_TRANSLATED__",
+  "Swap {{inputAmount}} {{inputSymbol}} for {{outputAmount}} {{outputSymbol}}": "__NOT_TRANSLATED__",
+  "Add {{val1}} {{val2}} and {{val3}} {{val4}}": "__NOT_TRANSLATED__",
+  "Approve {{title}} from {{exchange}}": "__NOT_TRANSLATED__",
   "Bridge Fees {{fee}}%": "__NOT_TRANSLATED__"
 }

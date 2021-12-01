@@ -13,6 +13,7 @@ import { usePairUpdater } from 'hooks/liqudity/usePairUpdater'
 import { useCurrency } from 'hooks/Tokens'
 import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import { i18n } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { ROUTES } from 'routes'
@@ -219,9 +220,12 @@ const AddLiquidity: FC<props> = memo(({ currencyIdA, currencyIdB }) => {
       })
       GTM.addLiquidity(sendDataToGTM, { formattedAmounts, currencies })
       addTransaction(response, {
-        summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
-          currencies[Field.CURRENCY_A]?.symbol
-        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+        summary: i18n.t('Add {{val1}} {{val2}} and {{val3}} {{val4}}', {
+          val1: parsedAmounts[Field.CURRENCY_A]?.toSignificant(3),
+          val2: currencies[Field.CURRENCY_A]?.symbol,
+          val3: parsedAmounts[Field.CURRENCY_B]?.toSignificant(3),
+          val4: currencies[Field.CURRENCY_B]?.symbol,
+        }),
       })
       setTxHash(response.hash)
       await response.wait()

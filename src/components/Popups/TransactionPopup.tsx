@@ -1,5 +1,6 @@
 import { PopupCheckIcon, PopupFailIcon } from 'alium-uikit/src'
 import { useActiveWeb3React } from 'hooks'
+import { useTranslation } from 'next-i18next'
 import { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { getExplorerLink, useExplorerName } from 'utils'
@@ -22,6 +23,7 @@ export default function TransactionPopup({
   success?: boolean
   summary?: string
 }) {
+  const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
   const { explorerName } = useExplorerName(chainId)
   const theme = useContext(ThemeContext)
@@ -40,7 +42,9 @@ export default function TransactionPopup({
           {summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}
         </Body>
         {chainId && (
-          <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>View on {explorerName}</ExternalLink>
+          <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
+            {t('View on {{explorerName}}', { explorerName })}
+          </ExternalLink>
         )}
       </AutoColumn>
     </RowNoFlex>

@@ -382,7 +382,6 @@
   "Swap {{stringValue}}": "Swap {{stringValue}}",
   "Alium per $1000": "Alium per $1000",
   "You are in the Pool": "You are in the Pool",
-  "Amount:": "Amount:",
   "Maximum Amount Per Transaction - {{value}} {{symbol}}": "Maximum Amount Per Transaction - {{value}} {{symbol}}",
   "Minimum Amount Per Transaction - {{value}} {{symbol}}": "Minimum Amount Per Transaction - {{value}} {{symbol}}",
   "Insufficient funds": "Insufficient funds",
@@ -391,5 +390,9 @@
   "Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters": "Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters",
   "Learn more": "Learn more",
   "Failed": "Failed",
+  "for": "for",
+  "Swap {{inputAmount}} {{inputSymbol}} for {{outputAmount}} {{outputSymbol}}": "Swap {{inputAmount}} {{inputSymbol}} for {{outputAmount}} {{outputSymbol}}",
+  "Add {{val1}} {{val2}} and {{val3}} {{val4}}": "Add {{val1}} {{val2}} and {{val3}} {{val4}}",
+  "Approve {{title}} from {{exchange}}": "Approve {{title}} from {{exchange}}",
   "Bridge Fees {{fee}}%": "Bridge Fees {{fee}}%"
 }

@@ -373,7 +373,6 @@
   "Price Impact High": "Влияние цены высокое",
   "Swap {{stringValue}}": "Обменять {{stringValue}}",
   "Alium per $1000": "Alium за каждые $1000",
-  "Amount:": "__NOT_TRANSLATED__",
   "Claim ALM tokens {{count}}_0": "__NOT_TRANSLATED__",
   "Claim ALM tokens {{count}}_1": "__NOT_TRANSLATED__",
   "Claim ALM tokens {{count}}_2": "__NOT_TRANSLATED__",
@@ -398,5 +397,9 @@
   "Play to Earn Game with open economy and 10 000 cool and exciting Cyberpunk NFT Characters": "Играйте, чтобы заработать в игре с открытой экономикой и 10 000 крутыми и захватывающими персонажами Cyberpunk NFT",
   "Learn more": "Узнать больше",
   "Failed": "__NOT_TRANSLATED__",
+  "for": "для",
+  "Swap {{inputAmount}} {{inputSymbol}} for {{outputAmount}} {{outputSymbol}}": "Обмен {{inputAmount}} {{inputSymbol}} на {{outputAmount}} {{outputSymbol}}",
+  "Add {{val1}} {{val2}} and {{val3}} {{val4}}": "Добавлено {{val1}} {{val2}} и {{val3}} {{val4}}",
+  "Approve {{title}} from {{exchange}}": "Подтверждено {{title}} от {{exchange}}",
   "Bridge Fees {{fee}}%": "__NOT_TRANSLATED__"
 }

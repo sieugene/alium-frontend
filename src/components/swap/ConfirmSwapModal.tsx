@@ -1,5 +1,6 @@
 import { currencyEquals, Trade } from '@alium-official/sdk'
 import { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import TransactionConfirmationModal, { ConfirmationModalContent } from '../TransactionConfirmationModal'
 import SwapModalFooter from './SwapModalFooter'
@@ -47,6 +48,7 @@ export default function ConfirmSwapModal({
   onDismiss: () => void
   onRepeat: () => void
 }) {
+  const { t } = useTranslation()
   const showAcceptChanges = useMemo(
     () => Boolean(trade && originalTrade && tradeMeaningfullyDiffers(trade, originalTrade)),
     [originalTrade, trade],
@@ -79,12 +81,12 @@ export default function ConfirmSwapModal({
   // text to show while loading
   const pendingText = `Swapping ${toSignificantCurrency(trade?.inputAmount)} ${
     trade?.inputAmount?.currency?.symbol
-  } for ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
+  } ${t('for')} ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
 
   // for transaction modal success
-  const amount = `${toSignificantCurrency(trade?.inputAmount)} ${
-    trade?.inputAmount?.currency?.symbol
-  } for ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
+  const amount = `${toSignificantCurrency(trade?.inputAmount)} ${trade?.inputAmount?.currency?.symbol} ${t(
+    'for',
+  )} ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
 
   // swap to token
   const token = trade?.route.pairs[0]?.token1

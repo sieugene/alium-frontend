@@ -4,6 +4,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from 'config/settings'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { calculateGasMargin, calculateGasPrice, getRouterContract, isAddress, shortenAddress } from 'utils'
 import isZero from '../utils/isZero'
@@ -92,6 +93,7 @@ export function useSwapCallback(
   deadline: number = DEFAULT_DEADLINE_FROM_NOW, // in seconds from now
   recipientAddressOrName: string | null, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
 ): { state: SwapCallbackState; callback: null | (() => Promise<string>); error: string | null } {
+  const { t } = useTranslation()
   const { account, chainId, library } = useActiveWeb3React()
 
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, deadline, recipientAddressOrName)
@@ -190,7 +192,12 @@ export function useSwapCallback(
             const inputAmount = trade.inputAmount.toSignificant(3)
             const outputAmount = trade.outputAmount.toSignificant(3)
 
-            const base = `Swap ${inputAmount} ${inputSymbol} for ${outputAmount} ${outputSymbol}`
+            const base = t('Swap {{inputAmount}} {{inputSymbol}} for {{outputAmount}} {{outputSymbol}}', {
+              inputAmount,
+              inputSymbol,
+              outputAmount,
+              outputSymbol,
+            })
             const withRecipient =
               recipient === account
                 ? base

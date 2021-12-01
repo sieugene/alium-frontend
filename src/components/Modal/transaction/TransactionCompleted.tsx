@@ -54,7 +54,7 @@ export const TransactionAddTokenWithSuccess: FC<Props> = ({ cancel, hiddenTokenS
       <Content>
         <h2 className='title'>{t('Transaction completed')}</h2>
         <p>
-          {t('Amount:')}{' '}
+          {t('Amount')}{' '}
           <b>
             {amount} {!hiddenTokenSymbol && token?.symbol}
           </b>
