@@ -62,7 +62,7 @@ const BridgeApproveBtn: FC<ApproveProps> = ({ amount, balance, unlockLoading, bu
   }, [unlockLoading, buttonDisabled, valid, showError, approve])
 
   return (
-    <BridgeTransferButton onClick={onClick} {...props} disabled={unlockLoading}>
+    <BridgeTransferButton onClick={onClick} {...props} isloading={unlockLoading}>
       {buttonDisabled ? t('Unlocked') : t('Unlock')}
     </BridgeTransferButton>
   )
