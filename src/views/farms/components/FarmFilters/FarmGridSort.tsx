@@ -9,13 +9,6 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: ${FARM_TABLET_MEDIA}) {
-    width: 100%;
-    justify-content: flex-end;
-  }
-  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
-    justify-content: flex-start;
-  }
 `
 const ClickableIcon = styled.div<{ active: boolean }>`
   cursor: pointer;

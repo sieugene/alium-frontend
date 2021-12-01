@@ -48,7 +48,7 @@ const Footer = styled.div`
 
 const StyledButton = styled(Button)`
   margin-top: 16px;
-  width: 219px;
+
   svg {
     margin-right: 16px;
     height: 24px;

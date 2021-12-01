@@ -54,7 +54,7 @@ export default BuyTicketModal
 
 const Wrapper = styled.div`
   width: 354px;
-  height: 363px;
+  margin-bottom: 63px;
 `
 
 const Header = styled.div`

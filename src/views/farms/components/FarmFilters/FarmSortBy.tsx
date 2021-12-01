@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-left: auto !important;
 
   h2 {
     font-style: normal;
