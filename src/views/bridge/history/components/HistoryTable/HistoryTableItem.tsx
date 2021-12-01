@@ -64,7 +64,7 @@ export function HistoryTableItem({ item, directionInDate }: HistoryTableItemProp
       <td>
         {receivingTx ? (
           <a href={getExplorerLink(bridgeChainId, item.receivingTx, 'transaction')} target='blank'>
-            formatAddress(item.receivingTx, 6, 4)
+            {formatAddress(item.receivingTx, 6, 4)}
           </a>
         ) : (
           '—'
