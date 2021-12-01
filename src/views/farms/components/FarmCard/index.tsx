@@ -29,12 +29,13 @@ const FooterCard = styled.div<{ isSingle: boolean }>`
 `
 
 export interface FarmCardProps {
+  isFinished?: boolean
   farm: FarmWithStakedValue
   almPrice: BigNumber
   removed?: boolean
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ isFinished, farm, almPrice, removed }) => {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({
     farm,
@@ -45,7 +46,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, almPrice, removed }) => {
       <CardHeading farm={farm} type={ViewMode.CARD} />
       <ContentCard>
         <InfoRow>
-          <InfoApr farm={farm} almPrice={almPrice} />
+          <InfoApr isFinished={isFinished} farm={farm} almPrice={almPrice} />
         </InfoRow>
         <InfoRow withBg>
           <InfoEarn farm={farm} />

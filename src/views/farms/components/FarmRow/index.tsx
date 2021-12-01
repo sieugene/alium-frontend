@@ -25,6 +25,7 @@ import FarmLargeRow from './FarmLargeRow'
 import FarmMobileRow from './FarmMobileRow'
 
 export type FarmRowProps = FarmCardProps & {
+  isFinished: boolean
   farmNum: number
   almPrice: BigNumber
 }
@@ -61,7 +62,7 @@ export interface FarmRowViewsProps {
   }
 }
 
-export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
+export default function FarmRow({ isFinished, farm, farmNum, almPrice }: FarmRowProps) {
   const earned = useInfoEarned(farm)
   const staked = useInfoStaked({ farm })
   const [isOpen, toggleOpen] = useToggle(false)
@@ -83,7 +84,7 @@ export default function FarmRow({ farm, farmNum, almPrice }: FarmRowProps) {
       apr: (
         <FarmRow.Cell>
           <FarmRow.Field>
-            <InfoApr farm={farm} almPrice={almPrice} />
+            <InfoApr isFinished={isFinished} farm={farm} almPrice={almPrice} />
           </FarmRow.Field>
         </FarmRow.Cell>
       ),

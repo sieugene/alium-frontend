@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 import { useCallback, useMemo, useState } from 'react'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { breakpoints, mq } from 'ui'
 import { getExplorerLink } from 'utils'
 import { getAddress } from 'utils/addressHelpers'
@@ -129,6 +129,7 @@ const HarvestButton = styled(Button)`
 `
 
 export interface InfoAPRProps {
+  isFinished?: boolean
   farm: FarmWithStakedValue
   almPrice: BigNumber
 }
@@ -140,14 +141,21 @@ const AprItem = styled.div`
     margin-right: 10px;
   }
 `
-const IconCalculateWrap = styled.div`
+const IconCalculateWrap = styled.div<{ $isFinished?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: fit-content;
   cursor: pointer;
+
+  ${({ $isFinished }) =>
+    $isFinished &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `}
 `
-export function InfoApr({ farm, almPrice }: InfoAPRProps) {
+export function InfoApr({ isFinished, farm, almPrice }: InfoAPRProps) {
   const { t } = useTranslation()
   const loading = useFarmsLoading()
   const [onShowRoi] = useModal(<RoiModal almPrice={almPrice} farm={farm} />)
@@ -165,7 +173,7 @@ export function InfoApr({ farm, almPrice }: InfoAPRProps) {
         <AprItem>
           {!loading ? (
             <>
-              <IconCalculateWrap onClick={onShowRoi}>
+              <IconCalculateWrap $isFinished={isFinished} onClick={!isFinished ? onShowRoi : () => {}}>
                 <CalculateIcon />
               </IconCalculateWrap>
               {farm.apr || 0}%

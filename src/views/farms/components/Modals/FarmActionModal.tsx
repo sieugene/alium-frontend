@@ -3,13 +3,14 @@ import BigNumber from 'bignumber.js'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { getExplorerLink } from 'utils'
 import { roiCalculator } from 'utils/farm/compoundApyHelpers'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 import { useFarmLpAddress } from 'views/farms/components/Info'
-import { FarmPair, FarmWithStakedValue } from 'views/farms/farms.types'
+import { FarmPair, FarmTab, FarmWithStakedValue } from 'views/farms/farms.types'
 import { useLpTokenPrice } from 'views/farms/hooks/useFarmingPools'
 import { FarmModalStatuses } from './FarmModalStatuses'
 import { ModalFarmBaseWrap } from './modals.styled'
@@ -55,6 +56,9 @@ const FarmActionModal = ({
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max)
   }, [max])
+
+  const activeTab = useStoreFarms((state) => state.activeTab)
+  const isFinished = FarmTab.finished === activeTab
 
   // roi
   const lpPrice = useLpTokenPrice(farm?.lpSymbol)
@@ -143,7 +147,10 @@ const FarmActionModal = ({
               <h3> {t('Annual ROI at current rates')}:</h3>
               <div className='price'>
                 <p title={roiUsdFormatted}>${roiUsdFormatted}</p>
-                <FarmActionModal.IconCalculateWrap onClick={onShowRoi}>
+                <FarmActionModal.IconCalculateWrap
+                  $isFinished={isFinished}
+                  onClick={!isFinished ? onShowRoi : () => {}}
+                >
                   <CalculateIcon />
                 </FarmActionModal.IconCalculateWrap>
               </div>
@@ -255,12 +262,19 @@ FarmActionModal.ModalFooter = styled.div`
   }
 `
 
-FarmActionModal.IconCalculateWrap = styled.div`
+FarmActionModal.IconCalculateWrap = styled.div<{ $isFinished?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: fit-content;
   cursor: pointer;
+
+  ${({ $isFinished }) =>
+    $isFinished &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `}
 `
 
 export default FarmActionModal

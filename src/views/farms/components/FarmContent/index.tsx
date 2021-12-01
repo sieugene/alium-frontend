@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js'
+import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
 import { breakpoints, mq } from 'ui'
-import { FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
+import { FarmTab, FarmWithStakedValue, ViewMode } from 'views/farms/farms.types'
 import { farmBgForNthChild, farmCardsBg } from 'views/farms/helpers/farms.styles'
 import FarmCard from '../FarmCard'
 import FarmRow from '../FarmRow'
@@ -13,11 +14,18 @@ export interface FarmContentProps {
 }
 
 export default function FarmContent({ viewMode, farms, almPrice }: FarmContentProps) {
+  const activeTab = useStoreFarms((state) => state.activeTab)
+  const isFinished = FarmTab.finished === activeTab
+
   switch (viewMode) {
     case ViewMode.CARD:
       return (
         <FarmContent.Grid>
-          {farms?.length ? farms.map((farm, index) => <FarmCard key={index} farm={farm} almPrice={almPrice} />) : ''}
+          {farms?.length
+            ? farms.map((farm, index) => (
+                <FarmCard isFinished={isFinished} key={index} farm={farm} almPrice={almPrice} />
+              ))
+            : ''}
         </FarmContent.Grid>
       )
     case ViewMode.TABLE:
@@ -25,7 +33,9 @@ export default function FarmContent({ viewMode, farms, almPrice }: FarmContentPr
         <FarmContent.Table>
           <tbody>
             {farms?.length
-              ? farms.map((farm, index) => <FarmRow farmNum={index} key={index} farm={farm} almPrice={almPrice} />)
+              ? farms.map((farm, index) => (
+                  <FarmRow isFinished={isFinished} farmNum={index} key={index} farm={farm} almPrice={almPrice} />
+                ))
               : ''}
           </tbody>
         </FarmContent.Table>
