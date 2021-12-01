@@ -35,7 +35,7 @@ export const useBridge = () => {
   const toggleNetworks = useStoreBridge((state) => state.toggleNetworks)
 
   const refetch = useRefetchBridgeBalances()
-  const { clearAllowApprove } = useBridgeContext()
+  const { mutateAllowance } = useBridgeContext()
   // Actions
   const install = ({ step, showModal, statuses, from, to }: Params) => {
     // Params
@@ -69,7 +69,7 @@ export const useBridge = () => {
     toggleNetworkIfBeChangedAndClosed(currentStep)
     clearTransaction()
     refetch()
-    clearAllowApprove()
+    mutateAllowance()
   }
 
   const toggleNetworkIfBeChangedAndClosed = (step: BRIDGE_STEPS) => {

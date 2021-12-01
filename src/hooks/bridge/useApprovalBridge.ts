@@ -1,35 +1,21 @@
 import { LARGEST_UINT256, LOCAL_STORAGE_KEYS } from 'constants/bridge/bridge.constants'
 import { BigNumber } from 'ethers'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { BridgeToken } from 'utils/bridge/entities/BridgeToken'
 import { logError } from 'utils/bridge/helpers'
-import { approveToken, fetchAllowance } from 'utils/bridge/token'
+import { approveToken } from 'utils/bridge/token'
+import useAllowance from './useAllowance'
 import { useWeb3Context } from './useWeb3Context'
 
 const { INFINITE_UNLOCK } = LOCAL_STORAGE_KEYS
 
 export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHash: string) => {
-  const { account, ethersProvider, providerChainId, connected } = useWeb3Context()
-  const [allowance, setAllowance] = useState(BigNumber.from(0))
-  const [allowed, setAllowed] = useState(true)
-
-  useEffect(() => {
-    if (fromToken && providerChainId === fromToken.chainId && ethersProvider && connected) {
-      fetchAllowance(fromToken, account, ethersProvider)
-        .then((amountAllowance) => {
-          setAllowance(amountAllowance)
-        })
-        .catch((error) => {
-          setAllowance(BigNumber.from(0))
-        })
-    } else {
-      setAllowance(BigNumber.from(0))
-    }
-  }, [account, connected, ethersProvider, fromToken, providerChainId])
-
-  useEffect(() => {
-    setAllowed((fromToken && ['NATIVE', 'erc677'].includes(fromToken.mode)) || allowance.gte(fromAmount))
-  }, [allowance, fromAmount, fromToken])
+  const { account, ethersProvider } = useWeb3Context()
+  const { data: allowance, mutate: mutateAllowance } = useAllowance(fromToken, account, fromToken?.mediator)
+  const allowed = useMemo(
+    () => (fromToken && ['NATIVE', 'erc677'].includes(fromToken.mode)) || allowance?.gte(fromAmount),
+    [allowance, fromAmount, fromToken],
+  )
 
   const [unlockLoading, setUnlockLoading] = useState(false)
   const [approvalTxHash, setApprovalTxHash] = useState('')
@@ -45,7 +31,7 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
       setApprovalTxHash(tx.hash)
       console.log('approveToken :: tx.wait() :: start')
       await tx.wait()
-      setAllowance(approvalAmount)
+      await mutateAllowance()
       console.log('approveToken :: tx.wait() :: end')
     } catch (approveError) {
       logError({
@@ -59,12 +45,7 @@ export const useApproval = (fromToken: BridgeToken, fromAmount: BigNumber, txHas
       setApprovalTxHash('')
       setUnlockLoading(false)
     }
-  }, [fromAmount, fromToken, ethersProvider, account])
+  }, [fromAmount, ethersProvider, fromToken, mutateAllowance, account])
 
-  const clearAllowApprove = () => {
-    setAllowance(BigNumber.from(0))
-    setAllowed(false)
-  }
-
-  return { allowed, unlockLoading, approvalTxHash, approve, clearAllowApprove }
+  return { allowed, unlockLoading, approvalTxHash, approve, mutateAllowance }
 }
