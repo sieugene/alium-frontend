@@ -1,7 +1,8 @@
 import { Text } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import AuditItem from './components/AuditItem'
-import audits, { AuditType } from './constants/audits'
+import useGetCardList, { AuditType } from './constants/audits'
 
 const ContentHolder = styled.div`
   position: relative;
@@ -46,12 +47,15 @@ const StyledText = styled(Text)`
 `
 
 const AuditPage = () => {
+  const { t } = useTranslation()
+  const { audits } = useGetCardList()
+
   return (
     <StyledWrapper>
       <ContentHolder>
         <CardWrapper>
           <StyledText fontSize='48px' style={{ fontWeight: 700, marginBottom: '24px', marginTop: '40px' }}>
-            Our completed audits
+            {t('Our completed audits')}
           </StyledText>
 
           <AuditListContainer>

@@ -1,6 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { POLLING_INTERVAL } from 'constants/bridge/bridge.env'
 import { useBridgeContext } from 'contexts/BridgeContext'
+import { i18n } from 'next-i18next'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { logError } from 'utils/bridge/helpers'
 import { getMessage, getMessageData, messageCallStatus, NOT_ENOUGH_COLLECTED_SIGNATURES } from 'utils/bridge/message'
@@ -63,7 +64,7 @@ export const useTransactionStatus = () => {
 
         if (enoughConfirmations) {
           if (isHome) {
-            setLoadingText('Collecting Signatures')
+            setLoadingText(i18n.t('Collecting Signatures'))
             const message = await getMessage(isHome, ethersProvider, getAMBAddress(chainId), txHash)
             if (message?.signatures) {
               setNeedsConfirmation(true)

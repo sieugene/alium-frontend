@@ -394,5 +394,19 @@
   "Swap {{inputAmount}} {{inputSymbol}} for {{outputAmount}} {{outputSymbol}}": "__NOT_TRANSLATED__",
   "Add {{val1}} {{val2}} and {{val3}} {{val4}}": "__NOT_TRANSLATED__",
   "Approve {{title}} from {{exchange}}": "__NOT_TRANSLATED__",
-  "Bridge Fees {{fee}}%": "__NOT_TRANSLATED__"
+  "Bridge Fees {{fee}}%": "__NOT_TRANSLATED__",
+  "Collecting Signatures": "__NOT_TRANSLATED__",
+  "Our completed audits": "__NOT_TRANSLATED__",
+  "Alium Finance Smart Contracts Audit": "__NOT_TRANSLATED__",
+  "Alium Factory Security Assessment, CertiK": "__NOT_TRANSLATED__",
+  "Alium Router Security Assessment, CertiK": "__NOT_TRANSLATED__",
+  "Security Assessment Alium Farm by CertiK": "__NOT_TRANSLATED__",
+  "SMART CONTRACT CODE REVIEW AND SECURITY ANALYSIS REPORT BY HACKEN": "__NOT_TRANSLATED__",
+  "Security Assessment Alium Collectible by CertiK": "__NOT_TRANSLATED__",
+  "Core Contracts Audit": "__NOT_TRANSLATED__",
+  "Liquidity Migration Contract Audit": "__NOT_TRANSLATED__",
+  "On Github:": "__NOT_TRANSLATED__",
+  "On BscScan:": "__NOT_TRANSLATED__",
+  "GitHub Cerificate PDF": "__NOT_TRANSLATED__",
+  "Detailed report": "__NOT_TRANSLATED__"
 }

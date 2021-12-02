@@ -1,4 +1,5 @@
 import { ArrowDropDownIcon, Flex, LinkExternal, Text } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { AuditType } from 'views/Audit/constants/audits'
@@ -134,6 +135,7 @@ const AuditItem = ({
   image,
   headImg,
 }: AuditType) => {
+  const { t } = useTranslation()
   const [isOpened, setIsOpened] = useState(true)
 
   return (
@@ -179,7 +181,7 @@ const AuditItem = ({
                     <Flex alignItems='center' key={index}>
                       <GitHubIcon style={{ marginRight: '4px' }} />
                       <StyledText fontSize='14px'>
-                        On Github:{' '}
+                        {t('On Github:')}{' '}
                         <StyledLinkExternal paddingRight='16px' href={cert}>
                           {cert ? `${cert.slice(0, 30)}...` : ''}
                         </StyledLinkExternal>
@@ -190,7 +192,7 @@ const AuditItem = ({
                   <Flex alignItems='center'>
                     <BSCScanIcon style={{ marginRight: '4px' }} />
                     <StyledText fontSize='14px'>
-                      On BscScan:{' '}
+                      {t('On BscScan:')}{' '}
                       <StyledLinkExternal paddingRight='16px' href={bscScan}>
                         {bscScan ? `${bscScan.slice(0, 30)}...` : ''}
                       </StyledLinkExternal>
@@ -201,10 +203,10 @@ const AuditItem = ({
               <FooterFlex>
                 {gitHubCerificatePDF && (
                   <StyledLinkExternal paddingRight='16px' href={gitHubCerificatePDF}>
-                    GitHub Cerificate PDF
+                    {t('GitHub Cerificate PDF')}
                   </StyledLinkExternal>
                 )}
-                <StyledLinkExternal href={detailedReport}>Detailed report</StyledLinkExternal>
+                <StyledLinkExternal href={detailedReport}>{t('Detailed report')}</StyledLinkExternal>
               </FooterFlex>
             </Links>
           )}

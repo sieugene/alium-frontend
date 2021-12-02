@@ -179,7 +179,7 @@ export default function CurrencyInputPanel({
       </InputPanel>
       <MaxWarningBlock checkOnMax={checkOnMax}>
         <WarningIcon />
-        <MaxWarningBlockText>Insufficient funds</MaxWarningBlockText>
+        <MaxWarningBlockText>{t('Insufficient funds')}</MaxWarningBlockText>
       </MaxWarningBlock>
     </>
   )

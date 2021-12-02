@@ -219,6 +219,8 @@ const Table = styled.div`
 const Text = styled.p`
   font-style: normal;
   font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
   font-size: 11px;
   line-height: 14px;
   letter-spacing: 0.3px;
