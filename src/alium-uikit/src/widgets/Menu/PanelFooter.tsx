@@ -19,7 +19,7 @@ const PanelFooter: FC<Props> = ({ ispushed }) => {
 }
 
 const StyledLanguageSwitch = styled(LanguageSwitch)`
-  margin: 16px 24px 32px;
+  margin: 0 24px 32px;
 `
 
 export default PanelFooter

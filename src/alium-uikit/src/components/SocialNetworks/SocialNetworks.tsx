@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { externalLinks } from '../../config'
 import { ReactComponent as BscscanIcon } from './assets/Bscscan.svg'
 import { ReactComponent as CoingeckoIcon } from './assets/Coingecko.svg'
@@ -15,13 +16,15 @@ const StyledWrapper = styled.div<SocialNetworksProps>`
   display: flex;
   flex-direction: ${({ ispushed }) => (!ispushed ? 'column' : 'row')};
   justify-content: ${({ inPanel }) => (inPanel ? 'space-between' : 'flex-start')};
+  margin-top: 50px;
   margin-left: ${({ inPanel }) => (inPanel ? 'auto' : '0')};
   margin-right: ${({ inPanel }) => (inPanel ? 'auto' : '0')};
   margin-bottom: ${({ inPanel }) => (inPanel ? '24px' : '0')};
-  padding-top: 8px;
 
-  @media screen and (max-width: 1024px) {
-    justify-content: ${({ inPanel }) => (inPanel ? 'space-between' : 'center')};
+  @media ${mq.down(breakpoints.sm)} {
+    justify-content: flex-start;
+    margin-right: initial;
+    margin-left: 10px;
   }
 `
 
@@ -52,6 +55,10 @@ const LinkItem = styled.a<SocialNetworksProps>`
         margin-right: 0;
         margin-bottom: 12px;
         `)}
+
+    @media ${mq.down(breakpoints.sm)} {
+      margin-right: 22px;
+    }
   }
 `
 
