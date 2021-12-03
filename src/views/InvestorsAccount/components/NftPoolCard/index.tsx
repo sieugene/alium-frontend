@@ -72,7 +72,8 @@ function NftPoolCard({ pool, onClaim, pending, isLoading }: NftPoolCardProps) {
             <Button
               variant='secondary'
               size='sm'
-              disabled={pending || isLoading || isLoadingLocal}
+              // disabled={pending || isLoading || isLoadingLocal}
+              disabled
               onClick={() => {
                 onClaim(pool.id)
               }}

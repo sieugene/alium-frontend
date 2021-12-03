@@ -98,7 +98,9 @@ export default function useNftPool() {
   }, [balancesResult, pendingRewardResult, nextDateResult])
 
   async function onClaim(pid): Promise<string | null> {
-    if (vestingContract) {
+    let blocked = true
+
+    if (vestingContract && !blocked) {
       if (!account) {
         console.warn('No account')
         return null
