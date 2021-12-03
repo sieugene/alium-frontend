@@ -439,7 +439,7 @@ const FooterContainer = styled.div`
 
     .left {
       h1 {
-        max-width: 277px;
+        max-width: 354px;
         font-weight: bold;
         font-size: 40px;
         line-height: 48px;

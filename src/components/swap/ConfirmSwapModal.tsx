@@ -79,14 +79,20 @@ export default function ConfirmSwapModal({
   }, [allowedSlippage, onConfirm, showAcceptChanges, swapErrorMessage, trade])
 
   // text to show while loading
-  const pendingText = `Swapping ${toSignificantCurrency(trade?.inputAmount)} ${
-    trade?.inputAmount?.currency?.symbol
-  } ${t('for')} ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
+  const pendingText = t('Swapping {{inputAmount}} {{inputSymbol}} for {{outputAmount}} {{outputSymbol}}', {
+    inputAmount: toSignificantCurrency(trade?.inputAmount),
+    inputSymbol: trade?.inputAmount?.currency?.symbol,
+    outputAmount: toSignificantCurrency(trade?.outputAmount),
+    outputSymbol: trade?.outputAmount?.currency?.symbol,
+  })
 
   // for transaction modal success
-  const amount = `${toSignificantCurrency(trade?.inputAmount)} ${trade?.inputAmount?.currency?.symbol} ${t(
-    'for',
-  )} ${toSignificantCurrency(trade?.outputAmount)} ${trade?.outputAmount?.currency?.symbol}`
+  const amount = t('{{inputAmount}} {{inputSymbol}} for {{outputAmount}} {{outputSymbol}}', {
+    inputAmount: toSignificantCurrency(trade?.inputAmount),
+    inputSymbol: trade?.inputAmount?.currency?.symbol,
+    outputAmount: toSignificantCurrency(trade?.outputAmount),
+    outputSymbol: trade?.outputAmount?.currency?.symbol,
+  })
 
   // swap to token
   const token = trade?.route.pairs[0]?.token1
@@ -94,7 +100,7 @@ export default function ConfirmSwapModal({
   const confirmationContent = useMemo(
     () => (
       <ConfirmationModalContent
-        title='Confirm Swap'
+        title={t('Confirm Swap')}
         onDismiss={onDismiss}
         topContent={modalHeader}
         bottomContent={modalBottom}

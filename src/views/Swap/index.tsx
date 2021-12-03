@@ -462,7 +462,7 @@ const Swap = () => {
                     disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
                     variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
                   >
-                    {t('Swap {{stringValue}}', { stringValue: 'Anyway' })}
+                    {t('Swap Anyway')}
                   </Button>
                 )}
                 {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}

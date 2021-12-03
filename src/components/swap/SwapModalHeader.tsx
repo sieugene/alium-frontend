@@ -2,6 +2,7 @@ import { Trade, TradeType } from '@alium-official/sdk'
 import { Button, ColoredArrowDownIcon, Text } from 'alium-uikit/src'
 import { useContext, useMemo } from 'react'
 import { AlertTriangle } from 'react-feather'
+import { Trans } from 'react-i18next'
 import { Field } from 'state/swap/actions'
 import styled, { ThemeContext } from 'styled-components'
 import { isAddress, shortenAddress } from 'utils'
@@ -116,38 +117,52 @@ export default function SwapModalHeader({
             <RowFixed>
               <AlertTriangle size={20} style={{ marginRight: '8px', minWidth: 24 }} />
               <Main color={theme.colors.primary} style={{ fontSize: '14px' }}>
-                {' '}
-                Price Updated
+                <Trans i18nKey='Price Updated' />
               </Main>
             </RowFixed>
-            <Button onClick={onAcceptChanges}>Accept</Button>
+            <Button onClick={onAcceptChanges}>
+              <Trans i18nKey='Accept' />
+            </Button>
           </RowBetween>
         </SwapShowAcceptChanges>
       ) : null}
       <AutoColumn justify='flex-start' gap='sm' style={{ padding: '16px 0 0' }}>
         {trade.tradeType === TradeType.EXACT_INPUT ? (
           <PriceInfoText>
-            {`Output is estimated. You will receive at least `}
-            <span>
-              {toSignificantCurrency(slippageAdjustedAmounts[Field.OUTPUT])} {trade.outputAmount.currency.symbol}
-            </span>
-            {' or the transaction will revert.'}
+            <Trans
+              i18nKey='Output is estimated. You will receive at least <span>{{output}}</span> or the transaction will revert.'
+              values={{
+                output: `${toSignificantCurrency(slippageAdjustedAmounts[Field.OUTPUT])} ${
+                  trade.outputAmount.currency.symbol
+                }`,
+              }}
+              components={{ span: <span /> }}
+            />
           </PriceInfoText>
         ) : (
           <PriceInfoText>
-            {`Input is estimated. You will sell at most `}
-            <span>
-              {toSignificantCurrency(slippageAdjustedAmounts[Field.INPUT])} {trade.inputAmount.currency.symbol}
-            </span>
-            {' or the transaction will revert.'}
+            <Trans
+              i18nKey='Input is estimated. You will sell at most <span>{{input}}</span> or the transaction will revert.'
+              values={{
+                output: `${toSignificantCurrency(slippageAdjustedAmounts[Field.INPUT])} ${
+                  trade.inputAmount.currency.symbol
+                }`,
+              }}
+              components={{ span: <span /> }}
+            />
           </PriceInfoText>
         )}
       </AutoColumn>
       {recipient !== null ? (
         <AutoColumn justify='flex-start' gap='sm' style={{ padding: '16px 0 0' }}>
           <Main>
-            Output will be sent to{' '}
-            <b title={recipient}>{isAddress(recipient) ? shortenAddress(recipient) : recipient}</b>
+            <Trans
+              i18nKey='Output will be sent to <b>{{input}}</b>'
+              values={{
+                output: isAddress(recipient) ? shortenAddress(recipient) : recipient,
+              }}
+              components={{ b: <b /> }}
+            />
           </Main>
         </AutoColumn>
       ) : null}

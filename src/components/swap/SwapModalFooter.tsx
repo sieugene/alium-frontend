@@ -1,5 +1,6 @@
 import { Trade, TradeType } from '@alium-official/sdk'
 import { Button, SwapIcon, Text } from 'alium-uikit/src'
+import { useTranslation } from 'next-i18next'
 import { useMemo, useState } from 'react'
 import { Field } from 'state/swap/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
@@ -28,6 +29,7 @@ export default function SwapModalFooter({
   swapErrorMessage: string | undefined
   disabledConfirm: boolean
 }) {
+  const { t } = useTranslation()
   const [showInverted, setShowInverted] = useState<boolean>(false)
   const slippageAdjustedAmounts = useMemo(
     () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
@@ -41,7 +43,7 @@ export default function SwapModalFooter({
       <AutoColumn gap='0px' style={{ userSelect: 'none' }}>
         <RowBetween align='center' style={{ padding: '4px 8px' }}>
           <Text fontSize='11px' color='#8990A5'>
-            Price
+            {t('Price')}
           </Text>
           <Text
             fontSize='11px'
@@ -63,9 +65,9 @@ export default function SwapModalFooter({
         <RowBetween style={{ backgroundColor: '#F4F5FA', borderRadius: '6px', padding: '4px 8px' }}>
           <RowFixed>
             <Text fontSize='11px' color='#8990A5'>
-              {trade.tradeType === TradeType.EXACT_INPUT ? 'Minimum received' : 'Maximum sold'}
+              {trade.tradeType === TradeType.EXACT_INPUT ? t('Minimum received') : t('Maximum sold')}
             </Text>
-            <QuestionHelper text='Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.' />
+            <QuestionHelper text={t('Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.')} />
           </RowFixed>
           <RowFixed>
             <Text fontSize='11px' color='#6C5DD3'>
@@ -83,18 +85,18 @@ export default function SwapModalFooter({
         <RowBetween style={{ padding: '4px 8px' }}>
           <RowFixed>
             <Text fontSize='11px' color='#8990A5'>
-              Price Impact
+              {t('Price Impact')}
             </Text>
-            <QuestionHelper text='The difference between the market price and your price due to trade size.' />
+            <QuestionHelper text={t('The difference between the market price and your price due to trade size.')} />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
         </RowBetween>
         <RowBetween style={{ backgroundColor: '#F4F5FA', borderRadius: '6px', padding: '4px 8px' }}>
           <RowFixed>
             <Text fontSize='11px' color='#8990A5'>
-              Liquidity Provider Fee
+              {t('Liquidity Provider Fee')}
             </Text>
-            <QuestionHelper text='For each trade a 0.25% fee is paid. 0.2% goes to liquidity providers and 0.05% goes to the AliumSwap treasury.' />
+            <QuestionHelper text={t('For each trade a 0.25% fee is paid. 0.20% goes to liquidity providers and 0.05% goes to the AliumSwap treasury.')} />
           </RowFixed>
           <Text fontSize='11px' color='#6C5DD3'>
             {realizedLPFee ? `${toSignificantCurrency(realizedLPFee)} ${trade.inputAmount.currency.symbol}` : '-'}
@@ -112,7 +114,7 @@ export default function SwapModalFooter({
           id='confirm-swap-or-send'
           fullwidth
         >
-          {severity > 2 ? 'Swap Anyway' : 'Confirm Swap'}
+          {severity > 2 ? t('Swap Anyway') : t('Confirm Swap')}
         </Button>
 
         {swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}

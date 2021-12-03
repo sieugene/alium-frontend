@@ -9,6 +9,7 @@ export default function MainSlider() {
 const SlideTitle = styled.div`
   ${typography.h3}
   margin-bottom: 8px;
+  white-space: pre-wrap;
 `
 const SlideDescription = styled.div`
   ${typography.ultrasmall.regular}
@@ -85,7 +86,7 @@ const CyberCitySlide = styled(({ className }) => {
   background-image: url(/images/home-new/slider/cyber-city-bg.png);
 
   ${SlideTitle} {
-    max-width: 290px;
+    max-width: 329px;
   }
 
   ${SlideDescription} {
