@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ErrorConnect } from '../../widgets/Toast'
 import Toast from '../../widgets/Toast/Toast'
 import { ErrorNetworkConnection, ToastProps } from '../../widgets/Toast/types'
@@ -12,6 +13,7 @@ const isPendig = (error: ErrorConnect) => {
   return Boolean(error?.code && error.code?.toString() === ErrorNetworkConnection.PENDING)
 }
 const ToastPending: FC<Props> = ({ error }) => {
+  const { t } = useTranslation()
   const [toast, setToast] = useState<ToastProps['toast'] | null>(null)
 
   const onRemove = () => {
@@ -21,7 +23,7 @@ const ToastPending: FC<Props> = ({ error }) => {
     if (error && isPendig(error)) {
       setToast({
         id: 'id-pending',
-        title: 'Confirm the action in your wallet',
+        title: t('Confirm the action in your wallet'),
         description: '',
         type: alertVariants.DANGER,
       })

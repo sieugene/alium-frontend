@@ -107,7 +107,7 @@ const Button = styled.button`
   }
 `
 
-const AvailableAccount: FC<Props> = ({ children, title = 'Your NFT deck' }) => {
+const AvailableAccount: FC<Props> = ({ children, title }) => {
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const networks = isDev ? networksDev : networksProd
   const setChainId = useStoreNetwork((state) => state.setChainId)

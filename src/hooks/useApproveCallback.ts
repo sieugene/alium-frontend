@@ -3,6 +3,7 @@ import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTokenAllowance } from 'data/Allowances'
 import { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Field } from 'state/swap/actions'
 import { useHasPendingApproval, useTransactionAdder } from 'state/transactions/hooks'
 import { storeNetwork } from 'store/network/useStoreNetwork'
@@ -23,6 +24,7 @@ export enum ApprovalState {
 type useApproveCallback = (amountToApprove?: CurrencyAmount, spender?: string) => [ApprovalState, () => Promise<void>]
 
 export const useApproveCallback: useApproveCallback = (amountToApprove, spender) => {
+  const { t } = useTranslation()
   const { currentNetwork } = storeNetwork.getState()
   const { nativeCurrency } = currentNetwork.providerParams
   const { account } = useActiveWeb3React()
@@ -90,7 +92,7 @@ export const useApproveCallback: useApproveCallback = (amountToApprove, spender)
       })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
-          summary: `Approve ${amountToApprove.currency.symbol}`,
+          summary: t('Approve {{currencySymbol}}', { currencySymbol: amountToApprove.currency.symbol }),
           approval: { tokenAddress: token.address, spender },
         })
       })

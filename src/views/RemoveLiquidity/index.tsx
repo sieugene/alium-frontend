@@ -18,6 +18,7 @@ import { usePairContract } from 'hooks/useContract'
 import { useRouter } from 'next/router'
 import React, { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
+import { useTranslation } from 'react-i18next'
 import { ROUTES } from 'routes'
 import { Field } from 'state/burn/actions'
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from 'state/burn/hooks'
@@ -102,6 +103,7 @@ const StyledPriceContainer = styled.div`
 `
 
 export const RemoveLiquidity: FC = () => {
+  const { t } = useTranslation()
   const currentNetwork = useStoreNetwork((state) => state.currentNetwork)
   const { nativeCurrency } = currentNetwork.providerParams
   const history = useRouter()
@@ -371,9 +373,12 @@ export const RemoveLiquidity: FC = () => {
           onClear()
         }
         addTransaction(response, {
-          summary: `Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
-            currencyA?.symbol
-          } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
+          summary: t('Remove {{currencyA}} {{currencyASymbol}} and {{currencyB}} {{currencyBSymbol}}', {
+            currencyA: parsedAmounts[Field.CURRENCY_A]?.toSignificant(3),
+            currencyASymbol: currencyA?.symbol,
+            currencyB: parsedAmounts[Field.CURRENCY_B]?.toSignificant(3),
+            currencyBSymbol: currencyB?.symbol,
+          }),
         })
 
         setTxAmount(amount)
@@ -438,7 +443,10 @@ export const RemoveLiquidity: FC = () => {
       <>
         <RowBetween style={{ padding: '6px 8px' }}>
           <Text color='#8990A5' fontSize='11px'>
-            {`${currencyA?.symbol}/${currencyB?.symbol}`} Burned
+            {t('{{aSymbol}}/{{bSymbol}} Burned', {
+              aSymbol: currencyA?.symbol,
+              bSymbol: currencyB?.symbol,
+            })}
           </Text>
           <RowFixed>
             <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin size={24} />
@@ -451,7 +459,7 @@ export const RemoveLiquidity: FC = () => {
           <StyledPriceContainer>
             <RowBetween>
               <Text color='#8990A5' fontSize='11px'>
-                Price
+                {t('Price')}
               </Text>
               <Text fontSize='11px' color='#6C5DD3'>
                 1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
@@ -471,15 +479,18 @@ export const RemoveLiquidity: FC = () => {
           fullwidth
           style={{ marginBottom: '24px' }}
         >
-          Confirm
+          {t('Confirm')}
         </Button>
       </>
     )
   }
 
-  const pendingText = `Removing ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])} ${
-    currencyA?.symbol
-  } and ${toSignificantCurrency(parsedAmounts[Field.CURRENCY_B])} ${currencyB?.symbol}`
+  const pendingText = t('Removing {{currencyA}} {{currencyASymbol}} and {{currencyB}} {{currencyBSymbol}}', {
+    currencyA: toSignificantCurrency(parsedAmounts[Field.CURRENCY_A]),
+    currencyASymbol: currencyA?.symbol,
+    currencyB: toSignificantCurrency(parsedAmounts[Field.CURRENCY_B]),
+    currencyBSymbol: currencyB?.symbol,
+  })
 
   // for transaction modal success
   const amount = `${toSignificantCurrency(parsedAmounts[Field.CURRENCY_A])} ${
@@ -555,7 +566,7 @@ export const RemoveLiquidity: FC = () => {
         hash={txHash || ''}
         content={
           <ConfirmationModalContent
-            title='You will receive'
+            title={t('You will receive')}
             onDismiss={handleDismissConfirmation}
             topContent={modalHeader}
             bottomContent={modalBottom}
@@ -581,7 +592,7 @@ export const RemoveLiquidity: FC = () => {
                           fontSize: '16px',
                         }}
                       >
-                        Amount
+                        {t('Amount')}
                       </Text>
                       <ClickableText
                         onClick={() => {
@@ -590,7 +601,7 @@ export const RemoveLiquidity: FC = () => {
                         style={{ fontSize: '14px', fontWeight: 700, letterSpacing: '1px' }}
                       >
                         <Flex alignItems='center'>
-                          {showDetailed ? 'Simple' : 'Detailed'}
+                          {showDetailed ? t('Simple') : t('Detailed')}
                           <ChevronDown width='16px' height='16px' />
                         </Flex>
                       </ClickableText>
@@ -677,7 +688,7 @@ export const RemoveLiquidity: FC = () => {
                               fontWeight: 'bold',
                             }}
                           >
-                            Max
+                            {t('Max')}
                           </Button>
                         </Flex>
                       </>
@@ -732,7 +743,7 @@ export const RemoveLiquidity: FC = () => {
                                   currencyB === nativeCurrency ? WETH[chainId].address : currencyIdB,
                                 )}
                               >
-                                Receive WBNB
+                                {t('Receive WBNB')}
                               </Receive>
                             ) : oneCurrencyIsWETH ? (
                               <Receive
@@ -741,7 +752,7 @@ export const RemoveLiquidity: FC = () => {
                                   currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'ETH' : currencyIdB,
                                 )}
                               >
-                                Receive BNB
+                                {t('Receive BNB')}
                               </Receive>
                             ) : null}
                           </RowBetween>
@@ -770,7 +781,7 @@ export const RemoveLiquidity: FC = () => {
                 {pair && (
                   <div style={{ padding: '32px 0' }}>
                     <Flex justifyContent='space-between' mb='8px'>
-                      <Text style={{ color: '#8990A5', fontSize: '14px', fontWeight: 500 }}>Price:</Text>
+                      <Text style={{ color: '#8990A5', fontSize: '14px', fontWeight: 500 }}>{t('Price')}:</Text>
                       <Text style={{ color: '#0B1359', fontSize: '14px', fontWeight: 500 }}>
                         1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'}{' '}
                         {currencyB?.symbol}
@@ -799,9 +810,9 @@ export const RemoveLiquidity: FC = () => {
                         {approval === ApprovalState.PENDING ? (
                           <Dots>Approving</Dots>
                         ) : approval === ApprovalState.APPROVED || signatureData !== null ? (
-                          'Approved'
+                          t('Approved')
                         ) : (
-                          'Approve'
+                          t('Approve')
                         )}
                       </Button>
                       <Button
@@ -815,7 +826,7 @@ export const RemoveLiquidity: FC = () => {
                             : 'primary'
                         }
                       >
-                        {error || 'Remove'}
+                        {error || t('Remove')}
                       </Button>
                     </RowBetween>
                   )}

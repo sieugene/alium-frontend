@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 const Icon = styled.div`
@@ -81,6 +82,7 @@ const StyledClick = styled.div`
 `
 
 export const BridgeConfirmIcon = () => {
+  const { t } = useTranslation()
   return (
     <Icon>
       <StyledCircle>
@@ -89,7 +91,7 @@ export const BridgeConfirmIcon = () => {
       <Layout />
       <Border>
         <Metamask />
-        <Text>Confirm</Text>
+        <Text>{t('Confirm')}</Text>
         <StyledClick>
           <Click />
         </StyledClick>

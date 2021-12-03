@@ -2,6 +2,7 @@ import { Token, TokenAmount, WETH } from '@alium-official/sdk'
 import { Button, Text } from 'alium-uikit/src'
 import { NextLink } from 'components/NextLink'
 import { useActiveWeb3React } from 'hooks'
+import { useTranslation } from 'react-i18next'
 import { ROUTES } from 'routes'
 import { AutoColumn } from '../Column'
 import DoubleCurrencyLogo from '../DoubleLogo'
@@ -14,6 +15,7 @@ interface PositionCardProps {
 }
 
 function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
+  const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
 
   return (
@@ -38,7 +40,7 @@ function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
             </NextLink>
             <NextLink href={ROUTES.removeByMultiple('v1', `${V1LiquidityBalance.token.address}`)}>
               <Button variant='secondary' style={{ width: '28%' }}>
-                Remove
+                {t('Remove')}
               </Button>
             </NextLink>
           </RowBetween>

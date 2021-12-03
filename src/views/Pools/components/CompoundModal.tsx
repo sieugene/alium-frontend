@@ -4,6 +4,7 @@ import Balance from 'components/Balance'
 import ModalActions from 'components/ModalActions'
 import useI18n from 'hooks/useI18n'
 import { FC, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 
@@ -22,6 +23,7 @@ const BalanceRow = styled.div`
 `
 
 const CompoundModal: FC<DepositModalProps> = ({ earnings, onConfirm, onDismiss, tokenName = '' }) => {
+  const { t } = useTranslation()
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
   const fullBalance = useMemo(() => {
@@ -51,7 +53,7 @@ const CompoundModal: FC<DepositModalProps> = ({ earnings, onConfirm, onDismiss, 
             onDismiss()
           }}
         >
-          {pendingTx ? TranslateString(488, 'Pending Confirmation') : TranslateString(464, 'Confirm')}
+          {pendingTx ? TranslateString(488, t('Pending Confirmation')) : TranslateString(464, t('Confirm'))}
         </Button>
       </ModalActions>
     </Modal>

@@ -6,6 +6,7 @@ import DoubleCurrencyLogo from 'components/DoubleLogo'
 import Row, { RowFlat } from 'components/Row'
 import { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
 import { FC, memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Field } from 'state/mint/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
@@ -27,6 +28,7 @@ export const AddLiqudityModalContent: FC<Props> = memo(
     onAdd,
     poolTokenPercentage,
   }) => {
+    const { t } = useTranslation()
     const modalHeader = () => {
       return (
         <ModalHeader
@@ -52,7 +54,7 @@ export const AddLiqudityModalContent: FC<Props> = memo(
     }
     return (
       <ConfirmationModalContent
-        title={noLiquidity ? 'You are creating a pool' : 'You will receive'}
+        title={noLiquidity ? t('You are creating a pool') : t('You will receive')}
         onDismiss={handleDismissConfirmation}
         topContent={modalHeader}
         bottomContent={modalBottom}
@@ -71,6 +73,8 @@ interface HeaderProps {
   allowedSlippage: number
 }
 const ModalHeader: FC<HeaderProps> = memo(({ noLiquidity, currencies, liquidityMinted, allowedSlippage }) => {
+  const { t } = useTranslation()
+
   return noLiquidity ? (
     <AutoColumn gap='20px'>
       <LightCard mt='20px' borderRadius='20px' padding='0'>
@@ -100,13 +104,16 @@ const ModalHeader: FC<HeaderProps> = memo(({ noLiquidity, currencies, liquidityM
       </RowFlat>
       <Row>
         <UIKitText fontSize='22px'>
-          {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol} Pool Tokens`}
+          {t('{{aSymbol}}/{{bSymbol}} Pool Tokens', {
+            aSymbol: currencies[Field.CURRENCY_A]?.symbol,
+            bSymbol: currencies[Field.CURRENCY_B]?.symbol,
+          })}
         </UIKitText>
       </Row>
       <Text fontSize='14px' color='#8990A5'>
-        {`Output is estimated. If the price changes by more than ${
-          allowedSlippage / 100
-        }% your transaction will revert.`}
+        {t('Output is estimated. If the price changes by more than {{percent}}% your transaction will revert.', {
+          percent: allowedSlippage / 100,
+        })}
       </Text>
     </AutoColumn>
   )

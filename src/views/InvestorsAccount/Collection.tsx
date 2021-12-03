@@ -1,5 +1,6 @@
 import { Flex, Text } from 'alium-uikit/src'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import useCollectionNft from '../../hooks/useCollectionNft'
 import AppInvestorsAccountBody from './AppInvestorsAccountBody'
@@ -78,6 +79,7 @@ const NftTableContent = styled(Flex)`
 `
 
 function Collection() {
+  const { t } = useTranslation()
   const [selectedCard, setSelectedCard] = useState<[number, number] | null>(null)
   const selectImage = useRef<HTMLDivElement>(null)
 
@@ -113,7 +115,7 @@ function Collection() {
     <ContentHolder>
       <CardWrapper ref={selectImage}>
         <Text fontSize='48px' style={{ fontWeight: 700, marginBottom: '32px' }}>
-          Your NFT deck
+          {t('Your NFT deck')}
         </Text>
         <AppInvestorsAccountBody>
           <SelectedNftRow>

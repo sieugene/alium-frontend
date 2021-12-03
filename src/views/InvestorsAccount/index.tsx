@@ -117,7 +117,7 @@ const InvestorsAccount = () => {
 
   return (
     <ContentHolder>
-      <AvailableAccount>
+      <AvailableAccount title={t('Your NFT deck')}>
         <CardWrapper>
           <Text fontSize='48px' style={{ fontWeight: 700, marginBottom: '32px' }}>
             {t('Your NFT deck')}

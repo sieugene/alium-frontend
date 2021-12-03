@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers'
+import { i18n } from 'next-i18next'
 
 export interface PoolsTypes {
   name: string
@@ -18,55 +19,55 @@ export interface PoolsTypes {
 const pools: PoolsTypes[] = [
   {
     id: 1,
-    name: 'Private Pool One',
+    name: i18n.t('Private Pool One'),
     description: '',
     privateCall: true,
   },
   {
     id: 2,
-    name: 'Private Pool Two',
+    name: i18n.t('Private Pool Two'),
     description: '',
     privateCall: true,
   },
   {
     id: 3,
-    name: 'Private Pool Three',
+    name: i18n.t('Private Pool Three'),
     description: '',
     privateCall: true,
   },
   {
     id: 5,
-    name: 'Strategical Pool One',
+    name: i18n.t('Strategical Pool One'),
     description: '',
     privateCall: true,
   },
   {
     id: 6,
-    name: 'Public Pool Necesse',
+    name: i18n.t('Public Pool Necesse'),
     description: '',
     privateCall: false,
   },
   {
     id: 7,
-    name: 'Public Pool Regno',
+    name: i18n.t('Public Pool Regno'),
     description: '',
     privateCall: false,
   },
   {
     id: 8,
-    name: 'Public Pool Altum',
+    name: i18n.t('Public Pool Altum'),
     description: '',
     privateCall: false,
   },
   {
     id: 9,
-    name: 'Public Pool Castus',
+    name: i18n.t('Public Pool Castus'),
     description: '',
     privateCall: false,
   },
   {
     id: 10,
-    name: 'Public Pool Illustris',
+    name: i18n.t('Public Pool Illustris'),
     description: '',
     privateCall: false,
   },
