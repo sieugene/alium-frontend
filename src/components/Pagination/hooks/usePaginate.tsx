@@ -28,7 +28,7 @@ export function usePaginate<T>({ items, pageLimit = 30 }: Params<T>) {
     }
   }, [itemsMemomize, itemsPerPage, page, sliceItems])
 
-  const totalRecords = itemsMemomize.length
+  const totalRecords = itemsMemomize?.length || 0
   const totalPages = Math.ceil(totalRecords / pageLimit)
   const currentPage = page
 

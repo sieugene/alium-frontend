@@ -1,1 +1,3 @@
 **/*.stories.tsx
+
+/src/views/Info/generated/index.ts
