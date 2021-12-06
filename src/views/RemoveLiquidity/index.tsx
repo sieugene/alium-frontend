@@ -18,7 +18,7 @@ import { usePairContract } from 'hooks/useContract'
 import { useRouter } from 'next/router'
 import React, { FC, useCallback, useMemo, useState } from 'react'
 import { ArrowDown, ChevronDown } from 'react-feather'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { ROUTES } from 'routes'
 import { Field } from 'state/burn/actions'
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from 'state/burn/hooks'
@@ -428,11 +428,10 @@ export const RemoveLiquidity: FC = () => {
         </RowBetween>
 
         <Text fontSize='14px' color='#8990A5'>
-          Output is estimated. If the price changes by more than{' '}
-          <Text style={{ display: 'inline-block' }} fontSize='14px' color='#6C5DD3'>
-            {allowedSlippage / 100}%
-          </Text>{' '}
-          your transaction will revert.
+          <Trans
+            i18nKey='Output is estimated. If the price changes by more than <t>{{percent}}</t>% your transaction will revert.'
+            components={{ t: <Text style={{ display: 'inline-block' }} fontSize='14px' color='#6C5DD3' /> }}
+          />
         </Text>
       </AutoColumn>
     )

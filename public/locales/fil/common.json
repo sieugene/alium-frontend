@@ -434,7 +434,6 @@
   "Receive BNB": "__NOT_TRANSLATED__",
   "You are creating a pool": "__NOT_TRANSLATED__",
   "{{aSymbol}}/{{bSymbol}} Pool Tokens": "__NOT_TRANSLATED__",
-  "Output is estimated. If the price changes by more than {{percent}}% your transaction will revert.": "__NOT_TRANSLATED__",
   "Create Pool & Supply": "__NOT_TRANSLATED__",
   "Confirm Supply": "__NOT_TRANSLATED__",
   "{{symbol}} Deposited": "__NOT_TRANSLATED__",
@@ -451,5 +450,6 @@
   "Public Pool Regno": "__NOT_TRANSLATED__",
   "Public Pool Altum": "__NOT_TRANSLATED__",
   "Public Pool Castus": "__NOT_TRANSLATED__",
-  "Public Pool Illustris": "__NOT_TRANSLATED__"
+  "Public Pool Illustris": "__NOT_TRANSLATED__",
+  "Output is estimated. If the price changes by more than <t>{{percent}}</t>% your transaction will revert.": "__NOT_TRANSLATED__"
 }

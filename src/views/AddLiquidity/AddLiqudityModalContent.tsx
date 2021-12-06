@@ -5,7 +5,8 @@ import { AutoColumn } from 'components/Column'
 import DoubleCurrencyLogo from 'components/DoubleLogo'
 import Row, { RowFlat } from 'components/Row'
 import { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
-import { FC, memo } from 'react'
+import { Trans } from 'next-i18next'
+import React, { FC, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Field } from 'state/mint/actions'
 import { toSignificantCurrency } from 'utils/currency/toSignificantCurrency'
@@ -111,9 +112,10 @@ const ModalHeader: FC<HeaderProps> = memo(({ noLiquidity, currencies, liquidityM
         </UIKitText>
       </Row>
       <Text fontSize='14px' color='#8990A5'>
-        {t('Output is estimated. If the price changes by more than {{percent}}% your transaction will revert.', {
-          percent: allowedSlippage / 100,
-        })}
+        <Trans
+          i18nKey='Output is estimated. If the price changes by more than <t>{{percent}}</t>% your transaction will revert.'
+          components={{ t: <Text style={{ display: 'inline-block' }} fontSize='14px' color='#6C5DD3' /> }}
+        />
       </Text>
     </AutoColumn>
   )

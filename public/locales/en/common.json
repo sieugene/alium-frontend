@@ -434,7 +434,6 @@
   "Receive BNB": "Receive BNB",
   "You are creating a pool": "You are creating a pool",
   "{{aSymbol}}/{{bSymbol}} Pool Tokens": "{{aSymbol}}/{{bSymbol}} Pool Tokens",
-  "Output is estimated. If the price changes by more than {{percent}}% your transaction will revert.": "Output is estimated. If the price changes by more than {{percent}}% your transaction will revert.",
   "Create Pool & Supply": "Create Pool & Supply",
   "Confirm Supply": "Confirm Supply",
   "{{symbol}} Deposited": "{{symbol}} Deposited",
@@ -451,5 +450,6 @@
   "Public Pool Regno": "Public Pool Regno",
   "Public Pool Altum": "Public Pool Altum",
   "Public Pool Castus": "Public Pool Castus",
-  "Public Pool Illustris": "Public Pool Illustris"
+  "Public Pool Illustris": "Public Pool Illustris",
+  "Output is estimated. If the price changes by more than <t>{{percent}}</t>% your transaction will revert.": "Output is estimated. If the price changes by more than <t>{{percent}}</t>% your transaction will revert."
 }

@@ -441,7 +441,6 @@
   "Receive BNB": "Получить BNB",
   "You are creating a pool": "Вы создаете пул",
   "{{aSymbol}}/{{bSymbol}} Pool Tokens": "{{aSymbol}}/{{bSymbol}} токены пула",
-  "Output is estimated. If the price changes by more than {{percent}}% your transaction will revert.": "Ориентировочное значение. Если цена изменится более чем на {{percent}}%, ваша транзакция будет отменена",
   "Create Pool & Supply": "Создать пул & отправку",
   "Confirm Supply": "Подтвердить отправку",
   "{{symbol}} Deposited": "{{symbol}} Депозит",
@@ -458,5 +457,6 @@
   "Public Pool Regno": "Общественный пулл “Regno”",
   "Public Pool Altum": "Общественный пулл “Altum”",
   "Public Pool Castus": "Общественный пулл “Castus”",
-  "Public Pool Illustris": "Общественный пулл “Illustris”"
+  "Public Pool Illustris": "Общественный пулл “Illustris”",
+  "Output is estimated. If the price changes by more than <t>{{percent}}</t>% your transaction will revert.": "Ориентировочное значение. Если цена изменится более чем на <t>{{percent}}</t>%, ваша транзакция будет отменена."
 }

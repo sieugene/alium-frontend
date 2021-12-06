@@ -30,7 +30,7 @@ export function ConfirmAddModalBottom({
     <>
       <RowBetween>
         <Body style={{ color: '#8990A5', padding: '8px', fontSize: '11px' }}>
-          {currencies[Field.CURRENCY_A]?.symbol} Deposited
+          {t('{{symbol}} Deposited', { symbol: currencies[Field.CURRENCY_A]?.symbol })}
         </Body>
         <RowFixed style={{ padding: '8px' }}>
           <CurrencyLogo currency={currencies[Field.CURRENCY_A]} style={{ marginRight: '8px' }} />
