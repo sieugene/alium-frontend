@@ -1,21 +1,15 @@
 import { DropdownList } from 'alium-uikit/src/components/DropdownList'
-import {
-  FARM_DESKTOP_MEDIA,
-  FARM_EXT_MOBILE_MEDIA,
-  FARM_LAPTOP_MEDIA,
-  FARM_MOBILE_MEDIA,
-  FARM_TABLET_MEDIA,
-} from 'constants/layout/farm.layout'
 import { useTranslation } from 'react-i18next'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 import { FarmSortOption } from 'views/farms/farms.types'
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-left: auto !important;
+  margin-right: 24px;
 
   h2 {
     font-style: normal;
@@ -26,29 +20,33 @@ const Wrapper = styled.div`
     color: #8990a5;
     margin-right: 16px;
   }
-  @media screen and (max-width: ${FARM_LAPTOP_MEDIA}) {
-    justify-content: center;
-  }
-  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
+
+  @media ${mq.down(breakpoints.lg)} {
+    margin-right: 64px;
+
     h2 {
       display: none;
     }
   }
-  @media screen and (max-width: ${FARM_MOBILE_MEDIA}) {
-    position: relative;
-    right: 100px;
+
+  @media ${mq.down(breakpoints.md)} {
+    margin-left: 16px;
   }
-  @media screen and (max-width: ${FARM_EXT_MOBILE_MEDIA}) {
-    right: 0;
+
+  @media ${mq.down(breakpoints.sm)} {
+    margin-right: 64px;
   }
 `
 
 const StyledDropdown = styled(DropdownList)`
-  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
+  width: 220px;
+
+  @media ${mq.down(breakpoints.lg)} {
     width: 192px;
   }
-  @media screen and (max-width: ${FARM_TABLET_MEDIA}) {
-    width: 172px;
+
+  @media ${mq.down(breakpoints.md)} {
+    width: 170px;
   }
 `
 

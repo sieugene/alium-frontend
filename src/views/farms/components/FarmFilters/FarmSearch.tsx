@@ -1,162 +1,167 @@
 import { CloseIcon } from 'alium-uikit/src'
-import { FARM_DESKTOP_MEDIA, FARM_TABLET_MEDIA } from 'constants/layout/farm.layout'
 import useOnClickOutside from 'hooks/useOnClickOutside'
 import React, { useRef, useState } from 'react'
 import { Search } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import { useStoreFarms } from 'store/farms/useStoreFarms'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { breakpoints, mq } from 'ui'
 
-const Wrapper = styled.div<{ activeFullWidth: boolean }>`
-  position: relative;
-  width: fit-content;
-  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
-    position: absolute;
-    right: 0;
-    top: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
-    display: flex;
-    justify-content: flex-end;
-    ${(props) =>
-      props.activeFullWidth &&
-      `
-    width: 100%;
-    right: 0;
-    bottom: 16px;
-    input {
-      width: 100%;
-      padding: 14px 80px 14px 16px;
-      }
-    `}
+const FarmSearch = () => {
+  const { t } = useTranslation()
+  const [active, setActive] = useState(false)
+  const [isFocused, setFocus] = useState(false)
+
+  const input = useRef(null)
+  const inputWrapper = useRef(null)
+  const value = useStoreFarms((state) => state.query)
+  const setValue = useStoreFarms((state) => state.setQuery)
+
+  const isFilled = value?.length > 0
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value)
   }
-  @media screen and (max-width: ${FARM_TABLET_MEDIA}) {
+
+  const clickInput = () => {
+    setActive(!active)
+    input.current.focus()
+  }
+
+  const clearInput = () => {
+    setValue('')
+    input.current.focus()
+  }
+
+  const closeInput = () => {
+    setActive(false)
+  }
+
+  useOnClickOutside(inputWrapper, closeInput)
+
+  return (
+    <SearchWrapper activeFullWidth={active} $isFocused={isFocused} ref={inputWrapper}>
+      <SearchInput
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        ref={input}
+        $isFilled={isFilled}
+        activeFullWidth={active}
+        placeholder={t('Search Farms')}
+        value={value}
+        onChange={handleChange}
+      />
+      {isFilled && (
+        <IconClose onClick={clearInput} activeFullWidth={active}>
+          <CloseIcon />
+        </IconClose>
+      )}
+      <IconSearch onClick={clickInput}>
+        <Search />
+      </IconSearch>
+    </SearchWrapper>
+  )
+}
+
+// styles
+
+const SearchWrapper = styled.div<{ activeFullWidth: boolean; $isFocused: boolean }>`
+  display: flex;
+  width: 257px;
+  height: 48px;
+  border: 1px solid #d2d6e5;
+  color: #8990a5;
+  background-color: #fff;
+  border-radius: 6px;
+
+  ${({ $isFocused }) =>
+    $isFocused
+      ? css`
+          border-color: #6c5dd3;
+          color: #6c5dd3;
+        `
+      : css`
+          &:hover {
+            border: 1px solid #8990a5;
+          }
+        `}
+
+  @media ${mq.down(breakpoints.lg)} {
     position: absolute;
-    right: 0;
-    bottom: 16px;
-    top: auto;
+    width: 48px;
+    right: 16px;
+    display: flex;
+    transition: all 0.4s cubic-bezier(0, 0.795, 0, 1);
+
+    ${({ activeFullWidth }) =>
+      activeFullWidth &&
+      css`
+        width: calc(100% - 32px);
+      `}
   }
 `
 
-const SearchInput = styled.input<{ isFilled: boolean; activeFullWidth: boolean }>`
-  width: 257px;
-  height: 48px;
+const SearchInput = styled.input<{ $isFilled: boolean; activeFullWidth: boolean }>`
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  padding: 0 0 0 16px;
+  border: none;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
-  color: ${(props) => (props.isFilled ? '#6c5dd3' : '#8990a5')};
+  flex: 1;
+  transition: all 0.4s cubic-bezier(0, 0.795, 0, 1);
 
-  border: 1px solid ${(props) => (props.isFilled ? '#6c5dd3' : '#d2d6e5')};
-  box-sizing: border-box;
-  border-radius: 6px;
-  padding: 14px 80px 14px 16px;
-  &:hover {
-    border: 1px solid #8990a5;
-  }
+  ${({ $isFilled }) =>
+    $isFilled &&
+    css`
+      &:focus {
+        color: #6c5dd3;
+      }
+    `}
+
+  &:hover,
   &:active,
   &:focus {
     outline: none;
-    border: 1px solid #6c5dd3;
-    color: #6c5dd3;
+    border: none;
   }
-  transition: width 0.4s cubic-bezier(0, 0.795, 0, 1);
-  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
-    width: 48px;
-    padding: 0;
-    ${(props) =>
-      !props.activeFullWidth &&
-      `
-      border: 1px solid #8990a5;
-      color: transparent;
-      &::placeholder{
-        color: transparent;
-      }
-    `}
+
+  @media ${mq.down(breakpoints.lg)} {
+    ${({ activeFullWidth }) =>
+      !activeFullWidth &&
+      css`
+        width: 0;
+        padding: 0;
+        opacity: 0;
+      `}
   }
 `
 
 const IconSearch = styled.div`
-  position: absolute;
-  right: 17px;
-  top: 12px;
+  display: flex;
+  width: 46px;
+  cursor: pointer;
+
   svg {
+    margin: auto;
     stroke: #8990a5;
   }
-
-  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
-    cursor: pointer;
-    height: 48px;
-    width: 48px;
-    box-sizing: border-box;
-    border-radius: 6px;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 `
+
 const IconClose = styled.div<{ activeFullWidth: boolean }>`
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-  position: absolute;
-  right: 52px;
-  top: 12px;
+  display: flex;
+  min-width: 24px;
   cursor: pointer;
-  @media screen and (max-width: ${FARM_DESKTOP_MEDIA}) {
-    height: 48px;
-    width: 48px;
-    box-sizing: border-box;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 70px;
-    ${(props) => !props.activeFullWidth && 'display: none;'}
+  margin: 0 4px;
+
+  svg {
+    margin: auto;
   }
 `
-
-const FarmSearch = () => {
-  const { t } = useTranslation()
-  const input = useRef(null)
-  const [active, setActive] = useState(false)
-  const value = useStoreFarms((state) => state.query)
-  const setvalue = useStoreFarms((state) => state.setQuery)
-
-  const isFilled = value?.length > 0
-  const clear = () => {
-    setvalue('')
-  }
-  const close = () => {
-    setActive(false)
-  }
-  const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setvalue(event.target.value)
-  }
-  useOnClickOutside(input, close, ['close__farm', 'search__farm'])
-  return (
-    <Wrapper activeFullWidth={active}>
-      <SearchInput
-        ref={input}
-        isFilled={isFilled}
-        activeFullWidth={active}
-        placeholder={t('Search Farms')}
-        value={value}
-        onChange={handleChangeQuery}
-      />
-      {isFilled && (
-        <IconClose onClick={clear} activeFullWidth={active} id='close__farm'>
-          <CloseIcon id='close__farm' />
-        </IconClose>
-      )}
-      <IconSearch onClick={() => setActive(!active)} id='search__farm'>
-        <Search id='search__farm' />
-      </IconSearch>
-    </Wrapper>
-  )
-}
 
 export default FarmSearch

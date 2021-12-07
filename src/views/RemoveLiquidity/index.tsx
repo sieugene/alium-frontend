@@ -430,6 +430,9 @@ export const RemoveLiquidity: FC = () => {
         <Text fontSize='14px' color='#8990A5'>
           <Trans
             i18nKey='Output is estimated. If the price changes by more than <t>{{percent}}</t>% your transaction will revert.'
+            values={{
+              percent: allowedSlippage / 100,
+            }}
             components={{ t: <Text style={{ display: 'inline-block' }} fontSize='14px' color='#6C5DD3' /> }}
           />
         </Text>
