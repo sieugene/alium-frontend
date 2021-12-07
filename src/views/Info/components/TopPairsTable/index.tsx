@@ -1,12 +1,13 @@
-import getUnixTime from 'date-fns/getUnixTime'
-import subDays from 'date-fns/subDays'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { useMedia } from 'react-use'
 import { breakpoints, mq } from 'ui'
 import { LP_HOLDERS_FEE, TOTAL_FEE } from 'views/Info/config'
-import { TopPairFragment, useBlockByTimestampQuery, useTopPairsQuery } from 'views/Info/generated'
+import { TopPairFragment, useTopPairsByIdsQuery, useTopPairsQuery } from 'views/Info/generated'
+import useBlock from 'views/Info/hooks/useBlock'
+import useTimestamps from 'views/Info/hooks/useTimestamps'
+import useTokenPairs from 'views/Info/hooks/useTokenPairs'
 import { formatNumber, formatTokenSymbol, getPeriodChange } from 'views/Info/utils'
 import PairCurrencyLogo from '../PairCurrencyLogo'
 import Percentage from '../Percentage'
@@ -14,39 +15,34 @@ import Table, { useTableData } from '../Table'
 import TableTitle from '../TableTitle'
 import TopTokensTable from '../TopTokensTable'
 
-function useTopPairsTable() {
-  const timestamps = useMemo(() => {
-    const now = new Date()
-    return {
-      h24: getUnixTime(subDays(now, 1)),
-      d7: getUnixTime(subDays(now, 7)),
-    }
-  }, [])
-  const { data: block24h } = useBlockByTimestampQuery({
+function useTopPairsData(token?: string) {
+  const timestamps = useTimestamps()
+  const block24h = useBlock(timestamps.h24)
+  const block7d = useBlock(timestamps.d7)
+  const { data: topPairs } = useTopPairsQuery({
     variables: {
-      timestamp: timestamps.h24,
-    },
-    context: {
-      blocklytics: true,
-    },
-  })
-  const { data: block7d } = useBlockByTimestampQuery({
-    variables: {
-      timestamp: timestamps.d7,
-    },
-    context: {
-      blocklytics: true,
-    },
-  })
-  const { data } = useTopPairsQuery({
-    variables: {
-      block24h: Number(block24h?.blocks[0].number),
-      block7d: Number(block7d?.blocks[0].number),
+      block24h,
+      block7d,
     },
     fetchPolicy: 'no-cache',
-    skip: !block24h || !block7d,
+    skip: !block24h || !block7d || !!token,
   })
 
+  const ids = useTokenPairs(token)
+  const { data: topPairsByIds } = useTopPairsByIdsQuery({
+    variables: {
+      block24h,
+      block7d,
+      ids,
+    },
+    skip: !block24h || !block7d || !token || !ids,
+  })
+
+  return token ? topPairsByIds : topPairs
+}
+
+function useTopPairsTable(token?: string) {
+  const data = useTopPairsData(token)
   const pairs = useMemo(() => {
     if (!data) return undefined
     const [h24ById, d7ById] = [data.h24, data.d7].map((periodPairs) =>
@@ -55,7 +51,6 @@ function useTopPairsTable() {
         return acc
       }, {}),
     )
-
     return data.now.map((pair) => {
       const h24Pair = h24ById[pair.id]
       const d7Pair = d7ById[pair.id]
@@ -83,6 +78,7 @@ function useTopPairsTable() {
       }
     })
   }, [data])
+
   return useTableData({
     items: pairs,
     sortingOptions: {
@@ -93,16 +89,18 @@ function useTopPairsTable() {
 
 export interface TopPairsTableProps {
   hiddenTitle?: boolean
+  seeAllHref?: string
+  token?: string
 }
 
-export default function TopPairsTable({ hiddenTitle }: TopPairsTableProps) {
+export default function TopPairsTable({ hiddenTitle, token, seeAllHref }: TopPairsTableProps) {
   const { t } = useTranslation()
   const isTablet = useMedia(mq.down(breakpoints.md))
   const isMobile = useMedia(mq.down(breakpoints.sm))
-  const { items, sorting, paginate, getItemNumber } = useTopPairsTable()
+  const { items, sorting, paginate, getItemNumber } = useTopPairsTable(token)
   return (
     <TopPairsTable.Root>
-      {!hiddenTitle && <TableTitle seeAllHref='/info/pairs'>{t('Top Pairs')}</TableTitle>}
+      {!hiddenTitle && <TableTitle seeAllHref={seeAllHref}>{t('Top Pairs')}</TableTitle>}
       <Table
         paginate={paginate}
         header={

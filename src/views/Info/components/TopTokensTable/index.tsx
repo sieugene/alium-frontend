@@ -40,16 +40,17 @@ function useTopTokensTable() {
 
 export interface TopTokensTableProps {
   hiddenTitle?: boolean
+  seeAllHref?: string
 }
 
-export default function TopTokensTable({ hiddenTitle }: TopTokensTableProps) {
+export default function TopTokensTable({ hiddenTitle, seeAllHref }: TopTokensTableProps) {
   const { t } = useTranslation()
   const { items, paginate, sorting, getItemNumber } = useTopTokensTable()
   const isTablet = useMedia(mq.down(breakpoints.md))
   const isMobile = useMedia(mq.down(breakpoints.sm))
   return (
     <TopTokensTable.Root>
-      {!hiddenTitle && <TableTitle seeAllHref='/info/tokens'>{t('Top Tokens')}</TableTitle>}
+      {!hiddenTitle && <TableTitle seeAllHref={seeAllHref}>{t('Top Tokens')}</TableTitle>}
       <Table
         paginate={paginate}
         header={

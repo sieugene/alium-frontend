@@ -1,8 +1,8 @@
-import { Button } from 'alium-uikit/src'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
+import { Button } from 'ui'
 
 export interface TableTitleProps {
   children: ReactNode
@@ -16,7 +16,7 @@ export default function TableTitle({ children, seeAllHref }: TableTitleProps) {
       <TableTitle.Title>{children}</TableTitle.Title>
       {seeAllHref && (
         <Link passHref href={seeAllHref}>
-          <Button as='a' variant='secondary' size='sm'>
+          <Button as='a' variant='outlined' size='small'>
             {t('See all')}
           </Button>
         </Link>

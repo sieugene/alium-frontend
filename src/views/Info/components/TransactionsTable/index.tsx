@@ -3,15 +3,31 @@ import { useCallback, useMemo, useState } from 'react'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
 import { breakpoints, mq } from 'ui'
-import { useTransactionsQuery } from 'views/Info/generated'
+import { useTransactionsByPairsQuery, useTransactionsQuery } from 'views/Info/generated'
+import useTokenPairs from 'views/Info/hooks/useTokenPairs'
 import { mapBurn, mapMint, mapSwap, TransactionType } from 'views/Info/utils/transactions'
+import ResponsiveTabs from '../ResponsiveTabs'
 import Table, { useTableData } from '../Table'
 import TableTitle from '../TableTitle'
 import TransactionRow from './TransactionRow'
-import TransactionTypeSelect from './TransactionTypeSelect'
 
-function useTransactionsTable() {
-  const { data } = useTransactionsQuery()
+function useTransactionsData(token?: string) {
+  const { data: transactions } = useTransactionsQuery({
+    skip: !!token,
+  })
+  const pairs = useTokenPairs(token)
+  const { data: tokenTransactions } = useTransactionsByPairsQuery({
+    variables: {
+      pairs,
+    },
+    skip: !token || !pairs,
+  })
+
+  return token ? tokenTransactions : transactions
+}
+
+function useTransactionsTable(token?: string) {
+  const data = useTransactionsData(token)
   const { t } = useTranslation()
   const [type, setType] = useState<TransactionType>(TransactionType.ALL)
   const transactions = useMemo(() => {
@@ -68,10 +84,14 @@ function useTransactionsTable() {
   }
 }
 
-export default function TransactionsTable() {
+export interface TransactionsTableProps {
+  token?: string
+}
+
+export default function TransactionsTable({ token }: TransactionsTableProps) {
   const { t } = useTranslation()
   const isTablet = useMedia(mq.down(breakpoints.md))
-  const { items, sorting, paginate, type, typeOptions, onChangeType } = useTransactionsTable()
+  const { items, sorting, paginate, type, typeOptions, onChangeType } = useTransactionsTable(token)
   return (
     <TransactionsTable.Root>
       <TableTitle>{t('Transactions')}</TableTitle>
@@ -80,7 +100,7 @@ export default function TransactionsTable() {
         header={
           <Table.HeaderRow>
             <Table.HeaderCell>
-              <TransactionTypeSelect options={typeOptions} value={type} onChange={onChangeType} />
+              <ResponsiveTabs options={typeOptions} value={type} onChange={onChangeType} />
             </Table.HeaderCell>
             {[
               { title: t('Total value'), sortKey: 'amountUSD' },

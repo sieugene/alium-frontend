@@ -1,23 +1,24 @@
 import { getAddress } from '@ethersproject/address'
 import { useUpdate } from 'react-use'
 import styled from 'styled-components'
+import inferStyledProps from 'types/inferStyledProps'
 import { isAddress } from 'utils'
 import defaultIconUrl from './assets/default.svg'
 
-export interface CurrencyLogoProps {
+export interface CurrencyLogoProps extends inferStyledProps<typeof CurrencyLogo['Root']> {
   address: string
 }
 
 const BAD_SRCS = {}
 
-export default function CurrencyLogo({ address }: CurrencyLogoProps) {
+export default function CurrencyLogo({ address, ...restProps }: CurrencyLogoProps) {
   const update = useUpdate()
   const validAddress = isAddress(address)
   const src = validAddress
     ? `https://assets.trustwalletapp.com/blockchains/smartchain/assets/${getAddress(address)}/logo.png`
     : defaultIconUrl
   return (
-    <CurrencyLogo.Root>
+    <CurrencyLogo.Root {...restProps}>
       <img
         src={BAD_SRCS[src] ? defaultIconUrl : src}
         onError={() => {

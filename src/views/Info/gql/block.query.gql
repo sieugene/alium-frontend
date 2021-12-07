@@ -1,4 +1,4 @@
-query blockByTimestamp($timestamp: BigInt!) {
+query block($timestamp: BigInt!) {
   blocks(first: 1, orderBy: timestamp, orderDirection: desc, where: { timestamp_lte: $timestamp }) {
     number
   }

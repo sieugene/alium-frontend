@@ -1,8 +1,4 @@
-query topPairs(
-    $first: Int = 500,
-    $block24h: Int!,
-    $block7d: Int!,
-) {
+query topPairs($first: Int = 500, $block24h: Int!, $block7d: Int!) {
   now: pairs(first: $first) {
     ...TopPair
   }

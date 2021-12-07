@@ -2405,14 +2405,20 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
+export type BurnDataFragment = { __typename?: 'Burn', id: string, timestamp: any, sender?: any | null | undefined, amount0?: any | null | undefined, amount1?: any | null | undefined, amountUSD?: any | null | undefined, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } };
+
+export type MintDataFragment = { __typename?: 'Mint', id: string, timestamp: any, to: any, amount0?: any | null | undefined, amount1?: any | null | undefined, amountUSD?: any | null | undefined, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } };
+
+export type SwapDataFragment = { __typename?: 'Swap', id: string, timestamp: any, from: any, amount0In: any, amount1In: any, amount0Out: any, amount1Out: any, amountUSD: any, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } };
+
 export type TopPairFragment = { __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } };
 
-export type BlockByTimestampQueryVariables = Exact<{
+export type BlockQueryVariables = Exact<{
   timestamp: Scalars['BigInt'];
 }>;
 
 
-export type BlockByTimestampQuery = { __typename?: 'Query', blocks: Array<{ __typename?: 'Block', number: any }> };
+export type BlockQuery = { __typename?: 'Query', blocks: Array<{ __typename?: 'Block', number: any }> };
 
 export type InfoHeadlineQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2424,6 +2430,27 @@ export type OverviewChartsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type OverviewChartsQuery = { __typename?: 'Query', aliumDayDatas: Array<{ __typename?: 'AliumDayData', date: number, dailyVolumeUSD: any, totalLiquidityUSD: any }> };
 
+export type TokenQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type TokenQuery = { __typename?: 'Query', token?: { __typename?: 'Token', id: string, symbol: string, name: string, derivedBNB?: any | null | undefined, derivedUSD?: any | null | undefined, tradeVolumeUSD: any, totalTransactions: any, totalLiquidity: any, tokenDayData: Array<{ __typename?: 'TokenDayData', priceUSD: any, dailyVolumeUSD: any, totalLiquidityUSD: any, dailyTxns: any }> } | null | undefined };
+
+export type TokenChartsQueryVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type TokenChartsQuery = { __typename?: 'Query', tokenDayDatas: Array<{ __typename?: 'TokenDayData', priceUSD: any, dailyVolumeUSD: any, totalLiquidityUSD: any, date: number }> };
+
+export type TokenPairsQueryVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type TokenPairsQuery = { __typename?: 'Query', asToken0: Array<{ __typename?: 'Pair', id: string }>, asToken1: Array<{ __typename?: 'Pair', id: string }> };
+
 export type TopPairsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   block24h: Scalars['Int'];
@@ -2432,6 +2459,16 @@ export type TopPairsQueryVariables = Exact<{
 
 
 export type TopPairsQuery = { __typename?: 'Query', now: Array<{ __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } }>, h24: Array<{ __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } }>, d7: Array<{ __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } }> };
+
+export type TopPairsByIdsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']>;
+  block24h: Scalars['Int'];
+  block7d: Scalars['Int'];
+  ids: Array<Scalars['ID']> | Scalars['ID'];
+}>;
+
+
+export type TopPairsByIdsQuery = { __typename?: 'Query', now: Array<{ __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } }>, h24: Array<{ __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } }>, d7: Array<{ __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } }> };
 
 export type TopTokensQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2445,6 +2482,76 @@ export type TransactionsQueryVariables = Exact<{
 
 export type TransactionsQuery = { __typename?: 'Query', mints: Array<{ __typename?: 'Mint', id: string, timestamp: any, to: any, amount0?: any | null | undefined, amount1?: any | null | undefined, amountUSD?: any | null | undefined, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } }>, swaps: Array<{ __typename?: 'Swap', id: string, timestamp: any, from: any, amount0In: any, amount1In: any, amount0Out: any, amount1Out: any, amountUSD: any, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } }>, burns: Array<{ __typename?: 'Burn', id: string, timestamp: any, sender?: any | null | undefined, amount0?: any | null | undefined, amount1?: any | null | undefined, amountUSD?: any | null | undefined, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } }> };
 
+export type TransactionsByPairsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']>;
+  pairs?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type TransactionsByPairsQuery = { __typename?: 'Query', mints: Array<{ __typename?: 'Mint', id: string, timestamp: any, to: any, amount0?: any | null | undefined, amount1?: any | null | undefined, amountUSD?: any | null | undefined, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } }>, swaps: Array<{ __typename?: 'Swap', id: string, timestamp: any, from: any, amount0In: any, amount1In: any, amount0Out: any, amount1Out: any, amountUSD: any, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } }>, burns: Array<{ __typename?: 'Burn', id: string, timestamp: any, sender?: any | null | undefined, amount0?: any | null | undefined, amount1?: any | null | undefined, amountUSD?: any | null | undefined, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } }> };
+
+export const BurnDataFragmentDoc = gql`
+    fragment BurnData on Burn {
+  id
+  timestamp
+  pair {
+    token0 {
+      id
+      symbol
+    }
+    token1 {
+      id
+      symbol
+    }
+  }
+  sender
+  amount0
+  amount1
+  amountUSD
+}
+    `;
+export const MintDataFragmentDoc = gql`
+    fragment MintData on Mint {
+  id
+  timestamp
+  pair {
+    token0 {
+      id
+      symbol
+    }
+    token1 {
+      id
+      symbol
+    }
+  }
+  to
+  amount0
+  amount1
+  amountUSD
+}
+    `;
+export const SwapDataFragmentDoc = gql`
+    fragment SwapData on Swap {
+  id
+  timestamp
+  pair {
+    token0 {
+      id
+      symbol
+    }
+    token1 {
+      id
+      symbol
+    }
+  }
+  from
+  amount0In
+  amount1In
+  amount0Out
+  amount1Out
+  amountUSD
+}
+    `;
 export const TopPairFragmentDoc = gql`
     fragment TopPair on Pair {
   id
@@ -2462,8 +2569,8 @@ export const TopPairFragmentDoc = gql`
   block
 }
     `;
-export const BlockByTimestampDocument = gql`
-    query blockByTimestamp($timestamp: BigInt!) {
+export const BlockDocument = gql`
+    query block($timestamp: BigInt!) {
   blocks(
     first: 1
     orderBy: timestamp
@@ -2476,32 +2583,32 @@ export const BlockByTimestampDocument = gql`
     `;
 
 /**
- * __useBlockByTimestampQuery__
+ * __useBlockQuery__
  *
- * To run a query within a React component, call `useBlockByTimestampQuery` and pass it any options that fit your needs.
- * When your component renders, `useBlockByTimestampQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useBlockQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBlockQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useBlockByTimestampQuery({
+ * const { data, loading, error } = useBlockQuery({
  *   variables: {
  *      timestamp: // value for 'timestamp'
  *   },
  * });
  */
-export function useBlockByTimestampQuery(baseOptions: Apollo.QueryHookOptions<BlockByTimestampQuery, BlockByTimestampQueryVariables>) {
+export function useBlockQuery(baseOptions: Apollo.QueryHookOptions<BlockQuery, BlockQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BlockByTimestampQuery, BlockByTimestampQueryVariables>(BlockByTimestampDocument, options);
+        return Apollo.useQuery<BlockQuery, BlockQueryVariables>(BlockDocument, options);
       }
-export function useBlockByTimestampLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BlockByTimestampQuery, BlockByTimestampQueryVariables>) {
+export function useBlockLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BlockQuery, BlockQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BlockByTimestampQuery, BlockByTimestampQueryVariables>(BlockByTimestampDocument, options);
+          return Apollo.useLazyQuery<BlockQuery, BlockQueryVariables>(BlockDocument, options);
         }
-export type BlockByTimestampQueryHookResult = ReturnType<typeof useBlockByTimestampQuery>;
-export type BlockByTimestampLazyQueryHookResult = ReturnType<typeof useBlockByTimestampLazyQuery>;
-export type BlockByTimestampQueryResult = Apollo.QueryResult<BlockByTimestampQuery, BlockByTimestampQueryVariables>;
+export type BlockQueryHookResult = ReturnType<typeof useBlockQuery>;
+export type BlockLazyQueryHookResult = ReturnType<typeof useBlockLazyQuery>;
+export type BlockQueryResult = Apollo.QueryResult<BlockQuery, BlockQueryVariables>;
 export const InfoHeadlineDocument = gql`
     query infoHeadline {
   bundles(first: 1) {
@@ -2579,6 +2686,135 @@ export function useOverviewChartsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type OverviewChartsQueryHookResult = ReturnType<typeof useOverviewChartsQuery>;
 export type OverviewChartsLazyQueryHookResult = ReturnType<typeof useOverviewChartsLazyQuery>;
 export type OverviewChartsQueryResult = Apollo.QueryResult<OverviewChartsQuery, OverviewChartsQueryVariables>;
+export const TokenDocument = gql`
+    query token($id: ID!) {
+  token(id: $id) {
+    id
+    symbol
+    name
+    derivedBNB
+    derivedUSD
+    tradeVolumeUSD
+    totalTransactions
+    totalLiquidity
+    tokenDayData(first: 2, orderBy: date, orderDirection: desc) {
+      priceUSD
+      dailyVolumeUSD
+      totalLiquidityUSD
+      dailyTxns
+    }
+  }
+}
+    `;
+
+/**
+ * __useTokenQuery__
+ *
+ * To run a query within a React component, call `useTokenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTokenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTokenQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTokenQuery(baseOptions: Apollo.QueryHookOptions<TokenQuery, TokenQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TokenQuery, TokenQueryVariables>(TokenDocument, options);
+      }
+export function useTokenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TokenQuery, TokenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TokenQuery, TokenQueryVariables>(TokenDocument, options);
+        }
+export type TokenQueryHookResult = ReturnType<typeof useTokenQuery>;
+export type TokenLazyQueryHookResult = ReturnType<typeof useTokenLazyQuery>;
+export type TokenQueryResult = Apollo.QueryResult<TokenQuery, TokenQueryVariables>;
+export const TokenChartsDocument = gql`
+    query tokenCharts($token: String!) {
+  tokenDayDatas(
+    first: 1000
+    orderBy: date
+    orderDirection: desc
+    where: {token: $token}
+  ) {
+    priceUSD
+    dailyVolumeUSD
+    totalLiquidityUSD
+    date
+  }
+}
+    `;
+
+/**
+ * __useTokenChartsQuery__
+ *
+ * To run a query within a React component, call `useTokenChartsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTokenChartsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTokenChartsQuery({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useTokenChartsQuery(baseOptions: Apollo.QueryHookOptions<TokenChartsQuery, TokenChartsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TokenChartsQuery, TokenChartsQueryVariables>(TokenChartsDocument, options);
+      }
+export function useTokenChartsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TokenChartsQuery, TokenChartsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TokenChartsQuery, TokenChartsQueryVariables>(TokenChartsDocument, options);
+        }
+export type TokenChartsQueryHookResult = ReturnType<typeof useTokenChartsQuery>;
+export type TokenChartsLazyQueryHookResult = ReturnType<typeof useTokenChartsLazyQuery>;
+export type TokenChartsQueryResult = Apollo.QueryResult<TokenChartsQuery, TokenChartsQueryVariables>;
+export const TokenPairsDocument = gql`
+    query tokenPairs($token: String!) {
+  asToken0: pairs(first: 100, where: {token0: $token}) {
+    id
+  }
+  asToken1: pairs(first: 100, where: {token1: $token}) {
+    id
+  }
+}
+    `;
+
+/**
+ * __useTokenPairsQuery__
+ *
+ * To run a query within a React component, call `useTokenPairsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTokenPairsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTokenPairsQuery({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useTokenPairsQuery(baseOptions: Apollo.QueryHookOptions<TokenPairsQuery, TokenPairsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TokenPairsQuery, TokenPairsQueryVariables>(TokenPairsDocument, options);
+      }
+export function useTokenPairsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TokenPairsQuery, TokenPairsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TokenPairsQuery, TokenPairsQueryVariables>(TokenPairsDocument, options);
+        }
+export type TokenPairsQueryHookResult = ReturnType<typeof useTokenPairsQuery>;
+export type TokenPairsLazyQueryHookResult = ReturnType<typeof useTokenPairsLazyQuery>;
+export type TokenPairsQueryResult = Apollo.QueryResult<TokenPairsQuery, TokenPairsQueryVariables>;
 export const TopPairsDocument = gql`
     query topPairs($first: Int = 500, $block24h: Int!, $block7d: Int!) {
   now: pairs(first: $first) {
@@ -2622,6 +2858,50 @@ export function useTopPairsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<T
 export type TopPairsQueryHookResult = ReturnType<typeof useTopPairsQuery>;
 export type TopPairsLazyQueryHookResult = ReturnType<typeof useTopPairsLazyQuery>;
 export type TopPairsQueryResult = Apollo.QueryResult<TopPairsQuery, TopPairsQueryVariables>;
+export const TopPairsByIdsDocument = gql`
+    query topPairsByIds($first: Int = 500, $block24h: Int!, $block7d: Int!, $ids: [ID!]!) {
+  now: pairs(first: $first, where: {id_in: $ids}) {
+    ...TopPair
+  }
+  h24: pairs(first: $first, block: {number: $block24h}, where: {id_in: $ids}) {
+    ...TopPair
+  }
+  d7: pairs(first: $first, block: {number: $block7d}, where: {id_in: $ids}) {
+    ...TopPair
+  }
+}
+    ${TopPairFragmentDoc}`;
+
+/**
+ * __useTopPairsByIdsQuery__
+ *
+ * To run a query within a React component, call `useTopPairsByIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTopPairsByIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTopPairsByIdsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      block24h: // value for 'block24h'
+ *      block7d: // value for 'block7d'
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useTopPairsByIdsQuery(baseOptions: Apollo.QueryHookOptions<TopPairsByIdsQuery, TopPairsByIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TopPairsByIdsQuery, TopPairsByIdsQueryVariables>(TopPairsByIdsDocument, options);
+      }
+export function useTopPairsByIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TopPairsByIdsQuery, TopPairsByIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TopPairsByIdsQuery, TopPairsByIdsQueryVariables>(TopPairsByIdsDocument, options);
+        }
+export type TopPairsByIdsQueryHookResult = ReturnType<typeof useTopPairsByIdsQuery>;
+export type TopPairsByIdsLazyQueryHookResult = ReturnType<typeof useTopPairsByIdsLazyQuery>;
+export type TopPairsByIdsQueryResult = Apollo.QueryResult<TopPairsByIdsQuery, TopPairsByIdsQueryVariables>;
 export const TopTokensDocument = gql`
     query topTokens {
   tokens(first: 500, orderBy: totalLiquidity, orderDirection: desc) {
@@ -2664,65 +2944,20 @@ export type TopTokensQueryHookResult = ReturnType<typeof useTopTokensQuery>;
 export type TopTokensLazyQueryHookResult = ReturnType<typeof useTopTokensLazyQuery>;
 export type TopTokensQueryResult = Apollo.QueryResult<TopTokensQuery, TopTokensQueryVariables>;
 export const TransactionsDocument = gql`
-    query transactions($first: Int = 100) {
+    query transactions($first: Int = 500) {
   mints(first: $first, orderBy: timestamp, orderDirection: desc) {
-    id
-    timestamp
-    pair {
-      token0 {
-        id
-        symbol
-      }
-      token1 {
-        id
-        symbol
-      }
-    }
-    to
-    amount0
-    amount1
-    amountUSD
+    ...MintData
   }
   swaps(first: $first, orderBy: timestamp, orderDirection: desc) {
-    id
-    timestamp
-    pair {
-      token0 {
-        id
-        symbol
-      }
-      token1 {
-        id
-        symbol
-      }
-    }
-    from
-    amount0In
-    amount1In
-    amount0Out
-    amount1Out
-    amountUSD
+    ...SwapData
   }
   burns(first: $first, orderBy: timestamp, orderDirection: desc) {
-    id
-    timestamp
-    pair {
-      token0 {
-        id
-        symbol
-      }
-      token1 {
-        id
-        symbol
-      }
-    }
-    sender
-    amount0
-    amount1
-    amountUSD
+    ...BurnData
   }
 }
-    `;
+    ${MintDataFragmentDoc}
+${SwapDataFragmentDoc}
+${BurnDataFragmentDoc}`;
 
 /**
  * __useTransactionsQuery__
@@ -2751,3 +2986,62 @@ export function useTransactionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type TransactionsQueryHookResult = ReturnType<typeof useTransactionsQuery>;
 export type TransactionsLazyQueryHookResult = ReturnType<typeof useTransactionsLazyQuery>;
 export type TransactionsQueryResult = Apollo.QueryResult<TransactionsQuery, TransactionsQueryVariables>;
+export const TransactionsByPairsDocument = gql`
+    query transactionsByPairs($first: Int = 500, $pairs: [String!]) {
+  mints(
+    first: $first
+    orderBy: timestamp
+    orderDirection: desc
+    where: {pair_in: $pairs}
+  ) {
+    ...MintData
+  }
+  swaps(
+    first: $first
+    orderBy: timestamp
+    orderDirection: desc
+    where: {pair_in: $pairs}
+  ) {
+    ...SwapData
+  }
+  burns(
+    first: $first
+    orderBy: timestamp
+    orderDirection: desc
+    where: {pair_in: $pairs}
+  ) {
+    ...BurnData
+  }
+}
+    ${MintDataFragmentDoc}
+${SwapDataFragmentDoc}
+${BurnDataFragmentDoc}`;
+
+/**
+ * __useTransactionsByPairsQuery__
+ *
+ * To run a query within a React component, call `useTransactionsByPairsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransactionsByPairsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransactionsByPairsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      pairs: // value for 'pairs'
+ *   },
+ * });
+ */
+export function useTransactionsByPairsQuery(baseOptions?: Apollo.QueryHookOptions<TransactionsByPairsQuery, TransactionsByPairsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TransactionsByPairsQuery, TransactionsByPairsQueryVariables>(TransactionsByPairsDocument, options);
+      }
+export function useTransactionsByPairsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TransactionsByPairsQuery, TransactionsByPairsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TransactionsByPairsQuery, TransactionsByPairsQueryVariables>(TransactionsByPairsDocument, options);
+        }
+export type TransactionsByPairsQueryHookResult = ReturnType<typeof useTransactionsByPairsQuery>;
+export type TransactionsByPairsLazyQueryHookResult = ReturnType<typeof useTransactionsByPairsLazyQuery>;
+export type TransactionsByPairsQueryResult = Apollo.QueryResult<TransactionsByPairsQuery, TransactionsByPairsQueryVariables>;

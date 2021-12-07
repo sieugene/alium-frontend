@@ -16,8 +16,8 @@ export default function Info() {
       <InfoHeadline />
       <Info.Content>
         <OverviewCharts />
-        <TopTokensTable />
-        <TopPairsTable />
+        <TopTokensTable seeAllHref='/info/tokens' />
+        <TopPairsTable seeAllHref='/info/pairs' />
         <TransactionsTable />
       </Info.Content>
     </Info.Root>

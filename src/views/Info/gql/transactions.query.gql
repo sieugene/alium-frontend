@@ -1,58 +1,11 @@
-query transactions($first: Int = 100) {
+query transactions($first: Int = 500) {
   mints(first: $first, orderBy: timestamp, orderDirection: desc) {
-    id
-    timestamp
-    pair {
-      token0 {
-        id
-        symbol
-      }
-      token1 {
-        id
-        symbol
-      }
-    }
-    to
-    amount0
-    amount1
-    amountUSD
+    ...MintData
   }
   swaps(first: $first, orderBy: timestamp, orderDirection: desc) {
-    id
-    timestamp
-    pair {
-      token0 {
-        id
-        symbol
-      }
-      token1 {
-        id
-        symbol
-      }
-    }
-    from
-    amount0In
-    amount1In
-    amount0Out
-    amount1Out
-    amountUSD
+    ...SwapData
   }
   burns(first: $first, orderBy: timestamp, orderDirection: desc) {
-    id
-    timestamp
-    pair {
-      token0 {
-        id
-        symbol
-      }
-      token1 {
-        id
-        symbol
-      }
-    }
-    sender
-    amount0
-    amount1
-    amountUSD
+    ...BurnData
   }
 }
