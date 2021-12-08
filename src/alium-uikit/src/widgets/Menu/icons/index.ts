@@ -1,3 +1,4 @@
+export { default as BridgeIcon } from './BridgeIcon'
 export { default as BscscanIcon } from './BscscanIcon'
 export { default as CoinGeckoIcon } from './CoinGecko'
 export { default as CoinMarketCapIcon } from './CoinMarketCapIcon'

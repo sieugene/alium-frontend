@@ -19,6 +19,7 @@ export const ROUTES = {
   farms: '/farms',
   shp: '/pools',
   shpYour: '/pools/your',
+  bridge: '/bridge',
   //
   tokenHolderArea: '/account',
   collection: '/collection',

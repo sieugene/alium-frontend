@@ -50,6 +50,12 @@ const metaTags = [
     description: '',
     seo: '',
   },
+  {
+    title: 'Bridge | Alium Finance',
+    link: ROUTES.bridge,
+    description: '',
+    seo: '',
+  },
 ]
 const defaultMeta = {
   title: 'Alium Swap',

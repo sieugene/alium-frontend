@@ -35,6 +35,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
     },
     { label: t('Farms'), icon: 'FarmIcon', href: ROUTES.farms },
     { label: t('Strong Holders Pool'), icon: 'ShpIcon', href: ROUTES.shp },
+    { label: t('Bridge'), icon: 'BridgeIcon', href: ROUTES.bridge },
     { label: t('Token holder area'), icon: 'PrivateRoundIcon', href: ROUTES.tokenHolderArea },
     /* {
       label: 'Analytics',
