@@ -17,7 +17,7 @@
     "format": "prettier --write --ignore-unknown \"src/**/*\"",
     "up-deps": "npx npm-check-updates -u --target minor && yarn",
     "up-alium": "npx npm-check-updates @alium-official/* --target greatest -u && yarn",
-    "i18n": "i18next-scanner --config i18next-scanner.config.js 'src/**/*.{ts,tsx,js,jsx}'",
+    "i18n": "APP_ENV=development i18next-scanner --config i18next-scanner.config.js 'src/**/*.{ts,tsx,js,jsx}'",
     "test": "jest",
     "info:gql": "graphql-codegen --config src/views/Info/codegen.yml"
   },
