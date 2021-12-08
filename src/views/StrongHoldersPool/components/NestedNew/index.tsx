@@ -19,54 +19,26 @@ export default function NestedNew() {
 }
 
 NestedNew.Stats = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-basis: 354px;
-  margin-left: 30px;
+  display: grid;
+  gap: 30px;
 
-  & > * {
-    flex: 1;
-  }
-
-  & > * + * {
-    margin-top: 30px;
+  @media ${mq.down(breakpoints.lg)} {
+    gap: 16px;
+    grid-row: 1;
   }
 `
 
 NestedNew.Root = styled.div`
-  display: flex;
-
-  & > ${JoinPoolCard.Root} {
-    flex: 1;
-  }
+  display: grid;
+  gap: 30px;
+  grid-auto-flow: column;
 
   @media ${mq.down(breakpoints.lg)} {
-    flex-direction: column-reverse;
-    align-items: stretch;
-
-    ${NestedNew.Stats} {
-      flex-basis: auto;
-      flex-direction: row;
-      margin-left: 0;
-      margin-bottom: 16px;
-
-      & > * + * {
-        margin-top: 0;
-        margin-left: 16px;
-      }
-    }
+    gap: 16px;
+    grid-auto-flow: row;
   }
 
   @media ${mq.down(breakpoints.sm)} {
-    padding-top: 16px;
-
-    ${NestedNew.Stats} {
-      margin-top: 16px;
-      flex-direction: column;
-
-      & > * + * {
-        margin-left: 0;
-      }
-    }
+    margin-top: 16px;
   }
 `

@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next'
 import { useCallback, useMemo, useState } from 'react'
 import { useToast } from 'state/hooks'
 import styled from 'styled-components'
+import { mq, breakpoints } from 'ui'
 import { ethersToBN, toEther, toWei } from 'utils/bigNumber'
 import GTM from 'utils/gtm'
 import {
@@ -180,6 +181,10 @@ export default function JoinPoolModal({ onDismiss }: JoinPoolModalProps) {
 JoinPoolModal.Content = styled.div`
   width: 450px;
   max-width: 100%;
+
+  @media ${mq.down(breakpoints.sm)} {
+    width: 354px;
+  }
 `
 
 JoinPoolModal.Data = styled.div`
