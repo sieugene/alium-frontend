@@ -2,6 +2,7 @@ import { networksDev, networksProd } from 'alium-uikit/src/widgets/WalletModal/c
 import Binance from 'alium-uikit/src/widgets/WalletModal/icons/Binance'
 import { isDev } from 'config'
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useStoreNetwork } from 'store/network/useStoreNetwork'
 import styled from 'styled-components'
 
@@ -108,6 +109,7 @@ const Button = styled.button`
 `
 
 const AvailableAccount: FC<Props> = ({ children, title }) => {
+  const { t } = useTranslation()
   const currentChainId = useStoreNetwork((state) => state.currentChainId)
   const networks = isDev ? networksDev : networksProd
   const setChainId = useStoreNetwork((state) => state.setChainId)
@@ -121,10 +123,10 @@ const AvailableAccount: FC<Props> = ({ children, title }) => {
       <Wrapper>
         <Message>
           <h2>{title}</h2>
-          <p>This section is only available on Binance Smart Chain. Please switch the network</p>
+          <p>{t('This section is only available on Binance Smart Chain. Please switch the network')}</p>
           <Button onClick={setBinanceChain}>
             <Binance />
-            <p className='text'>Connect Binance Smart Chain</p>
+            <p className='text'>{t('Connect Binance Smart Chain')}</p>
           </Button>
         </Message>
       </Wrapper>

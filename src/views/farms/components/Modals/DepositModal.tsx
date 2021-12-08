@@ -11,7 +11,7 @@ const DepositModal: FC<Omit<FarmActionModalProps, 'title' | 'type'>> = ({
   almPrice,
 }) => {
   const { t } = useTranslation()
-  const title = t('Stake') + ` LP tokens`
+  const title = t('Stake LP tokens')
 
   return (
     <FarmActionModal

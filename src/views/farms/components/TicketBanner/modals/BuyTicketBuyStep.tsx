@@ -82,7 +82,7 @@ const BuyTicketBuyStep = () => {
   if (loading) {
     return (
       <TransferLoader withoutWrapper withoutHeader>
-        <TicketLoadingText>Purchase process…</TicketLoadingText>
+        <TicketLoadingText>{t('Purchase process...')}</TicketLoadingText>
       </TransferLoader>
     )
   }

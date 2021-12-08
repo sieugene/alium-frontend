@@ -62,7 +62,7 @@ FarmModalStatuses.ActionFarmError = ({ t, onRepeat }: { t: TFunction; onRepeat: 
       <FarmModalStatuses.IconWrap>
         <BridgeTransferErrorIcon />
       </FarmModalStatuses.IconWrap>
-      <h2 className='error-text'>Transaction failed</h2>
+      <h2 className='error-text'>{t('Transaction failed')}</h2>
       <Button onClick={onRepeat} className='repeat'>
         {t('Repeat')}
       </Button>
