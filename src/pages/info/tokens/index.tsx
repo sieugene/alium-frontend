@@ -1,2 +1,2 @@
-export { getStaticProps } from 'utils/i18n'
 export { default } from 'views/Info/tokens'
+export { getStaticProps } from '../index'
