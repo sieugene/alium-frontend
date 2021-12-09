@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import styled from 'styled-components'
-import { typography } from 'ui'
+import { breakpoints, mq, typography } from 'ui'
 import { ethersToBN, toEther } from 'utils/bigNumber'
 import {
   useParticipantNumber,
@@ -102,7 +102,6 @@ Details.HistoryTable = styled.table`
   }
 
   th {
-    padding: 8px;
     font-weight: bold;
     font-size: 12px;
     line-height: 14px;
@@ -120,12 +119,12 @@ Details.HistoryTable = styled.table`
   }
 
   td {
-    padding: 6px 8px;
     ${typography.ultrasmall.medium}
     color: #8990a5;
     vertical-align: middle;
 
     &:first-child {
+      word-wrap: break-word;
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
     }
@@ -137,6 +136,17 @@ Details.HistoryTable = styled.table`
   }
 
   tr {
+    display: grid;
+    grid-template-columns: repeat(3, 140px);
+    gap: 31px;
+    padding: 8px;
+    border-radius: 6px;
+
+    @media ${mq.down(breakpoints.lg)} {
+      grid-template-columns: repeat(3, 70px);
+      gap: 44px;
+    }
+
     &:nth-child(even) {
       background: #f4f5fa;
     }

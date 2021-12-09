@@ -13,7 +13,7 @@ import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React, { useContext } from 'react'
 import { ROUTES } from 'routes'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { css, ThemeContext } from 'styled-components'
 import SwapAppBody from 'views/Swap/SwapAppBody'
 
 const md = '768px'
@@ -162,19 +162,19 @@ const StyledCardBody = styled.div<{ singleBlock?: boolean }>`
   @media screen and (max-width: 461px) {
     flex-direction: column-reverse;
     height: 196px;
-    padding: 26px 24px 32px 24px;
+    padding: 32px 16px;
 
     ${({ singleBlock }) =>
       singleBlock &&
-      `
-      padding: 0; 
-      height: 96px;
-      flex-direction: row;
-      padding-left: 16px;
-      > div {
-        flex-basis: 0 !important;
-      }
-    `}
+      css`
+        height: 96px;
+        flex-direction: row;
+        padding-left: 16px;
+
+        & > div {
+          flex-basis: 0 !important;
+        }
+      `}
 
     > div {
       flex-basis: 60%;

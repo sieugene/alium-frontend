@@ -50,14 +50,15 @@ export default function NestedYour() {
 
 NestedYour.Pools = styled.div`
   display: grid;
-  align-items: start;
-  grid-template-columns: 1fr 1fr;
+  align-items: flex-start;
+  grid-template-columns: repeat(auto-fit, 546px);
   gap: 32px 30px;
 `
 
 NestedYour.Root = styled.div`
   @media ${mq.down(breakpoints.lg)} {
     ${NestedYour.Pools} {
+      grid-template-columns: repeat(auto-fit, 362px);
       gap: 16px;
     }
   }
@@ -66,7 +67,7 @@ NestedYour.Root = styled.div`
     padding-top: 24px;
 
     ${NestedYour.Pools} {
-      grid-template-columns: 1fr;
+      justify-content: center;
     }
   }
 `
