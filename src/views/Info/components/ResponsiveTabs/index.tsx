@@ -39,6 +39,10 @@ export default function ResponsiveTabs({ options, value, responsive = true, onCh
 
 ResponsiveTabs.Root = styled.div`
   display: flex;
+
+  ${Button.Root} {
+    padding: 0 10px;
+  }
 `
 
 ResponsiveTabs.Select = styled.select`
