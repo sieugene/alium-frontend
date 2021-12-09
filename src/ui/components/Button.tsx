@@ -10,8 +10,6 @@ import * as typography from '../typography'
 export interface ButtonProps extends inferStyledProps<typeof Button['Root']> {
   variant?: 'contained' | 'outlined' | 'text'
   size?: 'default' | 'small'
-  startIcon?: ReactNode
-  endIcon?: ReactNode
   children?: ReactNode
 }
 
@@ -25,32 +23,16 @@ export default function Button({
 }: ButtonProps) {
   return (
     <Button.Root data-variant={variant} data-size={size} {...restProps}>
-      {startIcon && <Button.StartIcon>{startIcon}</Button.StartIcon>}
       {children}
-      {endIcon && <Button.EndIcon>{endIcon}</Button.EndIcon>}
     </Button.Root>
   )
 }
 
-Button.StartIcon = styled.div`
-  margin-right: 16px;
-
-  @media ${mq.down(breakpoints.sm)} {
-    margin-right: 8px;
-  }
-`
-
-Button.EndIcon = styled.div`
-  margin-left: 16px;
-
-  @media ${mq.down(breakpoints.sm)} {
-    margin-left: 8px;
-  }
-`
-
 Button.Root = styled.button`
-  display: inline-flex;
+  display: inline-grid;
+  grid-auto-flow: column;
   align-items: center;
+  gap: 16px;
   padding: 0;
   cursor: pointer;
   background: none;
@@ -60,6 +42,7 @@ Button.Root = styled.button`
   white-space: nowrap;
   ${typography.button.main}
   height: 48px;
+
   &[data-size='small'] {
     height: 32px;
     ${typography.button.small}
@@ -128,5 +111,9 @@ Button.Root = styled.button`
 
   &[data-variant='text'] {
     color: #8990a5;
+  }
+
+  @media ${mq.down(breakpoints.sm)} {
+    gap: 8px;
   }
 `

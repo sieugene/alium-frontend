@@ -33,17 +33,20 @@ export default function CurrencyLogo({ address, ...restProps }: CurrencyLogoProp
 }
 
 CurrencyLogo.Root = styled.div`
-  width: 24px;
-  height: 24px;
+  --logo-size: 24px;
+  width: var(--logo-size);
+  height: var(--logo-size);
   border-radius: 50%;
   overflow: hidden;
   background: #fff;
   padding: 1px;
   box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
+  flex-shrink: 0;
 
   img {
     object-fit: contain;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
   }
 `

@@ -3,46 +3,41 @@ import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import ChartsCard from 'views/Info/components/ChartsCard'
-import { useTokenChartsQuery } from 'views/Info/generated'
-import { ChartEntry } from 'views/Info/types'
+import { usePairChartsQuery } from 'views/Info/generated'
+import { ChartEntry, PairQueryData } from 'views/Info/types'
 
-export interface TokenChartsProps {
-  token: string
+export interface PairChartsProps {
+  pair: PairQueryData
 }
 
-export default function TokenCharts({ token }: TokenChartsProps) {
+export default function PairCharts({ pair }: PairChartsProps) {
   const { t } = useTranslation()
-  const { data } = useTokenChartsQuery({
+  const { data } = usePairChartsQuery({
     variables: {
-      token,
+      pairAddress: pair.id,
     },
   })
   const chartsData = useMemo(() => {
     const volume: ChartEntry[] = []
     const liquidity: ChartEntry[] = []
-    const price: ChartEntry[] = []
-    orderBy(data?.tokenDayDatas, 'date').forEach((dayData) => {
+    orderBy(data?.pairDayDatas, 'date').forEach((dayData) => {
       volume.push({
         date: dayData.date,
         value: Number(dayData.dailyVolumeUSD),
       })
       liquidity.push({
         date: dayData.date,
-        value: Number(dayData.totalLiquidityUSD),
-      })
-      price.push({
-        date: dayData.date,
-        value: Number(dayData.priceUSD),
+        value: Number(dayData.reserveUSD),
       })
     })
     return {
       volume,
       liquidity,
-      price,
     }
-  }, [data?.tokenDayDatas])
+  }, [data?.pairDayDatas])
+
   return (
-    <TokenCharts.Root
+    <PairCharts.Root
       charts={[
         {
           title: t('Volume'),
@@ -54,16 +49,11 @@ export default function TokenCharts({ token }: TokenChartsProps) {
           data: chartsData.liquidity,
           type: 'line',
         },
-        {
-          title: t('Price'),
-          data: chartsData.price,
-          type: 'line',
-        },
       ]}
     />
   )
 }
 
-TokenCharts.Root = styled(ChartsCard)`
-  min-height: 382px;
+PairCharts.Root = styled(ChartsCard)`
+  min-height: 386px;
 `

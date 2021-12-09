@@ -1,4 +1,4 @@
-query transactionsByPairs($first: Int = 500, $pairs: [String!]) {
+query transactionsByPairs($first: Int = 100, $pairs: [String!]) {
   mints(first: $first, orderBy: timestamp, orderDirection: desc, where: { pair_in: $pairs }) {
     ...MintData
   }

@@ -6,7 +6,7 @@ export function formatNumber(value: number, options?: Intl.NumberFormatOptions) 
   }).format(value)
 }
 
-export function formatPercentage(value: number) {
+export function formatPercent(value: number) {
   return `${value > 0 ? '+' : ''}${formatNumber(Number(value.toFixed(2)))}%`
 }
 
@@ -17,7 +17,7 @@ export function getPeriodChange(prevValue: number, currentValue: number) {
   return currentValue || 0
 }
 
-export function getPercentageChange(prevValue?: number, currentValue?: number) {
+export function getPercentChange(prevValue?: number, currentValue?: number) {
   return prevValue && currentValue ? ((currentValue - prevValue) / prevValue) * 100 : 0
 }
 

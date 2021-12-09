@@ -20,14 +20,12 @@ PairCurrencyLogo.Root = styled.div`
   align-items: center;
 
   ${CurrencyLogo.Root} {
-    position: relative;
-
     &:nth-of-type(1) {
       z-index: 1;
     }
 
     &:nth-of-type(2) {
-      left: -25%;
+      margin-left: calc(var(--logo-size) / -2.5);
     }
   }
 `

@@ -1,4 +1,4 @@
-fragment TopPair on Pair {
+fragment PairTableData on Pair {
   id
   name
   token0 {

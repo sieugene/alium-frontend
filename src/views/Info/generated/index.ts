@@ -2409,9 +2409,9 @@ export type BurnDataFragment = { __typename?: 'Burn', id: string, timestamp: any
 
 export type MintDataFragment = { __typename?: 'Mint', id: string, timestamp: any, to: any, amount0?: any | null | undefined, amount1?: any | null | undefined, amountUSD?: any | null | undefined, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } };
 
-export type SwapDataFragment = { __typename?: 'Swap', id: string, timestamp: any, from: any, amount0In: any, amount1In: any, amount0Out: any, amount1Out: any, amountUSD: any, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } };
+export type PairTableDataFragment = { __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } };
 
-export type TopPairFragment = { __typename?: 'Pair', id: string, name: string, reserveUSD: any, volumeUSD: any, block: any, token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } };
+export type SwapDataFragment = { __typename?: 'Swap', id: string, timestamp: any, from: any, amount0In: any, amount1In: any, amount0Out: any, amount1Out: any, amountUSD: any, pair: { __typename?: 'Pair', token0: { __typename?: 'Token', id: string, symbol: string }, token1: { __typename?: 'Token', id: string, symbol: string } } };
 
 export type BlockQueryVariables = Exact<{
   timestamp: Scalars['BigInt'];
@@ -2429,6 +2429,28 @@ export type OverviewChartsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type OverviewChartsQuery = { __typename?: 'Query', aliumDayDatas: Array<{ __typename?: 'AliumDayData', date: number, dailyVolumeUSD: any, totalLiquidityUSD: any }> };
+
+export type PairByTokensQueryVariables = Exact<{
+  token0: Scalars['String'];
+  token1: Scalars['String'];
+}>;
+
+
+export type PairByTokensQuery = { __typename?: 'Query', pairs: Array<{ __typename?: 'Pair', id: string, token0Price: any, token1Price: any, token0: { __typename?: 'Token', id: string, symbol: string, derivedUSD?: any | null | undefined }, token1: { __typename?: 'Token', id: string, symbol: string, derivedUSD?: any | null | undefined } }> };
+
+export type PairChartsQueryVariables = Exact<{
+  pairAddress: Scalars['Bytes'];
+}>;
+
+
+export type PairChartsQuery = { __typename?: 'Query', pairDayDatas: Array<{ __typename?: 'PairDayData', dailyVolumeUSD: any, reserveUSD: any, date: number }> };
+
+export type PairCountersQueryVariables = Exact<{
+  pairAddress: Scalars['Bytes'];
+}>;
+
+
+export type PairCountersQuery = { __typename?: 'Query', pairDayDatas: Array<{ __typename?: 'PairDayData', dailyVolumeUSD: any, reserveUSD: any, dailyTxns: any, reserve0: any, reserve1: any }> };
 
 export type TokenQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -2530,6 +2552,23 @@ export const MintDataFragmentDoc = gql`
   amountUSD
 }
     `;
+export const PairTableDataFragmentDoc = gql`
+    fragment PairTableData on Pair {
+  id
+  name
+  token0 {
+    id
+    symbol
+  }
+  token1 {
+    id
+    symbol
+  }
+  reserveUSD
+  volumeUSD
+  block
+}
+    `;
 export const SwapDataFragmentDoc = gql`
     fragment SwapData on Swap {
   id
@@ -2550,23 +2589,6 @@ export const SwapDataFragmentDoc = gql`
   amount0Out
   amount1Out
   amountUSD
-}
-    `;
-export const TopPairFragmentDoc = gql`
-    fragment TopPair on Pair {
-  id
-  name
-  token0 {
-    id
-    symbol
-  }
-  token1 {
-    id
-    symbol
-  }
-  reserveUSD
-  volumeUSD
-  block
 }
     `;
 export const BlockDocument = gql`
@@ -2686,6 +2708,140 @@ export function useOverviewChartsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type OverviewChartsQueryHookResult = ReturnType<typeof useOverviewChartsQuery>;
 export type OverviewChartsLazyQueryHookResult = ReturnType<typeof useOverviewChartsLazyQuery>;
 export type OverviewChartsQueryResult = Apollo.QueryResult<OverviewChartsQuery, OverviewChartsQueryVariables>;
+export const PairByTokensDocument = gql`
+    query pairByTokens($token0: String!, $token1: String!) {
+  pairs(first: 1, where: {token0: $token0, token1: $token1}) {
+    id
+    token0 {
+      id
+      symbol
+      derivedUSD
+    }
+    token0Price
+    token1 {
+      id
+      symbol
+      derivedUSD
+    }
+    token1Price
+  }
+}
+    `;
+
+/**
+ * __usePairByTokensQuery__
+ *
+ * To run a query within a React component, call `usePairByTokensQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePairByTokensQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePairByTokensQuery({
+ *   variables: {
+ *      token0: // value for 'token0'
+ *      token1: // value for 'token1'
+ *   },
+ * });
+ */
+export function usePairByTokensQuery(baseOptions: Apollo.QueryHookOptions<PairByTokensQuery, PairByTokensQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PairByTokensQuery, PairByTokensQueryVariables>(PairByTokensDocument, options);
+      }
+export function usePairByTokensLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PairByTokensQuery, PairByTokensQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PairByTokensQuery, PairByTokensQueryVariables>(PairByTokensDocument, options);
+        }
+export type PairByTokensQueryHookResult = ReturnType<typeof usePairByTokensQuery>;
+export type PairByTokensLazyQueryHookResult = ReturnType<typeof usePairByTokensLazyQuery>;
+export type PairByTokensQueryResult = Apollo.QueryResult<PairByTokensQuery, PairByTokensQueryVariables>;
+export const PairChartsDocument = gql`
+    query pairCharts($pairAddress: Bytes!) {
+  pairDayDatas(
+    first: 1000
+    orderBy: date
+    orderDirection: desc
+    where: {pairAddress: $pairAddress}
+  ) {
+    dailyVolumeUSD
+    reserveUSD
+    date
+  }
+}
+    `;
+
+/**
+ * __usePairChartsQuery__
+ *
+ * To run a query within a React component, call `usePairChartsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePairChartsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePairChartsQuery({
+ *   variables: {
+ *      pairAddress: // value for 'pairAddress'
+ *   },
+ * });
+ */
+export function usePairChartsQuery(baseOptions: Apollo.QueryHookOptions<PairChartsQuery, PairChartsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PairChartsQuery, PairChartsQueryVariables>(PairChartsDocument, options);
+      }
+export function usePairChartsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PairChartsQuery, PairChartsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PairChartsQuery, PairChartsQueryVariables>(PairChartsDocument, options);
+        }
+export type PairChartsQueryHookResult = ReturnType<typeof usePairChartsQuery>;
+export type PairChartsLazyQueryHookResult = ReturnType<typeof usePairChartsLazyQuery>;
+export type PairChartsQueryResult = Apollo.QueryResult<PairChartsQuery, PairChartsQueryVariables>;
+export const PairCountersDocument = gql`
+    query pairCounters($pairAddress: Bytes!) {
+  pairDayDatas(
+    first: 2
+    orderBy: date
+    orderDirection: desc
+    where: {pairAddress: $pairAddress}
+  ) {
+    dailyVolumeUSD
+    reserveUSD
+    dailyTxns
+    reserve0
+    reserve1
+  }
+}
+    `;
+
+/**
+ * __usePairCountersQuery__
+ *
+ * To run a query within a React component, call `usePairCountersQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePairCountersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePairCountersQuery({
+ *   variables: {
+ *      pairAddress: // value for 'pairAddress'
+ *   },
+ * });
+ */
+export function usePairCountersQuery(baseOptions: Apollo.QueryHookOptions<PairCountersQuery, PairCountersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PairCountersQuery, PairCountersQueryVariables>(PairCountersDocument, options);
+      }
+export function usePairCountersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PairCountersQuery, PairCountersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PairCountersQuery, PairCountersQueryVariables>(PairCountersDocument, options);
+        }
+export type PairCountersQueryHookResult = ReturnType<typeof usePairCountersQuery>;
+export type PairCountersLazyQueryHookResult = ReturnType<typeof usePairCountersLazyQuery>;
+export type PairCountersQueryResult = Apollo.QueryResult<PairCountersQuery, PairCountersQueryVariables>;
 export const TokenDocument = gql`
     query token($id: ID!) {
   token(id: $id) {
@@ -2818,16 +2974,16 @@ export type TokenPairsQueryResult = Apollo.QueryResult<TokenPairsQuery, TokenPai
 export const TopPairsDocument = gql`
     query topPairs($first: Int = 500, $block24h: Int!, $block7d: Int!) {
   now: pairs(first: $first) {
-    ...TopPair
+    ...PairTableData
   }
   h24: pairs(first: $first, block: {number: $block24h}) {
-    ...TopPair
+    ...PairTableData
   }
   d7: pairs(first: $first, block: {number: $block7d}) {
-    ...TopPair
+    ...PairTableData
   }
 }
-    ${TopPairFragmentDoc}`;
+    ${PairTableDataFragmentDoc}`;
 
 /**
  * __useTopPairsQuery__
@@ -2861,16 +3017,16 @@ export type TopPairsQueryResult = Apollo.QueryResult<TopPairsQuery, TopPairsQuer
 export const TopPairsByIdsDocument = gql`
     query topPairsByIds($first: Int = 500, $block24h: Int!, $block7d: Int!, $ids: [ID!]!) {
   now: pairs(first: $first, where: {id_in: $ids}) {
-    ...TopPair
+    ...PairTableData
   }
   h24: pairs(first: $first, block: {number: $block24h}, where: {id_in: $ids}) {
-    ...TopPair
+    ...PairTableData
   }
   d7: pairs(first: $first, block: {number: $block7d}, where: {id_in: $ids}) {
-    ...TopPair
+    ...PairTableData
   }
 }
-    ${TopPairFragmentDoc}`;
+    ${PairTableDataFragmentDoc}`;
 
 /**
  * __useTopPairsByIdsQuery__
@@ -2944,7 +3100,7 @@ export type TopTokensQueryHookResult = ReturnType<typeof useTopTokensQuery>;
 export type TopTokensLazyQueryHookResult = ReturnType<typeof useTopTokensLazyQuery>;
 export type TopTokensQueryResult = Apollo.QueryResult<TopTokensQuery, TopTokensQueryVariables>;
 export const TransactionsDocument = gql`
-    query transactions($first: Int = 500) {
+    query transactions($first: Int = 100) {
   mints(first: $first, orderBy: timestamp, orderDirection: desc) {
     ...MintData
   }
@@ -2987,7 +3143,7 @@ export type TransactionsQueryHookResult = ReturnType<typeof useTransactionsQuery
 export type TransactionsLazyQueryHookResult = ReturnType<typeof useTransactionsLazyQuery>;
 export type TransactionsQueryResult = Apollo.QueryResult<TransactionsQuery, TransactionsQueryVariables>;
 export const TransactionsByPairsDocument = gql`
-    query transactionsByPairs($first: Int = 500, $pairs: [String!]) {
+    query transactionsByPairs($first: Int = 100, $pairs: [String!]) {
   mints(
     first: $first
     orderBy: timestamp

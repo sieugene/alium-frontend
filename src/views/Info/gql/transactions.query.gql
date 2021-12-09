@@ -1,4 +1,4 @@
-query transactions($first: Int = 500) {
+query transactions($first: Int = 100) {
   mints(first: $first, orderBy: timestamp, orderDirection: desc) {
     ...MintData
   }

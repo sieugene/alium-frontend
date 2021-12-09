@@ -1,68 +1,94 @@
 import { useTranslation } from 'next-i18next'
-import Link from 'next/link'
 import { useMedia } from 'react-use'
 import styled from 'styled-components'
-import { breakpoints, Button, mq } from 'ui'
+import { breakpoints, mq } from 'ui'
 import { formatNumber } from 'utils/formatBalance'
+import AddLiquidity from 'views/Info/components/AddLiquidity'
 import CurrencyLogo from 'views/Info/components/CurrencyLogo'
-import Percentage from 'views/Info/components/Percentage'
+import Percent from 'views/Info/components/Percent'
+import Toolbar, { ToolbarProps } from 'views/Info/components/Toolbar/Toolbar'
 import ToolbarActions from 'views/Info/components/Toolbar/ToolbarActions'
+import ToolbarRow from 'views/Info/components/Toolbar/ToolbarRow'
 import ToolbarTitle from 'views/Info/components/Toolbar/ToolbarTitle'
-import { TokenQuery } from 'views/Info/generated'
-import { formatTokenSymbol, getPercentageChange } from 'views/Info/utils'
-import { ReactComponent as PlusIcon } from './assets/plus.svg'
+import Trade from 'views/Info/components/Trade'
+import { TokenQueryData } from 'views/Info/types'
+import { formatTokenSymbol, getPercentChange } from 'views/Info/utils'
 
-export interface TokenToolbarProps {
-  token: NonNullable<TokenQuery['token']>
+export interface TokenToolbarProps extends ToolbarProps {
+  token: TokenQueryData
 }
 
-export default function TokenToolbar({ token }: TokenToolbarProps) {
+export default function TokenToolbar({ token, ...restProps }: TokenToolbarProps) {
   const { t } = useTranslation()
   const isDownLg = useMedia(mq.down(breakpoints.lg))
+  const isMobile = useMedia(mq.down(breakpoints.sm))
   const price = Number(token.tokenDayData[0]?.priceUSD) || 0
-  const priceChange = getPercentageChange(Number(token.tokenDayData[1]?.priceUSD) || 0, price)
+  const priceChange = getPercentChange(Number(token.tokenDayData[1]?.priceUSD) || 0, price)
+
+  const priceNode = (
+    <TokenToolbar.Price>
+      <span>${formatNumber(price)}</span>
+      <Percent value={priceChange} />
+    </TokenToolbar.Price>
+  )
+
   return (
-    <TokenToolbar.Root>
-      <TokenToolbar.Row>
+    <Toolbar {...restProps}>
+      <ToolbarRow>
         <TokenToolbar.Main>
           <CurrencyLogo address={token.id} />
           <ToolbarTitle>
             {token.name} ({formatTokenSymbol(token.symbol)})
           </ToolbarTitle>
-          <TokenToolbar.Price>
-            <span>${formatNumber(price)}</span>
-            <Percentage value={priceChange} />
-          </TokenToolbar.Price>
+          {!isMobile && priceNode}
         </TokenToolbar.Main>
         {!isDownLg && <ToolbarActions />}
-      </TokenToolbar.Row>
-      <TokenToolbar.Row>
+      </ToolbarRow>
+      {isMobile && <ToolbarRow>{priceNode}</ToolbarRow>}
+      <ToolbarRow>
         <TokenToolbar.Actions>
-          <Link href={`/swap/${token.id}`} passHref>
-            <Button as='a'>{t('Trade')}</Button>
-          </Link>
-          <Link href={`/add/${token.id}`} passHref>
-            <Button as='a' variant='outlined'>
-              <PlusIcon style={{ marginRight: 16 }} />
-              {t('Add Liquidity')}
-            </Button>
-          </Link>
+          <Trade token0={token.id} />
+          <AddLiquidity token0={token.id} />
         </TokenToolbar.Actions>
         {isDownLg && <ToolbarActions />}
-      </TokenToolbar.Row>
-    </TokenToolbar.Root>
+      </ToolbarRow>
+    </Toolbar>
   )
 }
 
 TokenToolbar.Main = styled.div`
   display: flex;
   align-items: center;
+
+  ${CurrencyLogo.Root} {
+    --logo-size: 48px;
+  }
+
+  ${ToolbarTitle} {
+    margin: 0 16px;
+  }
+
+  @media ${mq.down(breakpoints.lg)} {
+    ${ToolbarTitle} {
+      margin-left: 8px;
+    }
+  }
+
+  @media ${mq.down(breakpoints.md)} {
+    ${CurrencyLogo.Root} {
+      --logo-size: 32px;
+    }
+  }
+
+  @media ${mq.down(breakpoints.sm)} {
+    ${CurrencyLogo.Root} {
+      --logo-size: 40px;
+    }
+  }
 `
 
 TokenToolbar.Price = styled.div`
-  margin-left: 16px;
-
-  & > *:first-child {
+  & > span:first-child {
     font-weight: 500;
     font-size: 24px;
     line-height: 20px;
@@ -72,65 +98,9 @@ TokenToolbar.Price = styled.div`
   }
 `
 
-TokenToolbar.Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-
 TokenToolbar.Actions = styled.div`
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
   align-items: center;
-
-  & > * + * {
-    margin-left: 8px;
-  }
-`
-
-TokenToolbar.Root = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  & > * + * {
-    margin-top: 24px;
-  }
-
-  ${CurrencyLogo.Root} {
-    width: 48px;
-    height: 48px;
-    margin-right: 16px;
-  }
-
-  @media ${mq.down(breakpoints.lg)} {
-    ${CurrencyLogo.Root} {
-      margin-right: 8px;
-    }
-  }
-
-  @media ${mq.down(breakpoints.md)} {
-    ${CurrencyLogo.Root} {
-      width: 32px;
-      height: 32px;
-    }
-  }
-
-  @media ${mq.down(breakpoints.sm)} {
-    ${CurrencyLogo.Root} {
-      width: 40px;
-      height: 40px;
-    }
-
-    ${TokenToolbar.Main} {
-      flex-wrap: wrap;
-    }
-
-    ${TokenToolbar.Price} {
-      flex-basis: 100%;
-      margin-left: 0;
-      margin-top: 16px;
-    }
-
-    & > * + * {
-      margin-top: 16px;
-    }
-  }
+  gap: 8px;
 `

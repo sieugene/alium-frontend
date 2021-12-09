@@ -1,23 +1,24 @@
 import { useTranslation } from 'next-i18next'
-import styled from 'styled-components'
-import Toolbar from '../components/Toolbar'
+import Toolbar from '../components/Toolbar/Toolbar'
+import ToolbarActions from '../components/Toolbar/ToolbarActions'
+import ToolbarRow from '../components/Toolbar/ToolbarRow'
+import ToolbarTitle from '../components/Toolbar/ToolbarTitle'
 import TopPairsTable from '../components/TopPairsTable'
 import { getInfoLayout } from '../Layout'
 
 export default function InfoPairs() {
   const { t } = useTranslation()
   return (
-    <InfoPairs.Root>
-      <Toolbar title={t('Top Pairs')} />
+    <>
+      <Toolbar>
+        <ToolbarRow>
+          <ToolbarTitle>{t('Top pairs')}</ToolbarTitle>
+          <ToolbarActions />
+        </ToolbarRow>
+      </Toolbar>
       <TopPairsTable hiddenTitle />
-    </InfoPairs.Root>
+    </>
   )
 }
-
-InfoPairs.Root = styled.div`
-  ${Toolbar.Root} {
-    margin-bottom: 40px;
-  }
-`
 
 InfoPairs.getLayout = getInfoLayout

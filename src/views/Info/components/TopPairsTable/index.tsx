@@ -4,13 +4,14 @@ import { useMemo } from 'react'
 import { useMedia } from 'react-use'
 import { breakpoints, mq } from 'ui'
 import { LP_HOLDERS_FEE, TOTAL_FEE } from 'views/Info/config'
-import { TopPairFragment, useTopPairsByIdsQuery, useTopPairsQuery } from 'views/Info/generated'
+import { PairTableDataFragment, useTopPairsByIdsQuery, useTopPairsQuery } from 'views/Info/generated'
 import useBlock from 'views/Info/hooks/useBlock'
 import useTimestamps from 'views/Info/hooks/useTimestamps'
 import useTokenPairs from 'views/Info/hooks/useTokenPairs'
-import { formatNumber, formatTokenSymbol, getPeriodChange } from 'views/Info/utils'
+import { formatNumber, getPeriodChange } from 'views/Info/utils'
+import { getPairName } from 'views/Info/utils/pairs'
 import PairCurrencyLogo from '../PairCurrencyLogo'
-import Percentage from '../Percentage'
+import Percent from '../Percent'
 import Table, { useTableData } from '../Table'
 import TableTitle from '../TableTitle'
 import TopTokensTable from '../TopTokensTable'
@@ -46,7 +47,7 @@ function useTopPairsTable(token?: string) {
   const pairs = useMemo(() => {
     if (!data) return undefined
     const [h24ById, d7ById] = [data.h24, data.d7].map((periodPairs) =>
-      periodPairs.reduce<Record<string, TopPairFragment>>((acc, pair) => {
+      periodPairs.reduce<Record<string, PairTableDataFragment>>((acc, pair) => {
         acc[pair.id] = pair
         return acc
       }, {}),
@@ -66,7 +67,7 @@ function useTopPairsTable(token?: string) {
 
       return {
         id: pair.id,
-        name: `${formatTokenSymbol(pair.token0.symbol)}-${formatTokenSymbol(pair.token1.symbol)}`,
+        name: getPairName(pair.token0.symbol, pair.token1.symbol),
         liquidity,
         volume24h,
         volume7d,
@@ -137,7 +138,7 @@ export default function TopPairsTable({ hiddenTitle, token, seeAllHref }: TopPai
                 {!isTablet && <Table.ItemCell>${formatNumber(item.fees24h)}</Table.ItemCell>}
                 {!isTablet && (
                   <Table.ItemCell>
-                    <Percentage value={item.apy} />
+                    <Percent value={item.apy} />
                   </Table.ItemCell>
                 )}
               </Table.ItemRow>

@@ -28,7 +28,6 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
 Breadcrumbs.Item = styled.a`
   background: rgba(108, 93, 211, 0.1);
   border-radius: 6px;
-  display: flex;
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;

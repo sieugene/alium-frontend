@@ -30,6 +30,7 @@ export default function InfoToken() {
   }
 
   if (!tokenData.token) {
+    // TODO: not found page
     return <>Not found</>
   }
 
@@ -73,43 +74,25 @@ InfoToken.Main = styled.div`
 `
 
 InfoToken.Content = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  & > * + * {
-    margin-top: 40px;
-  }
+  display: grid;
+  gap: 40px;
 `
 
 InfoToken.Root = styled.div`
-  ${TokenToolbar.Root} {
-    margin-bottom: 40px;
-  }
-
   @media ${mq.down(breakpoints.lg)} {
-    ${TokenToolbar.Root} {
-      margin-bottom: 32px;
-    }
-
     ${InfoToken.Main} {
       gap: 24px;
     }
   }
 
   @media ${mq.down(breakpoints.md)} {
-    ${TokenToolbar.Root} {
-      margin-bottom: 24px;
-    }
-
     ${InfoToken.Main} {
       grid-template-columns: 1fr;
       gap: 32px;
     }
 
     ${InfoToken.Content} {
-      & > * + * {
-        margin-top: 32px;
-      }
+      gap: 32px;
     }
   }
 `

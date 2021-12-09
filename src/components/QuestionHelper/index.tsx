@@ -1,10 +1,10 @@
 import { HelpIcon } from 'alium-uikit/src'
-import { useCallback, useState } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
 import styled from 'styled-components'
 import Tooltip from '../Tooltip'
 
 export interface QuestionHelperProps {
-  text: string
+  text: ReactNode
   bordered?: boolean
   className?: string
 }
@@ -17,7 +17,7 @@ export default function QuestionHelper({ text, bordered, className }: QuestionHe
 
   return (
     <QuestionHelper.Root className={className} style={{ marginLeft: 4 }}>
-      <Tooltip text={text} show={show}>
+      <Tooltip classNameContainer={`${className}__tooltip`} text={text} show={show}>
         <QuestionHelper.Wrapper onClick={open} onMouseEnter={open} onMouseLeave={close} bordered={bordered}>
           <HelpIcon />
         </QuestionHelper.Wrapper>

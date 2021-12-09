@@ -11,23 +11,47 @@ import Table, { useTableData } from '../Table'
 import TableTitle from '../TableTitle'
 import TransactionRow from './TransactionRow'
 
-function useTransactionsData(token?: string) {
-  const { data: transactions } = useTransactionsQuery({
-    skip: !!token,
-  })
-  const pairs = useTokenPairs(token)
-  const { data: tokenTransactions } = useTransactionsByPairsQuery({
-    variables: {
-      pairs,
-    },
-    skip: !token || !pairs,
-  })
-
-  return token ? tokenTransactions : transactions
+export interface UseTransactionsDataOptions {
+  token?: string
+  pair?: string
 }
 
-function useTransactionsTable(token?: string) {
-  const data = useTransactionsData(token)
+function useTransactionsData({ token, pair }: UseTransactionsDataOptions = {}) {
+  // Overview transactions
+  const { data: transactions } = useTransactionsQuery({
+    skip: !!token || !!pair,
+  })
+
+  // Token transactions
+  const tokenPairs = useTokenPairs(token)
+  const { data: tokenTransactions } = useTransactionsByPairsQuery({
+    variables: {
+      pairs: tokenPairs,
+    },
+    skip: !token || !tokenPairs,
+  })
+
+  // Pair transactions
+  const { data: pairTransactions } = useTransactionsByPairsQuery({
+    variables: {
+      pairs: [pair],
+    },
+    skip: !pair,
+  })
+
+  if (token) {
+    return tokenTransactions
+  }
+
+  if (pair) {
+    return pairTransactions
+  }
+
+  return transactions
+}
+
+function useTransactionsTable(opts?: UseTransactionsDataOptions) {
+  const data = useTransactionsData(opts)
   const { t } = useTranslation()
   const [type, setType] = useState<TransactionType>(TransactionType.ALL)
   const transactions = useMemo(() => {
@@ -84,14 +108,15 @@ function useTransactionsTable(token?: string) {
   }
 }
 
-export interface TransactionsTableProps {
-  token?: string
-}
+export type TransactionsTableProps = UseTransactionsDataOptions
 
-export default function TransactionsTable({ token }: TransactionsTableProps) {
+export default function TransactionsTable({ token, pair }: TransactionsTableProps) {
   const { t } = useTranslation()
   const isTablet = useMedia(mq.down(breakpoints.md))
-  const { items, sorting, paginate, type, typeOptions, onChangeType } = useTransactionsTable(token)
+  const { items, sorting, paginate, type, typeOptions, onChangeType } = useTransactionsTable({
+    token,
+    pair,
+  })
   return (
     <TransactionsTable.Root>
       <TableTitle>{t('Transactions')}</TableTitle>

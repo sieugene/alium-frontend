@@ -6,9 +6,9 @@ import styled from 'styled-components'
 import { breakpoints, mq, typography } from 'ui'
 import { formatNumber } from 'utils/formatBalance'
 import { useTopTokensQuery } from 'views/Info/generated'
-import { formatTokenSymbol, getPercentageChange } from 'views/Info/utils'
+import { formatTokenSymbol, getPercentChange } from 'views/Info/utils'
 import CurrencyLogo from '../CurrencyLogo'
-import Percentage from '../Percentage'
+import Percent from '../Percent'
 import Table, { useTableData } from '../Table'
 import TableTitle from '../TableTitle'
 
@@ -26,7 +26,7 @@ function useTopTokensTable() {
         liquidity: Number(token.tokenDayData[0]?.totalLiquidityUSD) || 0,
         volume24h: Number(token.tokenDayData[0]?.dailyVolumeUSD) || 0,
         price,
-        priceChange: getPercentageChange(prevPrice, price),
+        priceChange: getPercentChange(prevPrice, price),
       }
     })
   }, [data])
@@ -89,7 +89,7 @@ export default function TopTokensTable({ hiddenTitle, seeAllHref }: TopTokensTab
                 {!isTablet && <Table.ItemCell>${formatNumber(token.price)}</Table.ItemCell>}
                 {!isTablet && (
                   <Table.ItemCell>
-                    <Percentage value={token.priceChange} />
+                    <Percent value={token.priceChange} />
                   </Table.ItemCell>
                 )}
               </Table.ItemRow>

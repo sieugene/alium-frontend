@@ -1,22 +1,20 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { breakpoints, Card, mq, typography } from 'ui'
-import Percentage from 'views/Info/components/Percentage'
+import Percent from 'views/Info/components/Percent'
 
 export interface CounterCardProps {
   title: ReactNode
   value: ReactNode
-  percentage?: number
+  percent?: number
 }
 
-export default function CounterCard({ title, value, percentage }: CounterCardProps) {
+export default function CounterCard({ title, value, percent }: CounterCardProps) {
   return (
     <CounterCard.Root>
-      <div>
-        <CounterCard.Title>{title}</CounterCard.Title>
-        <CounterCard.Value>{value}</CounterCard.Value>
-      </div>
-      {percentage !== undefined && <CounterCard.Percentage value={percentage} />}
+      <CounterCard.Title>{title}</CounterCard.Title>
+      {typeof value === 'string' ? <CounterCard.Value>{value}</CounterCard.Value> : value}
+      {percent !== undefined && <CounterCard.Percent value={percent} />}
     </CounterCard.Root>
   )
 }
@@ -29,31 +27,25 @@ CounterCard.Value = styled.div`
 CounterCard.Title = styled.div`
   ${typography.ultrasmall.medium}
   color: #8990A5;
-  margin-bottom: 8px;
 `
 
-CounterCard.Percentage = styled(Percentage)`
+CounterCard.Percent = styled(Percent)`
   ${typography.ultrasmall.regular}
 `
 
 CounterCard.Root = styled(Card)`
   box-shadow: 0px 6px 12px rgba(185, 189, 208, 0.4);
   padding: 16px;
-  display: flex;
-  flex-direction: column;
-
-  & > * + * {
-    margin-top: 8px;
-  }
+  display: grid;
+  gap: 8px;
 
   @media ${mq.down(breakpoints.sm)} {
-    flex-direction: row;
+    align-items: end;
     justify-content: space-between;
-    align-items: flex-end;
 
-    & > * + * {
-      margin-top: 0;
-      margin-left: 8px;
+    ${CounterCard.Percent} {
+      grid-column: 2;
+      grid-row: 1 / span 2;
     }
   }
 `
