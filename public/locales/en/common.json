@@ -204,7 +204,6 @@
   "Your {{tokenSymbol}} Balance": "Your {{tokenSymbol}} Balance",
   "Claim pending...": "Claim pending...",
   "2 minutes left": "2 minutes left",
-  "Very little left": "Very little left",
   "Claim": "Claim",
   "Please switch the network in your wallet to <b>{{networkToLabel}}</b>": "Please switch the network in your wallet to <b>{{networkToLabel}}</b>",
   "After you switch networks, you will complete a second transaction on {{shortedNetworkLabel}} to claim your {{tokenSymbol}} tokens.": "After you switch networks, you will complete a second transaction on {{shortedNetworkLabel}} to claim your {{tokenSymbol}} tokens.",
@@ -491,5 +490,8 @@
   "This section is only available on Binance Smart Chain. Please switch the network": "This section is only available on Binance Smart Chain. Please switch the network",
   "Connect Binance Smart Chain": "Connect Binance Smart Chain",
   "This swap has a price impact of at least {{percent}}%. Please type the word \"confirm\" to continue with this swap.": "This swap has a price impact of at least {{percent}}%. Please type the word \"confirm\" to continue with this swap.",
-  "This swap has a price impact of at least {{percent}}%. Please confirm that you would like to continue with this swap.": "This swap has a price impact of at least {{percent}}%. Please confirm that you would like to continue with this swap."
+  "This swap has a price impact of at least {{percent}}%. Please confirm that you would like to continue with this swap.": "This swap has a price impact of at least {{percent}}%. Please confirm that you would like to continue with this swap.",
+  "Waiting for Block Confirmations": "Waiting for Block Confirmations",
+  "Just one more step!": "Just one more step!",
+  "Output": "Output"
 }

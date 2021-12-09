@@ -94,7 +94,7 @@ const ClaimTokenStep = () => {
   return (
     <ClaimLoadWrap loading={loading || loadingTransaction}>
       <ClaimTokenStep.Wrapper>
-        <p className='title'>{t('Very little left')}</p>
+        <p className='title'>{t('Just one more step!')}</p>
         <Button onClick={claimTokens} disabled={!txHash || loading}>
           {t('Claim')}
         </Button>

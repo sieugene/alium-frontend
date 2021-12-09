@@ -58,7 +58,7 @@ const Menu: FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props
         { label: t('Blog'), href: externalLinks.medium },
       ],
     },
-    { label: t('Alium.art'), icon: 'IconArt', href: `https://alium.art`, new: true },
+    { label: t('Alium.art'), icon: 'IconArt', href: `https://alium.art` },
     {
       label: t('We are hiring'),
       isPulsing: true,

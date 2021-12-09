@@ -163,7 +163,7 @@ const usePollingTs = ({ getStatus, loading, txHash, ethersProvider, setLoadingTe
       })
     }
 
-    setLoadingText('Waiting for Block Confirmations')
+    setLoadingText(i18n.t('Waiting for Block Confirmations'))
     let isSubscribed = true
 
     const updateStatus = async () => {

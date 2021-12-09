@@ -77,7 +77,7 @@ const StyledTextAddIcon = styled.div`
 `
 
 const Receive = styled(StyledInternalLink)`
-  width: 94px;
+  min-width: 94px;
   height: 24px;
   background: #e6e6f6;
   border-radius: 6px;
@@ -685,7 +685,7 @@ export const RemoveLiquidity: FC = () => {
                             onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
                             style={{
                               height: '24px',
-                              width: '37px',
+                              minWidth: '37px',
                               fontSize: '10px',
                               fontWeight: 'bold',
                             }}
@@ -882,6 +882,7 @@ const Detailed: FC<DetailedProps> = React.memo(
     currencyB,
     handleSelectCurrencyB,
   }) => {
+    const { t } = useTranslation()
     return (
       <>
         {showDetailed && (
@@ -896,7 +897,7 @@ const Detailed: FC<DetailedProps> = React.memo(
               disableCurrencySelect
               currency={pair?.liquidityToken}
               pair={pair}
-              label='From'
+              label={t('From')}
               id='liquidity-amount'
               customHeight={43}
               key='liquidity-amount'
@@ -912,7 +913,7 @@ const Detailed: FC<DetailedProps> = React.memo(
               onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
               showMaxButton={!atMaxAmount}
               currency={currencyA}
-              label='Output'
+              label={t('Output')}
               onCurrencySelect={handleSelectCurrencyA}
               id='remove-liquidity-tokena'
               customHeight={43}
@@ -928,7 +929,7 @@ const Detailed: FC<DetailedProps> = React.memo(
               onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
               showMaxButton={!atMaxAmount}
               currency={currencyB}
-              label='Output'
+              label={t('Output')}
               onCurrencySelect={handleSelectCurrencyB}
               id='remove-liquidity-tokenb'
               customHeight={43}
