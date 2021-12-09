@@ -9,10 +9,10 @@ import { BSCScanIcon, GitHubIcon } from '../../svg'
 const StyledContainer = styled.div`
   max-width: 738px;
   height: auto;
-
   background: #ffffff;
   padding: 24px;
   border-radius: 6px;
+  
   @media screen and (max-width: 740px) {
     height: auto;
     padding: 16px;
@@ -30,7 +30,7 @@ const StyledImage = styled.img<{ type?: string }>`
   ${({ type }) => (type === 'center' ? 'display: none;' : '')};
 
   @media screen and (max-width: 740px) {
-    ${({ type }) => (type === 'center' ? 'display: block;height: 100%;' : 'display: none;')}
+    ${({ type }) => (type === 'center' ? 'display: block; width: 100%; height: auto;' : 'display: none;')}
   }
 `
 
