@@ -91,7 +91,7 @@ const useUpdateBalancesOnBridgeChains = () => {
   }
 
   useEffect(() => {
-    storeNetwork.subscribe(
+    const unsubscribeNetwork = storeNetwork.subscribe(
       (currentChainId: number, prevChainId: number) => {
         if (currentChainId !== prevChainId) {
           refetchWithValidate()
@@ -99,7 +99,7 @@ const useUpdateBalancesOnBridgeChains = () => {
       },
       (state) => state.currentChainId,
     )
-    storeBridge.subscribe(
+    const unsubscribeBridge = storeBridge.subscribe(
       (toNetwork: number, prevToNetwork) => {
         if (toNetwork !== prevToNetwork) {
           refetchWithValidate()
@@ -108,8 +108,8 @@ const useUpdateBalancesOnBridgeChains = () => {
       (state) => state.toNetwork,
     )
     return () => {
-      storeNetwork.destroy()
-      storeBridge.destroy()
+      unsubscribeNetwork()
+      unsubscribeBridge()
     }
   }, [])
 }
