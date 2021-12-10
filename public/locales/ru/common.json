@@ -243,7 +243,6 @@
   "Wait a moment please": "Пожалуйста, подождите немного",
   "Staked": "Вложены",
   "Unstaked": "Изъяты",
-  "Your funds have been {{text}} in the farm": "Ваши средства были {{text}} в ферму",
   "ROI": "ROI",
   "Timeframe": "Период времени",
   "To buy a ticket": "Купить билет",
@@ -507,5 +506,7 @@
   "Pair name": "__NOT_TRANSLATED__",
   "Pair address": "__NOT_TRANSLATED__",
   "{{token}} address": "__NOT_TRANSLATED__",
-  "{{name}} Pair": "__NOT_TRANSLATED__"
+  "{{name}} Pair": "__NOT_TRANSLATED__",
+  "Your funds have been staked in the farm": "Ваши средства были вложены в ферму",
+  "Your funds have been unstaked in the farm": "Ваши средства были изъяты из фермы"
 }

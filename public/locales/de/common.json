@@ -249,7 +249,6 @@
   "Wait a moment please": "__NOT_TRANSLATED__",
   "Staked": "__NOT_TRANSLATED__",
   "Unstaked": "__NOT_TRANSLATED__",
-  "Your funds have been {{text}} in the farm": "__NOT_TRANSLATED__",
   "ROI": "__NOT_TRANSLATED__",
   "Timeframe": "__NOT_TRANSLATED__",
   "To buy a ticket": "__NOT_TRANSLATED__",
@@ -500,5 +499,7 @@
   "Pair name": "__NOT_TRANSLATED__",
   "Pair address": "__NOT_TRANSLATED__",
   "{{token}} address": "__NOT_TRANSLATED__",
-  "{{name}} Pair": "__NOT_TRANSLATED__"
+  "{{name}} Pair": "__NOT_TRANSLATED__",
+  "Your funds have been staked in the farm": "__NOT_TRANSLATED__",
+  "Your funds have been unstaked in the farm": "__NOT_TRANSLATED__"
 }

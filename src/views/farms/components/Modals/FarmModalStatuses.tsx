@@ -46,12 +46,11 @@ FarmModalStatuses.ActionFarmLoader = ({ t }: { t: TFunction }) => {
 FarmModalStatuses.ActionFarmSuccess = ({ type, t }: { type: FarmActionModalProps['type']; t: TFunction }) => {
   const isStake = type === 'stake'
   const title = isStake ? t('Staked') : t('Unstaked')
-  const text = t('Your funds have been {{text}} in the farm', { text: title?.toLowerCase() })
   return (
     <FarmModalStatuses.Wrapper>
       <BridgeSuccessIcon />
       <h2>{title}</h2>
-      <p>{text}</p>
+      <p>{isStake ? t('Your funds have been staked in the farm') : t('Your funds have been unstaked in the farm')}</p>
     </FarmModalStatuses.Wrapper>
   )
 }

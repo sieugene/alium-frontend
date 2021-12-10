@@ -249,7 +249,6 @@
   "Wait a moment please": "Wait a moment please",
   "Staked": "Staked",
   "Unstaked": "Unstaked",
-  "Your funds have been {{text}} in the farm": "Your funds have been {{text}} in the farm",
   "ROI": "ROI",
   "Timeframe": "Timeframe",
   "To buy a ticket": "To buy a ticket",
@@ -500,5 +499,7 @@
   "Pair name": "Pair name",
   "Pair address": "Pair address",
   "{{token}} address": "{{token}} address",
-  "{{name}} Pair": "{{name}} Pair"
+  "{{name}} Pair": "{{name}} Pair",
+  "Your funds have been staked in the farm": "Your funds have been staked in the farm",
+  "Your funds have been unstaked in the farm": "Your funds have been unstaked in the farm"
 }
