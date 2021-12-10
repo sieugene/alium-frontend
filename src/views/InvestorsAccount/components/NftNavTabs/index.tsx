@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { ROUTES } from 'routes'
 import styled from 'styled-components'
+import { breakpoints, mq } from 'ui'
 
 function NftNavTabs() {
   const { t } = useTranslation()
@@ -38,41 +39,25 @@ export default NftNavTabs
 // styles
 
 const NavWrap = styled(Flex)`
-  padding: 8px 16px;
-  border: 1px solid #d2d6e5;
-  box-sizing: border-box;
-  border-radius: 6px;
+  max-width: 482px;
   margin-top: 56px;
-  width: fit-content;
+  padding: 8px;
+  border: 1px solid #d2d6e5;
+  border-radius: 6px;
 
-  a:first-child {
-    margin-right: 8px;
+  & > a {
+    flex: 1;
+
+    &:first-child {
+      margin-right: 8px;
+    }
   }
 
-  @media (max-width: 568px) {
-    width: 100%;
-    padding: 8px;
-    flex-wrap: nowrap;
+  @media ${mq.down(breakpoints.sm)} {
+    max-width: 100%;
 
-    & > a {
-      display: block;
-
-      &:first-child {
-        width: 175px;
-      }
-
-      &:last-child {
-        width: 155px;
-      }
-    }
-
-    button {
-      margin: 0;
-      width: 100%;
-
-      &:first-child {
-        margin-right: 0;
-      }
+    & > a:first-child {
+      min-width: 175px;
     }
   }
 `
