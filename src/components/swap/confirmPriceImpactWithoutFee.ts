@@ -15,7 +15,7 @@ export default function confirmPriceImpactWithoutFee(priceImpactWithoutFee: Perc
           'This swap has a price impact of at least {{percent}}%. Please type the word "confirm" to continue with this swap.',
           { percent: PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN.toFixed(0) },
         ),
-      ) === 'confirm'
+      ) === i18n.t('confirm')
     )
   }
   if (!priceImpactWithoutFee.lessThan(ALLOWED_PRICE_IMPACT_HIGH)) {

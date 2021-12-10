@@ -460,7 +460,6 @@
   "Transactions (24H):": "__NOT_TRANSLATED__",
   "Pairs:": "__NOT_TRANSLATED__",
   "Fees (24H):": "__NOT_TRANSLATED__",
-  "Volume (24hr)": "__NOT_TRANSLATED__",
   "See all": "__NOT_TRANSLATED__",
   "Top Pairs": "__NOT_TRANSLATED__",
   "Name": "__NOT_TRANSLATED__",
@@ -500,5 +499,13 @@
   "This swap has a price impact of at least {{percent}}%. Please confirm that you would like to continue with this swap.": "Этот своп оказывает влияние на цену не менее {{percent}}%. Пожалуйста подтвердите, что вы хотите продолжить обмен.",
   "Waiting for Block Confirmations": "В ожидании подтверждений блоков",
   "Just one more step!": "Всего еще один шаг!",
-  "Output": "Выход"
+  "Output": "Выход",
+  "confirm": "подтвердить",
+  "Top pairs": "__NOT_TRANSLATED__",
+  "Pooled Tokens": "__NOT_TRANSLATED__",
+  "Pair Information": "__NOT_TRANSLATED__",
+  "Pair name": "__NOT_TRANSLATED__",
+  "Pair address": "__NOT_TRANSLATED__",
+  "{{token}} address": "__NOT_TRANSLATED__",
+  "{{name}} Pair": "__NOT_TRANSLATED__"
 }

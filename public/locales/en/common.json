@@ -453,7 +453,6 @@
   "Transactions (24H):": "Transactions (24H):",
   "Pairs:": "Pairs:",
   "Fees (24H):": "Fees (24H):",
-  "Volume (24hr)": "Volume (24hr)",
   "See all": "See all",
   "Top Pairs": "Top Pairs",
   "Name": "Name",
@@ -493,5 +492,13 @@
   "This swap has a price impact of at least {{percent}}%. Please confirm that you would like to continue with this swap.": "This swap has a price impact of at least {{percent}}%. Please confirm that you would like to continue with this swap.",
   "Waiting for Block Confirmations": "Waiting for Block Confirmations",
   "Just one more step!": "Just one more step!",
-  "Output": "Output"
+  "Output": "Output",
+  "confirm": "confirm",
+  "Top pairs": "Top pairs",
+  "Pooled Tokens": "Pooled Tokens",
+  "Pair Information": "Pair Information",
+  "Pair name": "Pair name",
+  "Pair address": "Pair address",
+  "{{token}} address": "{{token}} address",
+  "{{name}} Pair": "{{name}} Pair"
 }
